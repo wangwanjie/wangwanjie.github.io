@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>CoderJay的博客</title>
+  <subtitle>Code life， code to live.</subtitle>
+  <link href="/atom.xml" rel="self"/>
+  
+  <link href="https://wangwanjie.github.io/"/>
+  <updated>2017-03-16T15:47:21.000Z</updated>
+  <id>https://wangwanjie.github.io/</id>
+  
+  <author>
+    <name>CoderJay</name>
+    <email>wangwanjie1993@gmail.com</email>
+  </author>
+  
+  <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>给包签名</title>
+    <link href="https://wangwanjie.github.io/2017/03/16/%E7%BB%99%E5%8C%85%E7%AD%BE%E5%90%8D/"/>
+    <id>https://wangwanjie.github.io/2017/03/16/给包签名/</id>
+    <published>2017-03-16T15:45:09.000Z</published>
+    <updated>2017-03-16T15:47:21.000Z</updated>
+    
+    <content type="html"><![CDATA[<ol>
+<li>查看可用签名</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">security find-identity -v -p codesigning</div></pre></td></tr></table></figure>
+<ol>
+<li>签名</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">codesign --force --verify --verbose --sign &quot;iPhone Developer: 396736694@qq.com (Z4965JH2C8)” 目标包</div></pre></td></tr></table></figure>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;ol&gt;
+&lt;li&gt;查看可用签名&lt;/li&gt;
+&lt;/ol&gt;
+&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=
+    
+    </summary>
+    
+      <category term="iOS" scheme="https://wangwanjie.github.io/categories/iOS/"/>
+    
+    
+      <category term="iOS签名" scheme="https://wangwanjie.github.io/tags/iOS%E7%AD%BE%E5%90%8D/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>利用 dumpdecrypted 砸壳</title>
+    <link href="https://wangwanjie.github.io/2017/03/16/%E5%88%A9%E7%94%A8dumpdecrypted%E7%A0%B8%E5%A3%B3/"/>
+    <id>https://wangwanjie.github.io/2017/03/16/利用dumpdecrypted砸壳/</id>
+    <published>2017-03-16T09:34:03.000Z</published>
+    <updated>2017-03-16T16:23:44.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>1、编译生成</p>
+<p><code>dumpdecrypted.dylib</code></p>
+<p>2、给生成的 <code>dumpdecrypted.dylib</code> 签名</p>
+<p>3、ssh到手机，<code>ps aux | grep</code> 目标APP查看APP安装目录</p>
+<p>4、（可忽略这步）<code>cycript -p</code> 目标 APP，执行<br><code>[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask][0]</code><br> 查看沙盒目录</p>
+<p>5、将 <code>dumpdecrypted.dylib</code>拷贝 <code>/var/tmp</code>，进入 <code>/var/tmp</code></p>
+<p>6、将 <code>dumpdecrypted.dylib</code> 拷贝到沙盒目录，进入沙盒目录，执行<br><code>DYLD_INSERT_LIBRARIES=dumpdecrypted.dylib /var/containers/Bundle/Application/0B8A6E0F-9D64-4EF4-97D2-D3A508FC3574/APP.app/APP</code></p>
+<p>7、得到目标 <code>APP.decrypted</code>就是二进制文件</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;1、编译生成&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;dumpdecrypted.dylib&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;2、给生成的 &lt;code&gt;dumpdecrypted.dylib&lt;/code&gt; 签名&lt;/p&gt;
+&lt;p&gt;3、ssh到手机，&lt;code&gt;ps aux | grep&lt;/cod
+    
+    </summary>
+    
+      <category term="iOS" scheme="https://wangwanjie.github.io/categories/iOS/"/>
+    
+    
+      <category term="逆向" scheme="https://wangwanjie.github.io/tags/%E9%80%86%E5%90%91/"/>
+    
+      <category term="iOS安全" scheme="https://wangwanjie.github.io/tags/iOS%E5%AE%89%E5%85%A8/"/>
+    
+      <category term="破解" scheme="https://wangwanjie.github.io/tags/%E7%A0%B4%E8%A7%A3/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>企业内部应用分发</title>
+    <link href="https://wangwanjie.github.io/2017/01/11/%E4%BC%81%E4%B8%9A%E5%86%85%E9%83%A8%E5%BA%94%E7%94%A8%E5%88%86%E5%8F%91/"/>
+    <id>https://wangwanjie.github.io/2017/01/11/企业内部应用分发/</id>
+    <published>2017-01-11T12:52:03.000Z</published>
+    <updated>2017-03-16T17:01:31.000Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote>
+<p>iOS 支持以无线方式安装企业内部应用，而无需使用 iTunes 或 App Store。</p>
+<h5 id="应用格式要求-ipa，并且使用企业内部预置描述文件进行构建，即经企业证书签名。"><a href="#应用格式要求-ipa，并且使用企业内部预置描述文件进行构建，即经企业证书签名。" class="headerlink" title="应用格式要求:.ipa，并且使用企业内部预置描述文件进行构建，即经企业证书签名。"></a>应用格式要求:.ipa，并且使用企业内部预置描述文件进行构建，即经企业证书签名。</h5></blockquote>
+<h4 id="无线安装要求："><a href="#无线安装要求：" class="headerlink" title="无线安装要求："></a>无线安装要求：</h4><pre><code>1. XML 清单文件（一个 plist 配置文件）
+2. 可让设备访问 Apple iTunes 服务器的网络配置（设备要能连接互联网，因为要校验）
+3. 对于 iOS 7.1 或更高版本， plist 文件和 ipa 文件需要放在 HTTPS 的服务器上
+</code></pre><h6 id="为了安装应用，用户使用特殊的-URL-前缀从您的网站上下载plist清单文件，您可以分发该特殊前缀的URL给用户或者放置于可供用户访问的互联网上。"><a href="#为了安装应用，用户使用特殊的-URL-前缀从您的网站上下载plist清单文件，您可以分发该特殊前缀的URL给用户或者放置于可供用户访问的互联网上。" class="headerlink" title="为了安装应用，用户使用特殊的 URL 前缀从您的网站上下载plist清单文件，您可以分发该特殊前缀的URL给用户或者放置于可供用户访问的互联网上。"></a>为了安装应用，用户使用特殊的 URL 前缀从您的网站上下载plist清单文件，您可以分发该特殊前缀的URL给用户或者放置于可供用户访问的互联网上。</h6><h4 id="准备分发企业内部应用"><a href="#准备分发企业内部应用" class="headerlink" title="准备分发企业内部应用:"></a>准备分发企业内部应用:</h4><pre><code>1.    创建应用的归档，格式为 *.ipa 格式，并且归档中包括企业内部预置描述文件，且使用分发证书签名；
+2.    无线清单文件，您可以使用支持编辑 plist 文档的编辑器编写或者直接修改下面提供的范例，各字段意义范例中会写明；
+3.    可直接供内连网或互联网访问的 HTTPS 服务器。
+</code></pre><h4 id="关于无线-plist-清单文件"><a href="#关于无线-plist-清单文件" class="headerlink" title="关于无线 plist 清单文件"></a>关于无线 plist 清单文件</h4><h6 id="清单文件是一个-XML-plist-文件，可供-Apple-设备用来从您的-Web-服务器上查找、下载和安装应用。"><a href="#清单文件是一个-XML-plist-文件，可供-Apple-设备用来从您的-Web-服务器上查找、下载和安装应用。" class="headerlink" title="清单文件是一个 XML plist 文件，可供 Apple 设备用来从您的 Web 服务器上查找、下载和安装应用。"></a>清单文件是一个 XML plist 文件，可供 Apple 设备用来从您的 Web 服务器上查找、下载和安装应用。</h6><h4 id="以下栏是必填项："><a href="#以下栏是必填项：" class="headerlink" title="以下栏是必填项："></a><strong>以下栏是必填项：</strong></h4><pre><code>1. URL：应用 (*.ipa) 文件的完全限定 HTTPS URL
+2. display-image：57 x 57 px 的 PNG 图像，在下载和安装过程中显示，图片的 Web URL
+3. full-size-image：512 x 512 px 的 PNG 图像，表示 iTunes 中相应的应用，图片的 Web URL    
+4. bundle-identifier：应用的包标识符，与 Xcode 项目中指定的完全一样
+5. bundle-version：应用的包版本，在 Xcode 项目中指定
+6. title：下载和安装过程中显示的应用的名称
+</code></pre><h6 id="样本清单文件还包含可选字段。例如，如果应用文件太大，并且想要在执行错误检验（TCP-通信通常会执行该检验）的基础上确保下载的完整性，可以使用-MD5-校验，使用见范例。"><a href="#样本清单文件还包含可选字段。例如，如果应用文件太大，并且想要在执行错误检验（TCP-通信通常会执行该检验）的基础上确保下载的完整性，可以使用-MD5-校验，使用见范例。" class="headerlink" title="样本清单文件还包含可选字段。例如，如果应用文件太大，并且想要在执行错误检验（TCP 通信通常会执行该检验）的基础上确保下载的完整性，可以使用 MD5 校验，使用见范例。"></a>样本清单文件还包含可选字段。例如，如果应用文件太大，并且想要在执行错误检验（TCP 通信通常会执行该检验）的基础上确保下载的完整性，可以使用 MD5 校验，使用见范例。</h6><h6 id="您也可以在一个plist文件中配置多个应用，一个-item-作为一项。"><a href="#您也可以在一个plist文件中配置多个应用，一个-item-作为一项。" class="headerlink" title="您也可以在一个plist文件中配置多个应用，一个 item 作为一项。"></a>您也可以在一个plist文件中配置多个应用，一个 item 作为一项。</h6><h4 id="构建网站"><a href="#构建网站" class="headerlink" title="构建网站"></a>构建网站</h4><h6 id="将这些项目上传到网站上可供已认证的用户访问的区域："><a href="#将这些项目上传到网站上可供已认证的用户访问的区域：" class="headerlink" title="将这些项目上传到网站上可供已认证的用户访问的区域："></a>将这些项目上传到网站上可供已认证的用户访问的区域：</h6><pre><code>1. 应用 (.ipa) 文件
+2. 清单 (.plist) 文件
+</code></pre><h6 id="您的网站可以是链接到清单文件的单个页面。用户轻点-Web-链接后会下载清单文件，并触发下载和安装。"><a href="#您的网站可以是链接到清单文件的单个页面。用户轻点-Web-链接后会下载清单文件，并触发下载和安装。" class="headerlink" title="您的网站可以是链接到清单文件的单个页面。用户轻点 Web 链接后会下载清单文件，并触发下载和安装。"></a>您的网站可以是链接到清单文件的单个页面。用户轻点 Web 链接后会下载清单文件，并触发下载和安装。</h6><p><em>以下是示例链接：</em><br><code>&lt;a href=&quot;itms-services://?action=download-manifest&amp;url=https://example.com/manifest.plist&quot;&gt;安装应用&lt;/a&gt;</code><br><strong>虽然 URL 的协议部分是“itms-services”，但 iTunes Store 并不参与此过程。</strong></p>
+<h4 id="配置服务器-MIME-类型（一般不用配置）"><a href="#配置服务器-MIME-类型（一般不用配置）" class="headerlink" title="配置服务器 MIME 类型（一般不用配置）"></a>配置服务器 MIME 类型（一般不用配置）</h4><h5 id="您可能需要配置-Web-服务器，让清单文件和应用文件可正确传输。"><a href="#您可能需要配置-Web-服务器，让清单文件和应用文件可正确传输。" class="headerlink" title="您可能需要配置 Web 服务器，让清单文件和应用文件可正确传输。"></a>您可能需要配置 Web 服务器，让清单文件和应用文件可正确传输。</h5><h5 id="对于-Server-应用，请将-MIME-类型添加到网页服务的-MIME-类型设置："><a href="#对于-Server-应用，请将-MIME-类型添加到网页服务的-MIME-类型设置：" class="headerlink" title="对于 Server 应用，请将 MIME 类型添加到网页服务的 MIME 类型设置："></a>对于 Server 应用，请将 MIME 类型添加到网页服务的 MIME 类型设置：</h5><pre><code>* application/octet-stream ipa
+* text/xml plist
+</code></pre><h5 id="对于微软的互联网信息服务器-IIS-，请使用-IIS-Manager-在服务器的“属性”页面中添加-MIME-类型："><a href="#对于微软的互联网信息服务器-IIS-，请使用-IIS-Manager-在服务器的“属性”页面中添加-MIME-类型：" class="headerlink" title="对于微软的互联网信息服务器 (IIS)，请使用 IIS Manager 在服务器的“属性”页面中添加 MIME 类型："></a>对于微软的互联网信息服务器 (IIS)，请使用 IIS Manager 在服务器的“属性”页面中添加 MIME 类型：</h5><pre><code>* .ipa application/octet-stream
+* .plist text/xml
+</code></pre><h4 id="无线-iOS-应用分发故障诊断"><a href="#无线-iOS-应用分发故障诊断" class="headerlink" title="无线 iOS 应用分发故障诊断"></a>无线 iOS 应用分发故障诊断</h4><h5 id="如果无线应用分发失败，并显示“无法下载”信息："><a href="#如果无线应用分发失败，并显示“无法下载”信息：" class="headerlink" title="如果无线应用分发失败，并显示“无法下载”信息："></a>如果无线应用分发失败，并显示“无法下载”信息：</h5><pre><code>1. 请确定应用已正确进行签名。测试方法是使用 Apple Configurator 2 将它安装到设备上，然后查看是否发生错误。
+2. 请确定清单文件的链接是否正确，清单文件是否可供网络用户访问。
+3. 请确定 .ipa 文件（在清单文件中）的 URL 是否正确，并且该 .ipa 文件是否可供网络用户通过 HTTPS 访问。
+</code></pre><h4 id="网络配置要求"><a href="#网络配置要求" class="headerlink" title="网络配置要求"></a>网络配置要求</h4><h5 id="如果设备连接到内网，那么您必须允许它访问以下站点："><a href="#如果设备连接到内网，那么您必须允许它访问以下站点：" class="headerlink" title="如果设备连接到内网，那么您必须允许它访问以下站点："></a>如果设备连接到内网，那么您必须允许它访问以下站点：</h5><p><code>https://ax.init.itunes.apple.com &lt;br/&gt;
+使用蜂窝移动网络下载应用时，设备会限制其当前文件大小。如果无法访问此站点，安装可能会失败。</code>    </p>
+<p><code>https://ppq.apple.com &lt;br/&gt;
+设备会联系此网站，检查用来给预置描述文件签名的分发证书状态。</code></p>
+<h4 id="应用更新"><a href="#应用更新" class="headerlink" title="应用更新"></a>应用更新</h4><pre><code>1. 程序内检查 Server 端ipa版本和本地版本，比较是否已发布新版本，并提示用户更新。
+2. 如果用户想保留旧版本数据，请告知其不要卸载旧版本，并且新旧版本 bundle-identifier 相同。
+3. 更新方法：直接使用应用内部的openURL 方法，打开的是plist文件的web url 带 itms-services描述 链接（真机）。
+</code></pre><h4 id="证书验证"><a href="#证书验证" class="headerlink" title="证书验证"></a>证书验证</h4><h6 id="用户首次打开应用时，系统会通过联系-Apple-的-OCSP-服务器来验证分发证书。如果证书已撤销，应用将不会启动。为了验证状态，设备必须能够访问-ocsp-apple-com。"><a href="#用户首次打开应用时，系统会通过联系-Apple-的-OCSP-服务器来验证分发证书。如果证书已撤销，应用将不会启动。为了验证状态，设备必须能够访问-ocsp-apple-com。" class="headerlink" title="用户首次打开应用时，系统会通过联系 Apple 的 OCSP 服务器来验证分发证书。如果证书已撤销，应用将不会启动。为了验证状态，设备必须能够访问 ocsp.apple.com。"></a>用户首次打开应用时，系统会通过联系 Apple 的 OCSP 服务器来验证分发证书。如果证书已撤销，应用将不会启动。为了验证状态，设备必须能够访问 ocsp.apple.com。</h6><h5 id="OCSP-响应会在设备上缓存一段时间（由-OCSP-服务器指定），当前为-3-到-7-天之间。在重新启动设备和缓存的响应过期之前，将不会再次检查证书的有效性。如果当时收到撤销命令，系统将阻止应用运行。"><a href="#OCSP-响应会在设备上缓存一段时间（由-OCSP-服务器指定），当前为-3-到-7-天之间。在重新启动设备和缓存的响应过期之前，将不会再次检查证书的有效性。如果当时收到撤销命令，系统将阻止应用运行。" class="headerlink" title="OCSP 响应会在设备上缓存一段时间（由 OCSP 服务器指定），当前为 3 到 7 天之间。在重新启动设备和缓存的响应过期之前，将不会再次检查证书的有效性。如果当时收到撤销命令，系统将阻止应用运行。"></a>OCSP 响应会在设备上缓存一段时间（由 OCSP 服务器指定），当前为 3 到 7 天之间。在重新启动设备和缓存的响应过期之前，将不会再次检查证书的有效性。如果当时收到撤销命令，系统将阻止应用运行。</h5><h6 id="【警告】撤销分发证书会导致使用该证书签名的所有应用失效。只有万不得已时才应撤销证书，比如确定专用密钥已丢失或确信证书已遭破解。"><a href="#【警告】撤销分发证书会导致使用该证书签名的所有应用失效。只有万不得已时才应撤销证书，比如确定专用密钥已丢失或确信证书已遭破解。" class="headerlink" title="【警告】撤销分发证书会导致使用该证书签名的所有应用失效。只有万不得已时才应撤销证书，比如确定专用密钥已丢失或确信证书已遭破解。"></a><em>【警告】</em>撤销分发证书会导致使用该证书签名的所有应用失效。只有万不得已时才应撤销证书，比如确定专用密钥已丢失或确信证书已遭破解。</h6><h5 id="示例-iOS-应用-plist-清单文件，可复制，保存为plist格式，也可从这里下载"><a href="#示例-iOS-应用-plist-清单文件，可复制，保存为plist格式，也可从这里下载" class="headerlink" title="示例 iOS 应用 plist 清单文件，可复制，保存为plist格式，也可从这里下载"></a>示例 iOS 应用 plist 清单文件，可复制，保存为plist格式，也可从<a href="https://github.com/wangwanjie/SharedResources/blob/master/example_zn.plist" target="_blank" rel="external">这里</a>下载</h5><p>`&lt;!DOCTYPE plist PUBLIC “-//Apple//DTD PLIST 1.0//EN” “<a href="http://www.apple.com/DTDs/PropertyList-1.0.dtd&quot;&gt;" target="_blank" rel="external">http://www.apple.com/DTDs/PropertyList-1.0.dtd&quot;&gt;</a></p>
+<p><plist version="1.0"></plist></p>
+<p><dict><br>  <!--   供下载的数组 --><br>  <key>items</key><br>  <array><br>   <dict><br>    <!-- 资源下载 --><br>     <key>assets</key><br>      <array><br>       <!--  要安装 .ipa 软件包 --><br>        <dict><br>         <!-- 必要，资源类型 --><br>          <key>kind</key><br>          <string>software-package</string><br>          <!-- 可选，md5 size --><br>          <key>md5-size</key><br>          <integer>10485760</integer><br>          <!-- 可选，每个 "md5-size" 块 md5 哈希值数组 --><br>          <key>md5s</key><br>          <array><br>            <string>41fa64bb7a7cae5a46bfb45821ac8bba</string><br>            <string>51fa64bb7a7cae5a46bfb45821ac8bba</string><br>          </array><br>          <!-- 必要，.ipa 包绝对的 Web Url 地址（HTTPS） --><br>          <key>url</key><br>          <string><a href="https://www.example.com/apps/foo.ipa" target="_blank" rel="external">https://www.example.com/apps/foo.ipa</a></string><br>        </dict><br>        <!-- 下载过程中显示的图片，57 * 57 px --><br>        <dict><br>         <key>kind</key><br>         <string>display-image</string><br>         <!-- 可选，表明应用图片是否需要发光效果 --><br>         <key>needs-shine</key><br>         <true><br>         <key>url</key><br>         <string><a href="https://www.example.com/image.57x57.png" target="_blank" rel="external">https://www.example.com/image.57x57.png</a></string><br>        </true></dict><br>        <!-- itunes 中相关应用的icon --><br>        <dict><br>         <key>kind</key><br>         <string>full-size-image</string><br>         <!-- 可选，整个文件的md5值 --><br>         <key>md5</key><br>         <string>61fa64bb7a7cae5a46bfb45821ac8bba</string><br>         <key>needs-shine</key><br>         <true><br>         <key>url</key><string><a href="https://www.example.com/image.512x512.jpg" target="_blank" rel="external">https://www.example.com/image.512x512.jpg</a></string><br>        </true></dict><br>      </array></dict></array></dict></p>
+<p><key>metadata</key><br>      <dict><br>       <!-- 必要，包名 --><br>       <key>bundle-identifier</key><br>       <string>com.example.fooapp</string><br>       <!-- 可选，软件包必要 --><br>       <key>bundle-version</key><br>       <string>1.0</string><br>       <!-- 必要，下载的类型 --><br>       <key>kind</key><br>       <string>software</string><br>       <!-- 可选，下载过程中显示，比如可用公司名称  --><br>       <key>subtitle</key><br>       <string>Apple</string><br>       <!-- 必要，应用下载过程中显示的名称  --><br>       <key>title</key><br>       <string>Example Corporate App</string><br>      </dict><br>    <br>  <br><br><br>`</p>
+<h5 id="作为包体积较小的应用，如以下简单配置即可，从这里下载"><a href="#作为包体积较小的应用，如以下简单配置即可，从这里下载" class="headerlink" title="作为包体积较小的应用，如以下简单配置即可，从这里下载"></a>作为包体积较小的应用，如以下简单配置即可，从<a href="https://github.com/wangwanjie/SharedResources/blob/master/simple.plist" target="_blank" rel="external">这里</a>下载</h5><p>`&lt;?xml version=”1.0” encoding=”UTF-8”?&gt;<br>&lt;!DOCTYPE plist PUBLIC “-//Apple//DTD PLIST 1.0//EN” “<a href="http://www.apple.com/DTDs/PropertyList-1.0.dtd&quot;&gt;" target="_blank" rel="external">http://www.apple.com/DTDs/PropertyList-1.0.dtd&quot;&gt;</a></p>
+<p><plist version="1.0"></plist></p>
+<p><dict><br>    <key>items</key><br>    <array><br>        <dict><br>            <key>assets</key><br>            <array><br>                <dict><br>                    <key>kind</key><br>                    <string>software-package</string><br>                    <key>url</key><br>                    <string><a href="https://app.gcgaming.net/iOS/goldenGame_V_1.2.1.ipa" target="_blank" rel="external">https://app.gcgaming.net/iOS/goldenGame_V_1.2.1.ipa</a></string><br>                </dict><br>                <dict><br>                    <key>kind</key><br>                    <string>full-size-image</string><br>                    <key>needs-shine</key><br>                    <true><br>                    <key>url</key><br>                    <string><a href="https://app.gcgaming.net/iOS/app_icon_full_size.png" target="_blank" rel="external">https://app.gcgaming.net/iOS/app_icon_full_size.png</a></string><br>                </true></dict><br>                <dict><br>                    <key>kind</key><br>                    <string>display-image</string><br>                    <key>needs-shine</key><br>                    <true><br>                    <key>url</key><br>                    <string><a href="https://app.gcgaming.net/iOS/app_icon_download.png" target="_blank" rel="external">https://app.gcgaming.net/iOS/app_icon_download.png</a></string><br>                </true></dict><br>            </array><br>            <key>metadata</key><br>            <dict><br>                <key>bundle-identifier</key><br>                <string>com.gcstation.goldenCentury</string><br>                <key>bundle-version</key><br>                <string>1.2.1</string><br>                <key>kind</key><br>                <string>software</string><br>                <key>subtitle</key><br>                <string>欢迎使用</string><br>                <key>title</key><br>                <string>黄金世纪</string><br>            </dict><br>        </dict><br>    </array><br></dict><br>`</p>
+<blockquote>
+<p>Author: CoderJay <br>如需转载，请注明出处</p>
+</blockquote>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt;iOS 支持以无线方式安装企业内部应用，而无需使用 iTunes 或 App Store。&lt;/p&gt;
+&lt;h5 id=&quot;应用格式要求-ipa，并且使用企业内部预置描述文件进行构建，即经企业证书签名。&quot;&gt;&lt;a href=&quot;#应用格式要求-ipa，并且使用
+    
+    </summary>
+    
+      <category term="iOS" scheme="https://wangwanjie.github.io/categories/iOS/"/>
+    
+    
+      <category term="打包" scheme="https://wangwanjie.github.io/tags/%E6%89%93%E5%8C%85/"/>
+    
+      <category term="发布" scheme="https://wangwanjie.github.io/tags/%E5%8F%91%E5%B8%83/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Mac查看CPU具体型号</title>
+    <link href="https://wangwanjie.github.io/2016/12/16/Mac%E6%9F%A5%E7%9C%8BCPU%E5%85%B7%E4%BD%93%E5%9E%8B%E5%8F%B7/"/>
+    <id>https://wangwanjie.github.io/2016/12/16/Mac查看CPU具体型号/</id>
+    <published>2016-12-16T12:17:48.000Z</published>
+    <updated>2017-03-16T16:32:32.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>运行以下命令:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sysctl machdep.cpu.brand_string</div></pre></td></tr></table></figure></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;运行以下命令:&lt;br&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;
+    
+    </summary>
+    
+      <category term="Mac" scheme="https://wangwanjie.github.io/categories/Mac/"/>
+    
+    
+      <category term="Mac使用" scheme="https://wangwanjie.github.io/tags/Mac%E4%BD%BF%E7%94%A8/"/>
+    
+  </entry>
+  
+</feed>
