@@ -71,7 +71,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="AFN,Soap,WebService," />
 
 
 
@@ -89,15 +89,16 @@
 
 
 
-<meta name="description" content="湖南工业大学2011届毕业生， 目前就职于广州，iOS/前端/Cocos2d开发者，非专业PHP、Python、Java等。旧时爱好捣鼓操作系统，正在潜心修炼成为一名全栈攻城狮。">
-<meta property="og:type" content="website">
-<meta property="og:title" content="CoderJay的博客">
-<meta property="og:url" content="https://wangwanjie.github.io/index.html">
+<meta name="description" content="好吧，标题有点拗口。我平时一般不发帖子，因为感觉太花时间了，还是喜欢宅着研究技术。但这个帖子网上资料还是没有很详细的，周末了明天休息，所以现在写下来总结一下，也希望能帮助有这方面需求的开发者朋友，如果错误之处还请谅解，欢迎指出。排版大家就不要在意了，我也不清楚这个支不支持markdown，就直接手动简单排一下。进入主题，最近公司做一个新项目，后台是webService，要做iOS版本的客户端，由于">
+<meta property="og:type" content="article">
+<meta property="og:title" content="OC用AFN做Soap请求webService">
+<meta property="og:url" content="https://wangwanjie.github.io/2016/01/10/OC用AFN做Soap请求webService/index.html">
 <meta property="og:site_name" content="CoderJay的博客">
-<meta property="og:description" content="湖南工业大学2011届毕业生， 目前就职于广州，iOS/前端/Cocos2d开发者，非专业PHP、Python、Java等。旧时爱好捣鼓操作系统，正在潜心修炼成为一名全栈攻城狮。">
+<meta property="og:description" content="好吧，标题有点拗口。我平时一般不发帖子，因为感觉太花时间了，还是喜欢宅着研究技术。但这个帖子网上资料还是没有很详细的，周末了明天休息，所以现在写下来总结一下，也希望能帮助有这方面需求的开发者朋友，如果错误之处还请谅解，欢迎指出。排版大家就不要在意了，我也不清楚这个支不支持markdown，就直接手动简单排一下。进入主题，最近公司做一个新项目，后台是webService，要做iOS版本的客户端，由于">
+<meta property="og:updated_time" content="2017-03-17T03:40:29.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="CoderJay的博客">
-<meta name="twitter:description" content="湖南工业大学2011届毕业生， 目前就职于广州，iOS/前端/Cocos2d开发者，非专业PHP、Python、Java等。旧时爱好捣鼓操作系统，正在潜心修炼成为一名全栈攻城狮。">
+<meta name="twitter:title" content="OC用AFN做Soap请求webService">
+<meta name="twitter:description" content="好吧，标题有点拗口。我平时一般不发帖子，因为感觉太花时间了，还是喜欢宅着研究技术。但这个帖子网上资料还是没有很详细的，周末了明天休息，所以现在写下来总结一下，也希望能帮助有这方面需求的开发者朋友，如果错误之处还请谅解，欢迎指出。排版大家就不要在意了，我也不清楚这个支不支持markdown，就直接手动简单排一下。进入主题，最近公司做一个新项目，后台是webService，要做iOS版本的客户端，由于">
 
 
 
@@ -125,13 +126,13 @@
 
 
 
-  <link rel="canonical" href="https://wangwanjie.github.io/"/>
+  <link rel="canonical" href="https://wangwanjie.github.io/2016/01/10/OC用AFN做Soap请求webService/"/>
 
 
 
 
 
-  <title> CoderJay的博客 </title>
+  <title> OC用AFN做Soap请求webService | CoderJay的博客 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -156,9 +157,7 @@
     
   
 
-  <div class="container one-collumn sidebar-position-left 
-   page-home 
- ">
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -291,928 +290,9 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
-  <section id="posts" class="posts-expand">
+
+  <div id="posts" class="posts-expand">
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://wangwanjie.github.io/2017/03/16/给包签名/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="CoderJay">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/head.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="CoderJay的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/03/16/给包签名/" itemprop="url">
-                  给包签名
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-16T23:45:09+08:00">
-                2017-03-16
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/iOS/" itemprop="url" rel="index">
-                    <span itemprop="name">iOS</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2017/03/16/给包签名/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/03/16/给包签名/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-             <span id="/2017/03/16/给包签名/" class="leancloud_visitors" data-flag-title="给包签名">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数 </span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <ol>
-<li>查看可用签名</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">security find-identity -v -p codesigning</div></pre></td></tr></table></figure>
-<ol>
-<li>签名</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">codesign --force --verify --verbose --sign &quot;iPhone Developer: 396736694@qq.com (Z4965JH2C8)” 目标包</div></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-tags " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://wangwanjie.github.io/2017/03/16/利用dumpdecrypted砸壳/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="CoderJay">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/head.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="CoderJay的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/03/16/利用dumpdecrypted砸壳/" itemprop="url">
-                  利用 dumpdecrypted 砸壳
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-16T17:34:03+08:00">
-                2017-03-16
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/iOS/" itemprop="url" rel="index">
-                    <span itemprop="name">iOS</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2017/03/16/利用dumpdecrypted砸壳/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/03/16/利用dumpdecrypted砸壳/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-             <span id="/2017/03/16/利用dumpdecrypted砸壳/" class="leancloud_visitors" data-flag-title="利用 dumpdecrypted 砸壳">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数 </span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>1、编译生成</p>
-<p><code>dumpdecrypted.dylib</code></p>
-<p>2、给生成的 <code>dumpdecrypted.dylib</code> 签名</p>
-<p>3、ssh到手机，<code>ps aux | grep</code> 目标APP查看APP安装目录</p>
-<p>4、（可忽略这步）<code>cycript -p</code> 目标 APP，执行 <code>[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask][0]</code><br> 查看沙盒目录</p>
-<p>5、将 <code>dumpdecrypted.dylib</code>拷贝 <code>/var/tmp</code>，进入 <code>/var/tmp</code></p>
-<p>6、将 <code>dumpdecrypted.dylib</code> 拷贝到沙盒目录，进入沙盒目录，执行<br><code>DYLD_INSERT_LIBRARIES=dumpdecrypted.dylib /var/containers/Bundle/Application/0B8A6E0F-9D64-4EF4-97D2-D3A508FC3574/APP.app/APP</code></p>
-<p>7、得到目标 <code>APP.decrypted</code>就是二进制文件</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://wangwanjie.github.io/2017/03/09/动态加载javascript/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="CoderJay">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/head.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="CoderJay的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/03/09/动态加载javascript/" itemprop="url">
-                  动态加载javascript
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-09T10:50:55+08:00">
-                2017-03-09
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/javascript/" itemprop="url" rel="index">
-                    <span itemprop="name">javascript</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2017/03/09/动态加载javascript/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/03/09/动态加载javascript/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-             <span id="/2017/03/09/动态加载javascript/" class="leancloud_visitors" data-flag-title="动态加载javascript">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数 </span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line">// 另外一个独立的动态加载js的函数</div><div class="line">function loadJs(jsurl, head, callback) &#123;</div><div class="line">	var script = document.createElement(script);</div><div class="line">	script.setAttribute(&quot;type&quot;, &quot;text/javascript&quot;);</div><div class="line"></div><div class="line">	if(callback) &#123;</div><div class="line">		if(script.readyState) &#123; //IE</div><div class="line">			script.onreadystatechange = function() &#123;</div><div class="line">				if(script.readyState == &quot;loaded&quot; ||</div><div class="line">					script.readyState == &quot;complete&quot;) &#123;</div><div class="line">					script.onreadystatechange = null;</div><div class="line">					callback();</div><div class="line">				&#125;</div><div class="line">			&#125;;</div><div class="line">		&#125; else &#123; //Others</div><div class="line">			script.onload = function() &#123;</div><div class="line">				callback();</div><div class="line">			&#125;;</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">	script.setAttribute(&quot;src&quot;, jsurl);</div><div class="line"></div><div class="line">	if(head)</div><div class="line">		document.getElementsByTagName(head)[0].appendChild(script);</div><div class="line">	else &#123;</div><div class="line">		document.body.appendChild(script);</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://wangwanjie.github.io/2017/01/11/企业内部应用分发/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="CoderJay">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/head.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="CoderJay的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/01/11/企业内部应用分发/" itemprop="url">
-                  企业内部应用分发
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-01-11T20:52:03+08:00">
-                2017-01-11
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/iOS/" itemprop="url" rel="index">
-                    <span itemprop="name">iOS</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2017/01/11/企业内部应用分发/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/01/11/企业内部应用分发/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-             <span id="/2017/01/11/企业内部应用分发/" class="leancloud_visitors" data-flag-title="企业内部应用分发">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数 </span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <blockquote>
-<p>iOS 支持以无线方式安装企业内部应用，而无需使用 iTunes 或 App Store。</p>
-<h5 id="应用格式要求-ipa，并且使用企业内部预置描述文件进行构建，即经企业证书签名。"><a href="#应用格式要求-ipa，并且使用企业内部预置描述文件进行构建，即经企业证书签名。" class="headerlink" title="应用格式要求:.ipa，并且使用企业内部预置描述文件进行构建，即经企业证书签名。"></a>应用格式要求:.ipa，并且使用企业内部预置描述文件进行构建，即经企业证书签名。</h5></blockquote>
-<h4 id="无线安装要求："><a href="#无线安装要求：" class="headerlink" title="无线安装要求："></a>无线安装要求：</h4><pre><code>1. XML 清单文件（一个 plist 配置文件）
-2. 可让设备访问 Apple iTunes 服务器的网络配置（设备要能连接互联网，因为要校验）
-3. 对于 iOS 7.1 或更高版本， plist 文件和 ipa 文件需要放在 HTTPS 的服务器上
-</code></pre><h6 id="为了安装应用，用户使用特殊的-URL-前缀从您的网站上下载plist清单文件，您可以分发该特殊前缀的URL给用户或者放置于可供用户访问的互联网上。"><a href="#为了安装应用，用户使用特殊的-URL-前缀从您的网站上下载plist清单文件，您可以分发该特殊前缀的URL给用户或者放置于可供用户访问的互联网上。" class="headerlink" title="为了安装应用，用户使用特殊的 URL 前缀从您的网站上下载plist清单文件，您可以分发该特殊前缀的URL给用户或者放置于可供用户访问的互联网上。"></a>为了安装应用，用户使用特殊的 URL 前缀从您的网站上下载plist清单文件，您可以分发该特殊前缀的URL给用户或者放置于可供用户访问的互联网上。</h6><h4 id="准备分发企业内部应用"><a href="#准备分发企业内部应用" class="headerlink" title="准备分发企业内部应用:"></a>准备分发企业内部应用:</h4><pre><code>1.    创建应用的归档，格式为 *.ipa 格式，并且归档中包括企业内部预置描述文件，且使用分发证书签名；
-2.    无线清单文件，您可以使用支持编辑 plist 文档的编辑器编写或者直接修改下面提供的范例，各字段意义范例中会写明；
-3.    可直接供内连网或互联网访问的 HTTPS 服务器。
-</code></pre><h4 id="关于无线-plist-清单文件"><a href="#关于无线-plist-清单文件" class="headerlink" title="关于无线 plist 清单文件"></a>关于无线 plist 清单文件</h4><h6 id="清单文件是一个-XML-plist-文件，可供-Apple-设备用来从您的-Web-服务器上查找、下载和安装应用。"><a href="#清单文件是一个-XML-plist-文件，可供-Apple-设备用来从您的-Web-服务器上查找、下载和安装应用。" class="headerlink" title="清单文件是一个 XML plist 文件，可供 Apple 设备用来从您的 Web 服务器上查找、下载和安装应用。"></a>清单文件是一个 XML plist 文件，可供 Apple 设备用来从您的 Web 服务器上查找、下载和安装应用。</h6><h4 id="以下栏是必填项："><a href="#以下栏是必填项：" class="headerlink" title="以下栏是必填项："></a><strong>以下栏是必填项：</strong></h4><pre><code>1. URL：应用 (*.ipa) 文件的完全限定 HTTPS URL
-2. display-image：57 x 57 px 的 PNG 图像，在下载和安装过程中显示，图片的 Web URL
-3. full-size-image：512 x 512 px 的 PNG 图像，表示 iTunes 中相应的应用，图片的 Web URL    
-4. bundle-identifier：应用的包标识符，与 Xcode 项目中指定的完全一样
-5. bundle-version：应用的包版本，在 Xcode 项目中指定
-6. title：下载和安装过程中显示的应用的名称
-</code></pre><h6 id="样本清单文件还包含可选字段。例如，如果应用文件太大，并且想要在执行错误检验（TCP-通信通常会执行该检验）的基础上确保下载的完整性，可以使用-MD5-校验，使用见范例。"><a href="#样本清单文件还包含可选字段。例如，如果应用文件太大，并且想要在执行错误检验（TCP-通信通常会执行该检验）的基础上确保下载的完整性，可以使用-MD5-校验，使用见范例。" class="headerlink" title="样本清单文件还包含可选字段。例如，如果应用文件太大，并且想要在执行错误检验（TCP 通信通常会执行该检验）的基础上确保下载的完整性，可以使用 MD5 校验，使用见范例。"></a>样本清单文件还包含可选字段。例如，如果应用文件太大，并且想要在执行错误检验（TCP 通信通常会执行该检验）的基础上确保下载的完整性，可以使用 MD5 校验，使用见范例。</h6><h6 id="您也可以在一个plist文件中配置多个应用，一个-item-作为一项。"><a href="#您也可以在一个plist文件中配置多个应用，一个-item-作为一项。" class="headerlink" title="您也可以在一个plist文件中配置多个应用，一个 item 作为一项。"></a>您也可以在一个plist文件中配置多个应用，一个 item 作为一项。</h6><h4 id="构建网站"><a href="#构建网站" class="headerlink" title="构建网站"></a>构建网站</h4><h6 id="将这些项目上传到网站上可供已认证的用户访问的区域："><a href="#将这些项目上传到网站上可供已认证的用户访问的区域：" class="headerlink" title="将这些项目上传到网站上可供已认证的用户访问的区域："></a>将这些项目上传到网站上可供已认证的用户访问的区域：</h6><pre><code>1. 应用 (.ipa) 文件
-2. 清单 (.plist) 文件
-</code></pre><h6 id="您的网站可以是链接到清单文件的单个页面。用户轻点-Web-链接后会下载清单文件，并触发下载和安装。"><a href="#您的网站可以是链接到清单文件的单个页面。用户轻点-Web-链接后会下载清单文件，并触发下载和安装。" class="headerlink" title="您的网站可以是链接到清单文件的单个页面。用户轻点 Web 链接后会下载清单文件，并触发下载和安装。"></a>您的网站可以是链接到清单文件的单个页面。用户轻点 Web 链接后会下载清单文件，并触发下载和安装。</h6><p><em>以下是示例链接：</em><br><code>&lt;a href=&quot;itms-services://?action=download-manifest&amp;url=https://example.com/manifest.plist&quot;&gt;安装应用&lt;/a&gt;</code><br><strong>虽然 URL 的协议部分是“itms-services”，但 iTunes Store 并不参与此过程。</strong></p>
-<h4 id="配置服务器-MIME-类型（一般不用配置）"><a href="#配置服务器-MIME-类型（一般不用配置）" class="headerlink" title="配置服务器 MIME 类型（一般不用配置）"></a>配置服务器 MIME 类型（一般不用配置）</h4><h5 id="您可能需要配置-Web-服务器，让清单文件和应用文件可正确传输。"><a href="#您可能需要配置-Web-服务器，让清单文件和应用文件可正确传输。" class="headerlink" title="您可能需要配置 Web 服务器，让清单文件和应用文件可正确传输。"></a>您可能需要配置 Web 服务器，让清单文件和应用文件可正确传输。</h5><h5 id="对于-Server-应用，请将-MIME-类型添加到网页服务的-MIME-类型设置："><a href="#对于-Server-应用，请将-MIME-类型添加到网页服务的-MIME-类型设置：" class="headerlink" title="对于 Server 应用，请将 MIME 类型添加到网页服务的 MIME 类型设置："></a>对于 Server 应用，请将 MIME 类型添加到网页服务的 MIME 类型设置：</h5><pre><code>* application/octet-stream ipa
-* text/xml plist
-</code></pre><h5 id="对于微软的互联网信息服务器-IIS-，请使用-IIS-Manager-在服务器的“属性”页面中添加-MIME-类型："><a href="#对于微软的互联网信息服务器-IIS-，请使用-IIS-Manager-在服务器的“属性”页面中添加-MIME-类型：" class="headerlink" title="对于微软的互联网信息服务器 (IIS)，请使用 IIS Manager 在服务器的“属性”页面中添加 MIME 类型："></a>对于微软的互联网信息服务器 (IIS)，请使用 IIS Manager 在服务器的“属性”页面中添加 MIME 类型：</h5><pre><code>* .ipa application/octet-stream
-* .plist text/xml
-</code></pre><h4 id="无线-iOS-应用分发故障诊断"><a href="#无线-iOS-应用分发故障诊断" class="headerlink" title="无线 iOS 应用分发故障诊断"></a>无线 iOS 应用分发故障诊断</h4><h5 id="如果无线应用分发失败，并显示“无法下载”信息："><a href="#如果无线应用分发失败，并显示“无法下载”信息：" class="headerlink" title="如果无线应用分发失败，并显示“无法下载”信息："></a>如果无线应用分发失败，并显示“无法下载”信息：</h5><pre><code>1. 请确定应用已正确进行签名。测试方法是使用 Apple Configurator 2 将它安装到设备上，然后查看是否发生错误。
-2. 请确定清单文件的链接是否正确，清单文件是否可供网络用户访问。
-3. 请确定 .ipa 文件（在清单文件中）的 URL 是否正确，并且该 .ipa 文件是否可供网络用户通过 HTTPS 访问。
-</code></pre><h4 id="网络配置要求"><a href="#网络配置要求" class="headerlink" title="网络配置要求"></a>网络配置要求</h4><h5 id="如果设备连接到内网，那么您必须允许它访问以下站点："><a href="#如果设备连接到内网，那么您必须允许它访问以下站点：" class="headerlink" title="如果设备连接到内网，那么您必须允许它访问以下站点："></a>如果设备连接到内网，那么您必须允许它访问以下站点：</h5><p><code>https://ax.init.itunes.apple.com &lt;br/&gt;
-使用蜂窝移动网络下载应用时，设备会限制其当前文件大小。如果无法访问此站点，安装可能会失败。</code>    </p>
-<p><code>https://ppq.apple.com &lt;br/&gt;
-设备会联系此网站，检查用来给预置描述文件签名的分发证书状态。</code></p>
-<h4 id="应用更新"><a href="#应用更新" class="headerlink" title="应用更新"></a>应用更新</h4><pre><code>1. 程序内检查 Server 端ipa版本和本地版本，比较是否已发布新版本，并提示用户更新。
-2. 如果用户想保留旧版本数据，请告知其不要卸载旧版本，并且新旧版本 bundle-identifier 相同。
-3. 更新方法：直接使用应用内部的openURL 方法，打开的是plist文件的web url 带 itms-services描述 链接（真机）。
-</code></pre><h4 id="证书验证"><a href="#证书验证" class="headerlink" title="证书验证"></a>证书验证</h4><h6 id="用户首次打开应用时，系统会通过联系-Apple-的-OCSP-服务器来验证分发证书。如果证书已撤销，应用将不会启动。为了验证状态，设备必须能够访问-ocsp-apple-com。"><a href="#用户首次打开应用时，系统会通过联系-Apple-的-OCSP-服务器来验证分发证书。如果证书已撤销，应用将不会启动。为了验证状态，设备必须能够访问-ocsp-apple-com。" class="headerlink" title="用户首次打开应用时，系统会通过联系 Apple 的 OCSP 服务器来验证分发证书。如果证书已撤销，应用将不会启动。为了验证状态，设备必须能够访问 ocsp.apple.com。"></a>用户首次打开应用时，系统会通过联系 Apple 的 OCSP 服务器来验证分发证书。如果证书已撤销，应用将不会启动。为了验证状态，设备必须能够访问 ocsp.apple.com。</h6><h5 id="OCSP-响应会在设备上缓存一段时间（由-OCSP-服务器指定），当前为-3-到-7-天之间。在重新启动设备和缓存的响应过期之前，将不会再次检查证书的有效性。如果当时收到撤销命令，系统将阻止应用运行。"><a href="#OCSP-响应会在设备上缓存一段时间（由-OCSP-服务器指定），当前为-3-到-7-天之间。在重新启动设备和缓存的响应过期之前，将不会再次检查证书的有效性。如果当时收到撤销命令，系统将阻止应用运行。" class="headerlink" title="OCSP 响应会在设备上缓存一段时间（由 OCSP 服务器指定），当前为 3 到 7 天之间。在重新启动设备和缓存的响应过期之前，将不会再次检查证书的有效性。如果当时收到撤销命令，系统将阻止应用运行。"></a>OCSP 响应会在设备上缓存一段时间（由 OCSP 服务器指定），当前为 3 到 7 天之间。在重新启动设备和缓存的响应过期之前，将不会再次检查证书的有效性。如果当时收到撤销命令，系统将阻止应用运行。</h5><h6 id="【警告】撤销分发证书会导致使用该证书签名的所有应用失效。只有万不得已时才应撤销证书，比如确定专用密钥已丢失或确信证书已遭破解。"><a href="#【警告】撤销分发证书会导致使用该证书签名的所有应用失效。只有万不得已时才应撤销证书，比如确定专用密钥已丢失或确信证书已遭破解。" class="headerlink" title="【警告】撤销分发证书会导致使用该证书签名的所有应用失效。只有万不得已时才应撤销证书，比如确定专用密钥已丢失或确信证书已遭破解。"></a><em>【警告】</em>撤销分发证书会导致使用该证书签名的所有应用失效。只有万不得已时才应撤销证书，比如确定专用密钥已丢失或确信证书已遭破解。</h6><p>示例 iOS 应用 plist 清单文件，可复制，保存为plist格式，也可从 <a href="https://github.com/wangwanjie/SharedResources/blob/master/example_zn.plist" target="_blank" rel="external">这里</a> 下载</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;!DOCTYPE plist PUBLIC &quot;-//Apple//DTD PLIST 1.0//EN&quot; &quot;http://www.apple.com/DTDs/PropertyList-1.0.dtd&quot;&gt;&lt;plist version=&quot;1.0&quot;&gt;&lt;dict&gt;  &lt;key&gt;items&lt;/key&gt;  &lt;array&gt;   &lt;dict&gt;     &lt;key&gt;assets&lt;/key&gt;      &lt;array&gt;        &lt;dict&gt;          &lt;key&gt;kind&lt;/key&gt;          &lt;string&gt;software-package&lt;/string&gt;          &lt;key&gt;md5-size&lt;/key&gt;          &lt;integer&gt;10485760&lt;/integer&gt;          &lt;key&gt;md5s&lt;/key&gt;          &lt;array&gt;            &lt;string&gt;41fa64bb7a7cae5a46bfb45821ac8bba&lt;/string&gt;            &lt;string&gt;51fa64bb7a7cae5a46bfb45821ac8bba&lt;/string&gt;          &lt;/array&gt;          &lt;key&gt;url&lt;/key&gt;          &lt;string&gt;https://www.example.com/apps/foo.ipa&lt;/string&gt;        &lt;/dict&gt;        &lt;dict&gt;         &lt;key&gt;kind&lt;/key&gt;         &lt;string&gt;display-image&lt;/string&gt;         &lt;key&gt;needs-shine&lt;/key&gt;         &lt;true/&gt;         &lt;key&gt;url&lt;/key&gt;         &lt;string&gt;https://www.example.com/image.57x57.png&lt;/string&gt;        &lt;/dict&gt;        &lt;dict&gt;         &lt;key&gt;kind&lt;/key&gt;         &lt;string&gt;full-size-image&lt;/string&gt;         &lt;key&gt;md5&lt;/key&gt;         &lt;string&gt;61fa64bb7a7cae5a46bfb45821ac8bba&lt;/string&gt;         &lt;key&gt;needs-shine&lt;/key&gt;         &lt;true/&gt;         &lt;key&gt;url&lt;/key&gt;&lt;string&gt;https://www.example.com/image.512x512.jpg&lt;/string&gt;        &lt;/dict&gt;      &lt;/array&gt;&lt;key&gt;metadata&lt;/key&gt;      &lt;dict&gt;       &lt;key&gt;bundle-identifier&lt;/key&gt;       &lt;string&gt;com.example.fooapp&lt;/string&gt;       &lt;key&gt;bundle-version&lt;/key&gt;       &lt;string&gt;1.0&lt;/string&gt;       &lt;key&gt;kind&lt;/key&gt;       &lt;string&gt;software&lt;/string&gt;       &lt;key&gt;subtitle&lt;/key&gt;       &lt;string&gt;Apple&lt;/string&gt;       &lt;key&gt;title&lt;/key&gt;       &lt;string&gt;Example Corporate App&lt;/string&gt;      &lt;/dict&gt;    &lt;/dict&gt;  &lt;/array&gt;&lt;/dict&gt;&lt;/plist&gt;</div></pre></td></tr></table></figure>
-<p>作为包体积较小的应用，如以下简单配置即可，从<a href="https://github.com/wangwanjie/SharedResources/blob/master/simple.plist" target="_blank" rel="external">这里</a>下载</p>
-<pre><code>&lt;!DOCTYPE plist PUBLIC &quot;-//Apple//DTD PLIST 1.0//EN&quot; &quot;http://www.apple.com/DTDs/PropertyList-1.0.dtd&quot;&gt;
-&lt;plist version=&quot;1.0&quot;&gt;
-&lt;dict&gt;
-    &lt;key&gt;items&lt;/key&gt;
-    &lt;array&gt;
-        &lt;dict&gt;
-            &lt;key&gt;assets&lt;/key&gt;
-            &lt;array&gt;
-                &lt;dict&gt;
-                    &lt;key&gt;kind&lt;/key&gt;
-                    &lt;string&gt;software-package&lt;/string&gt;
-                    &lt;key&gt;url&lt;/key&gt;
-                    &lt;string&gt;https://yourwebsite/appName.ipa&lt;/string&gt;
-                &lt;/dict&gt;
-                &lt;dict&gt;
-                    &lt;key&gt;kind&lt;/key&gt;
-                    &lt;string&gt;full-size-image&lt;/string&gt;
-                    &lt;key&gt;needs-shine&lt;/key&gt;
-                    &lt;true/&gt;
-                    &lt;key&gt;url&lt;/key&gt;
-                    &lt;string&gt;https://yourwebsite/app_icon_full_size.png&lt;/string&gt;
-                &lt;/dict&gt;
-                &lt;dict&gt;
-                    &lt;key&gt;kind&lt;/key&gt;
-                    &lt;string&gt;display-image&lt;/string&gt;
-                    &lt;key&gt;needs-shine&lt;/key&gt;
-                    &lt;true/&gt;
-                    &lt;key&gt;url&lt;/key&gt;
-                    &lt;string&gt;https://yourwebsite/app_icon_download.png&lt;/string&gt;
-                &lt;/dict&gt;
-            &lt;/array&gt;
-            &lt;key&gt;metadata&lt;/key&gt;
-            &lt;dict&gt;
-                &lt;key&gt;bundle-identifier&lt;/key&gt;
-                &lt;string&gt; your app bundle id &lt;/string&gt;
-                &lt;key&gt;bundle-version&lt;/key&gt;
-                &lt;string&gt;shortVersion&lt;/string&gt;
-                &lt;key&gt;kind&lt;/key&gt;
-                &lt;string&gt;software&lt;/string&gt;
-                &lt;key&gt;subtitle&lt;/key&gt;
-                &lt;string&gt;欢迎使用&lt;/string&gt;
-                &lt;key&gt;title&lt;/key&gt;
-                &lt;string&gt; app 名称&lt;/string&gt;
-            &lt;/dict&gt;
-        &lt;/dict&gt;
-    &lt;/array&gt;
-&lt;/dict&gt;
-&lt;/plist&gt;
-</code></pre><blockquote>
-<p>Author: CoderJay <br>如需转载，请注明出处</p>
-</blockquote>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://wangwanjie.github.io/2016/12/16/Mac查看CPU具体型号/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="CoderJay">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/head.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="CoderJay的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/12/16/Mac查看CPU具体型号/" itemprop="url">
-                  Mac查看CPU具体型号
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-12-16T20:17:48+08:00">
-                2016-12-16
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Mac/" itemprop="url" rel="index">
-                    <span itemprop="name">Mac</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2016/12/16/Mac查看CPU具体型号/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/12/16/Mac查看CPU具体型号/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-             <span id="/2016/12/16/Mac查看CPU具体型号/" class="leancloud_visitors" data-flag-title="Mac查看CPU具体型号">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数 </span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>运行以下命令:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sysctl machdep.cpu.brand_string</div></pre></td></tr></table></figure></p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
 
   
 
@@ -1242,10 +322,7 @@
             
             
               
-                
-                <a class="post-title-link" href="/2016/01/10/OC用AFN做Soap请求webService/" itemprop="url">
-                  OC用AFN做Soap请求webService
-                </a>
+                OC用AFN做Soap请求webService
               
             
           </h1>
@@ -1339,9 +416,7 @@
       
 
       
-        
-          
-            <h5 id="好吧，标题有点拗口。我平时一般不发帖子，因为感觉太花时间了，还是喜欢宅着研究技术。但这个帖子网上资料还是没有很详细的，周末了明天休息，所以现在写下来总结一下，也希望能帮助有这方面需求的开发者朋友，如果错误之处还请谅解，欢迎指出。排版大家就不要在意了，我也不清楚这个支不支持markdown，就直接手动简单排一下。"><a href="#好吧，标题有点拗口。我平时一般不发帖子，因为感觉太花时间了，还是喜欢宅着研究技术。但这个帖子网上资料还是没有很详细的，周末了明天休息，所以现在写下来总结一下，也希望能帮助有这方面需求的开发者朋友，如果错误之处还请谅解，欢迎指出。排版大家就不要在意了，我也不清楚这个支不支持markdown，就直接手动简单排一下。" class="headerlink" title="好吧，标题有点拗口。我平时一般不发帖子，因为感觉太花时间了，还是喜欢宅着研究技术。但这个帖子网上资料还是没有很详细的，周末了明天休息，所以现在写下来总结一下，也希望能帮助有这方面需求的开发者朋友，如果错误之处还请谅解，欢迎指出。排版大家就不要在意了，我也不清楚这个支不支持markdown，就直接手动简单排一下。"></a>好吧，标题有点拗口。我平时一般不发帖子，因为感觉太花时间了，还是喜欢宅着研究技术。但这个帖子网上资料还是没有很详细的，周末了明天休息，所以现在写下来总结一下，也希望能帮助有这方面需求的开发者朋友，如果错误之处还请谅解，欢迎指出。排版大家就不要在意了，我也不清楚这个支不支持markdown，就直接手动简单排一下。</h5><h5 id="进入主题，最近公司做一个新项目，后台是webService，要做iOS版本的客户端，由于我以前不怎么了解这方面，所以云里雾里得摸索了两天，因为后台人员也不清楚我具体要传什么给他，所以。。。。我就两边跑。。。。最终我确定问题还是在于后端，今天上午完美解决，对webService和WSDL以及CXF有了个大概的了解。"><a href="#进入主题，最近公司做一个新项目，后台是webService，要做iOS版本的客户端，由于我以前不怎么了解这方面，所以云里雾里得摸索了两天，因为后台人员也不清楚我具体要传什么给他，所以。。。。我就两边跑。。。。最终我确定问题还是在于后端，今天上午完美解决，对webService和WSDL以及CXF有了个大概的了解。" class="headerlink" title="进入主题，最近公司做一个新项目，后台是webService，要做iOS版本的客户端，由于我以前不怎么了解这方面，所以云里雾里得摸索了两天，因为后台人员也不清楚我具体要传什么给他，所以。。。。我就两边跑。。。。最终我确定问题还是在于后端，今天上午完美解决，对webService和WSDL以及CXF有了个大概的了解。"></a>进入主题，最近公司做一个新项目，后台是webService，要做iOS版本的客户端，由于我以前不怎么了解这方面，所以云里雾里得摸索了两天，因为后台人员也不清楚我具体要传什么给他，所以。。。。我就两边跑。。。。最终我确定问题还是在于后端，今天上午完美解决，对webService和WSDL以及CXF有了个大概的了解。</h5><h5 id="我就不做过多的概念介绍了，我很懒不愿复制粘贴，只要说一些细节让大家少走弯路就可以。"><a href="#我就不做过多的概念介绍了，我很懒不愿复制粘贴，只要说一些细节让大家少走弯路就可以。" class="headerlink" title="我就不做过多的概念介绍了，我很懒不愿复制粘贴，只要说一些细节让大家少走弯路就可以。"></a>我就不做过多的概念介绍了，我很懒不愿复制粘贴，只要说一些细节让大家少走弯路就可以。</h5><h5 id="在继续往下之前你需要先去了解一些概念：SOAP、WSDL、CXF，和他们之间的关系。这里我觉得这个帖子比较好，推荐一下，Web-Service笔记（三）：wsdl-与-soap协议详解-对XML或者HTML稍微有点了解看了这篇文章之后对WSDL基本都能大体了解了，这里也感谢一下作者。"><a href="#在继续往下之前你需要先去了解一些概念：SOAP、WSDL、CXF，和他们之间的关系。这里我觉得这个帖子比较好，推荐一下，Web-Service笔记（三）：wsdl-与-soap协议详解-对XML或者HTML稍微有点了解看了这篇文章之后对WSDL基本都能大体了解了，这里也感谢一下作者。" class="headerlink" title="在继续往下之前你需要先去了解一些概念：SOAP、WSDL、CXF，和他们之间的关系。这里我觉得这个帖子比较好，推荐一下，Web Service笔记（三）：wsdl 与 soap协议详解 , 对XML或者HTML稍微有点了解看了这篇文章之后对WSDL基本都能大体了解了，这里也感谢一下作者。"></a>在继续往下之前你需要先去了解一些概念：SOAP、WSDL、CXF，和他们之间的关系。这里我觉得这个帖子比较好，推荐一下，Web Service笔记（三）：wsdl 与 soap协议详解 , 对XML或者HTML稍微有点了解看了这篇文章之后对WSDL基本都能大体了解了，这里也感谢一下作者。</h5><h5 id="假定现在你对它们有个大体的了解，SOAP请求就是你发一段XML给后台，然后后台返回数据给你，它是通用的，参数后台会在XML中提取，所以我们在这个过程中其实就是在于传的XML的内容，本文也会讲到中间遇到的一些细节。"><a href="#假定现在你对它们有个大体的了解，SOAP请求就是你发一段XML给后台，然后后台返回数据给你，它是通用的，参数后台会在XML中提取，所以我们在这个过程中其实就是在于传的XML的内容，本文也会讲到中间遇到的一些细节。" class="headerlink" title="假定现在你对它们有个大体的了解，SOAP请求就是你发一段XML给后台，然后后台返回数据给你，它是通用的，参数后台会在XML中提取，所以我们在这个过程中其实就是在于传的XML的内容，本文也会讲到中间遇到的一些细节。"></a>假定现在你对它们有个大体的了解，SOAP请求就是你发一段XML给后台，然后后台返回数据给你，它是通用的，参数后台会在XML中提取，所以我们在这个过程中其实就是在于传的XML的内容，本文也会讲到中间遇到的一些细节。</h5><h5 id="首先不要把它想的很复杂，弄通了封装一下，其实这种方式传的东西个人感觉和普通的GET-POST差不多，甚或更方便。WSDL文档由于我现在不在公司连不上服务器所以就不介绍"><a href="#首先不要把它想的很复杂，弄通了封装一下，其实这种方式传的东西个人感觉和普通的GET-POST差不多，甚或更方便。WSDL文档由于我现在不在公司连不上服务器所以就不介绍" class="headerlink" title="首先不要把它想的很复杂，弄通了封装一下，其实这种方式传的东西个人感觉和普通的GET/POST差不多，甚或更方便。WSDL文档由于我现在不在公司连不上服务器所以就不介绍"></a>首先不要把它想的很复杂，弄通了封装一下，其实这种方式传的东西个人感觉和普通的GET/POST差不多，甚或更方便。WSDL文档由于我现在不在公司连不上服务器所以就不介绍</h5><h3 id="首先XML内容，你的SOAP协议版本要和后台一致，不然后台报错会说版本不一致之类的，这里列出，请自行对比。"><a href="#首先XML内容，你的SOAP协议版本要和后台一致，不然后台报错会说版本不一致之类的，这里列出，请自行对比。" class="headerlink" title="首先XML内容，你的SOAP协议版本要和后台一致，不然后台报错会说版本不一致之类的，这里列出，请自行对比。"></a>首先XML内容，你的SOAP协议版本要和后台一致，不然后台报错会说版本不一致之类的，这里列出，请自行对比。</h3><h2 id="SOAP-1-1"><a href="#SOAP-1-1" class="headerlink" title="SOAP 1.1"></a>SOAP 1.1</h2><h3 id="以下是-SOAP-1-1-请求和响应示例。所显示的占位符需替换为实际值。"><a href="#以下是-SOAP-1-1-请求和响应示例。所显示的占位符需替换为实际值。" class="headerlink" title="以下是 SOAP 1.1 请求和响应示例。所显示的占位符需替换为实际值。"></a>以下是 SOAP 1.1 请求和响应示例。所显示的占位符需替换为实际值。</h3><ul>
+        <h5 id="好吧，标题有点拗口。我平时一般不发帖子，因为感觉太花时间了，还是喜欢宅着研究技术。但这个帖子网上资料还是没有很详细的，周末了明天休息，所以现在写下来总结一下，也希望能帮助有这方面需求的开发者朋友，如果错误之处还请谅解，欢迎指出。排版大家就不要在意了，我也不清楚这个支不支持markdown，就直接手动简单排一下。"><a href="#好吧，标题有点拗口。我平时一般不发帖子，因为感觉太花时间了，还是喜欢宅着研究技术。但这个帖子网上资料还是没有很详细的，周末了明天休息，所以现在写下来总结一下，也希望能帮助有这方面需求的开发者朋友，如果错误之处还请谅解，欢迎指出。排版大家就不要在意了，我也不清楚这个支不支持markdown，就直接手动简单排一下。" class="headerlink" title="好吧，标题有点拗口。我平时一般不发帖子，因为感觉太花时间了，还是喜欢宅着研究技术。但这个帖子网上资料还是没有很详细的，周末了明天休息，所以现在写下来总结一下，也希望能帮助有这方面需求的开发者朋友，如果错误之处还请谅解，欢迎指出。排版大家就不要在意了，我也不清楚这个支不支持markdown，就直接手动简单排一下。"></a>好吧，标题有点拗口。我平时一般不发帖子，因为感觉太花时间了，还是喜欢宅着研究技术。但这个帖子网上资料还是没有很详细的，周末了明天休息，所以现在写下来总结一下，也希望能帮助有这方面需求的开发者朋友，如果错误之处还请谅解，欢迎指出。排版大家就不要在意了，我也不清楚这个支不支持markdown，就直接手动简单排一下。</h5><h5 id="进入主题，最近公司做一个新项目，后台是webService，要做iOS版本的客户端，由于我以前不怎么了解这方面，所以云里雾里得摸索了两天，因为后台人员也不清楚我具体要传什么给他，所以。。。。我就两边跑。。。。最终我确定问题还是在于后端，今天上午完美解决，对webService和WSDL以及CXF有了个大概的了解。"><a href="#进入主题，最近公司做一个新项目，后台是webService，要做iOS版本的客户端，由于我以前不怎么了解这方面，所以云里雾里得摸索了两天，因为后台人员也不清楚我具体要传什么给他，所以。。。。我就两边跑。。。。最终我确定问题还是在于后端，今天上午完美解决，对webService和WSDL以及CXF有了个大概的了解。" class="headerlink" title="进入主题，最近公司做一个新项目，后台是webService，要做iOS版本的客户端，由于我以前不怎么了解这方面，所以云里雾里得摸索了两天，因为后台人员也不清楚我具体要传什么给他，所以。。。。我就两边跑。。。。最终我确定问题还是在于后端，今天上午完美解决，对webService和WSDL以及CXF有了个大概的了解。"></a>进入主题，最近公司做一个新项目，后台是webService，要做iOS版本的客户端，由于我以前不怎么了解这方面，所以云里雾里得摸索了两天，因为后台人员也不清楚我具体要传什么给他，所以。。。。我就两边跑。。。。最终我确定问题还是在于后端，今天上午完美解决，对webService和WSDL以及CXF有了个大概的了解。</h5><h5 id="我就不做过多的概念介绍了，我很懒不愿复制粘贴，只要说一些细节让大家少走弯路就可以。"><a href="#我就不做过多的概念介绍了，我很懒不愿复制粘贴，只要说一些细节让大家少走弯路就可以。" class="headerlink" title="我就不做过多的概念介绍了，我很懒不愿复制粘贴，只要说一些细节让大家少走弯路就可以。"></a>我就不做过多的概念介绍了，我很懒不愿复制粘贴，只要说一些细节让大家少走弯路就可以。</h5><h5 id="在继续往下之前你需要先去了解一些概念：SOAP、WSDL、CXF，和他们之间的关系。这里我觉得这个帖子比较好，推荐一下，Web-Service笔记（三）：wsdl-与-soap协议详解-对XML或者HTML稍微有点了解看了这篇文章之后对WSDL基本都能大体了解了，这里也感谢一下作者。"><a href="#在继续往下之前你需要先去了解一些概念：SOAP、WSDL、CXF，和他们之间的关系。这里我觉得这个帖子比较好，推荐一下，Web-Service笔记（三）：wsdl-与-soap协议详解-对XML或者HTML稍微有点了解看了这篇文章之后对WSDL基本都能大体了解了，这里也感谢一下作者。" class="headerlink" title="在继续往下之前你需要先去了解一些概念：SOAP、WSDL、CXF，和他们之间的关系。这里我觉得这个帖子比较好，推荐一下，Web Service笔记（三）：wsdl 与 soap协议详解 , 对XML或者HTML稍微有点了解看了这篇文章之后对WSDL基本都能大体了解了，这里也感谢一下作者。"></a>在继续往下之前你需要先去了解一些概念：SOAP、WSDL、CXF，和他们之间的关系。这里我觉得这个帖子比较好，推荐一下，Web Service笔记（三）：wsdl 与 soap协议详解 , 对XML或者HTML稍微有点了解看了这篇文章之后对WSDL基本都能大体了解了，这里也感谢一下作者。</h5><h5 id="假定现在你对它们有个大体的了解，SOAP请求就是你发一段XML给后台，然后后台返回数据给你，它是通用的，参数后台会在XML中提取，所以我们在这个过程中其实就是在于传的XML的内容，本文也会讲到中间遇到的一些细节。"><a href="#假定现在你对它们有个大体的了解，SOAP请求就是你发一段XML给后台，然后后台返回数据给你，它是通用的，参数后台会在XML中提取，所以我们在这个过程中其实就是在于传的XML的内容，本文也会讲到中间遇到的一些细节。" class="headerlink" title="假定现在你对它们有个大体的了解，SOAP请求就是你发一段XML给后台，然后后台返回数据给你，它是通用的，参数后台会在XML中提取，所以我们在这个过程中其实就是在于传的XML的内容，本文也会讲到中间遇到的一些细节。"></a>假定现在你对它们有个大体的了解，SOAP请求就是你发一段XML给后台，然后后台返回数据给你，它是通用的，参数后台会在XML中提取，所以我们在这个过程中其实就是在于传的XML的内容，本文也会讲到中间遇到的一些细节。</h5><h5 id="首先不要把它想的很复杂，弄通了封装一下，其实这种方式传的东西个人感觉和普通的GET-POST差不多，甚或更方便。WSDL文档由于我现在不在公司连不上服务器所以就不介绍"><a href="#首先不要把它想的很复杂，弄通了封装一下，其实这种方式传的东西个人感觉和普通的GET-POST差不多，甚或更方便。WSDL文档由于我现在不在公司连不上服务器所以就不介绍" class="headerlink" title="首先不要把它想的很复杂，弄通了封装一下，其实这种方式传的东西个人感觉和普通的GET/POST差不多，甚或更方便。WSDL文档由于我现在不在公司连不上服务器所以就不介绍"></a>首先不要把它想的很复杂，弄通了封装一下，其实这种方式传的东西个人感觉和普通的GET/POST差不多，甚或更方便。WSDL文档由于我现在不在公司连不上服务器所以就不介绍</h5><h3 id="首先XML内容，你的SOAP协议版本要和后台一致，不然后台报错会说版本不一致之类的，这里列出，请自行对比。"><a href="#首先XML内容，你的SOAP协议版本要和后台一致，不然后台报错会说版本不一致之类的，这里列出，请自行对比。" class="headerlink" title="首先XML内容，你的SOAP协议版本要和后台一致，不然后台报错会说版本不一致之类的，这里列出，请自行对比。"></a>首先XML内容，你的SOAP协议版本要和后台一致，不然后台报错会说版本不一致之类的，这里列出，请自行对比。</h3><h2 id="SOAP-1-1"><a href="#SOAP-1-1" class="headerlink" title="SOAP 1.1"></a>SOAP 1.1</h2><h3 id="以下是-SOAP-1-1-请求和响应示例。所显示的占位符需替换为实际值。"><a href="#以下是-SOAP-1-1-请求和响应示例。所显示的占位符需替换为实际值。" class="headerlink" title="以下是 SOAP 1.1 请求和响应示例。所显示的占位符需替换为实际值。"></a>以下是 SOAP 1.1 请求和响应示例。所显示的占位符需替换为实际值。</h3><ul>
 <li>请求</li>
 </ul>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">POST /WebServices/MobileCodeWS.asmx HTTP/1.1</div><div class="line">Host: webservice.webxml.com.cn</div><div class="line">Content-Type: text/xml; charset=utf-8</div><div class="line">Content-Length: length</div><div class="line">SOAPAction: &quot;http://WebXml.com.cn/getMobileCodeInfo&quot;</div><div class="line"></div><div class="line"></div><div class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</div><div class="line">&lt;soap:Envelope xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot; xmlns:xsd=&quot;http://www.w3.org/2001/XMLSchema&quot; xmlns:soap=&quot;http://schemas.xmlsoap.org/soap/envelope/&quot;&gt;</div><div class="line">  &lt;soap:Body&gt;</div><div class="line">    &lt;getMobileCodeInfo xmlns=&quot;http://WebXml.com.cn/&quot;&gt;</div><div class="line">      &lt;mobileCode&gt;string&lt;/mobileCode&gt;</div><div class="line">      &lt;userID&gt;string&lt;/userID&gt;</div><div class="line">    &lt;/getMobileCodeInfo&gt;</div><div class="line">  &lt;/soap:Body&gt;</div><div class="line">&lt;/soap:Envelope&gt;</div></pre></td></tr></table></figure>
@@ -1371,42 +446,76 @@
 <p>Author: CoderJay <br>如需转载，请注明出处</p>
 </blockquote>
 
-          
+      
+    </div>
+
+    <div>
+      
         
+
       
     </div>
 
     <div>
       
-    </div>
+        
 
-    <div>
       
     </div>
 
     <div>
+      
+        
+
       
     </div>
 
     <footer class="post-footer">
       
-
+        <div class="post-tags">
+          
+            <a href="/tags/AFN/" rel="tag"># AFN</a>
+          
+            <a href="/tags/Soap/" rel="tag"># Soap</a>
+          
+            <a href="/tags/WebService/" rel="tag"># WebService</a>
+          
+        </div>
       
 
       
+        
+      
 
       
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/12/16/Mac查看CPU具体型号/" rel="prev" title="Mac查看CPU具体型号">
+                Mac查看CPU具体型号 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
       
-        <div class="post-eof"></div>
+
+      
       
     </footer>
   </article>
 
 
-    
-  </section>
 
-  
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
           
           </div>
@@ -1414,6 +523,14 @@
 
 
           
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/01/10/OC用AFN做Soap请求webService/"
+           data-title="OC用AFN做Soap请求webService" data-url="https://wangwanjie.github.io/2016/01/10/OC用AFN做Soap请求webService/">
+      </div>
+    
+  </div>
+
 
         </div>
         
@@ -1433,8 +550,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/head.png"
@@ -1503,6 +629,22 @@
 
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-5"><a class="nav-link" href="#好吧，标题有点拗口。我平时一般不发帖子，因为感觉太花时间了，还是喜欢宅着研究技术。但这个帖子网上资料还是没有很详细的，周末了明天休息，所以现在写下来总结一下，也希望能帮助有这方面需求的开发者朋友，如果错误之处还请谅解，欢迎指出。排版大家就不要在意了，我也不清楚这个支不支持markdown，就直接手动简单排一下。"><span class="nav-number">1.</span> <span class="nav-text">好吧，标题有点拗口。我平时一般不发帖子，因为感觉太花时间了，还是喜欢宅着研究技术。但这个帖子网上资料还是没有很详细的，周末了明天休息，所以现在写下来总结一下，也希望能帮助有这方面需求的开发者朋友，如果错误之处还请谅解，欢迎指出。排版大家就不要在意了，我也不清楚这个支不支持markdown，就直接手动简单排一下。</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#进入主题，最近公司做一个新项目，后台是webService，要做iOS版本的客户端，由于我以前不怎么了解这方面，所以云里雾里得摸索了两天，因为后台人员也不清楚我具体要传什么给他，所以。。。。我就两边跑。。。。最终我确定问题还是在于后端，今天上午完美解决，对webService和WSDL以及CXF有了个大概的了解。"><span class="nav-number">2.</span> <span class="nav-text">进入主题，最近公司做一个新项目，后台是webService，要做iOS版本的客户端，由于我以前不怎么了解这方面，所以云里雾里得摸索了两天，因为后台人员也不清楚我具体要传什么给他，所以。。。。我就两边跑。。。。最终我确定问题还是在于后端，今天上午完美解决，对webService和WSDL以及CXF有了个大概的了解。</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#我就不做过多的概念介绍了，我很懒不愿复制粘贴，只要说一些细节让大家少走弯路就可以。"><span class="nav-number">3.</span> <span class="nav-text">我就不做过多的概念介绍了，我很懒不愿复制粘贴，只要说一些细节让大家少走弯路就可以。</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#在继续往下之前你需要先去了解一些概念：SOAP、WSDL、CXF，和他们之间的关系。这里我觉得这个帖子比较好，推荐一下，Web-Service笔记（三）：wsdl-与-soap协议详解-对XML或者HTML稍微有点了解看了这篇文章之后对WSDL基本都能大体了解了，这里也感谢一下作者。"><span class="nav-number">4.</span> <span class="nav-text">在继续往下之前你需要先去了解一些概念：SOAP、WSDL、CXF，和他们之间的关系。这里我觉得这个帖子比较好，推荐一下，Web Service笔记（三）：wsdl 与 soap协议详解 , 对XML或者HTML稍微有点了解看了这篇文章之后对WSDL基本都能大体了解了，这里也感谢一下作者。</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#假定现在你对它们有个大体的了解，SOAP请求就是你发一段XML给后台，然后后台返回数据给你，它是通用的，参数后台会在XML中提取，所以我们在这个过程中其实就是在于传的XML的内容，本文也会讲到中间遇到的一些细节。"><span class="nav-number">5.</span> <span class="nav-text">假定现在你对它们有个大体的了解，SOAP请求就是你发一段XML给后台，然后后台返回数据给你，它是通用的，参数后台会在XML中提取，所以我们在这个过程中其实就是在于传的XML的内容，本文也会讲到中间遇到的一些细节。</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#首先不要把它想的很复杂，弄通了封装一下，其实这种方式传的东西个人感觉和普通的GET-POST差不多，甚或更方便。WSDL文档由于我现在不在公司连不上服务器所以就不介绍"><span class="nav-number">6.</span> <span class="nav-text">首先不要把它想的很复杂，弄通了封装一下，其实这种方式传的东西个人感觉和普通的GET/POST差不多，甚或更方便。WSDL文档由于我现在不在公司连不上服务器所以就不介绍</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#首先XML内容，你的SOAP协议版本要和后台一致，不然后台报错会说版本不一致之类的，这里列出，请自行对比。"><span class="nav-number"></span> <span class="nav-text">首先XML内容，你的SOAP协议版本要和后台一致，不然后台报错会说版本不一致之类的，这里列出，请自行对比。</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SOAP-1-1"><span class="nav-number"></span> <span class="nav-text">SOAP 1.1</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#以下是-SOAP-1-1-请求和响应示例。所显示的占位符需替换为实际值。"><span class="nav-number"></span> <span class="nav-text">以下是 SOAP 1.1 请求和响应示例。所显示的占位符需替换为实际值。</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SOAP-1-2"><span class="nav-number"></span> <span class="nav-text">SOAP 1.2</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#以下是-SOAP-1-2-请求和响应示例。所显示的占位符需替换为实际值。"><span class="nav-number"></span> <span class="nav-text">以下是 SOAP 1.2 请求和响应示例。所显示的占位符需替换为实际值。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#直接说注意点，拿SOAP-1-1-请求做例子，要传的XML文档为"><span class="nav-number"></span> <span class="nav-text">直接说注意点，拿SOAP 1.1 请求做例子，要传的XML文档为:</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#对应的WSDL中该operation的input下也应该有两个name就是mobileCode和userID，注意-WebParam-name-”mobileCode”-name-”userID”-不能少，这个注解让后台认识参数名，少了后台会一直报unexpected-element-，我们后台一开始就少了这个，搞了很久。这种情况是参数分开传的情况，有的后台的参数直接一个request，但是里面包含有几个键值对也其实就是相当于几个参数，刚接触的新手在这里很容易绕弯，比如我后台有这个个方法-public-login-WebParam-name-”req”-String-req-，很明显这里只接一个参数，而且叫做req，但是这个请求就是需要账户名和密码，所以在对应的xml中文档应这样写body中内容"><span class="nav-number">1.</span> <span class="nav-text">对应的WSDL中该operation的input下也应该有两个name就是mobileCode和userID，注意@WebParam(name=”mobileCode” , name=”userID”) 不能少，这个注解让后台认识参数名，少了后台会一直报unexpected element ，我们后台一开始就少了这个，搞了很久。这种情况是参数分开传的情况，有的后台的参数直接一个request，但是里面包含有几个键值对也其实就是相当于几个参数，刚接触的新手在这里很容易绕弯，比如我后台有这个个方法  public login (WebParam(name=”req” ) String req) ，很明显这里只接一个参数，而且叫做req，但是这个请求就是需要账户名和密码，所以在对应的xml中文档应这样写body中内容</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#最后请求地址就是你的wsdl文档中的Endpoint-address地址，请求体就是该XML，发个POST请求就完事啦，这里又有事了，本人是强迫症，因为一开始就用的AFN请求，咋请求咋报错，于是跟着网上找的DEMO换NSURLConnection，一不小心成功了一次，但是这个iOS已经废弃了不喜欢，于是用NSURLSession，恩也成功了，但是还是感觉好麻烦，发个NSURLSession请求soap的代码"><span class="nav-number">2.</span> <span class="nav-text">最后请求地址就是你的wsdl文档中的Endpoint address地址，请求体就是该XML，发个POST请求就完事啦，这里又有事了，本人是强迫症，因为一开始就用的AFN请求，咋请求咋报错，于是跟着网上找的DEMO换NSURLConnection，一不小心成功了一次，但是这个iOS已经废弃了不喜欢，于是用NSURLSession，恩也成功了，但是还是感觉好麻烦，发个NSURLSession请求soap的代码:</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#经过和后台七改八改都无果，我干脆自己了解这些文档规范，在上午确定我操作没错之后，直接说后台那边有问题，然后后台改，重启服务器我请求没有任何进展，最后竟然是什么问题你们知道么。。前一天其实我已经传对了XML，只是后台改动的代码放错了地方，只放到了正式服没有放测试服，我也是，，，醉了，，不过也好，要是那么顺畅我就不会去过多了解这方面了。"><span class="nav-number">3.</span> <span class="nav-text">经过和后台七改八改都无果，我干脆自己了解这些文档规范，在上午确定我操作没错之后，直接说后台那边有问题，然后后台改，重启服务器我请求没有任何进展，最后竟然是什么问题你们知道么。。前一天其实我已经传对了XML，只是后台改动的代码放错了地方，只放到了正式服没有放测试服，我也是，，，醉了，，不过也好，要是那么顺畅我就不会去过多了解这方面了。</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#好了，要传什么，注意点都讲了，现在到了客户端的问题，用官方SDK请求是不是感觉很麻烦？是的，对于用惯了AFN或者自己封装的网络请求工具类的人来说如果每次都要写这多么代码发一次请求太痛苦了，于是我想可不可以用AFN请求SOAP，一开始想用manager发请求，直接把XML当params发POST肯定是直接挂了，于是想要设置HTTPBody要不用AFHTTPRequestOperation？没错这样确实可以，代码如下："><span class="nav-number">4.</span> <span class="nav-text">好了，要传什么，注意点都讲了，现在到了客户端的问题，用官方SDK请求是不是感觉很麻烦？是的，对于用惯了AFN或者自己封装的网络请求工具类的人来说如果每次都要写这多么代码发一次请求太痛苦了，于是我想可不可以用AFN请求SOAP，一开始想用manager发请求，直接把XML当params发POST肯定是直接挂了，于是想要设置HTTPBody要不用AFHTTPRequestOperation？没错这样确实可以，代码如下：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#这一看感觉和NSURLSession没多大差别，还是想用manager，关键问题就在于设置request的HTTBbody为XML，但是AFHTTPSessionManager已经把request封装了，默认用的params，怎么改？于是想改动或者添加AFN内部方法，但是总感觉这样不好，万一更新库了又要搞一遍。于是想能否拦截这个request，或者通过manager-requestSerializer设置HTTPBody，敲set浏览一下没有HTTPBody字眼的，用KVC也不行，那样还是相当于把XML当params传了，伤心绝望之时看到这个方法"><span class="nav-number">5.</span> <span class="nav-text">这一看感觉和NSURLSession没多大差别，还是想用manager，关键问题就在于设置request的HTTBbody为XML，但是AFHTTPSessionManager已经把request封装了，默认用的params，怎么改？于是想改动或者添加AFN内部方法，但是总感觉这样不好，万一更新库了又要搞一遍。于是想能否拦截这个request，或者通过manager.requestSerializer设置HTTPBody，敲set浏览一下没有HTTPBody字眼的，用KVC也不行，那样还是相当于把XML当params传了，伤心绝望之时看到这个方法:</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#一看里面有request-有-params-高兴了，说不定在这里能拦截，于是直接写"><span class="nav-number">6.</span> <span class="nav-text">一看里面有request 有 params 高兴了，说不定在这里能拦截，于是直接写</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#请求成功，happy。"><span class="nav-number">7.</span> <span class="nav-text">请求成功，happy。</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#接下来另一个问题了，简单封装一下，我收到的是二进制，所以把AFN封装成了个工具类，供大家参考，欢迎提出改进"><span class="nav-number">8.</span> <span class="nav-text">接下来另一个问题了，简单封装一下，我收到的是二进制，所以把AFN封装成了个工具类，供大家参考，欢迎提出改进</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#差不多了，如果有什么问题指正欢迎大家留言。排版真的很丑，大家见谅，洗洗睡了。"><span class="nav-number"></span> <span class="nav-text">差不多了，如果有什么问题指正欢迎大家留言。排版真的很丑，大家见谅，洗洗睡了。</span></a></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -1615,6 +757,10 @@
 
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
 
   
 
