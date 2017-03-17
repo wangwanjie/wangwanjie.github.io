@@ -3,6 +3,13 @@
   
     
     <entry>
+      <title><![CDATA[Hexo 中为多说添加最近访客]]></title>
+      <url>%2F2017%2F03%2F17%2FHexo-%E4%B8%AD%E4%B8%BA%E5%A4%9A%E8%AF%B4%E6%B7%BB%E5%8A%A0%E6%9C%80%E8%BF%91%E8%AE%BF%E5%AE%A2%2F</url>
+      <content type="text"><![CDATA[添加自定义样式到多说后台管理-&gt;设置-&gt;基本设置-&gt;自定义css中添加如下css样式： 1234567891011121314151617181920212223242526272829303132333435363738#ds-reset .ds-avatar img,#ds-recent-visitors .ds-avatar img &#123;width: 54px;height: 54px; /*设置图像的长和宽，这里要根据自己的评论框情况更改*/border-radius: 27px; /*设置图像圆角效果,在这里我直接设置了超过width/2的像素，即为圆形了*/-webkit-border-radius: 27px; /*圆角效果：兼容webkit浏览器*/-moz-border-radius: 27px;box-shadow: inset 0 -1px 0 #3333sf; /*设置图像阴影效果*/-webkit-box-shadow: inset 0 -1px 0 #3333sf;-webkit-transition: 0.4s;-webkit-transition: -webkit-transform 0.4s ease-out;transition: transform 0.4s ease-out; /*变化时间设置为0.4秒(变化动作即为下面的图像旋转360读）*/-moz-transition: -moz-transform 0.4s ease-out;&#125;#ds-reset .ds-avatar img:hover,#ds-recent-visitors .ds-avatar img:hover &#123;/*设置鼠标悬浮在头像时的CSS样式*/ box-shadow: 0 0 10px #fff;rgba(255, 255, 255, .6), inset 0 0 20px rgba(255, 255, 255, 1);-webkit-box-shadow: 0 0 10px #fff;rgba(255, 255, 255, .6), inset 0 0 20px rgba(255, 255, 255, 1);transform: rotateZ(360deg); /*图像旋转360度*/-webkit-transform: rotateZ(360deg);-moz-transform: rotateZ(360deg);&#125;/*#ds-thread #ds-reset .ds-textarea-wrapper textarea &#123;background: url(http://www.wuxubj.cn/images/duoshuo_bkground.jpg) right no-repeat;&#125;*/#ds-recent-visitors .ds-avatar &#123;float: left&#125;/*隐藏多说底部版权*/#ds-thread #ds-reset .ds-powered-by &#123;display: none;&#125; 添加 dom在需要添加最近访客的网页对应的 markdown 文件中添加如下代码： 123&gt; 最近访客&lt;div class=&quot;ds-recent-visitors&quot; data-num-items=&quot;28&quot; data-avatar-size=&quot;42&quot; id=&quot;ds-recent-visitors&quot;&gt;&lt;/div&gt;&lt;br/&gt; 最近访客]]></content>
+    </entry>
+
+    
+    <entry>
       <title><![CDATA[动态加载javascript]]></title>
       <url>%2F2017%2F03%2F09%2F%E5%8A%A8%E6%80%81%E5%8A%A0%E8%BD%BDjavascript%2F</url>
       <content type="text"><![CDATA[12345678910111213141516171819202122232425262728// 另外一个独立的动态加载js的函数function loadJs(jsurl, head, callback) &#123; var script = document.createElement(script); script.setAttribute(&quot;type&quot;, &quot;text/javascript&quot;); if(callback) &#123; if(script.readyState) &#123; //IE script.onreadystatechange = function() &#123; if(script.readyState == &quot;loaded&quot; || script.readyState == &quot;complete&quot;) &#123; script.onreadystatechange = null; callback(); &#125; &#125;; &#125; else &#123; //Others script.onload = function() &#123; callback(); &#125;; &#125; &#125; script.setAttribute(&quot;src&quot;, jsurl); if(head) document.getElementsByTagName(head)[0].appendChild(script); else &#123; document.body.appendChild(script); &#125;&#125;]]></content>
@@ -19,7 +26,7 @@
     <entry>
       <title><![CDATA[给包签名]]></title>
       <url>%2F2017%2F02%2F08%2F%E7%BB%99%E5%8C%85%E7%AD%BE%E5%90%8D%2F</url>
-      <content type="text"><![CDATA[查看可用签名1security find-identity -v -p codesigning 签名1codesign --force --verify --verbose --sign &quot;iPhone Developer: 396736694@qq.com (Z4965JH2C8)” 目标包]]></content>
+      <content type="text"><![CDATA[查看可用签名1security find-identity -v -p codesigning 签名1codesign --force --verify --verbose --sign &quot;iPhone Developer: 396736694@qq.com (Z4965JH2C8)” 目标包 最近访客]]></content>
     </entry>
 
     
