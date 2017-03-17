@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://wangwanjie.github.io/"/>
-  <updated>2017-03-17T03:21:34.000Z</updated>
+  <updated>2017-03-17T07:16:13.000Z</updated>
   <id>https://wangwanjie.github.io/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="https://wangwanjie.github.io/2017/03/09/%E5%8A%A8%E6%80%81%E5%8A%A0%E8%BD%BDjavascript/"/>
     <id>https://wangwanjie.github.io/2017/03/09/动态加载javascript/</id>
     <published>2017-03-09T02:50:55.000Z</published>
-    <updated>2017-03-17T03:21:34.000Z</updated>
+    <updated>2017-03-17T07:16:13.000Z</updated>
     
     <content type="html"><![CDATA[<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line">// 另外一个独立的动态加载js的函数</div><div class="line">function loadJs(jsurl, head, callback) &#123;</div><div class="line">	var script = document.createElement(script);</div><div class="line">	script.setAttribute(&quot;type&quot;, &quot;text/javascript&quot;);</div><div class="line"></div><div class="line">	if(callback) &#123;</div><div class="line">		if(script.readyState) &#123; //IE</div><div class="line">			script.onreadystatechange = function() &#123;</div><div class="line">				if(script.readyState == &quot;loaded&quot; ||</div><div class="line">					script.readyState == &quot;complete&quot;) &#123;</div><div class="line">					script.onreadystatechange = null;</div><div class="line">					callback();</div><div class="line">				&#125;</div><div class="line">			&#125;;</div><div class="line">		&#125; else &#123; //Others</div><div class="line">			script.onload = function() &#123;</div><div class="line">				callback();</div><div class="line">			&#125;;</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">	script.setAttribute(&quot;src&quot;, jsurl);</div><div class="line"></div><div class="line">	if(head)</div><div class="line">		document.getElementsByTagName(head)[0].appendChild(script);</div><div class="line">	else &#123;</div><div class="line">		document.body.appendChild(script);</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 ]]></content>
@@ -43,11 +43,12 @@
     <link href="https://wangwanjie.github.io/2017/02/08/%E5%88%A9%E7%94%A8dumpdecrypted%E7%A0%B8%E5%A3%B3/"/>
     <id>https://wangwanjie.github.io/2017/02/08/利用dumpdecrypted砸壳/</id>
     <published>2017-02-08T09:34:03.000Z</published>
-    <updated>2017-03-17T03:43:48.000Z</updated>
+    <updated>2017-03-17T07:14:07.000Z</updated>
     
     <content type="html"><![CDATA[<p>1、编译生成</p>
 <p><code>dumpdecrypted.dylib</code></p>
 <p>2、给生成的 <code>dumpdecrypted.dylib</code> 签名</p>
+<a id="more"></a>
 <p>3、ssh到手机，<code>ps aux | grep</code> 目标APP查看APP安装目录</p>
 <p>4、（可忽略这步）<code>cycript -p</code> 目标 APP，执行 <code>[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask][0]</code><br> 查看沙盒目录</p>
 <p>5、将 <code>dumpdecrypted.dylib</code>拷贝 <code>/var/tmp</code>，进入 <code>/var/tmp</code></p>
@@ -60,7 +61,6 @@
       &lt;p&gt;1、编译生成&lt;/p&gt;
 &lt;p&gt;&lt;code&gt;dumpdecrypted.dylib&lt;/code&gt;&lt;/p&gt;
 &lt;p&gt;2、给生成的 &lt;code&gt;dumpdecrypted.dylib&lt;/code&gt; 签名&lt;/p&gt;
-&lt;p&gt;3、ssh到手机，&lt;code&gt;ps aux | grep&lt;/cod
     
     </summary>
     
@@ -80,7 +80,7 @@
     <link href="https://wangwanjie.github.io/2017/02/08/%E7%BB%99%E5%8C%85%E7%AD%BE%E5%90%8D/"/>
     <id>https://wangwanjie.github.io/2017/02/08/给包签名/</id>
     <published>2017-02-08T05:45:09.000Z</published>
-    <updated>2017-03-17T03:43:07.000Z</updated>
+    <updated>2017-03-17T07:14:09.000Z</updated>
     
     <content type="html"><![CDATA[<ol>
 <li>查看可用签名</li>
@@ -115,7 +115,7 @@
     <link href="https://wangwanjie.github.io/2017/01/11/%E4%BC%81%E4%B8%9A%E5%86%85%E9%83%A8%E5%BA%94%E7%94%A8%E5%88%86%E5%8F%91/"/>
     <id>https://wangwanjie.github.io/2017/01/11/企业内部应用分发/</id>
     <published>2017-01-11T12:52:03.000Z</published>
-    <updated>2017-03-17T04:48:04.000Z</updated>
+    <updated>2017-03-17T07:14:23.000Z</updated>
     
     <content type="html"><![CDATA[<blockquote>
 <p>iOS 支持以无线方式安装企业内部应用，而无需使用 iTunes 或 App Store。</p>
@@ -123,7 +123,8 @@
 <h4 id="无线安装要求："><a href="#无线安装要求：" class="headerlink" title="无线安装要求："></a>无线安装要求：</h4><pre><code>1. XML 清单文件（一个 plist 配置文件）
 2. 可让设备访问 Apple iTunes 服务器的网络配置（设备要能连接互联网，因为要校验）
 3. 对于 iOS 7.1 或更高版本， plist 文件和 ipa 文件需要放在 HTTPS 的服务器上
-</code></pre><h6 id="为了安装应用，用户使用特殊的-URL-前缀从您的网站上下载plist清单文件，您可以分发该特殊前缀的URL给用户或者放置于可供用户访问的互联网上。"><a href="#为了安装应用，用户使用特殊的-URL-前缀从您的网站上下载plist清单文件，您可以分发该特殊前缀的URL给用户或者放置于可供用户访问的互联网上。" class="headerlink" title="为了安装应用，用户使用特殊的 URL 前缀从您的网站上下载plist清单文件，您可以分发该特殊前缀的URL给用户或者放置于可供用户访问的互联网上。"></a>为了安装应用，用户使用特殊的 URL 前缀从您的网站上下载plist清单文件，您可以分发该特殊前缀的URL给用户或者放置于可供用户访问的互联网上。</h6><h4 id="准备分发企业内部应用"><a href="#准备分发企业内部应用" class="headerlink" title="准备分发企业内部应用:"></a>准备分发企业内部应用:</h4><pre><code>1.    创建应用的归档，格式为 *.ipa 格式，并且归档中包括企业内部预置描述文件，且使用分发证书签名；
+</code></pre><h6 id="为了安装应用，用户使用特殊的-URL-前缀从您的网站上下载plist清单文件，您可以分发该特殊前缀的URL给用户或者放置于可供用户访问的互联网上。"><a href="#为了安装应用，用户使用特殊的-URL-前缀从您的网站上下载plist清单文件，您可以分发该特殊前缀的URL给用户或者放置于可供用户访问的互联网上。" class="headerlink" title="为了安装应用，用户使用特殊的 URL 前缀从您的网站上下载plist清单文件，您可以分发该特殊前缀的URL给用户或者放置于可供用户访问的互联网上。"></a>为了安装应用，用户使用特殊的 URL 前缀从您的网站上下载plist清单文件，您可以分发该特殊前缀的URL给用户或者放置于可供用户访问的互联网上。</h6><a id="more"></a>
+<h4 id="准备分发企业内部应用"><a href="#准备分发企业内部应用" class="headerlink" title="准备分发企业内部应用:"></a>准备分发企业内部应用:</h4><pre><code>1.    创建应用的归档，格式为 *.ipa 格式，并且归档中包括企业内部预置描述文件，且使用分发证书签名；
 2.    无线清单文件，您可以使用支持编辑 plist 文档的编辑器编写或者直接修改下面提供的范例，各字段意义范例中会写明；
 3.    可直接供内连网或互联网访问的 HTTPS 服务器。
 </code></pre><h4 id="关于无线-plist-清单文件"><a href="#关于无线-plist-清单文件" class="headerlink" title="关于无线 plist 清单文件"></a>关于无线 plist 清单文件</h4><h6 id="清单文件是一个-XML-plist-文件，可供-Apple-设备用来从您的-Web-服务器上查找、下载和安装应用。"><a href="#清单文件是一个-XML-plist-文件，可供-Apple-设备用来从您的-Web-服务器上查找、下载和安装应用。" class="headerlink" title="清单文件是一个 XML plist 文件，可供 Apple 设备用来从您的 Web 服务器上查找、下载和安装应用。"></a>清单文件是一个 XML plist 文件，可供 Apple 设备用来从您的 Web 服务器上查找、下载和安装应用。</h6><h4 id="以下栏是必填项："><a href="#以下栏是必填项：" class="headerlink" title="以下栏是必填项："></a><strong>以下栏是必填项：</strong></h4><pre><code>1. URL：应用 (*.ipa) 文件的完全限定 HTTPS URL
@@ -209,7 +210,11 @@
     
       &lt;blockquote&gt;
 &lt;p&gt;iOS 支持以无线方式安装企业内部应用，而无需使用 iTunes 或 App Store。&lt;/p&gt;
-&lt;h5 id=&quot;应用格式要求-ipa，并且使用企业内部预置描述文件进行构建，即经企业证书签名。&quot;&gt;&lt;a href=&quot;#应用格式要求-ipa，并且使用
+&lt;h5 id=&quot;应用格式要求-ipa，并且使用企业内部预置描述文件进行构建，即经企业证书签名。&quot;&gt;&lt;a href=&quot;#应用格式要求-ipa，并且使用企业内部预置描述文件进行构建，即经企业证书签名。&quot; class=&quot;headerlink&quot; title=&quot;应用格式要求:.ipa，并且使用企业内部预置描述文件进行构建，即经企业证书签名。&quot;&gt;&lt;/a&gt;应用格式要求:.ipa，并且使用企业内部预置描述文件进行构建，即经企业证书签名。&lt;/h5&gt;&lt;/blockquote&gt;
+&lt;h4 id=&quot;无线安装要求：&quot;&gt;&lt;a href=&quot;#无线安装要求：&quot; class=&quot;headerlink&quot; title=&quot;无线安装要求：&quot;&gt;&lt;/a&gt;无线安装要求：&lt;/h4&gt;&lt;pre&gt;&lt;code&gt;1. XML 清单文件（一个 plist 配置文件）
+2. 可让设备访问 Apple iTunes 服务器的网络配置（设备要能连接互联网，因为要校验）
+3. 对于 iOS 7.1 或更高版本， plist 文件和 ipa 文件需要放在 HTTPS 的服务器上
+&lt;/code&gt;&lt;/pre&gt;&lt;h6 id=&quot;为了安装应用，用户使用特殊的-URL-前缀从您的网站上下载plist清单文件，您可以分发该特殊前缀的URL给用户或者放置于可供用户访问的互联网上。&quot;&gt;&lt;a href=&quot;#为了安装应用，用户使用特殊的-URL-前缀从您的网站上下载plist清单文件，您可以分发该特殊前缀的URL给用户或者放置于可供用户访问的互联网上。&quot; class=&quot;headerlink&quot; title=&quot;为了安装应用，用户使用特殊的 URL 前缀从您的网站上下载plist清单文件，您可以分发该特殊前缀的URL给用户或者放置于可供用户访问的互联网上。&quot;&gt;&lt;/a&gt;为了安装应用，用户使用特殊的 URL 前缀从您的网站上下载plist清单文件，您可以分发该特殊前缀的URL给用户或者放置于可供用户访问的互联网上。&lt;/h6&gt;
     
     </summary>
     
@@ -250,10 +255,11 @@
     <link href="https://wangwanjie.github.io/2016/01/10/OC%E7%94%A8AFN%E5%81%9ASoap%E8%AF%B7%E6%B1%82webService/"/>
     <id>https://wangwanjie.github.io/2016/01/10/OC用AFN做Soap请求webService/</id>
     <published>2016-01-09T19:07:22.000Z</published>
-    <updated>2017-03-17T06:26:01.000Z</updated>
+    <updated>2017-03-17T07:14:45.000Z</updated>
     
     <content type="html"><![CDATA[<p>好吧，标题有点拗口。我平时一般不发帖子，因为感觉太花时间了，还是喜欢宅着研究技术。但这个帖子网上资料还是没有很详细的，周末了明天休息，所以现在写下来总结一下，也希望能帮助有这方面需求的开发者朋友，如果错误之处还请谅解，欢迎指出。排版大家就不要在意了，我也不清楚这个支不支持markdown，就直接手动简单排一下。</p>
 <p>进入主题，最近公司做一个新项目，后台是webService，要做iOS版本的客户端，由于我以前不怎么了解这方面，所以云里雾里得摸索了两天，因为后台人员也不清楚我具体要传什么给他，所以。。。。我就两边跑。。。。最终我确定问题还是在于后端，今天上午完美解决，对webService和WSDL以及CXF有了个大概的了解。</p>
+<a id="more"></a>
 <p>我就不做过多的概念介绍了，我很懒不愿复制粘贴，只要说一些细节让大家少走弯路就可以。</p>
 <p>在继续往下之前你需要先去了解一些概念：SOAP、WSDL、CXF，和他们之间的关系。这里我觉得这个帖子比较好，推荐一下，Web Service笔记（三）：wsdl 与 soap协议详解 , 对XML或者HTML稍微有点了解看了这篇文章之后对WSDL基本都能大体了解了，这里也感谢一下作者。</p>
 <p>假定现在你对它们有个大体的了解，SOAP请求就是你发一段XML给后台，然后后台返回数据给你，它是通用的，参数后台会在XML中提取，所以我们在这个过程中其实就是在于传的XML的内容，本文也会讲到中间遇到的一些细节。</p>
@@ -298,7 +304,8 @@
     
     <summary type="html">
     
-      &lt;p&gt;好吧，标题有点拗口。我平时一般不发帖子，因为感觉太花时间了，还是喜欢宅着研究技术。但这个帖子网上资料还是没有很详细的，周末了明天休息，所以现在写下来总结一下，也希望能帮助有这方面需求的开发者朋友，如果错误之处还请谅解，欢迎指出。排版大家就不要在意了，我也不清楚这个支不支持m
+      &lt;p&gt;好吧，标题有点拗口。我平时一般不发帖子，因为感觉太花时间了，还是喜欢宅着研究技术。但这个帖子网上资料还是没有很详细的，周末了明天休息，所以现在写下来总结一下，也希望能帮助有这方面需求的开发者朋友，如果错误之处还请谅解，欢迎指出。排版大家就不要在意了，我也不清楚这个支不支持markdown，就直接手动简单排一下。&lt;/p&gt;
+&lt;p&gt;进入主题，最近公司做一个新项目，后台是webService，要做iOS版本的客户端，由于我以前不怎么了解这方面，所以云里雾里得摸索了两天，因为后台人员也不清楚我具体要传什么给他，所以。。。。我就两边跑。。。。最终我确定问题还是在于后端，今天上午完美解决，对webService和WSDL以及CXF有了个大概的了解。&lt;/p&gt;
     
     </summary>
     
@@ -318,7 +325,7 @@
     <link href="https://wangwanjie.github.io/2015/10/06/ASI-%E5%92%8C-AFN-%E5%8C%BA%E5%88%AB/"/>
     <id>https://wangwanjie.github.io/2015/10/06/ASI-和-AFN-区别/</id>
     <published>2015-10-06T03:51:36.000Z</published>
-    <updated>2017-03-17T03:57:40.000Z</updated>
+    <updated>2017-03-17T07:14:34.000Z</updated>
     
     <content type="html"><![CDATA[<h3 id="一-底层实现"><a href="#一-底层实现" class="headerlink" title="一 底层实现"></a>一 底层实现</h3><ul>
 <li>AFN的底层基于OC的NSURLConnection和NSURLSession</li>
@@ -334,6 +341,7 @@
 </ul>
 </li>
 </ul>
+<a id="more"></a>
 <h3 id="三-监听请求的过程"><a href="#三-监听请求的过程" class="headerlink" title="三 监听请求的过程"></a>三 监听请求的过程</h3><ul>
 <li><p>AFN提供了success和failure两个block来监听请求的过程（只能监听成功和失败）</p>
 <ul>
@@ -379,7 +387,18 @@
     
       &lt;h3 id=&quot;一-底层实现&quot;&gt;&lt;a href=&quot;#一-底层实现&quot; class=&quot;headerlink&quot; title=&quot;一 底层实现&quot;&gt;&lt;/a&gt;一 底层实现&lt;/h3&gt;&lt;ul&gt;
 &lt;li&gt;AFN的底层基于OC的NSURLConnection和NSURLSession&lt;/li&gt;
-&lt;li
+&lt;li&gt;ASI的底层基于纯C语言的CFNetwork框架&lt;/li&gt;
+&lt;li&gt;ASI的运行性能 高于 AFN&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;二-对服务器返回的数据处理&quot;&gt;&lt;a href=&quot;#二-对服务器返回的数据处理&quot; class=&quot;headerlink&quot; title=&quot;二 对服务器返回的数据处理&quot;&gt;&lt;/a&gt;二 对服务器返回的数据处理&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;ASI没有直接提供对服务器数据处理的方式，直接返回data\string&lt;/li&gt;
+&lt;li&gt;AFN提供了多种对服务器数据处理的方式&lt;ul&gt;
+&lt;li&gt;JSON处理&lt;/li&gt;
+&lt;li&gt;XML处理&lt;/li&gt;
+&lt;li&gt;其他处理&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
     
     </summary>
     

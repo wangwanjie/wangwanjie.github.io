@@ -101,7 +101,7 @@
 无线安装要求：1. XML 清单文件（一个 plist 配置文件）
 2. 可让设备访问 Apple iTunes 服务器的网络配置（设备要能连接互联网，因为要校验）
 3. 对于 iOS 7.1 或更高版本， plist 文件">
-<meta property="og:updated_time" content="2017-03-17T04:48:04.000Z">
+<meta property="og:updated_time" content="2017-03-17T07:14:23.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="企业内部应用分发">
 <meta name="twitter:description" content="iOS 支持以无线方式安装企业内部应用，而无需使用 iTunes 或 App Store。
@@ -465,7 +465,8 @@
 <h4 id="无线安装要求："><a href="#无线安装要求：" class="headerlink" title="无线安装要求："></a>无线安装要求：</h4><pre><code>1. XML 清单文件（一个 plist 配置文件）
 2. 可让设备访问 Apple iTunes 服务器的网络配置（设备要能连接互联网，因为要校验）
 3. 对于 iOS 7.1 或更高版本， plist 文件和 ipa 文件需要放在 HTTPS 的服务器上
-</code></pre><h6 id="为了安装应用，用户使用特殊的-URL-前缀从您的网站上下载plist清单文件，您可以分发该特殊前缀的URL给用户或者放置于可供用户访问的互联网上。"><a href="#为了安装应用，用户使用特殊的-URL-前缀从您的网站上下载plist清单文件，您可以分发该特殊前缀的URL给用户或者放置于可供用户访问的互联网上。" class="headerlink" title="为了安装应用，用户使用特殊的 URL 前缀从您的网站上下载plist清单文件，您可以分发该特殊前缀的URL给用户或者放置于可供用户访问的互联网上。"></a>为了安装应用，用户使用特殊的 URL 前缀从您的网站上下载plist清单文件，您可以分发该特殊前缀的URL给用户或者放置于可供用户访问的互联网上。</h6><h4 id="准备分发企业内部应用"><a href="#准备分发企业内部应用" class="headerlink" title="准备分发企业内部应用:"></a>准备分发企业内部应用:</h4><pre><code>1.    创建应用的归档，格式为 *.ipa 格式，并且归档中包括企业内部预置描述文件，且使用分发证书签名；
+</code></pre><h6 id="为了安装应用，用户使用特殊的-URL-前缀从您的网站上下载plist清单文件，您可以分发该特殊前缀的URL给用户或者放置于可供用户访问的互联网上。"><a href="#为了安装应用，用户使用特殊的-URL-前缀从您的网站上下载plist清单文件，您可以分发该特殊前缀的URL给用户或者放置于可供用户访问的互联网上。" class="headerlink" title="为了安装应用，用户使用特殊的 URL 前缀从您的网站上下载plist清单文件，您可以分发该特殊前缀的URL给用户或者放置于可供用户访问的互联网上。"></a>为了安装应用，用户使用特殊的 URL 前缀从您的网站上下载plist清单文件，您可以分发该特殊前缀的URL给用户或者放置于可供用户访问的互联网上。</h6><a id="more"></a>
+<h4 id="准备分发企业内部应用"><a href="#准备分发企业内部应用" class="headerlink" title="准备分发企业内部应用:"></a>准备分发企业内部应用:</h4><pre><code>1.    创建应用的归档，格式为 *.ipa 格式，并且归档中包括企业内部预置描述文件，且使用分发证书签名；
 2.    无线清单文件，您可以使用支持编辑 plist 文档的编辑器编写或者直接修改下面提供的范例，各字段意义范例中会写明；
 3.    可直接供内连网或互联网访问的 HTTPS 服务器。
 </code></pre><h4 id="关于无线-plist-清单文件"><a href="#关于无线-plist-清单文件" class="headerlink" title="关于无线 plist 清单文件"></a>关于无线 plist 清单文件</h4><h6 id="清单文件是一个-XML-plist-文件，可供-Apple-设备用来从您的-Web-服务器上查找、下载和安装应用。"><a href="#清单文件是一个-XML-plist-文件，可供-Apple-设备用来从您的-Web-服务器上查找、下载和安装应用。" class="headerlink" title="清单文件是一个 XML plist 文件，可供 Apple 设备用来从您的 Web 服务器上查找、下载和安装应用。"></a>清单文件是一个 XML plist 文件，可供 Apple 设备用来从您的 Web 服务器上查找、下载和安装应用。</h6><h4 id="以下栏是必填项："><a href="#以下栏是必填项：" class="headerlink" title="以下栏是必填项："></a><strong>以下栏是必填项：</strong></h4><pre><code>1. URL：应用 (*.ipa) 文件的完全限定 HTTPS URL
