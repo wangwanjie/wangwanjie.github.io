@@ -87,16 +87,16 @@
 
 
 
-<meta name="description" content="12345678910111213141516171819202122232425262728// 另外一个独立的动态加载js的函数function loadJs(jsurl, head, callback) &amp;#123;	var script = document.createElement(script);	script.setAttribute(&amp;quot;type&amp;quot;, &amp;quot">
+<meta name="description" content="12345678910111213141516171819202122232425262728// 另外一个独立的动态加载js的函数function loadJs(jsurl, head, callback) &amp;#123;	var script = document.createElement(script);	script.setAttribute(&quot;type&quot;, &quot;text/javascrip">
 <meta property="og:type" content="article">
 <meta property="og:title" content="动态加载javascript">
 <meta property="og:url" content="https://wangwanjie.github.io/2017/03/09/动态加载javascript/index.html">
 <meta property="og:site_name" content="CoderJay的博客">
-<meta property="og:description" content="12345678910111213141516171819202122232425262728// 另外一个独立的动态加载js的函数function loadJs(jsurl, head, callback) &amp;#123;	var script = document.createElement(script);	script.setAttribute(&amp;quot;type&amp;quot;, &amp;quot">
-<meta property="og:updated_time" content="2017-03-17T11:19:20.000Z">
+<meta property="og:description" content="12345678910111213141516171819202122232425262728// 另外一个独立的动态加载js的函数function loadJs(jsurl, head, callback) &amp;#123;	var script = document.createElement(script);	script.setAttribute(&quot;type&quot;, &quot;text/javascrip">
+<meta property="og:updated_time" content="2017-03-17T18:18:07.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="动态加载javascript">
-<meta name="twitter:description" content="12345678910111213141516171819202122232425262728// 另外一个独立的动态加载js的函数function loadJs(jsurl, head, callback) &amp;#123;	var script = document.createElement(script);	script.setAttribute(&amp;quot;type&amp;quot;, &amp;quot">
+<meta name="twitter:description" content="12345678910111213141516171819202122232425262728// 另外一个独立的动态加载js的函数function loadJs(jsurl, head, callback) &amp;#123;	var script = document.createElement(script);	script.setAttribute(&quot;type&quot;, &quot;text/javascrip">
 
 
 
@@ -125,7 +125,6 @@
 
 
   <link rel="canonical" href="https://wangwanjie.github.io/2017/03/09/动态加载javascript/"/>
-
 
 
 
@@ -235,7 +234,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
             
-            归档
+            时间线
           </a>
         </li>
       
@@ -437,25 +436,30 @@
       
 
       
-        <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line">// 另外一个独立的动态加载js的函数</div><div class="line">function loadJs(jsurl, head, callback) &#123;</div><div class="line">	var script = document.createElement(script);</div><div class="line">	script.setAttribute(&quot;type&quot;, &quot;text/javascript&quot;);</div><div class="line"></div><div class="line">	if(callback) &#123;</div><div class="line">		if(script.readyState) &#123; //IE</div><div class="line">			script.onreadystatechange = function() &#123;</div><div class="line">				if(script.readyState == &quot;loaded&quot; ||</div><div class="line">					script.readyState == &quot;complete&quot;) &#123;</div><div class="line">					script.onreadystatechange = null;</div><div class="line">					callback();</div><div class="line">				&#125;</div><div class="line">			&#125;;</div><div class="line">		&#125; else &#123; //Others</div><div class="line">			script.onload = function() &#123;</div><div class="line">				callback();</div><div class="line">			&#125;;</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">	script.setAttribute(&quot;src&quot;, jsurl);</div><div class="line"></div><div class="line">	if(head)</div><div class="line">		document.getElementsByTagName(head)[0].appendChild(script);</div><div class="line">	else &#123;</div><div class="line">		document.body.appendChild(script);</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+        <figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 另外一个独立的动态加载js的函数</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">loadJs</span>(<span class="params">jsurl, head, callback</span>) </span>&#123;</div><div class="line">	<span class="keyword">var</span> script = <span class="built_in">document</span>.createElement(script);</div><div class="line">	script.setAttribute(<span class="string">"type"</span>, <span class="string">"text/javascript"</span>);</div><div class="line"></div><div class="line">	<span class="keyword">if</span>(callback) &#123;</div><div class="line">		<span class="keyword">if</span>(script.readyState) &#123; <span class="comment">//IE</span></div><div class="line">			script.onreadystatechange = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">				<span class="keyword">if</span>(script.readyState == <span class="string">"loaded"</span> ||</div><div class="line">					script.readyState == <span class="string">"complete"</span>) &#123;</div><div class="line">					script.onreadystatechange = <span class="literal">null</span>;</div><div class="line">					callback();</div><div class="line">				&#125;</div><div class="line">			&#125;;</div><div class="line">		&#125; <span class="keyword">else</span> &#123; <span class="comment">//Others</span></div><div class="line">			script.onload = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">				callback();</div><div class="line">			&#125;;</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">	script.setAttribute(<span class="string">"src"</span>, jsurl);</div><div class="line"></div><div class="line">	<span class="keyword">if</span>(head)</div><div class="line">		<span class="built_in">document</span>.getElementsByTagName(head)[<span class="number">0</span>].appendChild(script);</div><div class="line">	<span class="keyword">else</span> &#123;</div><div class="line">		<span class="built_in">document</span>.body.appendChild(script);</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
 <blockquote>
 <p>最近访客</p>
-<p><div class="ds-recent-visitors" data-num-items="28" data-avatar-size="42" id="ds-recent-visitors"></div><br><br></p>
+<p></p>
+<div class="ds-recent-visitors" data-num-items="28" data-avatar-size="42" id="ds-recent-visitors">
+</div><br><br>
+<p></p>
 </blockquote>
 
-      
-    </div>
 
-    <div>
-      
-        
 
-      
-    </div>
-
-    <div>
-      
-        
   <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
     <div>欣赏这篇文章？您的支持将更加鼓励我继续创作！</div>
     <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
@@ -730,11 +734,11 @@
 
 
 <div class="powered-by">
-  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+  Generated By <a class="theme-link" href="https://hexo.io">Hexo</a>  从心出发
 </div>
 
 <div class="theme-info">
-  主题 -
+  Theme -
   <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
     NexT.Pisces
   </a>
