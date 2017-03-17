@@ -71,7 +71,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Mac使用," />
+  <meta name="keywords" content="逆向,iOS安全,破解," />
 
 
 
@@ -89,16 +89,28 @@
 
 
 
-<meta name="description" content="运行以下命令:1sysctl machdep.cpu.brand_string">
+<meta name="description" content="1、编译生成
+dumpdecrypted.dylib
+2、给生成的 dumpdecrypted.dylib 签名
+3、ssh到手机，ps aux | grep 目标APP查看APP安装目录
+4、（可忽略这步）cycript -p 目标 APP，执行 [[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDoma">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Mac查看CPU具体型号">
-<meta property="og:url" content="https://wangwanjie.github.io/2016/12/16/Mac查看CPU具体型号/index.html">
+<meta property="og:title" content="利用 dumpdecrypted 砸壳">
+<meta property="og:url" content="https://wangwanjie.github.io/2017/02/08/利用dumpdecrypted砸壳/index.html">
 <meta property="og:site_name" content="CoderJay的博客">
-<meta property="og:description" content="运行以下命令:1sysctl machdep.cpu.brand_string">
-<meta property="og:updated_time" content="2017-03-16T16:32:32.000Z">
+<meta property="og:description" content="1、编译生成
+dumpdecrypted.dylib
+2、给生成的 dumpdecrypted.dylib 签名
+3、ssh到手机，ps aux | grep 目标APP查看APP安装目录
+4、（可忽略这步）cycript -p 目标 APP，执行 [[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDoma">
+<meta property="og:updated_time" content="2017-03-17T03:43:48.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Mac查看CPU具体型号">
-<meta name="twitter:description" content="运行以下命令:1sysctl machdep.cpu.brand_string">
+<meta name="twitter:title" content="利用 dumpdecrypted 砸壳">
+<meta name="twitter:description" content="1、编译生成
+dumpdecrypted.dylib
+2、给生成的 dumpdecrypted.dylib 签名
+3、ssh到手机，ps aux | grep 目标APP查看APP安装目录
+4、（可忽略这步）cycript -p 目标 APP，执行 [[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDoma">
 
 
 
@@ -126,13 +138,13 @@
 
 
 
-  <link rel="canonical" href="https://wangwanjie.github.io/2016/12/16/Mac查看CPU具体型号/"/>
+  <link rel="canonical" href="https://wangwanjie.github.io/2017/02/08/利用dumpdecrypted砸壳/"/>
 
 
 
 
 
-  <title> Mac查看CPU具体型号 | CoderJay的博客 </title>
+  <title> 利用 dumpdecrypted 砸壳 | CoderJay的博客 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -300,8 +312,8 @@
   
   
 
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://wangwanjie.github.io/2016/12/16/Mac查看CPU具体型号/">
+  <article class="post post-type-tags " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://wangwanjie.github.io/2017/02/08/利用dumpdecrypted砸壳/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="CoderJay">
@@ -322,7 +334,7 @@
             
             
               
-                Mac查看CPU具体型号
+                利用 dumpdecrypted 砸壳
               
             
           </h1>
@@ -337,8 +349,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-12-16T20:17:48+08:00">
-                2016-12-16
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-02-08T17:34:03+08:00">
+                2017-02-08
               </time>
             
 
@@ -360,8 +372,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Mac/" itemprop="url" rel="index">
-                    <span itemprop="name">Mac</span>
+                  <a href="/categories/iOS/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS</span>
                   </a>
                 </span>
 
@@ -378,8 +390,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2016/12/16/Mac查看CPU具体型号/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/12/16/Mac查看CPU具体型号/" itemprop="commentCount"></span>
+                <a href="/2017/02/08/利用dumpdecrypted砸壳/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/02/08/利用dumpdecrypted砸壳/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -387,7 +399,7 @@
 
           
           
-             <span id="/2016/12/16/Mac查看CPU具体型号/" class="leancloud_visitors" data-flag-title="Mac查看CPU具体型号">
+             <span id="/2017/02/08/利用dumpdecrypted砸壳/" class="leancloud_visitors" data-flag-title="利用 dumpdecrypted 砸壳">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -416,7 +428,14 @@
       
 
       
-        <p>运行以下命令:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sysctl machdep.cpu.brand_string</div></pre></td></tr></table></figure></p>
+        <p>1、编译生成</p>
+<p><code>dumpdecrypted.dylib</code></p>
+<p>2、给生成的 <code>dumpdecrypted.dylib</code> 签名</p>
+<p>3、ssh到手机，<code>ps aux | grep</code> 目标APP查看APP安装目录</p>
+<p>4、（可忽略这步）<code>cycript -p</code> 目标 APP，执行 <code>[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask][0]</code><br> 查看沙盒目录</p>
+<p>5、将 <code>dumpdecrypted.dylib</code>拷贝 <code>/var/tmp</code>，进入 <code>/var/tmp</code></p>
+<p>6、将 <code>dumpdecrypted.dylib</code> 拷贝到沙盒目录，进入沙盒目录，执行<br><code>DYLD_INSERT_LIBRARIES=dumpdecrypted.dylib /var/containers/Bundle/Application/0B8A6E0F-9D64-4EF4-97D2-D3A508FC3574/APP.app/APP</code></p>
+<p>7、得到目标 <code>APP.decrypted</code>就是二进制文件</p>
 
       
     </div>
@@ -446,7 +465,11 @@
       
         <div class="post-tags">
           
-            <a href="/tags/Mac使用/" rel="tag"># Mac使用</a>
+            <a href="/tags/逆向/" rel="tag"># 逆向</a>
+          
+            <a href="/tags/iOS安全/" rel="tag"># iOS安全</a>
+          
+            <a href="/tags/破解/" rel="tag"># 破解</a>
           
         </div>
       
@@ -459,8 +482,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/01/10/OC用AFN做Soap请求webService/" rel="next" title="OC用AFN做Soap请求webService">
-                <i class="fa fa-chevron-left"></i> OC用AFN做Soap请求webService
+              <a href="/2017/02/08/给包签名/" rel="next" title="给包签名">
+                <i class="fa fa-chevron-left"></i> 给包签名
               </a>
             
           </div>
@@ -469,8 +492,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2017/01/11/企业内部应用分发/" rel="prev" title="企业内部应用分发">
-                企业内部应用分发 <i class="fa fa-chevron-right"></i>
+              <a href="/2017/03/09/动态加载javascript/" rel="prev" title="动态加载javascript">
+                动态加载javascript <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -497,8 +520,8 @@
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2016/12/16/Mac查看CPU具体型号/"
-           data-title="Mac查看CPU具体型号" data-url="https://wangwanjie.github.io/2016/12/16/Mac查看CPU具体型号/">
+      <div class="ds-thread" data-thread-key="2017/02/08/利用dumpdecrypted砸壳/"
+           data-title="利用 dumpdecrypted 砸壳" data-url="https://wangwanjie.github.io/2017/02/08/利用dumpdecrypted砸壳/">
       </div>
     
   </div>

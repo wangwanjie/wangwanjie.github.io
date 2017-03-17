@@ -71,7 +71,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Mac使用," />
+  <meta name="keywords" content="网络,网络协议," />
 
 
 
@@ -89,16 +89,61 @@
 
 
 
-<meta name="description" content="运行以下命令:1sysctl machdep.cpu.brand_string">
+<meta name="description" content="一 底层实现
+AFN的底层基于OC的NSURLConnection和NSURLSession
+ASI的底层基于纯C语言的CFNetwork框架
+ASI的运行性能 高于 AFN
+
+二 对服务器返回的数据处理
+ASI没有直接提供对服务器数据处理的方式，直接返回data\string
+AFN提供了多种对服务器数据处理的方式
+JSON处理
+XML处理
+其他处理
+
+
+
+三 监听请求的过程
+AFN提供了suc">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Mac查看CPU具体型号">
-<meta property="og:url" content="https://wangwanjie.github.io/2016/12/16/Mac查看CPU具体型号/index.html">
+<meta property="og:title" content="ASI 和 AFN 区别">
+<meta property="og:url" content="https://wangwanjie.github.io/2015/10/06/ASI-和-AFN-区别/index.html">
 <meta property="og:site_name" content="CoderJay的博客">
-<meta property="og:description" content="运行以下命令:1sysctl machdep.cpu.brand_string">
-<meta property="og:updated_time" content="2017-03-16T16:32:32.000Z">
+<meta property="og:description" content="一 底层实现
+AFN的底层基于OC的NSURLConnection和NSURLSession
+ASI的底层基于纯C语言的CFNetwork框架
+ASI的运行性能 高于 AFN
+
+二 对服务器返回的数据处理
+ASI没有直接提供对服务器数据处理的方式，直接返回data\string
+AFN提供了多种对服务器数据处理的方式
+JSON处理
+XML处理
+其他处理
+
+
+
+三 监听请求的过程
+AFN提供了suc">
+<meta property="og:updated_time" content="2017-03-17T03:57:40.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Mac查看CPU具体型号">
-<meta name="twitter:description" content="运行以下命令:1sysctl machdep.cpu.brand_string">
+<meta name="twitter:title" content="ASI 和 AFN 区别">
+<meta name="twitter:description" content="一 底层实现
+AFN的底层基于OC的NSURLConnection和NSURLSession
+ASI的底层基于纯C语言的CFNetwork框架
+ASI的运行性能 高于 AFN
+
+二 对服务器返回的数据处理
+ASI没有直接提供对服务器数据处理的方式，直接返回data\string
+AFN提供了多种对服务器数据处理的方式
+JSON处理
+XML处理
+其他处理
+
+
+
+三 监听请求的过程
+AFN提供了suc">
 
 
 
@@ -126,13 +171,13 @@
 
 
 
-  <link rel="canonical" href="https://wangwanjie.github.io/2016/12/16/Mac查看CPU具体型号/"/>
+  <link rel="canonical" href="https://wangwanjie.github.io/2015/10/06/ASI-和-AFN-区别/"/>
 
 
 
 
 
-  <title> Mac查看CPU具体型号 | CoderJay的博客 </title>
+  <title> ASI 和 AFN 区别 | CoderJay的博客 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -301,7 +346,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://wangwanjie.github.io/2016/12/16/Mac查看CPU具体型号/">
+    <link itemprop="mainEntityOfPage" href="https://wangwanjie.github.io/2015/10/06/ASI-和-AFN-区别/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="CoderJay">
@@ -322,7 +367,7 @@
             
             
               
-                Mac查看CPU具体型号
+                ASI 和 AFN 区别
               
             
           </h1>
@@ -337,8 +382,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-12-16T20:17:48+08:00">
-                2016-12-16
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-10-06T11:51:36+08:00">
+                2015-10-06
               </time>
             
 
@@ -360,8 +405,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Mac/" itemprop="url" rel="index">
-                    <span itemprop="name">Mac</span>
+                  <a href="/categories/Objective-C/" itemprop="url" rel="index">
+                    <span itemprop="name">Objective-C</span>
                   </a>
                 </span>
 
@@ -378,8 +423,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2016/12/16/Mac查看CPU具体型号/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/12/16/Mac查看CPU具体型号/" itemprop="commentCount"></span>
+                <a href="/2015/10/06/ASI-和-AFN-区别/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/10/06/ASI-和-AFN-区别/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -387,7 +432,7 @@
 
           
           
-             <span id="/2016/12/16/Mac查看CPU具体型号/" class="leancloud_visitors" data-flag-title="Mac查看CPU具体型号">
+             <span id="/2015/10/06/ASI-和-AFN-区别/" class="leancloud_visitors" data-flag-title="ASI 和 AFN 区别">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -416,7 +461,59 @@
       
 
       
-        <p>运行以下命令:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sysctl machdep.cpu.brand_string</div></pre></td></tr></table></figure></p>
+        <h3 id="一-底层实现"><a href="#一-底层实现" class="headerlink" title="一 底层实现"></a>一 底层实现</h3><ul>
+<li>AFN的底层基于OC的NSURLConnection和NSURLSession</li>
+<li>ASI的底层基于纯C语言的CFNetwork框架</li>
+<li>ASI的运行性能 高于 AFN</li>
+</ul>
+<h3 id="二-对服务器返回的数据处理"><a href="#二-对服务器返回的数据处理" class="headerlink" title="二 对服务器返回的数据处理"></a>二 对服务器返回的数据处理</h3><ul>
+<li>ASI没有直接提供对服务器数据处理的方式，直接返回data\string</li>
+<li>AFN提供了多种对服务器数据处理的方式<ul>
+<li>JSON处理</li>
+<li>XML处理</li>
+<li>其他处理</li>
+</ul>
+</li>
+</ul>
+<h3 id="三-监听请求的过程"><a href="#三-监听请求的过程" class="headerlink" title="三 监听请求的过程"></a>三 监听请求的过程</h3><ul>
+<li><p>AFN提供了success和failure两个block来监听请求的过程（只能监听成功和失败）</p>
+<ul>
+<li>success : 请求成功后调用</li>
+<li>failure : 请求失败后调用</li>
+</ul>
+</li>
+<li><p>ASI提供了3套方案，每一套方案都能监听请求的完整过程<br>（监听请求开始、接收到响应头信息、接受到具体数据、接受完毕、请求失败）</p>
+<ul>
+<li>成为代理，遵守协议，实现协议中的代理方法</li>
+<li>成为代理，不遵守协议，自定义代理方法</li>
+<li>设置block</li>
+</ul>
+</li>
+</ul>
+<h3 id="四-在文件下载和文件上传的使用难易度"><a href="#四-在文件下载和文件上传的使用难易度" class="headerlink" title="四 在文件下载和文件上传的使用难易度"></a>四 在文件下载和文件上传的使用难易度</h3><ul>
+<li><p>AFN</p>
+<ul>
+<li>不容易监听下载进度和上传进度</li>
+<li>不容易实现断点续传</li>
+<li>一般只用来下载不大的文件</li>
+</ul>
+</li>
+<li><p>ASI</p>
+<ul>
+<li>非常容易实现下载和上传</li>
+<li>非常容易监听下载进度和上传进度</li>
+<li>非常容易实现断点续传</li>
+<li>下载或大或小的文件都行</li>
+</ul>
+</li>
+</ul>
+<h3 id="五-ASI提供了更多的实用功能"><a href="#五-ASI提供了更多的实用功能" class="headerlink" title="五 ASI提供了更多的实用功能"></a>五 ASI提供了更多的实用功能</h3><ul>
+<li>控制圈圈要不要在请求过程中转</li>
+<li>可以轻松地设置请求之间的依赖：每一个请求都是一个 <strong>NSOperation</strong> 对象</li>
+<li>可以统一管理所有请求（还专门提供了一个叫做 <strong>ASINetworkQueue</strong> 来管理所有的请求对象）</li>
+<li>暂停\恢复\取消所有的请求</li>
+<li>监听整个队列中所有请求的下载进度和上传进度</li>
+</ul>
 
       
     </div>
@@ -446,7 +543,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/Mac使用/" rel="tag"># Mac使用</a>
+            <a href="/tags/网络/" rel="tag"># 网络</a>
+          
+            <a href="/tags/网络协议/" rel="tag"># 网络协议</a>
           
         </div>
       
@@ -459,18 +558,14 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/01/10/OC用AFN做Soap请求webService/" rel="next" title="OC用AFN做Soap请求webService">
-                <i class="fa fa-chevron-left"></i> OC用AFN做Soap请求webService
-              </a>
-            
           </div>
 
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2017/01/11/企业内部应用分发/" rel="prev" title="企业内部应用分发">
-                企业内部应用分发 <i class="fa fa-chevron-right"></i>
+              <a href="/2016/01/10/OC用AFN做Soap请求webService/" rel="prev" title="OC用AFN做Soap请求webService">
+                OC用AFN做Soap请求webService <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -497,8 +592,8 @@
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2016/12/16/Mac查看CPU具体型号/"
-           data-title="Mac查看CPU具体型号" data-url="https://wangwanjie.github.io/2016/12/16/Mac查看CPU具体型号/">
+      <div class="ds-thread" data-thread-key="2015/10/06/ASI-和-AFN-区别/"
+           data-title="ASI 和 AFN 区别" data-url="https://wangwanjie.github.io/2015/10/06/ASI-和-AFN-区别/">
       </div>
     
   </div>
@@ -522,8 +617,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/head.png"
@@ -592,6 +696,22 @@
 
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#一-底层实现"><span class="nav-number">1.</span> <span class="nav-text">一 底层实现</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二-对服务器返回的数据处理"><span class="nav-number">2.</span> <span class="nav-text">二 对服务器返回的数据处理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#三-监听请求的过程"><span class="nav-number">3.</span> <span class="nav-text">三 监听请求的过程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#四-在文件下载和文件上传的使用难易度"><span class="nav-number">4.</span> <span class="nav-text">四 在文件下载和文件上传的使用难易度</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#五-ASI提供了更多的实用功能"><span class="nav-number">5.</span> <span class="nav-text">五 ASI提供了更多的实用功能</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
