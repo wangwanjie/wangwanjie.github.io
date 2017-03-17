@@ -777,14 +777,8 @@
       
         
           
-            <ol>
-<li>查看可用签名</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">security find-identity -v -p codesigning</div></pre></td></tr></table></figure>
-<ol>
-<li>签名</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">codesign --force --verify --verbose --sign &quot;iPhone Developer: 396736694@qq.com (Z4965JH2C8)” 目标包</div></pre></td></tr></table></figure>
+            <h2 id="查看可用签名"><a href="#查看可用签名" class="headerlink" title="查看可用签名"></a>查看可用签名</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">security find-identity -v -p codesigning</div></pre></td></tr></table></figure>
+<h2 id="签名"><a href="#签名" class="headerlink" title="签名"></a>签名</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">codesign --force --verify --verbose --sign &quot;iPhone Developer: 396736694@qq.com (Z4965JH2C8)” 目标包</div></pre></td></tr></table></figure>
 
           
         
@@ -949,11 +943,12 @@
         
           <blockquote>
 <p>iOS 支持以无线方式安装企业内部应用，而无需使用 iTunes 或 App Store。</p>
-<h5 id="应用格式要求-ipa，并且使用企业内部预置描述文件进行构建，即经企业证书签名。"><a href="#应用格式要求-ipa，并且使用企业内部预置描述文件进行构建，即经企业证书签名。" class="headerlink" title="应用格式要求:.ipa，并且使用企业内部预置描述文件进行构建，即经企业证书签名。"></a>应用格式要求:.ipa，并且使用企业内部预置描述文件进行构建，即经企业证书签名。</h5></blockquote>
-<h4 id="无线安装要求："><a href="#无线安装要求：" class="headerlink" title="无线安装要求："></a>无线安装要求：</h4><pre><code>1. XML 清单文件（一个 plist 配置文件）
+</blockquote>
+<h2 id="格式要求"><a href="#格式要求" class="headerlink" title="格式要求"></a>格式要求</h2><p>应用格式要求:.ipa，并且使用企业内部预置描述文件进行构建，即经企业证书签名。</p>
+<h3 id="无线安装要求："><a href="#无线安装要求：" class="headerlink" title="无线安装要求："></a>无线安装要求：</h3><pre><code>1. XML 清单文件（一个 plist 配置文件）
 2. 可让设备访问 Apple iTunes 服务器的网络配置（设备要能连接互联网，因为要校验）
 3. 对于 iOS 7.1 或更高版本， plist 文件和 ipa 文件需要放在 HTTPS 的服务器上
-</code></pre><h6 id="为了安装应用，用户使用特殊的-URL-前缀从您的网站上下载plist清单文件，您可以分发该特殊前缀的URL给用户或者放置于可供用户访问的互联网上。"><a href="#为了安装应用，用户使用特殊的-URL-前缀从您的网站上下载plist清单文件，您可以分发该特殊前缀的URL给用户或者放置于可供用户访问的互联网上。" class="headerlink" title="为了安装应用，用户使用特殊的 URL 前缀从您的网站上下载plist清单文件，您可以分发该特殊前缀的URL给用户或者放置于可供用户访问的互联网上。"></a>为了安装应用，用户使用特殊的 URL 前缀从您的网站上下载plist清单文件，您可以分发该特殊前缀的URL给用户或者放置于可供用户访问的互联网上。</h6>
+</code></pre><p>为了安装应用，用户使用特殊的 URL 前缀从您的网站上下载plist清单文件，您可以分发该特殊前缀的URL给用户或者放置于可供用户访问的互联网上。</p>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2017/01/11/企业内部应用分发/#more" rel="contents">
@@ -1285,7 +1280,7 @@
 
       
         
-          <p>好吧，标题有点拗口。我平时一般不发帖子，因为感觉太花时间了，还是喜欢宅着研究技术。但这个帖子网上资料还是没有很详细的，周末了明天休息，所以现在写下来总结一下，也希望能帮助有这方面需求的开发者朋友，如果错误之处还请谅解，欢迎指出。排版大家就不要在意了，我也不清楚这个支不支持markdown，就直接手动简单排一下。</p>
+          <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>好吧，标题有点拗口。我平时一般不发帖子，因为感觉太花时间了，还是喜欢宅着研究技术。但这个帖子网上资料还是没有很详细的，周末了明天休息，所以现在写下来总结一下，也希望能帮助有这方面需求的开发者朋友，如果错误之处还请谅解，欢迎指出。排版大家就不要在意了，我也不清楚这个支不支持markdown，就直接手动简单排一下。</p>
 <p>进入主题，最近公司做一个新项目，后台是webService，要做iOS版本的客户端，由于我以前不怎么了解这方面，所以云里雾里得摸索了两天，因为后台人员也不清楚我具体要传什么给他，所以。。。。我就两边跑。。。。最终我确定问题还是在于后端，今天上午完美解决，对webService和WSDL以及CXF有了个大概的了解。</p>
           <!--noindex-->
           <div class="post-button text-center">
