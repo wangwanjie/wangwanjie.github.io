@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://wangwanjie.github.io/"/>
-  <updated>2017-03-17T11:11:25.000Z</updated>
+  <updated>2017-03-17T10:08:09.000Z</updated>
   <id>https://wangwanjie.github.io/</id>
   
   <author>
@@ -20,13 +20,14 @@
     <link href="https://wangwanjie.github.io/2017/03/17/Hexo-%E4%B8%AD%E4%B8%BA%E5%A4%9A%E8%AF%B4%E6%B7%BB%E5%8A%A0%E6%9C%80%E8%BF%91%E8%AE%BF%E5%AE%A2/"/>
     <id>https://wangwanjie.github.io/2017/03/17/Hexo-中为多说添加最近访客/</id>
     <published>2017-03-17T11:06:02.000Z</published>
-    <updated>2017-03-17T11:11:25.000Z</updated>
+    <updated>2017-03-17T10:08:09.000Z</updated>
     
     <content type="html"><![CDATA[<h2 id="添加自定义样式"><a href="#添加自定义样式" class="headerlink" title="添加自定义样式"></a>添加自定义样式</h2><p>到多说后台管理-&gt;设置-&gt;基本设置-&gt;自定义css中添加如下css样式：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div></pre></td><td class="code"><pre><div class="line">#ds-reset .ds-avatar img,</div><div class="line">#ds-recent-visitors .ds-avatar img &#123;</div><div class="line">width: 54px;</div><div class="line">height: 54px;     /*设置图像的长和宽，这里要根据自己的评论框情况更改*/</div><div class="line">border-radius: 27px;     /*设置图像圆角效果,在这里我直接设置了超过width/2的像素，即为圆形了*/</div><div class="line">-webkit-border-radius: 27px;     /*圆角效果：兼容webkit浏览器*/</div><div class="line">-moz-border-radius: 27px;</div><div class="line">box-shadow: inset 0 -1px 0 #3333sf;     /*设置图像阴影效果*/</div><div class="line">-webkit-box-shadow: inset 0 -1px 0 #3333sf;</div><div class="line">-webkit-transition: 0.4s;</div><div class="line">-webkit-transition: -webkit-transform 0.4s ease-out;</div><div class="line">transition: transform 0.4s ease-out;     /*变化时间设置为0.4秒(变化动作即为下面的图像旋转360读）*/</div><div class="line">-moz-transition: -moz-transform 0.4s ease-out;</div><div class="line">&#125;</div><div class="line"></div><div class="line">#ds-reset .ds-avatar img:hover,</div><div class="line">#ds-recent-visitors .ds-avatar img:hover &#123;</div><div class="line"></div><div class="line">/*设置鼠标悬浮在头像时的CSS样式*/    box-shadow: 0 0 10px #fff;</div><div class="line">rgba(255, 255, 255, .6), inset 0 0 20px rgba(255, 255, 255, 1);</div><div class="line">-webkit-box-shadow: 0 0 10px #fff;</div><div class="line">rgba(255, 255, 255, .6), inset 0 0 20px rgba(255, 255, 255, 1);</div><div class="line">transform: rotateZ(360deg);     /*图像旋转360度*/</div><div class="line">-webkit-transform: rotateZ(360deg);</div><div class="line">-moz-transform: rotateZ(360deg);</div><div class="line">&#125;</div><div class="line">/*</div><div class="line">#ds-thread #ds-reset .ds-textarea-wrapper textarea &#123;</div><div class="line">background: url(http://www.wuxubj.cn/images/duoshuo_bkground.jpg) right no-repeat;</div><div class="line">&#125;</div><div class="line">*/</div><div class="line">#ds-recent-visitors .ds-avatar &#123;</div><div class="line">float: left</div><div class="line">&#125;</div><div class="line">/*隐藏多说底部版权*/</div><div class="line">#ds-thread #ds-reset .ds-powered-by &#123;</div><div class="line">display: none;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <a id="more"></a>
 <h2 id="添加-dom"><a href="#添加-dom" class="headerlink" title="添加 dom"></a>添加 dom</h2><p>在需要添加最近访客的网页对应的 markdown 文件中添加如下代码：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&gt; 最近访客</div><div class="line">&lt;div class=&quot;ds-recent-visitors&quot; data-num-items=&quot;28&quot; data-avatar-size=&quot;42&quot; id=&quot;ds-recent-visitors&quot;&gt;&lt;/div&gt;</div><div class="line">&lt;br/&gt;</div></pre></td></tr></table></figure>
+<h2 id="添加最近访客-dom-到模板文件中"><a href="#添加最近访客-dom-到模板文件中" class="headerlink" title="添加最近访客 dom 到模板文件中"></a>添加最近访客 dom 到模板文件中</h2><p>在博客站点根目录的 <code>scaffolds/*.md</code> 模板文件中添加以上 <code>dom</code> 代码，以后新建 <code>[layout]</code> 便无需手动拷贝。</p>
 <blockquote>
 <p>最近访客</p>
 <p><div class="ds-recent-visitors" data-num-items="28" data-avatar-size="42" id="ds-recent-visitors"></div><br><br></p>
@@ -56,9 +57,13 @@
     <link href="https://wangwanjie.github.io/2017/03/09/%E5%8A%A8%E6%80%81%E5%8A%A0%E8%BD%BDjavascript/"/>
     <id>https://wangwanjie.github.io/2017/03/09/动态加载javascript/</id>
     <published>2017-03-09T02:50:55.000Z</published>
-    <updated>2017-03-17T07:20:56.000Z</updated>
+    <updated>2017-03-17T11:19:20.000Z</updated>
     
     <content type="html"><![CDATA[<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line">// 另外一个独立的动态加载js的函数</div><div class="line">function loadJs(jsurl, head, callback) &#123;</div><div class="line">	var script = document.createElement(script);</div><div class="line">	script.setAttribute(&quot;type&quot;, &quot;text/javascript&quot;);</div><div class="line"></div><div class="line">	if(callback) &#123;</div><div class="line">		if(script.readyState) &#123; //IE</div><div class="line">			script.onreadystatechange = function() &#123;</div><div class="line">				if(script.readyState == &quot;loaded&quot; ||</div><div class="line">					script.readyState == &quot;complete&quot;) &#123;</div><div class="line">					script.onreadystatechange = null;</div><div class="line">					callback();</div><div class="line">				&#125;</div><div class="line">			&#125;;</div><div class="line">		&#125; else &#123; //Others</div><div class="line">			script.onload = function() &#123;</div><div class="line">				callback();</div><div class="line">			&#125;;</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">	script.setAttribute(&quot;src&quot;, jsurl);</div><div class="line"></div><div class="line">	if(head)</div><div class="line">		document.getElementsByTagName(head)[0].appendChild(script);</div><div class="line">	else &#123;</div><div class="line">		document.body.appendChild(script);</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<blockquote>
+<p>最近访客</p>
+<p><div class="ds-recent-visitors" data-num-items="28" data-avatar-size="42" id="ds-recent-visitors"></div><br><br></p>
+</blockquote>
 ]]></content>
     
     <summary type="html">
@@ -79,7 +84,7 @@
     <link href="https://wangwanjie.github.io/2017/02/08/%E5%88%A9%E7%94%A8dumpdecrypted%E7%A0%B8%E5%A3%B3/"/>
     <id>https://wangwanjie.github.io/2017/02/08/利用dumpdecrypted砸壳/</id>
     <published>2017-02-08T09:34:03.000Z</published>
-    <updated>2017-03-17T07:21:04.000Z</updated>
+    <updated>2017-03-17T11:19:33.000Z</updated>
     
     <content type="html"><![CDATA[<p>1、编译生成</p>
 <p><code>dumpdecrypted.dylib</code></p>
@@ -90,6 +95,10 @@
 <p>5、将 <code>dumpdecrypted.dylib</code>拷贝 <code>/var/tmp</code>，进入 <code>/var/tmp</code></p>
 <p>6、将 <code>dumpdecrypted.dylib</code> 拷贝到沙盒目录，进入沙盒目录，执行<br><code>DYLD_INSERT_LIBRARIES=dumpdecrypted.dylib /var/containers/Bundle/Application/0B8A6E0F-9D64-4EF4-97D2-D3A508FC3574/APP.app/APP</code></p>
 <p>7、得到目标 <code>APP.decrypted</code>就是二进制文件</p>
+<blockquote>
+<p>最近访客</p>
+<p><div class="ds-recent-visitors" data-num-items="28" data-avatar-size="42" id="ds-recent-visitors"></div><br><br></p>
+</blockquote>
 ]]></content>
     
     <summary type="html">
@@ -116,7 +125,7 @@
     <link href="https://wangwanjie.github.io/2017/02/08/%E7%BB%99%E5%8C%85%E7%AD%BE%E5%90%8D/"/>
     <id>https://wangwanjie.github.io/2017/02/08/给包签名/</id>
     <published>2017-02-08T05:45:09.000Z</published>
-    <updated>2017-03-17T11:04:06.000Z</updated>
+    <updated>2017-03-17T11:19:26.000Z</updated>
     
     <content type="html"><![CDATA[<h2 id="查看可用签名"><a href="#查看可用签名" class="headerlink" title="查看可用签名"></a>查看可用签名</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">security find-identity -v -p codesigning</div></pre></td></tr></table></figure>
 <h2 id="签名"><a href="#签名" class="headerlink" title="签名"></a>签名</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">codesign --force --verify --verbose --sign &quot;iPhone Developer: 396736694@qq.com (Z4965JH2C8)” 目标包</div></pre></td></tr></table></figure>
@@ -146,7 +155,7 @@
     <link href="https://wangwanjie.github.io/2017/01/11/%E4%BC%81%E4%B8%9A%E5%86%85%E9%83%A8%E5%BA%94%E7%94%A8%E5%88%86%E5%8F%91/"/>
     <id>https://wangwanjie.github.io/2017/01/11/企业内部应用分发/</id>
     <published>2017-01-11T12:52:03.000Z</published>
-    <updated>2017-03-17T10:27:05.000Z</updated>
+    <updated>2017-03-17T11:19:38.000Z</updated>
     
     <content type="html"><![CDATA[<blockquote>
 <p>iOS 支持以无线方式安装企业内部应用，而无需使用 iTunes 或 App Store。</p>
@@ -254,6 +263,8 @@
 &lt;/plist&gt;
 </code></pre><blockquote>
 <p>Author: CoderJay <br>如需转载，请注明出处</p>
+<p>最近访客</p>
+<p><div class="ds-recent-visitors" data-num-items="28" data-avatar-size="42" id="ds-recent-visitors"></div><br><br></p>
 </blockquote>
 ]]></content>
     
@@ -284,9 +295,13 @@
     <link href="https://wangwanjie.github.io/2016/12/16/Mac%E6%9F%A5%E7%9C%8BCPU%E5%85%B7%E4%BD%93%E5%9E%8B%E5%8F%B7/"/>
     <id>https://wangwanjie.github.io/2016/12/16/Mac查看CPU具体型号/</id>
     <published>2016-12-16T12:17:48.000Z</published>
-    <updated>2017-03-17T07:21:16.000Z</updated>
+    <updated>2017-03-17T11:19:53.000Z</updated>
     
     <content type="html"><![CDATA[<p>运行以下命令:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sysctl machdep.cpu.brand_string</div></pre></td></tr></table></figure></p>
+<blockquote>
+<p>最近访客</p>
+<p><div class="ds-recent-visitors" data-num-items="28" data-avatar-size="42" id="ds-recent-visitors"></div><br><br></p>
+</blockquote>
 ]]></content>
     
     <summary type="html">
@@ -307,7 +322,7 @@
     <link href="https://wangwanjie.github.io/2016/01/10/OC%E7%94%A8AFN%E5%81%9ASoap%E8%AF%B7%E6%B1%82webService/"/>
     <id>https://wangwanjie.github.io/2016/01/10/OC用AFN做Soap请求webService/</id>
     <published>2016-01-09T19:07:22.000Z</published>
-    <updated>2017-03-17T10:19:18.000Z</updated>
+    <updated>2017-03-17T11:20:02.000Z</updated>
     
     <content type="html"><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>好吧，标题有点拗口。我平时一般不发帖子，因为感觉太花时间了，还是喜欢宅着研究技术。但这个帖子网上资料还是没有很详细的，周末了明天休息，所以现在写下来总结一下，也希望能帮助有这方面需求的开发者朋友，如果错误之处还请谅解，欢迎指出。排版大家就不要在意了，我也不清楚这个支不支持markdown，就直接手动简单排一下。</p>
 <p>进入主题，最近公司做一个新项目，后台是webService，要做iOS版本的客户端，由于我以前不怎么了解这方面，所以云里雾里得摸索了两天，因为后台人员也不清楚我具体要传什么给他，所以。。。。我就两边跑。。。。最终我确定问题还是在于后端，今天上午完美解决，对webService和WSDL以及CXF有了个大概的了解。</p>
@@ -354,6 +369,8 @@
 <h2 id="结束语"><a href="#结束语" class="headerlink" title="结束语"></a>结束语</h2><p>差不多了，如果有什么问题指正欢迎大家留言。排版真的很丑，大家见谅，洗洗睡了。</p>
 <blockquote>
 <p>Author: CoderJay <br>如需转载，请注明出处</p>
+<p>最近访客</p>
+<p><div class="ds-recent-visitors" data-num-items="28" data-avatar-size="42" id="ds-recent-visitors"></div><br><br></p>
 </blockquote>
 ]]></content>
     
@@ -380,7 +397,7 @@
     <link href="https://wangwanjie.github.io/2015/10/06/ASI-%E5%92%8C-AFN-%E5%8C%BA%E5%88%AB/"/>
     <id>https://wangwanjie.github.io/2015/10/06/ASI-和-AFN-区别/</id>
     <published>2015-10-06T03:51:36.000Z</published>
-    <updated>2017-03-17T07:21:12.000Z</updated>
+    <updated>2017-03-17T11:19:43.000Z</updated>
     
     <content type="html"><![CDATA[<h3 id="一-底层实现"><a href="#一-底层实现" class="headerlink" title="一 底层实现"></a>一 底层实现</h3><ul>
 <li>AFN的底层基于OC的NSURLConnection和NSURLSession</li>
@@ -436,6 +453,10 @@
 <li>暂停\恢复\取消所有的请求</li>
 <li>监听整个队列中所有请求的下载进度和上传进度</li>
 </ul>
+<blockquote>
+<p>最近访客</p>
+<p><div class="ds-recent-visitors" data-num-items="28" data-avatar-size="42" id="ds-recent-visitors"></div><br><br></p>
+</blockquote>
 ]]></content>
     
     <summary type="html">
