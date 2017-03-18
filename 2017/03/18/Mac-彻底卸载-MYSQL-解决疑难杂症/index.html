@@ -97,7 +97,7 @@ kill mysql相关进程终端运行 ps -ax | grep mysql 查看 mysql 相关进程
 <meta property="og:description" content="备份数据库备份看个人了，可以用软件如 Navicat 导出，也可以用 mysqldump 命令导出。
 kill mysql相关进程终端运行 ps -ax | grep mysql 查看 mysql 相关进程， 有的话 kill
 卸载 Homebrew 安装的mysql卸载全部以前用 brew 安装    的 mysql，先 brew list 查看安装的 mysql 版本，假如列出了 mysql@">
-<meta property="og:updated_time" content="2017-03-18T13:11:21.000Z">
+<meta property="og:updated_time" content="2017-03-18T13:26:05.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Mac 彻底卸载 MYSQL 解决疑难杂症">
 <meta name="twitter:description" content="备份数据库备份看个人了，可以用软件如 Navicat 导出，也可以用 mysqldump 命令导出。
@@ -306,8 +306,44 @@ kill mysql相关进程终端运行 ps -ax | grep mysql 查看 mysql 相关进程
   
 </nav>
 
-
-
+<style type="text/css">
+#ds-reset .ds-avatar img,
+#ds-recent-visitors .ds-avatar img {
+width: 54px;
+height: 54px;     /*设置图像的长和宽，这里要根据自己的评论框情况更改*/
+border-radius: 27px;     /*设置图像圆角效果,在这里我直接设置了超过width/2的像素，即为圆形了*/
+-webkit-border-radius: 27px;     /*圆角效果：兼容webkit浏览器*/
+-moz-border-radius: 27px;
+box-shadow: inset 0 -1px 0 #3333sf;     /*设置图像阴影效果*/
+-webkit-box-shadow: inset 0 -1px 0 #3333sf;
+-webkit-transition: 0.4s;
+-webkit-transition: -webkit-transform 0.4s ease-out;
+transition: transform 0.4s ease-out;     /*变化时间设置为0.4秒(变化动作即为下面的图像旋转360读）*/
+-moz-transition: -moz-transform 0.4s ease-out;
+}
+#ds-reset .ds-avatar img:hover,
+#ds-recent-visitors .ds-avatar img:hover {
+/*设置鼠标悬浮在头像时的CSS样式*/    box-shadow: 0 0 10px #fff;
+rgba(255, 255, 255, .6), inset 0 0 20px rgba(255, 255, 255, 1);
+-webkit-box-shadow: 0 0 10px #fff;
+rgba(255, 255, 255, .6), inset 0 0 20px rgba(255, 255, 255, 1);
+transform: rotateZ(360deg);     /*图像旋转360度*/
+-webkit-transform: rotateZ(360deg);
+-moz-transform: rotateZ(360deg);
+}
+/*
+#ds-thread #ds-reset .ds-textarea-wrapper textarea {
+background: url(http://www.wuxubj.cn/images/duoshuo_bkground.jpg) right no-repeat;
+}
+*/
+#ds-recent-visitors .ds-avatar {
+float: left
+}
+/*隐藏多说底部版权*/
+#ds-thread #ds-reset .ds-powered-by {
+display: none;
+}
+</style>
  </div>
     </header>
 
@@ -447,16 +483,16 @@ kill mysql相关进程终端运行 ps -ax | grep mysql 查看 mysql 相关进程
 <h2 id="卸载-Homebrew-安装的mysql"><a href="#卸载-Homebrew-安装的mysql" class="headerlink" title="卸载 Homebrew 安装的mysql"></a>卸载 Homebrew 安装的mysql</h2><p>卸载全部以前用 <code>brew</code> 安装    的 <code>mysql</code>，先 <code>brew list</code> 查看安装的 <code>mysql</code> 版本，假如列出了 <code>mysql@5.5</code>， 则运行 <code>brew uninstall mysql@5.5</code>，卸载完后执行 <code>brew cleanup</code>。</p>
 <a id="more"></a>
 <h2 id="移除残留文件"><a href="#移除残留文件" class="headerlink" title="移除残留文件"></a>移除残留文件</h2><p>删除与 <code>mysql</code> 相关的文件</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">sudo rm /usr/local/mysql;</div><div class="line">sudo rm -rf /usr/local/var/mysql;</div><div class="line">sudo rm -rf /usr/local/mysql*;;</div><div class="line">sudo rm -rf /Library/StartupItems/MySQLCOM;</div><div class="line">sudo rm -rf /Library/PreferencePanes/My*</div></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">sudo rm /usr/<span class="built_in">local</span>/mysql;</div><div class="line">sudo rm -rf /usr/<span class="built_in">local</span>/var/mysql;</div><div class="line">sudo rm -rf /usr/<span class="built_in">local</span>/mysql*;</div><div class="line">sudo rm -rf /Library/StartupItems/MySQLCOM;</div><div class="line">sudo rm -rf /Library/PreferencePanes/My*</div></pre></td></tr></table></figure>
 <h2 id="移除残留自动登陆项"><a href="#移除残留自动登陆项" class="headerlink" title="移除残留自动登陆项"></a>移除残留自动登陆项</h2><p>移除自动登陆项，如果你安装过 <code>DMG</code> 版本的     <code>mysql</code>，则把以下命令中的 <code>LaunchAgents</code> 替换为 <code>LaunchDaemons</code> 再执行一次</p>
-<figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">launchctl unload -<span class="keyword">w</span> ~/Library/LaunchAgents/homebrew.mxcl.mysql.plist</div></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">launchctl unload -w ~/Library/LaunchAgents/homebrew.mxcl.mysql.plist</div></pre></td></tr></table></figure>
 <p><code>unload</code> 之后再删除该文件，</p>
-<figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">sudo rm ~/Library/LaunchAgents/homebrew.mxcl.mysql.plist</div><div class="line">或</div><div class="line">sudo rm ~/Library/LaunchDaemons/homebrew.mxcl.mysql.plist</div></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">sudo rm ~/Library/LaunchAgents/homebrew.mxcl.mysql.plist</div><div class="line">或</div><div class="line">sudo rm ~/Library/LaunchDaemons/homebrew.mxcl.mysql.plist</div></pre></td></tr></table></figure>
 <h2 id="移除残留配置"><a href="#移除残留配置" class="headerlink" title="移除残留配置"></a>移除残留配置</h2><p><code>subl /etc/hostconfig</code> `</p>
 <p>后输入 <code>Remove the line MYSQLCOM=-YES-</code> ` </p>
-<h2 id="移除残留偏好设置"><a href="#移除残留偏好设置" class="headerlink" title="移除残留偏好设置"></a>移除残留偏好设置</h2><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">rm -rf ~/Library/PreferencePanes/My*;</div><div class="line">sudo rm -rf /Library/Receipts/mysql*;</div><div class="line">sudo rm -rf /Library/Receipts/MySQL*;</div><div class="line">sudo rm -rf /private/var/db/receipts/*mysql*</div></pre></td></tr></table></figure>
+<h2 id="移除残留偏好设置"><a href="#移除残留偏好设置" class="headerlink" title="移除残留偏好设置"></a>移除残留偏好设置</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">rm -rf ~/Library/PreferencePanes/My*;</div><div class="line">sudo rm -rf /Library/Receipts/mysql*;</div><div class="line">sudo rm -rf /Library/Receipts/MySQL*;</div><div class="line">sudo rm -rf /private/var/db/receipts/*mysql*</div></pre></td></tr></table></figure>
 <h2 id="重启电脑，重新安装-mysql"><a href="#重启电脑，重新安装-mysql" class="headerlink" title="重启电脑，重新安装 mysql"></a>重启电脑，重新安装 <code>mysql</code></h2><p>建议使用 <code>Homebrew</code> 安装</p>
-<figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">brew <span class="built_in">search</span> mysql</div><div class="line">brew install 你要的版本</div></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">brew search mysql</div><div class="line">brew install 你要的版本</div></pre></td></tr></table></figure>
 
       
     </div>

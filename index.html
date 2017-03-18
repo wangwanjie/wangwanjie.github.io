@@ -301,8 +301,44 @@
   
 </nav>
 
-
-
+<style type="text/css">
+#ds-reset .ds-avatar img,
+#ds-recent-visitors .ds-avatar img {
+width: 54px;
+height: 54px;     /*设置图像的长和宽，这里要根据自己的评论框情况更改*/
+border-radius: 27px;     /*设置图像圆角效果,在这里我直接设置了超过width/2的像素，即为圆形了*/
+-webkit-border-radius: 27px;     /*圆角效果：兼容webkit浏览器*/
+-moz-border-radius: 27px;
+box-shadow: inset 0 -1px 0 #3333sf;     /*设置图像阴影效果*/
+-webkit-box-shadow: inset 0 -1px 0 #3333sf;
+-webkit-transition: 0.4s;
+-webkit-transition: -webkit-transform 0.4s ease-out;
+transition: transform 0.4s ease-out;     /*变化时间设置为0.4秒(变化动作即为下面的图像旋转360读）*/
+-moz-transition: -moz-transform 0.4s ease-out;
+}
+#ds-reset .ds-avatar img:hover,
+#ds-recent-visitors .ds-avatar img:hover {
+/*设置鼠标悬浮在头像时的CSS样式*/    box-shadow: 0 0 10px #fff;
+rgba(255, 255, 255, .6), inset 0 0 20px rgba(255, 255, 255, 1);
+-webkit-box-shadow: 0 0 10px #fff;
+rgba(255, 255, 255, .6), inset 0 0 20px rgba(255, 255, 255, 1);
+transform: rotateZ(360deg);     /*图像旋转360度*/
+-webkit-transform: rotateZ(360deg);
+-moz-transform: rotateZ(360deg);
+}
+/*
+#ds-thread #ds-reset .ds-textarea-wrapper textarea {
+background: url(http://www.wuxubj.cn/images/duoshuo_bkground.jpg) right no-repeat;
+}
+*/
+#ds-recent-visitors .ds-avatar {
+float: left
+}
+/*隐藏多说底部版权*/
+#ds-thread #ds-reset .ds-powered-by {
+display: none;
+}
+</style>
  </div>
     </header>
 
@@ -611,7 +647,7 @@
 
       
         
-          <h2 id="添加自定义样式"><a href="#添加自定义样式" class="headerlink" title="添加自定义样式"></a>添加自定义样式</h2><p>到多说后台管理-&gt;设置-&gt;基本设置-&gt;自定义css中添加如下css样式：</p>
+          <h2 id="添加自定义样式"><a href="#添加自定义样式" class="headerlink" title="添加自定义样式"></a>添加自定义样式</h2><h3 id="1-多说后台添加"><a href="#1-多说后台添加" class="headerlink" title="1. 多说后台添加"></a>1. 多说后台添加</h3><p>到多说后台管理-&gt;设置-&gt;基本设置-&gt;自定义css中添加如下css样式：</p>
 <figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div></pre></td><td class="code"><pre><div class="line">#ds-reset .ds-avatar img,</div><div class="line">#ds-recent-visitors .ds-avatar img &#123;</div><div class="line">width: 54px;</div><div class="line">height: 54px;     /*设置图像的长和宽，这里要根据自己的评论框情况更改*/</div><div class="line">border-radius: 27px;     /*设置图像圆角效果,在这里我直接设置了超过width/2的像素，即为圆形了*/</div><div class="line">-webkit-border-radius: 27px;     /*圆角效果：兼容webkit浏览器*/</div><div class="line">-moz-border-radius: 27px;</div><div class="line">box-shadow: inset 0 -1px 0 #3333sf;     /*设置图像阴影效果*/</div><div class="line">-webkit-box-shadow: inset 0 -1px 0 #3333sf;</div><div class="line">-webkit-transition: 0.4s;</div><div class="line">-webkit-transition: -webkit-transform 0.4s ease-out;</div><div class="line">transition: transform 0.4s ease-out;     /*变化时间设置为0.4秒(变化动作即为下面的图像旋转360读）*/</div><div class="line">-moz-transition: -moz-transform 0.4s ease-out;</div><div class="line">&#125;</div><div class="line"></div><div class="line">#ds-reset .ds-avatar img:hover,</div><div class="line">#ds-recent-visitors .ds-avatar img:hover &#123;</div><div class="line"></div><div class="line">/*设置鼠标悬浮在头像时的CSS样式*/    box-shadow: 0 0 10px #fff;</div><div class="line">rgba(255, 255, 255, .6), inset 0 0 20px rgba(255, 255, 255, 1);</div><div class="line">-webkit-box-shadow: 0 0 10px #fff;</div><div class="line">rgba(255, 255, 255, .6), inset 0 0 20px rgba(255, 255, 255, 1);</div><div class="line">transform: rotateZ(360deg);     /*图像旋转360度*/</div><div class="line">-webkit-transform: rotateZ(360deg);</div><div class="line">-moz-transform: rotateZ(360deg);</div><div class="line">&#125;</div><div class="line">/*</div><div class="line">#ds-thread #ds-reset .ds-textarea-wrapper textarea &#123;</div><div class="line">background: url(http://www.wuxubj.cn/images/duoshuo_bkground.jpg) right no-repeat;</div><div class="line">&#125;</div><div class="line">*/</div><div class="line">#ds-recent-visitors .ds-avatar &#123;</div><div class="line">float: left</div><div class="line">&#125;</div><div class="line">/*隐藏多说底部版权*/</div><div class="line">#ds-thread #ds-reset .ds-powered-by &#123;</div><div class="line">display: none;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
           <!--noindex-->
           <div class="post-button text-center">
@@ -1114,8 +1150,8 @@
       
         
           
-            <h2 id="查看可用签名"><a href="#查看可用签名" class="headerlink" title="查看可用签名"></a>查看可用签名</h2><figure class="highlight dos"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">security <span class="built_in">find</span>-identity -v -p codesigning</div></pre></td></tr></table></figure>
-<h2 id="签名"><a href="#签名" class="headerlink" title="签名"></a>签名</h2><figure class="highlight dos"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">codesign --force --<span class="built_in">verify</span> --verbose --sign "iPhone Developer: <span class="number">396736694</span>@qq.com (Z4965JH2C8)” 目标包</div></pre></td></tr></table></figure>
+            <h2 id="查看可用签名"><a href="#查看可用签名" class="headerlink" title="查看可用签名"></a>查看可用签名</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">security find-identity -v -p codesigning</div></pre></td></tr></table></figure>
+<h2 id="签名"><a href="#签名" class="headerlink" title="签名"></a>签名</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">codesign --force --verify --verbose --sign <span class="string">"iPhone Developer: 396736694@qq.com (Z4965JH2C8)” 目标包</span></div></pre></td></tr></table></figure>
           
         
       
@@ -1454,7 +1490,7 @@
       
         
           
-            <p>运行以下命令:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sysctl machdep.cpu.brand_string</div></pre></td></tr></table></figure></p>
+            <p>运行以下命令:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sysctl machdep.cpu.brand_string</div></pre></td></tr></table></figure></p>
 
           
         

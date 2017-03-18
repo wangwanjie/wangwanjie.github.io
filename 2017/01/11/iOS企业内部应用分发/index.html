@@ -105,7 +105,7 @@ XML 清单文件（一个 plist 配置文件）
 XML 清单文件（一个 plist 配置文件）
 可让设备访问 Apple iTunes 服务器的网络配置（设备要能连接互联网，因为要校验）
 对于 iOS 7.1 或更高版本， plist 文件和 i">
-<meta property="og:updated_time" content="2017-03-17T19:07:34.000Z">
+<meta property="og:updated_time" content="2017-03-18T13:27:26.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="iOS企业内部应用分发">
 <meta name="twitter:description" content="iOS 支持以无线方式安装企业内部应用，而无需使用 iTunes 或 App Store。
@@ -318,8 +318,44 @@ XML 清单文件（一个 plist 配置文件）
   
 </nav>
 
-
-
+<style type="text/css">
+#ds-reset .ds-avatar img,
+#ds-recent-visitors .ds-avatar img {
+width: 54px;
+height: 54px;     /*设置图像的长和宽，这里要根据自己的评论框情况更改*/
+border-radius: 27px;     /*设置图像圆角效果,在这里我直接设置了超过width/2的像素，即为圆形了*/
+-webkit-border-radius: 27px;     /*圆角效果：兼容webkit浏览器*/
+-moz-border-radius: 27px;
+box-shadow: inset 0 -1px 0 #3333sf;     /*设置图像阴影效果*/
+-webkit-box-shadow: inset 0 -1px 0 #3333sf;
+-webkit-transition: 0.4s;
+-webkit-transition: -webkit-transform 0.4s ease-out;
+transition: transform 0.4s ease-out;     /*变化时间设置为0.4秒(变化动作即为下面的图像旋转360读）*/
+-moz-transition: -moz-transform 0.4s ease-out;
+}
+#ds-reset .ds-avatar img:hover,
+#ds-recent-visitors .ds-avatar img:hover {
+/*设置鼠标悬浮在头像时的CSS样式*/    box-shadow: 0 0 10px #fff;
+rgba(255, 255, 255, .6), inset 0 0 20px rgba(255, 255, 255, 1);
+-webkit-box-shadow: 0 0 10px #fff;
+rgba(255, 255, 255, .6), inset 0 0 20px rgba(255, 255, 255, 1);
+transform: rotateZ(360deg);     /*图像旋转360度*/
+-webkit-transform: rotateZ(360deg);
+-moz-transform: rotateZ(360deg);
+}
+/*
+#ds-thread #ds-reset .ds-textarea-wrapper textarea {
+background: url(http://www.wuxubj.cn/images/duoshuo_bkground.jpg) right no-repeat;
+}
+*/
+#ds-recent-visitors .ds-avatar {
+float: left
+}
+/*隐藏多说底部版权*/
+#ds-thread #ds-reset .ds-powered-by {
+display: none;
+}
+</style>
  </div>
     </header>
 
@@ -501,7 +537,7 @@ XML 清单文件（一个 plist 配置文件）
 <li>请确定清单文件的链接是否正确，清单文件是否可供网络用户访问。</li>
 <li>请确定 .ipa 文件（在清单文件中）的 URL 是否正确，并且该 .ipa 文件是否可供网络用户通过 HTTPS 访问。<h2 id="网络配置要求"><a href="#网络配置要求" class="headerlink" title="网络配置要求"></a>网络配置要求</h2>如果设备连接到内网，那么您必须允许它访问以下站点：</li>
 </ol>
-<pre><code>https://ax.init.itunes.apple.com &lt;br/&gt;
+<pre><code>https://ax.init.itunes.apple.com
 </code></pre><p>使用蜂窝移动网络下载应用时，设备会限制其当前文件大小。如果无法访问此站点，安装可能会失败。</p>
 <p><code>https://ppq.apple.com</code> 设备会联系此网站，检查用来给预置描述文件签名的分发证书状态。</p>
 <h2 id="应用更新"><a href="#应用更新" class="headerlink" title="应用更新"></a>应用更新</h2><ol>

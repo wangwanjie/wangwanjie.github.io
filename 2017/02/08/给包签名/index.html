@@ -95,7 +95,7 @@
 <meta property="og:site_name" content="CoderJay的博客">
 <meta property="og:description" content="查看可用签名1security find-identity -v -p codesigning
 签名1codesign --force --verify --verbose --sign &quot;iPhone Developer: 396736694@qq.com (Z4965JH2C8)” 目标包">
-<meta property="og:updated_time" content="2017-03-17T18:33:30.000Z">
+<meta property="og:updated_time" content="2017-03-18T13:26:28.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="给包签名">
 <meta name="twitter:description" content="查看可用签名1security find-identity -v -p codesigning
@@ -303,8 +303,44 @@
   
 </nav>
 
-
-
+<style type="text/css">
+#ds-reset .ds-avatar img,
+#ds-recent-visitors .ds-avatar img {
+width: 54px;
+height: 54px;     /*设置图像的长和宽，这里要根据自己的评论框情况更改*/
+border-radius: 27px;     /*设置图像圆角效果,在这里我直接设置了超过width/2的像素，即为圆形了*/
+-webkit-border-radius: 27px;     /*圆角效果：兼容webkit浏览器*/
+-moz-border-radius: 27px;
+box-shadow: inset 0 -1px 0 #3333sf;     /*设置图像阴影效果*/
+-webkit-box-shadow: inset 0 -1px 0 #3333sf;
+-webkit-transition: 0.4s;
+-webkit-transition: -webkit-transform 0.4s ease-out;
+transition: transform 0.4s ease-out;     /*变化时间设置为0.4秒(变化动作即为下面的图像旋转360读）*/
+-moz-transition: -moz-transform 0.4s ease-out;
+}
+#ds-reset .ds-avatar img:hover,
+#ds-recent-visitors .ds-avatar img:hover {
+/*设置鼠标悬浮在头像时的CSS样式*/    box-shadow: 0 0 10px #fff;
+rgba(255, 255, 255, .6), inset 0 0 20px rgba(255, 255, 255, 1);
+-webkit-box-shadow: 0 0 10px #fff;
+rgba(255, 255, 255, .6), inset 0 0 20px rgba(255, 255, 255, 1);
+transform: rotateZ(360deg);     /*图像旋转360度*/
+-webkit-transform: rotateZ(360deg);
+-moz-transform: rotateZ(360deg);
+}
+/*
+#ds-thread #ds-reset .ds-textarea-wrapper textarea {
+background: url(http://www.wuxubj.cn/images/duoshuo_bkground.jpg) right no-repeat;
+}
+*/
+#ds-recent-visitors .ds-avatar {
+float: left
+}
+/*隐藏多说底部版权*/
+#ds-thread #ds-reset .ds-powered-by {
+display: none;
+}
+</style>
  </div>
     </header>
 
@@ -439,8 +475,8 @@
       
 
       
-        <h2 id="查看可用签名"><a href="#查看可用签名" class="headerlink" title="查看可用签名"></a>查看可用签名</h2><figure class="highlight dos"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">security <span class="built_in">find</span>-identity -v -p codesigning</div></pre></td></tr></table></figure>
-<h2 id="签名"><a href="#签名" class="headerlink" title="签名"></a>签名</h2><figure class="highlight dos"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">codesign --force --<span class="built_in">verify</span> --verbose --sign "iPhone Developer: <span class="number">396736694</span>@qq.com (Z4965JH2C8)” 目标包</div></pre></td></tr></table></figure>
+        <h2 id="查看可用签名"><a href="#查看可用签名" class="headerlink" title="查看可用签名"></a>查看可用签名</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">security find-identity -v -p codesigning</div></pre></td></tr></table></figure>
+<h2 id="签名"><a href="#签名" class="headerlink" title="签名"></a>签名</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">codesign --force --verify --verbose --sign <span class="string">"iPhone Developer: 396736694@qq.com (Z4965JH2C8)” 目标包</span></div></pre></td></tr></table></figure>
       
     </div>
 
