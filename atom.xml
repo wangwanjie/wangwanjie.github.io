@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://wangwanjie.github.io/"/>
-  <updated>2017-03-18T13:26:05.000Z</updated>
+  <updated>2017-03-18T14:11:29.000Z</updated>
   <id>https://wangwanjie.github.io/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="https://wangwanjie.github.io/2017/03/18/Mac-%E5%BD%BB%E5%BA%95%E5%8D%B8%E8%BD%BD-MYSQL-%E8%A7%A3%E5%86%B3%E7%96%91%E9%9A%BE%E6%9D%82%E7%97%87/"/>
     <id>https://wangwanjie.github.io/2017/03/18/Mac-彻底卸载-MYSQL-解决疑难杂症/</id>
     <published>2017-03-18T12:42:18.000Z</published>
-    <updated>2017-03-18T13:26:05.000Z</updated>
+    <updated>2017-03-18T14:11:29.000Z</updated>
     
     <content type="html"><![CDATA[<h2 id="备份数据库"><a href="#备份数据库" class="headerlink" title="备份数据库"></a>备份数据库</h2><p>备份看个人了，可以用软件如 <code>Navicat</code> 导出，也可以用 <code>mysqldump</code> 命令导出。</p>
 <h2 id="kill-mysql相关进程"><a href="#kill-mysql相关进程" class="headerlink" title="kill mysql相关进程"></a>kill <code>mysql</code>相关进程</h2><p>终端运行 <code>ps -ax | grep mysql</code> 查看 <code>mysql</code> 相关进程， 有的话 <code>kill</code></p>
@@ -37,6 +37,9 @@
 <h2 id="移除残留偏好设置"><a href="#移除残留偏好设置" class="headerlink" title="移除残留偏好设置"></a>移除残留偏好设置</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">rm -rf ~/Library/PreferencePanes/My*;</div><div class="line">sudo rm -rf /Library/Receipts/mysql*;</div><div class="line">sudo rm -rf /Library/Receipts/MySQL*;</div><div class="line">sudo rm -rf /private/var/db/receipts/*mysql*</div></pre></td></tr></table></figure>
 <h2 id="重启电脑，重新安装-mysql"><a href="#重启电脑，重新安装-mysql" class="headerlink" title="重启电脑，重新安装 mysql"></a>重启电脑，重新安装 <code>mysql</code></h2><p>建议使用 <code>Homebrew</code> 安装</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">brew search mysql</div><div class="line">brew install 你要的版本</div></pre></td></tr></table></figure>
+<h2 id="启动-mysql"><a href="#启动-mysql" class="headerlink" title="启动 mysql"></a>启动 <code>mysql</code></h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">mysql.server start</div></pre></td></tr></table></figure>
+<p>如果报 <code>commond not found</code>，则在 <code>~/.zshrc</code> 或者 <code>~/.bashrc</code> 中加入以下两行（注意替换mysql路径）：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">export</span> MYSQL=/usr/<span class="built_in">local</span>/Cellar/mysql@5.6/5.6.35/support-files</div><div class="line"><span class="built_in">export</span> PATH=<span class="variable">$MYSQL</span>:<span class="variable">$PATH</span></div></pre></td></tr></table></figure>
 ]]></content>
     
     <summary type="html">

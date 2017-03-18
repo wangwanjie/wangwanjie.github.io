@@ -97,7 +97,7 @@ kill mysql相关进程终端运行 ps -ax | grep mysql 查看 mysql 相关进程
 <meta property="og:description" content="备份数据库备份看个人了，可以用软件如 Navicat 导出，也可以用 mysqldump 命令导出。
 kill mysql相关进程终端运行 ps -ax | grep mysql 查看 mysql 相关进程， 有的话 kill
 卸载 Homebrew 安装的mysql卸载全部以前用 brew 安装    的 mysql，先 brew list 查看安装的 mysql 版本，假如列出了 mysql@">
-<meta property="og:updated_time" content="2017-03-18T13:26:05.000Z">
+<meta property="og:updated_time" content="2017-03-18T14:11:29.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Mac 彻底卸载 MYSQL 解决疑难杂症">
 <meta name="twitter:description" content="备份数据库备份看个人了，可以用软件如 Navicat 导出，也可以用 mysqldump 命令导出。
@@ -493,6 +493,9 @@ display: none;
 <h2 id="移除残留偏好设置"><a href="#移除残留偏好设置" class="headerlink" title="移除残留偏好设置"></a>移除残留偏好设置</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">rm -rf ~/Library/PreferencePanes/My*;</div><div class="line">sudo rm -rf /Library/Receipts/mysql*;</div><div class="line">sudo rm -rf /Library/Receipts/MySQL*;</div><div class="line">sudo rm -rf /private/var/db/receipts/*mysql*</div></pre></td></tr></table></figure>
 <h2 id="重启电脑，重新安装-mysql"><a href="#重启电脑，重新安装-mysql" class="headerlink" title="重启电脑，重新安装 mysql"></a>重启电脑，重新安装 <code>mysql</code></h2><p>建议使用 <code>Homebrew</code> 安装</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">brew search mysql</div><div class="line">brew install 你要的版本</div></pre></td></tr></table></figure>
+<h2 id="启动-mysql"><a href="#启动-mysql" class="headerlink" title="启动 mysql"></a>启动 <code>mysql</code></h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">mysql.server start</div></pre></td></tr></table></figure>
+<p>如果报 <code>commond not found</code>，则在 <code>~/.zshrc</code> 或者 <code>~/.bashrc</code> 中加入以下两行（注意替换mysql路径）：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">export</span> MYSQL=/usr/<span class="built_in">local</span>/Cellar/mysql@5.6/5.6.35/support-files</div><div class="line"><span class="built_in">export</span> PATH=<span class="variable">$MYSQL</span>:<span class="variable">$PATH</span></div></pre></td></tr></table></figure>
 
       
     </div>
@@ -782,7 +785,7 @@ display: none;
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#备份数据库"><span class="nav-number">1.</span> <span class="nav-text">备份数据库</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#kill-mysql相关进程"><span class="nav-number">2.</span> <span class="nav-text">kill mysql相关进程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#卸载-Homebrew-安装的mysql"><span class="nav-number">3.</span> <span class="nav-text">卸载 Homebrew 安装的mysql</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#移除残留文件"><span class="nav-number">4.</span> <span class="nav-text">移除残留文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#移除残留自动登陆项"><span class="nav-number">5.</span> <span class="nav-text">移除残留自动登陆项</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#移除残留配置"><span class="nav-number">6.</span> <span class="nav-text">移除残留配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#移除残留偏好设置"><span class="nav-number">7.</span> <span class="nav-text">移除残留偏好设置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#重启电脑，重新安装-mysql"><span class="nav-number">8.</span> <span class="nav-text">重启电脑，重新安装 mysql</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#备份数据库"><span class="nav-number">1.</span> <span class="nav-text">备份数据库</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#kill-mysql相关进程"><span class="nav-number">2.</span> <span class="nav-text">kill mysql相关进程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#卸载-Homebrew-安装的mysql"><span class="nav-number">3.</span> <span class="nav-text">卸载 Homebrew 安装的mysql</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#移除残留文件"><span class="nav-number">4.</span> <span class="nav-text">移除残留文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#移除残留自动登陆项"><span class="nav-number">5.</span> <span class="nav-text">移除残留自动登陆项</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#移除残留配置"><span class="nav-number">6.</span> <span class="nav-text">移除残留配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#移除残留偏好设置"><span class="nav-number">7.</span> <span class="nav-text">移除残留偏好设置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#重启电脑，重新安装-mysql"><span class="nav-number">8.</span> <span class="nav-text">重启电脑，重新安装 mysql</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#启动-mysql"><span class="nav-number">9.</span> <span class="nav-text">启动 mysql</span></a></li></ol></div>
             
 
           </div>
