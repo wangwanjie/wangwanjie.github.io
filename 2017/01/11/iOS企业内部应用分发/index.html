@@ -105,7 +105,7 @@ XML 清单文件（一个 plist 配置文件）
 XML 清单文件（一个 plist 配置文件）
 可让设备访问 Apple iTunes 服务器的网络配置（设备要能连接互联网，因为要校验）
 对于 iOS 7.1 或更高版本， plist 文件和 i">
-<meta property="og:updated_time" content="2017-03-18T13:27:26.000Z">
+<meta property="og:updated_time" content="2017-03-18T15:01:34.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="iOS企业内部应用分发">
 <meta name="twitter:description" content="iOS 支持以无线方式安装企业内部应用，而无需使用 iTunes 或 App Store。
@@ -512,7 +512,10 @@ display: none;
 <li>full-size-image：512 x 512 px 的 PNG 图像，表示 iTunes 中相应的应用，图片的 Web URL</li>
 <li>bundle-identifier：应用的包标识符，与 Xcode 项目中指定的完全一样</li>
 <li>bundle-version：应用的包版本，在 Xcode 项目中指定</li>
-<li>title：下载和安装过程中显示的应用的名称<br>样本清单文件还包含可选字段。例如，如果应用文件太大，并且想要在执行错误检验（TCP 通信通常会执行该检验）的基础上确保下载的完整性，可以使用 MD5 校验，使用见范例。<br>您也可以在一个plist文件中配置多个应用，一个 item 作为一项。<h2 id="构建网站"><a href="#构建网站" class="headerlink" title="构建网站"></a>构建网站</h2>将这些项目上传到网站上可供已认证的用户访问的区域：</li>
+<li>title：下载和安装过程中显示的应用的名称<br>样本清单文件还包含可选字段。例如，如果应用文件太大，并且想要在执行错误检验（TCP 通信通常会执行该检验）的基础上确保下载的完整性，可以使用 MD5 校验，使用见范例。<br>您也可以在一个plist文件中配置多个应用，一个 item 作为一项。</li>
+</ol>
+<h2 id="构建网站"><a href="#构建网站" class="headerlink" title="构建网站"></a>构建网站</h2><p>将这些项目上传到网站上可供已认证的用户访问的区域：</p>
+<ol>
 <li>应用 (.ipa) 文件</li>
 <li>清单 (.plist) 文件<br>您的网站可以是链接到清单文件的单个页面。用户轻点 Web 链接后会下载清单文件，并触发下载和安装。<br><em>以下是示例链接：</em><pre><code class="XML"><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"itms-services://?action=download-manifest&amp;url=https://example.com/manifest.plist"</span>&gt;</span>安装应用<span class="tag">&lt;/<span class="name">a</span>&gt;</span>
 </code></pre>
@@ -535,8 +538,9 @@ display: none;
 <ol>
 <li>请确定应用已正确进行签名。测试方法是使用 Apple Configurator 2 将它安装到设备上，然后查看是否发生错误。</li>
 <li>请确定清单文件的链接是否正确，清单文件是否可供网络用户访问。</li>
-<li>请确定 .ipa 文件（在清单文件中）的 URL 是否正确，并且该 .ipa 文件是否可供网络用户通过 HTTPS 访问。<h2 id="网络配置要求"><a href="#网络配置要求" class="headerlink" title="网络配置要求"></a>网络配置要求</h2>如果设备连接到内网，那么您必须允许它访问以下站点：</li>
+<li>请确定 .ipa 文件（在清单文件中）的 URL 是否正确，并且该 .ipa 文件是否可供网络用户通过 HTTPS 访问。</li>
 </ol>
+<h2 id="网络配置要求"><a href="#网络配置要求" class="headerlink" title="网络配置要求"></a>网络配置要求</h2><p>如果设备连接到内网，那么您必须允许它访问以下站点：</p>
 <pre><code>https://ax.init.itunes.apple.com
 </code></pre><p>使用蜂窝移动网络下载应用时，设备会限制其当前文件大小。如果无法访问此站点，安装可能会失败。</p>
 <p><code>https://ppq.apple.com</code> 设备会联系此网站，检查用来给预置描述文件签名的分发证书状态。</p>

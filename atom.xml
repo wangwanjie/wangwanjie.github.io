@@ -76,6 +76,8 @@
 <h2 id="添加最近访客-dom-到模板文件中（此做法更新抛弃，采用下面做法）"><a href="#添加最近访客-dom-到模板文件中（此做法更新抛弃，采用下面做法）" class="headerlink" title="添加最近访客 dom 到模板文件中（此做法更新抛弃，采用下面做法）"></a>添加最近访客 dom 到模板文件中（此做法更新抛弃，采用下面做法）</h2><p>在博客站点根目录的 <code>scaffolds/*.md</code> 模板文件中添加以上 <code>dom</code> 代码，以后新建 <code>[layout]</code> 便无需手动拷贝。</p>
 <h2 id="修改-reward-swi-文件"><a href="#修改-reward-swi-文件" class="headerlink" title="修改 reward.swi 文件"></a>修改 <code>reward.swi</code> 文件</h2><p>文件路径:</p>
 <figure class="highlight gradle"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="regexp">/themes/</span><span class="keyword">NexT</span><span class="regexp">/layout/</span>_macro<span class="regexp">/reward.swi</span></div></pre></td></tr></table></figure>
+<h2 id="编辑主题配置文件"><a href="#编辑主题配置文件" class="headerlink" title="编辑主题配置文件"></a>编辑主题配置文件</h2><p>在主题配置文件 <code>_config.yml</code> 中添加：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># 最近访客</span></div><div class="line"><span class="attr">duoshuo_recent_visit:</span> <span class="literal">true</span></div></pre></td></tr></table></figure>
 <h2 id="在顶部添加内容："><a href="#在顶部添加内容：" class="headerlink" title="在顶部添加内容："></a>在顶部添加内容：</h2><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">&#123;% if theme.duoshuo_recent_visit %&#125;</div><div class="line">&lt;blockquote&gt;</div><div class="line">&lt;p&gt;最近访客&lt;/p&gt;</div><div class="line">&lt;p&gt;&lt;/p&gt;</div><div class="line">&lt;div class="ds-recent-visitors" data-num-items="28" data-avatar-size="42" id="ds-recent-visitors"&gt;</div><div class="line">&lt;/div&gt;&lt;br&gt;&lt;br&gt;</div><div class="line">&lt;p&gt;&lt;/p&gt;</div><div class="line">&lt;/blockquote&gt;</div><div class="line">&#123;% endif %&#125;</div></pre></td></tr></table></figure>
 <h2 id="保存，重启-Hexo-即可"><a href="#保存，重启-Hexo-即可" class="headerlink" title="保存，重启 Hexo 即可"></a>保存，重启 Hexo 即可</h2>]]></content>
     
@@ -189,7 +191,7 @@
     <link href="https://wangwanjie.github.io/2017/01/11/iOS%E4%BC%81%E4%B8%9A%E5%86%85%E9%83%A8%E5%BA%94%E7%94%A8%E5%88%86%E5%8F%91/"/>
     <id>https://wangwanjie.github.io/2017/01/11/iOS企业内部应用分发/</id>
     <published>2017-01-11T12:52:03.000Z</published>
-    <updated>2017-03-18T13:27:26.000Z</updated>
+    <updated>2017-03-18T15:01:34.000Z</updated>
     
     <content type="html"><![CDATA[<blockquote>
 <p>iOS 支持以无线方式安装企业内部应用，而无需使用 iTunes 或 App Store。</p>
@@ -213,7 +215,10 @@
 <li>full-size-image：512 x 512 px 的 PNG 图像，表示 iTunes 中相应的应用，图片的 Web URL</li>
 <li>bundle-identifier：应用的包标识符，与 Xcode 项目中指定的完全一样</li>
 <li>bundle-version：应用的包版本，在 Xcode 项目中指定</li>
-<li>title：下载和安装过程中显示的应用的名称<br>样本清单文件还包含可选字段。例如，如果应用文件太大，并且想要在执行错误检验（TCP 通信通常会执行该检验）的基础上确保下载的完整性，可以使用 MD5 校验，使用见范例。<br>您也可以在一个plist文件中配置多个应用，一个 item 作为一项。<h2 id="构建网站"><a href="#构建网站" class="headerlink" title="构建网站"></a>构建网站</h2>将这些项目上传到网站上可供已认证的用户访问的区域：</li>
+<li>title：下载和安装过程中显示的应用的名称<br>样本清单文件还包含可选字段。例如，如果应用文件太大，并且想要在执行错误检验（TCP 通信通常会执行该检验）的基础上确保下载的完整性，可以使用 MD5 校验，使用见范例。<br>您也可以在一个plist文件中配置多个应用，一个 item 作为一项。</li>
+</ol>
+<h2 id="构建网站"><a href="#构建网站" class="headerlink" title="构建网站"></a>构建网站</h2><p>将这些项目上传到网站上可供已认证的用户访问的区域：</p>
+<ol>
 <li>应用 (.ipa) 文件</li>
 <li>清单 (.plist) 文件<br>您的网站可以是链接到清单文件的单个页面。用户轻点 Web 链接后会下载清单文件，并触发下载和安装。<br><em>以下是示例链接：</em><pre><code class="XML"><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"itms-services://?action=download-manifest&amp;url=https://example.com/manifest.plist"</span>&gt;</span>安装应用<span class="tag">&lt;/<span class="name">a</span>&gt;</span>
 </code></pre>
@@ -236,8 +241,9 @@
 <ol>
 <li>请确定应用已正确进行签名。测试方法是使用 Apple Configurator 2 将它安装到设备上，然后查看是否发生错误。</li>
 <li>请确定清单文件的链接是否正确，清单文件是否可供网络用户访问。</li>
-<li>请确定 .ipa 文件（在清单文件中）的 URL 是否正确，并且该 .ipa 文件是否可供网络用户通过 HTTPS 访问。<h2 id="网络配置要求"><a href="#网络配置要求" class="headerlink" title="网络配置要求"></a>网络配置要求</h2>如果设备连接到内网，那么您必须允许它访问以下站点：</li>
+<li>请确定 .ipa 文件（在清单文件中）的 URL 是否正确，并且该 .ipa 文件是否可供网络用户通过 HTTPS 访问。</li>
 </ol>
+<h2 id="网络配置要求"><a href="#网络配置要求" class="headerlink" title="网络配置要求"></a>网络配置要求</h2><p>如果设备连接到内网，那么您必须允许它访问以下站点：</p>
 <pre><code>https://ax.init.itunes.apple.com
 </code></pre><p>使用蜂窝移动网络下载应用时，设备会限制其当前文件大小。如果无法访问此站点，安装可能会失败。</p>
 <p><code>https://ppq.apple.com</code> 设备会联系此网站，检查用来给预置描述文件签名的分发证书状态。</p>
