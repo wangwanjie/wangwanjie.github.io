@@ -97,7 +97,7 @@ kill mysql相关进程终端运行 ps -ax | grep mysql 查看 mysql 相关进程
 <meta property="og:description" content="备份数据库备份看个人了，可以用软件如 Navicat 导出，也可以用 mysqldump 命令导出。
 kill mysql相关进程终端运行 ps -ax | grep mysql 查看 mysql 相关进程， 有的话 kill
 卸载 Homebrew 安装的mysql卸载全部以前用 brew 安装    的 mysql，先 brew list 查看安装的 mysql 版本，假如列出了 mysql@">
-<meta property="og:updated_time" content="2017-03-18T13:07:20.000Z">
+<meta property="og:updated_time" content="2017-03-18T13:11:21.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Mac 彻底卸载 MYSQL 解决疑难杂症">
 <meta name="twitter:description" content="备份数据库备份看个人了，可以用软件如 Navicat 导出，也可以用 mysqldump 命令导出。
@@ -454,8 +454,9 @@ kill mysql相关进程终端运行 ps -ax | grep mysql 查看 mysql 相关进程
 <figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">sudo rm ~/Library/LaunchAgents/homebrew.mxcl.mysql.plist</div><div class="line">或</div><div class="line">sudo rm ~/Library/LaunchDaemons/homebrew.mxcl.mysql.plist</div></pre></td></tr></table></figure>
 <h2 id="移除残留配置"><a href="#移除残留配置" class="headerlink" title="移除残留配置"></a>移除残留配置</h2><p><code>subl /etc/hostconfig</code> `</p>
 <p>后输入 <code>Remove the line MYSQLCOM=-YES-</code> ` </p>
-<h2 id="移除残留偏好设置"><a href="#移除残留偏好设置" class="headerlink" title="移除残留偏好设置"></a>移除残留偏好设置</h2><figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">rm -rf ~/Library/PreferencePanes/My*</div><div class="line">sudo rm -rf /Library/Receipts/mysql*</div><div class="line">sudo rm -rf /Library/Receipts/MySQL*</div><div class="line">sudo rm -rf /private/var/db/receipts/*mysql*</div></pre></td></tr></table></figure>
+<h2 id="移除残留偏好设置"><a href="#移除残留偏好设置" class="headerlink" title="移除残留偏好设置"></a>移除残留偏好设置</h2><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">rm -rf ~/Library/PreferencePanes/My*;</div><div class="line">sudo rm -rf /Library/Receipts/mysql*;</div><div class="line">sudo rm -rf /Library/Receipts/MySQL*;</div><div class="line">sudo rm -rf /private/var/db/receipts/*mysql*</div></pre></td></tr></table></figure>
 <h2 id="重启电脑，重新安装-mysql"><a href="#重启电脑，重新安装-mysql" class="headerlink" title="重启电脑，重新安装 mysql"></a>重启电脑，重新安装 <code>mysql</code></h2><p>建议使用 <code>Homebrew</code> 安装</p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">brew <span class="built_in">search</span> mysql</div><div class="line">brew install 你要的版本</div></pre></td></tr></table></figure>
 
       
     </div>
