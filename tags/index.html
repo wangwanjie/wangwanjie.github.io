@@ -130,6 +130,9 @@
 
 
 
+
+<link href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css" rel="stylesheet">
+
   <title>
   
 
@@ -369,9 +372,41 @@ display: none;
         <div class="tag-cloud-title">
             目前共计 18 个标签
         </div>
-        <div class="tag-cloud-tags">
-          <a href="/tags/AFN/" style="font-size: 12px; color: #ccc">AFN</a> <a href="/tags/Hexo/" style="font-size: 12px; color: #ccc">Hexo</a> <a href="/tags/MYSQL/" style="font-size: 12px; color: #ccc">MYSQL</a> <a href="/tags/Mac/" style="font-size: 12px; color: #ccc">Mac</a> <a href="/tags/Mac使用/" style="font-size: 12px; color: #ccc">Mac使用</a> <a href="/tags/NexT/" style="font-size: 12px; color: #ccc">NexT</a> <a href="/tags/Soap/" style="font-size: 12px; color: #ccc">Soap</a> <a href="/tags/WebService/" style="font-size: 12px; color: #ccc">WebService</a> <a href="/tags/iOS安全/" style="font-size: 12px; color: #ccc">iOS安全</a> <a href="/tags/iOS签名/" style="font-size: 12px; color: #ccc">iOS签名</a> <a href="/tags/javascript/" style="font-size: 12px; color: #ccc">javascript</a> <a href="/tags/博客/" style="font-size: 12px; color: #ccc">博客</a> <a href="/tags/发布/" style="font-size: 12px; color: #ccc">发布</a> <a href="/tags/打包/" style="font-size: 30px; color: #111">打包</a> <a href="/tags/破解/" style="font-size: 12px; color: #ccc">破解</a> <a href="/tags/网络/" style="font-size: 12px; color: #ccc">网络</a> <a href="/tags/网络协议/" style="font-size: 12px; color: #ccc">网络协议</a> <a href="/tags/逆向/" style="font-size: 12px; color: #ccc">逆向</a>
-        </div>
+
+      
+      <div class="tags" id="myTags">
+  <canvas width="350" height="350" id="my3DTags">
+    <p>Anything in here will be replaced on browsers that support the canvas element</p>
+  </canvas>
+</div>
+<div class="tags" id="tags">
+  <ul style="display: none">
+    <a href="/tags/AFN/" style="font-size: 16px; color: #f00">AFN</a> <a href="/tags/Hexo/" style="font-size: 16px; color: #f00">Hexo</a> <a href="/tags/MYSQL/" style="font-size: 16px; color: #f00">MYSQL</a> <a href="/tags/Mac/" style="font-size: 16px; color: #f00">Mac</a> <a href="/tags/Mac使用/" style="font-size: 16px; color: #f00">Mac使用</a> <a href="/tags/NexT/" style="font-size: 16px; color: #f00">NexT</a> <a href="/tags/Soap/" style="font-size: 16px; color: #f00">Soap</a> <a href="/tags/WebService/" style="font-size: 16px; color: #f00">WebService</a> <a href="/tags/iOS安全/" style="font-size: 16px; color: #f00">iOS安全</a> <a href="/tags/iOS签名/" style="font-size: 16px; color: #f00">iOS签名</a> <a href="/tags/javascript/" style="font-size: 16px; color: #f00">javascript</a> <a href="/tags/博客/" style="font-size: 16px; color: #f00">博客</a> <a href="/tags/发布/" style="font-size: 16px; color: #f00">发布</a> <a href="/tags/打包/" style="font-size: 35px; color: #f00">打包</a> <a href="/tags/破解/" style="font-size: 16px; color: #f00">破解</a> <a href="/tags/网络/" style="font-size: 16px; color: #f00">网络</a> <a href="/tags/网络协议/" style="font-size: 16px; color: #f00">网络协议</a> <a href="/tags/逆向/" style="font-size: 16px; color: #f00">逆向</a>
+  </ul>
+</div>
+<script type="text/javascript" src="/js/tagcanvas.js"></script>
+<script type="text/javascript" >
+  window.onload = function() {
+    try {
+      TagCanvas.Start('my3DTags','tags',{
+        textFont: 'Georgia,Optima',
+        textColour: null,
+        outlineColour: 'blue',
+        weight: true,
+        reverse: true,
+        depth: 0.8,
+        maxSpeed: 0.05,
+        bgRadius: 1,
+        freezeDecel: true
+      });
+    } catch(e) {
+      // something went wrong, hide the canvas container
+      document.getElementById('myTags').style.display = 'none';
+    }
+  };
+</script>
+
+
       </div>
     
   </div>
@@ -582,6 +617,16 @@ display: none;
 </div>
 
 
+
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <div class="busuanzi-count">
+      <span class="site-uv">
+        <i class="fa fa-user"></i><span id="busuanzi_value_site_uv"></span>
+      </span>
+      <span class="site-pv">
+        <i class="fa fa-eye"></i><span id="busuanzi_value_site_pv"></span>
+      </span>
+    </div>
         
 
         
