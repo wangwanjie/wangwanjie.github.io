@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://wangwanjie.github.io/"/>
-  <updated>2017-03-18T14:11:29.000Z</updated>
+  <updated>2017-03-19T12:30:59.000Z</updated>
   <id>https://wangwanjie.github.io/</id>
   
   <author>
@@ -14,6 +14,43 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>为 NexT 主题添加球型标签云</title>
+    <link href="https://wangwanjie.github.io/2017/03/19/%E4%B8%BA-NexT-%E4%B8%BB%E9%A2%98%E6%B7%BB%E5%8A%A0%E7%90%83%E5%BD%A2%E6%A0%87%E7%AD%BE%E4%BA%91/"/>
+    <id>https://wangwanjie.github.io/2017/03/19/为-NexT-主题添加球形标签云/</id>
+    <published>2017-03-19T12:04:55.000Z</published>
+    <updated>2017-03-19T12:30:59.000Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="确定你已开启标签功能"><a href="#确定你已开启标签功能" class="headerlink" title="确定你已开启标签功能"></a>确定你已开启标签功能</h2><p>参考 <code>NexT</code> 配置文档 <a href="https://theme-next.iissnan.com/theme-settings.html#tags-page" target="_blank" rel="external">添加标签页面</a> ，开启标签功能。</p>
+<h2 id="了解球形标签云插件"><a href="#了解球形标签云插件" class="headerlink" title="了解球形标签云插件"></a>了解球形标签云插件</h2><p>了解球形标签云 <code>javascript</code> 插件，点击<a href="http://www.goat1000.com/tagcanvas.php" target="_blank" rel="external">这里</a></p>
+<a id="more"></a>
+<h2 id="下载插件"><a href="#下载插件" class="headerlink" title="下载插件"></a>下载插件</h2><p>下载 <code>js</code> 插件 <a href="http://www.goat1000.com/tagcanvas.js?2.8" target="_blank" rel="external"><code>tagcanvas.js</code></a></p>
+<h2 id="放入对应目录"><a href="#放入对应目录" class="headerlink" title="放入对应目录"></a>放入对应目录</h2><p>将下载的 <code>tagcanvas.js</code> 放入主题目录 <code>themes/NexT/source/js/tagcanvas.js</code>，当然你也可以在 <code>js</code> 文件夹下新建文件夹， 引用时注意更改地址就好。</p>
+<h2 id="新建标签云文件，引用-js"><a href="#新建标签云文件，引用-js" class="headerlink" title="新建标签云文件，引用 js"></a>新建标签云文件，引用 <code>js</code></h2><p>在 <code>themes/NexT/layout/_partials</code> 下建一个 <code>plugih</code> 文件夹，在该目录下 <code>touch</code> 一个名为 <code>tagcanvas.swig</code> 的文件，并写入如下内容：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"tags"</span> <span class="attr">id</span>=<span class="string">"myTags"</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">canvas</span> <span class="attr">width</span>=<span class="string">"350"</span> <span class="attr">height</span>=<span class="string">"350"</span> <span class="attr">id</span>=<span class="string">"my3DTags"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">p</span>&gt;</span>Anything in here will be replaced on browsers that support the canvas element<span class="tag">&lt;/<span class="name">p</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">canvas</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"tags"</span> <span class="attr">id</span>=<span class="string">"tags"</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">ul</span> <span class="attr">style</span>=<span class="string">"display: none"</span>&gt;</span></div><div class="line">    &#123;&#123; tagcloud(&#123;</div><div class="line">      min_font: 16,</div><div class="line">      max_font: 35,</div><div class="line">      amount: 999,</div><div class="line">      color: true,</div><div class="line">      start_color: 'red',</div><div class="line">      end_color: 'red',</div><div class="line">    &#125;) &#125;&#125;</div><div class="line">  <span class="tag">&lt;/<span class="name">ul</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/javascript"</span> <span class="attr">src</span>=<span class="string">"/js/tagcanvas.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/javascript"</span> &gt;</span><span class="javascript"></span></div><div class="line">  <span class="built_in">window</span>.onload = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="keyword">try</span> &#123;</div><div class="line">      TagCanvas.Start(<span class="string">'my3DTags'</span>,<span class="string">'tags'</span>,&#123;</div><div class="line">        <span class="attr">textFont</span>: <span class="string">'Georgia,Optima'</span>,</div><div class="line">        <span class="attr">textColour</span>: <span class="literal">null</span>,</div><div class="line">        <span class="attr">outlineColour</span>: <span class="string">'black'</span>,</div><div class="line">        <span class="attr">weight</span>: <span class="literal">true</span>,</div><div class="line">        <span class="attr">reverse</span>: <span class="literal">true</span>,</div><div class="line">        <span class="attr">depth</span>: <span class="number">0.8</span>,</div><div class="line">        <span class="attr">maxSpeed</span>: <span class="number">0.05</span>,</div><div class="line">        <span class="attr">bgRadius</span>: <span class="number">1</span>,</div><div class="line">        <span class="attr">freezeDecel</span>: <span class="literal">true</span></div><div class="line">      &#125;);</div><div class="line">    &#125; <span class="keyword">catch</span>(e) &#123;</div><div class="line">      <span class="comment">// something went wrong, hide the canvas container</span></div><div class="line">      <span class="built_in">document</span>.getElementById(<span class="string">'myTags'</span>).style.display = <span class="string">'none'</span>;</div><div class="line">    &#125;</div><div class="line">  &#125;;</div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure>
+<h2 id="使用-tagcanvas-swig"><a href="#使用-tagcanvas-swig" class="headerlink" title="使用 tagcanvas.swig"></a>使用 <code>tagcanvas.swig</code></h2><p>在 <code>themes/NexT/layout/page.swig</code> 中作如下修改：<br><img src="/images/pages_tag.png"></p>
+<p>替换红框中原来位置的 <code>div</code> 标签为如下：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&#123;# tagcanvas plugin 球型云标签 #&#125;</div><div class="line">&#123;% include '_partials/plugin/tagcanvas.swig' %&#125;</div></pre></td></tr></table></figure>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;确定你已开启标签功能&quot;&gt;&lt;a href=&quot;#确定你已开启标签功能&quot; class=&quot;headerlink&quot; title=&quot;确定你已开启标签功能&quot;&gt;&lt;/a&gt;确定你已开启标签功能&lt;/h2&gt;&lt;p&gt;参考 &lt;code&gt;NexT&lt;/code&gt; 配置文档 &lt;a href=&quot;https://theme-next.iissnan.com/theme-settings.html#tags-page&quot;&gt;添加标签页面&lt;/a&gt; ，开启标签功能。&lt;/p&gt;
+&lt;h2 id=&quot;了解球形标签云插件&quot;&gt;&lt;a href=&quot;#了解球形标签云插件&quot; class=&quot;headerlink&quot; title=&quot;了解球形标签云插件&quot;&gt;&lt;/a&gt;了解球形标签云插件&lt;/h2&gt;&lt;p&gt;了解球形标签云 &lt;code&gt;javascript&lt;/code&gt; 插件，点击&lt;a href=&quot;http://www.goat1000.com/tagcanvas.php&quot;&gt;这里&lt;/a&gt;&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="Blog" scheme="https://wangwanjie.github.io/categories/Blog/"/>
+    
+    
+      <category term="标签" scheme="https://wangwanjie.github.io/tags/%E6%A0%87%E7%AD%BE/"/>
+    
+      <category term="主题" scheme="https://wangwanjie.github.io/tags/%E4%B8%BB%E9%A2%98/"/>
+    
+      <category term="球形标签云" scheme="https://wangwanjie.github.io/tags/%E7%90%83%E5%BD%A2%E6%A0%87%E7%AD%BE%E4%BA%91/"/>
+    
+  </entry>
   
   <entry>
     <title>Mac 彻底卸载 MYSQL 解决疑难杂症</title>
