@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-  <title>CoderJay的博客</title>
-  <subtitle>Code life， code to live.</subtitle>
+  <title>VanJay&#39;s Blog</title>
+  <subtitle>成功不是将来才有的，而是决定去做的那一刻起，持续累积而成。</subtitle>
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://wangwanjie.github.io/"/>
@@ -9,7 +9,7 @@
   <id>https://wangwanjie.github.io/</id>
   
   <author>
-    <name>CoderJay</name>
+    <name>VanJay</name>
     <email>wangwanjie1993@gmail.com</email>
   </author>
   
