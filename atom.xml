@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
   <title>VanJay&#39;s Blog</title>
-  <subtitle>成功不是将来才有的，而是决定去做的那一刻起，持续累积而成。</subtitle>
+  <subtitle>成功不是将来才有的&lt;br&gt;而是决定去做的那一刻起&lt;br&gt;持续累积而成</subtitle>
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://wangwanjie.github.io/"/>
