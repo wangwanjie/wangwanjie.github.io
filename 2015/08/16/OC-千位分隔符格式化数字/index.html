@@ -71,7 +71,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="格式化,OC字符串,Objective-C," />
 
 
 
@@ -87,15 +87,16 @@
 
 
 
-<meta name="description" content="湖南工业大学2011届毕业生， 目前就职于广州，iOS/前端/Cocos2d开发者，非专业PHP、Python、Java等。旧时爱好捣鼓操作系统，正在潜心修炼成为一名全栈攻城狮。">
-<meta property="og:type" content="website">
-<meta property="og:title" content="VanJay's Blog">
-<meta property="og:url" content="https://wangwanjie.github.io/tags/网络协议/index.html">
+<meta name="description" content="工作中总是碰到很多需求，比如金额需要以千位分隔的方式显示，这是OC版本转换方法，其它语言的可参考，代码如下：">
+<meta property="og:type" content="article">
+<meta property="og:title" content="OC 千位分隔符格式化数字">
+<meta property="og:url" content="https://wangwanjie.github.io/2015/08/16/OC-千位分隔符格式化数字/index.html">
 <meta property="og:site_name" content="VanJay's Blog">
-<meta property="og:description" content="湖南工业大学2011届毕业生， 目前就职于广州，iOS/前端/Cocos2d开发者，非专业PHP、Python、Java等。旧时爱好捣鼓操作系统，正在潜心修炼成为一名全栈攻城狮。">
+<meta property="og:description" content="工作中总是碰到很多需求，比如金额需要以千位分隔的方式显示，这是OC版本转换方法，其它语言的可参考，代码如下：">
+<meta property="og:updated_time" content="2017-03-20T09:40:40.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="VanJay's Blog">
-<meta name="twitter:description" content="湖南工业大学2011届毕业生， 目前就职于广州，iOS/前端/Cocos2d开发者，非专业PHP、Python、Java等。旧时爱好捣鼓操作系统，正在潜心修炼成为一名全栈攻城狮。">
+<meta name="twitter:title" content="OC 千位分隔符格式化数字">
+<meta name="twitter:description" content="工作中总是碰到很多需求，比如金额需要以千位分隔的方式显示，这是OC版本转换方法，其它语言的可参考，代码如下：">
 
 
 
@@ -123,7 +124,7 @@
 
 
 
-  <link rel="canonical" href="https://wangwanjie.github.io/tags/网络协议/"/>
+  <link rel="canonical" href="https://wangwanjie.github.io/2015/08/16/OC-千位分隔符格式化数字/"/>
 
 
 
@@ -132,7 +133,7 @@
 
 <link href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css" rel="stylesheet">
 
-  <title> 标签: 网络协议 | VanJay's Blog </title>
+  <title> OC 千位分隔符格式化数字 | VanJay's Blog </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -166,7 +167,7 @@
     
   
 
-  <div class="container one-collumn sidebar-position-left  ">
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -350,46 +351,235 @@ display: none;
           <div id="content" class="content">
             
 
-  <div id="posts" class="posts-collapse">
-    <div class="collection-title">
-      <h2 >
-        网络协议
-        <small>标签</small>
-      </h2>
-    </div>
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://wangwanjie.github.io/2015/08/16/OC-千位分隔符格式化数字/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="VanJay">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/head.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="VanJay's Blog">
+    </span>
 
     
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                OC 千位分隔符格式化数字
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-08-16T12:34:21+08:00">
+                2015-08-16
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Objective-C/" itemprop="url" rel="index">
+                    <span itemprop="name">Objective-C</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2015/08/16/OC-千位分隔符格式化数字/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/08/16/OC-千位分隔符格式化数字/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2015/08/16/OC-千位分隔符格式化数字/" class="leancloud_visitors" data-flag-title="OC 千位分隔符格式化数字">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
       
 
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+      
+        <p>工作中总是碰到很多需求，比如金额需要以千位分隔的方式显示，这是OC版本转换方法，其它语言的可参考，代码如下：</p>
+<a id="more"></a>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line"> 转换目标字符串为千位分隔显示</div><div class="line"></div><div class="line"> @param digitString 目标字符串</div><div class="line"> @return 转换结果字符串</div><div class="line"> */</div><div class="line">+ (<span class="built_in">NSString</span> *)groupedThousandsDigitStringWithStr:(<span class="built_in">NSString</span> *)digitString &#123;</div><div class="line">    </div><div class="line">    <span class="comment">// 判断小数部位</span></div><div class="line">    <span class="built_in">NSRange</span> rangeOfPoint = [digitString rangeOfString:<span class="string">@"."</span>];</div><div class="line">    <span class="built_in">NSString</span> *pointStr = <span class="string">@""</span>;</div><div class="line">    <span class="keyword">if</span> (rangeOfPoint.length &gt;= <span class="number">1</span>) &#123;</div><div class="line">        pointStr = [digitString substringFromIndex:rangeOfPoint.location];</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="comment">// 去掉小数部位</span></div><div class="line">    digitString = [digitString substringToIndex:rangeOfPoint.location];</div><div class="line">    </div><div class="line">    <span class="comment">// 去掉小数位后长度小于3直接返回原字符</span></div><div class="line">    <span class="keyword">if</span> (digitString.length &lt;= <span class="number">3</span>) <span class="keyword">return</span> [digitString stringByAppendingString:pointStr];</div><div class="line">    </div><div class="line">    <span class="built_in">NSMutableString</span> *processString = [<span class="built_in">NSMutableString</span> stringWithString:digitString];</div><div class="line">    </div><div class="line">    <span class="built_in">NSInteger</span> location = processString.length - <span class="number">3</span>;</div><div class="line">    <span class="built_in">NSMutableArray</span> *processArray = [<span class="built_in">NSMutableArray</span> array];</div><div class="line">    <span class="keyword">while</span> (location &gt;= <span class="number">0</span>) &#123;</div><div class="line">        <span class="built_in">NSString</span> *temp = [processString substringWithRange:<span class="built_in">NSMakeRange</span>(location, <span class="number">3</span>)];</div><div class="line">        </div><div class="line">        [processArray addObject:temp];</div><div class="line">        <span class="keyword">if</span> (location &lt; <span class="number">3</span> &amp;&amp; location &gt; <span class="number">0</span>) &#123;</div><div class="line">            <span class="built_in">NSString</span> *t = [processString substringWithRange:<span class="built_in">NSMakeRange</span>(<span class="number">0</span>, location)];</div><div class="line">            [processArray addObject:t];</div><div class="line">        &#125;</div><div class="line">        location -= <span class="number">3</span>;</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="built_in">NSMutableArray</span> *resultsArray = [<span class="built_in">NSMutableArray</span> array];</div><div class="line">    <span class="built_in">NSInteger</span> k = <span class="number">0</span>;</div><div class="line">    <span class="keyword">for</span> (<span class="built_in">NSString</span> *str <span class="keyword">in</span> processArray) &#123;</div><div class="line">        k++;</div><div class="line">        <span class="built_in">NSMutableString</span> *tmp = [<span class="built_in">NSMutableString</span> stringWithString:str];</div><div class="line">        <span class="keyword">if</span> (str.length &gt; <span class="number">2</span> &amp;&amp; k &lt; processArray.count ) &#123;</div><div class="line">            [tmp insertString:<span class="string">@","</span> atIndex:<span class="number">0</span>];</div><div class="line">            [resultsArray addObject:tmp];</div><div class="line">        &#125; <span class="keyword">else</span> &#123;</div><div class="line">            [resultsArray addObject:tmp];</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="built_in">NSMutableString</span> *resultString = [<span class="built_in">NSMutableString</span> string];</div><div class="line">    <span class="keyword">for</span> (<span class="built_in">NSInteger</span> i = resultsArray.count - <span class="number">1</span> ; i &gt;= <span class="number">0</span>; i--) &#123;</div><div class="line">        <span class="built_in">NSString</span> *tmp = [resultsArray objectAtIndex:i];</div><div class="line">        [resultString appendString:tmp];</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="keyword">return</span> [resultString stringByAppendingString:pointStr];</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+      
+    </div>
 
-      <h1 class="post-title">
+    <div>
+      
         
-            <a class="post-title-link" href="/2015/10/06/ASI-和-AFN-区别/" itemprop="url">
-              
-                <span itemprop="name">ASI 和 AFN 区别</span>
-              
-            </a>
+
+      
+    </div>
+
+    <div>
+      
         
-      </h1>
+<blockquote>
+<p>最近访客</p>
+<p></p>
+<div class="ds-recent-visitors" data-num-items="28" data-avatar-size="42" id="ds-recent-visitors">
+</div><br><br>
+<p></p>
+</blockquote>
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2015-10-06T11:51:36+08:00"
-              content="2015-10-06" >
-          10-06
-        </time>
-      </div>
 
-    </header>
+
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>欣赏这篇文章？您的支持将更加鼓励我继续创作！</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="/images/wechatpay.png" alt="VanJay WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="/images/alipay.jpg" alt="VanJay Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/格式化/" rel="tag"># 格式化</a>
+          
+            <a href="/tags/OC字符串/" rel="tag"># OC字符串</a>
+          
+            <a href="/tags/Objective-C/" rel="tag"># Objective-C</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/10/06/ASI-和-AFN-区别/" rel="prev" title="ASI 和 AFN 区别">
+                ASI 和 AFN 区别 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </article>
 
 
-    
-  </div>
 
-  
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
           
           </div>
@@ -397,6 +587,14 @@ display: none;
 
 
           
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2015/08/16/OC-千位分隔符格式化数字/"
+           data-title="OC 千位分隔符格式化数字" data-url="https://wangwanjie.github.io/2015/08/16/OC-千位分隔符格式化数字/">
+      </div>
+    
+  </div>
+
 
         </div>
         
@@ -663,6 +861,10 @@ display: none;
 
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
 
   
 

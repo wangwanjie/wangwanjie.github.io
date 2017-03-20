@@ -72,6 +72,13 @@
     </entry>
 
     
+    <entry>
+      <title><![CDATA[OC 千位分隔符格式化数字]]></title>
+      <url>%2F2015%2F08%2F16%2FOC-%E5%8D%83%E4%BD%8D%E5%88%86%E9%9A%94%E7%AC%A6%E6%A0%BC%E5%BC%8F%E5%8C%96%E6%95%B0%E5%AD%97%2F</url>
+      <content type="text"><![CDATA[工作中总是碰到很多需求，比如金额需要以千位分隔的方式显示，这是OC版本转换方法，其它语言的可参考，代码如下： 123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657/** 转换目标字符串为千位分隔显示 @param digitString 目标字符串 @return 转换结果字符串 */+ (NSString *)groupedThousandsDigitStringWithStr:(NSString *)digitString &#123; // 判断小数部位 NSRange rangeOfPoint = [digitString rangeOfString:@"."]; NSString *pointStr = @""; if (rangeOfPoint.length &gt;= 1) &#123; pointStr = [digitString substringFromIndex:rangeOfPoint.location]; &#125; // 去掉小数部位 digitString = [digitString substringToIndex:rangeOfPoint.location]; // 去掉小数位后长度小于3直接返回原字符 if (digitString.length &lt;= 3) return [digitString stringByAppendingString:pointStr]; NSMutableString *processString = [NSMutableString stringWithString:digitString]; NSInteger location = processString.length - 3; NSMutableArray *processArray = [NSMutableArray array]; while (location &gt;= 0) &#123; NSString *temp = [processString substringWithRange:NSMakeRange(location, 3)]; [processArray addObject:temp]; if (location &lt; 3 &amp;&amp; location &gt; 0) &#123; NSString *t = [processString substringWithRange:NSMakeRange(0, location)]; [processArray addObject:t]; &#125; location -= 3; &#125; NSMutableArray *resultsArray = [NSMutableArray array]; NSInteger k = 0; for (NSString *str in processArray) &#123; k++; NSMutableString *tmp = [NSMutableString stringWithString:str]; if (str.length &gt; 2 &amp;&amp; k &lt; processArray.count ) &#123; [tmp insertString:@"," atIndex:0]; [resultsArray addObject:tmp]; &#125; else &#123; [resultsArray addObject:tmp]; &#125; &#125; NSMutableString *resultString = [NSMutableString string]; for (NSInteger i = resultsArray.count - 1 ; i &gt;= 0; i--) &#123; NSString *tmp = [resultsArray objectAtIndex:i]; [resultString appendString:tmp]; &#125; return [resultString stringByAppendingString:pointStr];&#125;]]></content>
+    </entry>
+
+    
   
   
 </search>
