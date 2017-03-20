@@ -26,7 +26,7 @@
     <entry>
       <title><![CDATA[动态加载javascript]]></title>
       <url>%2F2017%2F03%2F09%2F%E5%8A%A8%E6%80%81%E5%8A%A0%E8%BD%BDjavascript%2F</url>
-      <content type="text"><![CDATA[12345678910111213141516171819202122232425262728// 另外一个独立的动态加载js的函数function loadJs(jsurl, head, callback) &#123; var script = document.createElement(script); script.setAttribute("type", "text/javascript"); if(callback) &#123; if(script.readyState) &#123; //IE script.onreadystatechange = function() &#123; if(script.readyState == "loaded" || script.readyState == "complete") &#123; script.onreadystatechange = null; callback(); &#125; &#125;; &#125; else &#123; //Others script.onload = function() &#123; callback(); &#125;; &#125; &#125; script.setAttribute("src", jsurl); if(head) document.getElementsByTagName(head)[0].appendChild(script); else &#123; document.body.appendChild(script); &#125;&#125;]]></content>
+      <content type="text"><![CDATA[使用以下函数 12345678910111213141516171819202122232425262728// 另外一个独立的动态加载js的函数function loadJs(jsurl, head, callback) &#123; var script = document.createElement(script); script.setAttribute("type", "text/javascript"); if(callback) &#123; if(script.readyState) &#123; //IE script.onreadystatechange = function() &#123; if(script.readyState == "loaded" || script.readyState == "complete") &#123; script.onreadystatechange = null; callback(); &#125; &#125;; &#125; else &#123; //Others script.onload = function() &#123; callback(); &#125;; &#125; &#125; script.setAttribute("src", jsurl); if(head) document.getElementsByTagName(head)[0].appendChild(script); else &#123; document.body.appendChild(script); &#125;&#125;]]></content>
     </entry>
 
     
