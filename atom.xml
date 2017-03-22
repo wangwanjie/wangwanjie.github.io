@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://wangwanjie.github.io/"/>
-  <updated>2017-03-22T08:37:40.000Z</updated>
+  <updated>2017-03-22T08:54:51.000Z</updated>
   <id>https://wangwanjie.github.io/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="https://wangwanjie.github.io/2017/03/22/iOS-%E4%BC%81%E4%B8%9A%E7%89%88%E5%BA%94%E7%94%A8%E4%B8%80%E9%94%AE%E6%9B%B4%E6%96%B0/"/>
     <id>https://wangwanjie.github.io/2017/03/22/iOS-企业版应用一键更新/</id>
     <published>2017-03-22T06:14:05.000Z</published>
-    <updated>2017-03-22T08:37:40.000Z</updated>
+    <updated>2017-03-22T08:54:51.000Z</updated>
     
     <content type="html"><![CDATA[<p>如果后台没有获取版本号的接口，自己就直接从下载企业版应用指向的 <code>plist</code> 文件中获取吧，如果有，就不用这么麻烦还要去下载整个 <code>plist</code> 文件了，直接根据拿到的版本好与本地对比即可。</p>
 <a id="more"></a>
@@ -37,13 +37,13 @@
       <category term="iOS" scheme="https://wangwanjie.github.io/categories/iOS/"/>
     
     
-      <category term="iOS 应用更新" scheme="https://wangwanjie.github.io/tags/iOS-%E5%BA%94%E7%94%A8%E6%9B%B4%E6%96%B0/"/>
-    
-      <category term="企业版应用更新" scheme="https://wangwanjie.github.io/tags/%E4%BC%81%E4%B8%9A%E7%89%88%E5%BA%94%E7%94%A8%E6%9B%B4%E6%96%B0/"/>
-    
       <category term="打包" scheme="https://wangwanjie.github.io/tags/%E6%89%93%E5%8C%85/"/>
     
       <category term="发布" scheme="https://wangwanjie.github.io/tags/%E5%8F%91%E5%B8%83/"/>
+    
+      <category term="iOS 应用更新" scheme="https://wangwanjie.github.io/tags/iOS-%E5%BA%94%E7%94%A8%E6%9B%B4%E6%96%B0/"/>
+    
+      <category term="企业版应用更新" scheme="https://wangwanjie.github.io/tags/%E4%BC%81%E4%B8%9A%E7%89%88%E5%BA%94%E7%94%A8%E6%9B%B4%E6%96%B0/"/>
     
   </entry>
   
