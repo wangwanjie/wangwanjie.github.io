@@ -439,7 +439,7 @@ display: none;
                   <i class="fa fa-comment-o"></i>
                 </span>
                 <a href="/2017/03/23/原生-JavaScript-判断-DOM-是否包含某个-class/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/03/23/原生-JavaScript-判断-DOM-是否包含某个-class/" itemprop="commentCount"></span>
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/03/23/原生-JavaScript-判断-DOM-是否包含某个-class/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -501,6 +501,14 @@ display: none;
     <div>
       
         
+<blockquote>
+<p>最近访客</p>
+<p></p>
+<div class="ds-recent-visitors" data-num-items="28" data-avatar-size="42" id="ds-recent-visitors">
+</div><br><br>
+<p></p>
+</blockquote>
+
 
 
   <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
@@ -594,11 +602,8 @@ display: none;
           
   <div class="comments" id="comments">
     
-      <div id="disqus_thread">
-        <noscript>
-          Please enable JavaScript to view the
-          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
-        </noscript>
+      <div class="ds-thread" data-thread-key="2017/03/23/原生-JavaScript-判断-DOM-是否包含某个-class/"
+           data-title="原生 JavaScript 判断 DOM 是否包含某个 class" data-url="https://wangwanjie.github.io/2017/03/23/原生-JavaScript-判断-DOM-是否包含某个-class/">
       </div>
     
     
@@ -909,38 +914,32 @@ display: none;
 
   
 
-
-
+  
+    
   
 
-    <script type="text/javascript">
-      var disqus_shortname = 'https-wangwanjie-github-io';
-      var disqus_identifier = '2017/03/23/原生-JavaScript-判断-DOM-是否包含某个-class/';
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"wangwanjie"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
 
-      var disqus_title = "原生 JavaScript 判断 DOM 是否包含某个 class";
-
-
-      function run_disqus_script(disqus_script) {
-        var dsq = document.createElement('script');
-        dsq.type = 'text/javascript';
-        dsq.async = true;
-        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
-        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-      }
-
-      run_disqus_script('count.js');
-
-      
-        var disqus_config = function () {
-            this.page.url = disqus_url;
-            this.page.identifier = disqus_identifier;
-            this.page.title = disqus_title;
-        };
-        run_disqus_script('embed.js');
-      
-
-    </script>
   
+    
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
 
 
 
