@@ -1,0 +1,1191 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="iOS打包,iOS企业应用更新,Python3 读写 plist," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="背景在我之前一篇文章里 iOS企业内部应用分发 讲述了 iOS 企业帐号打包的 ipa 分发，但是如果每次 ipa 更新，重新上传 *.ipa 后还要手动编辑 *.plist 的新的 ipa 的 url 和包的相关信息，这就和打包一样（使用 fastlane），是毫无技术含量但是花时间的事情，作为一个爱偷懒的人，我总是想利用自身所学或者一些工具来代替我做一些重复又没技术含量的事，在本文涉及的这件事">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用Python脚本半自动化iOS企业版包更新">
+<meta property="og:url" content="https://wangwanjie.github.io/2017/03/25/使用Python脚本半自动化iOS企业版包更新/index.html">
+<meta property="og:site_name" content="VanJay's Blog">
+<meta property="og:description" content="背景在我之前一篇文章里 iOS企业内部应用分发 讲述了 iOS 企业帐号打包的 ipa 分发，但是如果每次 ipa 更新，重新上传 *.ipa 后还要手动编辑 *.plist 的新的 ipa 的 url 和包的相关信息，这就和打包一样（使用 fastlane），是毫无技术含量但是花时间的事情，作为一个爱偷懒的人，我总是想利用自身所学或者一些工具来代替我做一些重复又没技术含量的事，在本文涉及的这件事">
+<meta property="og:updated_time" content="2017-03-25T12:49:24.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="使用Python脚本半自动化iOS企业版包更新">
+<meta name="twitter:description" content="背景在我之前一篇文章里 iOS企业内部应用分发 讲述了 iOS 企业帐号打包的 ipa 分发，但是如果每次 ipa 更新，重新上传 *.ipa 后还要手动编辑 *.plist 的新的 ipa 的 url 和包的相关信息，这就和打包一样（使用 fastlane），是毫无技术含量但是花时间的事情，作为一个爱偷懒的人，我总是想利用自身所学或者一些工具来代替我做一些重复又没技术含量的事，在本文涉及的这件事">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: 'TZKAYD1IX3',
+      apiKey: '0948641672f6c1751c491b30047ab041',
+      indexName: 'ForHexo',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://wangwanjie.github.io/2017/03/25/使用Python脚本半自动化iOS企业版包更新/"/>
+
+
+
+
+
+
+<link href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css" rel="stylesheet">
+
+  <title> 使用Python脚本半自动化iOS企业版包更新 | VanJay's Blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-93918217-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">VanJay's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">成功不是将来才有的<br>而是决定去做的那一刻起<br>持续累积而成</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            时间线
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocapitalize="off" autocomplete="off" autocorrect="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+<style type="text/css">
+#ds-reset .ds-avatar img,
+#ds-recent-visitors .ds-avatar img {
+width: 54px;
+height: 54px;     /*设置图像的长和宽，这里要根据自己的评论框情况更改*/
+border-radius: 27px;     /*设置图像圆角效果,在这里我直接设置了超过width/2的像素，即为圆形了*/
+-webkit-border-radius: 27px;     /*圆角效果：兼容webkit浏览器*/
+-moz-border-radius: 27px;
+box-shadow: inset 0 -1px 0 #3333sf;     /*设置图像阴影效果*/
+-webkit-box-shadow: inset 0 -1px 0 #3333sf;
+-webkit-transition: 0.4s;
+-webkit-transition: -webkit-transform 0.4s ease-out;
+transition: transform 0.4s ease-out;     /*变化时间设置为0.4秒(变化动作即为下面的图像旋转360读）*/
+-moz-transition: -moz-transform 0.4s ease-out;
+}
+#ds-reset .ds-avatar img:hover,
+#ds-recent-visitors .ds-avatar img:hover {
+/*设置鼠标悬浮在头像时的CSS样式*/    box-shadow: 0 0 10px #fff;
+rgba(255, 255, 255, .6), inset 0 0 20px rgba(255, 255, 255, 1);
+-webkit-box-shadow: 0 0 10px #fff;
+rgba(255, 255, 255, .6), inset 0 0 20px rgba(255, 255, 255, 1);
+transform: rotateZ(360deg);     /*图像旋转360度*/
+-webkit-transform: rotateZ(360deg);
+-moz-transform: rotateZ(360deg);
+}
+/*
+#ds-thread #ds-reset .ds-textarea-wrapper textarea {
+background: url(http://www.wuxubj.cn/images/duoshuo_bkground.jpg) right no-repeat;
+}
+*/
+#ds-recent-visitors .ds-avatar {
+float: left
+}
+/*隐藏多说底部版权*/
+#ds-thread #ds-reset .ds-powered-by {
+display: none;
+}
+</style>
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://wangwanjie.github.io/2017/03/25/使用Python脚本半自动化iOS企业版包更新/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="VanJay">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/head.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="VanJay's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                使用Python脚本半自动化iOS企业版包更新
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-25T20:30:37+08:00">
+                2017-03-25
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Python3/" itemprop="url" rel="index">
+                    <span itemprop="name">Python3</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/03/25/使用Python脚本半自动化iOS企业版包更新/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/03/25/使用Python脚本半自动化iOS企业版包更新/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2017/03/25/使用Python脚本半自动化iOS企业版包更新/" class="leancloud_visitors" data-flag-title="使用Python脚本半自动化iOS企业版包更新">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>在我之前一篇文章里 <a href="https://wangwanjie.github.io/2017/01/11/iOS企业内部应用分发/">iOS企业内部应用分发</a> 讲述了 iOS 企业帐号打包的 <code>ipa</code> 分发，但是如果每次 <code>ipa</code> 更新，重新上传 <code>*.ipa</code> 后还要手动编辑 <code>*.plist</code> 的新的 <code>ipa</code> 的 <code>url</code> 和包的相关信息，这就和打包一样（使用 <a href="https://github.com/fastlane/fastlane" target="_blank" rel="external">fastlane</a>），是毫无技术含量但是花时间的事情，作为一个爱偷懒的人，我总是想利用自身所学或者一些工具来代替我做一些重复又没技术含量的事，在本文涉及的这件事里，显然，脚本要派上用场，最终选用了 <code>Python</code> 而没有用 <code>Bash</code> —- 从 <code>ipa</code> 读取相关信息并写入到目的 <code>plist</code>。<code>Python</code> 只是业余，如您有建议或改进，欢迎留言评论指出，感激不尽！</p>
+<a id="more"></a>
+<h2 id="直接上代码"><a href="#直接上代码" class="headerlink" title="直接上代码"></a>直接上代码</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#!/usr/bin/python3</span></div><div class="line"><span class="comment">#coding:utf-8</span></div><div class="line"> </div><div class="line"><span class="keyword">import</span> zipfile, plistlib, sys, re, os.path</div><div class="line"></div><div class="line"><span class="keyword">global</span> plist_root <span class="comment"># Info.plist</span></div><div class="line"><span class="keyword">global</span> ipa_name <span class="comment"># ipa 名称</span></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">analyze_ipa_with_plistlib</span><span class="params">(ipa_path)</span>:</span></div><div class="line">    <span class="keyword">global</span> plist_root</div><div class="line">    ipa_file = zipfile.ZipFile(ipa_path)</div><div class="line">    plist_path = find_plist_path(ipa_file)</div><div class="line">    plist_data = ipa_file.read(plist_path)</div><div class="line">    plist_root = plistlib.loads(plist_data)</div><div class="line">    print_ipa_info (plist_root)</div><div class="line"> </div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">find_plist_path</span><span class="params">(zip_file)</span>:</span></div><div class="line">    name_list = zip_file.namelist()</div><div class="line">    pattern = re.compile(<span class="string">r'Payload/[^/]*.app/Info.plist'</span>)</div><div class="line">    <span class="keyword">for</span> path <span class="keyword">in</span> name_list:</div><div class="line">        m = pattern.match(path)</div><div class="line">        <span class="keyword">if</span> m <span class="keyword">is</span> <span class="keyword">not</span> <span class="keyword">None</span>:</div><div class="line">            <span class="keyword">return</span> m.group()</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">print_ipa_info</span><span class="params">(plist_root)</span>:</span></div><div class="line">    <span class="keyword">print</span> (<span class="string">'\n'</span> + <span class="string">'源 ipa 包信息:'</span>)</div><div class="line"></div><div class="line">    CFBundleDisplayName = <span class="string">''</span></div><div class="line">    isCFBundleDisplayNameExist = <span class="keyword">True</span></div><div class="line"></div><div class="line">    <span class="keyword">try</span>:</div><div class="line">        CFBundleDisplayName = plist_root[<span class="string">'CFBundleDisplayName'</span>]</div><div class="line">    <span class="keyword">except</span>:</div><div class="line">        <span class="keyword">print</span> (<span class="string">'CFBundleDisplayName 不存在，将获取 CFBundleName'</span>)</div><div class="line">        isCFBundleDisplayNameExist = <span class="keyword">False</span></div><div class="line"></div><div class="line">    </div><div class="line">    <span class="keyword">if</span> isCFBundleDisplayNameExist != <span class="keyword">True</span>:</div><div class="line">        <span class="keyword">try</span>: </div><div class="line">            CFBundleDisplayName = plist_root[<span class="string">'CFBundleName'</span>]</div><div class="line">        <span class="keyword">except</span>:</div><div class="line">            <span class="keyword">print</span> (<span class="string">'CFBundleName 不存在'</span>)</div><div class="line"></div><div class="line">    <span class="keyword">print</span> (<span class="string">'Display Name: %s'</span> % CFBundleDisplayName)</div><div class="line">    <span class="keyword">print</span> (<span class="string">'Bundle Identifier: %s'</span> % plist_root[<span class="string">'CFBundleIdentifier'</span>])</div><div class="line">    <span class="keyword">print</span> (<span class="string">'Version: %s'</span> % plist_root[<span class="string">'CFBundleShortVersionString'</span>] + <span class="string">'\n'</span>)</div><div class="line"> </div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">print_plist_info</span><span class="params">(plist_path, beforeWritten)</span>:</span></div><div class="line">  </div><div class="line">    dict = plistlib.readPlist(plist_path)</div><div class="line"></div><div class="line">    metadata = dict[<span class="string">"items"</span>][<span class="number">0</span>][<span class="string">"metadata"</span>]</div><div class="line">    softwarePackageDict = dict[<span class="string">"items"</span>][<span class="number">0</span>][<span class="string">"assets"</span>][<span class="number">0</span>]</div><div class="line"></div><div class="line">    state = <span class="string">"前"</span> <span class="keyword">if</span> beforeWritten <span class="keyword">else</span> <span class="string">"后"</span></div><div class="line"></div><div class="line">    <span class="keyword">print</span> (<span class="string">'写入'</span> + state +<span class="string">'的plist信息'</span>)</div><div class="line">    <span class="keyword">print</span> (<span class="string">'bundle-identifier: %s'</span> % metadata[<span class="string">'bundle-identifier'</span>])</div><div class="line">    <span class="keyword">print</span> (<span class="string">'bundle-version: %s'</span> % metadata[<span class="string">'bundle-version'</span>])</div><div class="line">    <span class="keyword">print</span> (<span class="string">'title: %s'</span> % metadata[<span class="string">'title'</span>])</div><div class="line">    <span class="keyword">print</span> (<span class="string">'ipa url: %s'</span> % softwarePackageDict[<span class="string">'url'</span>] + <span class="string">'\n'</span>)</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">writeToPlist</span><span class="params">(plist_path)</span>:</span></div><div class="line">    <span class="keyword">global</span> plist_root</div><div class="line">    <span class="comment"># 读取app.plist</span></div><div class="line">    dict = plistlib.readPlist(plist_path)</div><div class="line"></div><div class="line">    CFBundleDisplayName = <span class="string">''</span></div><div class="line">    isCFBundleDisplayNameExist = <span class="keyword">True</span></div><div class="line"></div><div class="line">    <span class="keyword">try</span>:</div><div class="line">        CFBundleDisplayName = plist_root[<span class="string">'CFBundleDisplayName'</span>]</div><div class="line">    <span class="keyword">except</span>:</div><div class="line">        <span class="keyword">print</span> (<span class="string">'CFBundleDisplayName 不存在，将获取 CFBundleName'</span>)</div><div class="line">        isCFBundleDisplayNameExist = <span class="keyword">False</span></div><div class="line"></div><div class="line">    </div><div class="line">    <span class="keyword">if</span> isCFBundleDisplayNameExist != <span class="keyword">True</span>:</div><div class="line">        <span class="keyword">try</span>: </div><div class="line">            CFBundleDisplayName = plist_root[<span class="string">'CFBundleName'</span>]</div><div class="line">        <span class="keyword">except</span>:</div><div class="line">            <span class="keyword">print</span> (<span class="string">'CFBundleName 不存在'</span>)</div><div class="line"></div><div class="line">    <span class="comment"># 更改包信息</span></div><div class="line">    metadata = dict[<span class="string">"items"</span>][<span class="number">0</span>][<span class="string">"metadata"</span>]</div><div class="line">    metadata[<span class="string">'bundle-identifier'</span>] = plist_root[<span class="string">'CFBundleIdentifier'</span>]</div><div class="line">    metadata[<span class="string">'bundle-version'</span>] = plist_root[<span class="string">'CFBundleShortVersionString'</span>]</div><div class="line">    metadata[<span class="string">'title'</span>] = CFBundleDisplayName</div><div class="line">   </div><div class="line">    <span class="comment"># 更改ipa地址</span></div><div class="line">    softwarePackageDict = dict[<span class="string">"items"</span>][<span class="number">0</span>][<span class="string">"assets"</span>][<span class="number">0</span>]</div><div class="line"></div><div class="line">    <span class="comment"># 生成新的 ipa 路径</span></div><div class="line">    <span class="keyword">global</span> ipa_name</div><div class="line">    url = softwarePackageDict[<span class="string">'url'</span>]</div><div class="line">    urlComArr = url.split(<span class="string">'/'</span>)</div><div class="line">    <span class="comment"># 删除文件名</span></div><div class="line">    urlComArr.pop() <span class="comment"># 删除最后一个</span></div><div class="line">    urlComArr.append(ipa_name) <span class="comment"># 拼接新文件名及扩展名</span></div><div class="line">    newUrlComArrStr = <span class="string">'/'</span>.join(urlComArr) <span class="comment"># Array to String</span></div><div class="line">    softwarePackageDict[<span class="string">'url'</span>] = newUrlComArrStr</div><div class="line"></div><div class="line">    plistlib.writePlist(dict, plist_path) <span class="comment"># 写入plist</span></div><div class="line"> </div><div class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</div><div class="line">    args = sys.argv[<span class="number">1</span>:]</div><div class="line">    <span class="keyword">if</span> len(args) != <span class="number">2</span>:</div><div class="line">        <span class="keyword">print</span> (<span class="string">'参数错误，用法: python3 config.py /path/to/ipa /path/to/plist'</span>)</div><div class="line">        sys.exit(<span class="number">0</span>)</div><div class="line"></div><div class="line">    <span class="keyword">global</span> ipa_name</div><div class="line"></div><div class="line">    ipa_path = args[<span class="number">0</span>]</div><div class="line">    analyze_ipa_with_plistlib(ipa_path)</div><div class="line">    ipa_name = os.path.basename(ipa_path)</div><div class="line">    plist_path = args[<span class="number">1</span>]</div><div class="line">    print_plist_info(plist_path, <span class="keyword">True</span>)</div><div class="line">    writeToPlist (plist_path)</div><div class="line">    print_plist_info(plist_path, <span class="keyword">False</span>)</div></pre></td></tr></table></figure>
+<h2 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h2><p>每次新打包后，需要更新 <code>plist</code> 文件相关信息，直接在服务器或者本地运行该脚本便可更新 <code>plist</code> 信息，然后覆盖服务器上的同名文件即可（亲手实践过 <code>ipa</code> 分发就没困惑），但运行该脚本的系统应该安装了 <code>Python3</code>，否则无法运行。用法如下，选你的终端执行：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">python3 config.py appName.ipa路径 app.plist路径</div></pre></td></tr></table></figure>
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>欣赏这篇文章？您的支持将更加鼓励我继续创作！</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="/images/wechatpay.png" alt="VanJay WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="/images/alipay.jpg" alt="VanJay Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/iOS打包/" rel="tag"># iOS打包</a>
+          
+            <a href="/tags/iOS企业应用更新/" rel="tag"># iOS企业应用更新</a>
+          
+            <a href="/tags/Python3-读写-plist/" rel="tag"># Python3 读写 plist</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/03/23/原生-JavaScript-判断-DOM-是否包含某个-class/" rel="next" title="原生 JavaScript 判断 DOM 是否包含某个 class">
+                <i class="fa fa-chevron-left"></i> 原生 JavaScript 判断 DOM 是否包含某个 class
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/head.png"
+               alt="VanJay" />
+          <p class="site-author-name" itemprop="name">VanJay</p>
+           
+              <p class="site-description motion-element" itemprop="description">湖南工业大学2011届毕业生， 目前就职于广州，iOS/前端/Cocos2d开发者，非专业PHP、Python、Java等。旧时爱好捣鼓操作系统，正在潜心修炼成为一名全栈攻城狮。</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">14</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">32</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/wangwanjie" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/wangwanjie" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.weibo.com/2406245873/profile?topnav=1&wvr=6" target="_blank" title="微博">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  微博
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.facebook.com/wangwanjie123" target="_blank" title="Facebook">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Facebook
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://wpa.qq.com/msgrd?v=3&uin=396736694&site=qq&menu=yes" target="_blank" title="QQ">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  QQ
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              友情链接
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://boxueio.com" title="泊学网" target="_blank">泊学网</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.smartisan.com/" title="锤子科技" target="_blank">锤子科技</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://objccn.io/" title="ObjC中国" target="_blank">ObjC中国</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://github.com/apple/swift-evolution" title="Swift evolution" target="_blank">Swift evolution</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#背景"><span class="nav-number">1.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#直接上代码"><span class="nav-number">2.</span> <span class="nav-text">直接上代码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#说明"><span class="nav-number">3.</span> <span class="nav-text">说明</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2014 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">VanJay</span>
+</div>
+
+
+<div class="powered-by">
+  Generated By <a class="theme-link" href="https://hexo.io">Hexo</a>  从心出发
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'https-wangwanjie-github-io';
+      var disqus_identifier = '2017/03/25/使用Python脚本半自动化iOS企业版包更新/';
+
+      var disqus_title = "使用Python脚本半自动化iOS企业版包更新";
+
+
+      function run_disqus_script(disqus_script) {
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+
+      
+        var disqus_config = function () {
+            this.page.url = disqus_url;
+            this.page.identifier = disqus_identifier;
+            this.page.title = disqus_title;
+        };
+        run_disqus_script('embed.js');
+      
+
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+      search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.popup').toggle();
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+      $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = $( "entry", xmlResponse ).map(function() {
+            return {
+              title: $( "title", this ).text(),
+              content: $("content",this).text(),
+              url: $( "url" , this).text()
+            };
+          }).get();
+          var $input = document.getElementById(search_id);
+          var $resultContent = document.getElementById(content_id);
+          $input.addEventListener('input', function(){
+            var matchcounts = 0;
+            var str='<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length > 1) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var content_index = [];
+                var data_title = data.title.trim().toLowerCase();
+                var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                var data_url = decodeURIComponent(data.url);
+                var index_title = -1;
+                var index_content = -1;
+                var first_occur = -1;
+                // only match artiles with not empty titles and contents
+                if(data_title != '') {
+                  keywords.forEach(function(keyword, i) {
+                    index_title = data_title.indexOf(keyword);
+                    index_content = data_content.indexOf(keyword);
+                    if( index_title >= 0 || index_content >= 0 ){
+                      isMatch = true;
+                      if (i == 0) {
+                        first_occur = index_content;
+                      }
+                    }
+
+                  });
+                }
+                // show search results
+                if (isMatch) {
+                  matchcounts += 1;
+                  str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                  var content = data.content.trim().replace(/<[^>]+>/g,"");
+                  if (first_occur >= 0) {
+                    // cut out 100 characters
+                    var start = first_occur - 20;
+                    var end = first_occur + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if(start == 0){
+                      end = 50;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    var match_content = content.substring(start, end);
+                    // highlight all keywords
+                    keywords.forEach(function(keyword){
+                      var regS = new RegExp(keyword, "gi");
+                      match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                    });
+
+                    str += "<p class=\"search-result\">" + match_content +"...</p>"
+                  }
+                  str += "</li>";
+                }
+              })};
+            str += "</ul>";
+            if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+            if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+            $resultContent.innerHTML = str;
+          });
+          proceedsearch();
+        }
+      });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("ftmd6Qz8JIuEqadbKNDX62Sv-gzGzoHsz", "Bf55iVdUR8NPPHlSxEt30XbD");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+
+  
+
+</body>
+</html>
