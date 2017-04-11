@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://wangwanjie.github.io/"/>
-  <updated>2017-03-27T04:53:58.000Z</updated>
+  <updated>2017-04-11T08:16:08.000Z</updated>
   <id>https://wangwanjie.github.io/</id>
   
   <author>
@@ -14,6 +14,32 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>JavaScript 主动选择 option</title>
+    <link href="https://wangwanjie.github.io/2017/04/11/JavaScript-%E4%B8%BB%E5%8A%A8%E9%80%89%E6%8B%A9-option/"/>
+    <id>https://wangwanjie.github.io/2017/04/11/JavaScript-主动选择-option/</id>
+    <published>2017-04-11T08:13:35.000Z</published>
+    <updated>2017-04-11T08:16:08.000Z</updated>
+    
+    <content type="html"><![CDATA[<a id="more"></a>
+<p>主动选择 <code>select</code> 中的 <code>option</code></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 获取默认type</span></div><div class="line"><span class="keyword">var</span> defaultType = <span class="string">'1'</span>;</div><div class="line"><span class="keyword">var</span> typeSelect = <span class="built_in">document</span>.getElementById(<span class="string">"type"</span>);</div><div class="line"><span class="keyword">for</span>(<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; typeSelect.options.length; i++) &#123;</div><div class="line">	<span class="keyword">if</span>(typeSelect.options[i].value === defaultType) &#123;</div><div class="line">		typeSelect.selectedIndex = i;</div><div class="line">		<span class="keyword">break</span>;</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>]]></content>
+    
+    <summary type="html">
+    
+      &lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
+&lt;p&gt;主动选择 &lt;code&gt;select&lt;/code&gt; 中的 &lt;code&gt;option&lt;/code&gt;&lt;/p&gt;
+&lt;figure class=&quot;highlight javascript&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;
+    
+    </summary>
+    
+      <category term="JavaScript" scheme="https://wangwanjie.github.io/categories/JavaScript/"/>
+    
+    
+      <category term="JavaScript" scheme="https://wangwanjie.github.io/tags/JavaScript/"/>
+    
+  </entry>
   
   <entry>
     <title>使用Python脚本半自动化iOS企业版包更新</title>
@@ -74,9 +100,9 @@
       <category term="JavaScript" scheme="https://wangwanjie.github.io/categories/JavaScript/"/>
     
     
-      <category term="DOM" scheme="https://wangwanjie.github.io/tags/DOM/"/>
-    
       <category term="JavaScript" scheme="https://wangwanjie.github.io/tags/JavaScript/"/>
+    
+      <category term="DOM" scheme="https://wangwanjie.github.io/tags/DOM/"/>
     
       <category term="DOM Class" scheme="https://wangwanjie.github.io/tags/DOM-Class/"/>
     
@@ -238,10 +264,10 @@
     <link href="https://wangwanjie.github.io/2017/03/09/%E5%8A%A8%E6%80%81%E5%8A%A0%E8%BD%BDjavascript/"/>
     <id>https://wangwanjie.github.io/2017/03/09/动态加载javascript/</id>
     <published>2017-03-09T02:50:55.000Z</published>
-    <updated>2017-03-29T02:05:34.000Z</updated>
+    <updated>2017-03-29T06:20:48.000Z</updated>
     
     <content type="html"><![CDATA[<h2 id="使用以下函数"><a href="#使用以下函数" class="headerlink" title="使用以下函数"></a>使用以下函数</h2><a id="more"></a>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> dynamicLoading = &#123;</div><div class="line">    <span class="attr">meta</span> : <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">        <span class="built_in">document</span>.write(<span class="string">'&lt;meta charset="utf-8"&gt;'</span>);</div><div class="line">        <span class="built_in">document</span>.write(<span class="string">'&lt;meta http-equiv="X-UA-Compatible" content="IE=edge"&gt;'</span>);</div><div class="line">        <span class="built_in">document</span>.write(<span class="string">'&lt;meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, shrink-to-fit=no"&gt;'</span>);</div><div class="line">    &#125;,</div><div class="line">    <span class="attr">css</span>: <span class="function"><span class="keyword">function</span>(<span class="params">path</span>)</span>&#123;</div><div class="line">        <span class="keyword">if</span>(!path || path.length === <span class="number">0</span>)&#123;</div><div class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">'argument "path" is required!'</span>);</div><div class="line">        &#125;</div><div class="line">        <span class="built_in">document</span>.write(<span class="string">'&lt;link rel="stylesheet" type="text/css" href="'</span> + path + <span class="string">'"&gt;'</span>);</div><div class="line">    &#125;,</div><div class="line">    <span class="attr">js</span>: <span class="function"><span class="keyword">function</span>(<span class="params">path, charset</span>)</span>&#123;</div><div class="line">        <span class="keyword">if</span>(!path || path.length === <span class="number">0</span>)&#123;</div><div class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">'argument "path" is required!'</span>);</div><div class="line">        &#125;</div><div class="line">        <span class="built_in">document</span>.write(<span class="string">'&lt;script charset="'</span> + (charset ? charset : <span class="string">"utf-8"</span>) + <span class="string">'" src="'</span> + path + <span class="string">'"&gt;&lt;/script&gt;'</span>);</div><div class="line">    &#125;</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> dynamicLoading = &#123;</div><div class="line">    <span class="attr">meta</span> : <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">        <span class="built_in">document</span>.write(<span class="string">'&lt;meta charset="utf-8"&gt;'</span>);</div><div class="line">        <span class="built_in">document</span>.write(<span class="string">'&lt;meta http-equiv="X-UA-Compatible" content="IE=edge"&gt;'</span>);</div><div class="line">        <span class="built_in">document</span>.write(<span class="string">'&lt;meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, shrink-to-fit=no"&gt;'</span>);</div><div class="line">    &#125;,</div><div class="line">    <span class="attr">css</span>: <span class="function"><span class="keyword">function</span>(<span class="params">path</span>)</span>&#123;</div><div class="line">        <span class="keyword">if</span>(!path || path.length === <span class="number">0</span>)&#123;</div><div class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">'argument "path" is required!'</span>);</div><div class="line">        &#125;</div><div class="line">        <span class="built_in">document</span>.write(<span class="string">'&lt;link rel="stylesheet" type="text/css" href="'</span> + path + <span class="string">'"&gt;'</span>);</div><div class="line">    &#125;,</div><div class="line">    <span class="attr">js</span>: <span class="function"><span class="keyword">function</span>(<span class="params">path, charset</span>)</span>&#123;</div><div class="line">        <span class="keyword">if</span>(!path || path.length === <span class="number">0</span>)&#123;</div><div class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">'argument "path" is required!'</span>);</div><div class="line">        &#125;</div><div class="line">        <span class="built_in">document</span>.write(<span class="string">'&lt;script type="text/javascript" src="'</span> + path + <span class="string">'"&gt;&lt;/script&gt;'</span>);</div><div class="line">    &#125;</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 另外一个独立的动态加载js的函数</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">loadJs</span>(<span class="params">jsurl, head, callback</span>) </span>&#123;</div><div class="line">	<span class="keyword">var</span> script = <span class="built_in">document</span>.createElement(script);</div><div class="line">	script.setAttribute(<span class="string">"type"</span>, <span class="string">"text/javascript"</span>);</div><div class="line"></div><div class="line">	<span class="keyword">if</span>(callback) &#123;</div><div class="line">		<span class="keyword">if</span>(script.readyState) &#123; <span class="comment">//IE</span></div><div class="line">			script.onreadystatechange = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">				<span class="keyword">if</span>(script.readyState == <span class="string">"loaded"</span> ||</div><div class="line">					script.readyState == <span class="string">"complete"</span>) &#123;</div><div class="line">					script.onreadystatechange = <span class="literal">null</span>;</div><div class="line">					callback();</div><div class="line">				&#125;</div><div class="line">			&#125;;</div><div class="line">		&#125; <span class="keyword">else</span> &#123; <span class="comment">//Others</span></div><div class="line">			script.onload = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">				callback();</div><div class="line">			&#125;;</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">	script.setAttribute(<span class="string">"src"</span>, jsurl);</div><div class="line"></div><div class="line">	<span class="keyword">if</span>(head)</div><div class="line">		<span class="built_in">document</span>.getElementsByTagName(head)[<span class="number">0</span>].appendChild(script);</div><div class="line">	<span class="keyword">else</span> &#123;</div><div class="line">		<span class="built_in">document</span>.body.appendChild(script);</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>]]></content>
     
     <summary type="html">
