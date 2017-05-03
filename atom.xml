@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://wangwanjie.github.io/"/>
-  <updated>2017-04-14T16:15:42.000Z</updated>
+  <updated>2017-05-03T08:19:00.000Z</updated>
   <id>https://wangwanjie.github.io/</id>
   
   <author>
@@ -14,6 +14,38 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Wap APP开发心得</title>
+    <link href="https://wangwanjie.github.io/2017/05/03/Wap-APP%E5%BC%80%E5%8F%91%E5%BF%83%E5%BE%97/"/>
+    <id>https://wangwanjie.github.io/2017/05/03/Wap-APP开发心得/</id>
+    <published>2017-05-03T08:04:57.000Z</published>
+    <updated>2017-05-03T08:19:00.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>经过了一个多月，加班加点，总算完成基本完成了这个Wap APP，可以作为 Version one 面见客户了，感受不多。</p>
+<p>MUI 结合 Hbuilder 使用 HTML5+ 开发APP整体来说还是挺顺畅的，虽然文档不完整，但是有开发经验的一眼看过去就知道怎么用了，以后做些不是大型的APP或许会成为我的首选。</p>
+<a id="more"></a>
+<p>算来这也算是我第三次做一个完整的 Wap 类型的 APP了，总体来说这次是最满意的，前面两个都是用的 JSP，很多特性也是依赖其完成的，但这次是纯原生页面，实现了做这个之前感觉很难的问题（至少去年这个时候感觉好难），当然了，这中间少不了 5+ 和 MUI 的功劳，遗憾的是没用上 Vue，忙的时候总是感叹自己时间不够，太多想学的东西没时间学，但些许零碎的空闲时间一有了又无法埋头去学，这样不好啊~ </p>
+<p>这个 APP 先发布 iOS 端， 安卓端还有些许适配问题，相信这次之后，对Wap 开发 APP 能够有一个比较深的认识。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;经过了一个多月，加班加点，总算完成基本完成了这个Wap APP，可以作为 Version one 面见客户了，感受不多。&lt;/p&gt;
+&lt;p&gt;MUI 结合 Hbuilder 使用 HTML5+ 开发APP整体来说还是挺顺畅的，虽然文档不完整，但是有开发经验的一眼看过去就知道怎么用了，以后做些不是大型的APP或许会成为我的首选。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="APP开发" scheme="https://wangwanjie.github.io/categories/APP%E5%BC%80%E5%8F%91/"/>
+    
+    
+      <category term="JavaScript" scheme="https://wangwanjie.github.io/tags/JavaScript/"/>
+    
+      <category term="MUI" scheme="https://wangwanjie.github.io/tags/MUI/"/>
+    
+      <category term="HTML5" scheme="https://wangwanjie.github.io/tags/HTML5/"/>
+    
+  </entry>
   
   <entry>
     <title>MUI webview选项卡 首次只加载首页，点击触发打开页面</title>
