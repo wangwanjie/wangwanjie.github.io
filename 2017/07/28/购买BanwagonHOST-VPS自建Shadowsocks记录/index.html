@@ -87,25 +87,18 @@
 
 
 
-<meta name="description" content="前言
-不能畅游墙外没法好好生活和工作
-
-本来手里有着五六个 Shadowsocks 帐号，但体验都不佳，一直也没怎么用，是因为一直使用公司搭建的 Cisco Anyconnect，科学上网后百兆带宽可以满速使用，速度虽快，但是客户端软件默认是全局代理的，虽然可以走IP route list达到和Shadowsocks的PAC同样的作用，但效果慎微，而且IP要自己去填，所以公司IT直接没搞这个rou">
+<meta name="description" content="前言 不能畅游墙外没法好好生活和工作  本来手里有着五六个 Shadowsocks 帐号，但体验都不佳，一直也没怎么用，是因为一直使用公司搭建的 Cisco Anyconnect，科学上网后百兆带宽可以满速使用，速度虽快，但是客户端软件默认是全局代理的，虽然可以走IP route list达到和Shadowsocks的PAC同样的作用，但效果慎微，而且IP要自己去填，所以公司IT直接没搞这个rou">
+<meta name="keywords" content="Mac使用,BanwagonHOST,Shadowsocks,科学上网">
 <meta property="og:type" content="article">
 <meta property="og:title" content="购买BanwagonHOST VPS自建Shadowsocks记录">
 <meta property="og:url" content="https://wangwanjie.github.io/2017/07/28/购买BanwagonHOST-VPS自建Shadowsocks记录/index.html">
-<meta property="og:site_name" content="VanJay's Blog">
-<meta property="og:description" content="前言
-不能畅游墙外没法好好生活和工作
-
-本来手里有着五六个 Shadowsocks 帐号，但体验都不佳，一直也没怎么用，是因为一直使用公司搭建的 Cisco Anyconnect，科学上网后百兆带宽可以满速使用，速度虽快，但是客户端软件默认是全局代理的，虽然可以走IP route list达到和Shadowsocks的PAC同样的作用，但效果慎微，而且IP要自己去填，所以公司IT直接没搞这个rou">
-<meta property="og:updated_time" content="2017-07-27T17:28:25.000Z">
+<meta property="og:site_name" content="VanJay&#39;s Blog">
+<meta property="og:description" content="前言 不能畅游墙外没法好好生活和工作  本来手里有着五六个 Shadowsocks 帐号，但体验都不佳，一直也没怎么用，是因为一直使用公司搭建的 Cisco Anyconnect，科学上网后百兆带宽可以满速使用，速度虽快，但是客户端软件默认是全局代理的，虽然可以走IP route list达到和Shadowsocks的PAC同样的作用，但效果慎微，而且IP要自己去填，所以公司IT直接没搞这个rou">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-07-05T09:30:55.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="购买BanwagonHOST VPS自建Shadowsocks记录">
-<meta name="twitter:description" content="前言
-不能畅游墙外没法好好生活和工作
-
-本来手里有着五六个 Shadowsocks 帐号，但体验都不佳，一直也没怎么用，是因为一直使用公司搭建的 Cisco Anyconnect，科学上网后百兆带宽可以满速使用，速度虽快，但是客户端软件默认是全局代理的，虽然可以走IP route list达到和Shadowsocks的PAC同样的作用，但效果慎微，而且IP要自己去填，所以公司IT直接没搞这个rou">
+<meta name="twitter:description" content="前言 不能畅游墙外没法好好生活和工作  本来手里有着五六个 Shadowsocks 帐号，但体验都不佳，一直也没怎么用，是因为一直使用公司搭建的 Cisco Anyconnect，科学上网后百兆带宽可以满速使用，速度虽快，但是客户端软件默认是全局代理的，虽然可以走IP route list达到和Shadowsocks的PAC同样的作用，但效果慎微，而且IP要自己去填，所以公司IT直接没搞这个rou">
 
 
 
@@ -493,30 +486,30 @@ display: none;
 <pre><code>1. 在有一定丢包率的网络链路上充分利用带宽；
 2. 降低网络链路上的 buffer 占用率，从而降低延迟。
 </code></pre><p> 正好有时间，大佬说的又激发了我的兴趣，我决定自己也搭一个玩玩，也以备不时之需，经历这一天，也总结了个人认为最省事的路线，以下是步骤记录。</p>
-<h2 id="购买VPS"><a href="#购买VPS" class="headerlink" title="购买VPS"></a>购买<code>VPS</code></h2><p>在请教了群里的前辈购买何档次的<code>BanwagonHOST VPN</code>之后，购买了19.99$/年的方案，这是购买地址：<a href="https://bandwagonhost.com/index.php" target="_blank" rel="external">BanwagonHOST</a>，这里注意两点，第一点：购买时注意买基于<code>KVM</code>的，而不是<code>OpenVZ</code>，<code>KVM</code>是新推出的，只了解了大体不同，想知道具体差异自行<a href="https://www.google.com" target="_blank" rel="external">Google</a>，一般来说，买新架构就没错了；第二点：在选择<code>Location</code>时，最好选择美国洛杉矶节点<code>Los Angeles</code>，别问为什么，前人经验，至于是<code>QNET</code>还是<code>MCOM</code>，自行谷歌这二者差异，有人汇总对比了这两种方案，不同城市的<code>ping</code>值有高有低，总体来说<code>QNET</code>稍好，所以我购买的是它。</p>
+<h2 id="购买VPS"><a href="#购买VPS" class="headerlink" title="购买VPS"></a>购买<code>VPS</code></h2><p>在请教了群里的前辈购买何档次的<code>BanwagonHOST VPN</code>之后，购买了19.99$/年的方案，这是购买地址：<a href="https://bandwagonhost.com/index.php" target="_blank" rel="noopener">BanwagonHOST</a>，这里注意两点，第一点：购买时注意买基于<code>KVM</code>的，而不是<code>OpenVZ</code>，<code>KVM</code>是新推出的，只了解了大体不同，想知道具体差异自行<a href="https://www.google.com" target="_blank" rel="noopener">Google</a>，一般来说，买新架构就没错了；第二点：在选择<code>Location</code>时，最好选择美国洛杉矶节点<code>Los Angeles</code>，别问为什么，前人经验，至于是<code>QNET</code>还是<code>MCOM</code>，自行谷歌这二者差异，有人汇总对比了这两种方案，不同城市的<code>ping</code>值有高有低，总体来说<code>QNET</code>稍好，所以我购买的是它。</p>
 <h2 id="重装系统"><a href="#重装系统" class="headerlink" title="重装系统"></a>重装系统</h2><p>付款购买成功后，进入当前页面的<code>Services-My Services</code>菜单下，找到你新购买的<code>Product/Service</code>，进入控制面板<code>KiviVM Control Panel</code>，界面很简单，每个功能浏览一下之后开始吧，预装的貌似是<code>Cent OS 6</code>，重装成你想要的系统吧，根据提示来，很<code>easy</code>。我个人比较习惯<code>Ubuntu</code>，所以安装了面板上支持的最新版本的<code>Ubuntu 16.04 x86_64</code>，面板里有一键安装<code>Shadowsocks Server</code>和<code>ShadowsocksR Server</code>功能，但个人不推荐，没啥别的原因，因为感觉不受我控制。装好后会提示你生成了一个随机的ROOT密码，记下来。执行以下步骤：</p>
 <pre><code>1.回到你的电脑，用你自己的方式`SSH`登陆到你的`VPS`，我用的`iTerm`，输入`ssh root@your_vps_ip_address -p your_vps_port`（本地要配置好`RSA`），默认密码是前面保存的随机密码。
 2.默认ROOT密码不好记，登陆成功后输入`passwd`输入两次新的`ROOT`密码更改密码。
 3.`Ubuntu`的话更新下系统，分别执行`apt-get update`和`apt-get upgrade`（不必须但建议）
 </code></pre><h2 id="安装Shadowsocks"><a href="#安装Shadowsocks" class="headerlink" title="安装Shadowsocks"></a>安装<code>Shadowsocks</code></h2><p>安装的方式有很多，我独爱个人认为最优的那种，执行以下命令：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">wget --no-check-certificate https://raw.githubusercontent.com/teddysun/shadowsocks_install/master/shadowsocksR.sh</div><div class="line">chmod +x shadowsocksR.sh</div><div class="line">./shadowsocksR.sh 2&gt;&amp;1 | tee shadowsocksR.log</div></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">wget --no-check-certificate https://raw.githubusercontent.com/teddysun/shadowsocks_install/master/shadowsocksR.sh</span><br><span class="line">chmod +x shadowsocksR.sh</span><br><span class="line">./shadowsocksR.sh 2&gt;&amp;1 | tee shadowsocksR.log</span><br></pre></td></tr></table></figure>
 <p>你也可以用<code>&amp;&amp;</code>连接一次性执行，按提示完成即可。</p>
 <h2 id="安装Google-bbr"><a href="#安装Google-bbr" class="headerlink" title="安装Google bbr"></a>安装<code>Google bbr</code></h2><p>一、如果你的VPS是基于KVM的，运行以下命令：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">wget --no-check-certificate https://github.com/teddysun/across/raw/master/bbr.sh</div><div class="line">chmod +x bbr.sh</div><div class="line">./bbr.sh</div></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">wget --no-check-certificate https://github.com/teddysun/across/raw/master/bbr.sh</span><br><span class="line">chmod +x bbr.sh</span><br><span class="line">./bbr.sh</span><br></pre></td></tr></table></figure>
 <p>按照提示安装完成，安装完成后，检测是否成功安装：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sysctl net.ipv4.tcp_available_congestion_control</div></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sysctl net.ipv4.tcp_available_congestion_control</span><br></pre></td></tr></table></figure>
 <p>输出的信息包含<code>bbr</code>就<code>Ok</code>了，一般为<code>net.ipv4.tcp_available_congestion_control = bbr cubic reno</code></p>
 <p>二、如果你不小心购买了基于<code>OpenVZ</code>的<code>VPS</code>，运行这个：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">wget https://raw.githubusercontent.com/kuoruan/shell-scripts/master/ovz-bbr/ovz-bbr-installer.sh</div><div class="line">chmod +x ovz-bbr-installer.sh</div><div class="line">./ovz-bbr-installer.sh</div></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">wget https://raw.githubusercontent.com/kuoruan/shell-scripts/master/ovz-bbr/ovz-bbr-installer.sh</span><br><span class="line">chmod +x ovz-bbr-installer.sh</span><br><span class="line">./ovz-bbr-installer.sh</span><br></pre></td></tr></table></figure>
 <p>这个连提示都是中文的，按照提示安装完成即可，安装完成使用看说明，检测是否安装成功：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ping 10.0.0.2</div></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ping 10.0.0.2</span><br></pre></td></tr></table></figure>
 <p>如果能通，说明 bbr 已经启动,然后检查 iptables 规则:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">iptables -t nat -nL</div><div class="line">Chain PREROUTING (policy ACCEPT)</div><div class="line">target     prot opt <span class="built_in">source</span>               destination</div><div class="line">LKL_IN     all  --  0.0.0.0/0            0.0.0.0/0</div><div class="line"> </div><div class="line">Chain POSTROUTING (policy ACCEPT)</div><div class="line">target     prot opt <span class="built_in">source</span>               destination</div><div class="line"> </div><div class="line">Chain OUTPUT (policy ACCEPT)</div><div class="line">target     prot opt <span class="built_in">source</span>               destination</div><div class="line"> </div><div class="line">Chain LKL_IN (1 references)</div><div class="line">target     prot opt <span class="built_in">source</span>               destination</div><div class="line">DNAT       tcp  --  0.0.0.0/0            0.0.0.0/0            tcp dpt:8989 to:10.0.0.2</div></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">iptables -t nat -nL</span><br><span class="line">Chain PREROUTING (policy ACCEPT)</span><br><span class="line">target     prot opt <span class="built_in">source</span>               destination</span><br><span class="line">LKL_IN     all  --  0.0.0.0/0            0.0.0.0/0</span><br><span class="line"> </span><br><span class="line">Chain POSTROUTING (policy ACCEPT)</span><br><span class="line">target     prot opt <span class="built_in">source</span>               destination</span><br><span class="line"> </span><br><span class="line">Chain OUTPUT (policy ACCEPT)</span><br><span class="line">target     prot opt <span class="built_in">source</span>               destination</span><br><span class="line"> </span><br><span class="line">Chain LKL_IN (1 references)</span><br><span class="line">target     prot opt <span class="built_in">source</span>               destination</span><br><span class="line">DNAT       tcp  --  0.0.0.0/0            0.0.0.0/0            tcp dpt:8989 to:10.0.0.2</span><br></pre></td></tr></table></figure>
 <p>里面有相应的端口规则。</p>
 <h2 id="使用Shadowsocks"><a href="#使用Shadowsocks" class="headerlink" title="使用Shadowsocks"></a>使用<code>Shadowsocks</code></h2><p>使用对应的客户端使用的你的<code>Shadowsocks</code>吧，怎么使用自行搜索。想着就那么几个步骤，还是写了这么多。。。</p>
 <h1 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h1><p>我购买时不小心买成了<code>OpenVZ</code>的，请教了群里的一位前辈之后告诉我联系客服，我便邮件联系官方退款了，购买了新的基于<code>KVM</code>，服务态度非常好，值得点赞。供参考，希望能帮到有需要的朋友。</p>
-<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a href="https://blog.kuoruan.com/48.html" target="_blank" rel="external">搬瓦工(Bandwagonhost)搭建Shadowsocks并优化速度</a></p>
-<p><a href="https://blog.kuoruan.com/116.html" target="_blank" rel="external">OpenVZ 平台 Google BBR 一键安装脚本</a></p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a href="https://blog.kuoruan.com/48.html" target="_blank" rel="noopener">搬瓦工(Bandwagonhost)搭建Shadowsocks并优化速度</a></p>
+<p><a href="https://blog.kuoruan.com/116.html" target="_blank" rel="noopener">OpenVZ 平台 Google BBR 一键安装脚本</a></p>
 
       
     </div>
@@ -606,6 +599,10 @@ display: none;
 
           <div class="post-nav-prev post-nav-item">
             
+              <a href="/2018/09/30/iOS-数字转-xx-万-xx-亿/" rel="prev" title="iOS 数字转 xx 万 xx 亿">
+                iOS 数字转 xx 万 xx 亿 <i class="fa fa-chevron-right"></i>
+              </a>
+            
           </div>
         </div>
       
@@ -681,7 +678,7 @@ display: none;
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">18</span>
+                <span class="site-state-item-count">19</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -703,7 +700,7 @@ display: none;
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">38</span>
+                <span class="site-state-item-count">40</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -834,7 +831,7 @@ display: none;
         <div class="copyright" >
   
   &copy;  2014 - 
-  <span itemprop="copyrightYear">2017</span>
+  <span itemprop="copyrightYear">2018</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>

@@ -87,19 +87,18 @@
 
 
 
-<meta name="description" content="备份数据库备份看个人了，可以用软件如 Navicat 导出，也可以用 mysqldump 命令导出。
-kill mysql相关进程终端运行 ps -ax | grep mysql 查看 mysql 相关进程， 有的话 kill">
+<meta name="description" content="备份数据库备份看个人了，可以用软件如 Navicat 导出，也可以用 mysqldump 命令导出。 kill mysql相关进程终端运行 ps -ax | grep mysql 查看 mysql 相关进程， 有的话 kill">
+<meta name="keywords" content="MYSQL,Mac">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Mac 彻底卸载 MYSQL 解决疑难杂症">
 <meta property="og:url" content="https://wangwanjie.github.io/2017/03/18/Mac-彻底卸载-MYSQL-解决疑难杂症/index.html">
-<meta property="og:site_name" content="VanJay's Blog">
-<meta property="og:description" content="备份数据库备份看个人了，可以用软件如 Navicat 导出，也可以用 mysqldump 命令导出。
-kill mysql相关进程终端运行 ps -ax | grep mysql 查看 mysql 相关进程， 有的话 kill">
+<meta property="og:site_name" content="VanJay&#39;s Blog">
+<meta property="og:description" content="备份数据库备份看个人了，可以用软件如 Navicat 导出，也可以用 mysqldump 命令导出。 kill mysql相关进程终端运行 ps -ax | grep mysql 查看 mysql 相关进程， 有的话 kill">
+<meta property="og:locale" content="zh-Hans">
 <meta property="og:updated_time" content="2017-03-20T08:50:04.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Mac 彻底卸载 MYSQL 解决疑难杂症">
-<meta name="twitter:description" content="备份数据库备份看个人了，可以用软件如 Navicat 导出，也可以用 mysqldump 命令导出。
-kill mysql相关进程终端运行 ps -ax | grep mysql 查看 mysql 相关进程， 有的话 kill">
+<meta name="twitter:description" content="备份数据库备份看个人了，可以用软件如 Navicat 导出，也可以用 mysqldump 命令导出。 kill mysql相关进程终端运行 ps -ax | grep mysql 查看 mysql 相关进程， 有的话 kill">
 
 
 
@@ -481,21 +480,21 @@ display: none;
         <h2 id="备份数据库"><a href="#备份数据库" class="headerlink" title="备份数据库"></a>备份数据库</h2><p>备份看个人了，可以用软件如 <code>Navicat</code> 导出，也可以用 <code>mysqldump</code> 命令导出。</p>
 <h2 id="kill-mysql相关进程"><a href="#kill-mysql相关进程" class="headerlink" title="kill mysql相关进程"></a>kill <code>mysql</code>相关进程</h2><p>终端运行 <code>ps -ax | grep mysql</code> 查看 <code>mysql</code> 相关进程， 有的话 <code>kill</code></p>
 <a id="more"></a>
-<h2 id="卸载-Homebrew-安装的mysql"><a href="#卸载-Homebrew-安装的mysql" class="headerlink" title="卸载 Homebrew 安装的mysql"></a>卸载 Homebrew 安装的mysql</h2><p>卸载全部以前用 <code>brew</code> 安装    的 <code>mysql</code>，先 <code>brew list</code> 查看安装的 <code>mysql</code> 版本，假如列出了 <code>mysql@5.5</code>， 则运行 <code>brew uninstall mysql@5.5</code>，卸载完后执行 <code>brew cleanup</code>。</p>
+<h2 id="卸载-Homebrew-安装的mysql"><a href="#卸载-Homebrew-安装的mysql" class="headerlink" title="卸载 Homebrew 安装的mysql"></a>卸载 Homebrew 安装的mysql</h2><p>卸载全部以前用 <code>brew</code> 安装    的 <code>mysql</code>，先 <code>brew list</code> 查看安装的 <code>mysql</code> 版本，假如列出了 <a href="mailto:`mysql@5.5" target="_blank" rel="noopener">`mysql@5.5</a><code>， 则运行</code>brew uninstall <a href="mailto:mysql@5.5" target="_blank" rel="noopener">mysql@5.5</a><code>，卸载完后执行</code>brew cleanup`。</p>
 <h2 id="移除残留文件"><a href="#移除残留文件" class="headerlink" title="移除残留文件"></a>移除残留文件</h2><p>删除与 <code>mysql</code> 相关的文件</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">sudo rm /usr/<span class="built_in">local</span>/mysql;</div><div class="line">sudo rm -rf /usr/<span class="built_in">local</span>/var/mysql;</div><div class="line">sudo rm -rf /usr/<span class="built_in">local</span>/mysql*;</div><div class="line">sudo rm -rf /Library/StartupItems/MySQLCOM;</div><div class="line">sudo rm -rf /Library/PreferencePanes/My*</div></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">sudo rm /usr/<span class="built_in">local</span>/mysql;</span><br><span class="line">sudo rm -rf /usr/<span class="built_in">local</span>/var/mysql;</span><br><span class="line">sudo rm -rf /usr/<span class="built_in">local</span>/mysql*;</span><br><span class="line">sudo rm -rf /Library/StartupItems/MySQLCOM;</span><br><span class="line">sudo rm -rf /Library/PreferencePanes/My*</span><br></pre></td></tr></table></figure>
 <h2 id="移除残留自动登陆项"><a href="#移除残留自动登陆项" class="headerlink" title="移除残留自动登陆项"></a>移除残留自动登陆项</h2><p>移除自动登陆项，如果你安装过 <code>DMG</code> 版本的     <code>mysql</code>，则把以下命令中的 <code>LaunchAgents</code> 替换为 <code>LaunchDaemons</code> 再执行一次</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">launchctl unload -w ~/Library/LaunchAgents/homebrew.mxcl.mysql.plist</div></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">launchctl unload -w ~/Library/LaunchAgents/homebrew.mxcl.mysql.plist</span><br></pre></td></tr></table></figure>
 <p><code>unload</code> 之后再删除该文件，</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">sudo rm ~/Library/LaunchAgents/homebrew.mxcl.mysql.plist</div><div class="line">或</div><div class="line">sudo rm ~/Library/LaunchDaemons/homebrew.mxcl.mysql.plist</div></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo rm ~/Library/LaunchAgents/homebrew.mxcl.mysql.plist</span><br><span class="line">或</span><br><span class="line">sudo rm ~/Library/LaunchDaemons/homebrew.mxcl.mysql.plist</span><br></pre></td></tr></table></figure>
 <h2 id="移除残留配置"><a href="#移除残留配置" class="headerlink" title="移除残留配置"></a>移除残留配置</h2><p><code>subl /etc/hostconfig</code> `</p>
 <p>后输入 <code>Remove the line MYSQLCOM=-YES-</code> ` </p>
-<h2 id="移除残留偏好设置"><a href="#移除残留偏好设置" class="headerlink" title="移除残留偏好设置"></a>移除残留偏好设置</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">rm -rf ~/Library/PreferencePanes/My*;</div><div class="line">sudo rm -rf /Library/Receipts/mysql*;</div><div class="line">sudo rm -rf /Library/Receipts/MySQL*;</div><div class="line">sudo rm -rf /private/var/db/receipts/*mysql*</div></pre></td></tr></table></figure>
+<h2 id="移除残留偏好设置"><a href="#移除残留偏好设置" class="headerlink" title="移除残留偏好设置"></a>移除残留偏好设置</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">rm -rf ~/Library/PreferencePanes/My*;</span><br><span class="line">sudo rm -rf /Library/Receipts/mysql*;</span><br><span class="line">sudo rm -rf /Library/Receipts/MySQL*;</span><br><span class="line">sudo rm -rf /private/var/db/receipts/*mysql*</span><br></pre></td></tr></table></figure>
 <h2 id="重启电脑，重新安装-mysql"><a href="#重启电脑，重新安装-mysql" class="headerlink" title="重启电脑，重新安装 mysql"></a>重启电脑，重新安装 <code>mysql</code></h2><p>建议使用 <code>Homebrew</code> 安装</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">brew search mysql</div><div class="line">brew install 你要的版本</div></pre></td></tr></table></figure>
-<h2 id="启动-mysql"><a href="#启动-mysql" class="headerlink" title="启动 mysql"></a>启动 <code>mysql</code></h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">mysql.server start</div></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">brew search mysql</span><br><span class="line">brew install 你要的版本</span><br></pre></td></tr></table></figure>
+<h2 id="启动-mysql"><a href="#启动-mysql" class="headerlink" title="启动 mysql"></a>启动 <code>mysql</code></h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql.server start</span><br></pre></td></tr></table></figure>
 <p>如果报 <code>commond not found</code>，则在 <code>~/.zshrc</code> 或者 <code>~/.bashrc</code> 中加入以下两行（注意替换mysql路径）：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">export</span> MYSQL=/usr/<span class="built_in">local</span>/Cellar/mysql@5.6/5.6.35/support-files</div><div class="line"><span class="built_in">export</span> PATH=<span class="variable">$MYSQL</span>:<span class="variable">$PATH</span></div></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">export</span> MYSQL=/usr/<span class="built_in">local</span>/Cellar/mysql@5.6/5.6.35/support-files</span><br><span class="line"><span class="built_in">export</span> PATH=<span class="variable">$MYSQL</span>:<span class="variable">$PATH</span></span><br></pre></td></tr></table></figure>
 
       
     </div>
@@ -660,7 +659,7 @@ display: none;
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">18</span>
+                <span class="site-state-item-count">19</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -682,7 +681,7 @@ display: none;
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">38</span>
+                <span class="site-state-item-count">40</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -813,7 +812,7 @@ display: none;
         <div class="copyright" >
   
   &copy;  2014 - 
-  <span itemprop="copyrightYear">2017</span>
+  <span itemprop="copyrightYear">2018</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>

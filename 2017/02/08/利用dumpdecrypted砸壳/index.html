@@ -87,22 +87,18 @@
 
 
 
-<meta name="description" content="1、编译生成
-dumpdecrypted.dylib
-2、给生成的 dumpdecrypted.dylib 签名">
+<meta name="description" content="1、编译生成 dumpdecrypted.dylib 2、给生成的 dumpdecrypted.dylib 签名">
+<meta name="keywords" content="逆向,iOS安全,破解">
 <meta property="og:type" content="article">
 <meta property="og:title" content="利用 dumpdecrypted 砸壳">
 <meta property="og:url" content="https://wangwanjie.github.io/2017/02/08/利用dumpdecrypted砸壳/index.html">
-<meta property="og:site_name" content="VanJay's Blog">
-<meta property="og:description" content="1、编译生成
-dumpdecrypted.dylib
-2、给生成的 dumpdecrypted.dylib 签名">
+<meta property="og:site_name" content="VanJay&#39;s Blog">
+<meta property="og:description" content="1、编译生成 dumpdecrypted.dylib 2、给生成的 dumpdecrypted.dylib 签名">
+<meta property="og:locale" content="zh-Hans">
 <meta property="og:updated_time" content="2017-03-18T13:26:43.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="利用 dumpdecrypted 砸壳">
-<meta name="twitter:description" content="1、编译生成
-dumpdecrypted.dylib
-2、给生成的 dumpdecrypted.dylib 签名">
+<meta name="twitter:description" content="1、编译生成 dumpdecrypted.dylib 2、给生成的 dumpdecrypted.dylib 签名">
 
 
 
@@ -487,11 +483,11 @@ display: none;
 <a id="more"></a>
 <p>3、ssh到手机，<code>ps aux | grep</code> 目标APP查看APP安装目录</p>
 <p>4、（可忽略这步）<code>cycript -p</code> 目标 APP，执行 </p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[[<span class="built_in">NSFileManager</span> defaultManager] URLsForDirectory:<span class="built_in">NSDocumentDirectory</span> inDomains:<span class="built_in">NSUserDomainMask</span>][<span class="number">0</span>]</div></pre></td></tr></table></figure>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[[<span class="built_in">NSFileManager</span> defaultManager] URLsForDirectory:<span class="built_in">NSDocumentDirectory</span> inDomains:<span class="built_in">NSUserDomainMask</span>][<span class="number">0</span>]</span><br></pre></td></tr></table></figure>
 <p> 查看沙盒目录</p>
 <p>5、将 <code>dumpdecrypted.dylib</code>拷贝 <code>/var/tmp</code>，进入 <code>/var/tmp</code></p>
 <p>6、将 <code>dumpdecrypted.dylib</code> 拷贝到沙盒目录，进入沙盒目录，执行</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">DYLD_INSERT_LIBRARIES=dumpdecrypted.dylib /var/containers/Bundle/Application/0B8A6E0F-9D64-4EF4-97D2-D3A508FC3574/APP.app/APP</div></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DYLD_INSERT_LIBRARIES=dumpdecrypted.dylib /var/containers/Bundle/Application/0B8A6E0F-9D64-4EF4-97D2-D3A508FC3574/APP.app/APP</span><br></pre></td></tr></table></figure>
 <p>7、得到目标 <code>APP.decrypted</code>就是二进制文件</p>
 
       
@@ -650,7 +646,7 @@ display: none;
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">18</span>
+                <span class="site-state-item-count">19</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -672,7 +668,7 @@ display: none;
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">38</span>
+                <span class="site-state-item-count">40</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -787,7 +783,7 @@ display: none;
         <div class="copyright" >
   
   &copy;  2014 - 
-  <span itemprop="copyrightYear">2017</span>
+  <span itemprop="copyrightYear">2018</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>

@@ -87,34 +87,18 @@
 
 
 
-<meta name="description" content="iOS 支持以无线方式安装企业内部应用，而无需使用 iTunes 或 App Store。
-
-格式要求应用格式要求:.ipa，并且使用企业内部预置描述文件进行构建，即经企业证书签名。
-无线安装要求：
-XML 清单文件（一个 plist 配置文件）
-可让设备访问 Apple iTunes 服务器的网络配置（设备要能连接互联网，因为要校验）
-对于 iOS 7.1 或更高版本， plist 文件和 i">
+<meta name="description" content="iOS 支持以无线方式安装企业内部应用，而无需使用 iTunes 或 App Store。  格式要求应用格式要求:.ipa，并且使用企业内部预置描述文件进行构建，即经企业证书签名。 无线安装要求： XML 清单文件（一个 plist 配置文件） 可让设备访问 Apple iTunes 服务器的网络配置（设备要能连接互联网，因为要校验） 对于 iOS 7.1 或更高版本， plist 文件和 i">
+<meta name="keywords" content="打包,发布">
 <meta property="og:type" content="article">
 <meta property="og:title" content="iOS企业内部应用分发">
 <meta property="og:url" content="https://wangwanjie.github.io/2017/01/11/iOS企业内部应用分发/index.html">
-<meta property="og:site_name" content="VanJay's Blog">
-<meta property="og:description" content="iOS 支持以无线方式安装企业内部应用，而无需使用 iTunes 或 App Store。
-
-格式要求应用格式要求:.ipa，并且使用企业内部预置描述文件进行构建，即经企业证书签名。
-无线安装要求：
-XML 清单文件（一个 plist 配置文件）
-可让设备访问 Apple iTunes 服务器的网络配置（设备要能连接互联网，因为要校验）
-对于 iOS 7.1 或更高版本， plist 文件和 i">
+<meta property="og:site_name" content="VanJay&#39;s Blog">
+<meta property="og:description" content="iOS 支持以无线方式安装企业内部应用，而无需使用 iTunes 或 App Store。  格式要求应用格式要求:.ipa，并且使用企业内部预置描述文件进行构建，即经企业证书签名。 无线安装要求： XML 清单文件（一个 plist 配置文件） 可让设备访问 Apple iTunes 服务器的网络配置（设备要能连接互联网，因为要校验） 对于 iOS 7.1 或更高版本， plist 文件和 i">
+<meta property="og:locale" content="zh-Hans">
 <meta property="og:updated_time" content="2017-03-18T15:01:34.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="iOS企业内部应用分发">
-<meta name="twitter:description" content="iOS 支持以无线方式安装企业内部应用，而无需使用 iTunes 或 App Store。
-
-格式要求应用格式要求:.ipa，并且使用企业内部预置描述文件进行构建，即经企业证书签名。
-无线安装要求：
-XML 清单文件（一个 plist 配置文件）
-可让设备访问 Apple iTunes 服务器的网络配置（设备要能连接互联网，因为要校验）
-对于 iOS 7.1 或更高版本， plist 文件和 i">
+<meta name="twitter:description" content="iOS 支持以无线方式安装企业内部应用，而无需使用 iTunes 或 App Store。  格式要求应用格式要求:.ipa，并且使用企业内部预置描述文件进行构建，即经企业证书签名。 无线安装要求： XML 清单文件（一个 plist 配置文件） 可让设备访问 Apple iTunes 服务器的网络配置（设备要能连接互联网，因为要校验） 对于 iOS 7.1 或更高版本， plist 文件和 i">
 
 
 
@@ -556,7 +540,7 @@ display: none;
 <li>用户首次打开应用时，系统会通过联系 Apple 的 OCSP 服务器来验证分发证书。如果证书已撤销，应用将不会启动。为了验证状态，设备必须能够访问 ocsp.apple.com。</li>
 <li>OCSP 响应会在设备上缓存一段时间（由 OCSP 服务器指定），当前为 3 到 7 天之间。在重新启动设备和缓存的响应过期之前，将不会再次检查证书的有效性。如果当时收到撤销命令，系统将阻止应用运行。<br><em>【警告】</em>撤销分发证书会导致使用该证书签名的所有应用失效。只有万不得已时才应撤销证书，比如确定专用密钥已丢失或确信证书已遭破解。</li>
 </ul>
-<h2 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h2><p>示例 iOS 应用 plist 清单文件，可复制，保存为plist格式，也可从 <a href="https://github.com/wangwanjie/SharedResources/blob/master/example_zn.plist" target="_blank" rel="external">这里</a> 下载</p>
+<h2 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h2><p>示例 iOS 应用 plist 清单文件，可复制，保存为plist格式，也可从 <a href="https://github.com/wangwanjie/SharedResources/blob/master/example_zn.plist" target="_blank" rel="noopener">这里</a> 下载</p>
 <pre><code class="XML"><span class="meta">&lt;!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd"&gt;</span>
 <span class="tag">&lt;<span class="name">plist</span> <span class="attr">version</span>=<span class="string">"1.0"</span>&gt;</span>
 <span class="tag">&lt;<span class="name">dict</span>&gt;</span>
@@ -614,7 +598,7 @@ display: none;
 <span class="tag">&lt;/<span class="name">dict</span>&gt;</span>
 <span class="tag">&lt;/<span class="name">plist</span>&gt;</span>
 </code></pre>
-<h2 id="简单配置示例"><a href="#简单配置示例" class="headerlink" title="简单配置示例"></a>简单配置示例</h2><p>作为包体积较小的应用，如以下简单配置即可，从<a href="https://github.com/wangwanjie/SharedResources/blob/master/simple.plist" target="_blank" rel="external">这里</a>下载</p>
+<h2 id="简单配置示例"><a href="#简单配置示例" class="headerlink" title="简单配置示例"></a>简单配置示例</h2><p>作为包体积较小的应用，如以下简单配置即可，从<a href="https://github.com/wangwanjie/SharedResources/blob/master/simple.plist" target="_blank" rel="noopener">这里</a>下载</p>
 <pre><code class="XMl"><span class="meta">&lt;!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd"&gt;</span>
 <span class="tag">&lt;<span class="name">plist</span> <span class="attr">version</span>=<span class="string">"1.0"</span>&gt;</span>
 <span class="tag">&lt;<span class="name">dict</span>&gt;</span>
@@ -831,7 +815,7 @@ display: none;
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">18</span>
+                <span class="site-state-item-count">19</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -853,7 +837,7 @@ display: none;
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">38</span>
+                <span class="site-state-item-count">40</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -984,7 +968,7 @@ display: none;
         <div class="copyright" >
   
   &copy;  2014 - 
-  <span itemprop="copyrightYear">2017</span>
+  <span itemprop="copyrightYear">2018</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>

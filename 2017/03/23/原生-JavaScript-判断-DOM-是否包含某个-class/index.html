@@ -88,11 +88,13 @@
 
 
 <meta name="description" content="使用 classlist">
+<meta name="keywords" content="JavaScript,DOM,DOM Class">
 <meta property="og:type" content="article">
 <meta property="og:title" content="原生 JavaScript 判断 DOM 是否包含某个 class">
 <meta property="og:url" content="https://wangwanjie.github.io/2017/03/23/原生-JavaScript-判断-DOM-是否包含某个-class/index.html">
-<meta property="og:site_name" content="VanJay's Blog">
+<meta property="og:site_name" content="VanJay&#39;s Blog">
 <meta property="og:description" content="使用 classlist">
+<meta property="og:locale" content="zh-Hans">
 <meta property="og:updated_time" content="2017-03-23T03:11:02.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="原生 JavaScript 判断 DOM 是否包含某个 class">
@@ -476,9 +478,9 @@ display: none;
 
       
         <h2 id="使用-classlist"><a href="#使用-classlist" class="headerlink" title="使用 classlist"></a>使用 <code>classlist</code></h2><a id="more"></a>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span> (<span class="built_in">document</span>.body.classList.contains(<span class="string">'thatClass'</span>)) &#123;</div><div class="line">    <span class="comment">// do some stuff</span></div><div class="line">&#125;</div><div class="line">Other uses <span class="keyword">of</span> classList:</div><div class="line"></div><div class="line"><span class="built_in">document</span>.body.classList.add(<span class="string">'thisClass'</span>);</div><div class="line"><span class="comment">// $('body').addClass('thisClass');</span></div><div class="line"></div><div class="line"><span class="built_in">document</span>.body.classList.remove(<span class="string">'thatClass'</span>);</div><div class="line"><span class="comment">// $('body').removeClass('thatClass');</span></div><div class="line"></div><div class="line"><span class="built_in">document</span>.body.classList.toggle(<span class="string">'anotherClass'</span>);</div><div class="line"><span class="comment">// $('body').toggleClass('anotherClass');</span></div></pre></td></tr></table></figure>
-<h2 id="简单封装一下"><a href="#简单封装一下" class="headerlink" title="简单封装一下"></a>简单封装一下</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">hasClass</span>(<span class="params">el, cn</span>)</span>&#123;</div><div class="line">    <span class="keyword">var</span> classes = el.classList;</div><div class="line">    <span class="keyword">for</span>(<span class="keyword">var</span> j = <span class="number">0</span>; j &lt; classes.length; j++)&#123;</div><div class="line">        <span class="keyword">if</span>(classes[j] == cn)&#123;</div><div class="line">            <span class="keyword">return</span> <span class="literal">true</span>;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h2 id="支持IE8"><a href="#支持IE8" class="headerlink" title="支持IE8"></a>支持IE8</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">hasClass</span>(<span class="params">el, cls</span>) </span>&#123;</div><div class="line">    <span class="keyword">var</span> regexp = <span class="keyword">new</span> <span class="built_in">RegExp</span>(<span class="string">'(\\s|^)'</span> + cls + <span class="string">'(\\s|$)'</span>),</div><div class="line">        target = (<span class="keyword">typeof</span> el.className === <span class="string">'undefined'</span>) ? <span class="built_in">window</span>.event.srcElement : el;</div><div class="line">    <span class="keyword">return</span> target.className.match(regexp);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (<span class="built_in">document</span>.body.classList.contains(<span class="string">'thatClass'</span>)) &#123;</span><br><span class="line">    <span class="comment">// do some stuff</span></span><br><span class="line">&#125;</span><br><span class="line">Other uses <span class="keyword">of</span> classList:</span><br><span class="line"></span><br><span class="line"><span class="built_in">document</span>.body.classList.add(<span class="string">'thisClass'</span>);</span><br><span class="line"><span class="comment">// $('body').addClass('thisClass');</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">document</span>.body.classList.remove(<span class="string">'thatClass'</span>);</span><br><span class="line"><span class="comment">// $('body').removeClass('thatClass');</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">document</span>.body.classList.toggle(<span class="string">'anotherClass'</span>);</span><br><span class="line"><span class="comment">// $('body').toggleClass('anotherClass');</span></span><br></pre></td></tr></table></figure>
+<h2 id="简单封装一下"><a href="#简单封装一下" class="headerlink" title="简单封装一下"></a>简单封装一下</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">hasClass</span>(<span class="params">el, cn</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">var</span> classes = el.classList;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">var</span> j = <span class="number">0</span>; j &lt; classes.length; j++)&#123;</span><br><span class="line">        <span class="keyword">if</span>(classes[j] == cn)&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="支持IE8"><a href="#支持IE8" class="headerlink" title="支持IE8"></a>支持IE8</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">hasClass</span>(<span class="params">el, cls</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> regexp = <span class="keyword">new</span> <span class="built_in">RegExp</span>(<span class="string">'(\\s|^)'</span> + cls + <span class="string">'(\\s|$)'</span>),</span><br><span class="line">        target = (<span class="keyword">typeof</span> el.className === <span class="string">'undefined'</span>) ? <span class="built_in">window</span>.event.srcElement : el;</span><br><span class="line">    <span class="keyword">return</span> target.className.match(regexp);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h2 id="浏览器支持"><a href="#浏览器支持" class="headerlink" title="浏览器支持"></a>浏览器支持</h2><ul>
 <li>Chrome 8.0</li>
 <li>Firefox 3.6</li>
@@ -652,7 +654,7 @@ display: none;
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">18</span>
+                <span class="site-state-item-count">19</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -674,7 +676,7 @@ display: none;
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">38</span>
+                <span class="site-state-item-count">40</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -805,7 +807,7 @@ display: none;
         <div class="copyright" >
   
   &copy;  2014 - 
-  <span itemprop="copyrightYear">2017</span>
+  <span itemprop="copyrightYear">2018</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
