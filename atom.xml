@@ -4,9 +4,9 @@
   <subtitle>成功不是将来才有的&lt;br&gt;而是决定去做的那一刻起&lt;br&gt;持续累积而成</subtitle>
   <link href="/atom.xml" rel="self"/>
   
-  <link href="https://www.vanjay.cn/"/>
+  <link href="https://wanghwanjie.github.io/"/>
   <updated>2018-10-02T05:07:20.972Z</updated>
-  <id>https://www.vanjay.cn/</id>
+  <id>https://wanghwanjie.github.io/</id>
   
   <author>
     <name>VanJay</name>
@@ -17,8 +17,8 @@
   
   <entry>
     <title>Ubuntu 18.04 LTS 安装部署 Seafile</title>
-    <link href="https://www.vanjay.cn/2018/10/01/Ubuntu-18-04-LTS-%E5%AE%89%E8%A3%85%E9%83%A8%E7%BD%B2-Seafile/"/>
-    <id>https://www.vanjay.cn/2018/10/01/Ubuntu-18-04-LTS-安装部署-Seafile/</id>
+    <link href="https://wanghwanjie.github.io/2018/10/01/Ubuntu-18-04-LTS-%E5%AE%89%E8%A3%85%E9%83%A8%E7%BD%B2-Seafile/"/>
+    <id>https://wanghwanjie.github.io/2018/10/01/Ubuntu-18-04-LTS-安装部署-Seafile/</id>
     <published>2018-10-01T09:06:54.000Z</published>
     <updated>2018-10-02T05:07:20.972Z</updated>
     
@@ -80,23 +80,23 @@
     
     </summary>
     
-      <category term="Linux" scheme="https://www.vanjay.cn/categories/Linux/"/>
+      <category term="Linux" scheme="https://wanghwanjie.github.io/categories/Linux/"/>
     
     
-      <category term="Linux" scheme="https://www.vanjay.cn/tags/Linux/"/>
+      <category term="Linux" scheme="https://wanghwanjie.github.io/tags/Linux/"/>
     
-      <category term="Seafile" scheme="https://www.vanjay.cn/tags/Seafile/"/>
+      <category term="Seafile" scheme="https://wanghwanjie.github.io/tags/Seafile/"/>
     
-      <category term="Ubuntu" scheme="https://www.vanjay.cn/tags/Ubuntu/"/>
+      <category term="Ubuntu" scheme="https://wanghwanjie.github.io/tags/Ubuntu/"/>
     
-      <category term="个人云盘" scheme="https://www.vanjay.cn/tags/%E4%B8%AA%E4%BA%BA%E4%BA%91%E7%9B%98/"/>
+      <category term="个人云盘" scheme="https://wanghwanjie.github.io/tags/%E4%B8%AA%E4%BA%BA%E4%BA%91%E7%9B%98/"/>
     
   </entry>
   
   <entry>
     <title>iOS 开发从 Array 生成特定分隔符隔开的 String</title>
-    <link href="https://www.vanjay.cn/2018/10/01/iOS-%E5%BC%80%E5%8F%91%E4%BB%8E-Array-%E7%94%9F%E6%88%90%E7%89%B9%E5%AE%9A%E5%88%86%E9%9A%94%E7%AC%A6%E9%9A%94%E5%BC%80%E7%9A%84-String/"/>
-    <id>https://www.vanjay.cn/2018/10/01/iOS-开发从-Array-生成特定分隔符隔开的-String/</id>
+    <link href="https://wanghwanjie.github.io/2018/10/01/iOS-%E5%BC%80%E5%8F%91%E4%BB%8E-Array-%E7%94%9F%E6%88%90%E7%89%B9%E5%AE%9A%E5%88%86%E9%9A%94%E7%AC%A6%E9%9A%94%E5%BC%80%E7%9A%84-String/"/>
+    <id>https://wanghwanjie.github.io/2018/10/01/iOS-开发从-Array-生成特定分隔符隔开的-String/</id>
     <published>2018-09-30T17:41:45.000Z</published>
     <updated>2018-09-30T17:53:41.051Z</updated>
     
@@ -114,21 +114,21 @@
     
     </summary>
     
-      <category term="iOS 开发" scheme="https://www.vanjay.cn/categories/iOS-%E5%BC%80%E5%8F%91/"/>
+      <category term="iOS 开发" scheme="https://wanghwanjie.github.io/categories/iOS-%E5%BC%80%E5%8F%91/"/>
     
     
-      <category term="Objective-C" scheme="https://www.vanjay.cn/tags/Objective-C/"/>
+      <category term="Objective-C" scheme="https://wanghwanjie.github.io/tags/Objective-C/"/>
     
-      <category term="String" scheme="https://www.vanjay.cn/tags/String/"/>
+      <category term="String" scheme="https://wanghwanjie.github.io/tags/String/"/>
     
-      <category term="iOS" scheme="https://www.vanjay.cn/tags/iOS/"/>
+      <category term="iOS" scheme="https://wanghwanjie.github.io/tags/iOS/"/>
     
   </entry>
   
   <entry>
     <title>iOS 数字转 xx 万 xx 亿</title>
-    <link href="https://www.vanjay.cn/2018/09/30/iOS-%E6%95%B0%E5%AD%97%E8%BD%AC-xx-%E4%B8%87-xx-%E4%BA%BF/"/>
-    <id>https://www.vanjay.cn/2018/09/30/iOS-数字转-xx-万-xx-亿/</id>
+    <link href="https://wanghwanjie.github.io/2018/09/30/iOS-%E6%95%B0%E5%AD%97%E8%BD%AC-xx-%E4%B8%87-xx-%E4%BA%BF/"/>
+    <id>https://wanghwanjie.github.io/2018/09/30/iOS-数字转-xx-万-xx-亿/</id>
     <published>2018-09-30T05:08:27.000Z</published>
     <updated>2018-09-30T17:53:33.248Z</updated>
     
@@ -144,19 +144,19 @@
     
     </summary>
     
-      <category term="iOS 开发" scheme="https://www.vanjay.cn/categories/iOS-%E5%BC%80%E5%8F%91/"/>
+      <category term="iOS 开发" scheme="https://wanghwanjie.github.io/categories/iOS-%E5%BC%80%E5%8F%91/"/>
     
     
-      <category term="iOS" scheme="https://www.vanjay.cn/tags/iOS/"/>
+      <category term="iOS" scheme="https://wanghwanjie.github.io/tags/iOS/"/>
     
-      <category term="Objective" scheme="https://www.vanjay.cn/tags/Objective/"/>
+      <category term="Objective" scheme="https://wanghwanjie.github.io/tags/Objective/"/>
     
   </entry>
   
   <entry>
     <title>Ubuntu 开启 ssh 登录</title>
-    <link href="https://www.vanjay.cn/2018/04/02/Ubuntu-%E5%BC%80%E5%90%AF-ssh-%E7%99%BB%E5%BD%95/"/>
-    <id>https://www.vanjay.cn/2018/04/02/Ubuntu-开启-ssh-登录/</id>
+    <link href="https://wanghwanjie.github.io/2018/04/02/Ubuntu-%E5%BC%80%E5%90%AF-ssh-%E7%99%BB%E5%BD%95/"/>
+    <id>https://wanghwanjie.github.io/2018/04/02/Ubuntu-开启-ssh-登录/</id>
     <published>2018-04-01T18:26:21.000Z</published>
     <updated>2018-10-01T18:33:29.405Z</updated>
     
@@ -174,21 +174,21 @@
     
     </summary>
     
-      <category term="Linux" scheme="https://www.vanjay.cn/categories/Linux/"/>
+      <category term="Linux" scheme="https://wanghwanjie.github.io/categories/Linux/"/>
     
     
-      <category term="Linux" scheme="https://www.vanjay.cn/tags/Linux/"/>
+      <category term="Linux" scheme="https://wanghwanjie.github.io/tags/Linux/"/>
     
-      <category term="Shell" scheme="https://www.vanjay.cn/tags/Shell/"/>
+      <category term="Shell" scheme="https://wanghwanjie.github.io/tags/Shell/"/>
     
-      <category term="SSH" scheme="https://www.vanjay.cn/tags/SSH/"/>
+      <category term="SSH" scheme="https://wanghwanjie.github.io/tags/SSH/"/>
     
   </entry>
   
   <entry>
     <title>购买BanwagonHOST VPS自建Shadowsocks记录</title>
-    <link href="https://www.vanjay.cn/2017/07/28/%E8%B4%AD%E4%B9%B0BanwagonHOST-VPS%E8%87%AA%E5%BB%BAShadowsocks%E8%AE%B0%E5%BD%95/"/>
-    <id>https://www.vanjay.cn/2017/07/28/购买BanwagonHOST-VPS自建Shadowsocks记录/</id>
+    <link href="https://wanghwanjie.github.io/2017/07/28/%E8%B4%AD%E4%B9%B0BanwagonHOST-VPS%E8%87%AA%E5%BB%BAShadowsocks%E8%AE%B0%E5%BD%95/"/>
+    <id>https://wanghwanjie.github.io/2017/07/28/购买BanwagonHOST-VPS自建Shadowsocks记录/</id>
     <published>2017-07-27T16:15:23.000Z</published>
     <updated>2018-07-05T09:30:55.000Z</updated>
     
@@ -236,23 +236,23 @@
     
     </summary>
     
-      <category term="VPN" scheme="https://www.vanjay.cn/categories/VPN/"/>
+      <category term="VPN" scheme="https://wanghwanjie.github.io/categories/VPN/"/>
     
     
-      <category term="Mac使用" scheme="https://www.vanjay.cn/tags/Mac%E4%BD%BF%E7%94%A8/"/>
+      <category term="Mac使用" scheme="https://wanghwanjie.github.io/tags/Mac%E4%BD%BF%E7%94%A8/"/>
     
-      <category term="BanwagonHOST" scheme="https://www.vanjay.cn/tags/BanwagonHOST/"/>
+      <category term="BanwagonHOST" scheme="https://wanghwanjie.github.io/tags/BanwagonHOST/"/>
     
-      <category term="Shadowsocks" scheme="https://www.vanjay.cn/tags/Shadowsocks/"/>
+      <category term="Shadowsocks" scheme="https://wanghwanjie.github.io/tags/Shadowsocks/"/>
     
-      <category term="科学上网" scheme="https://www.vanjay.cn/tags/%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91/"/>
+      <category term="科学上网" scheme="https://wanghwanjie.github.io/tags/%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91/"/>
     
   </entry>
   
   <entry>
     <title>Wap APP开发心得</title>
-    <link href="https://www.vanjay.cn/2017/05/03/Wap-APP%E5%BC%80%E5%8F%91%E5%BF%83%E5%BE%97/"/>
-    <id>https://www.vanjay.cn/2017/05/03/Wap-APP开发心得/</id>
+    <link href="https://wanghwanjie.github.io/2017/05/03/Wap-APP%E5%BC%80%E5%8F%91%E5%BF%83%E5%BE%97/"/>
+    <id>https://wanghwanjie.github.io/2017/05/03/Wap-APP开发心得/</id>
     <published>2017-05-03T08:04:57.000Z</published>
     <updated>2017-05-03T08:19:00.000Z</updated>
     
@@ -270,21 +270,21 @@
     
     </summary>
     
-      <category term="APP开发" scheme="https://www.vanjay.cn/categories/APP%E5%BC%80%E5%8F%91/"/>
+      <category term="APP开发" scheme="https://wanghwanjie.github.io/categories/APP%E5%BC%80%E5%8F%91/"/>
     
     
-      <category term="JavaScript" scheme="https://www.vanjay.cn/tags/JavaScript/"/>
+      <category term="JavaScript" scheme="https://wanghwanjie.github.io/tags/JavaScript/"/>
     
-      <category term="MUI" scheme="https://www.vanjay.cn/tags/MUI/"/>
+      <category term="MUI" scheme="https://wanghwanjie.github.io/tags/MUI/"/>
     
-      <category term="HTML5" scheme="https://www.vanjay.cn/tags/HTML5/"/>
+      <category term="HTML5" scheme="https://wanghwanjie.github.io/tags/HTML5/"/>
     
   </entry>
   
   <entry>
     <title>MUI webview选项卡 首次只加载首页，点击触发打开页面</title>
-    <link href="https://www.vanjay.cn/2017/04/15/MUI%20webview%E9%80%89%E9%A1%B9%E5%8D%A1%20%E9%A6%96%E6%AC%A1%E5%8F%AA%E5%8A%A0%E8%BD%BD%E9%A6%96%E9%A1%B5%EF%BC%8C%E7%82%B9%E5%87%BB%E8%A7%A6%E5%8F%91%E6%89%93%E5%BC%80%E9%A1%B5%E9%9D%A2/"/>
-    <id>https://www.vanjay.cn/2017/04/15/MUI webview选项卡 首次只加载首页，点击触发打开页面/</id>
+    <link href="https://wanghwanjie.github.io/2017/04/15/MUI%20webview%E9%80%89%E9%A1%B9%E5%8D%A1%20%E9%A6%96%E6%AC%A1%E5%8F%AA%E5%8A%A0%E8%BD%BD%E9%A6%96%E9%A1%B5%EF%BC%8C%E7%82%B9%E5%87%BB%E8%A7%A6%E5%8F%91%E6%89%93%E5%BC%80%E9%A1%B5%E9%9D%A2/"/>
+    <id>https://wanghwanjie.github.io/2017/04/15/MUI webview选项卡 首次只加载首页，点击触发打开页面/</id>
     <published>2017-04-14T16:10:03.000Z</published>
     <updated>2017-04-14T16:15:42.000Z</updated>
     
@@ -300,21 +300,21 @@
     
     </summary>
     
-      <category term="JavaScript" scheme="https://www.vanjay.cn/categories/JavaScript/"/>
+      <category term="JavaScript" scheme="https://wanghwanjie.github.io/categories/JavaScript/"/>
     
     
-      <category term="JavaScript" scheme="https://www.vanjay.cn/tags/JavaScript/"/>
+      <category term="JavaScript" scheme="https://wanghwanjie.github.io/tags/JavaScript/"/>
     
-      <category term="MUI" scheme="https://www.vanjay.cn/tags/MUI/"/>
+      <category term="MUI" scheme="https://wanghwanjie.github.io/tags/MUI/"/>
     
-      <category term="HTML" scheme="https://www.vanjay.cn/tags/HTML/"/>
+      <category term="HTML" scheme="https://wanghwanjie.github.io/tags/HTML/"/>
     
   </entry>
   
   <entry>
     <title>JavaScript 主动选择 option</title>
-    <link href="https://www.vanjay.cn/2017/04/11/JavaScript-%E4%B8%BB%E5%8A%A8%E9%80%89%E6%8B%A9-option/"/>
-    <id>https://www.vanjay.cn/2017/04/11/JavaScript-主动选择-option/</id>
+    <link href="https://wanghwanjie.github.io/2017/04/11/JavaScript-%E4%B8%BB%E5%8A%A8%E9%80%89%E6%8B%A9-option/"/>
+    <id>https://wanghwanjie.github.io/2017/04/11/JavaScript-主动选择-option/</id>
     <published>2017-04-11T08:13:35.000Z</published>
     <updated>2017-04-11T08:16:08.000Z</updated>
     
@@ -330,17 +330,17 @@
     
     </summary>
     
-      <category term="JavaScript" scheme="https://www.vanjay.cn/categories/JavaScript/"/>
+      <category term="JavaScript" scheme="https://wanghwanjie.github.io/categories/JavaScript/"/>
     
     
-      <category term="JavaScript" scheme="https://www.vanjay.cn/tags/JavaScript/"/>
+      <category term="JavaScript" scheme="https://wanghwanjie.github.io/tags/JavaScript/"/>
     
   </entry>
   
   <entry>
     <title>使用Python脚本半自动化iOS企业版包更新</title>
-    <link href="https://www.vanjay.cn/2017/03/25/%E4%BD%BF%E7%94%A8Python%E8%84%9A%E6%9C%AC%E5%8D%8A%E8%87%AA%E5%8A%A8%E5%8C%96iOS%E4%BC%81%E4%B8%9A%E7%89%88%E5%8C%85%E6%9B%B4%E6%96%B0/"/>
-    <id>https://www.vanjay.cn/2017/03/25/使用Python脚本半自动化iOS企业版包更新/</id>
+    <link href="https://wanghwanjie.github.io/2017/03/25/%E4%BD%BF%E7%94%A8Python%E8%84%9A%E6%9C%AC%E5%8D%8A%E8%87%AA%E5%8A%A8%E5%8C%96iOS%E4%BC%81%E4%B8%9A%E7%89%88%E5%8C%85%E6%9B%B4%E6%96%B0/"/>
+    <id>https://wanghwanjie.github.io/2017/03/25/使用Python脚本半自动化iOS企业版包更新/</id>
     <published>2017-03-25T12:30:37.000Z</published>
     <updated>2017-03-27T04:53:58.000Z</updated>
     
@@ -356,21 +356,21 @@
     
     </summary>
     
-      <category term="Python3" scheme="https://www.vanjay.cn/categories/Python3/"/>
+      <category term="Python3" scheme="https://wanghwanjie.github.io/categories/Python3/"/>
     
     
-      <category term="iOS打包" scheme="https://www.vanjay.cn/tags/iOS%E6%89%93%E5%8C%85/"/>
+      <category term="iOS打包" scheme="https://wanghwanjie.github.io/tags/iOS%E6%89%93%E5%8C%85/"/>
     
-      <category term="iOS企业应用更新" scheme="https://www.vanjay.cn/tags/iOS%E4%BC%81%E4%B8%9A%E5%BA%94%E7%94%A8%E6%9B%B4%E6%96%B0/"/>
+      <category term="iOS企业应用更新" scheme="https://wanghwanjie.github.io/tags/iOS%E4%BC%81%E4%B8%9A%E5%BA%94%E7%94%A8%E6%9B%B4%E6%96%B0/"/>
     
-      <category term="Python3 读写 plist" scheme="https://www.vanjay.cn/tags/Python3-%E8%AF%BB%E5%86%99-plist/"/>
+      <category term="Python3 读写 plist" scheme="https://wanghwanjie.github.io/tags/Python3-%E8%AF%BB%E5%86%99-plist/"/>
     
   </entry>
   
   <entry>
     <title>原生 JavaScript 判断 DOM 是否包含某个 class</title>
-    <link href="https://www.vanjay.cn/2017/03/23/%E5%8E%9F%E7%94%9F-JavaScript-%E5%88%A4%E6%96%AD-DOM-%E6%98%AF%E5%90%A6%E5%8C%85%E5%90%AB%E6%9F%90%E4%B8%AA-class/"/>
-    <id>https://www.vanjay.cn/2017/03/23/原生-JavaScript-判断-DOM-是否包含某个-class/</id>
+    <link href="https://wanghwanjie.github.io/2017/03/23/%E5%8E%9F%E7%94%9F-JavaScript-%E5%88%A4%E6%96%AD-DOM-%E6%98%AF%E5%90%A6%E5%8C%85%E5%90%AB%E6%9F%90%E4%B8%AA-class/"/>
+    <id>https://wanghwanjie.github.io/2017/03/23/原生-JavaScript-判断-DOM-是否包含某个-class/</id>
     <published>2017-03-23T03:05:27.000Z</published>
     <updated>2017-03-23T03:11:02.000Z</updated>
     
@@ -393,21 +393,21 @@
     
     </summary>
     
-      <category term="JavaScript" scheme="https://www.vanjay.cn/categories/JavaScript/"/>
+      <category term="JavaScript" scheme="https://wanghwanjie.github.io/categories/JavaScript/"/>
     
     
-      <category term="JavaScript" scheme="https://www.vanjay.cn/tags/JavaScript/"/>
+      <category term="JavaScript" scheme="https://wanghwanjie.github.io/tags/JavaScript/"/>
     
-      <category term="DOM" scheme="https://www.vanjay.cn/tags/DOM/"/>
+      <category term="DOM" scheme="https://wanghwanjie.github.io/tags/DOM/"/>
     
-      <category term="DOM Class" scheme="https://www.vanjay.cn/tags/DOM-Class/"/>
+      <category term="DOM Class" scheme="https://wanghwanjie.github.io/tags/DOM-Class/"/>
     
   </entry>
   
   <entry>
     <title>iOS 企业版应用一键更新</title>
-    <link href="https://www.vanjay.cn/2017/03/22/iOS-%E4%BC%81%E4%B8%9A%E7%89%88%E5%BA%94%E7%94%A8%E4%B8%80%E9%94%AE%E6%9B%B4%E6%96%B0/"/>
-    <id>https://www.vanjay.cn/2017/03/22/iOS-企业版应用一键更新/</id>
+    <link href="https://wanghwanjie.github.io/2017/03/22/iOS-%E4%BC%81%E4%B8%9A%E7%89%88%E5%BA%94%E7%94%A8%E4%B8%80%E9%94%AE%E6%9B%B4%E6%96%B0/"/>
+    <id>https://wanghwanjie.github.io/2017/03/22/iOS-企业版应用一键更新/</id>
     <published>2017-03-22T06:14:05.000Z</published>
     <updated>2017-03-22T08:54:51.000Z</updated>
     
@@ -423,23 +423,23 @@
     
     </summary>
     
-      <category term="iOS" scheme="https://www.vanjay.cn/categories/iOS/"/>
+      <category term="iOS" scheme="https://wanghwanjie.github.io/categories/iOS/"/>
     
     
-      <category term="iOS 应用更新" scheme="https://www.vanjay.cn/tags/iOS-%E5%BA%94%E7%94%A8%E6%9B%B4%E6%96%B0/"/>
+      <category term="iOS 应用更新" scheme="https://wanghwanjie.github.io/tags/iOS-%E5%BA%94%E7%94%A8%E6%9B%B4%E6%96%B0/"/>
     
-      <category term="企业版应用更新" scheme="https://www.vanjay.cn/tags/%E4%BC%81%E4%B8%9A%E7%89%88%E5%BA%94%E7%94%A8%E6%9B%B4%E6%96%B0/"/>
+      <category term="企业版应用更新" scheme="https://wanghwanjie.github.io/tags/%E4%BC%81%E4%B8%9A%E7%89%88%E5%BA%94%E7%94%A8%E6%9B%B4%E6%96%B0/"/>
     
-      <category term="打包" scheme="https://www.vanjay.cn/tags/%E6%89%93%E5%8C%85/"/>
+      <category term="打包" scheme="https://wanghwanjie.github.io/tags/%E6%89%93%E5%8C%85/"/>
     
-      <category term="发布" scheme="https://www.vanjay.cn/tags/%E5%8F%91%E5%B8%83/"/>
+      <category term="发布" scheme="https://wanghwanjie.github.io/tags/%E5%8F%91%E5%B8%83/"/>
     
   </entry>
   
   <entry>
     <title>为 NexT 主题添加球型标签云</title>
-    <link href="https://www.vanjay.cn/2017/03/19/%E4%B8%BA-NexT-%E4%B8%BB%E9%A2%98%E6%B7%BB%E5%8A%A0%E7%90%83%E5%BD%A2%E6%A0%87%E7%AD%BE%E4%BA%91/"/>
-    <id>https://www.vanjay.cn/2017/03/19/为-NexT-主题添加球形标签云/</id>
+    <link href="https://wanghwanjie.github.io/2017/03/19/%E4%B8%BA-NexT-%E4%B8%BB%E9%A2%98%E6%B7%BB%E5%8A%A0%E7%90%83%E5%BD%A2%E6%A0%87%E7%AD%BE%E4%BA%91/"/>
+    <id>https://wanghwanjie.github.io/2017/03/19/为-NexT-主题添加球形标签云/</id>
     <published>2017-03-19T12:04:55.000Z</published>
     <updated>2017-03-20T02:49:28.000Z</updated>
     
@@ -462,21 +462,21 @@
     
     </summary>
     
-      <category term="Blog" scheme="https://www.vanjay.cn/categories/Blog/"/>
+      <category term="Blog" scheme="https://wanghwanjie.github.io/categories/Blog/"/>
     
     
-      <category term="标签" scheme="https://www.vanjay.cn/tags/%E6%A0%87%E7%AD%BE/"/>
+      <category term="标签" scheme="https://wanghwanjie.github.io/tags/%E6%A0%87%E7%AD%BE/"/>
     
-      <category term="主题" scheme="https://www.vanjay.cn/tags/%E4%B8%BB%E9%A2%98/"/>
+      <category term="主题" scheme="https://wanghwanjie.github.io/tags/%E4%B8%BB%E9%A2%98/"/>
     
-      <category term="球形标签云" scheme="https://www.vanjay.cn/tags/%E7%90%83%E5%BD%A2%E6%A0%87%E7%AD%BE%E4%BA%91/"/>
+      <category term="球形标签云" scheme="https://wanghwanjie.github.io/tags/%E7%90%83%E5%BD%A2%E6%A0%87%E7%AD%BE%E4%BA%91/"/>
     
   </entry>
   
   <entry>
     <title>Mac 彻底卸载 MYSQL 解决疑难杂症</title>
-    <link href="https://www.vanjay.cn/2017/03/18/Mac-%E5%BD%BB%E5%BA%95%E5%8D%B8%E8%BD%BD-MYSQL-%E8%A7%A3%E5%86%B3%E7%96%91%E9%9A%BE%E6%9D%82%E7%97%87/"/>
-    <id>https://www.vanjay.cn/2017/03/18/Mac-彻底卸载-MYSQL-解决疑难杂症/</id>
+    <link href="https://wanghwanjie.github.io/2017/03/18/Mac-%E5%BD%BB%E5%BA%95%E5%8D%B8%E8%BD%BD-MYSQL-%E8%A7%A3%E5%86%B3%E7%96%91%E9%9A%BE%E6%9D%82%E7%97%87/"/>
+    <id>https://wanghwanjie.github.io/2017/03/18/Mac-彻底卸载-MYSQL-解决疑难杂症/</id>
     <published>2017-03-18T12:42:18.000Z</published>
     <updated>2017-03-20T08:50:04.000Z</updated>
     
@@ -507,19 +507,19 @@
     
     </summary>
     
-      <category term="系统疑难" scheme="https://www.vanjay.cn/categories/%E7%B3%BB%E7%BB%9F%E7%96%91%E9%9A%BE/"/>
+      <category term="系统疑难" scheme="https://wanghwanjie.github.io/categories/%E7%B3%BB%E7%BB%9F%E7%96%91%E9%9A%BE/"/>
     
     
-      <category term="MYSQL" scheme="https://www.vanjay.cn/tags/MYSQL/"/>
+      <category term="MYSQL" scheme="https://wanghwanjie.github.io/tags/MYSQL/"/>
     
-      <category term="Mac" scheme="https://www.vanjay.cn/tags/Mac/"/>
+      <category term="Mac" scheme="https://wanghwanjie.github.io/tags/Mac/"/>
     
   </entry>
   
   <entry>
     <title>Hexo 中为多说添加最近访客</title>
-    <link href="https://www.vanjay.cn/2017/03/17/Hexo-%E4%B8%AD%E4%B8%BA%E5%A4%9A%E8%AF%B4%E6%B7%BB%E5%8A%A0%E6%9C%80%E8%BF%91%E8%AE%BF%E5%AE%A2/"/>
-    <id>https://www.vanjay.cn/2017/03/17/Hexo-中为多说添加最近访客/</id>
+    <link href="https://wanghwanjie.github.io/2017/03/17/Hexo-%E4%B8%AD%E4%B8%BA%E5%A4%9A%E8%AF%B4%E6%B7%BB%E5%8A%A0%E6%9C%80%E8%BF%91%E8%AE%BF%E5%AE%A2/"/>
+    <id>https://wanghwanjie.github.io/2017/03/17/Hexo-中为多说添加最近访客/</id>
     <published>2017-03-17T11:06:02.000Z</published>
     <updated>2017-03-18T01:39:37.000Z</updated>
     
@@ -544,21 +544,21 @@
     
     </summary>
     
-      <category term="Blog" scheme="https://www.vanjay.cn/categories/Blog/"/>
+      <category term="Blog" scheme="https://wanghwanjie.github.io/categories/Blog/"/>
     
     
-      <category term="博客" scheme="https://www.vanjay.cn/tags/%E5%8D%9A%E5%AE%A2/"/>
+      <category term="博客" scheme="https://wanghwanjie.github.io/tags/%E5%8D%9A%E5%AE%A2/"/>
     
-      <category term="Hexo" scheme="https://www.vanjay.cn/tags/Hexo/"/>
+      <category term="Hexo" scheme="https://wanghwanjie.github.io/tags/Hexo/"/>
     
-      <category term="NexT" scheme="https://www.vanjay.cn/tags/NexT/"/>
+      <category term="NexT" scheme="https://wanghwanjie.github.io/tags/NexT/"/>
     
   </entry>
   
   <entry>
     <title>动态加载javascript</title>
-    <link href="https://www.vanjay.cn/2017/03/09/%E5%8A%A8%E6%80%81%E5%8A%A0%E8%BD%BDjavascript/"/>
-    <id>https://www.vanjay.cn/2017/03/09/动态加载javascript/</id>
+    <link href="https://wanghwanjie.github.io/2017/03/09/%E5%8A%A8%E6%80%81%E5%8A%A0%E8%BD%BDjavascript/"/>
+    <id>https://wanghwanjie.github.io/2017/03/09/动态加载javascript/</id>
     <published>2017-03-09T02:50:55.000Z</published>
     <updated>2017-03-29T06:20:48.000Z</updated>
     
@@ -572,17 +572,17 @@
     
     </summary>
     
-      <category term="JavaScript" scheme="https://www.vanjay.cn/categories/JavaScript/"/>
+      <category term="JavaScript" scheme="https://wanghwanjie.github.io/categories/JavaScript/"/>
     
     
-      <category term="javascript" scheme="https://www.vanjay.cn/tags/javascript/"/>
+      <category term="javascript" scheme="https://wanghwanjie.github.io/tags/javascript/"/>
     
   </entry>
   
   <entry>
     <title>利用 dumpdecrypted 砸壳</title>
-    <link href="https://www.vanjay.cn/2017/02/08/%E5%88%A9%E7%94%A8dumpdecrypted%E7%A0%B8%E5%A3%B3/"/>
-    <id>https://www.vanjay.cn/2017/02/08/利用dumpdecrypted砸壳/</id>
+    <link href="https://wanghwanjie.github.io/2017/02/08/%E5%88%A9%E7%94%A8dumpdecrypted%E7%A0%B8%E5%A3%B3/"/>
+    <id>https://wanghwanjie.github.io/2017/02/08/利用dumpdecrypted砸壳/</id>
     <published>2017-02-08T09:34:03.000Z</published>
     <updated>2017-03-18T13:26:43.000Z</updated>
     
@@ -608,21 +608,21 @@
     
     </summary>
     
-      <category term="iOS" scheme="https://www.vanjay.cn/categories/iOS/"/>
+      <category term="iOS" scheme="https://wanghwanjie.github.io/categories/iOS/"/>
     
     
-      <category term="逆向" scheme="https://www.vanjay.cn/tags/%E9%80%86%E5%90%91/"/>
+      <category term="逆向" scheme="https://wanghwanjie.github.io/tags/%E9%80%86%E5%90%91/"/>
     
-      <category term="iOS安全" scheme="https://www.vanjay.cn/tags/iOS%E5%AE%89%E5%85%A8/"/>
+      <category term="iOS安全" scheme="https://wanghwanjie.github.io/tags/iOS%E5%AE%89%E5%85%A8/"/>
     
-      <category term="破解" scheme="https://www.vanjay.cn/tags/%E7%A0%B4%E8%A7%A3/"/>
+      <category term="破解" scheme="https://wanghwanjie.github.io/tags/%E7%A0%B4%E8%A7%A3/"/>
     
   </entry>
   
   <entry>
     <title>给包签名</title>
-    <link href="https://www.vanjay.cn/2017/02/08/%E7%BB%99%E5%8C%85%E7%AD%BE%E5%90%8D/"/>
-    <id>https://www.vanjay.cn/2017/02/08/给包签名/</id>
+    <link href="https://wanghwanjie.github.io/2017/02/08/%E7%BB%99%E5%8C%85%E7%AD%BE%E5%90%8D/"/>
+    <id>https://wanghwanjie.github.io/2017/02/08/给包签名/</id>
     <published>2017-02-08T05:45:09.000Z</published>
     <updated>2017-03-20T08:49:45.000Z</updated>
     
@@ -636,19 +636,19 @@
     
     </summary>
     
-      <category term="iOS" scheme="https://www.vanjay.cn/categories/iOS/"/>
+      <category term="iOS" scheme="https://wanghwanjie.github.io/categories/iOS/"/>
     
     
-      <category term="打包" scheme="https://www.vanjay.cn/tags/%E6%89%93%E5%8C%85/"/>
+      <category term="打包" scheme="https://wanghwanjie.github.io/tags/%E6%89%93%E5%8C%85/"/>
     
-      <category term="iOS签名" scheme="https://www.vanjay.cn/tags/iOS%E7%AD%BE%E5%90%8D/"/>
+      <category term="iOS签名" scheme="https://wanghwanjie.github.io/tags/iOS%E7%AD%BE%E5%90%8D/"/>
     
   </entry>
   
   <entry>
     <title>iOS企业内部应用分发</title>
-    <link href="https://www.vanjay.cn/2017/01/11/iOS%E4%BC%81%E4%B8%9A%E5%86%85%E9%83%A8%E5%BA%94%E7%94%A8%E5%88%86%E5%8F%91/"/>
-    <id>https://www.vanjay.cn/2017/01/11/iOS企业内部应用分发/</id>
+    <link href="https://wanghwanjie.github.io/2017/01/11/iOS%E4%BC%81%E4%B8%9A%E5%86%85%E9%83%A8%E5%BA%94%E7%94%A8%E5%88%86%E5%8F%91/"/>
+    <id>https://wanghwanjie.github.io/2017/01/11/iOS企业内部应用分发/</id>
     <published>2017-01-11T12:52:03.000Z</published>
     <updated>2017-03-18T15:01:34.000Z</updated>
     
@@ -842,19 +842,19 @@
     
     </summary>
     
-      <category term="iOS" scheme="https://www.vanjay.cn/categories/iOS/"/>
+      <category term="iOS" scheme="https://wanghwanjie.github.io/categories/iOS/"/>
     
     
-      <category term="打包" scheme="https://www.vanjay.cn/tags/%E6%89%93%E5%8C%85/"/>
+      <category term="打包" scheme="https://wanghwanjie.github.io/tags/%E6%89%93%E5%8C%85/"/>
     
-      <category term="发布" scheme="https://www.vanjay.cn/tags/%E5%8F%91%E5%B8%83/"/>
+      <category term="发布" scheme="https://wanghwanjie.github.io/tags/%E5%8F%91%E5%B8%83/"/>
     
   </entry>
   
   <entry>
     <title>Mac查看CPU具体型号</title>
-    <link href="https://www.vanjay.cn/2016/12/16/Mac%E6%9F%A5%E7%9C%8BCPU%E5%85%B7%E4%BD%93%E5%9E%8B%E5%8F%B7/"/>
-    <id>https://www.vanjay.cn/2016/12/16/Mac查看CPU具体型号/</id>
+    <link href="https://wanghwanjie.github.io/2016/12/16/Mac%E6%9F%A5%E7%9C%8BCPU%E5%85%B7%E4%BD%93%E5%9E%8B%E5%8F%B7/"/>
+    <id>https://wanghwanjie.github.io/2016/12/16/Mac查看CPU具体型号/</id>
     <published>2016-12-16T12:17:48.000Z</published>
     <updated>2017-03-18T13:26:56.000Z</updated>
     
@@ -867,17 +867,17 @@
     
     </summary>
     
-      <category term="Mac" scheme="https://www.vanjay.cn/categories/Mac/"/>
+      <category term="Mac" scheme="https://wanghwanjie.github.io/categories/Mac/"/>
     
     
-      <category term="Mac使用" scheme="https://www.vanjay.cn/tags/Mac%E4%BD%BF%E7%94%A8/"/>
+      <category term="Mac使用" scheme="https://wanghwanjie.github.io/tags/Mac%E4%BD%BF%E7%94%A8/"/>
     
   </entry>
   
   <entry>
     <title>OC用AFN做Soap请求webService</title>
-    <link href="https://www.vanjay.cn/2016/01/10/OC%E7%94%A8AFN%E5%81%9ASoap%E8%AF%B7%E6%B1%82webService/"/>
-    <id>https://www.vanjay.cn/2016/01/10/OC用AFN做Soap请求webService/</id>
+    <link href="https://wanghwanjie.github.io/2016/01/10/OC%E7%94%A8AFN%E5%81%9ASoap%E8%AF%B7%E6%B1%82webService/"/>
+    <id>https://wanghwanjie.github.io/2016/01/10/OC用AFN做Soap请求webService/</id>
     <published>2016-01-09T19:07:22.000Z</published>
     <updated>2017-03-20T08:51:14.000Z</updated>
     
@@ -935,14 +935,14 @@
     
     </summary>
     
-      <category term="Objective-C" scheme="https://www.vanjay.cn/categories/Objective-C/"/>
+      <category term="Objective-C" scheme="https://wanghwanjie.github.io/categories/Objective-C/"/>
     
     
-      <category term="AFN" scheme="https://www.vanjay.cn/tags/AFN/"/>
+      <category term="AFN" scheme="https://wanghwanjie.github.io/tags/AFN/"/>
     
-      <category term="Soap" scheme="https://www.vanjay.cn/tags/Soap/"/>
+      <category term="Soap" scheme="https://wanghwanjie.github.io/tags/Soap/"/>
     
-      <category term="WebService" scheme="https://www.vanjay.cn/tags/WebService/"/>
+      <category term="WebService" scheme="https://wanghwanjie.github.io/tags/WebService/"/>
     
   </entry>
   
