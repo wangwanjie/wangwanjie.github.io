@@ -2022,7 +2022,7 @@ pre .javascript .function {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: #8798ff;
+  background: #0aff09;
 }
 .links-of-blogroll {
   font-size: 13px;
@@ -2789,4 +2789,10 @@ embed {
 .site-nav a,
 span.exturl {
   color: #fff;
+}
+.header-inner {
+  padding: 50px 0 30px;
+}
+.posts-expand {
+  padding-top: 10px;
 }
