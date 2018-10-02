@@ -4,9 +4,9 @@
   <subtitle>成功不是将来才有的&lt;br&gt;而是决定去做的那一刻起&lt;br&gt;持续累积而成</subtitle>
   <link href="/atom.xml" rel="self"/>
   
-  <link href="https://wangwanjie.github.io/"/>
-  <updated>2018-10-01T17:32:56.869Z</updated>
-  <id>https://wangwanjie.github.io/</id>
+  <link href="https://www.vanjay.cn/"/>
+  <updated>2018-10-02T05:07:20.972Z</updated>
+  <id>https://www.vanjay.cn/</id>
   
   <author>
     <name>VanJay</name>
@@ -17,10 +17,10 @@
   
   <entry>
     <title>Ubuntu 18.04 LTS 安装部署 Seafile</title>
-    <link href="https://wangwanjie.github.io/2018/10/01/Ubuntu-18-04-LTS-%E5%AE%89%E8%A3%85%E9%83%A8%E7%BD%B2-Seafile/"/>
-    <id>https://wangwanjie.github.io/2018/10/01/Ubuntu-18-04-LTS-安装部署-Seafile/</id>
+    <link href="https://www.vanjay.cn/2018/10/01/Ubuntu-18-04-LTS-%E5%AE%89%E8%A3%85%E9%83%A8%E7%BD%B2-Seafile/"/>
+    <id>https://www.vanjay.cn/2018/10/01/Ubuntu-18-04-LTS-安装部署-Seafile/</id>
     <published>2018-10-01T09:06:54.000Z</published>
-    <updated>2018-10-01T17:32:56.869Z</updated>
+    <updated>2018-10-02T05:07:20.972Z</updated>
     
     <content type="html"><![CDATA[<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>新入职的公司内部同步一些文件使用的 <code>Seafile</code>，没部署远程，只使用的内网，由于这个 <code>seafile</code> 是一个前同事搭建的（之前的 iOSer，我来替代他了，阴差阳错。。。），可能那时他也不是太熟吧，把文件存放目录放在了安装位置的挂载分区，导致长时间使用下来，该分区磁盘空间满了，无法继续运行，于是我简单 <code>google</code> 了一番，开始转移目录，找到了 <code>seafile-data</code> 目录之后，发现查看都没权限，包括 <code>cp -R</code>、<code>mv</code> 都无法运行，直接给了<code>755</code>权限，<code>mv seafile-data</code> 目录至新目录，更改 <code>seafile.ini</code> 文件，指向新目录，重启 <code>seafile</code>，发现 <code>seafile</code> 已经无法启动……下意识重启一下电脑，还是不行，这时看下禅道，测试又提了一堆 <code>BUG</code>，就先放下开始修 BUG 了。第二天早上过来继续，发现系统都进不去了，登录界面无法输入密码，没办法只好命令行登入系统，再次 <code>google</code> 了解到 <code>seafile</code> 存放文件的形式类似于 <code>svn</code> 或 <code>git</code> ，也是那种打散存放并内部记录 <code>state</code> 和带有 <code>commit log</code> 的，看到了官方有修复工具，尝试无果，放弃了，系统也崩了（多年linux 经验解决不了，尝试了几个小时，<code>google</code> 了解到貌似是 <code>Ubuntu 16.04 LTS</code> 的 <code>bug</code> 所致，有个旧内核依赖怎么都干不掉，导致所有的 <code>dpkg -i</code> 都运行不了），这台机器上安装了 <code>jenkins</code> 和 <code>seafile</code>，问过了别无其他，心想 <code>jenkins</code> 我也熟练部署了，只能硬着头皮去跟组长说要重装系统，于是有了这篇文章。</p>
 <a id="more"></a>
@@ -69,7 +69,7 @@
 <p>输入如下内容，用户、用户组、路径改为自己的 seafile 路径。</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">[Unit]</span><br><span class="line">Description=Seafile hub</span><br><span class="line">After=network.target seafile.service</span><br><span class="line"></span><br><span class="line">[Service]</span><br><span class="line"><span class="comment"># change start to start-fastcgi if you want to run fastcgi</span></span><br><span class="line">ExecStart=/home/data/seafile/seafile-server-latest/seahub.sh start</span><br><span class="line">ExecStop=/home/data/seafile/seafile-server-latest/seahub.sh stop</span><br><span class="line">User=vanjay</span><br><span class="line">Group=vanjay</span><br><span class="line">Type=oneshot</span><br><span class="line">RemainAfterExit=yes</span><br><span class="line"></span><br><span class="line">[Install]</span><br><span class="line">WantedBy=multi-user.target</span><br></pre></td></tr></table></figure>
 <h3 id="设置服务开机自启动"><a href="#设置服务开机自启动" class="headerlink" title="设置服务开机自启动"></a>设置服务开机自启动</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl daemon-reload</span><br><span class="line">sudo systemctl <span class="built_in">enable</span> seafile</span><br><span class="line">sudo systemctl <span class="built_in">enable</span> seahub</span><br></pre></td></tr></table></figure>
-<h2 id="鸣谢"><a href="#鸣谢" class="headerlink" title="鸣谢"></a>鸣谢</h2><p>参考链接：</p>
+<h2 id="致谢"><a href="#致谢" class="headerlink" title="致谢"></a>致谢</h2><p>参考链接：</p>
 <p><a href="https://manual-cn.seafile.com/" target="_blank" rel="noopener">Seafile 中文文档</a></p>
 <p><a href="https://blog.littlefox.me/set_up_your_own_seafile_server/" target="_blank" rel="noopener">搭建一个属于自己的Seafile网盘</a></p>
 ]]></content>
@@ -80,23 +80,23 @@
     
     </summary>
     
-      <category term="Linux" scheme="https://wangwanjie.github.io/categories/Linux/"/>
+      <category term="Linux" scheme="https://www.vanjay.cn/categories/Linux/"/>
     
     
-      <category term="Seafile" scheme="https://wangwanjie.github.io/tags/Seafile/"/>
+      <category term="Linux" scheme="https://www.vanjay.cn/tags/Linux/"/>
     
-      <category term="Ubuntu" scheme="https://wangwanjie.github.io/tags/Ubuntu/"/>
+      <category term="Seafile" scheme="https://www.vanjay.cn/tags/Seafile/"/>
     
-      <category term="Linux" scheme="https://wangwanjie.github.io/tags/Linux/"/>
+      <category term="Ubuntu" scheme="https://www.vanjay.cn/tags/Ubuntu/"/>
     
-      <category term="个人云盘" scheme="https://wangwanjie.github.io/tags/%E4%B8%AA%E4%BA%BA%E4%BA%91%E7%9B%98/"/>
+      <category term="个人云盘" scheme="https://www.vanjay.cn/tags/%E4%B8%AA%E4%BA%BA%E4%BA%91%E7%9B%98/"/>
     
   </entry>
   
   <entry>
     <title>iOS 开发从 Array 生成特定分隔符隔开的 String</title>
-    <link href="https://wangwanjie.github.io/2018/10/01/iOS-%E5%BC%80%E5%8F%91%E4%BB%8E-Array-%E7%94%9F%E6%88%90%E7%89%B9%E5%AE%9A%E5%88%86%E9%9A%94%E7%AC%A6%E9%9A%94%E5%BC%80%E7%9A%84-String/"/>
-    <id>https://wangwanjie.github.io/2018/10/01/iOS-开发从-Array-生成特定分隔符隔开的-String/</id>
+    <link href="https://www.vanjay.cn/2018/10/01/iOS-%E5%BC%80%E5%8F%91%E4%BB%8E-Array-%E7%94%9F%E6%88%90%E7%89%B9%E5%AE%9A%E5%88%86%E9%9A%94%E7%AC%A6%E9%9A%94%E5%BC%80%E7%9A%84-String/"/>
+    <id>https://www.vanjay.cn/2018/10/01/iOS-开发从-Array-生成特定分隔符隔开的-String/</id>
     <published>2018-09-30T17:41:45.000Z</published>
     <updated>2018-09-30T17:53:41.051Z</updated>
     
@@ -114,21 +114,21 @@
     
     </summary>
     
-      <category term="iOS 开发" scheme="https://wangwanjie.github.io/categories/iOS-%E5%BC%80%E5%8F%91/"/>
+      <category term="iOS 开发" scheme="https://www.vanjay.cn/categories/iOS-%E5%BC%80%E5%8F%91/"/>
     
     
-      <category term="Objective-C" scheme="https://wangwanjie.github.io/tags/Objective-C/"/>
+      <category term="Objective-C" scheme="https://www.vanjay.cn/tags/Objective-C/"/>
     
-      <category term="iOS" scheme="https://wangwanjie.github.io/tags/iOS/"/>
+      <category term="String" scheme="https://www.vanjay.cn/tags/String/"/>
     
-      <category term="String" scheme="https://wangwanjie.github.io/tags/String/"/>
+      <category term="iOS" scheme="https://www.vanjay.cn/tags/iOS/"/>
     
   </entry>
   
   <entry>
     <title>iOS 数字转 xx 万 xx 亿</title>
-    <link href="https://wangwanjie.github.io/2018/09/30/iOS-%E6%95%B0%E5%AD%97%E8%BD%AC-xx-%E4%B8%87-xx-%E4%BA%BF/"/>
-    <id>https://wangwanjie.github.io/2018/09/30/iOS-数字转-xx-万-xx-亿/</id>
+    <link href="https://www.vanjay.cn/2018/09/30/iOS-%E6%95%B0%E5%AD%97%E8%BD%AC-xx-%E4%B8%87-xx-%E4%BA%BF/"/>
+    <id>https://www.vanjay.cn/2018/09/30/iOS-数字转-xx-万-xx-亿/</id>
     <published>2018-09-30T05:08:27.000Z</published>
     <updated>2018-09-30T17:53:33.248Z</updated>
     
@@ -144,19 +144,51 @@
     
     </summary>
     
-      <category term="iOS 开发" scheme="https://wangwanjie.github.io/categories/iOS-%E5%BC%80%E5%8F%91/"/>
+      <category term="iOS 开发" scheme="https://www.vanjay.cn/categories/iOS-%E5%BC%80%E5%8F%91/"/>
     
     
-      <category term="iOS" scheme="https://wangwanjie.github.io/tags/iOS/"/>
+      <category term="iOS" scheme="https://www.vanjay.cn/tags/iOS/"/>
     
-      <category term="Objective" scheme="https://wangwanjie.github.io/tags/Objective/"/>
+      <category term="Objective" scheme="https://www.vanjay.cn/tags/Objective/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Ubuntu 开启 ssh 登录</title>
+    <link href="https://www.vanjay.cn/2018/04/02/Ubuntu-%E5%BC%80%E5%90%AF-ssh-%E7%99%BB%E5%BD%95/"/>
+    <id>https://www.vanjay.cn/2018/04/02/Ubuntu-开启-ssh-登录/</id>
+    <published>2018-04-01T18:26:21.000Z</published>
+    <updated>2018-10-01T18:33:29.405Z</updated>
+    
+    <content type="html"><![CDATA[<p>电脑多了，总是需要切来切去，工作或者在家里都不止一台电脑，jenkins 构建机、网盘机等，linux 服务机我这用的基本都是 Ubuntu，记录下 Ubuntu 开启 ssh 登录。</p>
+<a id="more"></a>
+<h2 id="查看是否安装了-ssh"><a href="#查看是否安装了-ssh" class="headerlink" title="查看是否安装了 ssh"></a>查看是否安装了 ssh</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ps -e | grep ssh</span><br></pre></td></tr></table></figure>
+<h2 id="安装ssh-server服务"><a href="#安装ssh-server服务" class="headerlink" title="安装ssh-server服务"></a>安装ssh-server服务</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install openssh-server</span><br></pre></td></tr></table></figure>
+<h2 id="查看安装的服务"><a href="#查看安装的服务" class="headerlink" title="查看安装的服务"></a>查看安装的服务</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dpkg -l | grep ssh</span><br></pre></td></tr></table></figure>
+<p>再次<code>ps -e | grep ssh</code>查看 ssh 是否运行</p>
+<h2 id="远程登录测试"><a href="#远程登录测试" class="headerlink" title="远程登录测试"></a>远程登录测试</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh user@ip</span><br></pre></td></tr></table></figure>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;电脑多了，总是需要切来切去，工作或者在家里都不止一台电脑，jenkins 构建机、网盘机等，linux 服务机我这用的基本都是 Ubuntu，记录下 Ubuntu 开启 ssh 登录。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="Linux" scheme="https://www.vanjay.cn/categories/Linux/"/>
+    
+    
+      <category term="Linux" scheme="https://www.vanjay.cn/tags/Linux/"/>
+    
+      <category term="Shell" scheme="https://www.vanjay.cn/tags/Shell/"/>
+    
+      <category term="SSH" scheme="https://www.vanjay.cn/tags/SSH/"/>
     
   </entry>
   
   <entry>
     <title>购买BanwagonHOST VPS自建Shadowsocks记录</title>
-    <link href="https://wangwanjie.github.io/2017/07/28/%E8%B4%AD%E4%B9%B0BanwagonHOST-VPS%E8%87%AA%E5%BB%BAShadowsocks%E8%AE%B0%E5%BD%95/"/>
-    <id>https://wangwanjie.github.io/2017/07/28/购买BanwagonHOST-VPS自建Shadowsocks记录/</id>
+    <link href="https://www.vanjay.cn/2017/07/28/%E8%B4%AD%E4%B9%B0BanwagonHOST-VPS%E8%87%AA%E5%BB%BAShadowsocks%E8%AE%B0%E5%BD%95/"/>
+    <id>https://www.vanjay.cn/2017/07/28/购买BanwagonHOST-VPS自建Shadowsocks记录/</id>
     <published>2017-07-27T16:15:23.000Z</published>
     <updated>2018-07-05T09:30:55.000Z</updated>
     
@@ -204,23 +236,23 @@
     
     </summary>
     
-      <category term="VPN" scheme="https://wangwanjie.github.io/categories/VPN/"/>
+      <category term="VPN" scheme="https://www.vanjay.cn/categories/VPN/"/>
     
     
-      <category term="Mac使用" scheme="https://wangwanjie.github.io/tags/Mac%E4%BD%BF%E7%94%A8/"/>
+      <category term="Mac使用" scheme="https://www.vanjay.cn/tags/Mac%E4%BD%BF%E7%94%A8/"/>
     
-      <category term="BanwagonHOST" scheme="https://wangwanjie.github.io/tags/BanwagonHOST/"/>
+      <category term="BanwagonHOST" scheme="https://www.vanjay.cn/tags/BanwagonHOST/"/>
     
-      <category term="Shadowsocks" scheme="https://wangwanjie.github.io/tags/Shadowsocks/"/>
+      <category term="Shadowsocks" scheme="https://www.vanjay.cn/tags/Shadowsocks/"/>
     
-      <category term="科学上网" scheme="https://wangwanjie.github.io/tags/%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91/"/>
+      <category term="科学上网" scheme="https://www.vanjay.cn/tags/%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91/"/>
     
   </entry>
   
   <entry>
     <title>Wap APP开发心得</title>
-    <link href="https://wangwanjie.github.io/2017/05/03/Wap-APP%E5%BC%80%E5%8F%91%E5%BF%83%E5%BE%97/"/>
-    <id>https://wangwanjie.github.io/2017/05/03/Wap-APP开发心得/</id>
+    <link href="https://www.vanjay.cn/2017/05/03/Wap-APP%E5%BC%80%E5%8F%91%E5%BF%83%E5%BE%97/"/>
+    <id>https://www.vanjay.cn/2017/05/03/Wap-APP开发心得/</id>
     <published>2017-05-03T08:04:57.000Z</published>
     <updated>2017-05-03T08:19:00.000Z</updated>
     
@@ -238,21 +270,21 @@
     
     </summary>
     
-      <category term="APP开发" scheme="https://wangwanjie.github.io/categories/APP%E5%BC%80%E5%8F%91/"/>
+      <category term="APP开发" scheme="https://www.vanjay.cn/categories/APP%E5%BC%80%E5%8F%91/"/>
     
     
-      <category term="JavaScript" scheme="https://wangwanjie.github.io/tags/JavaScript/"/>
+      <category term="JavaScript" scheme="https://www.vanjay.cn/tags/JavaScript/"/>
     
-      <category term="MUI" scheme="https://wangwanjie.github.io/tags/MUI/"/>
+      <category term="MUI" scheme="https://www.vanjay.cn/tags/MUI/"/>
     
-      <category term="HTML5" scheme="https://wangwanjie.github.io/tags/HTML5/"/>
+      <category term="HTML5" scheme="https://www.vanjay.cn/tags/HTML5/"/>
     
   </entry>
   
   <entry>
     <title>MUI webview选项卡 首次只加载首页，点击触发打开页面</title>
-    <link href="https://wangwanjie.github.io/2017/04/15/MUI%20webview%E9%80%89%E9%A1%B9%E5%8D%A1%20%E9%A6%96%E6%AC%A1%E5%8F%AA%E5%8A%A0%E8%BD%BD%E9%A6%96%E9%A1%B5%EF%BC%8C%E7%82%B9%E5%87%BB%E8%A7%A6%E5%8F%91%E6%89%93%E5%BC%80%E9%A1%B5%E9%9D%A2/"/>
-    <id>https://wangwanjie.github.io/2017/04/15/MUI webview选项卡 首次只加载首页，点击触发打开页面/</id>
+    <link href="https://www.vanjay.cn/2017/04/15/MUI%20webview%E9%80%89%E9%A1%B9%E5%8D%A1%20%E9%A6%96%E6%AC%A1%E5%8F%AA%E5%8A%A0%E8%BD%BD%E9%A6%96%E9%A1%B5%EF%BC%8C%E7%82%B9%E5%87%BB%E8%A7%A6%E5%8F%91%E6%89%93%E5%BC%80%E9%A1%B5%E9%9D%A2/"/>
+    <id>https://www.vanjay.cn/2017/04/15/MUI webview选项卡 首次只加载首页，点击触发打开页面/</id>
     <published>2017-04-14T16:10:03.000Z</published>
     <updated>2017-04-14T16:15:42.000Z</updated>
     
@@ -268,21 +300,21 @@
     
     </summary>
     
-      <category term="JavaScript" scheme="https://wangwanjie.github.io/categories/JavaScript/"/>
+      <category term="JavaScript" scheme="https://www.vanjay.cn/categories/JavaScript/"/>
     
     
-      <category term="JavaScript" scheme="https://wangwanjie.github.io/tags/JavaScript/"/>
+      <category term="JavaScript" scheme="https://www.vanjay.cn/tags/JavaScript/"/>
     
-      <category term="MUI" scheme="https://wangwanjie.github.io/tags/MUI/"/>
+      <category term="MUI" scheme="https://www.vanjay.cn/tags/MUI/"/>
     
-      <category term="HTML" scheme="https://wangwanjie.github.io/tags/HTML/"/>
+      <category term="HTML" scheme="https://www.vanjay.cn/tags/HTML/"/>
     
   </entry>
   
   <entry>
     <title>JavaScript 主动选择 option</title>
-    <link href="https://wangwanjie.github.io/2017/04/11/JavaScript-%E4%B8%BB%E5%8A%A8%E9%80%89%E6%8B%A9-option/"/>
-    <id>https://wangwanjie.github.io/2017/04/11/JavaScript-主动选择-option/</id>
+    <link href="https://www.vanjay.cn/2017/04/11/JavaScript-%E4%B8%BB%E5%8A%A8%E9%80%89%E6%8B%A9-option/"/>
+    <id>https://www.vanjay.cn/2017/04/11/JavaScript-主动选择-option/</id>
     <published>2017-04-11T08:13:35.000Z</published>
     <updated>2017-04-11T08:16:08.000Z</updated>
     
@@ -298,21 +330,21 @@
     
     </summary>
     
-      <category term="JavaScript" scheme="https://wangwanjie.github.io/categories/JavaScript/"/>
+      <category term="JavaScript" scheme="https://www.vanjay.cn/categories/JavaScript/"/>
     
     
-      <category term="JavaScript" scheme="https://wangwanjie.github.io/tags/JavaScript/"/>
+      <category term="JavaScript" scheme="https://www.vanjay.cn/tags/JavaScript/"/>
     
   </entry>
   
   <entry>
     <title>使用Python脚本半自动化iOS企业版包更新</title>
-    <link href="https://wangwanjie.github.io/2017/03/25/%E4%BD%BF%E7%94%A8Python%E8%84%9A%E6%9C%AC%E5%8D%8A%E8%87%AA%E5%8A%A8%E5%8C%96iOS%E4%BC%81%E4%B8%9A%E7%89%88%E5%8C%85%E6%9B%B4%E6%96%B0/"/>
-    <id>https://wangwanjie.github.io/2017/03/25/使用Python脚本半自动化iOS企业版包更新/</id>
+    <link href="https://www.vanjay.cn/2017/03/25/%E4%BD%BF%E7%94%A8Python%E8%84%9A%E6%9C%AC%E5%8D%8A%E8%87%AA%E5%8A%A8%E5%8C%96iOS%E4%BC%81%E4%B8%9A%E7%89%88%E5%8C%85%E6%9B%B4%E6%96%B0/"/>
+    <id>https://www.vanjay.cn/2017/03/25/使用Python脚本半自动化iOS企业版包更新/</id>
     <published>2017-03-25T12:30:37.000Z</published>
     <updated>2017-03-27T04:53:58.000Z</updated>
     
-    <content type="html"><![CDATA[<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>在我之前一篇文章里 <a href="https://wangwanjie.github.io/2017/01/11/iOS企业内部应用分发/">iOS企业内部应用分发</a> 讲述了 iOS 企业帐号打包的 <code>ipa</code> 分发，但是如果每次 <code>ipa</code> 更新，重新上传 <code>*.ipa</code> 后还要手动编辑 <code>*.plist</code> 的新的 <code>ipa</code> 的 <code>url</code> 和包的相关信息，这就和打包一样（使用 <a href="https://github.com/fastlane/fastlane" target="_blank" rel="noopener">fastlane</a>），是毫无技术含量但是花时间的事情，作为一个爱偷懒的人，我总是想利用自身所学或者一些工具来代替我做一些重复又没技术含量的事，在本文涉及的这件事里，显然，脚本要派上用场，最终选用了 <code>Python</code> 而没有用 <code>Bash</code> —- 从 <code>ipa</code> 读取相关信息并写入到目的 <code>plist</code>。<code>Python</code> 只是业余，如您有建议或改进，欢迎留言评论指出，感激不尽！</p>
+    <content type="html"><![CDATA[<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>在我之前一篇文章里 <a href="https://wangwanjie.github.io/2017/01/11/iOS企业内部应用分发/" target="_blank" rel="noopener">iOS企业内部应用分发</a> 讲述了 iOS 企业帐号打包的 <code>ipa</code> 分发，但是如果每次 <code>ipa</code> 更新，重新上传 <code>*.ipa</code> 后还要手动编辑 <code>*.plist</code> 的新的 <code>ipa</code> 的 <code>url</code> 和包的相关信息，这就和打包一样（使用 <a href="https://github.com/fastlane/fastlane" target="_blank" rel="noopener">fastlane</a>），是毫无技术含量但是花时间的事情，作为一个爱偷懒的人，我总是想利用自身所学或者一些工具来代替我做一些重复又没技术含量的事，在本文涉及的这件事里，显然，脚本要派上用场，最终选用了 <code>Python</code> 而没有用 <code>Bash</code> —- 从 <code>ipa</code> 读取相关信息并写入到目的 <code>plist</code>。<code>Python</code> 只是业余，如您有建议或改进，欢迎留言评论指出，感激不尽！</p>
 <a id="more"></a>
 <h2 id="直接上代码"><a href="#直接上代码" class="headerlink" title="直接上代码"></a>直接上代码</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/python3</span></span><br><span class="line"><span class="comment">#coding:utf-8</span></span><br><span class="line"> </span><br><span class="line"><span class="keyword">import</span> zipfile, plistlib, sys, re, os.path, io</span><br><span class="line"></span><br><span class="line">sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding=<span class="string">'utf-8'</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">global</span> plist_root <span class="comment"># Info.plist</span></span><br><span class="line"><span class="keyword">global</span> ipa_name <span class="comment"># ipa 名称</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">analyze_ipa_with_plistlib</span><span class="params">(ipa_path)</span>:</span></span><br><span class="line">    <span class="keyword">global</span> plist_root</span><br><span class="line">    ipa_file = zipfile.ZipFile(ipa_path)</span><br><span class="line">    plist_path = find_plist_path(ipa_file)</span><br><span class="line">    plist_data = ipa_file.read(plist_path)</span><br><span class="line">    plist_root = plistlib.loads(plist_data)</span><br><span class="line">    print_ipa_info (plist_root)</span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">find_plist_path</span><span class="params">(zip_file)</span>:</span></span><br><span class="line">    name_list = zip_file.namelist()</span><br><span class="line">    pattern = re.compile(<span class="string">r'Payload/[^/]*.app/Info.plist'</span>)</span><br><span class="line">    <span class="keyword">for</span> path <span class="keyword">in</span> name_list:</span><br><span class="line">        m = pattern.match(path)</span><br><span class="line">        <span class="keyword">if</span> m <span class="keyword">is</span> <span class="keyword">not</span> <span class="keyword">None</span>:</span><br><span class="line">            <span class="keyword">return</span> m.group()</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">print_ipa_info</span><span class="params">(plist_root)</span>:</span></span><br><span class="line">    <span class="keyword">print</span> (<span class="string">'\n'</span> + <span class="string">'源 ipa 包信息:'</span>)</span><br><span class="line"></span><br><span class="line">    CFBundleDisplayName = <span class="string">''</span></span><br><span class="line">    isCFBundleDisplayNameExist = <span class="keyword">True</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        CFBundleDisplayName = plist_root[<span class="string">'CFBundleDisplayName'</span>]</span><br><span class="line">    <span class="keyword">except</span>:</span><br><span class="line">        <span class="keyword">print</span> (<span class="string">'CFBundleDisplayName 不存在，将获取 CFBundleName'</span>)</span><br><span class="line">        isCFBundleDisplayNameExist = <span class="keyword">False</span></span><br><span class="line"></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span> isCFBundleDisplayNameExist != <span class="keyword">True</span>:</span><br><span class="line">        <span class="keyword">try</span>: </span><br><span class="line">            CFBundleDisplayName = plist_root[<span class="string">'CFBundleName'</span>]</span><br><span class="line">        <span class="keyword">except</span>:</span><br><span class="line">            <span class="keyword">print</span> (<span class="string">'CFBundleName 不存在'</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">print</span> (<span class="string">'Display Name: %s'</span> % CFBundleDisplayName)</span><br><span class="line">    <span class="keyword">print</span> (<span class="string">'Bundle Identifier: %s'</span> % plist_root[<span class="string">'CFBundleIdentifier'</span>])</span><br><span class="line">    <span class="keyword">print</span> (<span class="string">'Version: %s'</span> % plist_root[<span class="string">'CFBundleShortVersionString'</span>] + <span class="string">'\n'</span>)</span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">print_plist_info</span><span class="params">(plist_path, beforeWritten)</span>:</span></span><br><span class="line">  </span><br><span class="line">    dict = plistlib.readPlist(plist_path)</span><br><span class="line"></span><br><span class="line">    metadata = dict[<span class="string">"items"</span>][<span class="number">0</span>][<span class="string">"metadata"</span>]</span><br><span class="line">    softwarePackageDict = dict[<span class="string">"items"</span>][<span class="number">0</span>][<span class="string">"assets"</span>][<span class="number">0</span>]</span><br><span class="line"></span><br><span class="line">    state = <span class="string">"前"</span> <span class="keyword">if</span> beforeWritten <span class="keyword">else</span> <span class="string">"后"</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">print</span> (<span class="string">'写入'</span> + state +<span class="string">'的plist信息'</span>)</span><br><span class="line">    <span class="keyword">print</span> (<span class="string">'bundle-identifier: %s'</span> % metadata[<span class="string">'bundle-identifier'</span>])</span><br><span class="line">    <span class="keyword">print</span> (<span class="string">'bundle-version: %s'</span> % metadata[<span class="string">'bundle-version'</span>])</span><br><span class="line">    <span class="keyword">print</span> (<span class="string">'title: %s'</span> % metadata[<span class="string">'title'</span>])</span><br><span class="line">    <span class="keyword">print</span> (<span class="string">'ipa url: %s'</span> % softwarePackageDict[<span class="string">'url'</span>] + <span class="string">'\n'</span>)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">writeToPlist</span><span class="params">(plist_path)</span>:</span></span><br><span class="line">    <span class="keyword">global</span> plist_root</span><br><span class="line">    <span class="comment"># 读取app.plist</span></span><br><span class="line">    dict = plistlib.readPlist(plist_path)</span><br><span class="line"></span><br><span class="line">    CFBundleDisplayName = <span class="string">''</span></span><br><span class="line">    isCFBundleDisplayNameExist = <span class="keyword">True</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        CFBundleDisplayName = plist_root[<span class="string">'CFBundleDisplayName'</span>]</span><br><span class="line">    <span class="keyword">except</span>:</span><br><span class="line">        <span class="keyword">print</span> (<span class="string">'CFBundleDisplayName 不存在，将获取 CFBundleName'</span>)</span><br><span class="line">        isCFBundleDisplayNameExist = <span class="keyword">False</span></span><br><span class="line"></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span> isCFBundleDisplayNameExist != <span class="keyword">True</span>:</span><br><span class="line">        <span class="keyword">try</span>: </span><br><span class="line">            CFBundleDisplayName = plist_root[<span class="string">'CFBundleName'</span>]</span><br><span class="line">        <span class="keyword">except</span>:</span><br><span class="line">            <span class="keyword">print</span> (<span class="string">'CFBundleName 不存在'</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 更改包信息</span></span><br><span class="line">    metadata = dict[<span class="string">"items"</span>][<span class="number">0</span>][<span class="string">"metadata"</span>]</span><br><span class="line">    metadata[<span class="string">'bundle-identifier'</span>] = plist_root[<span class="string">'CFBundleIdentifier'</span>]</span><br><span class="line">    metadata[<span class="string">'bundle-version'</span>] = plist_root[<span class="string">'CFBundleShortVersionString'</span>]</span><br><span class="line">    metadata[<span class="string">'title'</span>] = CFBundleDisplayName</span><br><span class="line">   </span><br><span class="line">    <span class="comment"># 更改ipa地址</span></span><br><span class="line">    softwarePackageDict = dict[<span class="string">"items"</span>][<span class="number">0</span>][<span class="string">"assets"</span>][<span class="number">0</span>]</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 生成新的 ipa 路径</span></span><br><span class="line">    <span class="keyword">global</span> ipa_name</span><br><span class="line">    url = softwarePackageDict[<span class="string">'url'</span>]</span><br><span class="line">    urlComArr = url.split(<span class="string">'/'</span>)</span><br><span class="line">    <span class="comment"># 删除文件名</span></span><br><span class="line">    urlComArr.pop() <span class="comment"># 删除最后一个</span></span><br><span class="line">    urlComArr.append(ipa_name) <span class="comment"># 拼接新文件名及扩展名</span></span><br><span class="line">    newUrlComArrStr = <span class="string">'/'</span>.join(urlComArr) <span class="comment"># Array to String</span></span><br><span class="line">    softwarePackageDict[<span class="string">'url'</span>] = newUrlComArrStr</span><br><span class="line"></span><br><span class="line">    plistlib.writePlist(dict, plist_path) <span class="comment"># 写入plist</span></span><br><span class="line"> </span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    args = sys.argv[<span class="number">1</span>:]</span><br><span class="line">    <span class="keyword">if</span> len(args) != <span class="number">2</span>:</span><br><span class="line">        <span class="keyword">print</span> (<span class="string">'参数错误，用法: python3 config.py /path/to/ipa /path/to/plist'</span>)</span><br><span class="line">        sys.exit(<span class="number">0</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">global</span> ipa_name</span><br><span class="line"></span><br><span class="line">    ipa_path = args[<span class="number">0</span>]</span><br><span class="line">    analyze_ipa_with_plistlib(ipa_path)</span><br><span class="line">    ipa_name = os.path.basename(ipa_path)</span><br><span class="line">    plist_path = args[<span class="number">1</span>]</span><br><span class="line">    print_plist_info(plist_path, <span class="keyword">True</span>)</span><br><span class="line">    writeToPlist (plist_path)</span><br><span class="line">    print_plist_info(plist_path, <span class="keyword">False</span>)</span><br></pre></td></tr></table></figure>
 <h2 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h2><p>每次新打包后，需要更新 <code>plist</code> 文件相关信息，直接在服务器或者本地运行该脚本便可更新 <code>plist</code> 信息，然后覆盖服务器上的同名文件即可（亲手实践过 <code>ipa</code> 分发就没困惑），但运行该脚本的系统应该安装了 <code>Python3</code>，否则无法运行。用法如下，选你的终端执行：</p>
@@ -320,25 +352,25 @@
     
     <summary type="html">
     
-      &lt;h2 id=&quot;背景&quot;&gt;&lt;a href=&quot;#背景&quot; class=&quot;headerlink&quot; title=&quot;背景&quot;&gt;&lt;/a&gt;背景&lt;/h2&gt;&lt;p&gt;在我之前一篇文章里 &lt;a href=&quot;https://wangwanjie.github.io/2017/01/11/iOS企业内部应用分发/&quot;&gt;iOS企业内部应用分发&lt;/a&gt; 讲述了 iOS 企业帐号打包的 &lt;code&gt;ipa&lt;/code&gt; 分发，但是如果每次 &lt;code&gt;ipa&lt;/code&gt; 更新，重新上传 &lt;code&gt;*.ipa&lt;/code&gt; 后还要手动编辑 &lt;code&gt;*.plist&lt;/code&gt; 的新的 &lt;code&gt;ipa&lt;/code&gt; 的 &lt;code&gt;url&lt;/code&gt; 和包的相关信息，这就和打包一样（使用 &lt;a href=&quot;https://github.com/fastlane/fastlane&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;fastlane&lt;/a&gt;），是毫无技术含量但是花时间的事情，作为一个爱偷懒的人，我总是想利用自身所学或者一些工具来代替我做一些重复又没技术含量的事，在本文涉及的这件事里，显然，脚本要派上用场，最终选用了 &lt;code&gt;Python&lt;/code&gt; 而没有用 &lt;code&gt;Bash&lt;/code&gt; —- 从 &lt;code&gt;ipa&lt;/code&gt; 读取相关信息并写入到目的 &lt;code&gt;plist&lt;/code&gt;。&lt;code&gt;Python&lt;/code&gt; 只是业余，如您有建议或改进，欢迎留言评论指出，感激不尽！&lt;/p&gt;
+      &lt;h2 id=&quot;背景&quot;&gt;&lt;a href=&quot;#背景&quot; class=&quot;headerlink&quot; title=&quot;背景&quot;&gt;&lt;/a&gt;背景&lt;/h2&gt;&lt;p&gt;在我之前一篇文章里 &lt;a href=&quot;https://wangwanjie.github.io/2017/01/11/iOS企业内部应用分发/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;iOS企业内部应用分发&lt;/a&gt; 讲述了 iOS 企业帐号打包的 &lt;code&gt;ipa&lt;/code&gt; 分发，但是如果每次 &lt;code&gt;ipa&lt;/code&gt; 更新，重新上传 &lt;code&gt;*.ipa&lt;/code&gt; 后还要手动编辑 &lt;code&gt;*.plist&lt;/code&gt; 的新的 &lt;code&gt;ipa&lt;/code&gt; 的 &lt;code&gt;url&lt;/code&gt; 和包的相关信息，这就和打包一样（使用 &lt;a href=&quot;https://github.com/fastlane/fastlane&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;fastlane&lt;/a&gt;），是毫无技术含量但是花时间的事情，作为一个爱偷懒的人，我总是想利用自身所学或者一些工具来代替我做一些重复又没技术含量的事，在本文涉及的这件事里，显然，脚本要派上用场，最终选用了 &lt;code&gt;Python&lt;/code&gt; 而没有用 &lt;code&gt;Bash&lt;/code&gt; —- 从 &lt;code&gt;ipa&lt;/code&gt; 读取相关信息并写入到目的 &lt;code&gt;plist&lt;/code&gt;。&lt;code&gt;Python&lt;/code&gt; 只是业余，如您有建议或改进，欢迎留言评论指出，感激不尽！&lt;/p&gt;
     
     </summary>
     
-      <category term="Python3" scheme="https://wangwanjie.github.io/categories/Python3/"/>
+      <category term="Python3" scheme="https://www.vanjay.cn/categories/Python3/"/>
     
     
-      <category term="iOS打包" scheme="https://wangwanjie.github.io/tags/iOS%E6%89%93%E5%8C%85/"/>
+      <category term="iOS打包" scheme="https://www.vanjay.cn/tags/iOS%E6%89%93%E5%8C%85/"/>
     
-      <category term="iOS企业应用更新" scheme="https://wangwanjie.github.io/tags/iOS%E4%BC%81%E4%B8%9A%E5%BA%94%E7%94%A8%E6%9B%B4%E6%96%B0/"/>
+      <category term="iOS企业应用更新" scheme="https://www.vanjay.cn/tags/iOS%E4%BC%81%E4%B8%9A%E5%BA%94%E7%94%A8%E6%9B%B4%E6%96%B0/"/>
     
-      <category term="Python3 读写 plist" scheme="https://wangwanjie.github.io/tags/Python3-%E8%AF%BB%E5%86%99-plist/"/>
+      <category term="Python3 读写 plist" scheme="https://www.vanjay.cn/tags/Python3-%E8%AF%BB%E5%86%99-plist/"/>
     
   </entry>
   
   <entry>
     <title>原生 JavaScript 判断 DOM 是否包含某个 class</title>
-    <link href="https://wangwanjie.github.io/2017/03/23/%E5%8E%9F%E7%94%9F-JavaScript-%E5%88%A4%E6%96%AD-DOM-%E6%98%AF%E5%90%A6%E5%8C%85%E5%90%AB%E6%9F%90%E4%B8%AA-class/"/>
-    <id>https://wangwanjie.github.io/2017/03/23/原生-JavaScript-判断-DOM-是否包含某个-class/</id>
+    <link href="https://www.vanjay.cn/2017/03/23/%E5%8E%9F%E7%94%9F-JavaScript-%E5%88%A4%E6%96%AD-DOM-%E6%98%AF%E5%90%A6%E5%8C%85%E5%90%AB%E6%9F%90%E4%B8%AA-class/"/>
+    <id>https://www.vanjay.cn/2017/03/23/原生-JavaScript-判断-DOM-是否包含某个-class/</id>
     <published>2017-03-23T03:05:27.000Z</published>
     <updated>2017-03-23T03:11:02.000Z</updated>
     
@@ -361,21 +393,21 @@
     
     </summary>
     
-      <category term="JavaScript" scheme="https://wangwanjie.github.io/categories/JavaScript/"/>
+      <category term="JavaScript" scheme="https://www.vanjay.cn/categories/JavaScript/"/>
     
     
-      <category term="JavaScript" scheme="https://wangwanjie.github.io/tags/JavaScript/"/>
+      <category term="JavaScript" scheme="https://www.vanjay.cn/tags/JavaScript/"/>
     
-      <category term="DOM" scheme="https://wangwanjie.github.io/tags/DOM/"/>
+      <category term="DOM" scheme="https://www.vanjay.cn/tags/DOM/"/>
     
-      <category term="DOM Class" scheme="https://wangwanjie.github.io/tags/DOM-Class/"/>
+      <category term="DOM Class" scheme="https://www.vanjay.cn/tags/DOM-Class/"/>
     
   </entry>
   
   <entry>
     <title>iOS 企业版应用一键更新</title>
-    <link href="https://wangwanjie.github.io/2017/03/22/iOS-%E4%BC%81%E4%B8%9A%E7%89%88%E5%BA%94%E7%94%A8%E4%B8%80%E9%94%AE%E6%9B%B4%E6%96%B0/"/>
-    <id>https://wangwanjie.github.io/2017/03/22/iOS-企业版应用一键更新/</id>
+    <link href="https://www.vanjay.cn/2017/03/22/iOS-%E4%BC%81%E4%B8%9A%E7%89%88%E5%BA%94%E7%94%A8%E4%B8%80%E9%94%AE%E6%9B%B4%E6%96%B0/"/>
+    <id>https://www.vanjay.cn/2017/03/22/iOS-企业版应用一键更新/</id>
     <published>2017-03-22T06:14:05.000Z</published>
     <updated>2017-03-22T08:54:51.000Z</updated>
     
@@ -391,23 +423,23 @@
     
     </summary>
     
-      <category term="iOS" scheme="https://wangwanjie.github.io/categories/iOS/"/>
+      <category term="iOS" scheme="https://www.vanjay.cn/categories/iOS/"/>
     
     
-      <category term="iOS 应用更新" scheme="https://wangwanjie.github.io/tags/iOS-%E5%BA%94%E7%94%A8%E6%9B%B4%E6%96%B0/"/>
+      <category term="iOS 应用更新" scheme="https://www.vanjay.cn/tags/iOS-%E5%BA%94%E7%94%A8%E6%9B%B4%E6%96%B0/"/>
     
-      <category term="企业版应用更新" scheme="https://wangwanjie.github.io/tags/%E4%BC%81%E4%B8%9A%E7%89%88%E5%BA%94%E7%94%A8%E6%9B%B4%E6%96%B0/"/>
+      <category term="企业版应用更新" scheme="https://www.vanjay.cn/tags/%E4%BC%81%E4%B8%9A%E7%89%88%E5%BA%94%E7%94%A8%E6%9B%B4%E6%96%B0/"/>
     
-      <category term="打包" scheme="https://wangwanjie.github.io/tags/%E6%89%93%E5%8C%85/"/>
+      <category term="打包" scheme="https://www.vanjay.cn/tags/%E6%89%93%E5%8C%85/"/>
     
-      <category term="发布" scheme="https://wangwanjie.github.io/tags/%E5%8F%91%E5%B8%83/"/>
+      <category term="发布" scheme="https://www.vanjay.cn/tags/%E5%8F%91%E5%B8%83/"/>
     
   </entry>
   
   <entry>
     <title>为 NexT 主题添加球型标签云</title>
-    <link href="https://wangwanjie.github.io/2017/03/19/%E4%B8%BA-NexT-%E4%B8%BB%E9%A2%98%E6%B7%BB%E5%8A%A0%E7%90%83%E5%BD%A2%E6%A0%87%E7%AD%BE%E4%BA%91/"/>
-    <id>https://wangwanjie.github.io/2017/03/19/为-NexT-主题添加球形标签云/</id>
+    <link href="https://www.vanjay.cn/2017/03/19/%E4%B8%BA-NexT-%E4%B8%BB%E9%A2%98%E6%B7%BB%E5%8A%A0%E7%90%83%E5%BD%A2%E6%A0%87%E7%AD%BE%E4%BA%91/"/>
+    <id>https://www.vanjay.cn/2017/03/19/为-NexT-主题添加球形标签云/</id>
     <published>2017-03-19T12:04:55.000Z</published>
     <updated>2017-03-20T02:49:28.000Z</updated>
     
@@ -430,21 +462,21 @@
     
     </summary>
     
-      <category term="Blog" scheme="https://wangwanjie.github.io/categories/Blog/"/>
+      <category term="Blog" scheme="https://www.vanjay.cn/categories/Blog/"/>
     
     
-      <category term="标签" scheme="https://wangwanjie.github.io/tags/%E6%A0%87%E7%AD%BE/"/>
+      <category term="标签" scheme="https://www.vanjay.cn/tags/%E6%A0%87%E7%AD%BE/"/>
     
-      <category term="主题" scheme="https://wangwanjie.github.io/tags/%E4%B8%BB%E9%A2%98/"/>
+      <category term="主题" scheme="https://www.vanjay.cn/tags/%E4%B8%BB%E9%A2%98/"/>
     
-      <category term="球形标签云" scheme="https://wangwanjie.github.io/tags/%E7%90%83%E5%BD%A2%E6%A0%87%E7%AD%BE%E4%BA%91/"/>
+      <category term="球形标签云" scheme="https://www.vanjay.cn/tags/%E7%90%83%E5%BD%A2%E6%A0%87%E7%AD%BE%E4%BA%91/"/>
     
   </entry>
   
   <entry>
     <title>Mac 彻底卸载 MYSQL 解决疑难杂症</title>
-    <link href="https://wangwanjie.github.io/2017/03/18/Mac-%E5%BD%BB%E5%BA%95%E5%8D%B8%E8%BD%BD-MYSQL-%E8%A7%A3%E5%86%B3%E7%96%91%E9%9A%BE%E6%9D%82%E7%97%87/"/>
-    <id>https://wangwanjie.github.io/2017/03/18/Mac-彻底卸载-MYSQL-解决疑难杂症/</id>
+    <link href="https://www.vanjay.cn/2017/03/18/Mac-%E5%BD%BB%E5%BA%95%E5%8D%B8%E8%BD%BD-MYSQL-%E8%A7%A3%E5%86%B3%E7%96%91%E9%9A%BE%E6%9D%82%E7%97%87/"/>
+    <id>https://www.vanjay.cn/2017/03/18/Mac-彻底卸载-MYSQL-解决疑难杂症/</id>
     <published>2017-03-18T12:42:18.000Z</published>
     <updated>2017-03-20T08:50:04.000Z</updated>
     
@@ -475,19 +507,19 @@
     
     </summary>
     
-      <category term="系统疑难" scheme="https://wangwanjie.github.io/categories/%E7%B3%BB%E7%BB%9F%E7%96%91%E9%9A%BE/"/>
+      <category term="系统疑难" scheme="https://www.vanjay.cn/categories/%E7%B3%BB%E7%BB%9F%E7%96%91%E9%9A%BE/"/>
     
     
-      <category term="MYSQL" scheme="https://wangwanjie.github.io/tags/MYSQL/"/>
+      <category term="MYSQL" scheme="https://www.vanjay.cn/tags/MYSQL/"/>
     
-      <category term="Mac" scheme="https://wangwanjie.github.io/tags/Mac/"/>
+      <category term="Mac" scheme="https://www.vanjay.cn/tags/Mac/"/>
     
   </entry>
   
   <entry>
     <title>Hexo 中为多说添加最近访客</title>
-    <link href="https://wangwanjie.github.io/2017/03/17/Hexo-%E4%B8%AD%E4%B8%BA%E5%A4%9A%E8%AF%B4%E6%B7%BB%E5%8A%A0%E6%9C%80%E8%BF%91%E8%AE%BF%E5%AE%A2/"/>
-    <id>https://wangwanjie.github.io/2017/03/17/Hexo-中为多说添加最近访客/</id>
+    <link href="https://www.vanjay.cn/2017/03/17/Hexo-%E4%B8%AD%E4%B8%BA%E5%A4%9A%E8%AF%B4%E6%B7%BB%E5%8A%A0%E6%9C%80%E8%BF%91%E8%AE%BF%E5%AE%A2/"/>
+    <id>https://www.vanjay.cn/2017/03/17/Hexo-中为多说添加最近访客/</id>
     <published>2017-03-17T11:06:02.000Z</published>
     <updated>2017-03-18T01:39:37.000Z</updated>
     
@@ -512,21 +544,21 @@
     
     </summary>
     
-      <category term="Blog" scheme="https://wangwanjie.github.io/categories/Blog/"/>
+      <category term="Blog" scheme="https://www.vanjay.cn/categories/Blog/"/>
     
     
-      <category term="博客" scheme="https://wangwanjie.github.io/tags/%E5%8D%9A%E5%AE%A2/"/>
+      <category term="博客" scheme="https://www.vanjay.cn/tags/%E5%8D%9A%E5%AE%A2/"/>
     
-      <category term="Hexo" scheme="https://wangwanjie.github.io/tags/Hexo/"/>
+      <category term="Hexo" scheme="https://www.vanjay.cn/tags/Hexo/"/>
     
-      <category term="NexT" scheme="https://wangwanjie.github.io/tags/NexT/"/>
+      <category term="NexT" scheme="https://www.vanjay.cn/tags/NexT/"/>
     
   </entry>
   
   <entry>
     <title>动态加载javascript</title>
-    <link href="https://wangwanjie.github.io/2017/03/09/%E5%8A%A8%E6%80%81%E5%8A%A0%E8%BD%BDjavascript/"/>
-    <id>https://wangwanjie.github.io/2017/03/09/动态加载javascript/</id>
+    <link href="https://www.vanjay.cn/2017/03/09/%E5%8A%A8%E6%80%81%E5%8A%A0%E8%BD%BDjavascript/"/>
+    <id>https://www.vanjay.cn/2017/03/09/动态加载javascript/</id>
     <published>2017-03-09T02:50:55.000Z</published>
     <updated>2017-03-29T06:20:48.000Z</updated>
     
@@ -540,17 +572,17 @@
     
     </summary>
     
-      <category term="JavaScript" scheme="https://wangwanjie.github.io/categories/JavaScript/"/>
+      <category term="JavaScript" scheme="https://www.vanjay.cn/categories/JavaScript/"/>
     
     
-      <category term="javascript" scheme="https://wangwanjie.github.io/tags/javascript/"/>
+      <category term="javascript" scheme="https://www.vanjay.cn/tags/javascript/"/>
     
   </entry>
   
   <entry>
     <title>利用 dumpdecrypted 砸壳</title>
-    <link href="https://wangwanjie.github.io/2017/02/08/%E5%88%A9%E7%94%A8dumpdecrypted%E7%A0%B8%E5%A3%B3/"/>
-    <id>https://wangwanjie.github.io/2017/02/08/利用dumpdecrypted砸壳/</id>
+    <link href="https://www.vanjay.cn/2017/02/08/%E5%88%A9%E7%94%A8dumpdecrypted%E7%A0%B8%E5%A3%B3/"/>
+    <id>https://www.vanjay.cn/2017/02/08/利用dumpdecrypted砸壳/</id>
     <published>2017-02-08T09:34:03.000Z</published>
     <updated>2017-03-18T13:26:43.000Z</updated>
     
@@ -576,21 +608,21 @@
     
     </summary>
     
-      <category term="iOS" scheme="https://wangwanjie.github.io/categories/iOS/"/>
+      <category term="iOS" scheme="https://www.vanjay.cn/categories/iOS/"/>
     
     
-      <category term="逆向" scheme="https://wangwanjie.github.io/tags/%E9%80%86%E5%90%91/"/>
+      <category term="逆向" scheme="https://www.vanjay.cn/tags/%E9%80%86%E5%90%91/"/>
     
-      <category term="iOS安全" scheme="https://wangwanjie.github.io/tags/iOS%E5%AE%89%E5%85%A8/"/>
+      <category term="iOS安全" scheme="https://www.vanjay.cn/tags/iOS%E5%AE%89%E5%85%A8/"/>
     
-      <category term="破解" scheme="https://wangwanjie.github.io/tags/%E7%A0%B4%E8%A7%A3/"/>
+      <category term="破解" scheme="https://www.vanjay.cn/tags/%E7%A0%B4%E8%A7%A3/"/>
     
   </entry>
   
   <entry>
     <title>给包签名</title>
-    <link href="https://wangwanjie.github.io/2017/02/08/%E7%BB%99%E5%8C%85%E7%AD%BE%E5%90%8D/"/>
-    <id>https://wangwanjie.github.io/2017/02/08/给包签名/</id>
+    <link href="https://www.vanjay.cn/2017/02/08/%E7%BB%99%E5%8C%85%E7%AD%BE%E5%90%8D/"/>
+    <id>https://www.vanjay.cn/2017/02/08/给包签名/</id>
     <published>2017-02-08T05:45:09.000Z</published>
     <updated>2017-03-20T08:49:45.000Z</updated>
     
@@ -604,19 +636,19 @@
     
     </summary>
     
-      <category term="iOS" scheme="https://wangwanjie.github.io/categories/iOS/"/>
+      <category term="iOS" scheme="https://www.vanjay.cn/categories/iOS/"/>
     
     
-      <category term="打包" scheme="https://wangwanjie.github.io/tags/%E6%89%93%E5%8C%85/"/>
+      <category term="打包" scheme="https://www.vanjay.cn/tags/%E6%89%93%E5%8C%85/"/>
     
-      <category term="iOS签名" scheme="https://wangwanjie.github.io/tags/iOS%E7%AD%BE%E5%90%8D/"/>
+      <category term="iOS签名" scheme="https://www.vanjay.cn/tags/iOS%E7%AD%BE%E5%90%8D/"/>
     
   </entry>
   
   <entry>
     <title>iOS企业内部应用分发</title>
-    <link href="https://wangwanjie.github.io/2017/01/11/iOS%E4%BC%81%E4%B8%9A%E5%86%85%E9%83%A8%E5%BA%94%E7%94%A8%E5%88%86%E5%8F%91/"/>
-    <id>https://wangwanjie.github.io/2017/01/11/iOS企业内部应用分发/</id>
+    <link href="https://www.vanjay.cn/2017/01/11/iOS%E4%BC%81%E4%B8%9A%E5%86%85%E9%83%A8%E5%BA%94%E7%94%A8%E5%88%86%E5%8F%91/"/>
+    <id>https://www.vanjay.cn/2017/01/11/iOS企业内部应用分发/</id>
     <published>2017-01-11T12:52:03.000Z</published>
     <updated>2017-03-18T15:01:34.000Z</updated>
     
@@ -810,19 +842,19 @@
     
     </summary>
     
-      <category term="iOS" scheme="https://wangwanjie.github.io/categories/iOS/"/>
+      <category term="iOS" scheme="https://www.vanjay.cn/categories/iOS/"/>
     
     
-      <category term="打包" scheme="https://wangwanjie.github.io/tags/%E6%89%93%E5%8C%85/"/>
+      <category term="打包" scheme="https://www.vanjay.cn/tags/%E6%89%93%E5%8C%85/"/>
     
-      <category term="发布" scheme="https://wangwanjie.github.io/tags/%E5%8F%91%E5%B8%83/"/>
+      <category term="发布" scheme="https://www.vanjay.cn/tags/%E5%8F%91%E5%B8%83/"/>
     
   </entry>
   
   <entry>
     <title>Mac查看CPU具体型号</title>
-    <link href="https://wangwanjie.github.io/2016/12/16/Mac%E6%9F%A5%E7%9C%8BCPU%E5%85%B7%E4%BD%93%E5%9E%8B%E5%8F%B7/"/>
-    <id>https://wangwanjie.github.io/2016/12/16/Mac查看CPU具体型号/</id>
+    <link href="https://www.vanjay.cn/2016/12/16/Mac%E6%9F%A5%E7%9C%8BCPU%E5%85%B7%E4%BD%93%E5%9E%8B%E5%8F%B7/"/>
+    <id>https://www.vanjay.cn/2016/12/16/Mac查看CPU具体型号/</id>
     <published>2016-12-16T12:17:48.000Z</published>
     <updated>2017-03-18T13:26:56.000Z</updated>
     
@@ -835,17 +867,17 @@
     
     </summary>
     
-      <category term="Mac" scheme="https://wangwanjie.github.io/categories/Mac/"/>
+      <category term="Mac" scheme="https://www.vanjay.cn/categories/Mac/"/>
     
     
-      <category term="Mac使用" scheme="https://wangwanjie.github.io/tags/Mac%E4%BD%BF%E7%94%A8/"/>
+      <category term="Mac使用" scheme="https://www.vanjay.cn/tags/Mac%E4%BD%BF%E7%94%A8/"/>
     
   </entry>
   
   <entry>
     <title>OC用AFN做Soap请求webService</title>
-    <link href="https://wangwanjie.github.io/2016/01/10/OC%E7%94%A8AFN%E5%81%9ASoap%E8%AF%B7%E6%B1%82webService/"/>
-    <id>https://wangwanjie.github.io/2016/01/10/OC用AFN做Soap请求webService/</id>
+    <link href="https://www.vanjay.cn/2016/01/10/OC%E7%94%A8AFN%E5%81%9ASoap%E8%AF%B7%E6%B1%82webService/"/>
+    <id>https://www.vanjay.cn/2016/01/10/OC用AFN做Soap请求webService/</id>
     <published>2016-01-09T19:07:22.000Z</published>
     <updated>2017-03-20T08:51:14.000Z</updated>
     
@@ -903,96 +935,14 @@
     
     </summary>
     
-      <category term="Objective-C" scheme="https://wangwanjie.github.io/categories/Objective-C/"/>
+      <category term="Objective-C" scheme="https://www.vanjay.cn/categories/Objective-C/"/>
     
     
-      <category term="AFN" scheme="https://wangwanjie.github.io/tags/AFN/"/>
+      <category term="AFN" scheme="https://www.vanjay.cn/tags/AFN/"/>
     
-      <category term="Soap" scheme="https://wangwanjie.github.io/tags/Soap/"/>
+      <category term="Soap" scheme="https://www.vanjay.cn/tags/Soap/"/>
     
-      <category term="WebService" scheme="https://wangwanjie.github.io/tags/WebService/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>ASI 和 AFN 区别</title>
-    <link href="https://wangwanjie.github.io/2015/10/06/ASI-%E5%92%8C-AFN-%E5%8C%BA%E5%88%AB/"/>
-    <id>https://wangwanjie.github.io/2015/10/06/ASI-和-AFN-区别/</id>
-    <published>2015-10-06T03:51:36.000Z</published>
-    <updated>2017-03-20T08:51:24.000Z</updated>
-    
-    <content type="html"><![CDATA[<h3 id="一-底层实现"><a href="#一-底层实现" class="headerlink" title="一 底层实现"></a>一 底层实现</h3><ul>
-<li>AFN的底层基于OC的NSURLConnection和NSURLSession</li>
-<li>ASI的底层基于纯C语言的CFNetwork框架</li>
-<li>ASI的运行性能 高于 AFN</li>
-</ul>
-<a id="more"></a>
-<h3 id="二-对服务器返回的数据处理"><a href="#二-对服务器返回的数据处理" class="headerlink" title="二 对服务器返回的数据处理"></a>二 对服务器返回的数据处理</h3><ul>
-<li>ASI没有直接提供对服务器数据处理的方式，直接返回data\string</li>
-<li>AFN提供了多种对服务器数据处理的方式<ul>
-<li>JSON处理</li>
-<li>XML处理</li>
-<li>其他处理</li>
-</ul>
-</li>
-</ul>
-<h3 id="三-监听请求的过程"><a href="#三-监听请求的过程" class="headerlink" title="三 监听请求的过程"></a>三 监听请求的过程</h3><ul>
-<li><p>AFN提供了success和failure两个block来监听请求的过程（只能监听成功和失败）</p>
-<ul>
-<li>success : 请求成功后调用</li>
-<li>failure : 请求失败后调用</li>
-</ul>
-</li>
-<li><p>ASI提供了3套方案，每一套方案都能监听请求的完整过程<br>（监听请求开始、接收到响应头信息、接受到具体数据、接受完毕、请求失败）</p>
-<ul>
-<li>成为代理，遵守协议，实现协议中的代理方法</li>
-<li>成为代理，不遵守协议，自定义代理方法</li>
-<li>设置block</li>
-</ul>
-</li>
-</ul>
-<h3 id="四-在文件下载和文件上传的使用难易度"><a href="#四-在文件下载和文件上传的使用难易度" class="headerlink" title="四 在文件下载和文件上传的使用难易度"></a>四 在文件下载和文件上传的使用难易度</h3><ul>
-<li><p>AFN</p>
-<ul>
-<li>不容易监听下载进度和上传进度</li>
-<li>不容易实现断点续传</li>
-<li>一般只用来下载不大的文件</li>
-</ul>
-</li>
-<li><p>ASI</p>
-<ul>
-<li>非常容易实现下载和上传</li>
-<li>非常容易监听下载进度和上传进度</li>
-<li>非常容易实现断点续传</li>
-<li>下载或大或小的文件都行</li>
-</ul>
-</li>
-</ul>
-<h3 id="五-ASI提供了更多的实用功能"><a href="#五-ASI提供了更多的实用功能" class="headerlink" title="五 ASI提供了更多的实用功能"></a>五 ASI提供了更多的实用功能</h3><ul>
-<li>控制圈圈要不要在请求过程中转</li>
-<li>可以轻松地设置请求之间的依赖：每一个请求都是一个 <strong>NSOperation</strong> 对象</li>
-<li>可以统一管理所有请求（还专门提供了一个叫做 <strong>ASINetworkQueue</strong> 来管理所有的请求对象）</li>
-<li>暂停\恢复\取消所有的请求</li>
-<li>监听整个队列中所有请求的下载进度和上传进度</li>
-</ul>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;h3 id=&quot;一-底层实现&quot;&gt;&lt;a href=&quot;#一-底层实现&quot; class=&quot;headerlink&quot; title=&quot;一 底层实现&quot;&gt;&lt;/a&gt;一 底层实现&lt;/h3&gt;&lt;ul&gt;
-&lt;li&gt;AFN的底层基于OC的NSURLConnection和NSURLSession&lt;/li&gt;
-&lt;li&gt;ASI的底层基于纯C语言的CFNetwork框架&lt;/li&gt;
-&lt;li&gt;ASI的运行性能 高于 AFN&lt;/li&gt;
-&lt;/ul&gt;
-    
-    </summary>
-    
-      <category term="Objective-C" scheme="https://wangwanjie.github.io/categories/Objective-C/"/>
-    
-    
-      <category term="网络" scheme="https://wangwanjie.github.io/tags/%E7%BD%91%E7%BB%9C/"/>
-    
-      <category term="网络协议" scheme="https://wangwanjie.github.io/tags/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE/"/>
+      <category term="WebService" scheme="https://www.vanjay.cn/tags/WebService/"/>
     
   </entry>
   
