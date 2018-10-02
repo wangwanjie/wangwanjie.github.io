@@ -77,6 +77,10 @@
 
 
 
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
 
 
 
@@ -114,7 +118,7 @@
     scheme: 'Muse',
     version: '6.4.2',
     sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
-    fancybox: false,
+    fancybox: true,
     fastclick: false,
     lazyload: false,
     tabs: true,
@@ -169,6 +173,15 @@
 
 
 
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-93918217-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-93918217-1');
+</script>
 
 
 
@@ -605,27 +618,27 @@
             <div class="links-of-author motion-element">
               
                 <span class="links-of-author-item">
-                  <a href="https://github.com/wangwanjie" target="_blank" title="GitHub"><i class="fa fa-fw fa-globe"></i>GitHub</a>
+                  <a href="https://github.com/wangwanjie" target="_blank" title="GitHub"><i class="fa fa-fw fa-github"></i>GitHub</a>
                   
                 </span>
               
                 <span class="links-of-author-item">
-                  <a href="https://twitter.com/wangwanjie" target="_blank" title="Twitter"><i class="fa fa-fw fa-globe"></i>Twitter</a>
+                  <a href="https://twitter.com/wangwanjie" target="_blank" title="Twitter"><i class="fa fa-fw fa-twitter"></i>Twitter</a>
                   
                 </span>
               
                 <span class="links-of-author-item">
-                  <a href="http://www.weibo.com/2406245873/profile?topnav=1&wvr=6" target="_blank" title="微博"><i class="fa fa-fw fa-globe"></i>微博</a>
+                  <a href="http://www.weibo.com/2406245873/profile?topnav=1&wvr=6" target="_blank" title="微博"><i class="fa fa-fw fa-weibo"></i>微博</a>
                   
                 </span>
               
                 <span class="links-of-author-item">
-                  <a href="https://www.facebook.com/wangwanjie123" target="_blank" title="Facebook"><i class="fa fa-fw fa-globe"></i>Facebook</a>
+                  <a href="https://www.facebook.com/wangwanjie123" target="_blank" title="Facebook"><i class="fa fa-fw fa-facebook"></i>Facebook</a>
                   
                 </span>
               
                 <span class="links-of-author-item">
-                  <a href="http://wpa.qq.com/msgrd?v=3&uin=396736694&site=qq&menu=yes" target="_blank" title="QQ"><i class="fa fa-fw fa-globe"></i>QQ</a>
+                  <a href="http://wpa.qq.com/msgrd?v=3&uin=396736694&site=qq&menu=yes" target="_blank" title="QQ"><i class="fa fa-fw fa-qq"></i>QQ</a>
                   
                 </span>
               
@@ -640,7 +653,7 @@
             <div class="links-of-blogroll motion-element links-of-blogroll-block">
               <div class="links-of-blogroll-title">
                 <i class="fa  fa-fw fa-link"></i>
-                Links
+                友情链接
               </div>
               <ul class="links-of-blogroll-list">
                 
@@ -759,6 +772,7 @@
 
 
 
+  
 
 
 
@@ -770,6 +784,9 @@
 
 
 
+
+
+  
 
 
 
@@ -786,6 +803,16 @@
   
   
     <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/reading_progress/reading_progress.js"></script>
   
 
 
@@ -842,93 +869,6 @@
 
       $visitors.each(function () {
         entries.push( $(this).attr("id").trim() );
-      });
-
-      Counter('get', '/classes/Counter', { where: JSON.stringify({ url: { "$in": entries } }) })
-        .done(function ({ results }) {
-          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
-
-          if (results.length === 0) {
-            $visitors.find(COUNT_CONTAINER_REF).text(0);
-            return;
-          }
-
-          for (var i = 0; i < results.length; i++) {
-            var item = results[i];
-            var url = item.url;
-            var time = item.time;
-            var element = document.getElementById(url);
-
-            $(element).find(COUNT_CONTAINER_REF).text(time);
-          }
-          for(var i = 0; i < entries.length; i++) {
-            var url = entries[i];
-            var element = document.getElementById(url);
-            var countSpan = $(element).find(COUNT_CONTAINER_REF);
-            if( countSpan.text() == '') {
-              countSpan.text(0);
-            }
-          }
-        })
-        .fail(function ({ responseJSON }) {
-          console.log("LeanCloud Counter Error: " + responseJSON.code + " " + responseJSON.error);
-        });
-    }
-    
-
-    $(function() {
-      $.get('https://app-router.leancloud.cn/2/route?appId=' + "ftmd6Qz8JIuEqadbKNDX62Sv-gzGzoHsz")
-        .done(function ({ api_server }) {
-          var Counter = function (method, url, data) {
-            return $.ajax({
-              method: method,
-              url: `https://${api_server}/1.1${url}`,
-              headers: {
-                'X-LC-Id': "ftmd6Qz8JIuEqadbKNDX62Sv-gzGzoHsz",
-                'X-LC-Key': "Bf55iVdUR8NPPHlSxEt30XbD",
-                'Content-Type': 'application/json',
-              },
-              data: data,
-            });
-          };
-          
-          if ($('.post-title-link').length >= 1) {
-            showTime(Counter);
-          }
-          
-        })
-    });
-  </script>
-
-
-
-  
-
-  
-
-  
-
-  
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  <!-- 页面点击小红心 -->
-  <script type="text/javascript" src="/js/src/love.js"></script>
-  <!-- 背景动画 -->
-  <script type="text/javascript" src="/js/src/particle.js"></script>
-
-</body>
-</html>
-   entries.push( $(this).attr("id").trim() );
       });
 
       Counter('get', '/classes/Counter', { where: JSON.stringify({ url: { "$in": entries } }) })
