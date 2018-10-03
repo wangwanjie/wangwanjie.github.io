@@ -2022,7 +2022,7 @@ pre .javascript .function {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: #bd73ff;
+  background: #ff40e9;
 }
 .links-of-blogroll {
   font-size: 13px;
@@ -2795,4 +2795,7 @@ span.exturl {
 }
 .posts-expand {
   padding-top: 10px;
+}
+.sidebar-toggle {
+  left: 30px;
 }
