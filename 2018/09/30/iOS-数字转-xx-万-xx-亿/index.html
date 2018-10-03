@@ -616,8 +616,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/04/02/Ubuntu-开启-ssh-登录/" rel="next" title="Ubuntu 开启 ssh 登录">
-                <i class="fa fa-chevron-left"></i> Ubuntu 开启 ssh 登录
+              <a href="/2017/07/28/购买BanwagonHOST-VPS自建Shadowsocks记录/" rel="next" title="购买BanwagonHOST VPS自建Shadowsocks记录">
+                <i class="fa fa-chevron-left"></i> 购买BanwagonHOST VPS自建Shadowsocks记录
               </a>
             
           </div>
@@ -1495,9 +1495,14 @@
             })
           } else {
             
-              var $element = $(document.getElementById(url));
-              $element.find('.leancloud-visitors-count').text('Counter not initialized! See more at console err msg.');
-              console.error('ATTENTION! LeanCloud counter has security bug, see here how to solve it: https://github.com/theme-next/hexo-leancloud-counter-security. \n But you also can use LeanCloud without security, by set \'security\' option to \'false\'.');
+              Counter('post', '/classes/Counter', JSON.stringify({ title: title, url: url, time: 1}))
+                .done(function () {
+                  var $element = $(document.getElementById(url));
+                  $element.find('.leancloud-visitors-count').text(1);
+                })
+                .fail(function () {
+                  console.log('Failed to create');
+                });
             
           }
         })

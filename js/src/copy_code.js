@@ -23,8 +23,6 @@
                     showConfirmButton: false
                 });
             });
-            // 不知为啥不生效，但这样也可以接受
-            e.clearSelection();
         }));
     }
     initCopyCode();
