@@ -10,5 +10,4 @@ $(document).ready(function() {
     window.open($decurl, '_blank');
     return false;
   });
-
 });
