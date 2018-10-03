@@ -2042,7 +2042,7 @@ pre .javascript .function {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: #ffffd6;
+  background: #b9b629;
 }
 .links-of-blogroll {
   font-size: 13px;
@@ -3120,4 +3120,12 @@ span.exturl,
 }
 .highlight:hover .btn-copy {
   opacity: 1;
+}
+@media (max-width: 767px) {
+  .container .main-inner {
+    padding: 20px 0px;
+  }
+  .header-inner {
+    padding: 50px 0 0px;
+  }
 }
