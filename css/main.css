@@ -536,7 +536,7 @@ pre code {
   text-shadow: none;
 }
 .highlight {
-  border-radius: 1px;
+  border-radius: 5px;
 }
 .highlight pre {
   border: none;
@@ -2042,7 +2042,7 @@ pre .javascript .function {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: #1cfad7;
+  background: #ff7c37;
 }
 .links-of-blogroll {
   font-size: 13px;
@@ -3005,6 +3005,30 @@ hr {
     text-align: center;
   }
 }
+body {
+  background: url("https://source.unsplash.com/random/1600x900");
+  background-repeat: round;
+  background-attachment: fixed;
+  background-position: 0% 0%;
+}
+.main-inner {
+  margin-top: 60px;
+  padding: 60px 60px 60px 60px;
+  background: #fff;
+  opacity: 0.8;
+  min-height: 500px;
+}
+.footer,
+.header {
+  background: transparent;
+  color: #fff;
+}
+.footer-inner .theme-link {
+  color: #eee;
+}
+.footer-inner .fa-heart {
+  color: #f00;
+}
 .page-home .post {
   margin-top: 40px;
   margin-bottom: 40px;
@@ -3022,14 +3046,6 @@ hr {
 .post-body p a:hover {
   color: #0477ab;
   text-decoration: underline;
-}
-.header {
-  background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url("https://s1.ax1x.com/2018/06/09/CbDIIO.jpg") no-repeat;
-  background-size: cover;
-  background-color: #000;
-  background-position: center;
-  width: 100%;
-  display: table;
 }
 .site-subtitle,
 .site-nav a,

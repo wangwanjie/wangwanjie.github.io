@@ -13,7 +13,7 @@
             }
         });
 
-        clipboard.on('success', $(function () {
+        clipboard.on('success', $(function (e) {
             $(".btn-copy").click(function () {
                 swal({
                     title: "",
@@ -23,6 +23,8 @@
                     showConfirmButton: false
                 });
             });
+            // 不知为啥不生效，但这样也可以接受
+            e.clearSelection();
         }));
     }
     initCopyCode();
