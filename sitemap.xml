@@ -2,9 +2,16 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://www.vanjay.cn/about/index.html</loc>
+    
+    <lastmod>2018-10-03T10:08:37.456Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://www.vanjay.cn/2018/10/01/Ubuntu-18-04-LTS-%E5%AE%89%E8%A3%85%E9%83%A8%E7%BD%B2-Seafile/</loc>
     
-    <lastmod>2018-10-02T09:01:53.585Z</lastmod>
+    <lastmod>2018-10-03T09:26:27.784Z</lastmod>
     
   </url>
   
@@ -145,13 +152,6 @@
     <loc>https://www.vanjay.cn/2017/01/11/iOS%E4%BC%81%E4%B8%9A%E5%86%85%E9%83%A8%E5%BA%94%E7%94%A8%E5%88%86%E5%8F%91/</loc>
     
     <lastmod>2017-03-18T15:01:34.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://www.vanjay.cn/about/index.html</loc>
-    
-    <lastmod>2017-03-18T14:24:37.000Z</lastmod>
     
   </url>
   

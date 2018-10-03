@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
   <title>VanJay&#39;s Blog</title>
-  <subtitle>成功不是将来才有的&lt;br&gt;而是决定去做的那一刻起&lt;br&gt;持续累积而成&lt;/br&gt;湖南工业大学2011届毕业生，目前供职于广州探迹，擅长Objective、Swift、React Native、Cocos2d-js、Java、Javascript开发者，业余爱好PHP、Python、Ruby等。旧时爱好捣鼓操作系统，正在潜心修炼成为一名全栈攻城狮。</subtitle>
+  <subtitle>一个爱折腾工程师的全栈梦</subtitle>
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://www.vanjay.cn/"/>
-  <updated>2018-10-02T09:01:53.585Z</updated>
+  <updated>2018-10-03T09:26:27.784Z</updated>
   <id>https://www.vanjay.cn/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="https://www.vanjay.cn/2018/10/01/Ubuntu-18-04-LTS-%E5%AE%89%E8%A3%85%E9%83%A8%E7%BD%B2-Seafile/"/>
     <id>https://www.vanjay.cn/2018/10/01/Ubuntu-18-04-LTS-安装部署-Seafile/</id>
     <published>2018-10-01T09:06:54.000Z</published>
-    <updated>2018-10-02T09:01:53.585Z</updated>
+    <updated>2018-10-03T09:26:27.784Z</updated>
     
     <summary type="html">
     
