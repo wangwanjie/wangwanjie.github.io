@@ -90,6 +90,24 @@
   </entry>
   
   <entry>
+    <title>更改 React Native 默认 ios、android 项目文件夹</title>
+    <link href="https://www.vanjay.cn/2018/09/10/%E6%9B%B4%E6%94%B9-React-Native-%E9%BB%98%E8%AE%A4-ios%E3%80%81android-%E9%A1%B9%E7%9B%AE%E6%96%87%E4%BB%B6%E5%A4%B9/"/>
+    <id>https://www.vanjay.cn/2018/09/10/更改-React-Native-默认-ios、android-项目文件夹/</id>
+    <published>2018-09-09T16:23:16.000Z</published>
+    <updated>2018-10-04T16:16:10.658Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;背景&quot;&gt;&lt;a href=&quot;#背景&quot; class=&quot;headerlink&quot; title=&quot;背景&quot;&gt;&lt;/a&gt;背景&lt;/h1&gt;&lt;p&gt;来到新公司也有一个月了，完成 iOS 端洞客项目&lt;code&gt;V1.3.0-V1.4.0&lt;/code&gt;的升级，虽然只是一个小版本的升级，但我在熟悉项目过程当中发现项目垃圾代码实在太多了，别说我了，一般的接锅人看了也难以忍受，在痛苦了几天之后我默默拉了一个新 git 分支改起来，使用 &lt;code&gt;clang format&lt;/code&gt;规范化了整个项目的代码，后面结合&lt;code&gt;git hook&lt;/code&gt;在&lt;code&gt;git commit&lt;/code&gt;前自动&lt;code&gt;reformat&lt;/code&gt;代码，这一步可以说是非常爽了。直到今天，我之前简单看了一下，&lt;code&gt;check out&lt;/code&gt;到我改之前和改之后的代码，少了有5000+行代码，删除了几十个类文件，但里面还是充斥着大量的垃圾或者不合理的代码。开发完&lt;code&gt;1.4.0&lt;/code&gt;，稍微看起来闲了一两天，被个喜欢行使小权利的前端小组长安装研习 &lt;code&gt;React Native&lt;/code&gt;，准备接入原生项目，暂时用于替换一个改动比较频繁的详情页，之前就有自己学习过，但是都忘光了，又复习一遍，趁热记录一些小 tip。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="React Native" scheme="https://www.vanjay.cn/categories/React-Native/"/>
+    
+    
+  </entry>
+  
+  <entry>
     <title>购买BanwagonHOST VPS自建Shadowsocks记录</title>
     <link href="https://www.vanjay.cn/2017/07/28/%E8%B4%AD%E4%B9%B0BanwagonHOST-VPS%E8%87%AA%E5%BB%BAShadowsocks%E8%AE%B0%E5%BD%95/"/>
     <id>https://www.vanjay.cn/2017/07/28/购买BanwagonHOST-VPS自建Shadowsocks记录/</id>
@@ -475,32 +493,6 @@
       <category term="Soap" scheme="https://www.vanjay.cn/tags/Soap/"/>
     
       <category term="WebService" scheme="https://www.vanjay.cn/tags/WebService/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>ASI 和 AFN 区别</title>
-    <link href="https://www.vanjay.cn/2015/10/06/ASI-%E5%92%8C-AFN-%E5%8C%BA%E5%88%AB/"/>
-    <id>https://www.vanjay.cn/2015/10/06/ASI-和-AFN-区别/</id>
-    <published>2015-10-06T03:51:36.000Z</published>
-    <updated>2017-03-20T08:51:24.000Z</updated>
-    
-    <summary type="html">
-    
-      &lt;h3 id=&quot;一-底层实现&quot;&gt;&lt;a href=&quot;#一-底层实现&quot; class=&quot;headerlink&quot; title=&quot;一 底层实现&quot;&gt;&lt;/a&gt;一 底层实现&lt;/h3&gt;&lt;ul&gt;
-&lt;li&gt;AFN的底层基于OC的NSURLConnection和NSURLSession&lt;/li&gt;
-&lt;li&gt;ASI的底层基于纯C语言的CFNetwork框架&lt;/li&gt;
-&lt;li&gt;ASI的运行性能 高于 AFN&lt;/li&gt;
-&lt;/ul&gt;
-    
-    </summary>
-    
-      <category term="Objective-C" scheme="https://www.vanjay.cn/categories/Objective-C/"/>
-    
-    
-      <category term="网络" scheme="https://www.vanjay.cn/tags/%E7%BD%91%E7%BB%9C/"/>
-    
-      <category term="网络协议" scheme="https://www.vanjay.cn/tags/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE/"/>
     
   </entry>
   
