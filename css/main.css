@@ -2042,7 +2042,7 @@ pre .javascript .function {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: #83cbe0;
+  background: #b9dac3;
 }
 .links-of-blogroll {
   font-size: 13px;
@@ -3005,27 +3005,6 @@ hr {
     text-align: center;
   }
 }
-body {
-  background: url("https://source.unsplash.com/random/1600x900");
-  background-attachment: fixed;
-  background-repeat: repeat;
-  background-size: contain;
-}
-.main-inner {
-  margin-top: 60px;
-  padding: 60px 60px 60px 60px;
-  background: #fff;
-  opacity: 0.8;
-  min-height: 500px;
-}
-.footer,
-.header {
-  background: transparent;
-  color: #fff;
-}
-.footer-inner .theme-link {
-  color: #eee;
-}
 .page-home .post {
   margin-top: 40px;
   margin-bottom: 40px;
@@ -3124,8 +3103,21 @@ span.exturl,
 @media (max-width: 767px) {
   .container .main-inner {
     padding: 20px 0px;
+    margin-top: 10px;
   }
   .header-inner {
     padding: 50px 0 0px;
+  }
+  .site-nav-toggle {
+    float: left;
+  }
+  .site-meta {
+    margin-left: 40px;
+  }
+  .posts-expand {
+    margin: 0 10px;
+  }
+  .page-home .post {
+    padding: 10px;
   }
 }
