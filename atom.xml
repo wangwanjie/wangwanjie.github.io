@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://www.vanjay.cn/"/>
-  <updated>2018-10-03T09:26:27.784Z</updated>
+  <updated>2018-10-04T07:53:38.287Z</updated>
   <id>https://www.vanjay.cn/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="https://www.vanjay.cn/2018/10/01/Ubuntu-18-04-LTS-%E5%AE%89%E8%A3%85%E9%83%A8%E7%BD%B2-Seafile/"/>
     <id>https://www.vanjay.cn/2018/10/01/Ubuntu-18-04-LTS-安装部署-Seafile/</id>
     <published>2018-10-01T09:06:54.000Z</published>
-    <updated>2018-10-03T09:26:27.784Z</updated>
+    <updated>2018-10-04T07:53:38.287Z</updated>
     
     <summary type="html">
     
@@ -60,9 +60,9 @@
     
       <category term="Objective-C" scheme="https://www.vanjay.cn/tags/Objective-C/"/>
     
-      <category term="String" scheme="https://www.vanjay.cn/tags/String/"/>
-    
       <category term="iOS" scheme="https://www.vanjay.cn/tags/iOS/"/>
+    
+      <category term="String" scheme="https://www.vanjay.cn/tags/String/"/>
     
   </entry>
   
