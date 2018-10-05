@@ -46,6 +46,9 @@
                 'opacity': '0.8',
                 'min-height': '500px'
             });
+            $('.page-home .main-inner').css({
+                'padding-bottom': '60px',
+            });
             $('.header').css({
                 'background': 'transparent',
                 'color': '#fff'
