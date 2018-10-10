@@ -215,7 +215,7 @@
   <entry>
     <title><![CDATA[给包签名]]></title>
     <url>%2F2017%2F02%2F08%2F%E7%BB%99%E5%8C%85%E7%AD%BE%E5%90%8D%2F</url>
-    <content type="text"><![CDATA[查看可用签名1security find-identity -v -p codesigning 签名1codesign --force --verify --verbose --sign "iPhone Developer: 396736694@qq.com (Z4965JH2C8)” 目标包]]></content>
+    <content type="text"><![CDATA[概要这里记录Mac下security相关使用，想起来就补充。 查看可用签名1security find-identity -v -p codesigning 签名1codesign --force --verify --verbose --sign "iPhone Developer: 396736694@qq.com (Z4965JH2C8)” 目标包 查看描述文件信息1security cms -D -i xxx.mobileprovision 查看 WIFI 密码1security find-generic-password -ga "WIFI_name" | grep "password:"]]></content>
       <categories>
         <category>iOS</category>
       </categories>
@@ -251,6 +251,12 @@
     <title><![CDATA[git 开发中常见误操作及个人认为的最佳解决办法]]></title>
     <url>%2F2016%2F08%2F03%2Fgit-%E5%BC%80%E5%8F%91%E4%B8%AD%E5%B8%B8%E8%A7%81%E8%AF%AF%E6%93%8D%E4%BD%9C%E5%8F%8A%E4%B8%AA%E4%BA%BA%E8%AE%A4%E4%B8%BA%E7%9A%84%E6%9C%80%E4%BD%B3%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95%2F</url>
     <content type="text"><![CDATA[概要这篇文章记录的是在使用git过程中遇到的问题及我的解决办法，普通的使用这里不会记录，遇到了更多问题之后我会来更新这篇文章。 commit时选错了对应文件提交记录一般只做一件事情就好，可以的话，适当的细分是很有必要的，当然对应的关联的改动文件也要正确，但是如果是一次改动中动了多个文件，但是改了两个需求，又想分两次提交，当然是多选该功能改动的文件然后写commit log，但是如果不小心选错了或者多选择了不相关文件并已经commit了的话，可是使用git reset来恢复，先git log复制最新一次的上一次的commit id，执行git reset --soft desc_commit_id，此时代码便会恢复到你刚刚提交之前，改动都还在但是错误的 commit log 不见了，这是强迫症最舒服的地方，此时你可以重新选择文件再次提交，干净的commit log是不是很舒服？ 注意git reset是有点危险的操作，在不确定是否一定抛弃已有改动，不要使用git reset --hard，注意这里的参数，--hard和--soft，前者会恢复到当次 commit id并且discard了commit id之前所有的commit id的改动，如果远程端没有记录，那么你将丢失未保存的所有改动，切记切记；而后者只会删除你不需要的commit log，但是该commit id之前所有的commit id的改动都还在，只是’commit log’被清了，此时你可以重新写log，如果已经推送到了远程，发现很及时的话，先git pull最新代码，确保没有同事新提交过代码，直接用reset之后的记录覆盖远端，如果有同事提交了，可以git reset --soft之后cheery pick该记录再覆盖远端。 慢慢细读并跟着走的话应该可以看懂了，这里还是实例记录下： 123456789101112131415161718192021222324252627282930313233343536373839404142☁ Desktop mkdir example☁ Desktop cd example☁ example git initInitialized empty Git repository in /Users/VanJay/Desktop/example/.git/☁ example [master] git add .☁ example [master] git clone https://github.com/dracula/xcode.git☁ example [master] git commit -m "Initial commit"On branch masterInitial commitnothing to commit☁ example [master] git logfatal: your current branch 'master' does not have any commits yet☁ example [master] touch a.file☁ example [master] ⚡ git add .☁ example [master] ⚡ git commit -m "Added a.file"[master (root-commit) fa2ed5d] Added a.file 1 file changed, 0 insertions(+), 0 deletions(-) create mode 100644 a.file☁ example [master] git log☁ example [master] touch b.file☁ example [master] ⚡ touch c.file☁ example [master] ⚡ git add .☁ example [master] ⚡ git commit helperror: pathspec 'help' did not match any file(s) known to git.☁ example [master] ⚡ git commit --help☁ example [master] ⚡ git commit -m "Added b.file"[master 0a03cd8] Added b.file 2 files changed, 0 insertions(+), 0 deletions(-) create mode 100644 b.file create mode 100644 c.file☁ example [master] git log☁ example [master] git reset --soft fa2ed5d01756b3b63b00488418c1a73eb30c4d66☁ example [master] ⚡ git statusOn branch masterChanges to be committed: (use "git reset HEAD &lt;file&gt;..." to unstage) new file: b.file new file: c.file☁ example [master] ⚡ git log 可以看到在提交了 b.file和c.file之后恢复了之前的状态，git log查看只有一次commit log了，这个时候可以重新写log提交。]]></content>
+      <categories>
+        <category>git</category>
+      </categories>
+      <tags>
+        <tag>git</tag>
+      </tags>
   </entry>
   <entry>
     <title><![CDATA[OC用AFN做Soap请求webService]]></title>

@@ -139,18 +139,18 @@
 
 
 
-  <meta name="description" content="查看可用签名1security find-identity -v -p codesigning">
+  <meta name="description" content="概要这里记录Mac下security相关使用，想起来就补充。 查看可用签名1security find-identity -v -p codesigning">
 <meta name="keywords" content="打包,iOS签名">
 <meta property="og:type" content="article">
 <meta property="og:title" content="给包签名">
 <meta property="og:url" content="https://www.vanjay.cn/2017/02/08/给包签名/index.html">
 <meta property="og:site_name" content="VanJay&#39;s Blog">
-<meta property="og:description" content="查看可用签名1security find-identity -v -p codesigning">
+<meta property="og:description" content="概要这里记录Mac下security相关使用，想起来就补充。 查看可用签名1security find-identity -v -p codesigning">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2017-03-20T08:49:45.000Z">
+<meta property="og:updated_time" content="2018-10-10T08:29:34.668Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="给包签名">
-<meta name="twitter:description" content="查看可用签名1security find-identity -v -p codesigning">
+<meta name="twitter:description" content="概要这里记录Mac下security相关使用，想起来就补充。 查看可用签名1security find-identity -v -p codesigning">
 
 
 
@@ -455,7 +455,7 @@
                 
 
                 
-                  <time title="修改时间：2017-03-20 16:49:45" itemprop="dateModified" datetime="2017-03-20T16:49:45+08:00">2017-03-20</time>
+                  <time title="修改时间：2018-10-10 16:29:34" itemprop="dateModified" datetime="2018-10-10T16:29:34+08:00">2018-10-10</time>
                 
 
 
@@ -514,7 +514,7 @@
                 
                   <span class="post-meta-item-text">本文字数：</span>
                 
-                <span title="本文字数">148</span>
+                <span title="本文字数">304</span>
               
 
               
@@ -548,9 +548,12 @@
       
 
       
-        <h2 id="查看可用签名"><a href="#查看可用签名" class="headerlink" title="查看可用签名"></a>查看可用签名</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">security find-identity -v -p codesigning</span><br></pre></td></tr></table></figure>
+        <h1 id="概要"><a href="#概要" class="headerlink" title="概要"></a>概要</h1><p>这里记录Mac下<code>security</code>相关使用，想起来就补充。</p>
+<h1 id="查看可用签名"><a href="#查看可用签名" class="headerlink" title="查看可用签名"></a>查看可用签名</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">security find-identity -v -p codesigning</span><br></pre></td></tr></table></figure>
 <a id="more"></a>
-<h2 id="签名"><a href="#签名" class="headerlink" title="签名"></a>签名</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">codesign --force --verify --verbose --sign <span class="string">"iPhone Developer: 396736694@qq.com (Z4965JH2C8)” 目标包</span></span><br></pre></td></tr></table></figure>
+<h1 id="签名"><a href="#签名" class="headerlink" title="签名"></a>签名</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">codesign --force --verify --verbose --sign <span class="string">"iPhone Developer: 396736694@qq.com (Z4965JH2C8)” 目标包</span></span><br></pre></td></tr></table></figure>
+<h1 id="查看描述文件信息"><a href="#查看描述文件信息" class="headerlink" title="查看描述文件信息"></a>查看描述文件信息</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">security cms -D -i xxx.mobileprovision</span><br></pre></td></tr></table></figure>
+<h1 id="查看-WIFI-密码"><a href="#查看-WIFI-密码" class="headerlink" title="查看 WIFI 密码"></a>查看 WIFI 密码</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">security find-generic-password -ga <span class="string">"WIFI_name"</span> | grep <span class="string">"password:"</span></span><br></pre></td></tr></table></figure>
       
     </div>
 
@@ -573,7 +576,7 @@
   <p><span>文章作者:</span><a href="/" title="访问 VanJay 的个人博客">VanJay</a></p>
   <p><span>发布时间:</span>2017年02月08日 - 13:02</p>
   
-    <p><span>最后更新:</span>2017年03月20日 - 16:03</p>
+    <p><span>最后更新:</span>2018年10月10日 - 16:10</p>
   
   <p><span>原始链接:</span><a href="/2017/02/08/给包签名/" title="给包签名">https://www.vanjay.cn/2017/02/08/给包签名/</a>
     <span class="copy-path"  title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="https://www.vanjay.cn/2017/02/08/给包签名/"  aria-label="复制成功！"></i></span>
@@ -780,7 +783,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">12</span>
+                      
+                    
+                    <span class="site-state-item-count">13</span>
                     <span class="site-state-item-name">分类</span>
                   </a>
                 </div>
@@ -891,7 +896,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">49</span>
+                      
+                    
+                    <span class="site-state-item-count">50</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
@@ -989,7 +996,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#查看可用签名"><span class="nav-number">1.</span> <span class="nav-text">查看可用签名</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#签名"><span class="nav-number">2.</span> <span class="nav-text">签名</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#概要"><span class="nav-number">1.</span> <span class="nav-text">概要</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#查看可用签名"><span class="nav-number">2.</span> <span class="nav-text">查看可用签名</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#签名"><span class="nav-number">3.</span> <span class="nav-text">签名</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#查看描述文件信息"><span class="nav-number">4.</span> <span class="nav-text">查看描述文件信息</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#查看-WIFI-密码"><span class="nav-number">5.</span> <span class="nav-text">查看 WIFI 密码</span></a></li></ol></div>
             
 
           </div>
@@ -1034,7 +1041,7 @@
     
       <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
     
-    <span title="站点阅读时长">1:05</span>
+    <span title="站点阅读时长">1:06</span>
   
 </div>
 
