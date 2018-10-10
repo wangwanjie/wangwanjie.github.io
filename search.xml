@@ -213,8 +213,8 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[给包签名]]></title>
-    <url>%2F2017%2F02%2F08%2F%E7%BB%99%E5%8C%85%E7%AD%BE%E5%90%8D%2F</url>
+    <title><![CDATA[security 使用]]></title>
+    <url>%2F2017%2F02%2F08%2Fsecurity%20%E4%BD%BF%E7%94%A8%2F</url>
     <content type="text"><![CDATA[概要这里记录Mac下security相关使用，想起来就补充。 查看可用签名1security find-identity -v -p codesigning 签名1codesign --force --verify --verbose --sign "iPhone Developer: 396736694@qq.com (Z4965JH2C8)” 目标包 查看描述文件信息1security cms -D -i xxx.mobileprovision 查看 WIFI 密码1security find-generic-password -ga "WIFI_name" | grep "password:"]]></content>
       <categories>
         <category>iOS</category>
