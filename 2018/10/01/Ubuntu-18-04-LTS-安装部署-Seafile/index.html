@@ -147,7 +147,7 @@
 <meta property="og:site_name" content="VanJay&#39;s Blog">
 <meta property="og:description" content="背景新入职的公司内部同步一些文件使用的 Seafile，没部署远程，只使用的内网，由于这个 seafile 是一个前同事搭建的（之前的 iOSer，我来替代他了，阴差阳错。。。），可能那时他也不是太熟吧，把文件存放目录放在了安装位置的挂载分区，导致长时间使用下来，该分区磁盘空间满了，无法继续运行，于是我简单 google 了一番，开始转移目录，找到了 seafile-data 目录之后，发现查看都">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-10-04T07:53:38.287Z">
+<meta property="og:updated_time" content="2018-10-08T06:31:20.717Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Ubuntu 18.04 LTS 安装部署 Seafile">
 <meta name="twitter:description" content="背景新入职的公司内部同步一些文件使用的 Seafile，没部署远程，只使用的内网，由于这个 seafile 是一个前同事搭建的（之前的 iOSer，我来替代他了，阴差阳错。。。），可能那时他也不是太熟吧，把文件存放目录放在了安装位置的挂载分区，导致长时间使用下来，该分区磁盘空间满了，无法继续运行，于是我简单 google 了一番，开始转移目录，找到了 seafile-data 目录之后，发现查看都">
@@ -417,9 +417,11 @@
 
         <div class="post-meta">
           <span class="post-time">
+            
+              
+              
+            
 
-            
-            
             
 
             
@@ -453,7 +455,7 @@
                 
 
                 
-                  <time title="修改时间：2018-10-04 15:53:38" itemprop="dateModified" datetime="2018-10-04T15:53:38+08:00">2018-10-04</time>
+                  <time title="修改时间：2018-10-08 14:31:20" itemprop="dateModified" datetime="2018-10-08T14:31:20+08:00">2018-10-08</time>
                 
 
 
@@ -554,9 +556,9 @@
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">apt-get install python</span><br><span class="line">apt-get install python2.7 libpython2.7 python-setuptools python-pil python-ldap python-urllib3 ffmpeg python-pip python-mysqldb python-memcache</span><br><span class="line">pip install pillow moviepy</span><br></pre></td></tr></table></figure>
 <h3 id="安装-Mariadb"><a href="#安装-Mariadb" class="headerlink" title="安装 Mariadb"></a>安装 Mariadb</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install mariadb-server</span><br></pre></td></tr></table></figure>
 <h3 id="开始安装-seafile"><a href="#开始安装-seafile" class="headerlink" title="开始安装 seafile"></a>开始安装 seafile</h3><h4 id="下载-Seafile-服务器端程序"><a href="#下载-Seafile-服务器端程序" class="headerlink" title="下载 Seafile 服务器端程序"></a>下载 Seafile 服务器端程序</h4><p>去 <a href="https://www.seafile.com/download/" target="_blank" rel="noopener">Seafile官方下载地址</a> 复制 服务器端 -&gt; Linux 服务器端 -&gt; 64bit 链接，比如现在最新的是 <code>http://seafile-downloads.oss-cn-shanghai.aliyuncs.com/seafile-server_6.2.5_x86-64.tar.gz</code>，目录的话建议安装到 /opt 下面，但是数据目录使用磁盘空间比较大的地方，比如我这边是是安装位置和数据目录都放在了 <code>/home/data/seafile</code> 下，过程如下：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> /home</span><br><span class="line">mkdir -p data/seafile &amp;&amp; <span class="built_in">cd</span> data/seafile</span><br><span class="line">wget http://seafile-downloads.oss-cn-shanghai.aliyuncs.com/seafile-server_6.2.5_x86-64.tar.gz</span><br><span class="line">mkdir installed &amp;&amp; mv seafile-server_6.2.5_x86-64.tar.gz installed</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> /home</span><br><span class="line">mkdir -p data/seafile &amp;&amp; <span class="built_in">cd</span> data/seafile</span><br><span class="line">wget http://seafile-downloads.oss-cn-shanghai.aliyuncs.com/seafile-server_6.2.5_x86-64.tar.gz</span><br><span class="line">tar -xzf seafile-server_*</span><br><span class="line">mkdir installed &amp;&amp; mv seafile-server_6.2.5_x86-64.tar.gz installed</span><br></pre></td></tr></table></figure>
 <h4 id="安装-seafile-服务端"><a href="#安装-seafile-服务端" class="headerlink" title="安装 seafile 服务端"></a>安装 seafile 服务端</h4><p>因为依赖环境和数据库都已经安装好了，这边我是使用的 <code>Mariadb</code>，所以用的是 <code>seafile</code> 写好的 <code>setup-seafile-mysql.sh</code> 脚本进行 setup，中间会提示你输入 <code>seafile-data</code> 数据存放目录，记得输入你指定的目录，比如我这里应该填<code>/home/data/seafile/seafile-data</code>，当然如果你已经在<code>/home/data/seafile/seafile-server-6.2.5</code>则直接 Enter 默认即可，它会自动去上层目录创建<code>seafile-data</code>目录。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> seafile-server-6.2.5</span><br><span class="line">./setup-seafile-mysql.sh</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> seafile-server-6.2.5</span><br><span class="line">sudo ./setup-seafile-mysql.sh</span><br></pre></td></tr></table></figure>
 <p>一路按引导完成，根据提示，输入服务器名、IP、数据目录（默认为<code>../seafile-data</code>）、<code>seahub</code> 端口、<code>seafile-server</code>监听端口（默认8082，不可更改），<code>ifconfig</code> 查看自己内网 ip，查完成之后确认设置，目录会变成如下：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line">vanjay@VanJay:/home/data$ sudo tree -L 3</span><br><span class="line">.</span><br><span class="line">└── seafile</span><br><span class="line">    ├── ccnet</span><br><span class="line">    │   ├── ccnet.sock</span><br><span class="line">    │   ├── misc</span><br><span class="line">    │   ├── mykey.peer</span><br><span class="line">    │   └── seafile.ini</span><br><span class="line">    ├── conf</span><br><span class="line">    │   ├── ccnet.conf</span><br><span class="line">    │   ├── seafdav.conf</span><br><span class="line">    │   ├── seafile.conf</span><br><span class="line">    │   ├── seahub_settings.py</span><br><span class="line">    │   └── seahub_settings.pyc</span><br><span class="line">    ├── installed</span><br><span class="line">    │   └── seafile-server_6.2.5_x86-64.tar.gz</span><br><span class="line">    ├── logs</span><br><span class="line">    │   ├── ccnet.log</span><br><span class="line">    │   ├── controller.log</span><br><span class="line">    │   ├── seafile.log</span><br><span class="line">    │   ├── seahub.log</span><br><span class="line">    │   └── seahub_django_request.log</span><br><span class="line">    ├── pids</span><br><span class="line">    │   ├── ccnet.pid</span><br><span class="line">    │   └── seaf-server.pid</span><br><span class="line">    ├── seafile-data</span><br><span class="line">    │   ├── commits</span><br><span class="line">    │   ├── fs</span><br><span class="line">    │   ├── httptemp</span><br><span class="line">    │   ├── library-template</span><br><span class="line">    │   ├── storage</span><br><span class="line">    │   └── tmpfiles</span><br><span class="line">    ├── seafile-server-6.2.5</span><br><span class="line">    │   ├── check_init_admin.py</span><br><span class="line">    │   ├── reset-admin.sh</span><br><span class="line">    │   ├── runtime</span><br><span class="line">    │   ├── seaf-fsck.sh</span><br><span class="line">    │   ├── seaf-fuse.sh</span><br><span class="line">    │   ├── seaf-gc.sh</span><br><span class="line">    │   ├── seafile</span><br><span class="line">    │   ├── seafile.sh</span><br><span class="line">    │   ├── seahub</span><br><span class="line">    │   ├── seahub.sh</span><br><span class="line">    │   ├── setup-seafile-mysql.py</span><br><span class="line">    │   ├── setup-seafile-mysql.sh</span><br><span class="line">    │   ├── setup-seafile.sh</span><br><span class="line">    │   └── upgrade</span><br><span class="line">    ├── seafile-server-latest -&gt; seafile-server-6.2.5</span><br><span class="line">    └── seahub-data</span><br><span class="line">        └── avatars</span><br><span class="line"></span><br><span class="line">22 directories, 26 files</span><br></pre></td></tr></table></figure>
 <h4 id="启动-停止-Seafile"><a href="#启动-停止-Seafile" class="headerlink" title="启动/停止 Seafile"></a>启动/停止 Seafile</h4><p>启动<code>Seafile-server</code>和<code>Seahub</code>，第一次启动会提示建立管理员账号。</p>
@@ -622,7 +624,7 @@
   <p><span>文章作者:</span><a href="/" title="访问 VanJay 的个人博客">VanJay</a></p>
   <p><span>发布时间:</span>2018年10月01日 - 17:10</p>
   
-    <p><span>最后更新:</span>2018年10月04日 - 15:10</p>
+    <p><span>最后更新:</span>2018年10月08日 - 14:10</p>
   
   <p><span>原始链接:</span><a href="/2018/10/01/Ubuntu-18-04-LTS-安装部署-Seafile/" title="Ubuntu 18.04 LTS 安装部署 Seafile">https://www.vanjay.cn/2018/10/01/Ubuntu-18-04-LTS-安装部署-Seafile/</a>
     <span class="copy-path"  title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="https://www.vanjay.cn/2018/10/01/Ubuntu-18-04-LTS-安装部署-Seafile/"  aria-label="复制成功！"></i></span>
@@ -792,7 +794,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">23</span>
+                    <span class="site-state-item-count">25</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -936,7 +938,11 @@
                     
                       
                     
-                    <span class="site-state-item-count">47</span>
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">49</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
@@ -1068,7 +1074,7 @@
     
       <span class="post-meta-item-text">站点总字数：</span>
     
-    <span title="站点总字数">68k</span>
+    <span title="站点总字数">72k</span>
   
 
   
@@ -1079,7 +1085,7 @@
     
       <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
     
-    <span title="站点阅读时长">1:02</span>
+    <span title="站点阅读时长">1:05</span>
   
 </div>
 

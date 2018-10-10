@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://www.vanjay.cn/"/>
-  <updated>2018-10-04T07:53:38.287Z</updated>
+  <updated>2018-10-08T06:31:20.717Z</updated>
   <id>https://www.vanjay.cn/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="https://www.vanjay.cn/2018/10/01/Ubuntu-18-04-LTS-%E5%AE%89%E8%A3%85%E9%83%A8%E7%BD%B2-Seafile/"/>
     <id>https://www.vanjay.cn/2018/10/01/Ubuntu-18-04-LTS-安装部署-Seafile/</id>
     <published>2018-10-01T09:06:54.000Z</published>
-    <updated>2018-10-04T07:53:38.287Z</updated>
+    <updated>2018-10-08T06:31:20.717Z</updated>
     
     <summary type="html">
     
@@ -60,9 +60,9 @@
     
       <category term="Objective-C" scheme="https://www.vanjay.cn/tags/Objective-C/"/>
     
-      <category term="iOS" scheme="https://www.vanjay.cn/tags/iOS/"/>
-    
       <category term="String" scheme="https://www.vanjay.cn/tags/String/"/>
+    
+      <category term="iOS" scheme="https://www.vanjay.cn/tags/iOS/"/>
     
   </entry>
   
@@ -104,6 +104,33 @@
     
       <category term="React Native" scheme="https://www.vanjay.cn/categories/React-Native/"/>
     
+    
+  </entry>
+  
+  <entry>
+    <title>在已有 OC 项目无痛集成 React Native</title>
+    <link href="https://www.vanjay.cn/2018/09/03/%E5%9C%A8%E5%B7%B2%E6%9C%89-OC-%E9%A1%B9%E7%9B%AE%E6%97%A0%E7%97%9B%E9%9B%86%E6%88%90-React-Native/"/>
+    <id>https://www.vanjay.cn/2018/09/03/在已有-OC-项目无痛集成-React-Native/</id>
+    <published>2018-09-02T16:23:47.000Z</published>
+    <updated>2018-10-10T07:18:14.161Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;基本要求&quot;&gt;&lt;a href=&quot;#基本要求&quot; class=&quot;headerlink&quot; title=&quot;基本要求&quot;&gt;&lt;/a&gt;基本要求&lt;/h1&gt;&lt;ul&gt;
+&lt;li&gt;对 &lt;code&gt;Cocoapods&lt;/code&gt; 使用熟悉&lt;/li&gt;
+&lt;li&gt;熟悉 Mac 基本操作&lt;/li&gt;
+&lt;li&gt;解决问题的基本功&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h1 id=&quot;官方示例&quot;&gt;&lt;a href=&quot;#官方示例&quot; class=&quot;headerlink&quot; title=&quot;官方示例&quot;&gt;&lt;/a&gt;官方示例&lt;/h1&gt;&lt;p&gt;这是官方给出的教程，&lt;a href=&quot;https://reactnative.cn/docs/integration-with-existing-apps/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;集成到现有原生应用&lt;/a&gt;，按照这个集成的跑起来没啥问题，但是后期等你用了一些组件，或原生或 &lt;code&gt;RN&lt;/code&gt; 的，比如自定义 &lt;code&gt;UIView&lt;/code&gt; 给 &lt;code&gt;RN&lt;/code&gt; 用，&lt;code&gt;RN&lt;/code&gt; 里用的第三方的 &lt;code&gt;component&lt;/code&gt; 调用了原生的 &lt;code&gt;API&lt;/code&gt;，官方的这些默认的 &lt;code&gt;pod&lt;/code&gt; 库就是缺少一些的，跑项目会出一些莫名其妙的问题，我在用了&lt;code&gt;react-navigation&lt;/code&gt;后各种运行时红屏报错问题，错误提示也看不出个所以然来，折腾好久才解决问题，这里我将直接记录主要过程和注意点，以备不时之需。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="iOS 开发" scheme="https://www.vanjay.cn/categories/iOS-%E5%BC%80%E5%8F%91/"/>
+    
+    
+      <category term="React Native" scheme="https://www.vanjay.cn/tags/React-Native/"/>
+    
+      <category term="Hybrid" scheme="https://www.vanjay.cn/tags/Hybrid/"/>
     
   </entry>
   
@@ -469,30 +496,6 @@
     
     
       <category term="Mac使用" scheme="https://www.vanjay.cn/tags/Mac%E4%BD%BF%E7%94%A8/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>OC用AFN做Soap请求webService</title>
-    <link href="https://www.vanjay.cn/2016/01/10/OC%E7%94%A8AFN%E5%81%9ASoap%E8%AF%B7%E6%B1%82webService/"/>
-    <id>https://www.vanjay.cn/2016/01/10/OC用AFN做Soap请求webService/</id>
-    <published>2016-01-09T19:07:22.000Z</published>
-    <updated>2017-03-20T08:51:14.000Z</updated>
-    
-    <summary type="html">
-    
-      &lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h2&gt;&lt;p&gt;好吧，标题有点拗口。我平时一般不发帖子，因为感觉太花时间了，还是喜欢宅着研究技术。但这个帖子网上资料还是没有很详细的，周末了明天休息，所以现在写下来总结一下，也希望能帮助有这方面需求的开发者朋友，如果错误之处还请谅解，欢迎指出。排版大家就不要在意了，我也不清楚这个支不支持markdown，就直接手动简单排一下。&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="Objective-C" scheme="https://www.vanjay.cn/categories/Objective-C/"/>
-    
-    
-      <category term="AFN" scheme="https://www.vanjay.cn/tags/AFN/"/>
-    
-      <category term="Soap" scheme="https://www.vanjay.cn/tags/Soap/"/>
-    
-      <category term="WebService" scheme="https://www.vanjay.cn/tags/WebService/"/>
     
   </entry>
   
