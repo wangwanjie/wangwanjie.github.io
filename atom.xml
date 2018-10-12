@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://www.vanjay.cn/"/>
-  <updated>2018-10-08T06:31:20.717Z</updated>
+  <updated>2018-10-12T13:04:20.965Z</updated>
   <id>https://www.vanjay.cn/</id>
   
   <author>
@@ -14,6 +14,32 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Jenkins master-slave 的应用及 iOS 项目持续集成</title>
+    <link href="https://www.vanjay.cn/2018/10/12/Jenkins%20master-slave%20%E7%9A%84%E5%BA%94%E7%94%A8%E5%8F%8A%20iOS%20%E9%A1%B9%E7%9B%AE%E6%8C%81%E7%BB%AD%E9%9B%86%E6%88%90/"/>
+    <id>https://www.vanjay.cn/2018/10/12/Jenkins master-slave 的应用及 iOS 项目持续集成/</id>
+    <published>2018-10-12T11:27:00.000Z</published>
+    <updated>2018-10-12T13:04:20.965Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;背景&quot;&gt;&lt;a href=&quot;#背景&quot; class=&quot;headerlink&quot; title=&quot;背景&quot;&gt;&lt;/a&gt;背景&lt;/h1&gt;&lt;p&gt;在公司一台服务机上搭建了&lt;code&gt;Jenkins&lt;/code&gt;，&lt;code&gt;Linux&lt;/code&gt;环境，主要用于&lt;code&gt;WEP 前端&lt;/code&gt;、&lt;code&gt;Android&lt;/code&gt;、&lt;code&gt;iOS&lt;/code&gt;的&lt;code&gt;CI&lt;/code&gt;服务，在没有过多去了解的情况下，我想当然的以为如果要打包 &lt;code&gt;iOS&lt;/code&gt;，&lt;code&gt;Jenkins&lt;/code&gt;宿主机系统环境必须是&lt;code&gt;MacOS&lt;/code&gt;，因为知道除了&lt;code&gt;Mac&lt;/code&gt;，其它系统均无法打包&lt;code&gt;iOS&lt;/code&gt;或&lt;code&gt;Mac&lt;/code&gt;应用程序（当然这点在目前看来仍然是对的），于是在公司那台硬盘只剩下可怜巴巴的&lt;code&gt;20G&lt;/code&gt;空间的&lt;code&gt;Mac mini&lt;/code&gt;上安装了&lt;code&gt;Jenkins&lt;/code&gt;，叫安卓同事把他的&lt;code&gt;Jenkins job&lt;/code&gt;又重新放在了&lt;code&gt;Mac mini&lt;/code&gt;上，本想着事情就这么不完美的收尾了，今天忽然在群里看见开发者朋友讨论&lt;code&gt;Jenkins&lt;/code&gt;说到&lt;code&gt;Jenkins&lt;/code&gt;支持&lt;code&gt;master-slave&lt;/code&gt;（主从）模式，支持非宿主机作为一个&lt;code&gt;Node&lt;/code&gt;节点为其服务，一脸蒙蔽，又要把&lt;code&gt;Jenkins&lt;/code&gt;放回&lt;code&gt;Ubuntu&lt;/code&gt;，让这台&lt;code&gt;mini&lt;/code&gt;单独为&lt;code&gt;iOS&lt;/code&gt;打包服务。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="工程自动化" scheme="https://www.vanjay.cn/categories/%E5%B7%A5%E7%A8%8B%E8%87%AA%E5%8A%A8%E5%8C%96/"/>
+    
+    
+      <category term="Jenkins" scheme="https://www.vanjay.cn/tags/Jenkins/"/>
+    
+      <category term="CI" scheme="https://www.vanjay.cn/tags/CI/"/>
+    
+      <category term="持续集成" scheme="https://www.vanjay.cn/tags/%E6%8C%81%E7%BB%AD%E9%9B%86%E6%88%90/"/>
+    
+      <category term="工程自动化" scheme="https://www.vanjay.cn/tags/%E5%B7%A5%E7%A8%8B%E8%87%AA%E5%8A%A8%E5%8C%96/"/>
+    
+  </entry>
   
   <entry>
     <title>Ubuntu 18.04 LTS 安装部署 Seafile</title>
@@ -86,6 +112,35 @@
       <category term="iOS" scheme="https://www.vanjay.cn/tags/iOS/"/>
     
       <category term="Objective" scheme="https://www.vanjay.cn/tags/Objective/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Ubuntu 18.04 搭建 Jenkins</title>
+    <link href="https://www.vanjay.cn/2018/09/12/Ubuntu-18-04-%E6%90%AD%E5%BB%BA-Jenkins/"/>
+    <id>https://www.vanjay.cn/2018/09/12/Ubuntu-18-04-搭建-Jenkins/</id>
+    <published>2018-09-12T08:53:54.000Z</published>
+    <updated>2018-10-12T11:29:59.401Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h1&gt;&lt;blockquote&gt;
+&lt;p&gt;工欲善其事，必先利其器&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;打包是开发过程中必不可少的一步，随着项目的壮大，打包时间越来越长，如果一直手动操作，浪费时间不说，还容易出错。记录一下安装&lt;code&gt;Jenkins&lt;/code&gt;的过程，以备不时之需。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="工程自动化" scheme="https://www.vanjay.cn/categories/%E5%B7%A5%E7%A8%8B%E8%87%AA%E5%8A%A8%E5%8C%96/"/>
+    
+    
+      <category term="Jenkins" scheme="https://www.vanjay.cn/tags/Jenkins/"/>
+    
+      <category term="CI" scheme="https://www.vanjay.cn/tags/CI/"/>
+    
+      <category term="持续集成" scheme="https://www.vanjay.cn/tags/%E6%8C%81%E7%BB%AD%E9%9B%86%E6%88%90/"/>
+    
+      <category term="工程自动化" scheme="https://www.vanjay.cn/tags/%E5%B7%A5%E7%A8%8B%E8%87%AA%E5%8A%A8%E5%8C%96/"/>
     
   </entry>
   
@@ -447,56 +502,6 @@
       <category term="打包" scheme="https://www.vanjay.cn/tags/%E6%89%93%E5%8C%85/"/>
     
       <category term="iOS签名" scheme="https://www.vanjay.cn/tags/iOS%E7%AD%BE%E5%90%8D/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>iOS企业内部应用分发</title>
-    <link href="https://www.vanjay.cn/2017/01/11/iOS%E4%BC%81%E4%B8%9A%E5%86%85%E9%83%A8%E5%BA%94%E7%94%A8%E5%88%86%E5%8F%91/"/>
-    <id>https://www.vanjay.cn/2017/01/11/iOS企业内部应用分发/</id>
-    <published>2017-01-11T12:52:03.000Z</published>
-    <updated>2017-03-18T15:01:34.000Z</updated>
-    
-    <summary type="html">
-    
-      &lt;blockquote&gt;
-&lt;p&gt;iOS 支持以无线方式安装企业内部应用，而无需使用 iTunes 或 App Store。&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;h2 id=&quot;格式要求&quot;&gt;&lt;a href=&quot;#格式要求&quot; class=&quot;headerlink&quot; title=&quot;格式要求&quot;&gt;&lt;/a&gt;格式要求&lt;/h2&gt;&lt;p&gt;应用格式要求:.ipa，并且使用企业内部预置描述文件进行构建，即经企业证书签名。&lt;/p&gt;
-&lt;h3 id=&quot;无线安装要求：&quot;&gt;&lt;a href=&quot;#无线安装要求：&quot; class=&quot;headerlink&quot; title=&quot;无线安装要求：&quot;&gt;&lt;/a&gt;无线安装要求：&lt;/h3&gt;&lt;ol&gt;
-&lt;li&gt;XML 清单文件（一个 plist 配置文件）&lt;/li&gt;
-&lt;li&gt;可让设备访问 Apple iTunes 服务器的网络配置（设备要能连接互联网，因为要校验）&lt;/li&gt;
-&lt;li&gt;对于 iOS 7.1 或更高版本， plist 文件和 ipa 文件需要放在 HTTPS 的服务器上&lt;br&gt;为了安装应用，用户使用特殊的 URL 前缀从您的网站上下载plist清单文件，您可以分发该特殊前缀的URL给用户或者放置于可供用户访问的互联网上。&lt;/li&gt;
-&lt;/ol&gt;
-    
-    </summary>
-    
-      <category term="iOS" scheme="https://www.vanjay.cn/categories/iOS/"/>
-    
-    
-      <category term="打包" scheme="https://www.vanjay.cn/tags/%E6%89%93%E5%8C%85/"/>
-    
-      <category term="发布" scheme="https://www.vanjay.cn/tags/%E5%8F%91%E5%B8%83/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Mac查看CPU具体型号</title>
-    <link href="https://www.vanjay.cn/2016/12/16/Mac%E6%9F%A5%E7%9C%8BCPU%E5%85%B7%E4%BD%93%E5%9E%8B%E5%8F%B7/"/>
-    <id>https://www.vanjay.cn/2016/12/16/Mac查看CPU具体型号/</id>
-    <published>2016-12-16T12:17:48.000Z</published>
-    <updated>2017-03-18T13:26:56.000Z</updated>
-    
-    <summary type="html">
-    
-      &lt;p&gt;运行以下命令:&lt;br&gt;&lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;
-    
-    </summary>
-    
-      <category term="Mac" scheme="https://www.vanjay.cn/categories/Mac/"/>
-    
-    
-      <category term="Mac使用" scheme="https://www.vanjay.cn/tags/Mac%E4%BD%BF%E7%94%A8/"/>
     
   </entry>
   
