@@ -147,10 +147,12 @@
 <meta property="og:site_name" content="VanJay&#39;s Blog">
 <meta property="og:description" content="背景在公司一台服务机上搭建了Jenkins，Linux环境，主要用于WEP 前端、Android、iOS的CI服务，在没有过多去了解的情况下，我想当然的以为如果要打包 iOS，Jenkins宿主机系统环境必须是MacOS，因为知道除了Mac，其它系统均无法打包iOS或Mac应用程序（当然这点在目前看来仍然是对的），于是在公司那台硬盘只剩下可怜巴巴的20G空间的Mac mini上安装了Jenkins">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-10-12T13:04:20.965Z">
+<meta property="og:image" content="https://www.vanjay.cn/images/jenkins/inject-environment-varibles.png">
+<meta property="og:updated_time" content="2018-10-13T02:30:38.885Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Jenkins master-slave 的应用及 iOS 项目持续集成">
 <meta name="twitter:description" content="背景在公司一台服务机上搭建了Jenkins，Linux环境，主要用于WEP 前端、Android、iOS的CI服务，在没有过多去了解的情况下，我想当然的以为如果要打包 iOS，Jenkins宿主机系统环境必须是MacOS，因为知道除了Mac，其它系统均无法打包iOS或Mac应用程序（当然这点在目前看来仍然是对的），于是在公司那台硬盘只剩下可怜巴巴的20G空间的Mac mini上安装了Jenkins">
+<meta name="twitter:image" content="https://www.vanjay.cn/images/jenkins/inject-environment-varibles.png">
 
 
 
@@ -434,15 +436,30 @@
 
               
                 
-                  
+              
+
+              <time title="创建时间：2018-10-12 19:27:00" itemprop="dateCreated datePublished" datetime="2018-10-12T19:27:00+08:00">2018-10-12</time>
+            
+
+            
+              
+
+              
                 
-              
+                <span class="post-meta-divider">|</span>
+                
 
-              <time title="创建时间：2018-10-12 19:27:00 / 修改时间：21:04:20" itemprop="dateCreated datePublished" datetime="2018-10-12T19:27:00+08:00">2018-10-12</time>
-            
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
 
-            
-              
+                
+                  <time title="修改时间：2018-10-13 10:30:38" itemprop="dateModified" datetime="2018-10-13T10:30:38+08:00">2018-10-13</time>
+                
+
 
               
             
@@ -578,7 +595,7 @@
 <h1 id="使用slave机器"><a href="#使用slave机器" class="headerlink" title="使用slave机器"></a>使用<code>slave</code>机器</h1><p>在<code>job</code>里<code>General</code>项下勾选<code>Restrict where this project can be run</code>，指定<code>slave</code>机<code>label</code>就可以使用了。</p>
 <h2 id="事情总不会那么一帆风顺"><a href="#事情总不会那么一帆风顺" class="headerlink" title="事情总不会那么一帆风顺"></a>事情总不会那么一帆风顺</h2><p>使用<code>slave</code>机器后你会发现原本在<code>slave</code>本机跑没事的<code>shell</code>在这里可能有问题，基本都是<code>commomand not fuond</code>，都是命令找不到，那就<code>export</code>这些命令，把整个<code>/usr/local/bin</code>或者<code>/usr/bin</code>加进去（没必要，个人建议用到什么加什么）。<br>比如加入报<code>pod command not found</code>，在<code>slave</code>机运行<code>which pod</code>：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">☁  blog [master] ⚡ <span class="built_in">which</span> pod</span><br><span class="line">/usr/<span class="built_in">local</span>/bin/pod</span><br></pre></td></tr></table></figure>
-<h2 id="嵌入环境变量"><a href="#嵌入环境变量" class="headerlink" title="嵌入环境变量"></a>嵌入环境变量</h2><h3 id="安装Inject-environment-variables插件，安装方法可在本博客搜索-Ubuntu-18-04-搭建-Jenkins-查看文章。"><a href="#安装Inject-environment-variables插件，安装方法可在本博客搜索-Ubuntu-18-04-搭建-Jenkins-查看文章。" class="headerlink" title="安装Inject environment variables插件，安装方法可在本博客搜索 Ubuntu-18-04-搭建-Jenkins 查看文章。"></a>安装<code>Inject environment variables</code>插件，安装方法可在本博客搜索 <code>Ubuntu-18-04-搭建-Jenkins</code> 查看文章。</h3><p><img scr="/images/jenkins/inject-environment-varibles.png"></p>
+<h2 id="嵌入环境变量"><a href="#嵌入环境变量" class="headerlink" title="嵌入环境变量"></a>嵌入环境变量</h2><h3 id="安装Inject-environment-variables插件，安装方法可在本博客搜索-Ubuntu-18-04-搭建-Jenkins-查看文章。"><a href="#安装Inject-environment-variables插件，安装方法可在本博客搜索-Ubuntu-18-04-搭建-Jenkins-查看文章。" class="headerlink" title="安装Inject environment variables插件，安装方法可在本博客搜索 Ubuntu-18-04-搭建-Jenkins 查看文章。"></a>安装<code>Inject environment variables</code>插件，安装方法可在本博客搜索 <code>Ubuntu-18-04-搭建-Jenkins</code> 查看文章。</h3><p><img src="/images/jenkins/inject-environment-varibles.png"></p>
 <h1 id="正常shell打包"><a href="#正常shell打包" class="headerlink" title="正常shell打包"></a>正常<code>shell</code>打包</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">source</span> ~/.<span class="built_in">alias</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 清除上一次生成的 beta 包</span></span><br><span class="line">rm -rf <span class="variable">$&#123;OUTPUT_FOLDER&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">export</span> LANG=en_US.UTF-8</span><br><span class="line"></span><br><span class="line">PODS_DIR=<span class="string">"Pods"</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> [[ -d <span class="string">"<span class="variable">$PODS_DIR</span>"</span> ]]; <span class="keyword">then</span></span><br><span class="line">	rm -rf <span class="string">"<span class="variable">$PODS_DIR</span>"</span></span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line"></span><br><span class="line">setproxy</span><br><span class="line"></span><br><span class="line">pod install</span><br><span class="line"></span><br><span class="line">unsetproxy</span><br><span class="line"></span><br><span class="line"><span class="comment"># 解锁 keychain</span></span><br><span class="line">security default-keychain -s login.keychain</span><br><span class="line">security unlock-keychain -p <span class="string">"123456."</span> login.keychain</span><br><span class="line"></span><br><span class="line">fastlane beta</span><br></pre></td></tr></table></figure>
 <p><code>source ~/.alias</code>是为了能找到<code>setproxy</code>和<code>unsetproxy `</code>shell<code>翻墙加快</code>pod install<code>速度，必须解锁</code>keychain`，否则无法正常签名，导致构建失败，如果是在本机操作则不需要这两项。</p>
 <h1 id="fastlane-内容"><a href="#fastlane-内容" class="headerlink" title="fastlane 内容"></a>fastlane 内容</h1><p>只编写了打<code>beta</code>和<code>release</code>包</p>
@@ -605,7 +622,7 @@
   <p><span>文章作者:</span><a href="/" title="访问 VanJay 的个人博客">VanJay</a></p>
   <p><span>发布时间:</span>2018年10月12日 - 19:10</p>
   
-    <p><span>最后更新:</span>2018年10月12日 - 21:10</p>
+    <p><span>最后更新:</span>2018年10月13日 - 10:10</p>
   
   <p><span>原始链接:</span><a href="/2018/10/12/Jenkins master-slave 的应用及 iOS 项目持续集成/" title="Jenkins master-slave 的应用及 iOS 项目持续集成">https://www.vanjay.cn/2018/10/12/Jenkins master-slave 的应用及 iOS 项目持续集成/</a>
     <span class="copy-path"  title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="https://www.vanjay.cn/2018/10/12/Jenkins master-slave 的应用及 iOS 项目持续集成/"  aria-label="复制成功！"></i></span>
