@@ -2042,7 +2042,7 @@ pre .javascript .function {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: #7ecde0;
+  background: #2621df;
 }
 .links-of-blogroll {
   font-size: 13px;
@@ -3023,25 +3023,11 @@ hr {
   color: #0477ab;
   text-decoration: underline;
 }
-.site-subtitle,
-.site-nav a,
-span.exturl,
-.site-brand-wrapper .brand {
-  color: #fff;
-}
 .header-inner {
   padding: 50px 0 30px;
 }
 .sidebar-toggle {
   left: 30px;
-}
-.menu .menu-item a:hover,
-.menu-item-active a {
-  background: #555;
-}
-.logo-line-before i,
-.logo-line-after i {
-  background: #fff;
 }
 .post-body .post-button {
   text-align: center;
