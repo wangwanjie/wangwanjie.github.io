@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://www.vanjay.cn/"/>
-  <updated>2018-12-29T10:23:27.000Z</updated>
+  <updated>2019-01-05T07:37:49.294Z</updated>
   <id>https://www.vanjay.cn/</id>
   
   <author>
@@ -14,6 +14,32 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Ubuntu 18.04 添加、修改交换空间</title>
+    <link href="https://www.vanjay.cn/2019/01/05/Ubuntu-18-04-%E6%B7%BB%E5%8A%A0%E3%80%81%E4%BF%AE%E6%94%B9%E4%BA%A4%E6%8D%A2%E7%A9%BA%E9%97%B4/"/>
+    <id>https://www.vanjay.cn/2019/01/05/Ubuntu-18-04-添加、修改交换空间/</id>
+    <published>2019-01-05T06:35:17.000Z</published>
+    <updated>2019-01-05T07:37:49.294Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;检查系统的交换信息&quot;&gt;&lt;a href=&quot;#检查系统的交换信息&quot; class=&quot;headerlink&quot; title=&quot;检查系统的交换信息&quot;&gt;&lt;/a&gt;检查系统的交换信息&lt;/h1&gt;&lt;p&gt;查看是否已经存在&lt;code&gt;swapfile&lt;/code&gt;&lt;/p&gt;
+&lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;sudo swapon --show&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;如果您没有收到任何输出，这意味着您的系统当前没有可用的交换空间。&lt;/p&gt;
+&lt;p&gt;您可以使用&lt;code&gt;free&lt;/code&gt;实用程序验证没有活动交换：&lt;/p&gt;
+&lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;tungee@tungee-Macmini:~$ free -h&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;              total        used        free      shared  buff/cache   available&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;Mem:           7.7G        6.0G        1.2G         97M        439M        1.3G&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;Swap:          8.0G        4.1G        3.9G&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+    
+    </summary>
+    
+      <category term="Linux" scheme="https://www.vanjay.cn/categories/Linux/"/>
+    
+    
+      <category term="swap 空间" scheme="https://www.vanjay.cn/tags/swap-%E7%A9%BA%E9%97%B4/"/>
+    
+      <category term="Ubuntu" scheme="https://www.vanjay.cn/tags/Ubuntu/"/>
+    
+  </entry>
   
   <entry>
     <title>Appium + mitmproxy 全自动化抓取APP 数据</title>
@@ -83,11 +109,11 @@
       <category term="Linux" scheme="https://www.vanjay.cn/categories/Linux/"/>
     
     
+      <category term="Ubuntu" scheme="https://www.vanjay.cn/tags/Ubuntu/"/>
+    
       <category term="Linux" scheme="https://www.vanjay.cn/tags/Linux/"/>
     
       <category term="Seafile" scheme="https://www.vanjay.cn/tags/Seafile/"/>
-    
-      <category term="Ubuntu" scheme="https://www.vanjay.cn/tags/Ubuntu/"/>
     
       <category term="个人云盘" scheme="https://www.vanjay.cn/tags/%E4%B8%AA%E4%BA%BA%E4%BA%91%E7%9B%98/"/>
     
@@ -261,9 +287,9 @@
       <category term="APP开发" scheme="https://www.vanjay.cn/categories/APP%E5%BC%80%E5%8F%91/"/>
     
     
-      <category term="MUI" scheme="https://www.vanjay.cn/tags/MUI/"/>
-    
       <category term="JavaScript" scheme="https://www.vanjay.cn/tags/JavaScript/"/>
+    
+      <category term="MUI" scheme="https://www.vanjay.cn/tags/MUI/"/>
     
       <category term="HTML5" scheme="https://www.vanjay.cn/tags/HTML5/"/>
     
@@ -286,11 +312,11 @@
       <category term="JavaScript" scheme="https://www.vanjay.cn/categories/JavaScript/"/>
     
     
+      <category term="JavaScript" scheme="https://www.vanjay.cn/tags/JavaScript/"/>
+    
       <category term="MUI" scheme="https://www.vanjay.cn/tags/MUI/"/>
     
       <category term="HTML" scheme="https://www.vanjay.cn/tags/HTML/"/>
-    
-      <category term="JavaScript" scheme="https://www.vanjay.cn/tags/JavaScript/"/>
     
   </entry>
   
@@ -479,32 +505,6 @@
     
     
       <category term="javascript" scheme="https://www.vanjay.cn/tags/javascript/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>利用 dumpdecrypted 砸壳</title>
-    <link href="https://www.vanjay.cn/2017/02/08/%E5%88%A9%E7%94%A8dumpdecrypted%E7%A0%B8%E5%A3%B3/"/>
-    <id>https://www.vanjay.cn/2017/02/08/利用dumpdecrypted砸壳/</id>
-    <published>2017-02-08T09:34:03.000Z</published>
-    <updated>2017-03-18T13:26:43.000Z</updated>
-    
-    <summary type="html">
-    
-      &lt;p&gt;1、编译生成&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;dumpdecrypted.dylib&lt;/code&gt;&lt;/p&gt;
-&lt;p&gt;2、给生成的 &lt;code&gt;dumpdecrypted.dylib&lt;/code&gt; 签名&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="iOS" scheme="https://www.vanjay.cn/categories/iOS/"/>
-    
-    
-      <category term="逆向" scheme="https://www.vanjay.cn/tags/%E9%80%86%E5%90%91/"/>
-    
-      <category term="iOS安全" scheme="https://www.vanjay.cn/tags/iOS%E5%AE%89%E5%85%A8/"/>
-    
-      <category term="破解" scheme="https://www.vanjay.cn/tags/%E7%A0%B4%E8%A7%A3/"/>
     
   </entry>
   
