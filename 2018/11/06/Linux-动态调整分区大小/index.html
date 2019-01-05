@@ -139,18 +139,18 @@
 
 
 
-  <meta name="description" content="查看磁盘占用123456789vanjay@VanJay:~$ df -h文件系统        容量  已用  可用 已用% 挂载点udev            3.9G     0  3.9G    0% /devtmpfs           789M  2.0M  787M    1% /run/dev/sdb5       9.4G  8.0G  926M   90% /tmpfs">
-<meta name="keywords" content="Ubuntu,Linux">
+  <meta name="description" content="背景Ubuntu根分区\空间告急，即将使用完毕 先清理出一定空间移除不再需要的软件包1sudo apt autoremove 清理Ubuntu中的APT缓存">
+<meta name="keywords" content="分区调整,Linux">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Ubuntu 查看分区内文件及文件夹占用大小">
-<meta property="og:url" content="https://www.vanjay.cn/2019/01/06/Ubuntu 查看分区内文件及文件夹占用大小/index.html">
+<meta property="og:title" content="Linux 动态调整分区大小">
+<meta property="og:url" content="https://www.vanjay.cn/2018/11/06/Linux-动态调整分区大小/index.html">
 <meta property="og:site_name" content="VanJay&#39;s Blog">
-<meta property="og:description" content="查看磁盘占用123456789vanjay@VanJay:~$ df -h文件系统        容量  已用  可用 已用% 挂载点udev            3.9G     0  3.9G    0% /devtmpfs           789M  2.0M  787M    1% /run/dev/sdb5       9.4G  8.0G  926M   90% /tmpfs">
+<meta property="og:description" content="背景Ubuntu根分区\空间告急，即将使用完毕 先清理出一定空间移除不再需要的软件包1sudo apt autoremove 清理Ubuntu中的APT缓存">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-01-05T17:16:03.186Z">
+<meta property="og:updated_time" content="2019-01-05T18:31:00.801Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Ubuntu 查看分区内文件及文件夹占用大小">
-<meta name="twitter:description" content="查看磁盘占用123456789vanjay@VanJay:~$ df -h文件系统        容量  已用  可用 已用% 挂载点udev            3.9G     0  3.9G    0% /devtmpfs           789M  2.0M  787M    1% /run/dev/sdb5       9.4G  8.0G  926M   90% /tmpfs">
+<meta name="twitter:title" content="Linux 动态调整分区大小">
+<meta name="twitter:description" content="背景Ubuntu根分区\空间告急，即将使用完毕 先清理出一定空间移除不再需要的软件包1sudo apt autoremove 清理Ubuntu中的APT缓存">
 
 
 
@@ -159,7 +159,7 @@
 
 
 
-  <link rel="canonical" href="https://www.vanjay.cn/2019/01/06/Ubuntu 查看分区内文件及文件夹占用大小/"/>
+  <link rel="canonical" href="https://www.vanjay.cn/2018/11/06/Linux-动态调整分区大小/"/>
 
 
 
@@ -169,7 +169,7 @@
   };
 </script>
 
-  <title>Ubuntu 查看分区内文件及文件夹占用大小 | VanJay's Blog</title>
+  <title>Linux 动态调整分区大小 | VanJay's Blog</title>
   
 
 
@@ -392,7 +392,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.vanjay.cn/2019/01/06/Ubuntu 查看分区内文件及文件夹占用大小/">
+    <link itemprop="mainEntityOfPage" href="https://www.vanjay.cn/2018/11/06/Linux-动态调整分区大小/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="VanJay">
@@ -409,7 +409,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Ubuntu 查看分区内文件及文件夹占用大小
+          <h1 class="post-title" itemprop="name headline">Linux 动态调整分区大小
               
             
           </h1>
@@ -438,7 +438,7 @@
                 
               
 
-              <time title="创建时间：2019-01-06 01:07:28 / 修改时间：01:16:03" itemprop="dateCreated datePublished" datetime="2019-01-06T01:07:28+08:00">2019-01-06</time>
+              <time title="创建时间：2018-11-06 01:55:03 / 修改时间：02:30:21" itemprop="dateCreated datePublished" datetime="2018-11-06T01:55:03+08:00">2018-11-06</time>
             
 
             
@@ -474,7 +474,7 @@
 
           
           
-             <span id="/2019/01/06/Ubuntu 查看分区内文件及文件夹占用大小/" class="leancloud_visitors" data-flag-title="Ubuntu 查看分区内文件及文件夹占用大小">
+             <span id="/2018/11/06/Linux-动态调整分区大小/" class="leancloud_visitors" data-flag-title="Linux 动态调整分区大小">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -499,7 +499,7 @@
                 
                   <span class="post-meta-item-text">本文字数：</span>
                 
-                <span title="本文字数">2.3k</span>
+                <span title="本文字数">1.8k</span>
               
 
               
@@ -533,13 +533,76 @@
       
 
       
-        <h1 id="查看磁盘占用"><a href="#查看磁盘占用" class="headerlink" title="查看磁盘占用"></a>查看磁盘占用</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">vanjay@VanJay:~$ df -h</span><br><span class="line">文件系统        容量  已用  可用 已用% 挂载点</span><br><span class="line">udev            3.9G     0  3.9G    0% /dev</span><br><span class="line">tmpfs           789M  2.0M  787M    1% /run</span><br><span class="line">/dev/sdb5       9.4G  8.0G  926M   90% /</span><br><span class="line">tmpfs           3.9G   31M  3.9G    1% /dev/shm</span><br><span class="line">tmpfs           5.0M  4.0K  5.0M    1% /run/lock</span><br><span class="line">tmpfs           3.9G     0  3.9G    0% /sys/fs/cgroup</span><br><span class="line">/dev/loop0       88M   88M     0  100% /snap/core/5662</span><br></pre></td></tr></table></figure>
-<a id="more"></a>
-<h1 id="分区空间都哪去了？"><a href="#分区空间都哪去了？" class="headerlink" title="/ 分区空间都哪去了？"></a><code>/</code> 分区空间都哪去了？</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">vanjay@VanJay:~$ sudo du -hsx /* | sort -rh | head -n 40</span><br><span class="line">16G	/home</span><br><span class="line">3.9G	/usr</span><br><span class="line">2.4G	/var</span><br><span class="line">792M	/lib</span><br><span class="line">451M	/swapfile</span><br><span class="line">252M	/opt</span><br><span class="line">140M	/boot</span><br><span class="line">21M	/root</span><br><span class="line">14M	/etc</span><br><span class="line">13M	/bin</span><br><span class="line">12M	/sbin</span><br><span class="line">2.0M	/run</span><br><span class="line">132K	/tmp</span><br><span class="line">40K	/snap</span><br><span class="line">16K	/lost+found</span><br><span class="line">8.0K	/media</span><br><span class="line">4.0K	/srv</span><br><span class="line">4.0K	/mnt</span><br><span class="line">4.0K	/lib64</span><br><span class="line">4.0K	/cdrom</span><br><span class="line">0	/vmlinuz.old</span><br><span class="line">0	/vmlinuz</span><br><span class="line">0	/sys</span><br><span class="line">0	/proc</span><br><span class="line">0	/initrd.img.old</span><br><span class="line">0	/initrd.img</span><br><span class="line">0	/dev</span><br></pre></td></tr></table></figure>
-<h1 id="home分区被什么占用了？"><a href="#home分区被什么占用了？" class="headerlink" title="home分区被什么占用了？"></a><code>home</code>分区被什么占用了？</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">vanjay@VanJay:~$ sudo du -hsx /home/* | sort -rh | head -n 35</span><br><span class="line">7.8G	/home/data</span><br><span class="line">7.6G	/home/vanjay</span><br><span class="line">16K	/home/lost+found</span><br></pre></td></tr></table></figure>
-<h1 id="交互式查看"><a href="#交互式查看" class="headerlink" title="交互式查看"></a>交互式查看</h1><h2 id="安装库"><a href="#安装库" class="headerlink" title="安装库"></a>安装库</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install ncdu</span><br></pre></td></tr></table></figure>
-<h2 id="比如查看-分区"><a href="#比如查看-分区" class="headerlink" title="比如查看/分区"></a>比如查看/分区</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">ncdu 1.12 ~ Use the arrow keys to navigate, press ? <span class="keyword">for</span> <span class="built_in">help</span></span><br><span class="line">--- / ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------</span><br><span class="line">    3.9 GiB [<span class="comment">##########] /usr</span></span><br><span class="line">    2.4 GiB [<span class="comment">######    ] /var</span></span><br><span class="line">  791.2 MiB [<span class="comment">#         ] /lib</span></span><br><span class="line">  450.6 MiB [<span class="comment">#         ]  swapfile</span></span><br><span class="line">  251.2 MiB [          ] /opt</span><br><span class="line">  139.8 MiB [          ] /boot</span><br><span class="line">   20.7 MiB [          ] /root</span><br><span class="line">   13.7 MiB [          ] /etc</span><br><span class="line">   12.3 MiB [          ] /bin</span><br><span class="line">   11.3 MiB [          ] /sbin</span><br><span class="line">    3.6 MiB [          ]  .__deepin.lft</span><br><span class="line">  132.0 KiB [          ] /tmp</span><br><span class="line">   40.0 KiB [          ] /snap</span><br><span class="line">e  16.0 KiB [          ] /lost+found</span><br><span class="line">    8.0 KiB [          ] /media</span><br><span class="line">    4.0 KiB [          ] /lib64</span><br><span class="line">e   4.0 KiB [          ] /srv</span><br><span class="line">e   4.0 KiB [          ] /mnt</span><br><span class="line">e   4.0 KiB [          ] /cdrom</span><br><span class="line">    4.0 KiB [          ]  .__deepin.num</span><br><span class="line">@   0.0   B [          ]  initrd.img.old</span><br><span class="line">@   0.0   B [          ]  initrd.img</span><br><span class="line">@   0.0   B [          ]  vmlinuz.old</span><br><span class="line">@   0.0   B [          ]  vmlinuz</span><br><span class="line">&gt;   0.0   B [          ] /sys</span><br><span class="line">&gt;   0.0   B [          ] /run</span><br><span class="line">&gt;   0.0   B [          ] /proc</span><br><span class="line">&gt;   0.0   B [          ] /home</span><br><span class="line">&gt;   0.0   B [          ] /dev</span><br><span class="line"></span><br><span class="line"> Total disk usage:   7.9 GiB  Apparent size:   7.8 GiB  Items: 209677</span><br></pre></td></tr></table></figure>
-<p>可使用方向键逐级查看</p>
+        <h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p><code>Ubuntu</code>根分区<code>\</code>空间告急，即将使用完毕</p>
+<h1 id="先清理出一定空间"><a href="#先清理出一定空间" class="headerlink" title="先清理出一定空间"></a>先清理出一定空间</h1><h2 id="移除不再需要的软件包"><a href="#移除不再需要的软件包" class="headerlink" title="移除不再需要的软件包"></a>移除不再需要的软件包</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt autoremove</span><br></pre></td></tr></table></figure>
+<h2 id="清理Ubuntu中的APT缓存"><a href="#清理Ubuntu中的APT缓存" class="headerlink" title="清理Ubuntu中的APT缓存"></a>清理Ubuntu中的APT缓存</h2><a id="more"></a>
+<p>你可以使用以下命令查看此缓存的大小：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo du -sh /var/cache/apt</span><br></pre></td></tr></table></figure>
+<p>删除之</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt clean</span><br></pre></td></tr></table></figure>
+<h2 id="清理缩略图缓存"><a href="#清理缩略图缓存" class="headerlink" title="清理缩略图缓存"></a>清理缩略图缓存</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rm -rf ~/.cache/thumbnails/*</span><br></pre></td></tr></table></figure>
+<h2 id="手动删除老旧Linux内核"><a href="#手动删除老旧Linux内核" class="headerlink" title="手动删除老旧Linux内核"></a>手动删除老旧Linux内核</h2><p>首先使用如下命令列出当前 Ubuntu 中所有已经安装的 Linux Kernel：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo dpkg --list <span class="string">'linux-image*'</span>*</span><br></pre></td></tr></table></figure>
+<p>删除旧版内核与删除任何其他软件包一样：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt remove linux-image-VERSION</span><br></pre></td></tr></table></figure>
+<p>请自行将上述 VERSION 替换为要清除的内核版本，系统极客建议保持至少两个或三个最新版本内核，这样在无法使用最新内核启动系统时至少还有那么几个可替代品救急</p>
+<h2 id="删除多余的孤立包"><a href="#删除多余的孤立包" class="headerlink" title="删除多余的孤立包"></a>删除多余的孤立包</h2><p>首先我们要说说什么是 Ubuntu 系统中的孤立包（也叫多余的包）：假设你安装了一个名为 myprogram 的软件包，而这个包又依赖于 mylib 库，这个库通常在安装 myprogram 时便会自动安装到系统当中。当你卸载 myprogram 应用时，mylib 库可能仍然保留在系统中。 此种情况下，mylib 就会成为一个孤立的包。</p>
+<p>gtkorphan 这款图形化应用可以可以轻松找出并删除 Ubuntu 系统中的孤立包，先使用如下终端命令进行安装：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install gtkorphan</span><br></pre></td></tr></table></figure>
+<p>安装好后在「多余的包」选项卡中即可对查找、删除孤立包</p>
+<h2 id="使用GUI工具释放Ubuntu空间"><a href="#使用GUI工具释放Ubuntu空间" class="headerlink" title="使用GUI工具释放Ubuntu空间"></a>使用GUI工具释放Ubuntu空间</h2><p><a href="https://github.com/oguzhaninan/Stacer/releases" target="_blank" rel="noopener">Stacer地址</a>，下载 deb 包安装打开、使用</p>
+<h1 id="调整分区、根目录扩容"><a href="#调整分区、根目录扩容" class="headerlink" title="调整分区、根目录扩容"></a>调整分区、根目录扩容</h1><p>我的是多系统，安装了 WIndows 10 、Deepin 15.8 和 Ubuntu 18.04，Ubuntu 根分区只给了10G，home 给了50，但是用不完，目标，从<code>home</code>起始位置分10个G给根分区（根分区在 home 分区之前）。<br>由于根分区和 home 都被 Ubuntu 在使用，所以无法在 Ubuntu 中操作本身使用的根分区和<code>home</code>分区，所以应该到外部操作。</p>
+<h2 id="工具"><a href="#工具" class="headerlink" title="工具"></a>工具</h2><p><a href="https://gparted.org/download.php" target="_blank" rel="noopener">gparted</a></p>
+<p>GParted is a free partition manager that enables you to resize, copy, and move partitions without data loss.</p>
+<h2 id="思路一"><a href="#思路一" class="headerlink" title="思路一"></a>思路一</h2><p>在其它 Linux 系统中操作 Ubuntu 磁盘，不同版本 Linux 安装 gparted 命令如下：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">Linux 发行版本</th>
+<th style="text-align:center">安装命令</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">Debian</td>
+<td style="text-align:center">sudo apt-get install gparted</td>
+</tr>
+<tr>
+<td style="text-align:center">Fedora</td>
+<td style="text-align:center">su -c “yum install gparted”</td>
+</tr>
+<tr>
+<td style="text-align:center">Mageia</td>
+<td style="text-align:center">sudo urpmi gparted</td>
+</tr>
+<tr>
+<td style="text-align:center">OpenSUSE</td>
+<td style="text-align:center">sudo zypper install gparted</td>
+</tr>
+<tr>
+<td style="text-align:center">Ubuntu</td>
+<td style="text-align:center">sudo apt-get install gparted</td>
+</tr>
+<tr>
+<td style="text-align:center">Deepin</td>
+<td style="text-align:center">sudo apt-get install gparted</td>
+</tr>
+</tbody>
+</table>
+<p>安装后执行</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo gparted</span><br></pre></td></tr></table></figure>
+<p>使用软件，方法同大多数磁盘分区调整工具</p>
+<h2 id="思路二"><a href="#思路二" class="headerlink" title="思路二"></a>思路二</h2><p>如果本机没有多系统（对于方案一，硬盘拆下来接到其它机器也是可以的），由于<code>gparted</code>官方提供了可启动的刻录镜像，我们直接下载<code>iSO</code>镜像刻录至<code>CD</code>或者<code>USB</code>设备，从该启动盘启动即可操作 Ubuntu 所使用的分区</p>
+<p>比如当前最新的桌面版是 <a href="https://downloads.sourceforge.net/gparted/gparted-live-0.33.0-1-amd64.iso" target="_blank" rel="noopener">gparted-live-0.33.0-1-amd64.iso</a>，你可以下载该镜像刻录至 U 盘，随后从 U 盘启动进行操作</p>
+<p>PS：刻录可使用 <a href="https://www.balena.io/etcher/" target="_blank" rel="noopener">Etcher</a> ，全平台使用</p>
+<h1 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h1><p>修改系统所在分区或引导所在分区存在无法启动被修改的分区的系统的风险，建议新手或者以防万一，对系统做一个完整备份，这里是一些免费磁盘和分区工具，可以完整备份分区或磁盘，使用方法自行看文档。</p>
+<p><a href="http://clonezilla.org/" target="_blank" rel="noopener">Clonezilla</a>  </p>
+<p><a href="http://doclone.nongnu.org/" target="_blank" rel="noopener">doClone</a></p>
+<p><a href="http://www.fsarchiver.org/" target="_blank" rel="noopener">FSArchiver</a></p>
+<p><a href="http://g4l.sourceforge.net/" target="_blank" rel="noopener">G4L</a></p>
+<p><a href="http://www.feyrer.de/g4u" target="_blank" rel="noopener">g4u</a></p>
+<p><a href="http://partimage.org/" target="_blank" rel="noopener">Partimage</a></p>
+<p><a href="http://partclone.org/" target="_blank" rel="noopener">Partclone</a></p>
 
       
     </div>
@@ -559,14 +622,14 @@
   <script type="text/javascript" src="http://jslibs.wuxubj.cn/sweetalert_mini/jquery-1.7.1.min.js"></script>
   <script src="http://jslibs.wuxubj.cn/sweetalert_mini/sweetalert.min.js"></script>
   <link rel="stylesheet" type="text/css" href="http://jslibs.wuxubj.cn/sweetalert_mini/sweetalert.mini.css">
-  <p><span>本文标题:</span><a href="/2019/01/06/Ubuntu 查看分区内文件及文件夹占用大小/">Ubuntu 查看分区内文件及文件夹占用大小</a></p>
+  <p><span>本文标题:</span><a href="/2018/11/06/Linux-动态调整分区大小/">Linux 动态调整分区大小</a></p>
   <p><span>文章作者:</span><a href="/" title="访问 VanJay 的个人博客">VanJay</a></p>
-  <p><span>发布时间:</span>2019年01月06日 - 01:01</p>
+  <p><span>发布时间:</span>2018年11月06日 - 01:11</p>
   
-    <p><span>最后更新:</span>2019年01月06日 - 01:01</p>
+    <p><span>最后更新:</span>2018年11月06日 - 02:11</p>
   
-  <p><span>原始链接:</span><a href="/2019/01/06/Ubuntu 查看分区内文件及文件夹占用大小/" title="Ubuntu 查看分区内文件及文件夹占用大小">https://www.vanjay.cn/2019/01/06/Ubuntu 查看分区内文件及文件夹占用大小/</a>
-    <span class="copy-path"  title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="https://www.vanjay.cn/2019/01/06/Ubuntu 查看分区内文件及文件夹占用大小/"  aria-label="复制成功！"></i></span>
+  <p><span>原始链接:</span><a href="/2018/11/06/Linux-动态调整分区大小/" title="Linux 动态调整分区大小">https://www.vanjay.cn/2018/11/06/Linux-动态调整分区大小/</a>
+    <span class="copy-path"  title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="https://www.vanjay.cn/2018/11/06/Linux-动态调整分区大小/"  aria-label="复制成功！"></i></span>
   </p>
   <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)"> CC BY-NC-SA 4.0 Unported</a> 转载请保留原文链接及作者。</p>
 </div>
@@ -627,7 +690,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/Ubuntu/" rel="tag"><i class="fa fa-tag"></i> Ubuntu</a>
+            <a href="/tags/分区调整/" rel="tag"><i class="fa fa-tag"></i> 分区调整</a>
           
             <a href="/tags/Linux/" rel="tag"><i class="fa fa-tag"></i> Linux</a>
           
@@ -642,8 +705,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/01/05/Ubuntu 18.04 编译 Android 源码/" rel="next" title="Ubuntu 18.04 编译 Android 源码">
-                <i class="fa fa-chevron-left"></i> Ubuntu 18.04 编译 Android 源码
+              <a href="/2018/10/12/Jenkins master-slave 的应用及 iOS 项目持续集成/" rel="next" title="Jenkins master-slave 的应用及 iOS 项目持续集成">
+                <i class="fa fa-chevron-left"></i> Jenkins master-slave 的应用及 iOS 项目持续集成
               </a>
             
           </div>
@@ -651,6 +714,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/12/29/Appium-mitmproxy-全自动化抓取APP-数据/" rel="prev" title="Appium + mitmproxy 全自动化抓取APP 数据">
+                Appium + mitmproxy 全自动化抓取APP 数据 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -729,7 +796,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">31</span>
+                    <span class="site-state-item-count">32</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -909,7 +976,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">61</span>
+                      
+                    
+                    <span class="site-state-item-count">62</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
@@ -1007,7 +1076,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#查看磁盘占用"><span class="nav-number">1.</span> <span class="nav-text">查看磁盘占用</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#分区空间都哪去了？"><span class="nav-number">2.</span> <span class="nav-text">/ 分区空间都哪去了？</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#home分区被什么占用了？"><span class="nav-number">3.</span> <span class="nav-text">home分区被什么占用了？</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#交互式查看"><span class="nav-number">4.</span> <span class="nav-text">交互式查看</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#安装库"><span class="nav-number">4.1.</span> <span class="nav-text">安装库</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#比如查看-分区"><span class="nav-number">4.2.</span> <span class="nav-text">比如查看/分区</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#背景"><span class="nav-number">1.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#先清理出一定空间"><span class="nav-number">2.</span> <span class="nav-text">先清理出一定空间</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#移除不再需要的软件包"><span class="nav-number">2.1.</span> <span class="nav-text">移除不再需要的软件包</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#清理Ubuntu中的APT缓存"><span class="nav-number">2.2.</span> <span class="nav-text">清理Ubuntu中的APT缓存</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#清理缩略图缓存"><span class="nav-number">2.3.</span> <span class="nav-text">清理缩略图缓存</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#手动删除老旧Linux内核"><span class="nav-number">2.4.</span> <span class="nav-text">手动删除老旧Linux内核</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#删除多余的孤立包"><span class="nav-number">2.5.</span> <span class="nav-text">删除多余的孤立包</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用GUI工具释放Ubuntu空间"><span class="nav-number">2.6.</span> <span class="nav-text">使用GUI工具释放Ubuntu空间</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#调整分区、根目录扩容"><span class="nav-number">3.</span> <span class="nav-text">调整分区、根目录扩容</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#工具"><span class="nav-number">3.1.</span> <span class="nav-text">工具</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#思路一"><span class="nav-number">3.2.</span> <span class="nav-text">思路一</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#思路二"><span class="nav-number">3.3.</span> <span class="nav-text">思路二</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#注意"><span class="nav-number">4.</span> <span class="nav-text">注意</span></a></li></ol></div>
             
 
           </div>
@@ -1041,7 +1110,7 @@
     
       <span class="post-meta-item-text">站点总字数：</span>
     
-    <span title="站点总字数">116k</span>
+    <span title="站点总字数">117k</span>
   
 
   
@@ -1052,7 +1121,7 @@
     
       <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
     
-    <span title="站点阅读时长">1:45</span>
+    <span title="站点阅读时长">1:47</span>
   
 </div>
 
@@ -1204,7 +1273,7 @@
   
     <script type="text/javascript">
       window.livereOptions = {
-        refer: '2019/01/06/Ubuntu 查看分区内文件及文件夹占用大小/'
+        refer: '2018/11/06/Linux-动态调整分区大小/'
       };
       (function(d, s) {
         var j, e = d.getElementsByTagName(s)[0];

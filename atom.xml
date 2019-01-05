@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://www.vanjay.cn/"/>
-  <updated>2019-01-05T17:16:03.186Z</updated>
+  <updated>2019-01-05T09:16:15.174Z</updated>
   <id>https://www.vanjay.cn/</id>
   
   <author>
@@ -14,28 +14,6 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
-  
-  <entry>
-    <title>Ubuntu 查看分区内文件及文件夹占用大小</title>
-    <link href="https://www.vanjay.cn/2019/01/06/Ubuntu%20%E6%9F%A5%E7%9C%8B%E5%88%86%E5%8C%BA%E5%86%85%E6%96%87%E4%BB%B6%E5%8F%8A%E6%96%87%E4%BB%B6%E5%A4%B9%E5%8D%A0%E7%94%A8%E5%A4%A7%E5%B0%8F/"/>
-    <id>https://www.vanjay.cn/2019/01/06/Ubuntu 查看分区内文件及文件夹占用大小/</id>
-    <published>2019-01-05T17:07:28.000Z</published>
-    <updated>2019-01-05T17:16:03.186Z</updated>
-    
-    <summary type="html">
-    
-      &lt;h1 id=&quot;查看磁盘占用&quot;&gt;&lt;a href=&quot;#查看磁盘占用&quot; class=&quot;headerlink&quot; title=&quot;查看磁盘占用&quot;&gt;&lt;/a&gt;查看磁盘占用&lt;/h1&gt;&lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;vanjay@VanJay:~$ df -h&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;文件系统        容量  已用  可用 已用% 挂载点&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;udev            3.9G     0  3.9G    0% /dev&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;tmpfs           789M  2.0M  787M    1% /run&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;/dev/sdb5       9.4G  8.0G  926M   90% /&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;tmpfs           3.9G   31M  3.9G    1% /dev/shm&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;tmpfs           5.0M  4.0K  5.0M    1% /run/lock&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;tmpfs           3.9G     0  3.9G    0% /sys/fs/cgroup&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;/dev/loop0       88M   88M     0  100% /snap/core/5662&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-    
-    </summary>
-    
-      <category term="Linux" scheme="https://www.vanjay.cn/categories/Linux/"/>
-    
-    
-      <category term="Ubuntu" scheme="https://www.vanjay.cn/tags/Ubuntu/"/>
-    
-      <category term="Linux" scheme="https://www.vanjay.cn/tags/Linux/"/>
-    
-  </entry>
   
   <entry>
     <title>Ubuntu 18.04 编译 Android 源码</title>
@@ -127,6 +105,30 @@
   </entry>
   
   <entry>
+    <title>Linux 动态调整分区大小</title>
+    <link href="https://www.vanjay.cn/2018/11/06/Linux-%E5%8A%A8%E6%80%81%E8%B0%83%E6%95%B4%E5%88%86%E5%8C%BA%E5%A4%A7%E5%B0%8F/"/>
+    <id>https://www.vanjay.cn/2018/11/06/Linux-动态调整分区大小/</id>
+    <published>2018-11-05T17:55:03.000Z</published>
+    <updated>2019-01-05T18:31:00.801Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;背景&quot;&gt;&lt;a href=&quot;#背景&quot; class=&quot;headerlink&quot; title=&quot;背景&quot;&gt;&lt;/a&gt;背景&lt;/h1&gt;&lt;p&gt;&lt;code&gt;Ubuntu&lt;/code&gt;根分区&lt;code&gt;\&lt;/code&gt;空间告急，即将使用完毕&lt;/p&gt;
+&lt;h1 id=&quot;先清理出一定空间&quot;&gt;&lt;a href=&quot;#先清理出一定空间&quot; class=&quot;headerlink&quot; title=&quot;先清理出一定空间&quot;&gt;&lt;/a&gt;先清理出一定空间&lt;/h1&gt;&lt;h2 id=&quot;移除不再需要的软件包&quot;&gt;&lt;a href=&quot;#移除不再需要的软件包&quot; class=&quot;headerlink&quot; title=&quot;移除不再需要的软件包&quot;&gt;&lt;/a&gt;移除不再需要的软件包&lt;/h2&gt;&lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;sudo apt autoremove&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;h2 id=&quot;清理Ubuntu中的APT缓存&quot;&gt;&lt;a href=&quot;#清理Ubuntu中的APT缓存&quot; class=&quot;headerlink&quot; title=&quot;清理Ubuntu中的APT缓存&quot;&gt;&lt;/a&gt;清理Ubuntu中的APT缓存&lt;/h2&gt;
+    
+    </summary>
+    
+      <category term="Linux" scheme="https://www.vanjay.cn/categories/Linux/"/>
+    
+    
+      <category term="分区调整" scheme="https://www.vanjay.cn/tags/%E5%88%86%E5%8C%BA%E8%B0%83%E6%95%B4/"/>
+    
+      <category term="Linux" scheme="https://www.vanjay.cn/tags/Linux/"/>
+    
+  </entry>
+  
+  <entry>
     <title>Jenkins master-slave 的应用及 iOS 项目持续集成</title>
     <link href="https://www.vanjay.cn/2018/10/12/Jenkins%20master-slave%20%E7%9A%84%E5%BA%94%E7%94%A8%E5%8F%8A%20iOS%20%E9%A1%B9%E7%9B%AE%E6%8C%81%E7%BB%AD%E9%9B%86%E6%88%90/"/>
     <id>https://www.vanjay.cn/2018/10/12/Jenkins master-slave 的应用及 iOS 项目持续集成/</id>
@@ -168,9 +170,9 @@
       <category term="Linux" scheme="https://www.vanjay.cn/categories/Linux/"/>
     
     
-      <category term="Ubuntu" scheme="https://www.vanjay.cn/tags/Ubuntu/"/>
-    
       <category term="Linux" scheme="https://www.vanjay.cn/tags/Linux/"/>
+    
+      <category term="Ubuntu" scheme="https://www.vanjay.cn/tags/Ubuntu/"/>
     
       <category term="Seafile" scheme="https://www.vanjay.cn/tags/Seafile/"/>
     
