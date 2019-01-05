@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://www.vanjay.cn/"/>
-  <updated>2019-01-05T07:37:49.294Z</updated>
+  <updated>2019-01-05T09:16:15.174Z</updated>
   <id>https://www.vanjay.cn/</id>
   
   <author>
@@ -14,6 +14,43 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Ubuntu 18.04 编译 Android 源码</title>
+    <link href="https://www.vanjay.cn/2019/01/05/Ubuntu%2018.04%20%E7%BC%96%E8%AF%91%20Android%20%E6%BA%90%E7%A0%81/"/>
+    <id>https://www.vanjay.cn/2019/01/05/Ubuntu 18.04 编译 Android 源码/</id>
+    <published>2019-01-05T08:00:51.000Z</published>
+    <updated>2019-01-05T09:16:15.174Z</updated>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt;Android 源码编译的四个流程:&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;源码下载;&lt;/li&gt;
+&lt;li&gt;构建编译环境;&lt;/li&gt;
+&lt;li&gt;编译源码;&lt;/li&gt;
+&lt;li&gt;模拟器运行&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h1 id=&quot;源码下载&quot;&gt;&lt;a href=&quot;#源码下载&quot; class=&quot;headerlink&quot; title=&quot;源码下载&quot;&gt;&lt;/a&gt;源码下载&lt;/h1&gt;&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;首先确保自己已经安装了Git.&lt;/p&gt;
+  &lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;sudo apt-get install git &lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;git config –global user.email “your_email” &lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;git config –global user.name “your_name”&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+    
+    </summary>
+    
+      <category term="Android" scheme="https://www.vanjay.cn/categories/Android/"/>
+    
+    
+      <category term="Ubuntu" scheme="https://www.vanjay.cn/tags/Ubuntu/"/>
+    
+      <category term="Android" scheme="https://www.vanjay.cn/tags/Android/"/>
+    
+      <category term="Android source build" scheme="https://www.vanjay.cn/tags/Android-source-build/"/>
+    
+  </entry>
   
   <entry>
     <title>Ubuntu 18.04 添加、修改交换空间</title>
@@ -35,9 +72,9 @@
       <category term="Linux" scheme="https://www.vanjay.cn/categories/Linux/"/>
     
     
-      <category term="swap 空间" scheme="https://www.vanjay.cn/tags/swap-%E7%A9%BA%E9%97%B4/"/>
-    
       <category term="Ubuntu" scheme="https://www.vanjay.cn/tags/Ubuntu/"/>
+    
+      <category term="swap 空间" scheme="https://www.vanjay.cn/tags/swap-%E7%A9%BA%E9%97%B4/"/>
     
   </entry>
   
@@ -485,26 +522,6 @@
       <category term="Hexo" scheme="https://www.vanjay.cn/tags/Hexo/"/>
     
       <category term="NexT" scheme="https://www.vanjay.cn/tags/NexT/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>动态加载javascript</title>
-    <link href="https://www.vanjay.cn/2017/03/09/%E5%8A%A8%E6%80%81%E5%8A%A0%E8%BD%BDjavascript/"/>
-    <id>https://www.vanjay.cn/2017/03/09/动态加载javascript/</id>
-    <published>2017-03-09T02:50:55.000Z</published>
-    <updated>2017-03-29T06:20:48.000Z</updated>
-    
-    <summary type="html">
-    
-      &lt;h2 id=&quot;使用以下函数&quot;&gt;&lt;a href=&quot;#使用以下函数&quot; class=&quot;headerlink&quot; title=&quot;使用以下函数&quot;&gt;&lt;/a&gt;使用以下函数&lt;/h2&gt;
-    
-    </summary>
-    
-      <category term="JavaScript" scheme="https://www.vanjay.cn/categories/JavaScript/"/>
-    
-    
-      <category term="javascript" scheme="https://www.vanjay.cn/tags/javascript/"/>
     
   </entry>
   
