@@ -147,7 +147,7 @@
 <meta property="og:site_name" content="VanJay&#39;s Blog">
 <meta property="og:description" content="Android 源码编译的四个流程:   源码下载; 构建编译环境; 编译源码; 模拟器运行  源码下载 首先确保自己已经安装了Git.   123sudo apt-get install git git config –global user.email “your_email” git config –global user.name “your_name”">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-01-05T09:16:15.174Z">
+<meta property="og:updated_time" content="2019-01-07T02:33:13.770Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Ubuntu 18.04 编译 Android 源码">
 <meta name="twitter:description" content="Android 源码编译的四个流程:   源码下载; 构建编译环境; 编译源码; 模拟器运行  源码下载 首先确保自己已经安装了Git.   123sudo apt-get install git git config –global user.email “your_email” git config –global user.name “your_name”">
@@ -434,15 +434,30 @@
 
               
                 
-                  
+              
+
+              <time title="创建时间：2019-01-05 16:00:51" itemprop="dateCreated datePublished" datetime="2019-01-05T16:00:51+08:00">2019-01-05</time>
+            
+
+            
+              
+
+              
                 
-              
+                <span class="post-meta-divider">|</span>
+                
 
-              <time title="创建时间：2019-01-05 16:00:51 / 修改时间：17:16:15" itemprop="dateCreated datePublished" datetime="2019-01-05T16:00:51+08:00">2019-01-05</time>
-            
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
 
-            
-              
+                
+                  <time title="修改时间：2019-01-07 10:33:13" itemprop="dateModified" datetime="2019-01-07T10:33:13+08:00">2019-01-07</time>
+                
+
 
               
             
@@ -499,7 +514,7 @@
                 
                   <span class="post-meta-item-text">本文字数：</span>
                 
-                <span title="本文字数">3.4k</span>
+                <span title="本文字数">4.3k</span>
               
 
               
@@ -513,7 +528,7 @@
                 
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
-                <span title="阅读时长">3 分钟</span>
+                <span title="阅读时长">4 分钟</span>
               
             </div>
           
@@ -580,6 +595,12 @@
 <li>依赖设置:</li>
 </ul>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install libx11-dev:i386 libreadline6-dev:i386 libgl1-mesa-dev g++-multilib </span><br><span class="line">sudo apt-get install -y git flex bison gperf build-essential libncurses5-dev:i386 </span><br><span class="line">sudo apt-get install tofrodos python-markdown libxml2-utils xsltproc zlib1g-dev:i386 </span><br><span class="line">sudo apt-get install dpkg-dev libsdl1.2-dev libesd0-dev</span><br><span class="line">sudo apt-get install git-core gnupg flex bison gperf build-essential  </span><br><span class="line">sudo apt-get install zip curl zlib1g-dev gcc-multilib g++-multilib </span><br><span class="line">sudo apt-get install libc6-dev-i386 </span><br><span class="line">sudo apt-get install lib32ncurses5-dev x11proto-core-dev libx11-dev </span><br><span class="line">sudo apt-get install libgl1-mesa-dev libxml2-utils xsltproc unzip m4</span><br><span class="line">sudo apt-get install lib32z-dev ccache</span><br></pre></td></tr></table></figure>
+<p>一项一项安装太麻烦，你可以保存以下内容到<code>install_dependency.sh</code></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># !/bin/bash</span></span><br><span class="line"></span><br><span class="line">sudo apt-get install libx11-dev:i386 libreadline6-dev:i386 libgl1-mesa-dev g++-multilib -y &amp;&amp;</span><br><span class="line">sudo apt-get install -y git flex bison gperf build-essential libncurses5-dev:i386 -y &amp;&amp;</span><br><span class="line">sudo apt-get install tofrodos python-markdown libxml2-utils xsltproc zlib1g-dev:i386 -y &amp;&amp;</span><br><span class="line">sudo apt-get install dpkg-dev libsdl1.2-dev libesd0-dev -y &amp;&amp;</span><br><span class="line">sudo apt-get install git-core gnupg flex bison gperf build-essential -y &amp;&amp;</span><br><span class="line">sudo apt-get install zip curl zlib1g-dev gcc-multilib g++-multilib -y &amp;&amp;</span><br><span class="line">sudo apt-get install libc6-dev-i386 -y &amp;&amp;</span><br><span class="line">sudo apt-get install lib32ncurses5-dev x11proto-core-dev libx11-dev -y &amp;&amp;</span><br><span class="line">sudo apt-get install libgl1-mesa-dev libxml2-utils xsltproc unzip m4 -y &amp;&amp;</span><br><span class="line">sudo apt-get install lib32z-dev ccache -y</span><br></pre></td></tr></table></figure>
+<p>给予执行权限</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chmod a+x ./install_dependency.sh</span><br></pre></td></tr></table></figure>
+<p>安装依赖</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./install_dependency.sh</span><br></pre></td></tr></table></figure>
 <p>依赖设置中有可能会出现“无法定位软件包 libesd0-dev” 这个问题解决方案：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo vim /etc/apt/sources.list</span><br></pre></td></tr></table></figure>
 <p>添加镜像源</p>
@@ -713,7 +734,7 @@
   <p><span>文章作者:</span><a href="/" title="访问 VanJay 的个人博客">VanJay</a></p>
   <p><span>发布时间:</span>2019年01月05日 - 16:01</p>
   
-    <p><span>最后更新:</span>2019年01月05日 - 17:01</p>
+    <p><span>最后更新:</span>2019年01月07日 - 10:01</p>
   
   <p><span>原始链接:</span><a href="/2019/01/05/Ubuntu 18.04 编译 Android 源码/" title="Ubuntu 18.04 编译 Android 源码">https://www.vanjay.cn/2019/01/05/Ubuntu 18.04 编译 Android 源码/</a>
     <span class="copy-path"  title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="https://www.vanjay.cn/2019/01/05/Ubuntu 18.04 编译 Android 源码/"  aria-label="复制成功！"></i></span>
@@ -1195,7 +1216,7 @@
     
       <span class="post-meta-item-text">站点总字数：</span>
     
-    <span title="站点总字数">117k</span>
+    <span title="站点总字数">118k</span>
   
 
   
@@ -1206,7 +1227,7 @@
     
       <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
     
-    <span title="站点阅读时长">1:47</span>
+    <span title="站点阅读时长">1:48</span>
   
 </div>
 
