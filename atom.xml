@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://www.vanjay.cn/"/>
-  <updated>2019-01-07T02:33:13.770Z</updated>
+  <updated>2019-02-15T07:12:59.714Z</updated>
   <id>https://www.vanjay.cn/</id>
   
   <author>
@@ -14,6 +14,32 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>免越狱钉钉远程打卡</title>
+    <link href="https://www.vanjay.cn/2019/02/15/%E5%85%8D%E8%B6%8A%E7%8B%B1%E9%92%89%E9%92%89%E8%BF%9C%E7%A8%8B%E6%89%93%E5%8D%A1/"/>
+    <id>https://www.vanjay.cn/2019/02/15/免越狱钉钉远程打卡/</id>
+    <published>2019-02-15T06:22:06.000Z</published>
+    <updated>2019-02-15T07:12:59.714Z</updated>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt;无需越狱，解决 iOS 版钉钉远程打卡&lt;br&gt;折腾记录，备忘&lt;/p&gt;
+&lt;/blockquote&gt;
+    
+    </summary>
+    
+      <category term="工具教程" scheme="https://www.vanjay.cn/categories/%E5%B7%A5%E5%85%B7%E6%95%99%E7%A8%8B/"/>
+    
+    
+      <category term="免越狱" scheme="https://www.vanjay.cn/tags/%E5%85%8D%E8%B6%8A%E7%8B%B1/"/>
+    
+      <category term="钉钉远程打卡" scheme="https://www.vanjay.cn/tags/%E9%92%89%E9%92%89%E8%BF%9C%E7%A8%8B%E6%89%93%E5%8D%A1/"/>
+    
+      <category term="教程" scheme="https://www.vanjay.cn/tags/%E6%95%99%E7%A8%8B/"/>
+    
+  </entry>
   
   <entry>
     <title>Ubuntu 18.04 编译 Android 源码</title>
@@ -199,9 +225,9 @@
     
       <category term="Objective-C" scheme="https://www.vanjay.cn/tags/Objective-C/"/>
     
-      <category term="iOS" scheme="https://www.vanjay.cn/tags/iOS/"/>
-    
       <category term="String" scheme="https://www.vanjay.cn/tags/String/"/>
+    
+      <category term="iOS" scheme="https://www.vanjay.cn/tags/iOS/"/>
     
   </entry>
   
@@ -499,29 +525,6 @@
       <category term="主题" scheme="https://www.vanjay.cn/tags/%E4%B8%BB%E9%A2%98/"/>
     
       <category term="球形标签云" scheme="https://www.vanjay.cn/tags/%E7%90%83%E5%BD%A2%E6%A0%87%E7%AD%BE%E4%BA%91/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Mac 彻底卸载 MYSQL 解决疑难杂症</title>
-    <link href="https://www.vanjay.cn/2017/03/18/Mac-%E5%BD%BB%E5%BA%95%E5%8D%B8%E8%BD%BD-MYSQL-%E8%A7%A3%E5%86%B3%E7%96%91%E9%9A%BE%E6%9D%82%E7%97%87/"/>
-    <id>https://www.vanjay.cn/2017/03/18/Mac-彻底卸载-MYSQL-解决疑难杂症/</id>
-    <published>2017-03-18T12:42:18.000Z</published>
-    <updated>2017-03-20T08:50:04.000Z</updated>
-    
-    <summary type="html">
-    
-      &lt;h2 id=&quot;备份数据库&quot;&gt;&lt;a href=&quot;#备份数据库&quot; class=&quot;headerlink&quot; title=&quot;备份数据库&quot;&gt;&lt;/a&gt;备份数据库&lt;/h2&gt;&lt;p&gt;备份看个人了，可以用软件如 &lt;code&gt;Navicat&lt;/code&gt; 导出，也可以用 &lt;code&gt;mysqldump&lt;/code&gt; 命令导出。&lt;/p&gt;
-&lt;h2 id=&quot;kill-mysql相关进程&quot;&gt;&lt;a href=&quot;#kill-mysql相关进程&quot; class=&quot;headerlink&quot; title=&quot;kill mysql相关进程&quot;&gt;&lt;/a&gt;kill &lt;code&gt;mysql&lt;/code&gt;相关进程&lt;/h2&gt;&lt;p&gt;终端运行 &lt;code&gt;ps -ax | grep mysql&lt;/code&gt; 查看 &lt;code&gt;mysql&lt;/code&gt; 相关进程， 有的话 &lt;code&gt;kill&lt;/code&gt;&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="系统疑难" scheme="https://www.vanjay.cn/categories/%E7%B3%BB%E7%BB%9F%E7%96%91%E9%9A%BE/"/>
-    
-    
-      <category term="MYSQL" scheme="https://www.vanjay.cn/tags/MYSQL/"/>
-    
-      <category term="Mac" scheme="https://www.vanjay.cn/tags/Mac/"/>
     
   </entry>
   
