@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://www.vanjay.cn/categories/index.html</loc>
+    <lastmod>2019-02-26T13:04:10.250Z</lastmod>
+  </url>  <url>
     <loc>https://www.vanjay.cn/2019/02/15/%E5%85%8D%E8%B6%8A%E7%8B%B1%E9%92%89%E9%92%89%E8%BF%9C%E7%A8%8B%E6%89%93%E5%8D%A1/</loc>
     <lastmod>2019-02-15T07:12:59.714Z</lastmod>
   </url>  <url>
@@ -99,8 +102,5 @@
   </url>  <url>
     <loc>https://www.vanjay.cn/2017/03/17/Hexo-%E4%B8%AD%E4%B8%BA%E5%A4%9A%E8%AF%B4%E6%B7%BB%E5%8A%A0%E6%9C%80%E8%BF%91%E8%AE%BF%E5%AE%A2/</loc>
     <lastmod>2017-03-18T01:39:37.000Z</lastmod>
-  </url>  <url>
-    <loc>https://www.vanjay.cn/categories/index.html</loc>
-    <lastmod>2017-03-16T11:21:45.000Z</lastmod>
   </url>
 </urlset>
