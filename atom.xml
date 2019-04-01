@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://www.vanjay.cn/"/>
-  <updated>2019-02-15T07:12:59.714Z</updated>
+  <updated>2019-04-01T04:46:50.334Z</updated>
   <id>https://www.vanjay.cn/</id>
   
   <author>
@@ -16,11 +16,35 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>cocoapods 私有库的搭建和使用</title>
+    <link href="https://www.vanjay.cn/2019/04/01/cocoapods-%E7%A7%81%E6%9C%89%E5%BA%93%E7%9A%84%E6%90%AD%E5%BB%BA%E5%92%8C%E4%BD%BF%E7%94%A8/"/>
+    <id>https://www.vanjay.cn/2019/04/01/cocoapods-私有库的搭建和使用/</id>
+    <published>2019-04-01T02:17:32.000Z</published>
+    <updated>2019-04-01T04:46:50.334Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h1&gt;&lt;p&gt;&lt;code&gt;cocoapods&lt;/code&gt;是非常好用的一个iOS 依赖管理工具，使用它可以方便的管理和更新项目中所使用到的第三方库，以及将自己的项目中的公共组件交由它去管理，实现工程组件化。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="iOS" scheme="https://www.vanjay.cn/categories/iOS/"/>
+    
+    
+      <category term="iOS" scheme="https://www.vanjay.cn/tags/iOS/"/>
+    
+      <category term="pod" scheme="https://www.vanjay.cn/tags/pod/"/>
+    
+      <category term="cocoapods" scheme="https://www.vanjay.cn/tags/cocoapods/"/>
+    
+  </entry>
+  
+  <entry>
     <title>免越狱钉钉远程打卡</title>
     <link href="https://www.vanjay.cn/2019/02/15/%E5%85%8D%E8%B6%8A%E7%8B%B1%E9%92%89%E9%92%89%E8%BF%9C%E7%A8%8B%E6%89%93%E5%8D%A1/"/>
     <id>https://www.vanjay.cn/2019/02/15/免越狱钉钉远程打卡/</id>
     <published>2019-02-15T06:22:06.000Z</published>
-    <updated>2019-02-15T07:12:59.714Z</updated>
+    <updated>2019-02-15T07:12:59.000Z</updated>
     
     <summary type="html">
     
@@ -44,7 +68,7 @@
     <link href="https://www.vanjay.cn/2019/01/05/Ubuntu%2018.04%20%E7%BC%96%E8%AF%91%20Android%20%E6%BA%90%E7%A0%81/"/>
     <id>https://www.vanjay.cn/2019/01/05/Ubuntu 18.04 编译 Android 源码/</id>
     <published>2019-01-05T08:00:51.000Z</published>
-    <updated>2019-01-07T02:33:13.770Z</updated>
+    <updated>2019-01-07T02:33:13.000Z</updated>
     
     <summary type="html">
     
@@ -81,7 +105,7 @@
     <link href="https://www.vanjay.cn/2019/01/05/Ubuntu-18-04-%E6%B7%BB%E5%8A%A0%E3%80%81%E4%BF%AE%E6%94%B9%E4%BA%A4%E6%8D%A2%E7%A9%BA%E9%97%B4/"/>
     <id>https://www.vanjay.cn/2019/01/05/Ubuntu-18-04-添加、修改交换空间/</id>
     <published>2019-01-05T06:35:17.000Z</published>
-    <updated>2019-01-05T07:37:49.294Z</updated>
+    <updated>2019-01-05T07:37:49.000Z</updated>
     
     <summary type="html">
     
@@ -133,7 +157,7 @@
     <link href="https://www.vanjay.cn/2018/11/06/Linux-%E5%8A%A8%E6%80%81%E8%B0%83%E6%95%B4%E5%88%86%E5%8C%BA%E5%A4%A7%E5%B0%8F/"/>
     <id>https://www.vanjay.cn/2018/11/06/Linux-动态调整分区大小/</id>
     <published>2018-11-05T17:55:03.000Z</published>
-    <updated>2019-01-05T18:31:00.801Z</updated>
+    <updated>2019-01-05T18:31:00.000Z</updated>
     
     <summary type="html">
     
@@ -157,7 +181,7 @@
     <link href="https://www.vanjay.cn/2018/10/12/Jenkins%20master-slave%20%E7%9A%84%E5%BA%94%E7%94%A8%E5%8F%8A%20iOS%20%E9%A1%B9%E7%9B%AE%E6%8C%81%E7%BB%AD%E9%9B%86%E6%88%90/"/>
     <id>https://www.vanjay.cn/2018/10/12/Jenkins master-slave 的应用及 iOS 项目持续集成/</id>
     <published>2018-10-12T11:27:00.000Z</published>
-    <updated>2018-10-13T02:30:38.885Z</updated>
+    <updated>2018-10-13T02:30:38.000Z</updated>
     
     <summary type="html">
     
@@ -183,7 +207,7 @@
     <link href="https://www.vanjay.cn/2018/10/01/Ubuntu-18-04-LTS-%E5%AE%89%E8%A3%85%E9%83%A8%E7%BD%B2-Seafile/"/>
     <id>https://www.vanjay.cn/2018/10/01/Ubuntu-18-04-LTS-安装部署-Seafile/</id>
     <published>2018-10-01T09:06:54.000Z</published>
-    <updated>2018-10-08T06:31:20.717Z</updated>
+    <updated>2018-10-08T06:31:20.000Z</updated>
     
     <summary type="html">
     
@@ -209,7 +233,7 @@
     <link href="https://www.vanjay.cn/2018/10/01/iOS-%E5%BC%80%E5%8F%91%E4%BB%8E-Array-%E7%94%9F%E6%88%90%E7%89%B9%E5%AE%9A%E5%88%86%E9%9A%94%E7%AC%A6%E9%9A%94%E5%BC%80%E7%9A%84-String/"/>
     <id>https://www.vanjay.cn/2018/10/01/iOS-开发从-Array-生成特定分隔符隔开的-String/</id>
     <published>2018-09-30T17:41:45.000Z</published>
-    <updated>2018-09-30T17:53:41.051Z</updated>
+    <updated>2018-09-30T17:53:41.000Z</updated>
     
     <summary type="html">
     
@@ -234,7 +258,7 @@
     <link href="https://www.vanjay.cn/2018/09/30/iOS-%E6%95%B0%E5%AD%97%E8%BD%AC-xx-%E4%B8%87-xx-%E4%BA%BF/"/>
     <id>https://www.vanjay.cn/2018/09/30/iOS-数字转-xx-万-xx-亿/</id>
     <published>2018-09-30T05:08:27.000Z</published>
-    <updated>2018-10-07T13:14:35.217Z</updated>
+    <updated>2018-10-07T13:14:35.000Z</updated>
     
     <summary type="html">
     
@@ -257,7 +281,7 @@
     <link href="https://www.vanjay.cn/2018/09/12/Ubuntu-18-04-%E6%90%AD%E5%BB%BA-Jenkins/"/>
     <id>https://www.vanjay.cn/2018/09/12/Ubuntu-18-04-搭建-Jenkins/</id>
     <published>2018-09-12T08:53:54.000Z</published>
-    <updated>2018-10-12T11:29:59.401Z</updated>
+    <updated>2018-10-12T11:29:59.000Z</updated>
     
     <summary type="html">
     
@@ -286,7 +310,7 @@
     <link href="https://www.vanjay.cn/2018/09/10/%E6%9B%B4%E6%94%B9-React-Native-%E9%BB%98%E8%AE%A4-ios%E3%80%81android-%E9%A1%B9%E7%9B%AE%E6%96%87%E4%BB%B6%E5%A4%B9/"/>
     <id>https://www.vanjay.cn/2018/09/10/更改-React-Native-默认-ios、android-项目文件夹/</id>
     <published>2018-09-09T16:23:16.000Z</published>
-    <updated>2018-10-05T08:23:35.390Z</updated>
+    <updated>2018-10-05T08:23:35.000Z</updated>
     
     <summary type="html">
     
@@ -304,7 +328,7 @@
     <link href="https://www.vanjay.cn/2018/09/03/%E5%9C%A8%E5%B7%B2%E6%9C%89-OC-%E9%A1%B9%E7%9B%AE%E6%97%A0%E7%97%9B%E9%9B%86%E6%88%90-React-Native/"/>
     <id>https://www.vanjay.cn/2018/09/03/在已有-OC-项目无痛集成-React-Native/</id>
     <published>2018-09-02T16:23:47.000Z</published>
-    <updated>2018-10-10T13:02:55.061Z</updated>
+    <updated>2018-10-10T13:02:55.000Z</updated>
     
     <summary type="html">
     
@@ -498,31 +522,6 @@
       <category term="打包" scheme="https://www.vanjay.cn/tags/%E6%89%93%E5%8C%85/"/>
     
       <category term="发布" scheme="https://www.vanjay.cn/tags/%E5%8F%91%E5%B8%83/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>为 NexT 主题添加球型标签云</title>
-    <link href="https://www.vanjay.cn/2017/03/19/%E4%B8%BA-NexT-%E4%B8%BB%E9%A2%98%E6%B7%BB%E5%8A%A0%E7%90%83%E5%BD%A2%E6%A0%87%E7%AD%BE%E4%BA%91/"/>
-    <id>https://www.vanjay.cn/2017/03/19/为-NexT-主题添加球形标签云/</id>
-    <published>2017-03-19T12:04:55.000Z</published>
-    <updated>2017-03-20T02:49:28.000Z</updated>
-    
-    <summary type="html">
-    
-      &lt;h2 id=&quot;确定你已开启标签功能&quot;&gt;&lt;a href=&quot;#确定你已开启标签功能&quot; class=&quot;headerlink&quot; title=&quot;确定你已开启标签功能&quot;&gt;&lt;/a&gt;确定你已开启标签功能&lt;/h2&gt;&lt;p&gt;参考 &lt;code&gt;NexT&lt;/code&gt; 配置文档 &lt;a href=&quot;https://theme-next.iissnan.com/theme-settings.html#tags-page&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;添加标签页面&lt;/a&gt; ，开启标签功能。&lt;/p&gt;
-&lt;h2 id=&quot;了解球形标签云插件&quot;&gt;&lt;a href=&quot;#了解球形标签云插件&quot; class=&quot;headerlink&quot; title=&quot;了解球形标签云插件&quot;&gt;&lt;/a&gt;了解球形标签云插件&lt;/h2&gt;&lt;p&gt;了解球形标签云 &lt;code&gt;javascript&lt;/code&gt; 插件，点击&lt;a href=&quot;http://www.goat1000.com/tagcanvas.php&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;这里&lt;/a&gt;&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="Blog" scheme="https://www.vanjay.cn/categories/Blog/"/>
-    
-    
-      <category term="标签" scheme="https://www.vanjay.cn/tags/%E6%A0%87%E7%AD%BE/"/>
-    
-      <category term="主题" scheme="https://www.vanjay.cn/tags/%E4%B8%BB%E9%A2%98/"/>
-    
-      <category term="球形标签云" scheme="https://www.vanjay.cn/tags/%E7%90%83%E5%BD%A2%E6%A0%87%E7%AD%BE%E4%BA%91/"/>
     
   </entry>
   
