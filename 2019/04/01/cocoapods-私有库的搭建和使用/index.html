@@ -136,7 +136,7 @@
 <meta property="og:site_name" content="VanJay&#39;s Blog">
 <meta property="og:description" content="前言cocoapods是非常好用的一个iOS 依赖管理工具，使用它可以方便的管理和更新项目中所使用到的第三方库，以及将自己的项目中的公共组件交由它去管理，实现工程组件化。">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-04-01T04:46:50.334Z">
+<meta property="og:updated_time" content="2019-04-01T05:52:34.928Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="cocoapods 私有库的搭建和使用">
 <meta name="twitter:description" content="前言cocoapods是非常好用的一个iOS 依赖管理工具，使用它可以方便的管理和更新项目中所使用到的第三方库，以及将自己的项目中的公共组件交由它去管理，实现工程组件化。">
@@ -427,7 +427,7 @@
                 
               
 
-              <time title="创建时间：2019-04-01 10:17:32 / 修改时间：12:46:50" itemprop="dateCreated datePublished" datetime="2019-04-01T10:17:32+08:00">2019-04-01</time>
+              <time title="创建时间：2019-04-01 10:17:32 / 修改时间：13:52:34" itemprop="dateCreated datePublished" datetime="2019-04-01T10:17:32+08:00">2019-04-01</time>
             
 
             
@@ -525,7 +525,7 @@
         <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p><code>cocoapods</code>是非常好用的一个iOS 依赖管理工具，使用它可以方便的管理和更新项目中所使用到的第三方库，以及将自己的项目中的公共组件交由它去管理，实现工程组件化。</p>
 <a id="more"></a>
 <h1 id="创建私有-repo"><a href="#创建私有-repo" class="headerlink" title="创建私有 repo"></a>创建私有 repo</h1><h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>什么是 <code>repo</code>？他是所有的Pods的一个索引，就是一个容器，所有的Pods都在这个里面，他实际是一个<code>git</code>仓库，但是当你使用了<code>cocoapods</code>后他会被<code>clone</code>到本地的 <code>~/.cocoapods/repos</code> 目录下，可以进入到这个目录看到 <code>master</code> 文件夹就是这个官方的 repo。</p>
-<h2 id="创建-Specs-git-仓库"><a href="#创建-Specs-git-仓库" class="headerlink" title="创建 Specs git 仓库"></a>创建 Specs git 仓库</h2><p>这个 <code>Specs</code> 用来管理自己的私有 <code>pods</code> ，类似于官方 <a href="https://github.com/cocoapods/Specs" target="_blank" rel="noopener">https://github.com/cocoapods/Specs</a>，我们也需要创建一个 <code>git</code> 仓库，只要你有访问权限，你可以把 <code>git</code> 仓库建在 <code>github</code>、<code>coding</code>、<code>gitbucket</code> 等，当然也可以建立在公司自己部署的 <code>git</code> 服务器（可以内网，只是到时 <code>pod install</code> 只在内网才能用）。cocoapod 官方的 <code>pod repo</code>名字叫 <code>master</code>，阿里云的叫 <a href="https://github.com/aliyun/aliyun-Specs.git" target="_blank" rel="noopener">aliyun</a>，这里举例使用 <code>tianxu-Specs</code> 作为<code>repo</code> 名，在 <code>git</code> 服务器上创建 <code>tianxu-Specs</code> <code>repository</code>：</p>
+<h2 id="创建-Specs-git-仓库"><a href="#创建-Specs-git-仓库" class="headerlink" title="创建 Specs git 仓库"></a>创建 Specs git 仓库</h2><p>这个 <code>Specs</code> 用来管理自己的私有 <code>pods</code> ，类似于官方 <a href="https://github.com/cocoapods/Specs" target="_blank" rel="noopener">https://github.com/cocoapods/Specs</a>，我们也需要创建一个 <code>git</code> 仓库，只要你有访问权限，你可以把 <code>git</code> 仓库建在 <code>github</code>、<code>coding</code>、<code>bitbucket</code> 等，当然也可以建立在公司自己部署的 <code>git</code> 服务器（可以内网，只是到时 <code>pod install</code> 只在内网才能用）。cocoapod 官方的 <code>pod repo</code>名字叫 <code>master</code>，阿里云的叫 <a href="https://github.com/aliyun/aliyun-Specs.git" target="_blank" rel="noopener">aliyun</a>，这里举例使用 <code>tianxu-Specs</code> 作为<code>repo</code> 名，在 <code>git</code> 服务器上创建 <code>tianxu-Specs</code> <code>repository</code>：</p>
 <h2 id="关联远程-git-Specs-repository到本地-repo"><a href="#关联远程-git-Specs-repository到本地-repo" class="headerlink" title="关联远程 git Specs repository到本地 repo"></a>关联远程 git Specs repository到本地 repo</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">➜ <span class="built_in">cd</span> ~/.cocoapods/repos</span><br><span class="line"></span><br><span class="line">~/.cocoapods/repos</span><br><span class="line">➜ pod repo add tianxu git@your_git_url:wangwanjie/tianxu-Specs.git</span><br><span class="line">Cloning spec repo `tianxu` from `git@your_git_url:wangwanjie/tianxu-Specs.git`</span><br><span class="line"></span><br><span class="line">~/.cocoapods/repos took 4s</span><br></pre></td></tr></table></figure>
 <p>此时如果成功的话进入到 <code>~/.cocoapods/repos</code> 目录下就可以看到WTSpecs这个目录了。至此第一步创建私有<code>Spec repo</code>完成。也可使用 <code>pod repo list</code> 查看。</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">➜ pod repo list</span><br><span class="line"></span><br><span class="line">master</span><br><span class="line">- Type: git (master)</span><br><span class="line">- URL:  https://github.com/cocoapods/Specs.git</span><br><span class="line">- Path: /Users/VanJay/.cocoapods/repos/master</span><br><span class="line"></span><br><span class="line">tianxu</span><br><span class="line">fatal: ambiguous argument <span class="string">'HEAD'</span>: unknown revision or path not <span class="keyword">in</span> the working tree.</span><br><span class="line">Use <span class="string">'--'</span> to separate paths from revisions, like this:</span><br><span class="line"><span class="string">'git &lt;command&gt; [&lt;revision&gt;...] -- [&lt;file&gt;...]'</span></span><br><span class="line">- Type: git (unknown)</span><br><span class="line">- URL:  git@your_git_url:wangwanjie/tianxu-Specs.git</span><br><span class="line">- Path: /Users/VanJay/.cocoapods/repos/tianxu</span><br><span class="line"></span><br><span class="line">2 repos</span><br></pre></td></tr></table></figure>
@@ -571,7 +571,7 @@
   <p><span>文章作者:</span><a href="/" title="访问 VanJay 的个人博客">VanJay</a></p>
   <p><span>发布时间:</span>2019年04月01日 - 10:04</p>
   
-    <p><span>最后更新:</span>2019年04月01日 - 12:04</p>
+    <p><span>最后更新:</span>2019年04月01日 - 13:04</p>
   
   <p><span>原始链接:</span><a href="/2019/04/01/cocoapods-私有库的搭建和使用/" title="cocoapods 私有库的搭建和使用">https://www.vanjay.cn/2019/04/01/cocoapods-私有库的搭建和使用/</a>
     <span class="copy-path"  title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="https://www.vanjay.cn/2019/04/01/cocoapods-私有库的搭建和使用/"  aria-label="复制成功！"></i></span>
@@ -662,6 +662,10 @@
 
           <div class="post-nav-prev post-nav-item">
             
+              <a href="/2019/06/09/UITabBar-点击动画与切换-VC-动画实现/" rel="prev" title="UITabBar 点击动画与切换 VC 动画实现">
+                UITabBar 点击动画与切换 VC 动画实现 <i class="fa fa-chevron-right"></i>
+              </a>
+            
           </div>
         </div>
       
@@ -739,7 +743,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">34</span>
+                    <span class="site-state-item-count">35</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -933,7 +937,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">67</span>
+                      
+                    
+                    <span class="site-state-item-count">68</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
@@ -1065,7 +1071,7 @@
     
       <span class="post-meta-item-text">站点总字数：</span>
     
-    <span title="站点总字数">154k</span>
+    <span title="站点总字数">160k</span>
   
 
   
@@ -1076,7 +1082,7 @@
     
       <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
     
-    <span title="站点阅读时长">2:20</span>
+    <span title="站点阅读时长">2:25</span>
   
 </div>
 

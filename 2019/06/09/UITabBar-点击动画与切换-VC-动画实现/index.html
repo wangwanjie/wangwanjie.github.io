@@ -128,14 +128,20 @@
 
 
 
-  <meta name="keywords" content="Objective-C、Swift、Cocos2d-js、HTML5、React Native、JavaScript、PHP、Python、Java">
-<meta property="og:type" content="website">
-<meta property="og:title" content="VanJay&#39;s Blog">
-<meta property="og:url" content="https://www.vanjay.cn/archives/2016/12/index.html">
+  <meta name="description" content="假如一个 APP 能带来良好的交互体验，那么它一定是”活的”。">
+<meta name="keywords" content="iOS,UITabBar">
+<meta property="og:type" content="article">
+<meta property="og:title" content="UITabBar 点击动画与切换 VC 动画实现">
+<meta property="og:url" content="https://www.vanjay.cn/2019/06/09/UITabBar-点击动画与切换-VC-动画实现/index.html">
 <meta property="og:site_name" content="VanJay&#39;s Blog">
+<meta property="og:description" content="假如一个 APP 能带来良好的交互体验，那么它一定是”活的”。">
 <meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://www.vanjay.cn/images/iOS/effect.gif">
+<meta property="og:updated_time" content="2019-06-09T07:34:22.066Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="VanJay&#39;s Blog">
+<meta name="twitter:title" content="UITabBar 点击动画与切换 VC 动画实现">
+<meta name="twitter:description" content="假如一个 APP 能带来良好的交互体验，那么它一定是”活的”。">
+<meta name="twitter:image" content="https://www.vanjay.cn/images/iOS/effect.gif">
 
 
 
@@ -144,7 +150,7 @@
 
 
 
-  <link rel="canonical" href="https://www.vanjay.cn/archives/2016/12/"/>
+  <link rel="canonical" href="https://www.vanjay.cn/2019/06/09/UITabBar-点击动画与切换-VC-动画实现/"/>
 
 
 
@@ -154,7 +160,7 @@
   };
 </script>
 
-  <title>时间线 | VanJay's Blog</title>
+  <title>UITabBar 点击动画与切换 VC 动画实现 | VanJay's Blog</title>
   
 
 
@@ -210,7 +216,7 @@
     
   
 
-  <div class="container sidebar-position-left page-archive">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -275,7 +281,7 @@
         
         
           
-          <li class="menu-item menu-item-archives menu-item-active">
+          <li class="menu-item menu-item-archives">
     <a href="/archives/" rel="section">
       <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />时间线</a>
   </li>
@@ -311,31 +317,6 @@
 
   
     
-
-    
-    
-      
-      
-    
-      
-      
-    
-      
-      
-    
-      
-      
-    
-      
-      
-    
-      
-      
-    
-    
-
-  
-
 
   
 
@@ -384,79 +365,312 @@
           <div id="content" class="content">
             
 
+  <div id="posts" class="posts-expand">
+    
+
+  
+
   
   
   
-  <div class="post-block archive">
-    <div id="posts" class="posts-collapse">
-      <span class="archive-move-on"></span>
 
-      
-      <span class="archive-page-counter">
-        
-        
-         
-        
-        还行! 目前共计 34 篇日志。 继续努力。
-      </span>
-      
-
-      
-
-        
-        
-        
-
-        
-          
-          <div class="collection-title">
-            <h1 class="archive-year" id="archive-year-2016">2016</h1>
-          </div>
-        
-        
-
-        
+  
+    <div class="reading-progress-bar"></div>
+  
 
   <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://www.vanjay.cn/2019/06/09/UITabBar-点击动画与切换-VC-动画实现/">
 
-      <h2 class="post-title">
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="VanJay">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/head.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="VanJay's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
         
-            <a class="post-title-link" href="/2016/12/16/Mac查看CPU具体型号/" itemprop="url">
-              
-                <span itemprop="name">Mac查看CPU具体型号</span>
-              
-            </a>
         
-      </h2>
+          <h1 class="post-title" itemprop="name headline">UITabBar 点击动画与切换 VC 动画实现
+              
+            
+          </h1>
+        
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2016-12-16T20:17:48+08:00"
-              content="2016-12-16" >
-          12-16
-        </time>
-      </div>
+        <div class="post-meta">
+          <span class="post-time">
+            
+              
+              
+            
 
-    </header>
-  </article>
+            
 
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
 
+              
+                
+                  
+                
+              
+
+              <time title="创建时间：2019-06-09 15:15:25 / 修改时间：15:34:22" itemprop="dateCreated datePublished" datetime="2019-06-09T15:15:25+08:00">2019-06-09</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/iOS-开发/" itemprop="url" rel="index"><span itemprop="name">iOS 开发</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2019/06/09/UITabBar-点击动画与切换-VC-动画实现/" class="leancloud_visitors" data-flag-title="UITabBar 点击动画与切换 VC 动画实现">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">热度</span>
+               
+                 <span class="leancloud-visitors-count"></span> ℃
+             </span>
+          
+
+          
+
+          
+            <div class="post-symbolscount">
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">本文字数：</span>
+                
+                <span title="本文字数">3.3k</span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">3 分钟</span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
+      
 
+      
+        <blockquote>
+<p>假如一个 APP 能带来良好的交互体验，那么它一定是”活的”。</p>
+</blockquote>
+<a id="more"></a>
+<h2 id="效果图"><a href="#效果图" class="headerlink" title="效果图"></a>效果图</h2><p><img src="/images/iOS/effect.gif"></p>
+<p>show me the code.</p>
+<h2 id="tabBarController-切换-selectedViewController-的动画添加"><a href="#tabBarController-切换-selectedViewController-的动画添加" class="headerlink" title="tabBarController 切换 selectedViewController 的动画添加"></a>tabBarController 切换 selectedViewController 的动画添加</h2><figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="built_in">BOOL</span>)tabBarController:(<span class="built_in">UITabBarController</span> *)tabBarController shouldSelectViewController:(<span class="built_in">UIViewController</span> *)viewController &#123;</span><br><span class="line">    <span class="built_in">NSUInteger</span> shouldSelectIndex = [tabBarController.viewControllers indexOfObject:viewController];</span><br><span class="line">    <span class="keyword">if</span> (tabBarController.selectedIndex == shouldSelectIndex) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">YES</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">CATransition</span> *animation = [<span class="built_in">CATransition</span> animation];</span><br><span class="line">    animation.duration = <span class="number">0.3</span>;</span><br><span class="line">    animation.timingFunction = [<span class="built_in">CAMediaTimingFunction</span> functionWithName:kCAMediaTimingFunctionEaseInEaseOut];</span><br><span class="line">    animation.type = kCATransitionPush;</span><br><span class="line">    <span class="keyword">if</span> (tabBarController.selectedIndex &gt; shouldSelectIndex) &#123;</span><br><span class="line">        animation.subtype = kCATransitionFromLeft;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        animation.subtype = kCATransitionFromRight;</span><br><span class="line">    &#125;</span><br><span class="line">    [[[tabBarController valueForKey:<span class="string">@"_viewControllerTransitionView"</span>] layer] addAnimation:animation forKey:<span class="string">@"animation"</span>];</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="literal">YES</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="点击-UITabBarItem添加动画效果"><a href="#点击-UITabBarItem添加动画效果" class="headerlink" title="点击 UITabBarItem添加动画效果"></a>点击 UITabBarItem添加动画效果</h2><figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="keyword">void</span>)tabBar:(<span class="built_in">UITabBar</span> *)tabBar didSelectItem:(<span class="built_in">UITabBarItem</span> *)item &#123;</span><br><span class="line">    <span class="built_in">NSInteger</span> index = [<span class="keyword">self</span>.tabBar.items indexOfObject:item];</span><br><span class="line">    [<span class="keyword">self</span> animationWithIndex:index];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">#pragma mark - private methods</span></span><br><span class="line">- (<span class="keyword">void</span>)animationWithIndex:(<span class="built_in">NSInteger</span>)index &#123;</span><br><span class="line">    <span class="built_in">NSMutableArray</span> *tabBarbuttonArray = [<span class="built_in">NSMutableArray</span> array];</span><br><span class="line">    <span class="comment">// 找到所有的 UITabBarButton</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="built_in">UIView</span> *tabBarButton <span class="keyword">in</span> <span class="keyword">self</span>.tabBar.subviews) &#123;</span><br><span class="line">        <span class="keyword">if</span> ([tabBarButton isKindOfClass:<span class="built_in">NSClassFromString</span>(<span class="string">@"UITabBarButton"</span>)]) &#123;</span><br><span class="line">            [tabBarbuttonArray addObject:tabBarButton];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// tabBarButton 排序</span></span><br><span class="line">    [tabBarbuttonArray sortUsingComparator:^<span class="built_in">NSComparisonResult</span>(<span class="built_in">UIView</span> *_Nonnull obj1, <span class="built_in">UIView</span> *_Nonnull obj2) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">CGRectGetMinX</span>(obj1.frame) &gt; <span class="built_in">CGRectGetMinX</span>(obj2.frame);</span><br><span class="line">    &#125;];</span><br><span class="line"></span><br><span class="line">    <span class="built_in">UIView</span> *tabbarBtn = tabBarbuttonArray[index];</span><br><span class="line">    <span class="comment">// 找到UITabBarButton中的imageView，加动画</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="built_in">UIView</span> *sub <span class="keyword">in</span> tabbarBtn.subviews) &#123;</span><br><span class="line">        <span class="keyword">if</span> ([sub isKindOfClass:<span class="built_in">NSClassFromString</span>(<span class="string">@"UITabBarSwappableImageView"</span>)]) &#123;</span><br><span class="line">            [<span class="keyword">self</span> preformAnimationForView:sub];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (<span class="keyword">void</span>)preformAnimationForView:(<span class="built_in">UIView</span> *)view &#123;</span><br><span class="line">    [view.layer addAnimation:[<span class="keyword">self</span> scaleAnimation] forKey:<span class="literal">nil</span>];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> 重力效果弹跳</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line">- (<span class="built_in">CAKeyframeAnimation</span> *)gravityElasticAnimation &#123;</span><br><span class="line">    <span class="built_in">CAKeyframeAnimation</span> *animation = [<span class="built_in">CAKeyframeAnimation</span> animationWithKeyPath:<span class="string">@"transform.translation.y"</span>];</span><br><span class="line">    animation.values = @[@<span class="number">0.0</span>, @<span class="number">-4.15</span>, @<span class="number">-7.26</span>, @<span class="number">-9.34</span>, @<span class="number">-10.37</span>, @<span class="number">-9.34</span>, @<span class="number">-7.26</span>, @<span class="number">-4.15</span>, @<span class="number">0.0</span>, @<span class="number">2.0</span>, @<span class="number">-2.9</span>, @<span class="number">-4.94</span>, @<span class="number">-6.11</span>, @<span class="number">-6.42</span>, @<span class="number">-5.86</span>, @<span class="number">-4.44</span>, @<span class="number">-2.16</span>, @<span class="number">0.0</span>];</span><br><span class="line">    animation.duration = <span class="number">0.8</span>;</span><br><span class="line">    animation.beginTime = <span class="built_in">CACurrentMediaTime</span>();</span><br><span class="line">    animation.removedOnCompletion = <span class="literal">YES</span>;</span><br><span class="line">    <span class="keyword">return</span> animation;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> 缩放动画</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line">- (<span class="built_in">CABasicAnimation</span> *)scaleAnimation &#123;</span><br><span class="line">    <span class="built_in">CABasicAnimation</span> *animation = [<span class="built_in">CABasicAnimation</span> animationWithKeyPath:<span class="string">@"transform.scale"</span>];</span><br><span class="line">    animation.timingFunction = [<span class="built_in">CAMediaTimingFunction</span> functionWithName:kCAMediaTimingFunctionEaseInEaseOut];</span><br><span class="line">    animation.duration = <span class="number">0.2</span>;</span><br><span class="line">    animation.repeatCount = <span class="number">1</span>;</span><br><span class="line">    animation.removedOnCompletion = <span class="literal">YES</span>;</span><br><span class="line">    animation.autoreverses = <span class="literal">YES</span>;</span><br><span class="line">    animation.fromValue = @<span class="number">1</span>;</span><br><span class="line">    animation.toValue = @[@<span class="number">0.7</span>, @<span class="number">1</span>];</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> animation;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+      
     </div>
+
+    
+
+    
+    
+    
+
+    <div>
+      
+        
+<div class="my_post_copyright">
+  <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+  <!-- JS库 sweetalert 可修改路径 -->
+  <script type="text/javascript" src="http://jslibs.wuxubj.cn/sweetalert_mini/jquery-1.7.1.min.js"></script>
+  <script src="http://jslibs.wuxubj.cn/sweetalert_mini/sweetalert.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="http://jslibs.wuxubj.cn/sweetalert_mini/sweetalert.mini.css">
+  <p><span>本文标题:</span><a href="/2019/06/09/UITabBar-点击动画与切换-VC-动画实现/">UITabBar 点击动画与切换 VC 动画实现</a></p>
+  <p><span>文章作者:</span><a href="/" title="访问 VanJay 的个人博客">VanJay</a></p>
+  <p><span>发布时间:</span>2019年06月09日 - 15:06</p>
+  
+    <p><span>最后更新:</span>2019年06月09日 - 15:06</p>
+  
+  <p><span>原始链接:</span><a href="/2019/06/09/UITabBar-点击动画与切换-VC-动画实现/" title="UITabBar 点击动画与切换 VC 动画实现">https://www.vanjay.cn/2019/06/09/UITabBar-点击动画与切换-VC-动画实现/</a>
+    <span class="copy-path"  title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="https://www.vanjay.cn/2019/06/09/UITabBar-点击动画与切换-VC-动画实现/"  aria-label="复制成功！"></i></span>
+  </p>
+  <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)"> CC BY-NC-SA 4.0 Unported</a> 转载请保留原文链接及作者。</p>
+</div>
+<script>
+    var clipboard = new Clipboard('.fa-clipboard');
+    clipboard.on('success', $(function(){
+      $(".fa-clipboard").click(function(){
+        swal({
+          title: "",
+          text: '复制成功',
+          html: false,
+          timer: 500,
+          showConfirmButton: false
+        });
+      });
+    }));
+</script>
+
+      
+    </div>
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>对你有帮助？您的支持将更加鼓励我继续创作！</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.png" alt="VanJay 微信支付"/>
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.jpg" alt="VanJay 支付宝"/>
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/iOS/" rel="tag"><i class="fa fa-tag"></i> iOS</a>
+          
+            <a href="/tags/UITabBar/" rel="tag"><i class="fa fa-tag"></i> UITabBar</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/04/01/cocoapods-私有库的搭建和使用/" rel="next" title="cocoapods 私有库的搭建和使用">
+                <i class="fa fa-chevron-left"></i> cocoapods 私有库的搭建和使用
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </div>
   
   
   
+  </article>
 
-  
 
+  </div>
 
 
           </div>
           
+
+  
+    <div class="comments" id="comments">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC80MDA5MC8xNjYxNw=="></div>
+    </div>
+
+  
+
+
 
         </div>
         
@@ -477,8 +691,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -497,7 +720,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">34</span>
+                    <span class="site-state-item-count">35</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -691,7 +914,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">67</span>
+                      
+                    
+                    <span class="site-state-item-count">68</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
@@ -780,6 +1005,22 @@
       </section>
 
       
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#效果图"><span class="nav-number">1.</span> <span class="nav-text">效果图</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#tabBarController-切换-selectedViewController-的动画添加"><span class="nav-number">2.</span> <span class="nav-text">tabBarController 切换 selectedViewController 的动画添加</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#点击-UITabBarItem添加动画效果"><span class="nav-number">3.</span> <span class="nav-text">点击 UITabBarItem添加动画效果</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
 
       
 
@@ -807,7 +1048,7 @@
     
       <span class="post-meta-item-text">站点总字数：</span>
     
-    <span title="站点总字数">154k</span>
+    <span title="站点总字数">160k</span>
   
 
   
@@ -818,7 +1059,7 @@
     
       <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
     
-    <span title="站点阅读时长">2:20</span>
+    <span title="站点阅读时长">2:25</span>
   
 </div>
 
@@ -951,6 +1192,10 @@
   
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.4.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.4.2"></script>
+
+
 
   
 
@@ -963,6 +1208,20 @@
 
 
 
+  
+    <script type="text/javascript">
+      window.livereOptions = {
+        refer: '2019/06/09/UITabBar-点击动画与切换-VC-动画实现/'
+      };
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
   
 
 
@@ -1305,43 +1564,42 @@
   
   <script>
     
-    function showTime(Counter) {
-      var entries = [];
+    function addCount(Counter) {
       var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
 
-      $visitors.each(function () {
-        entries.push( $(this).attr("id").trim() );
-      });
-
-      Counter('get', '/classes/Counter', { where: JSON.stringify({ url: { "$in": entries } }) })
+      Counter('get', '/classes/Counter', { where: JSON.stringify({ url }) })
         .done(function ({ results }) {
-          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
-
-          if (results.length === 0) {
-            $visitors.find(COUNT_CONTAINER_REF).text(0);
-            return;
-          }
-
-          for (var i = 0; i < results.length; i++) {
-            var item = results[i];
-            var url = item.url;
-            var time = item.time;
-            var element = document.getElementById(url);
-
-            $(element).find(COUNT_CONTAINER_REF).text(time);
-          }
-          for(var i = 0; i < entries.length; i++) {
-            var url = entries[i];
-            var element = document.getElementById(url);
-            var countSpan = $(element).find(COUNT_CONTAINER_REF);
-            if( countSpan.text() == '') {
-              countSpan.text(0);
-            }
+          if (results.length > 0) {
+            var counter = results[0];
+            
+            Counter('put', `/classes/Counter/${counter.objectId}`, JSON.stringify({ time: { "__op":"Increment", "amount":1 } }))
+            
+            .done(function () {
+                  var $element = $(document.getElementById(url));
+                  $element.find('.leancloud-visitors-count').text(counter.time + 1);
+            })
+            
+            .fail(function ({ responseJSON }) {
+                console.log('Failed to save Visitor num, with error message: ' + responseJSON.error);
+            })
+          } else {
+            
+              Counter('post', '/classes/Counter', JSON.stringify({ title: title, url: url, time: 1}))
+                .done(function () {
+                  var $element = $(document.getElementById(url));
+                  $element.find('.leancloud-visitors-count').text(1);
+                })
+                .fail(function () {
+                  console.log('Failed to create');
+                });
+            
           }
         })
-        .fail(function ({ responseJSON }) {
-          console.log("LeanCloud Counter Error: " + responseJSON.code + " " + responseJSON.error);
-        });
+      .fail(function ({ responseJSON }) {
+        console.log('LeanCloud Counter Error:' + responseJSON.code + " " + responseJSON.error);
+      });
     }
     
 
@@ -1361,9 +1619,7 @@
             });
           };
           
-          if ($('.post-title-link').length >= 1) {
-            showTime(Counter);
-          }
+          addCount(Counter);
           
         })
     });
