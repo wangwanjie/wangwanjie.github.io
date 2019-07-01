@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://www.vanjay.cn/"/>
-  <updated>2019-06-09T07:34:22.066Z</updated>
+  <updated>2019-07-01T02:52:40.322Z</updated>
   <id>https://www.vanjay.cn/</id>
   
   <author>
@@ -14,6 +14,32 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>抓取 App Store和 Google Play 应用评论并写入 Excel</title>
+    <link href="https://www.vanjay.cn/2019/06/29/%E6%8A%93%E5%8F%96-App-Store%E5%92%8C-Google-Play-%E5%BA%94%E7%94%A8%E8%AF%84%E8%AE%BA%E5%B9%B6%E5%86%99%E5%85%A5-Excel/"/>
+    <id>https://www.vanjay.cn/2019/06/29/抓取-App-Store和-Google-Play-应用评论并写入-Excel/</id>
+    <published>2019-06-29T07:01:27.000Z</published>
+    <updated>2019-07-01T02:52:40.322Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;这几天开始在利用业余时间用 Swift 5 重写公司项目，继上一次用 Swift 写项目隔了有两年了吧（中间陆续在学习），Swift 变得更加好用了，真是愈发嫌弃 OC，来新公司把所负责的 App 从规范到基础服务再到业务里外优化了一番，算是有所成果了。新项目到写得正 high，组长丢给我一个任务，产品经理需要竞品在 App Store 和 Google Play 的评论数据用于调研，简单实现了一番，趁热打铁，记录一下结果，以便日后需要。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="爬虫" scheme="https://www.vanjay.cn/categories/%E7%88%AC%E8%99%AB/"/>
+    
+    
+      <category term="JavaScript" scheme="https://www.vanjay.cn/tags/JavaScript/"/>
+    
+      <category term="Python" scheme="https://www.vanjay.cn/tags/Python/"/>
+    
+      <category term="爬虫" scheme="https://www.vanjay.cn/tags/%E7%88%AC%E8%99%AB/"/>
+    
+      <category term="SEO" scheme="https://www.vanjay.cn/tags/SEO/"/>
+    
+  </entry>
   
   <entry>
     <title>UITabBar 点击动画与切换 VC 动画实现</title>
@@ -166,13 +192,13 @@
       <category term="爬虫" scheme="https://www.vanjay.cn/categories/%E7%88%AC%E8%99%AB/"/>
     
     
-      <category term="自动化" scheme="https://www.vanjay.cn/tags/%E8%87%AA%E5%8A%A8%E5%8C%96/"/>
-    
       <category term="Python" scheme="https://www.vanjay.cn/tags/Python/"/>
     
-      <category term="抓包" scheme="https://www.vanjay.cn/tags/%E6%8A%93%E5%8C%85/"/>
-    
       <category term="爬虫" scheme="https://www.vanjay.cn/tags/%E7%88%AC%E8%99%AB/"/>
+    
+      <category term="自动化" scheme="https://www.vanjay.cn/tags/%E8%87%AA%E5%8A%A8%E5%8C%96/"/>
+    
+      <category term="抓包" scheme="https://www.vanjay.cn/tags/%E6%8A%93%E5%8C%85/"/>
     
   </entry>
   
@@ -496,30 +522,6 @@
       <category term="iOS企业应用更新" scheme="https://www.vanjay.cn/tags/iOS%E4%BC%81%E4%B8%9A%E5%BA%94%E7%94%A8%E6%9B%B4%E6%96%B0/"/>
     
       <category term="Python3 读写 plist" scheme="https://www.vanjay.cn/tags/Python3-%E8%AF%BB%E5%86%99-plist/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>原生 JavaScript 判断 DOM 是否包含某个 class</title>
-    <link href="https://www.vanjay.cn/2017/03/23/%E5%8E%9F%E7%94%9F-JavaScript-%E5%88%A4%E6%96%AD-DOM-%E6%98%AF%E5%90%A6%E5%8C%85%E5%90%AB%E6%9F%90%E4%B8%AA-class/"/>
-    <id>https://www.vanjay.cn/2017/03/23/原生-JavaScript-判断-DOM-是否包含某个-class/</id>
-    <published>2017-03-23T03:05:27.000Z</published>
-    <updated>2017-03-23T03:11:02.000Z</updated>
-    
-    <summary type="html">
-    
-      &lt;h2 id=&quot;使用-classlist&quot;&gt;&lt;a href=&quot;#使用-classlist&quot; class=&quot;headerlink&quot; title=&quot;使用 classlist&quot;&gt;&lt;/a&gt;使用 &lt;code&gt;classlist&lt;/code&gt;&lt;/h2&gt;
-    
-    </summary>
-    
-      <category term="JavaScript" scheme="https://www.vanjay.cn/categories/JavaScript/"/>
-    
-    
-      <category term="JavaScript" scheme="https://www.vanjay.cn/tags/JavaScript/"/>
-    
-      <category term="DOM" scheme="https://www.vanjay.cn/tags/DOM/"/>
-    
-      <category term="DOM Class" scheme="https://www.vanjay.cn/tags/DOM-Class/"/>
     
   </entry>
   
