@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://www.vanjay.cn/"/>
-  <updated>2019-07-01T04:08:14.279Z</updated>
+  <updated>2020-03-11T16:33:26.483Z</updated>
   <id>https://www.vanjay.cn/</id>
   
   <author>
@@ -16,11 +16,37 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>iOS 使用 cocoapods 组件化心得记录</title>
+    <link href="https://www.vanjay.cn/2020/03/11/iOS-%E4%BD%BF%E7%94%A8-cocoapods-%E7%BB%84%E4%BB%B6%E5%8C%96%E5%BF%83%E5%BE%97%E8%AE%B0%E5%BD%95/"/>
+    <id>https://www.vanjay.cn/2020/03/11/iOS-使用-cocoapods-组件化心得记录/</id>
+    <published>2020-03-11T12:58:01.000Z</published>
+    <updated>2020-03-11T16:33:26.483Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;背景&quot;&gt;&lt;a href=&quot;#背景&quot; class=&quot;headerlink&quot; title=&quot;背景&quot;&gt;&lt;/a&gt;背景&lt;/h2&gt;&lt;p&gt;2020年2月10日，在疫情的影响之下，公司只能远程开工，这天算是上班的第一天，上午召开了公司全体员工远程会议，宣贯了一些通知和公司计划。结论是：公司之前做的支付产品“ViPay”暂时停止步伐，转而进军其他领域，从宣贯至今，风头时而有变化，一会儿裁员一会又是做外包的，最后确切消息是要做一个超级 App，有点类似国内的支付宝和美团，所以之前我加了几百个小时班优化的客户端就这样夭折了，但是组件要抽出来做他用，还要为后期做容器接入第三方做准备，折腾了这么多天，记录一些小心得。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="iOS" scheme="https://www.vanjay.cn/categories/iOS/"/>
+    
+    
+      <category term="工程自动化" scheme="https://www.vanjay.cn/tags/%E5%B7%A5%E7%A8%8B%E8%87%AA%E5%8A%A8%E5%8C%96/"/>
+    
+      <category term="iOS" scheme="https://www.vanjay.cn/tags/iOS/"/>
+    
+      <category term="cocoapods" scheme="https://www.vanjay.cn/tags/cocoapods/"/>
+    
+      <category term="组件化" scheme="https://www.vanjay.cn/tags/%E7%BB%84%E4%BB%B6%E5%8C%96/"/>
+    
+  </entry>
+  
+  <entry>
     <title>彻底解决 iOS 导航栏样式控制问题</title>
     <link href="https://www.vanjay.cn/2019/07/01/%E5%BD%BB%E5%BA%95%E8%A7%A3%E5%86%B3-iOS-%E5%AF%BC%E8%88%AA%E6%A0%8F%E6%A0%B7%E5%BC%8F%E6%8E%A7%E5%88%B6%E9%97%AE%E9%A2%98/"/>
     <id>https://www.vanjay.cn/2019/07/01/彻底解决-iOS-导航栏样式控制问题/</id>
     <published>2019-07-01T03:28:16.000Z</published>
-    <updated>2019-07-01T04:08:14.279Z</updated>
+    <updated>2019-07-01T04:08:14.000Z</updated>
     
     <summary type="html">
     
@@ -46,7 +72,7 @@
     <link href="https://www.vanjay.cn/2019/06/29/%E6%8A%93%E5%8F%96-App-Store%E5%92%8C-Google-Play-%E5%BA%94%E7%94%A8%E8%AF%84%E8%AE%BA%E5%B9%B6%E5%86%99%E5%85%A5-Excel/"/>
     <id>https://www.vanjay.cn/2019/06/29/抓取-App-Store和-Google-Play-应用评论并写入-Excel/</id>
     <published>2019-06-29T07:01:27.000Z</published>
-    <updated>2019-07-01T02:52:40.322Z</updated>
+    <updated>2019-07-01T02:52:40.000Z</updated>
     
     <summary type="html">
     
@@ -72,7 +98,7 @@
     <link href="https://www.vanjay.cn/2019/06/09/UITabBar-%E7%82%B9%E5%87%BB%E5%8A%A8%E7%94%BB%E4%B8%8E%E5%88%87%E6%8D%A2-VC-%E5%8A%A8%E7%94%BB%E5%AE%9E%E7%8E%B0/"/>
     <id>https://www.vanjay.cn/2019/06/09/UITabBar-点击动画与切换-VC-动画实现/</id>
     <published>2019-06-09T07:15:25.000Z</published>
-    <updated>2019-07-01T03:08:10.395Z</updated>
+    <updated>2019-07-01T03:08:10.000Z</updated>
     
     <summary type="html">
     
@@ -96,7 +122,7 @@
     <link href="https://www.vanjay.cn/2019/04/01/cocoapods-%E7%A7%81%E6%9C%89%E5%BA%93%E7%9A%84%E6%90%AD%E5%BB%BA%E5%92%8C%E4%BD%BF%E7%94%A8/"/>
     <id>https://www.vanjay.cn/2019/04/01/cocoapods-私有库的搭建和使用/</id>
     <published>2019-04-01T02:17:32.000Z</published>
-    <updated>2019-04-01T05:52:34.928Z</updated>
+    <updated>2019-04-01T05:52:34.000Z</updated>
     
     <summary type="html">
     
@@ -502,28 +528,6 @@
       <category term="MUI" scheme="https://www.vanjay.cn/tags/MUI/"/>
     
       <category term="HTML" scheme="https://www.vanjay.cn/tags/HTML/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>JavaScript 主动选择 option</title>
-    <link href="https://www.vanjay.cn/2017/04/11/JavaScript-%E4%B8%BB%E5%8A%A8%E9%80%89%E6%8B%A9-option/"/>
-    <id>https://www.vanjay.cn/2017/04/11/JavaScript-主动选择-option/</id>
-    <published>2017-04-11T08:13:35.000Z</published>
-    <updated>2017-04-11T08:16:08.000Z</updated>
-    
-    <summary type="html">
-    
-      &lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
-&lt;p&gt;主动选择 &lt;code&gt;select&lt;/code&gt; 中的 &lt;code&gt;option&lt;/code&gt;&lt;/p&gt;
-&lt;figure class=&quot;highlight javascript&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;
-    
-    </summary>
-    
-      <category term="JavaScript" scheme="https://www.vanjay.cn/categories/JavaScript/"/>
-    
-    
-      <category term="JavaScript" scheme="https://www.vanjay.cn/tags/JavaScript/"/>
     
   </entry>
   
