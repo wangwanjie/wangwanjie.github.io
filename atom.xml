@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://www.vanjay.cn/"/>
-  <updated>2020-03-11T16:33:26.483Z</updated>
+  <updated>2022-05-18T08:37:56.614Z</updated>
   <id>https://www.vanjay.cn/</id>
   
   <author>
@@ -16,11 +16,35 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>Mac QuickLook配置</title>
+    <link href="https://www.vanjay.cn/2022/05/18/Mac-QuickLook%E9%85%8D%E7%BD%AE/"/>
+    <id>https://www.vanjay.cn/2022/05/18/Mac-QuickLook配置/</id>
+    <published>2022-05-18T08:15:44.000Z</published>
+    <updated>2022-05-18T08:37:56.614Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;背景&quot;&gt;&lt;a href=&quot;#背景&quot; class=&quot;headerlink&quot; title=&quot;背景&quot;&gt;&lt;/a&gt;背景&lt;/h2&gt;&lt;p&gt;Mac 上的快速预览功能能很大程度上提高工作效率，系统默认支持一些常规的文件预览，一些第三方的文件就需要自己安装插件，但有些文件名后缀不被插件识别，但我们有时仅仅只是想文本预览，此时可以往第三方插件里添加支持，写此篇文章做个备忘。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="Mac" scheme="https://www.vanjay.cn/categories/Mac/"/>
+    
+    
+      <category term="系统设置" scheme="https://www.vanjay.cn/tags/%E7%B3%BB%E7%BB%9F%E8%AE%BE%E7%BD%AE/"/>
+    
+      <category term="Mac" scheme="https://www.vanjay.cn/tags/Mac/"/>
+    
+      <category term="QuickLook" scheme="https://www.vanjay.cn/tags/QuickLook/"/>
+    
+  </entry>
+  
+  <entry>
     <title>iOS 使用 cocoapods 组件化心得记录</title>
     <link href="https://www.vanjay.cn/2020/03/11/iOS-%E4%BD%BF%E7%94%A8-cocoapods-%E7%BB%84%E4%BB%B6%E5%8C%96%E5%BF%83%E5%BE%97%E8%AE%B0%E5%BD%95/"/>
     <id>https://www.vanjay.cn/2020/03/11/iOS-使用-cocoapods-组件化心得记录/</id>
     <published>2020-03-11T12:58:01.000Z</published>
-    <updated>2020-03-11T16:33:26.483Z</updated>
+    <updated>2020-03-11T16:33:26.000Z</updated>
     
     <summary type="html">
     
@@ -46,7 +70,7 @@
     <link href="https://www.vanjay.cn/2019/08/12/%E4%BC%98%E9%9B%85%E5%BE%97%E5%A4%84%E7%90%86Xcode%E9%A1%B9%E7%9B%AE%E4%B8%AD%E7%9A%84TODO%E3%80%81FIXME/"/>
     <id>https://www.vanjay.cn/2019/08/12/优雅得处理Xcode项目中的TODO、FIXME/</id>
     <published>2019-08-12T13:52:55.000Z</published>
-    <updated>2020-03-12T02:58:33.056Z</updated>
+    <updated>2020-03-12T02:58:33.000Z</updated>
     
     <summary type="html">
     
@@ -105,11 +129,11 @@
       <category term="爬虫" scheme="https://www.vanjay.cn/categories/%E7%88%AC%E8%99%AB/"/>
     
     
-      <category term="JavaScript" scheme="https://www.vanjay.cn/tags/JavaScript/"/>
-    
       <category term="Python" scheme="https://www.vanjay.cn/tags/Python/"/>
     
       <category term="爬虫" scheme="https://www.vanjay.cn/tags/%E7%88%AC%E8%99%AB/"/>
+    
+      <category term="JavaScript" scheme="https://www.vanjay.cn/tags/JavaScript/"/>
     
       <category term="SEO" scheme="https://www.vanjay.cn/tags/SEO/"/>
     
@@ -266,13 +290,13 @@
       <category term="爬虫" scheme="https://www.vanjay.cn/categories/%E7%88%AC%E8%99%AB/"/>
     
     
-      <category term="Python" scheme="https://www.vanjay.cn/tags/Python/"/>
-    
-      <category term="爬虫" scheme="https://www.vanjay.cn/tags/%E7%88%AC%E8%99%AB/"/>
-    
       <category term="自动化" scheme="https://www.vanjay.cn/tags/%E8%87%AA%E5%8A%A8%E5%8C%96/"/>
     
+      <category term="Python" scheme="https://www.vanjay.cn/tags/Python/"/>
+    
       <category term="抓包" scheme="https://www.vanjay.cn/tags/%E6%8A%93%E5%8C%85/"/>
+    
+      <category term="爬虫" scheme="https://www.vanjay.cn/tags/%E7%88%AC%E8%99%AB/"/>
     
   </entry>
   
@@ -479,7 +503,7 @@
     <link href="https://www.vanjay.cn/2018/06/18/iOS%E9%87%8C%E5%85%B3%E4%BA%8Eblock%E7%9A%84%E4%B8%80%E4%BA%9B%E7%90%86%E8%A7%A3/"/>
     <id>https://www.vanjay.cn/2018/06/18/iOS里关于block的一些理解/</id>
     <published>2018-06-18T14:21:21.000Z</published>
-    <updated>2020-03-12T03:09:03.815Z</updated>
+    <updated>2020-03-12T03:09:03.000Z</updated>
     
     <summary type="html">
     
@@ -493,35 +517,6 @@
       <category term="Objective-C" scheme="https://www.vanjay.cn/tags/Objective-C/"/>
     
       <category term="Block" scheme="https://www.vanjay.cn/tags/Block/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>购买BanwagonHOST VPS自建Shadowsocks记录</title>
-    <link href="https://www.vanjay.cn/2017/07/28/%E8%B4%AD%E4%B9%B0BanwagonHOST-VPS%E8%87%AA%E5%BB%BAShadowsocks%E8%AE%B0%E5%BD%95/"/>
-    <id>https://www.vanjay.cn/2017/07/28/购买BanwagonHOST-VPS自建Shadowsocks记录/</id>
-    <published>2017-07-27T16:15:23.000Z</published>
-    <updated>2018-07-05T09:30:55.000Z</updated>
-    
-    <summary type="html">
-    
-      &lt;h1 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h1&gt;&lt;blockquote&gt;
-&lt;p&gt;不能畅游墙外没法好好生活和工作&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;本来手里有着五六个 &lt;code&gt;Shadowsocks&lt;/code&gt; 帐号，但体验都不佳，一直也没怎么用，是因为一直使用公司搭建的 &lt;code&gt;Cisco Anyconnect&lt;/code&gt;，科学上网后百兆带宽可以满速使用，速度虽快，但是客户端软件默认是全局代理的，虽然可以走&lt;code&gt;IP route list&lt;/code&gt;达到和&lt;code&gt;Shadowsocks&lt;/code&gt;的&lt;code&gt;PAC&lt;/code&gt;同样的作用，但效果慎微，而且&lt;code&gt;IP&lt;/code&gt;要自己去填，所以公司&lt;code&gt;IT&lt;/code&gt;直接没搞这个&lt;code&gt;route list&lt;/code&gt;，因为我们大部分电脑和手机&lt;code&gt;APP&lt;/code&gt;都在墙内，这就导致在使用了&lt;code&gt;Cisco Anyconnect&lt;/code&gt;后大部分电脑或者手机上的&lt;code&gt;APP&lt;/code&gt;网络访问困难，常开&lt;code&gt;VPN&lt;/code&gt;还是需要&lt;code&gt;Shadowsocks&lt;/code&gt;等可根据 &lt;strong&gt;PAC清单自动代理&lt;/strong&gt; 或者 &lt;strong&gt;分应用代理&lt;/strong&gt; 的一类软件。&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="VPN" scheme="https://www.vanjay.cn/categories/VPN/"/>
-    
-    
-      <category term="Mac使用" scheme="https://www.vanjay.cn/tags/Mac%E4%BD%BF%E7%94%A8/"/>
-    
-      <category term="BanwagonHOST" scheme="https://www.vanjay.cn/tags/BanwagonHOST/"/>
-    
-      <category term="Shadowsocks" scheme="https://www.vanjay.cn/tags/Shadowsocks/"/>
-    
-      <category term="科学上网" scheme="https://www.vanjay.cn/tags/%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91/"/>
     
   </entry>
   
