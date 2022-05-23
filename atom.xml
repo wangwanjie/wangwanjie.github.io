@@ -10,7 +10,7 @@
   
   <author>
     <name>VanJay</name>
-    <email>wangwanjie1993@gmail.com</email>
+    <email>vanjay.dev@gmail.com</email>
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
@@ -31,9 +31,9 @@
       <category term="Mac" scheme="https://www.vanjay.cn/categories/Mac/"/>
     
     
-      <category term="系统设置" scheme="https://www.vanjay.cn/tags/%E7%B3%BB%E7%BB%9F%E8%AE%BE%E7%BD%AE/"/>
-    
       <category term="Mac" scheme="https://www.vanjay.cn/tags/Mac/"/>
+    
+      <category term="系统设置" scheme="https://www.vanjay.cn/tags/%E7%B3%BB%E7%BB%9F%E8%AE%BE%E7%BD%AE/"/>
     
       <category term="QuickLook" scheme="https://www.vanjay.cn/tags/QuickLook/"/>
     
@@ -129,11 +129,11 @@
       <category term="爬虫" scheme="https://www.vanjay.cn/categories/%E7%88%AC%E8%99%AB/"/>
     
     
+      <category term="JavaScript" scheme="https://www.vanjay.cn/tags/JavaScript/"/>
+    
       <category term="Python" scheme="https://www.vanjay.cn/tags/Python/"/>
     
       <category term="爬虫" scheme="https://www.vanjay.cn/tags/%E7%88%AC%E8%99%AB/"/>
-    
-      <category term="JavaScript" scheme="https://www.vanjay.cn/tags/JavaScript/"/>
     
       <category term="SEO" scheme="https://www.vanjay.cn/tags/SEO/"/>
     
