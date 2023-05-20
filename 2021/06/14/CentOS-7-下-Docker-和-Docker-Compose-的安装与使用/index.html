@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic%7CRoboto+Slab:300,300italic,400,400italic,700,700italic%7CPT+Mono:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css" integrity="sha256-Vzbj7sDDS/woiFS3uNKo8eIuni59rjyNGtXfstRzStA=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"blog.vanjay.cn","root":"/","images":"/images","scheme":"Mist","darkmode":false,"version":"8.16.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":"mac"},"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="需求背景随着微服务架构的流行，如何高效、快速地部署和管理各种服务成为了一个问题。传统的部署方式，如手动安装配置环境、手动部署和更新应用，不仅耗费人力物力，而且容易出错，且不易复制和扩展。 为了解决这个问题，Docker诞生了。Docker是一个开源的应用容器引擎，允许开发者打包他们的应用以及依赖包到一个可移植的容器中，然后发布到任何流行的Linux机器或Windows机器上，也可以实现虚拟化。容器">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CentOS 7 下 Docker 和 Docker-Compose 的安装与使用">
+<meta property="og:url" content="https://blog.vanjay.cn/2021/06/14/CentOS-7-%E4%B8%8B-Docker-%E5%92%8C-Docker-Compose-%E7%9A%84%E5%AE%89%E8%A3%85%E4%B8%8E%E4%BD%BF%E7%94%A8/index.html">
+<meta property="og:site_name" content="VanJay&#39;s Blog">
+<meta property="og:description" content="需求背景随着微服务架构的流行，如何高效、快速地部署和管理各种服务成为了一个问题。传统的部署方式，如手动安装配置环境、手动部署和更新应用，不仅耗费人力物力，而且容易出错，且不易复制和扩展。 为了解决这个问题，Docker诞生了。Docker是一个开源的应用容器引擎，允许开发者打包他们的应用以及依赖包到一个可移植的容器中，然后发布到任何流行的Linux机器或Windows机器上，也可以实现虚拟化。容器">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-06-13T17:51:09.000Z">
+<meta property="article:modified_time" content="2023-05-13T18:47:47.698Z">
+<meta property="article:author" content="VanJay">
+<meta property="article:tag" content="docker">
+<meta property="article:tag" content="centos">
+<meta property="article:tag" content="docker-compose">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://blog.vanjay.cn/2021/06/14/CentOS-7-%E4%B8%8B-Docker-%E5%92%8C-Docker-Compose-%E7%9A%84%E5%AE%89%E8%A3%85%E4%B8%8E%E4%BD%BF%E7%94%A8/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://blog.vanjay.cn/2021/06/14/CentOS-7-%E4%B8%8B-Docker-%E5%92%8C-Docker-Compose-%E7%9A%84%E5%AE%89%E8%A3%85%E4%B8%8E%E4%BD%BF%E7%94%A8/","path":"2021/06/14/CentOS-7-下-Docker-和-Docker-Compose-的安装与使用/","title":"CentOS 7 下 Docker 和 Docker-Compose 的安装与使用"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>CentOS 7 下 Docker 和 Docker-Compose 的安装与使用 | VanJay's Blog</title>
+  
+
+  <script src="/js/third-party/analytics/baidu-analytics.js"></script>
+  <script async src="https://hm.baidu.com/hm.js?dcbe579f2b53b3adfd4034b7acee5785"></script>
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="VanJay's Blog" type="application/atom+xml">
+<link rel="alternate" href="/rss2.xml" title="VanJay's Blog" type="application/rss+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">VanJay's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">一个爱折腾工程师的全栈梦</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="home fa-fw"></i>首页</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-commonweal"><a href="/404.html" rel="section"><i class="heartbeat fa-fw"></i>公益 404</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="user fa-fw"></i>关于</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%9C%80%E6%B1%82%E8%83%8C%E6%99%AF"><span class="nav-number">1.</span> <span class="nav-text">需求背景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CentOS-7-%E4%B8%8B-Docker-%E5%92%8C-Docker-Compose-%E7%9A%84%E5%AE%89%E8%A3%85"><span class="nav-number">2.</span> <span class="nav-text">CentOS 7 下 Docker 和 Docker-Compose 的安装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E8%A3%85%E4%B8%80%E4%BA%9B%E5%BF%85%E8%A6%81%E7%9A%84%E7%B3%BB%E7%BB%9F%E5%B7%A5%E5%85%B7"><span class="nav-number">3.</span> <span class="nav-text">安装一些必要的系统工具</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B7%BB%E5%8A%A0%E8%BD%AF%E4%BB%B6%E6%BA%90%E4%BF%A1%E6%81%AF"><span class="nav-number">4.</span> <span class="nav-text">添加软件源信息</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Docker-%E7%9A%84%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E5%92%8C%E6%93%8D%E4%BD%9C"><span class="nav-number">4.1.</span> <span class="nav-text">Docker 的常用命令和操作</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#docker-inspect-%E5%91%BD%E4%BB%A4"><span class="nav-number">4.1.1.</span> <span class="nav-text">docker inspect 命令</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#docker-stats-%E2%80%93all-%E5%91%BD%E4%BB%A4"><span class="nav-number">4.1.2.</span> <span class="nav-text">docker stats –all 命令</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Docker-compose-%E7%9A%84%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E5%92%8C%E6%93%8D%E4%BD%9C"><span class="nav-number">4.2.</span> <span class="nav-text">Docker-compose 的常用命令和操作</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%97%E5%87%BA%E6%9C%8D%E5%8A%A1%E7%9A%84%E7%8A%B6%E6%80%81"><span class="nav-number">4.2.1.</span> <span class="nav-text">列出服务的状态</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%9F%A5%E7%9C%8B%E8%BE%93%E5%87%BA%EF%BC%88%E7%B1%BB%E4%BC%BC%E4%BA%8Edocker-logs%EF%BC%89"><span class="nav-number">4.2.2.</span> <span class="nav-text">查看输出（类似于docker logs）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%89%A7%E8%A1%8C%E5%91%BD%E4%BB%A4"><span class="nav-number">4.2.3.</span> <span class="nav-text">执行命令</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%A0%E9%99%A4%E5%92%8C%E9%87%8D%E5%BB%BA%E6%9C%8D%E5%8A%A1"><span class="nav-number">4.2.4.</span> <span class="nav-text">删除和重建服务</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%8B%89%E5%8F%96%E5%92%8C%E6%8E%A8%E9%80%81%E6%9C%8D%E5%8A%A1"><span class="nav-number">4.2.5.</span> <span class="nav-text">拉取和推送服务</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AB%AF%E5%8F%A3%E6%98%A0%E5%B0%84"><span class="nav-number">5.</span> <span class="nav-text">端口映射</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8D%B7%E6%98%A0%E5%B0%84"><span class="nav-number">6.</span> <span class="nav-text">卷映射</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Docker-%E5%92%8C-Docker-Compose-%E7%9A%84%E4%BC%98%E5%8A%BF%E5%92%8C%E9%80%82%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="nav-number">7.</span> <span class="nav-text">Docker 和 Docker-Compose 的优势和适用场景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A1%A5%E5%85%85"><span class="nav-number">8.</span> <span class="nav-text">补充</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="VanJay"
+      src="/images/head.png">
+  <p class="site-author-name" itemprop="name">VanJay</p>
+  <div class="site-description" itemprop="description">成功不是将来才有的<br>而是决定去做的那一刻起<br>持续累积而成</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">47</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">23</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">94</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/wangwanjie" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wangwanjie" rel="noopener me" target="_blank"><i class="github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/wangwanjie" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;wangwanjie" rel="noopener me" target="_blank"><i class="twitter fa-fw"></i>Twitter</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="http://www.weibo.com/2406245873/profile?topnav=1&wvr=6" title="微博 → http:&#x2F;&#x2F;www.weibo.com&#x2F;2406245873&#x2F;profile?topnav&#x3D;1&amp;wvr&#x3D;6" rel="noopener me" target="_blank"><i class="weibo fa-fw"></i>微博</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.facebook.com/wangwanjie123" title="Facebook → https:&#x2F;&#x2F;www.facebook.com&#x2F;wangwanjie123" rel="noopener me" target="_blank"><i class="facebook fa-fw"></i>Facebook</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="http://wpa.qq.com/msgrd?v=3&uin=396736694&site=qq&menu=yes" title="QQ → http:&#x2F;&#x2F;wpa.qq.com&#x2F;msgrd?v&#x3D;3&amp;uin&#x3D;396736694&amp;site&#x3D;qq&amp;menu&#x3D;yes" rel="noopener me" target="_blank"><i class="qq fa-fw"></i>QQ</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:vanjay,dev@gmail.com" title="E-Mail → mailto:vanjay,dev@gmail.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="sidebar-inner sidebar-blogroll">
+      <div class="links-of-blogroll animated">
+        <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+          链接
+        </div>
+        <ul class="links-of-blogroll-list">
+            <li class="links-of-blogroll-item">
+              <a href="https://www.vanjay.cn/" title="https:&#x2F;&#x2F;www.vanjay.cn" rel="noopener" target="_blank">VanJay</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://boxueio.com/" title="https:&#x2F;&#x2F;boxueio.com" rel="noopener" target="_blank">泊学网</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="http://www.smartisan.com/" title="http:&#x2F;&#x2F;www.smartisan.com&#x2F;" rel="noopener" target="_blank">锤子科技</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://objccn.io/" title="https:&#x2F;&#x2F;objccn.io&#x2F;" rel="noopener" target="_blank">ObjC中国</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://github.com/apple/swift-evolution" title="https:&#x2F;&#x2F;github.com&#x2F;apple&#x2F;swift-evolution" rel="noopener" target="_blank">Swift evolution</a>
+            </li>
+        </ul>
+      </div>
+    </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://blog.vanjay.cn/2021/06/14/CentOS-7-%E4%B8%8B-Docker-%E5%92%8C-Docker-Compose-%E7%9A%84%E5%AE%89%E8%A3%85%E4%B8%8E%E4%BD%BF%E7%94%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/head.png">
+      <meta itemprop="name" content="VanJay">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="VanJay's Blog">
+      <meta itemprop="description" content="成功不是将来才有的<br>而是决定去做的那一刻起<br>持续累积而成">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="CentOS 7 下 Docker 和 Docker-Compose 的安装与使用 | VanJay's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          CentOS 7 下 Docker 和 Docker-Compose 的安装与使用
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2021-06-14 01:51:09" itemprop="dateCreated datePublished" datetime="2021-06-14T01:51:09+08:00">2021-06-14</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2023-05-14 02:47:47" itemprop="dateModified" datetime="2023-05-14T02:47:47+08:00">2023-05-14</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%9C%8D%E5%8A%A1%E5%99%A8/" itemprop="url" rel="index"><span itemprop="name">服务器</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%9C%8D%E5%8A%A1%E5%99%A8/%E5%AE%B9%E5%99%A8%E5%8C%96/" itemprop="url" rel="index"><span itemprop="name">容器化</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%9C%8D%E5%8A%A1%E5%99%A8/%E5%AE%B9%E5%99%A8%E5%8C%96/%E8%BF%90%E7%BB%B4/" itemprop="url" rel="index"><span itemprop="name">运维</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>2.4k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>9 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h2 id="需求背景"><a href="#需求背景" class="headerlink" title="需求背景"></a>需求背景</h2><p>随着微服务架构的流行，如何高效、快速地部署和管理各种服务成为了一个问题。传统的部署方式，如手动安装配置环境、手动部署和更新应用，不仅耗费人力物力，而且容易出错，且不易复制和扩展。</p>
+<p>为了解决这个问题，Docker诞生了。Docker是一个开源的应用容器引擎，允许开发者打包他们的应用以及依赖包到一个可移植的容器中，然后发布到任何流行的Linux机器或Windows机器上，也可以实现虚拟化。容器是完全沙盒机制，相互之间不会有任何接口。</p>
+<span id="more"></span>
+
+<p>Docker带来的好处包括：</p>
+<ul>
+<li>环境一致性：解决了”在我机器上可以运行”的问题。无论在开发、测试还是生产环境，Docker都可以确保环境的一致性。</li>
+<li>便捷的版本控制和分发：Docker的镜像（Image）提供了版本控制的功能，可以方便地回滚到旧版本。而且，Docker的镜像可以通过Docker Hub等平台进行共享和分发，方便了应用的部署和传播。</li>
+<li>隔离性：每个Docker容器都在自己的环境中运行，不会影响其他的容器。这为应用提供了良好的安全性。</li>
+<li>轻量性和性能高：Docker容器是在宿主机的内核上直接运行，没有传统虚拟化技术的额外开销，所以运行速度快，资源占用小。</li>
+</ul>
+<p>接下来，我们会详细介绍在CentOS 7下如何安装和使用Docker以及Docker-Compose。</p>
+<h2 id="CentOS-7-下-Docker-和-Docker-Compose-的安装"><a href="#CentOS-7-下-Docker-和-Docker-Compose-的安装" class="headerlink" title="CentOS 7 下 Docker 和 Docker-Compose 的安装"></a>CentOS 7 下 Docker 和 Docker-Compose 的安装</h2><p>首先，我们需要在CentOS 7下安装Docker。你可以通过以下步骤进行安装：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 卸载旧版本(如果安装过的话)</span>
+<span class="token function">sudo</span> yum remove <span class="token function">docker</span> <span class="token punctuation">\</span>
+                  docker-client <span class="token punctuation">\</span>
+                  docker-client-latest <span class="token punctuation">\</span>
+                  docker-common <span class="token punctuation">\</span>
+                  docker-latest <span class="token punctuation">\</span>
+                  docker-latest-logrotate <span class="token punctuation">\</span>
+                  docker-logrotate <span class="token punctuation">\</span>
+                  docker-engine<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h2 id="安装一些必要的系统工具"><a href="#安装一些必要的系统工具" class="headerlink" title="安装一些必要的系统工具"></a>安装一些必要的系统工具</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">sudo</span> yum <span class="token function">install</span> <span class="token parameter variable">-y</span> yum-utils device-mapper-persistent-data lvm2<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h2 id="添加软件源信息"><a href="#添加软件源信息" class="headerlink" title="添加软件源信息"></a>添加软件源信息</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">sudo</span> yum-config-manager --add-repo http://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo
+<span class="token comment">## 更新 yum 缓存</span>
+<span class="token function">sudo</span> yum makecache all
+<span class="token comment">## 安装 Docker-ce</span>
+<span class="token function">sudo</span> yum <span class="token parameter variable">-y</span> <span class="token function">install</span> docker-ce<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>安装完 Docker 之后，启动 Docker：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">sudo</span> systemctl start <span class="token function">docker</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>在安装完 Docker 之后，你可以通过以下命令来检查 Docker 是否安装成功：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">sudo</span> <span class="token function">docker</span> run hello-world<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>如果能看到 “Hello from Docker!” 的消息，说明 Docker 已经成功安装并运行。</p>
+<p>接下来我们将安装 Docker Compose。Docker Compose 是 Docker 的一个编排工具，可以用来定义和管理多个 Docker 容器。</p>
+<p>首先，下载最新版本的 Docker Compose：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">curl</span> <span class="token parameter variable">-L</span> https://github.com/docker/compose/releases/download/v2.17.3/docker-compose-linux-aarch64 <span class="token parameter variable">-o</span> /usr/local/bin/docker-compose<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>然后，设置文件的可执行权限：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">sudo</span> <span class="token function">chmod</span> +x /usr/local/bin/docker-compose<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>你可以通过以下命令来检查 Docker Compose 是否安装成功：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">docker-compose</span> <span class="token parameter variable">--version</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>如果能看到 Docker Compose 的版本信息，说明 Docker Compose 已经成功安装。</p>
+<h3 id="Docker-的常用命令和操作"><a href="#Docker-的常用命令和操作" class="headerlink" title="Docker 的常用命令和操作"></a>Docker 的常用命令和操作</h3><p>在安装完 Docker 之后，你可能会用到以下一些常用的命令和操作：</p>
+<ul>
+<li>查看 Docker 进程：docker ps</li>
+<li>查看所有 Docker 容器（包括停止的）：docker ps -a</li>
+<li>在 Docker 容器中执行命令：docker exec -it <container_id> <command></li>
+<li>运行 Docker 容器：docker run -d -p <host_port>:<container_port> <image></li>
+<li>停止 Docker 容器：docker stop <container_id></li>
+<li>删除 Docker 容器：docker rm <container_id></li>
+<li>删除 Docker 镜像：docker rmi <image_id></li>
+</ul>
+<h4 id="docker-inspect-命令"><a href="#docker-inspect-命令" class="headerlink" title="docker inspect 命令"></a>docker inspect 命令</h4><p>这个命令用于返回 Docker 对象的底层信息。这个对象可以是容器、镜像、卷、网络等。docker inspect 返回一个 JSON 对象，包含了 Docker 对象的所有配置和状态信息。例如，如果你想查看一个正在运行的容器的 IP 地址，你可以使用 docker inspect 命令，然后从返回的 JSON 对象中查找相应的字段。<br>使用示例：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">docker</span> inspect container_name_or_id
+root@iZj6cgd384kfewiompdstqZ <span class="token punctuation">[</span>02时10分38秒<span class="token punctuation">]</span> <span class="token punctuation">[</span>/var/www/blog<span class="token punctuation">]</span> <span class="token punctuation">[</span>master<span class="token punctuation">]</span>
+-<span class="token operator">></span> <span class="token comment"># docker inspect a0974a35724f | grep RestartPolicy -A 2</span>
+            <span class="token string">"RestartPolicy"</span><span class="token builtin class-name">:</span> <span class="token punctuation">&#123;</span>
+                <span class="token string">"Name"</span><span class="token builtin class-name">:</span> <span class="token string">"always"</span>,
+                <span class="token string">"MaximumRetryCount"</span><span class="token builtin class-name">:</span> <span class="token number">0</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h4 id="docker-stats-–all-命令"><a href="#docker-stats-–all-命令" class="headerlink" title="docker stats –all 命令"></a>docker stats –all 命令</h4><p>这个命令用于实时显示 Docker 容器的资源使用情况，包括 CPU 使用率、内存使用量、网络 I&#x2F;O、磁盘 I&#x2F;O 等。–all 或 -a 选项表示显示所有容器的资源使用情况，而不仅仅是正在运行的容器。<br>使用示例：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">docker</span> stats <span class="token parameter variable">--all</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>这两个命令是 Docker 命令行工具中非常有用的工具，可以帮助你理解和管理 Docker 容器的状态和资源使用情况。</p>
+<h3 id="Docker-compose-的常用命令和操作"><a href="#Docker-compose-的常用命令和操作" class="headerlink" title="Docker-compose 的常用命令和操作"></a>Docker-compose 的常用命令和操作</h3><p>在Compose中，你可以用YAML文件定义服务需要的环境，然后通过一个命令就可以从这个配置中创建并启动所有服务。以下是一些常用的Docker Compose命令：</p>
+<p>####启动、停止和重启服务</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">docker-compose</span> up      <span class="token comment"># 启动服务</span>
+<span class="token function">docker-compose</span> stop    <span class="token comment"># 停止服务</span>
+<span class="token function">docker-compose</span> restart <span class="token comment"># 重启服务</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<h4 id="列出服务的状态"><a href="#列出服务的状态" class="headerlink" title="列出服务的状态"></a>列出服务的状态</h4><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">docker-compose</span> <span class="token function">ps</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h4 id="查看输出（类似于docker-logs）"><a href="#查看输出（类似于docker-logs）" class="headerlink" title="查看输出（类似于docker logs）"></a>查看输出（类似于docker logs）</h4><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">docker-compose</span> logs<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h4 id="执行命令"><a href="#执行命令" class="headerlink" title="执行命令"></a>执行命令</h4><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">docker-compose</span> <span class="token builtin class-name">exec</span> service_name <span class="token builtin class-name">command</span> <span class="token comment"># 例如: docker-compose exec db psql -U postgres</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h4 id="删除和重建服务"><a href="#删除和重建服务" class="headerlink" title="删除和重建服务"></a>删除和重建服务</h4><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">docker-compose</span> down       <span class="token comment"># 停止和删除容器</span>
+<span class="token function">docker-compose</span> build      <span class="token comment"># 构建或者重新构建服务</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<h4 id="拉取和推送服务"><a href="#拉取和推送服务" class="headerlink" title="拉取和推送服务"></a>拉取和推送服务</h4><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">docker-compose</span> pull      <span class="token comment"># 拉取服务的最新镜像</span>
+<span class="token function">docker-compose</span> push      <span class="token comment"># 推送服务镜像至registry</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<p>注意：以上的命令需要在包含docker-compose.yml文件的目录中运行。如果你的docker-compose文件名不是默认的docker-compose.yml，你需要使用-f参数指定文件名，例如 docker-compose -f my-docker-compose.yml up。</p>
+<h2 id="端口映射"><a href="#端口映射" class="headerlink" title="端口映射"></a>端口映射</h2><p>你可以通过使用-p选项在运行容器时指定端口映射<br><code>-p</code>选项允许你将容器内的端口映射到宿主机的端口。其格式为<code>-p &lt;host-port&gt;:&lt;container-port&gt;</code>。例如，如果你有一个在容器的80端口上运行的web服务器，你希望将其映射到宿主机的8080端口上，你可以使用以下命令：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">docker</span> run <span class="token parameter variable">-p</span> <span class="token number">8080</span>:80 <span class="token parameter variable">-d</span> my-web-app<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>在这个例子中，任何发送到宿主机8080端口的请求都会被转发到容器的80端口。</p>
+<h2 id="卷映射"><a href="#卷映射" class="headerlink" title="卷映射"></a>卷映射</h2><p><code>-v</code>选项允许你将宿主机的文件或目录映射到容器内的文件或目录。其格式为<code>-v &lt;host-path&gt;:&lt;container-path&gt;</code>。例如，如果你希望将宿主机的<code>/home/user/data</code>目录映射到容器的<code>/app/data</code>目录，你可以使用以下命令：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">docker</span> run <span class="token parameter variable">-v</span> /home/user/data:/app/data <span class="token parameter variable">-d</span> my-app<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>在这个例子中，容器内的<code>/app/data</code>目录将直接映射到宿主机的<code>/home/user/data</code>目录，任何对这个目录的修改（无论是在宿主机上还是在容器内）都会立即反映到另一方。</p>
+<p>这两种映射方式都是Docker灵活性的重要表现，它们使得容器能够更好地与宿主机进行交互和数据共享。</p>
+<h2 id="Docker-和-Docker-Compose-的优势和适用场景"><a href="#Docker-和-Docker-Compose-的优势和适用场景" class="headerlink" title="Docker 和 Docker-Compose 的优势和适用场景"></a>Docker 和 Docker-Compose 的优势和适用场景</h2><p>Docker 的主要优点在于它能够提供一致的运行环境，解决了 “在我机器上可以运行” 的问题。它还能够提供隔离的环境，使得应用不会相互影响。此外，Docker 还非常轻量级，运行速度快，资源占用小。</p>
+<p>Docker-Compose 的主要优点在于它可以通过一个 YAML 文件来定义多个 Docker 容器，使得管理多个 Docker 容器变得非常方便。而且，Docker-Compose 还可以方便地管理容器之间的关系，如网络、存储等。</p>
+<p>总的来说，如果你需要快速地部署和管理应用，那么 Docker 和 Docker-Compose 都是非常好的工具。如果你需要管理多个相互关联的 Docker 容器，那么 Docker-Compose 就显得更为有用了。</p>
+<h2 id="补充"><a href="#补充" class="headerlink" title="补充"></a>补充</h2><p>在上述内容中，我们已经讲解了Docker和Docker Compose在CentOS 7下的安装过程，以及一些基本的使用命令。然而，Docker的生态系统非常丰富，有很多其他的功能和特性也值得探索和学习。这里，我将补充一些额外的点：</p>
+<ul>
+<li>Dockerfile： Dockerfile是创建Docker镜像的基础，它是一个文本文件，包含了一系列命令来创建和设置一个新的Docker镜像。学习如何编写Dockerfile，可以帮助你创建适应你的应用需求的定制镜像。</li>
+<li>Docker Registry： Docker Registry是存储Docker镜像的地方。最常见的公共registry是Docker Hub，但你也可以设置自己的私有registry。学习如何使用registry，可以帮助你更好地管理你的Docker镜像。</li>
+<li>Docker网络： Docker提供了多种网络配置选项，以满足不同的需求。例如，你可以创建一个网络，让容器可以在此网络中相互通信，或者可以将一个容器连接到多个网络。</li>
+<li>Docker存储： Docker提供了多种存储选项，如volumes，bind mounts和tmpfs mounts，用于持久化容器数据或共享数据。</li>
+<li>Docker安全： 虽然Docker提供了隔离环境，但仍需关注安全性。例如，需要定期更新镜像以获取最新的安全更新，限制容器的权限，避免在容器中运行root用户等。</li>
+</ul>
+<p>总之，Docker是一个强大且灵活的工具，无论你是在开发环境中快速部署应用，还是在生产环境中运行和扩展应用，它都能提供巨大的帮助。不过，像任何技术一样，最好的使用方式是根据你自己的具体需求和场景去使用它。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="reward-container">
+  <div>对你有帮助？您的支持将更加鼓励我继续创作！</div>
+  <button>
+    打赏
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/images/wechatpay.png" alt="VanJay 微信">
+        <span>微信</span>
+      </div>
+      <div>
+        <img src="/images/alipay.jpg" alt="VanJay 支付宝">
+        <span>支付宝</span>
+      </div>
+
+  </div>
+</div>
+
+          <div class="followme">
+  <span>欢迎关注我的其它发布渠道</span>
+
+  <div class="social-list">
+
+      <div class="social-item">
+          <a target="_blank" class="social-link" href="/atom.xml">
+            <span class="icon">
+              <i class="fa fa-rss"></i>
+            </span>
+
+            <span class="label">RSS</span>
+          </a>
+      </div>
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/docker/" rel="tag"># docker</a>
+              <a href="/tags/centos/" rel="tag"># centos</a>
+              <a href="/tags/docker-compose/" rel="tag"># docker-compose</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2021/05/13/%E4%BA%94%E5%88%86%E9%92%9F%E6%90%AD%E5%BB%BA%E4%BD%A0%E7%9A%84%E4%B8%93%E5%B1%9Eocserv%E6%9C%8D%E5%8A%A1/" rel="prev" title="五分钟搭建你的专属ocserv服务">
+                  <i class="fa fa-chevron-left"></i> 五分钟搭建你的专属ocserv服务
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2022/05/18/Mac-QuickLook%E9%85%8D%E7%BD%AE/" rel="next" title="Mac QuickLook配置">
+                  Mac QuickLook配置 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments" id="lv-container" data-id="city" data-uid="MTAyMC80MDA5MC8xNjYxNw=="></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2013 – 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">&copy VanJay</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">57k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">3:26</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/mist/" rel="noopener" target="_blank">NexT.Mist</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+  <a href="https://github.com/wangwanjie" class="github-corner" title="在 GitHub 上关注我" aria-label="在 GitHub 上关注我" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js" integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js" integrity="sha256-yt2kYMy0w8AbtF89WXb2P1rfjcP/HTHLT7097U8Y5b8=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+  <script src="/js/third-party/fancybox.js"></script>
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script src="/js/third-party/comments/livere.js"></script>
+ <!-- 页面点击小红心 -->
+
+<script type="text/javascript">
+!function(e,t,a){function r(){for(var e=0;e<n.length;e++)n[e].alpha<=0?(t.body.removeChild(n[e].el),n.splice(e,1)):(n[e].y--,n[e].scale+=.004,n[e].alpha-=.013,n[e].el.style.cssText="left:"+n[e].x+"px;top:"+n[e].y+"px;opacity:"+n[e].alpha+";transform:scale("+n[e].scale+","+n[e].scale+") rotate(45deg);background:"+n[e].color+";z-index:99999");requestAnimationFrame(r)}var n=[];e.requestAnimationFrame=e.requestAnimationFrame||e.webkitRequestAnimationFrame||e.mozRequestAnimationFrame||e.oRequestAnimationFrame||e.msRequestAnimationFrame||function(e){setTimeout(e,1e3/60)},function(e){var a=t.createElement("style");a.type="text/css";try{a.appendChild(t.createTextNode(e))}catch(t){a.styleSheet.cssText=e}t.getElementsByTagName("head")[0].appendChild(a)}(".heart{width: 10px;height: 10px;position: fixed;background: #f00;transform: rotate(45deg);-webkit-transform: rotate(45deg);-moz-transform: rotate(45deg);}.heart:after,.heart:before{content: '';width: inherit;height: inherit;background: inherit;border-radius: 50%;-webkit-border-radius: 50%;-moz-border-radius: 50%;position: fixed;}.heart:after{top: -5px;}.heart:before{left: -5px;}"),function(){var a="function"==typeof e.onclick&&e.onclick;e.onclick=function(e){a&&a(),function(e){var a=t.createElement("div");a.className="heart",n.push({el:a,x:e.clientX-5,y:e.clientY-5,scale:1,alpha:1,color:"rgb("+~~(255*Math.random())+","+~~(255*Math.random())+","+~~(255*Math.random())+")"}),t.body.appendChild(a)}(e)}}(),r()}(window,document);
+</script>
+
+
+<script type="text/javascript">
+/*页面载入完成后，修改手机上跳转 github 样式 */
+!function (e, t, a) {
+    var browser = {
+        versions: function () {
+            var u = navigator.userAgent,
+                app = navigator.appVersion;
+            return { //移动终端浏览器版本信息
+                trident: u.indexOf('Trident') > -1, //IE内核
+                presto: u.indexOf('Presto') > -1, //opera内核
+                webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
+                gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
+                mobile: !!u.match(/AppleWebKit.*Mobile.*/), // || !!u.match(/AppleWebKit/), //是否为移动终端
+                ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+                android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
+                iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者QQHD浏览器
+                iPad: u.indexOf('iPad') > -1, //是否iPad
+                webApp: u.indexOf('Safari') == -1
+                //是否web应该程序，没有头部与底部
+            };
+        }(),
+        language: (navigator.browserLanguage || navigator.language).toLowerCase()
+    }
+
+    function setDynamicBackground() {
+        $('body').css({
+            'background': 'url(https://source.unsplash.com/random/1600x900)',
+            'background-attachment': 'fixed',
+            'background-repeat': 'repeat',
+            'background-size': 'contain'
+        });
+        $('.main-inner').css({
+            'margin-top': '60px',
+            'padding': '60px 60px 0px 60px',
+            'background': '#fff',
+            'opacity': '0.8',
+            'min-height': '500px'
+        });
+        $('.page-home .main-inner').css({
+            'padding-bottom': '60px',
+        });
+        $('.header').css({
+            'background': 'transparent',
+            'color': '#fff'
+        });
+        $('.footer').css({
+            'background': 'transparent',
+            'color': '#fff'
+        });
+
+        $('.footer-inner .theme-link').css('color', '#EEE');
+    }
+    function setSquareCellBackground(isMobile) {
+        $('body').css({
+            'background-image': 'url("/images/background_cell.png")',
+            'background-position': 'center center',
+            'background-size': 'auto',
+            'background-repeat': 'repeat',
+            'background-attachment': 'fixed'
+        });
+        if (!isMobile) {
+            $('.main-inner').css({
+                'margin-top': '60px',
+                'padding': '60px 60px 0px 60px',
+                'opacity': '0.8',
+                'min-height': '500px'
+            });
+            $('.page-home .main-inner').css({
+                'padding-bottom': '60px',
+            });
+        }
+        $('.header').css({
+            'background': 'transparent',
+        });
+        $('.footer').css({
+            'background': 'transparent',
+        });
+    }
+    function setMobileBackgroun() {
+        $('.header').css({
+            'background': 'linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("https://s1.ax1x.com/2018/06/09/CbDIIO.jpg") no-repeat',
+            'background-size': 'cover',
+            'background-color': 'black',
+            'background-position': 'center',
+            'width': '100%',
+            'display': 'table'
+        })
+
+        $('.site-nav-toggle .btn-bar').css('background', '#fff');
+    }
+
+    function settingBackground () {
+        if (browser.versions.mobile) {
+            setSquareCellBackground(true);
+        } else {
+            // setDynamicBackground();
+            setSquareCellBackground(false);
+        }
+    }
+    if (browser.versions.mobile) {
+        var headerStr = '<div class="site-nav-toggle">' +
+            '    <button aria-label="切换导航栏">' +
+            '      <span class="btn-bar"></span>' +
+            '      <span class="btn-bar"></span>' +
+            '      <span class="btn-bar"></span>' +
+            '    </button>' +
+            '  </div>' +
+            '  <div class="site-meta ">' +
+            '    <div class="custom-logo-site-title">' +
+            '      <a href="/" class="brand" rel="start" style="opacity: 1;">' +
+            '        <span class="logo-line-before"><i class="" style="transform: translateX(100%);"></i></span>' +
+            '        <span class="site-title" style="opacity: 1; top: 0px;">VanJay\'s Blog</span>' +
+            '        <span class="logo-line-after"><i class="" style="transform: translateX(-100%);"></i></span>' +
+            '      </a>' +
+            '    </div>' +
+            '        <p class="site-subtitle" style="opacity: 1; top: 0px;">一个爱折腾工程师的全栈梦</p>' +
+            '  </div>';
+        $('.header .site-brand-wrapper').html(headerStr);
+    }
+    // 设置背景
+    settingBackground();
+
+}(window, document);
+</script>
+</body>
+</html>

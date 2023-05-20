@@ -20,15 +20,15 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"blog.vanjay.cn","root":"/","images":"/images","scheme":"Mist","darkmode":false,"version":"8.16.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":"mac"},"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
 
-    <meta name="description" content="iOS 支持以无线方式安装企业内部应用，而无需使用 iTunes 或 App Store。  格式要求应用格式要求:.ipa，并且使用企业内部预置描述文件进行构建，即经企业证书签名。 无线安装要求： XML 清单文件（一个 plist 配置文件） 可让设备访问 Apple iTunes 服务器的网络配置（设备要能连接互联网，因为要校验） 对于 iOS 7.1 或更高版本， plist 文件和 i">
+    <meta name="description" content="iOS 支持以无线方式安装企业内部应用，而无需使用 iTunes 或 App Store。  VanJay 格式要求应用格式要求:.ipa，并且使用企业内部预置描述文件进行构建，即经企业证书签名。 无线安装要求： XML 清单文件（一个 plist 配置文件） 可让设备访问 Apple iTunes 服务器的网络配置（设备要能连接互联网，因为要校验） 对于 iOS 7.1 或更高版本， plis">
 <meta property="og:type" content="article">
 <meta property="og:title" content="iOS企业内部应用分发">
 <meta property="og:url" content="https://blog.vanjay.cn/2017/01/11/iOS%E4%BC%81%E4%B8%9A%E5%86%85%E9%83%A8%E5%BA%94%E7%94%A8%E5%88%86%E5%8F%91/index.html">
 <meta property="og:site_name" content="VanJay&#39;s Blog">
-<meta property="og:description" content="iOS 支持以无线方式安装企业内部应用，而无需使用 iTunes 或 App Store。  格式要求应用格式要求:.ipa，并且使用企业内部预置描述文件进行构建，即经企业证书签名。 无线安装要求： XML 清单文件（一个 plist 配置文件） 可让设备访问 Apple iTunes 服务器的网络配置（设备要能连接互联网，因为要校验） 对于 iOS 7.1 或更高版本， plist 文件和 i">
+<meta property="og:description" content="iOS 支持以无线方式安装企业内部应用，而无需使用 iTunes 或 App Store。  VanJay 格式要求应用格式要求:.ipa，并且使用企业内部预置描述文件进行构建，即经企业证书签名。 无线安装要求： XML 清单文件（一个 plist 配置文件） 可让设备访问 Apple iTunes 服务器的网络配置（设备要能连接互联网，因为要校验） 对于 iOS 7.1 或更高版本， plis">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2017-01-11T12:52:03.000Z">
-<meta property="article:modified_time" content="2017-03-18T15:01:34.000Z">
+<meta property="article:modified_time" content="2023-05-13T18:47:47.703Z">
 <meta property="article:author" content="VanJay">
 <meta property="article:tag" content="打包">
 <meta property="article:tag" content="发布">
@@ -95,7 +95,7 @@
 
 
 <nav class="site-nav">
-  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="home fa-fw"></i>首页</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-commonweal"><a href="/404.html" rel="section"><i class="heartbeat fa-fw"></i>公益 404</a></li><li class="menu-item menu-item-hot"><a href="/hot/" rel="section"><i class="fa fa-thermometer-half fa-fw"></i>hot</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="user fa-fw"></i>关于</a></li>
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="home fa-fw"></i>首页</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-commonweal"><a href="/404.html" rel="section"><i class="heartbeat fa-fw"></i>公益 404</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="user fa-fw"></i>关于</a></li>
       <li class="menu-item menu-item-search">
         <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
         </a>
@@ -161,18 +161,18 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">45</span>
+          <span class="site-state-item-count">47</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
           <a href="/categories/">
-        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-count">23</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">80</span>
+        <span class="site-state-item-count">94</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -279,7 +279,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2017-03-18 23:01:34" itemprop="dateModified" datetime="2017-03-18T23:01:34+08:00">2017-03-18</time>
+        <time title="修改时间：2023-05-14 02:47:47" itemprop="dateModified" datetime="2023-05-14T02:47:47+08:00">2023-05-14</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -325,6 +325,7 @@
     <div class="post-body" itemprop="articleBody"><blockquote>
 <p>iOS 支持以无线方式安装企业内部应用，而无需使用 iTunes 或 App Store。</p>
 </blockquote>
+<p>VanJay</p>
 <h2 id="格式要求"><a href="#格式要求" class="headerlink" title="格式要求"></a>格式要求</h2><p>应用格式要求:.ipa，并且使用企业内部预置描述文件进行构建，即经企业证书签名。</p>
 <h3 id="无线安装要求："><a href="#无线安装要求：" class="headerlink" title="无线安装要求："></a>无线安装要求：</h3><ol>
 <li>XML 清单文件（一个 plist 配置文件）</li>
@@ -350,11 +351,9 @@
 <h2 id="构建网站"><a href="#构建网站" class="headerlink" title="构建网站"></a>构建网站</h2><p>将这些项目上传到网站上可供已认证的用户访问的区域：</p>
 <ol>
 <li>应用 (.ipa) 文件</li>
-<li>清单 (.plist) 文件<br>您的网站可以是链接到清单文件的单个页面。用户轻点 Web 链接后会下载清单文件，并触发下载和安装。<br><em>以下是示例链接：</em></li>
+<li>清单 (.plist) 文件<br>您的网站可以是链接到清单文件的单个页面。用户轻点 Web 链接后会下载清单文件，并触发下载和安装。<br><em>以下是示例链接：</em><pre class="line-numbers language-XML" data-language="XML"><code class="language-XML">&lt;a href&#x3D;&quot;itms-services:&#x2F;&#x2F;?action&#x3D;download-manifest&amp;url&#x3D;https:&#x2F;&#x2F;example.com&#x2F;manifest.plist&quot;&gt;安装应用&lt;&#x2F;a&gt;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<strong>虽然 URL 的协议部分是“itms-services”，但 iTunes Store 并不参与此过程。</strong></li>
 </ol>
-<pre><code class="XML">&lt;a href=&quot;itms-services://?action=download-manifest&amp;url=https://example.com/manifest.plist&quot;&gt;安装应用&lt;/a&gt;
-</code></pre>
-<p><strong>虽然 URL 的协议部分是“itms-services”，但 iTunes Store 并不参与此过程。</strong></p>
 <h2 id="配置服务器-MIME-类型（一般不用配置）"><a href="#配置服务器-MIME-类型（一般不用配置）" class="headerlink" title="配置服务器 MIME 类型（一般不用配置）"></a>配置服务器 MIME 类型（一般不用配置）</h2><p>您可能需要配置 Web 服务器，让清单文件和应用文件可正确传输。</p>
 <ul>
 <li>对于 Server 应用，请将 MIME 类型添加到网页服务的 MIME 类型设置：<ul>
@@ -375,8 +374,8 @@
 <li>请确定 .ipa 文件（在清单文件中）的 URL 是否正确，并且该 .ipa 文件是否可供网络用户通过 HTTPS 访问。</li>
 </ol>
 <h2 id="网络配置要求"><a href="#网络配置要求" class="headerlink" title="网络配置要求"></a>网络配置要求</h2><p>如果设备连接到内网，那么您必须允许它访问以下站点：</p>
-<pre><code>https://ax.init.itunes.apple.com
-</code></pre>
+<pre class="line-numbers language-none"><code class="language-none">https:&#x2F;&#x2F;ax.init.itunes.apple.com<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
 <p>使用蜂窝移动网络下载应用时，设备会限制其当前文件大小。如果无法访问此站点，安装可能会失败。</p>
 <p><code>https://ppq.apple.com</code> 设备会联系此网站，检查用来给预置描述文件签名的分发证书状态。</p>
 <h2 id="应用更新"><a href="#应用更新" class="headerlink" title="应用更新"></a>应用更新</h2><ol>
@@ -389,113 +388,114 @@
 <li>OCSP 响应会在设备上缓存一段时间（由 OCSP 服务器指定），当前为 3 到 7 天之间。在重新启动设备和缓存的响应过期之前，将不会再次检查证书的有效性。如果当时收到撤销命令，系统将阻止应用运行。<br><em>【警告】</em>撤销分发证书会导致使用该证书签名的所有应用失效。只有万不得已时才应撤销证书，比如确定专用密钥已丢失或确信证书已遭破解。</li>
 </ul>
 <h2 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h2><p>示例 iOS 应用 plist 清单文件，可复制，保存为plist格式，也可从 <a target="_blank" rel="noopener" href="https://github.com/wangwanjie/SharedResources/blob/master/example_zn.plist">这里</a> 下载</p>
-<pre><code class="XML">    &lt;!DOCTYPE plist PUBLIC &quot;-//Apple//DTD PLIST 1.0//EN&quot; &quot;http://www.apple.com/DTDs/PropertyList-1.0.dtd&quot;&gt;
-    &lt;plist version=&quot;1.0&quot;&gt;
-    &lt;dict&gt;
-      &lt;key&gt;items&lt;/key&gt;
-      &lt;array&gt;
-       &lt;dict&gt;
-         &lt;key&gt;assets&lt;/key&gt;
-          &lt;array&gt;
-            &lt;dict&gt;
-              &lt;key&gt;kind&lt;/key&gt;
-              &lt;string&gt;software-package&lt;/string&gt;
-              &lt;key&gt;md5-size&lt;/key&gt;
-              &lt;integer&gt;10485760&lt;/integer&gt;
-              &lt;key&gt;md5s&lt;/key&gt;
-              &lt;array&gt;
-                &lt;string&gt;41fa64bb7a7cae5a46bfb45821ac8bba&lt;/string&gt;
-                &lt;string&gt;51fa64bb7a7cae5a46bfb45821ac8bba&lt;/string&gt;
-              &lt;/array&gt;
-              &lt;key&gt;url&lt;/key&gt;
-              &lt;string&gt;https://www.example.com/apps/foo.ipa&lt;/string&gt;
-            &lt;/dict&gt;
-            &lt;dict&gt;
-             &lt;key&gt;kind&lt;/key&gt;
-             &lt;string&gt;display-image&lt;/string&gt;
-             &lt;key&gt;needs-shine&lt;/key&gt;
-             &lt;true/&gt;
-             &lt;key&gt;url&lt;/key&gt;
-             &lt;string&gt;https://www.example.com/image.57x57.png&lt;/string&gt;
-            &lt;/dict&gt;
-            &lt;dict&gt;
-             &lt;key&gt;kind&lt;/key&gt;
-             &lt;string&gt;full-size-image&lt;/string&gt;
-             &lt;key&gt;md5&lt;/key&gt;
-             &lt;string&gt;61fa64bb7a7cae5a46bfb45821ac8bba&lt;/string&gt;
-             &lt;key&gt;needs-shine&lt;/key&gt;
-             &lt;true/&gt;
-             &lt;key&gt;url&lt;/key&gt;&lt;string&gt;https://www.example.com/image.512x512.jpg&lt;/string&gt;
-            &lt;/dict&gt;
-          &lt;/array&gt;
-    &lt;key&gt;metadata&lt;/key&gt;
-          &lt;dict&gt;
-           &lt;key&gt;bundle-identifier&lt;/key&gt;
-           &lt;string&gt;com.example.fooapp&lt;/string&gt;
-           &lt;key&gt;bundle-version&lt;/key&gt;
-           &lt;string&gt;1.0&lt;/string&gt;
-           &lt;key&gt;kind&lt;/key&gt;
-           &lt;string&gt;software&lt;/string&gt;
-           &lt;key&gt;subtitle&lt;/key&gt;
-           &lt;string&gt;Apple&lt;/string&gt;
-           &lt;key&gt;title&lt;/key&gt;
-           &lt;string&gt;Example Corporate App&lt;/string&gt;
-          &lt;/dict&gt;
-        &lt;/dict&gt;
-      &lt;/array&gt;
-    &lt;/dict&gt;
-    &lt;/plist&gt;
-</code></pre>
-<h2 id="简单配置示例"><a href="#简单配置示例" class="headerlink" title="简单配置示例"></a>简单配置示例</h2><p>作为包体积较小的应用，如以下简单配置即可，从<a target="_blank" rel="noopener" href="https://github.com/wangwanjie/SharedResources/blob/master/simple.plist">这里</a>下载</p>
-<pre><code class="XMl">&lt;!DOCTYPE plist PUBLIC &quot;-//Apple//DTD PLIST 1.0//EN&quot; &quot;http://www.apple.com/DTDs/PropertyList-1.0.dtd&quot;&gt;
-&lt;plist version=&quot;1.0&quot;&gt;
+<pre class="line-numbers language-XML" data-language="XML"><code class="language-XML">&lt;!DOCTYPE plist PUBLIC &quot;-&#x2F;&#x2F;Apple&#x2F;&#x2F;DTD PLIST 1.0&#x2F;&#x2F;EN&quot; &quot;http:&#x2F;&#x2F;www.apple.com&#x2F;DTDs&#x2F;PropertyList-1.0.dtd&quot;&gt;
+&lt;plist version&#x3D;&quot;1.0&quot;&gt;
 &lt;dict&gt;
-    &lt;key&gt;items&lt;/key&gt;
-    &lt;array&gt;
+  &lt;key&gt;items&lt;&#x2F;key&gt;
+  &lt;array&gt;
+   &lt;dict&gt;
+     &lt;key&gt;assets&lt;&#x2F;key&gt;
+      &lt;array&gt;
         &lt;dict&gt;
-            &lt;key&gt;assets&lt;/key&gt;
-            &lt;array&gt;
-                &lt;dict&gt;
-                    &lt;key&gt;kind&lt;/key&gt;
-                    &lt;string&gt;software-package&lt;/string&gt;
-                    &lt;key&gt;url&lt;/key&gt;
-                    &lt;string&gt;https://yourwebsite/appName.ipa&lt;/string&gt;
-                &lt;/dict&gt;
-                &lt;dict&gt;
-                    &lt;key&gt;kind&lt;/key&gt;
-                    &lt;string&gt;full-size-image&lt;/string&gt;
-                    &lt;key&gt;needs-shine&lt;/key&gt;
-                    &lt;true/&gt;
-                    &lt;key&gt;url&lt;/key&gt;
-                    &lt;string&gt;https://yourwebsite/app_icon_full_size.png&lt;/string&gt;
-                &lt;/dict&gt;
-                &lt;dict&gt;
-                    &lt;key&gt;kind&lt;/key&gt;
-                    &lt;string&gt;display-image&lt;/string&gt;
-                    &lt;key&gt;needs-shine&lt;/key&gt;
-                    &lt;true/&gt;
-                    &lt;key&gt;url&lt;/key&gt;
-                    &lt;string&gt;https://yourwebsite/app_icon_download.png&lt;/string&gt;
-                &lt;/dict&gt;
-            &lt;/array&gt;
-            &lt;key&gt;metadata&lt;/key&gt;
-            &lt;dict&gt;
-                &lt;key&gt;bundle-identifier&lt;/key&gt;
-                &lt;string&gt; your app bundle id &lt;/string&gt;
-                &lt;key&gt;bundle-version&lt;/key&gt;
-                &lt;string&gt;shortVersion&lt;/string&gt;
-                &lt;key&gt;kind&lt;/key&gt;
-                &lt;string&gt;software&lt;/string&gt;
-                &lt;key&gt;subtitle&lt;/key&gt;
-                &lt;string&gt;欢迎使用&lt;/string&gt;
-                &lt;key&gt;title&lt;/key&gt;
-                &lt;string&gt; app 名称&lt;/string&gt;
-            &lt;/dict&gt;
-        &lt;/dict&gt;
-    &lt;/array&gt;
-&lt;/dict&gt;
-&lt;/plist&gt;
-</code></pre>
+          &lt;key&gt;kind&lt;&#x2F;key&gt;
+          &lt;string&gt;software-package&lt;&#x2F;string&gt;
+          &lt;key&gt;md5-size&lt;&#x2F;key&gt;
+          &lt;integer&gt;10485760&lt;&#x2F;integer&gt;
+          &lt;key&gt;md5s&lt;&#x2F;key&gt;
+          &lt;array&gt;
+            &lt;string&gt;41fa64bb7a7cae5a46bfb45821ac8bba&lt;&#x2F;string&gt;
+            &lt;string&gt;51fa64bb7a7cae5a46bfb45821ac8bba&lt;&#x2F;string&gt;
+          &lt;&#x2F;array&gt;
+          &lt;key&gt;url&lt;&#x2F;key&gt;
+          &lt;string&gt;https:&#x2F;&#x2F;www.example.com&#x2F;apps&#x2F;foo.ipa&lt;&#x2F;string&gt;
+        &lt;&#x2F;dict&gt;
+        &lt;dict&gt;
+         &lt;key&gt;kind&lt;&#x2F;key&gt;
+         &lt;string&gt;display-image&lt;&#x2F;string&gt;
+         &lt;key&gt;needs-shine&lt;&#x2F;key&gt;
+         &lt;true&#x2F;&gt;
+         &lt;key&gt;url&lt;&#x2F;key&gt;
+         &lt;string&gt;https:&#x2F;&#x2F;www.example.com&#x2F;image.57x57.png&lt;&#x2F;string&gt;
+        &lt;&#x2F;dict&gt;
+        &lt;dict&gt;
+         &lt;key&gt;kind&lt;&#x2F;key&gt;
+         &lt;string&gt;full-size-image&lt;&#x2F;string&gt;
+         &lt;key&gt;md5&lt;&#x2F;key&gt;
+         &lt;string&gt;61fa64bb7a7cae5a46bfb45821ac8bba&lt;&#x2F;string&gt;
+         &lt;key&gt;needs-shine&lt;&#x2F;key&gt;
+         &lt;true&#x2F;&gt;
+         &lt;key&gt;url&lt;&#x2F;key&gt;&lt;string&gt;https:&#x2F;&#x2F;www.example.com&#x2F;image.512x512.jpg&lt;&#x2F;string&gt;
+        &lt;&#x2F;dict&gt;
+      &lt;&#x2F;array&gt;
+&lt;key&gt;metadata&lt;&#x2F;key&gt;
+      &lt;dict&gt;
+       &lt;key&gt;bundle-identifier&lt;&#x2F;key&gt;
+       &lt;string&gt;com.example.fooapp&lt;&#x2F;string&gt;
+       &lt;key&gt;bundle-version&lt;&#x2F;key&gt;
+       &lt;string&gt;1.0&lt;&#x2F;string&gt;
+       &lt;key&gt;kind&lt;&#x2F;key&gt;
+       &lt;string&gt;software&lt;&#x2F;string&gt;
+       &lt;key&gt;subtitle&lt;&#x2F;key&gt;
+       &lt;string&gt;Apple&lt;&#x2F;string&gt;
+       &lt;key&gt;title&lt;&#x2F;key&gt;
+       &lt;string&gt;Example Corporate App&lt;&#x2F;string&gt;
+      &lt;&#x2F;dict&gt;
+    &lt;&#x2F;dict&gt;
+  &lt;&#x2F;array&gt;
+&lt;&#x2F;dict&gt;
+&lt;&#x2F;plist&gt;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h2 id="简单配置示例"><a href="#简单配置示例" class="headerlink" title="简单配置示例"></a>简单配置示例</h2><p>作为包体积较小的应用，如以下简单配置即可，从<a target="_blank" rel="noopener" href="https://github.com/wangwanjie/SharedResources/blob/master/simple.plist">这里</a>下载</p>
+<pre class="line-numbers language-XMl" data-language="XMl"><code class="language-XMl">&lt;!DOCTYPE plist PUBLIC &quot;-&#x2F;&#x2F;Apple&#x2F;&#x2F;DTD PLIST 1.0&#x2F;&#x2F;EN&quot; &quot;http:&#x2F;&#x2F;www.apple.com&#x2F;DTDs&#x2F;PropertyList-1.0.dtd&quot;&gt;
+&lt;plist version&#x3D;&quot;1.0&quot;&gt;
+&lt;dict&gt;
+	&lt;key&gt;items&lt;&#x2F;key&gt;
+	&lt;array&gt;
+		&lt;dict&gt;
+			&lt;key&gt;assets&lt;&#x2F;key&gt;
+			&lt;array&gt;
+				&lt;dict&gt;
+					&lt;key&gt;kind&lt;&#x2F;key&gt;
+					&lt;string&gt;software-package&lt;&#x2F;string&gt;
+					&lt;key&gt;url&lt;&#x2F;key&gt;
+					&lt;string&gt;https:&#x2F;&#x2F;yourwebsite&#x2F;appName.ipa&lt;&#x2F;string&gt;
+				&lt;&#x2F;dict&gt;
+				&lt;dict&gt;
+					&lt;key&gt;kind&lt;&#x2F;key&gt;
+					&lt;string&gt;full-size-image&lt;&#x2F;string&gt;
+					&lt;key&gt;needs-shine&lt;&#x2F;key&gt;
+					&lt;true&#x2F;&gt;
+					&lt;key&gt;url&lt;&#x2F;key&gt;
+					&lt;string&gt;https:&#x2F;&#x2F;yourwebsite&#x2F;app_icon_full_size.png&lt;&#x2F;string&gt;
+				&lt;&#x2F;dict&gt;
+				&lt;dict&gt;
+					&lt;key&gt;kind&lt;&#x2F;key&gt;
+					&lt;string&gt;display-image&lt;&#x2F;string&gt;
+					&lt;key&gt;needs-shine&lt;&#x2F;key&gt;
+					&lt;true&#x2F;&gt;
+					&lt;key&gt;url&lt;&#x2F;key&gt;
+					&lt;string&gt;https:&#x2F;&#x2F;yourwebsite&#x2F;app_icon_download.png&lt;&#x2F;string&gt;
+				&lt;&#x2F;dict&gt;
+			&lt;&#x2F;array&gt;
+			&lt;key&gt;metadata&lt;&#x2F;key&gt;
+			&lt;dict&gt;
+				&lt;key&gt;bundle-identifier&lt;&#x2F;key&gt;
+				&lt;string&gt; your app bundle id &lt;&#x2F;string&gt;
+				&lt;key&gt;bundle-version&lt;&#x2F;key&gt;
+				&lt;string&gt;shortVersion&lt;&#x2F;string&gt;
+				&lt;key&gt;kind&lt;&#x2F;key&gt;
+				&lt;string&gt;software&lt;&#x2F;string&gt;
+				&lt;key&gt;subtitle&lt;&#x2F;key&gt;
+				&lt;string&gt;欢迎使用&lt;&#x2F;string&gt;
+				&lt;key&gt;title&lt;&#x2F;key&gt;
+				&lt;string&gt; app 名称&lt;&#x2F;string&gt;
+			&lt;&#x2F;dict&gt;
+		&lt;&#x2F;dict&gt;
+	&lt;&#x2F;array&gt;
+&lt;&#x2F;dict&gt;
+&lt;&#x2F;plist&gt;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
 <blockquote>
 <p>Author: CoderJay <br>如需转载，请注明出处</p>
 </blockquote>
@@ -591,13 +591,13 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-line"></i>
     </span>
-    <span title="站点总字数">46k</span>
+    <span title="站点总字数">57k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">2:47</span>
+    <span title="站点阅读时长">3:26</span>
   </span>
 </div>
 <div class="busuanzi-count">

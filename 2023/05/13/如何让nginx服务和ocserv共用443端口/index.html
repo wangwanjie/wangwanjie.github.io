@@ -20,15 +20,19 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"blog.vanjay.cn","root":"/","images":"/images","scheme":"Mist","darkmode":false,"version":"8.16.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":"mac"},"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
 
-    <meta property="og:type" content="article">
+    <meta name="description" content="前言与需求背景在许多应用中，我们可能需要让多个服务共享同一端口。例如，你可能有一个Web服务器（如Nginx）和一个VPN服务器（如OpenConnect VPN，简称ocserv），你希望它们都使用443端口。这样做的好处是可以提高网络性能，因为操作系统通常会为443端口提供更高的处理优先级，从而得到更快的响应。此外，这种设置也可以简化防火墙的配置，因为只需要开放一个端口。 然而，实现这种配置并">
+<meta property="og:type" content="article">
 <meta property="og:title" content="如何让nginx服务和ocserv共用443端口">
 <meta property="og:url" content="https://blog.vanjay.cn/2023/05/13/%E5%A6%82%E4%BD%95%E8%AE%A9nginx%E6%9C%8D%E5%8A%A1%E5%92%8Cocserv%E5%85%B1%E7%94%A8443%E7%AB%AF%E5%8F%A3/index.html">
 <meta property="og:site_name" content="VanJay&#39;s Blog">
+<meta property="og:description" content="前言与需求背景在许多应用中，我们可能需要让多个服务共享同一端口。例如，你可能有一个Web服务器（如Nginx）和一个VPN服务器（如OpenConnect VPN，简称ocserv），你希望它们都使用443端口。这样做的好处是可以提高网络性能，因为操作系统通常会为443端口提供更高的处理优先级，从而得到更快的响应。此外，这种设置也可以简化防火墙的配置，因为只需要开放一个端口。 然而，实现这种配置并">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2023-05-13T06:32:07.000Z">
-<meta property="article:modified_time" content="2023-05-13T14:23:37.022Z">
+<meta property="article:modified_time" content="2023-05-13T18:47:47.707Z">
 <meta property="article:author" content="VanJay">
-<meta property="article:tag" content="Objective-C、Swift、Cocos2d-js、HTML5、React Native、JavaScript、PHP、Python、Java、Flutter">
+<meta property="article:tag" content="ocserv">
+<meta property="article:tag" content="nginx">
+<meta property="article:tag" content="haproxy">
 <meta name="twitter:card" content="summary">
 
 
@@ -92,7 +96,7 @@
 
 
 <nav class="site-nav">
-  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="home fa-fw"></i>首页</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-commonweal"><a href="/404.html" rel="section"><i class="heartbeat fa-fw"></i>公益 404</a></li><li class="menu-item menu-item-hot"><a href="/hot/" rel="section"><i class="fa fa-thermometer-half fa-fw"></i>hot</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="user fa-fw"></i>关于</a></li>
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="home fa-fw"></i>首页</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-commonweal"><a href="/404.html" rel="section"><i class="heartbeat fa-fw"></i>公益 404</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="user fa-fw"></i>关于</a></li>
       <li class="menu-item menu-item-search">
         <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
         </a>
@@ -130,7 +134,7 @@
   
   <aside class="sidebar">
 
-    <div class="sidebar-inner sidebar-overview-active">
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
       <ul class="sidebar-nav">
         <li class="sidebar-nav-toc">
           文章目录
@@ -143,6 +147,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%8D%E8%A8%80%E4%B8%8E%E9%9C%80%E6%B1%82%E8%83%8C%E6%99%AF"><span class="nav-number">1.</span> <span class="nav-text">前言与需求背景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E9%80%89%E6%8B%A9HAProxy"><span class="nav-number">2.</span> <span class="nav-text">为什么选择HAProxy</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E8%B7%B5%E6%96%B9%E6%A1%88"><span class="nav-number">3.</span> <span class="nav-text">实践方案</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9"><span class="nav-number">4.</span> <span class="nav-text">注意事项</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%80%E7%AE%B1%E5%8D%B3%E7%94%A8"><span class="nav-number">5.</span> <span class="nav-text">开箱即用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#haproxy-cfg-%E9%85%8D%E7%BD%AE"><span class="nav-number">5.1.</span> <span class="nav-text">haproxy.cfg 配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#your-servicedomain-com-conf-%E9%85%8D%E7%BD%AE"><span class="nav-number">5.2.</span> <span class="nav-text">your.servicedomain.com.conf 配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ocserv-conf-%E9%85%8D%E7%BD%AE"><span class="nav-number">5.3.</span> <span class="nav-text">ocserv.conf 配置</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%90%8E%E8%AF%9D%EF%BC%8CNginx%E4%B8%8EHAProxy%E7%9A%84%E6%AF%94%E8%BE%83"><span class="nav-number">6.</span> <span class="nav-text">后话，Nginx与HAProxy的比较</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Nginx"><span class="nav-number">6.1.</span> <span class="nav-text">Nginx</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#HAProxy"><span class="nav-number">6.2.</span> <span class="nav-text">HAProxy</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BB%93%E8%AE%BA"><span class="nav-number">6.3.</span> <span class="nav-text">结论</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83"><span class="nav-number">7.</span> <span class="nav-text">参考</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -157,18 +162,18 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">45</span>
+          <span class="site-state-item-count">47</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
           <a href="/categories/">
-        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-count">23</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">80</span>
+        <span class="site-state-item-count">94</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -267,9 +272,28 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">发表于</span>
-      
 
-      <time title="创建时间：2023-05-13 14:32:07 / 修改时间：22:23:37" itemprop="dateCreated datePublished" datetime="2023-05-13T14:32:07+08:00">2023-05-13</time>
+      <time title="创建时间：2023-05-13 14:32:07" itemprop="dateCreated datePublished" datetime="2023-05-13T14:32:07+08:00">2023-05-13</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2023-05-14 02:47:47" itemprop="dateModified" datetime="2023-05-14T02:47:47+08:00">2023-05-14</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%9C%8D%E5%8A%A1%E5%99%A8/" itemprop="url" rel="index"><span itemprop="name">服务器</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%9C%8D%E5%8A%A1%E5%99%A8/%E8%BF%90%E7%BB%B4/" itemprop="url" rel="index"><span itemprop="name">运维</span></a>
+        </span>
     </span>
 
   
@@ -286,14 +310,14 @@
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>1</span>
+      <span>2.3k</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>1 分钟</span>
+      <span>9 分钟</span>
     </span>
 </div>
 
@@ -303,7 +327,229 @@
     
     
     
-    <div class="post-body" itemprop="articleBody"><span id="more"></span>
+    <div class="post-body" itemprop="articleBody"><h2 id="前言与需求背景"><a href="#前言与需求背景" class="headerlink" title="前言与需求背景"></a>前言与需求背景</h2><p>在许多应用中，我们可能需要让多个服务共享同一端口。例如，你可能有一个Web服务器（如Nginx）和一个VPN服务器（如OpenConnect VPN，简称ocserv），你希望它们都使用443端口。这样做的好处是可以提高网络性能，因为操作系统通常会为443端口提供更高的处理优先级，从而得到更快的响应。此外，这种设置也可以简化防火墙的配置，因为只需要开放一个端口。</p>
+<p>然而，实现这种配置并不简单。首先，Nginx和ocserv都需要独占443端口，因此不能直接将它们绑定到同一端口。其次，尽管Nginx可以使用其stream模块来实现TCP级别的反向代理，但这需要额外的配置，并且可能导致一些问题。例如，ocserv需要了解客户端的真实IP，但在Nginx的反向代理后，ocserv只能看到Nginx服务器的IP。</p>
+<span id="more"></span>
+
+<h2 id="为什么选择HAProxy"><a href="#为什么选择HAProxy" class="headerlink" title="为什么选择HAProxy"></a>为什么选择HAProxy</h2><p>为了解决这个问题，我们可以使用HAProxy作为负载均衡器，将流量分发到Nginx和ocserv。HAProxy是一个高性能的负载均衡器和反向代理服务器，可以处理HTTP和TCP协议。相比Nginx，HAProxy提供了更强大和灵活的负载均衡功能，包括基于内容的路由，健康检查，连接持久化等。</p>
+<p>更重要的是，HAProxy支持SNI（Server Name Indication），这是一个TLS扩展，允许客户端在握手过程中指定请求的主机名。我们可以利用SNI，将基于不同域名的请求分发到不同的服务器，从而实现共享443端口。</p>
+<h2 id="实践方案"><a href="#实践方案" class="headerlink" title="实践方案"></a>实践方案</h2><p>首先，我们需要修改ocserv的配置，开启代理协议支持，将监听地址设为本地地址。编辑ocserv.conf文件，添加以下两行：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">listen-proxy-proto <span class="token operator">=</span> <span class="token boolean">true</span>
+listen-host <span class="token operator">=</span> <span class="token number">127.0</span>.0.1<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<p>然后，我们需要配置HAProxy，将基于不同域名的请求转发到不同的服务器。以下是一个示例配置，假设你的服务器的IP地址为<code>172.19.17.203</code>：</p>
+<pre class="line-numbers language-nginx" data-language="nginx"><code class="language-nginx"><span class="token directive"><span class="token keyword">frontend</span> https
+   bind 172.19.17.203:443
+   mode tcp
+   tcp-request inspect-delay <span class="token number">5s</span>
+   tcp-request content accept if</span> <span class="token punctuation">&#123;</span> req_ssl_hello_type 1 <span class="token punctuation">&#125;</span>
+
+   <span class="token directive"><span class="token keyword">use_backend</span> ocserv if</span> <span class="token punctuation">&#123;</span> req_ssl_sni -i vpn.domain.com <span class="token punctuation">&#125;</span>
+   <span class="token directive"><span class="token keyword">use_backend</span> nginx if</span> <span class="token punctuation">&#123;</span> req_ssl_sni -i your.servicedomain.com <span class="token punctuation">&#125;</span>
+   default_backend ocserv<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>这个配置的含义是：如果客户端的SNI匹配vpn.domain.com，则将请求转发到ocserv；如果SNI匹配your.servicedomain.com，则将请求转发到Nginx；否则，默认将请求转发到ocserv。</p>
+<p>接下来，我们配置HAProxy的后端。对于ocserv，我们将其设置为监听在127.0.0.1:443，并启用代理协议：</p>
+<pre class="line-numbers language-nginx" data-language="nginx"><code class="language-nginx">backend ocserv
+   mode tcp
+   option ssl-hello-chk
+   server ocserv 127.0.0.1:443 send-proxy-v2<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>对于Nginx，我们将其设置为监听在127.0.0.2:443：</p>
+<pre class="line-numbers language-nginx" data-language="nginx"><code class="language-nginx">backend nginx
+   mode tcp
+   option ssl-hello-chk
+   server nginx 127.0.0.2:443 check<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<p>最后，我们需要修改Nginx的配置，将其监听地址改为127.0.0.2。以下是一个示例配置：</p>
+<pre class="line-numbers language-nginx" data-language="nginx"><code class="language-nginx"><span class="token directive"><span class="token keyword">server</span></span> <span class="token punctuation">&#123;</span>
+    <span class="token directive"><span class="token keyword">listen</span> 127.0.0.2:443 ssl</span><span class="token punctuation">;</span>
+    <span class="token directive"><span class="token keyword">server_name</span> your.servicedomain.com</span><span class="token punctuation">;</span>
+
+    <span class="token comment"># 其他配置项...</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>这样，当客户端发送请求时，HAProxy会根据SNI将请求路由到正确的服务器，而不管它们是否共享443端口。</p>
+<h2 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h2><p>在实施此方案时，需要注意以下几点：</p>
+<ul>
+<li>确保你的客户端支持SNI。大多数现代浏览器和操作系统都支持SNI，但一些较旧的系统可能不支持。</li>
+<li>在使用HAProxy时，需要确保它可以正确识别并处理TLS流量。在上述配置中，我们使用了mode tcp和tcp-request content accept if { req_ssl_hello_type 1 }来实现这一点。</li>
+<li>HAProxy的配置可以根据你的具体需求进行调整。例如，你可以添加更多的后端服务器，或者根据其他条件（如IP地址或请求路径）进行路由。</li>
+</ul>
+<p>总的来说，通过使用HAProxy，我们可以实现在同一服务器上共享443端口的需求，同时避免了Nginx的配置复杂性和ocserv的限制。</p>
+<h2 id="开箱即用"><a href="#开箱即用" class="headerlink" title="开箱即用"></a>开箱即用</h2><p>最后给出开箱即用的配置</p>
+<h3 id="haproxy-cfg-配置"><a href="#haproxy-cfg-配置" class="headerlink" title="haproxy.cfg 配置"></a>haproxy.cfg 配置</h3><pre class="line-numbers language-nginx" data-language="nginx"><code class="language-nginx"><span class="token directive"><span class="token keyword">global</span>
+    log 127.0.0.1 local2
+    chroot /var/lib/haproxy
+    pidfile /var/run/haproxy.pid
+    maxconn <span class="token number">4000</span>
+    user haproxy
+    group haproxy
+    daemon
+
+defaults
+    mode http
+    log global
+    option dontlognull
+    timeout connect         <span class="token number">10s</span>
+    timeout client          <span class="token number">1m</span>
+    timeout server          <span class="token number">1m</span>
+
+frontend https
+   <span class="token comment"># ip addr show eth0 | grep inet | awk '&#123; print $2; &#125;' | sed 's/\/.*$//' </span>
+   bind 172.19.17.203:443
+<span class="token comment"># bind fe80::250:56ff:fe0d:ae9e:443</span>
+   mode tcp
+   tcp-request inspect-delay <span class="token number">5s</span>
+   tcp-request content accept if</span> <span class="token punctuation">&#123;</span> req_ssl_hello_type 1 <span class="token punctuation">&#125;</span>
+
+   <span class="token directive"><span class="token keyword">use_backend</span> ocserv if</span> <span class="token punctuation">&#123;</span> req_ssl_sni -i vpn.domain.com <span class="token punctuation">&#125;</span>
+   <span class="token directive"><span class="token keyword">use_backend</span> nginx if</span> <span class="token punctuation">&#123;</span> req_ssl_sni -i your.servicedomain.com <span class="token punctuation">&#125;</span>
+
+   default_backend ocserv
+
+backend ocserv
+   mode tcp
+   option ssl-hello-chk
+   <span class="token comment"># pass requests to 127.0.0.1:443. Proxy protocol (v2) header is required by ocserv.</span>
+   server ocserv 127.0.0.1:443 send-proxy-v2
+<span class="token comment"># server ocserv6 [::1]:443 send-proxy-v2</span>
+
+backend nginx
+   mode tcp
+   option ssl-hello-chk
+   server nginx 127.0.0.2:443 check<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="your-servicedomain-com-conf-配置"><a href="#your-servicedomain-com-conf-配置" class="headerlink" title="your.servicedomain.com.conf 配置"></a>your.servicedomain.com.conf 配置</h3><pre class="line-numbers language-nginx" data-language="nginx"><code class="language-nginx"><span class="token directive"><span class="token keyword">server</span></span> <span class="token punctuation">&#123;</span>
+    <span class="token directive"><span class="token keyword">listen</span> <span class="token number">80</span></span><span class="token punctuation">;</span>
+    <span class="token directive"><span class="token keyword">server_name</span> your.servicedomain.com</span><span class="token punctuation">;</span>
+    <span class="token directive"><span class="token keyword">return</span> <span class="token number">301</span> https://<span class="token variable">$host</span><span class="token variable">$request_uri</span></span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token directive"><span class="token keyword">server</span></span> <span class="token punctuation">&#123;</span>
+    <span class="token directive"><span class="token keyword">listen</span> 127.0.0.2:443 ssl</span><span class="token punctuation">;</span>
+    <span class="token directive"><span class="token keyword">server_name</span> your.servicedomain.com</span><span class="token punctuation">;</span>
+
+    <span class="token directive"><span class="token keyword">ssl_certificate</span> /etc/nginx/ssl/your.servicedomain.com_ecc/your.servicedomain.com.cer</span><span class="token punctuation">;</span>
+    <span class="token directive"><span class="token keyword">ssl_certificate_key</span> /etc/nginx/ssl/your.servicedomain.com_ecc/your.servicedomain.com.key</span><span class="token punctuation">;</span>
+
+    <span class="token directive"><span class="token keyword">ssl_protocols</span> TLSv1.2 TLSv1.3</span><span class="token punctuation">;</span>
+    <span class="token directive"><span class="token keyword">ssl_ciphers</span> <span class="token string">'ECDHE-RSA-AES128-GCM-SHA256:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-RSA-AES128-SHA256:ECDHE-RSA-AES256-SHA384'</span></span><span class="token punctuation">;</span>   
+    <span class="token directive"><span class="token keyword">ssl_prefer_server_ciphers</span> <span class="token boolean">on</span></span><span class="token punctuation">;</span>
+    <span class="token directive"><span class="token keyword">ssl_session_cache</span> shared:SSL:10m</span><span class="token punctuation">;</span>
+    <span class="token directive"><span class="token keyword">ssl_session_timeout</span> <span class="token number">1d</span></span><span class="token punctuation">;</span>
+    <span class="token directive"><span class="token keyword">ssl_session_tickets</span> <span class="token boolean">off</span></span><span class="token punctuation">;</span>
+
+    <span class="token directive"><span class="token keyword">add_header</span> Strict-Transport-Security <span class="token string">"max-age=63072000; includeSubDomains; preload"</span> always</span><span class="token punctuation">;</span>
+    <span class="token directive"><span class="token keyword">add_header</span> X-Content-Type-Options nosniff</span><span class="token punctuation">;</span>
+    <span class="token directive"><span class="token keyword">add_header</span> X-XSS-Protection <span class="token string">"1; mode=block"</span></span><span class="token punctuation">;</span>
+    <span class="token directive"><span class="token keyword">add_header</span> Content-Security-Policy <span class="token string">"frame-ancestors 'self' *.vanjay.cn"</span></span><span class="token punctuation">;</span>
+
+    <span class="token directive"><span class="token keyword">location</span> /</span> <span class="token punctuation">&#123;</span>
+        <span class="token directive"><span class="token keyword">proxy_pass</span> http://127.0.0.1:5230</span><span class="token punctuation">;</span>
+        <span class="token directive"><span class="token keyword">proxy_http_version</span> 1.1</span><span class="token punctuation">;</span>
+        <span class="token directive"><span class="token keyword">proxy_set_header</span> Upgrade <span class="token variable">$http_upgrade</span></span><span class="token punctuation">;</span>
+        <span class="token directive"><span class="token keyword">proxy_set_header</span> Connection <span class="token string">"upgrade"</span></span><span class="token punctuation">;</span>
+        <span class="token directive"><span class="token keyword">proxy_set_header</span> Host <span class="token variable">$host</span></span><span class="token punctuation">;</span>
+        <span class="token directive"><span class="token keyword">proxy_set_header</span> X-Real-IP <span class="token variable">$remote_addr</span></span><span class="token punctuation">;</span>
+        <span class="token directive"><span class="token keyword">proxy_set_header</span> X-Forwarded-For <span class="token variable">$proxy_add_x_forwarded_for</span></span><span class="token punctuation">;</span>
+        <span class="token directive"><span class="token keyword">proxy_set_header</span> X-Forwarded-Proto <span class="token variable">$scheme</span></span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="ocserv-conf-配置"><a href="#ocserv-conf-配置" class="headerlink" title="ocserv.conf 配置"></a>ocserv.conf 配置</h3><pre class="line-numbers language-none"><code class="language-none">#auth &#x3D; &quot;plain[passwd&#x3D;&#x2F;etc&#x2F;ocserv&#x2F;ocpasswd]&quot;
+auth &#x3D; &quot;certificate&quot;
+tcp-port &#x3D; 443
+run-as-user &#x3D; ocserv
+run-as-group &#x3D; ocserv
+socket-file &#x3D; ocserv.sock
+chroot-dir &#x3D; &#x2F;var&#x2F;lib&#x2F;ocserv
+isolate-workers &#x3D; false
+max-clients &#x3D; 32
+max-same-clients &#x3D; 8
+keepalive &#x3D; 32400
+dpd &#x3D; 30
+mobile-dpd &#x3D; 90
+try-mtu-discovery &#x3D; false
+server-cert &#x3D; &#x2F;etc&#x2F;ocserv&#x2F;pki&#x2F;vpn.domain.com_ecc&#x2F;vpn.domain.com.cer
+server-key &#x3D; &#x2F;etc&#x2F;ocserv&#x2F;pki&#x2F;vpn.domain.com_ecc&#x2F;vpn.domain.com.key
+crl &#x3D; &#x2F;etc&#x2F;ocserv&#x2F;pem&#x2F;crl.pem
+ca-cert &#x3D; &#x2F;etc&#x2F;ocserv&#x2F;pem&#x2F;ca-cert.pem
+
+listen-proxy-proto &#x3D; true
+listen-host &#x3D; 127.0.0.1
+
+cert-user-oid &#x3D; 2.5.4.3
+compression &#x3D; true
+no-compress-limit &#x3D; 256
+tls-priorities &#x3D; &quot;NORMAL:%SERVER_PRECEDENCE:%COMPAT:-VERS-SSL3.0&quot;
+auth-timeout &#x3D; 240
+min-reauth-time &#x3D; 300
+max-ban-score &#x3D; 50
+ban-reset-time &#x3D; 300
+cookie-timeout &#x3D; 300
+deny-roaming &#x3D; false
+rekey-time &#x3D; 172800
+rekey-method &#x3D; ssl
+use-utmp &#x3D; true
+use-occtl &#x3D; true
+pid-file &#x3D; &#x2F;var&#x2F;run&#x2F;ocserv.pid
+device &#x3D; vpns
+predictable-ips &#x3D; true
+default-domain &#x3D; vpn.domain.com
+ipv4-network &#x3D; 192.168.101.0&#x2F;24
+dns &#x3D; 1.1.1.1
+dns &#x3D; 8.8.8.8
+ping-leases &#x3D; false
+
+cisco-client-compat &#x3D; true
+dtls-legacy &#x3D; true
+# user-profile&#x3D; profile.xml
+connect-script &#x3D; &#x2F;etc&#x2F;ocserv&#x2F;connect-script
+disconnect-script &#x3D; &#x2F;etc&#x2F;ocserv&#x2F;connect-script
+
+config-per-user &#x3D; &#x2F;etc&#x2F;ocserv&#x2F;config-per-user&#x2F;
+config-per-group &#x3D; &#x2F;etc&#x2F;ocserv&#x2F;config-per-group&#x2F;
+default-group-config &#x3D; &#x2F;etc&#x2F;ocserv&#x2F;config-per-group&#x2F;others
+default-select-group &#x3D; others
+auto-select-group &#x3D; false
+
+# config-per-user &#x3D; &#x2F;etc&#x2F;ocserv&#x2F;config-per-user&#x2F;
+# config-per-group &#x3D; &#x2F;etc&#x2F;ocserv&#x2F;config-per-group&#x2F;
+
+# default-user-config &#x3D; &#x2F;etc&#x2F;ocserv&#x2F;defaults&#x2F;user.conf
+# default-group-config &#x3D; &#x2F;etc&#x2F;ocserv&#x2F;defaults&#x2F;group.conf
+
+# (x*1024)*1024&#x2F;8
+rx-data-per-sec &#x3D; 4194304
+tx-data-per-sec &#x3D; 4194304
+
+no-route &#x3D; 192.168.0.0&#x2F;255.255.0.0
+no-route &#x3D; 47.242.201.43&#x2F;255.255.255.255<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h2 id="后话，Nginx与HAProxy的比较"><a href="#后话，Nginx与HAProxy的比较" class="headerlink" title="后话，Nginx与HAProxy的比较"></a>后话，Nginx与HAProxy的比较</h2><p>看起来 haproxy 和 nginx 都能实现反向代理，那他们各自有什么优劣以及适用什么场景呢？这里做个简单总结。<br>Nginx和HAProxy都是非常强大且广泛使用的反向代理服务器。然而，它们各自的优势和更适用的场景略有不同。</p>
+<h3 id="Nginx"><a href="#Nginx" class="headerlink" title="Nginx"></a>Nginx</h3><p>Nginx是一个强大的Web服务器，也可以作为邮件代理服务器，以及通用的TCP&#x2F;UDP代理服务器。它被设计为处理非常高的并发连接，这得益于其基于事件的架构。</p>
+<p>Nginx的主要优点包括：</p>
+<ul>
+<li>静态文件服务：Nginx是一个出色的静态文件服务器，能够快速、高效地为大量用户提供服务。</li>
+<li>灵活的配置：Nginx的配置文件非常强大且灵活，可以支持各种复杂的路由和负载均衡策略。</li>
+<li>HTTPS和HTTP&#x2F;2支持：Nginx支持最新的Web协议，包括HTTPS和HTTP&#x2F;2。</li>
+</ul>
+<p>然而，Nginx的某些功能，如动态负载均衡和高级健康检查，在社区版中是不可用的。这些功能只在Nginx Plus（商业版）中可用。</p>
+<h3 id="HAProxy"><a href="#HAProxy" class="headerlink" title="HAProxy"></a>HAProxy</h3><p>HAProxy是一个专注于高可用性、负载均衡和代理的开源软件。它可以处理非常大量的并发连接，并提供丰富的负载均衡算法和健康检查功能。</p>
+<p>HAProxy的主要优点包括：</p>
+<ul>
+<li>高性能：HAProxy被设计为处理非常高的并发连接，且拥有优秀的性能。</li>
+<li>灵活的负载均衡：HAProxy提供了多种负载均衡算法，可以根据需要进行选择和配置。</li>
+<li>先进的健康检查：HAProxy可以进行非常详细的健康检查，包括对HTTP、TCP和其他协议的支持。</li>
+</ul>
+<p>但是，HAProxy在处理静态内容或者作为全功能的Web服务器方面，可能不如Nginx强大。</p>
+<h3 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h3><p>选择Nginx还是HAProxy，取决于你的具体需求。如果你主要是为了提供静态内容或需要一个全功能的Web服务器，Nginx可能是更好的选择。如果你需要一个专注于高可用性、负载均衡和代理的解决方案，HAProxy可能更适合你。</p>
+<p>总的来说，Nginx和HAProxy都是非常优秀的工具，它们在很多情况下可以互补使用，而不是相互替代。在本文的情境中，我们使用了HAProxy来处理基于SNI的路由，同时利用Nginx的Web服务能力，共同实现了一种强大且灵活的解决方案。这样的组合充分利用了这两个工具的各自优势，为我们的服务提供了可靠的网络连接。</p>
+<p>最后，不管你选择使用哪种工具，都应当确保理解其工作原理和配置细节，这样才能最大化地发挥其作用。同时，始终保持对工具的更新和安全性的关注，是维持服务稳定运行的关键。</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a target="_blank" rel="noopener" href="https://www.linuxbabe.com/ubuntu/openconnect-vpn-server-ocserv-ubuntu-20-04-lets-encrypt">openconnect-vpn-server-ocserv-ubuntu-20-04-lets-encrypt</a></p>
+<p><a target="_blank" rel="noopener" href="http://ocserv.gitlab.io/www/recipes-ocserv-multihost.html">ocserv官方使用haproxy的SNI解决方案</a></p>
+<p><a target="_blank" rel="noopener" href="https://wwww.lvmoo.com/1110.love/">ocserv443端口复用</a></p>
+
     </div>
 
     
@@ -346,18 +592,23 @@
   </div>
 </div>
 
+          <div class="post-tags">
+              <a href="/tags/ocserv/" rel="tag"># ocserv</a>
+              <a href="/tags/nginx/" rel="tag"># nginx</a>
+              <a href="/tags/haproxy/" rel="tag"># haproxy</a>
+          </div>
 
         
 
           <div class="post-nav">
             <div class="post-nav-item">
-                <a href="/2022/05/18/Mac-QuickLook%E9%85%8D%E7%BD%AE/" rel="prev" title="Mac QuickLook配置">
-                  <i class="fa fa-chevron-left"></i> Mac QuickLook配置
+                <a href="/2022/10/13/%E4%BD%BF%E7%94%A8%20Nginx%20%E5%B0%86%E5%A4%9A%E4%B8%AA%E6%9C%8D%E5%8A%A1%E4%BB%A3%E7%90%86%E5%88%B0%E5%90%8C%E4%B8%80%E5%9F%9F%E5%90%8D/" rel="prev" title="nginx将多个服务代理到同一域名">
+                  <i class="fa fa-chevron-left"></i> nginx将多个服务代理到同一域名
                 </a>
             </div>
             <div class="post-nav-item">
-                <a href="/2023/05/13/Nginx%E9%85%8D%E7%BD%AE%E5%90%AF%E7%94%A8Web%E6%96%87%E4%BB%B6%E6%9C%8D%E5%8A%A1%E5%99%A8/" rel="next" title="Nginx配置启用Web文件服务器">
-                  Nginx配置启用Web文件服务器 <i class="fa fa-chevron-right"></i>
+                <a href="/2023/05/20/N8505%E5%AE%B6%E5%BA%AD%E7%BB%84%E7%BD%91PVE%E4%B8%8BiKuai%E3%80%81OpenWrt%E3%80%81CentOS%E3%80%81DSM%E3%80%81Windows%E7%AD%89%E7%B3%BB%E7%BB%9FAll-In-One%E5%AE%9E%E8%B7%B5%E8%AE%B0%E5%BD%95/" rel="next" title="N8505家庭组网PVE下iKuai、OpenWrt、CentOS、DSM、Windows等系统All In One实践记录">
+                  N8505家庭组网PVE下iKuai、OpenWrt、CentOS、DSM、Windows等系统All In One实践记录 <i class="fa fa-chevron-right"></i>
                 </a>
             </div>
           </div>
@@ -391,13 +642,13 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-line"></i>
     </span>
-    <span title="站点总字数">46k</span>
+    <span title="站点总字数">57k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">2:47</span>
+    <span title="站点阅读时长">3:26</span>
   </span>
 </div>
 <div class="busuanzi-count">
