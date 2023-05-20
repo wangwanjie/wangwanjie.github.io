@@ -1,6 +1,119 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>CentOS 7 下 Docker 和 Docker-Compose 的安装与使用</title>
+    <url>/2021/06/14/CentOS-7-%E4%B8%8B-Docker-%E5%92%8C-Docker-Compose-%E7%9A%84%E5%AE%89%E8%A3%85%E4%B8%8E%E4%BD%BF%E7%94%A8/</url>
+    <content><![CDATA[<h2 id="需求背景"><a href="#需求背景" class="headerlink" title="需求背景"></a>需求背景</h2><p>随着微服务架构的流行，如何高效、快速地部署和管理各种服务成为了一个问题。传统的部署方式，如手动安装配置环境、手动部署和更新应用，不仅耗费人力物力，而且容易出错，且不易复制和扩展。</p>
+<p>为了解决这个问题，Docker诞生了。Docker是一个开源的应用容器引擎，允许开发者打包他们的应用以及依赖包到一个可移植的容器中，然后发布到任何流行的Linux机器或Windows机器上，也可以实现虚拟化。容器是完全沙盒机制，相互之间不会有任何接口。</p>
+<span id="more"></span>
+
+<p>Docker带来的好处包括：</p>
+<ul>
+<li>环境一致性：解决了”在我机器上可以运行”的问题。无论在开发、测试还是生产环境，Docker都可以确保环境的一致性。</li>
+<li>便捷的版本控制和分发：Docker的镜像（Image）提供了版本控制的功能，可以方便地回滚到旧版本。而且，Docker的镜像可以通过Docker Hub等平台进行共享和分发，方便了应用的部署和传播。</li>
+<li>隔离性：每个Docker容器都在自己的环境中运行，不会影响其他的容器。这为应用提供了良好的安全性。</li>
+<li>轻量性和性能高：Docker容器是在宿主机的内核上直接运行，没有传统虚拟化技术的额外开销，所以运行速度快，资源占用小。</li>
+</ul>
+<p>接下来，我们会详细介绍在CentOS 7下如何安装和使用Docker以及Docker-Compose。</p>
+<h2 id="CentOS-7-下-Docker-和-Docker-Compose-的安装"><a href="#CentOS-7-下-Docker-和-Docker-Compose-的安装" class="headerlink" title="CentOS 7 下 Docker 和 Docker-Compose 的安装"></a>CentOS 7 下 Docker 和 Docker-Compose 的安装</h2><p>首先，我们需要在CentOS 7下安装Docker。你可以通过以下步骤进行安装：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 卸载旧版本(如果安装过的话)</span>
+<span class="token function">sudo</span> yum remove <span class="token function">docker</span> <span class="token punctuation">\</span>
+                  docker-client <span class="token punctuation">\</span>
+                  docker-client-latest <span class="token punctuation">\</span>
+                  docker-common <span class="token punctuation">\</span>
+                  docker-latest <span class="token punctuation">\</span>
+                  docker-latest-logrotate <span class="token punctuation">\</span>
+                  docker-logrotate <span class="token punctuation">\</span>
+                  docker-engine<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h2 id="安装一些必要的系统工具"><a href="#安装一些必要的系统工具" class="headerlink" title="安装一些必要的系统工具"></a>安装一些必要的系统工具</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">sudo</span> yum <span class="token function">install</span> <span class="token parameter variable">-y</span> yum-utils device-mapper-persistent-data lvm2<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h2 id="添加软件源信息"><a href="#添加软件源信息" class="headerlink" title="添加软件源信息"></a>添加软件源信息</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">sudo</span> yum-config-manager --add-repo http://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo
+<span class="token comment">## 更新 yum 缓存</span>
+<span class="token function">sudo</span> yum makecache all
+<span class="token comment">## 安装 Docker-ce</span>
+<span class="token function">sudo</span> yum <span class="token parameter variable">-y</span> <span class="token function">install</span> docker-ce<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>安装完 Docker 之后，启动 Docker：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">sudo</span> systemctl start <span class="token function">docker</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>在安装完 Docker 之后，你可以通过以下命令来检查 Docker 是否安装成功：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">sudo</span> <span class="token function">docker</span> run hello-world<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>如果能看到 “Hello from Docker!” 的消息，说明 Docker 已经成功安装并运行。</p>
+<p>接下来我们将安装 Docker Compose。Docker Compose 是 Docker 的一个编排工具，可以用来定义和管理多个 Docker 容器。</p>
+<p>首先，下载最新版本的 Docker Compose：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">curl</span> <span class="token parameter variable">-L</span> https://github.com/docker/compose/releases/download/v2.17.3/docker-compose-linux-aarch64 <span class="token parameter variable">-o</span> /usr/local/bin/docker-compose<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>然后，设置文件的可执行权限：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">sudo</span> <span class="token function">chmod</span> +x /usr/local/bin/docker-compose<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>你可以通过以下命令来检查 Docker Compose 是否安装成功：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">docker-compose</span> <span class="token parameter variable">--version</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>如果能看到 Docker Compose 的版本信息，说明 Docker Compose 已经成功安装。</p>
+<h3 id="Docker-的常用命令和操作"><a href="#Docker-的常用命令和操作" class="headerlink" title="Docker 的常用命令和操作"></a>Docker 的常用命令和操作</h3><p>在安装完 Docker 之后，你可能会用到以下一些常用的命令和操作：</p>
+<ul>
+<li>查看 Docker 进程：docker ps</li>
+<li>查看所有 Docker 容器（包括停止的）：docker ps -a</li>
+<li>在 Docker 容器中执行命令：docker exec -it <container_id> <command></li>
+<li>运行 Docker 容器：docker run -d -p <host_port>:<container_port> <image></li>
+<li>停止 Docker 容器：docker stop <container_id></li>
+<li>删除 Docker 容器：docker rm <container_id></li>
+<li>删除 Docker 镜像：docker rmi <image_id></li>
+</ul>
+<h4 id="docker-inspect-命令"><a href="#docker-inspect-命令" class="headerlink" title="docker inspect 命令"></a>docker inspect 命令</h4><p>这个命令用于返回 Docker 对象的底层信息。这个对象可以是容器、镜像、卷、网络等。docker inspect 返回一个 JSON 对象，包含了 Docker 对象的所有配置和状态信息。例如，如果你想查看一个正在运行的容器的 IP 地址，你可以使用 docker inspect 命令，然后从返回的 JSON 对象中查找相应的字段。<br>使用示例：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">docker</span> inspect container_name_or_id
+root@iZj6cgd384kfewiompdstqZ <span class="token punctuation">[</span>02时10分38秒<span class="token punctuation">]</span> <span class="token punctuation">[</span>/var/www/blog<span class="token punctuation">]</span> <span class="token punctuation">[</span>master<span class="token punctuation">]</span>
+-<span class="token operator">></span> <span class="token comment"># docker inspect a0974a35724f | grep RestartPolicy -A 2</span>
+            <span class="token string">"RestartPolicy"</span><span class="token builtin class-name">:</span> <span class="token punctuation">&#123;</span>
+                <span class="token string">"Name"</span><span class="token builtin class-name">:</span> <span class="token string">"always"</span>,
+                <span class="token string">"MaximumRetryCount"</span><span class="token builtin class-name">:</span> <span class="token number">0</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h4 id="docker-stats-–all-命令"><a href="#docker-stats-–all-命令" class="headerlink" title="docker stats –all 命令"></a>docker stats –all 命令</h4><p>这个命令用于实时显示 Docker 容器的资源使用情况，包括 CPU 使用率、内存使用量、网络 I&#x2F;O、磁盘 I&#x2F;O 等。–all 或 -a 选项表示显示所有容器的资源使用情况，而不仅仅是正在运行的容器。<br>使用示例：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">docker</span> stats <span class="token parameter variable">--all</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>这两个命令是 Docker 命令行工具中非常有用的工具，可以帮助你理解和管理 Docker 容器的状态和资源使用情况。</p>
+<h3 id="Docker-compose-的常用命令和操作"><a href="#Docker-compose-的常用命令和操作" class="headerlink" title="Docker-compose 的常用命令和操作"></a>Docker-compose 的常用命令和操作</h3><p>在Compose中，你可以用YAML文件定义服务需要的环境，然后通过一个命令就可以从这个配置中创建并启动所有服务。以下是一些常用的Docker Compose命令：</p>
+<p>####启动、停止和重启服务</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">docker-compose</span> up      <span class="token comment"># 启动服务</span>
+<span class="token function">docker-compose</span> stop    <span class="token comment"># 停止服务</span>
+<span class="token function">docker-compose</span> restart <span class="token comment"># 重启服务</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<h4 id="列出服务的状态"><a href="#列出服务的状态" class="headerlink" title="列出服务的状态"></a>列出服务的状态</h4><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">docker-compose</span> <span class="token function">ps</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h4 id="查看输出（类似于docker-logs）"><a href="#查看输出（类似于docker-logs）" class="headerlink" title="查看输出（类似于docker logs）"></a>查看输出（类似于docker logs）</h4><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">docker-compose</span> logs<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h4 id="执行命令"><a href="#执行命令" class="headerlink" title="执行命令"></a>执行命令</h4><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">docker-compose</span> <span class="token builtin class-name">exec</span> service_name <span class="token builtin class-name">command</span> <span class="token comment"># 例如: docker-compose exec db psql -U postgres</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h4 id="删除和重建服务"><a href="#删除和重建服务" class="headerlink" title="删除和重建服务"></a>删除和重建服务</h4><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">docker-compose</span> down       <span class="token comment"># 停止和删除容器</span>
+<span class="token function">docker-compose</span> build      <span class="token comment"># 构建或者重新构建服务</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<h4 id="拉取和推送服务"><a href="#拉取和推送服务" class="headerlink" title="拉取和推送服务"></a>拉取和推送服务</h4><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">docker-compose</span> pull      <span class="token comment"># 拉取服务的最新镜像</span>
+<span class="token function">docker-compose</span> push      <span class="token comment"># 推送服务镜像至registry</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<p>注意：以上的命令需要在包含docker-compose.yml文件的目录中运行。如果你的docker-compose文件名不是默认的docker-compose.yml，你需要使用-f参数指定文件名，例如 docker-compose -f my-docker-compose.yml up。</p>
+<h2 id="端口映射"><a href="#端口映射" class="headerlink" title="端口映射"></a>端口映射</h2><p>你可以通过使用-p选项在运行容器时指定端口映射<br><code>-p</code>选项允许你将容器内的端口映射到宿主机的端口。其格式为<code>-p &lt;host-port&gt;:&lt;container-port&gt;</code>。例如，如果你有一个在容器的80端口上运行的web服务器，你希望将其映射到宿主机的8080端口上，你可以使用以下命令：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">docker</span> run <span class="token parameter variable">-p</span> <span class="token number">8080</span>:80 <span class="token parameter variable">-d</span> my-web-app<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>在这个例子中，任何发送到宿主机8080端口的请求都会被转发到容器的80端口。</p>
+<h2 id="卷映射"><a href="#卷映射" class="headerlink" title="卷映射"></a>卷映射</h2><p><code>-v</code>选项允许你将宿主机的文件或目录映射到容器内的文件或目录。其格式为<code>-v &lt;host-path&gt;:&lt;container-path&gt;</code>。例如，如果你希望将宿主机的<code>/home/user/data</code>目录映射到容器的<code>/app/data</code>目录，你可以使用以下命令：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">docker</span> run <span class="token parameter variable">-v</span> /home/user/data:/app/data <span class="token parameter variable">-d</span> my-app<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>在这个例子中，容器内的<code>/app/data</code>目录将直接映射到宿主机的<code>/home/user/data</code>目录，任何对这个目录的修改（无论是在宿主机上还是在容器内）都会立即反映到另一方。</p>
+<p>这两种映射方式都是Docker灵活性的重要表现，它们使得容器能够更好地与宿主机进行交互和数据共享。</p>
+<h2 id="Docker-和-Docker-Compose-的优势和适用场景"><a href="#Docker-和-Docker-Compose-的优势和适用场景" class="headerlink" title="Docker 和 Docker-Compose 的优势和适用场景"></a>Docker 和 Docker-Compose 的优势和适用场景</h2><p>Docker 的主要优点在于它能够提供一致的运行环境，解决了 “在我机器上可以运行” 的问题。它还能够提供隔离的环境，使得应用不会相互影响。此外，Docker 还非常轻量级，运行速度快，资源占用小。</p>
+<p>Docker-Compose 的主要优点在于它可以通过一个 YAML 文件来定义多个 Docker 容器，使得管理多个 Docker 容器变得非常方便。而且，Docker-Compose 还可以方便地管理容器之间的关系，如网络、存储等。</p>
+<p>总的来说，如果你需要快速地部署和管理应用，那么 Docker 和 Docker-Compose 都是非常好的工具。如果你需要管理多个相互关联的 Docker 容器，那么 Docker-Compose 就显得更为有用了。</p>
+<h2 id="补充"><a href="#补充" class="headerlink" title="补充"></a>补充</h2><p>在上述内容中，我们已经讲解了Docker和Docker Compose在CentOS 7下的安装过程，以及一些基本的使用命令。然而，Docker的生态系统非常丰富，有很多其他的功能和特性也值得探索和学习。这里，我将补充一些额外的点：</p>
+<ul>
+<li>Dockerfile： Dockerfile是创建Docker镜像的基础，它是一个文本文件，包含了一系列命令来创建和设置一个新的Docker镜像。学习如何编写Dockerfile，可以帮助你创建适应你的应用需求的定制镜像。</li>
+<li>Docker Registry： Docker Registry是存储Docker镜像的地方。最常见的公共registry是Docker Hub，但你也可以设置自己的私有registry。学习如何使用registry，可以帮助你更好地管理你的Docker镜像。</li>
+<li>Docker网络： Docker提供了多种网络配置选项，以满足不同的需求。例如，你可以创建一个网络，让容器可以在此网络中相互通信，或者可以将一个容器连接到多个网络。</li>
+<li>Docker存储： Docker提供了多种存储选项，如volumes，bind mounts和tmpfs mounts，用于持久化容器数据或共享数据。</li>
+<li>Docker安全： 虽然Docker提供了隔离环境，但仍需关注安全性。例如，需要定期更新镜像以获取最新的安全更新，限制容器的权限，避免在容器中运行root用户等。</li>
+</ul>
+<p>总之，Docker是一个强大且灵活的工具，无论你是在开发环境中快速部署应用，还是在生产环境中运行和扩展应用，它都能提供巨大的帮助。不过，像任何技术一样，最好的使用方式是根据你自己的具体需求和场景去使用它。</p>
+]]></content>
+      <categories>
+        <category>服务器</category>
+        <category>容器化</category>
+        <category>运维</category>
+      </categories>
+      <tags>
+        <tag>docker</tag>
+        <tag>centos</tag>
+        <tag>docker-compose</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>ASI 和 AFN 区别</title>
     <url>/2015/10/06/ASI-%E5%92%8C-AFN-%E5%8C%BA%E5%88%AB/</url>
     <content><![CDATA[<h3 id="一-底层实现"><a href="#一-底层实现" class="headerlink" title="一 底层实现"></a>一 底层实现</h3><ul>
@@ -747,119 +860,6 @@ http_server <span class="token operator">=</span> WSGIServer<span class="token p
       </tags>
   </entry>
   <entry>
-    <title>CentOS 7 下 Docker 和 Docker-Compose 的安装与使用</title>
-    <url>/2021/06/14/CentOS-7-%E4%B8%8B-Docker-%E5%92%8C-Docker-Compose-%E7%9A%84%E5%AE%89%E8%A3%85%E4%B8%8E%E4%BD%BF%E7%94%A8/</url>
-    <content><![CDATA[<h2 id="需求背景"><a href="#需求背景" class="headerlink" title="需求背景"></a>需求背景</h2><p>随着微服务架构的流行，如何高效、快速地部署和管理各种服务成为了一个问题。传统的部署方式，如手动安装配置环境、手动部署和更新应用，不仅耗费人力物力，而且容易出错，且不易复制和扩展。</p>
-<p>为了解决这个问题，Docker诞生了。Docker是一个开源的应用容器引擎，允许开发者打包他们的应用以及依赖包到一个可移植的容器中，然后发布到任何流行的Linux机器或Windows机器上，也可以实现虚拟化。容器是完全沙盒机制，相互之间不会有任何接口。</p>
-<span id="more"></span>
-
-<p>Docker带来的好处包括：</p>
-<ul>
-<li>环境一致性：解决了”在我机器上可以运行”的问题。无论在开发、测试还是生产环境，Docker都可以确保环境的一致性。</li>
-<li>便捷的版本控制和分发：Docker的镜像（Image）提供了版本控制的功能，可以方便地回滚到旧版本。而且，Docker的镜像可以通过Docker Hub等平台进行共享和分发，方便了应用的部署和传播。</li>
-<li>隔离性：每个Docker容器都在自己的环境中运行，不会影响其他的容器。这为应用提供了良好的安全性。</li>
-<li>轻量性和性能高：Docker容器是在宿主机的内核上直接运行，没有传统虚拟化技术的额外开销，所以运行速度快，资源占用小。</li>
-</ul>
-<p>接下来，我们会详细介绍在CentOS 7下如何安装和使用Docker以及Docker-Compose。</p>
-<h2 id="CentOS-7-下-Docker-和-Docker-Compose-的安装"><a href="#CentOS-7-下-Docker-和-Docker-Compose-的安装" class="headerlink" title="CentOS 7 下 Docker 和 Docker-Compose 的安装"></a>CentOS 7 下 Docker 和 Docker-Compose 的安装</h2><p>首先，我们需要在CentOS 7下安装Docker。你可以通过以下步骤进行安装：</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 卸载旧版本(如果安装过的话)</span>
-<span class="token function">sudo</span> yum remove <span class="token function">docker</span> <span class="token punctuation">\</span>
-                  docker-client <span class="token punctuation">\</span>
-                  docker-client-latest <span class="token punctuation">\</span>
-                  docker-common <span class="token punctuation">\</span>
-                  docker-latest <span class="token punctuation">\</span>
-                  docker-latest-logrotate <span class="token punctuation">\</span>
-                  docker-logrotate <span class="token punctuation">\</span>
-                  docker-engine<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<h2 id="安装一些必要的系统工具"><a href="#安装一些必要的系统工具" class="headerlink" title="安装一些必要的系统工具"></a>安装一些必要的系统工具</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">sudo</span> yum <span class="token function">install</span> <span class="token parameter variable">-y</span> yum-utils device-mapper-persistent-data lvm2<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-<h2 id="添加软件源信息"><a href="#添加软件源信息" class="headerlink" title="添加软件源信息"></a>添加软件源信息</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">sudo</span> yum-config-manager --add-repo http://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo
-<span class="token comment">## 更新 yum 缓存</span>
-<span class="token function">sudo</span> yum makecache all
-<span class="token comment">## 安装 Docker-ce</span>
-<span class="token function">sudo</span> yum <span class="token parameter variable">-y</span> <span class="token function">install</span> docker-ce<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<p>安装完 Docker 之后，启动 Docker：</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">sudo</span> systemctl start <span class="token function">docker</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<p>在安装完 Docker 之后，你可以通过以下命令来检查 Docker 是否安装成功：</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">sudo</span> <span class="token function">docker</span> run hello-world<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<p>如果能看到 “Hello from Docker!” 的消息，说明 Docker 已经成功安装并运行。</p>
-<p>接下来我们将安装 Docker Compose。Docker Compose 是 Docker 的一个编排工具，可以用来定义和管理多个 Docker 容器。</p>
-<p>首先，下载最新版本的 Docker Compose：</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">curl</span> <span class="token parameter variable">-L</span> https://github.com/docker/compose/releases/download/v2.17.3/docker-compose-linux-aarch64 <span class="token parameter variable">-o</span> /usr/local/bin/docker-compose<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-<p>然后，设置文件的可执行权限：</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">sudo</span> <span class="token function">chmod</span> +x /usr/local/bin/docker-compose<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-<p>你可以通过以下命令来检查 Docker Compose 是否安装成功：</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">docker-compose</span> <span class="token parameter variable">--version</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-<p>如果能看到 Docker Compose 的版本信息，说明 Docker Compose 已经成功安装。</p>
-<h3 id="Docker-的常用命令和操作"><a href="#Docker-的常用命令和操作" class="headerlink" title="Docker 的常用命令和操作"></a>Docker 的常用命令和操作</h3><p>在安装完 Docker 之后，你可能会用到以下一些常用的命令和操作：</p>
-<ul>
-<li>查看 Docker 进程：docker ps</li>
-<li>查看所有 Docker 容器（包括停止的）：docker ps -a</li>
-<li>在 Docker 容器中执行命令：docker exec -it <container_id> <command></li>
-<li>运行 Docker 容器：docker run -d -p <host_port>:<container_port> <image></li>
-<li>停止 Docker 容器：docker stop <container_id></li>
-<li>删除 Docker 容器：docker rm <container_id></li>
-<li>删除 Docker 镜像：docker rmi <image_id></li>
-</ul>
-<h4 id="docker-inspect-命令"><a href="#docker-inspect-命令" class="headerlink" title="docker inspect 命令"></a>docker inspect 命令</h4><p>这个命令用于返回 Docker 对象的底层信息。这个对象可以是容器、镜像、卷、网络等。docker inspect 返回一个 JSON 对象，包含了 Docker 对象的所有配置和状态信息。例如，如果你想查看一个正在运行的容器的 IP 地址，你可以使用 docker inspect 命令，然后从返回的 JSON 对象中查找相应的字段。<br>使用示例：</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">docker</span> inspect container_name_or_id
-root@iZj6cgd384kfewiompdstqZ <span class="token punctuation">[</span>02时10分38秒<span class="token punctuation">]</span> <span class="token punctuation">[</span>/var/www/blog<span class="token punctuation">]</span> <span class="token punctuation">[</span>master<span class="token punctuation">]</span>
--<span class="token operator">></span> <span class="token comment"># docker inspect a0974a35724f | grep RestartPolicy -A 2</span>
-            <span class="token string">"RestartPolicy"</span><span class="token builtin class-name">:</span> <span class="token punctuation">&#123;</span>
-                <span class="token string">"Name"</span><span class="token builtin class-name">:</span> <span class="token string">"always"</span>,
-                <span class="token string">"MaximumRetryCount"</span><span class="token builtin class-name">:</span> <span class="token number">0</span>
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<h4 id="docker-stats-–all-命令"><a href="#docker-stats-–all-命令" class="headerlink" title="docker stats –all 命令"></a>docker stats –all 命令</h4><p>这个命令用于实时显示 Docker 容器的资源使用情况，包括 CPU 使用率、内存使用量、网络 I&#x2F;O、磁盘 I&#x2F;O 等。–all 或 -a 选项表示显示所有容器的资源使用情况，而不仅仅是正在运行的容器。<br>使用示例：</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">docker</span> stats <span class="token parameter variable">--all</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-<p>这两个命令是 Docker 命令行工具中非常有用的工具，可以帮助你理解和管理 Docker 容器的状态和资源使用情况。</p>
-<h3 id="Docker-compose-的常用命令和操作"><a href="#Docker-compose-的常用命令和操作" class="headerlink" title="Docker-compose 的常用命令和操作"></a>Docker-compose 的常用命令和操作</h3><p>在Compose中，你可以用YAML文件定义服务需要的环境，然后通过一个命令就可以从这个配置中创建并启动所有服务。以下是一些常用的Docker Compose命令：</p>
-<p>####启动、停止和重启服务</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">docker-compose</span> up      <span class="token comment"># 启动服务</span>
-<span class="token function">docker-compose</span> stop    <span class="token comment"># 停止服务</span>
-<span class="token function">docker-compose</span> restart <span class="token comment"># 重启服务</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
-<h4 id="列出服务的状态"><a href="#列出服务的状态" class="headerlink" title="列出服务的状态"></a>列出服务的状态</h4><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">docker-compose</span> <span class="token function">ps</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-<h4 id="查看输出（类似于docker-logs）"><a href="#查看输出（类似于docker-logs）" class="headerlink" title="查看输出（类似于docker logs）"></a>查看输出（类似于docker logs）</h4><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">docker-compose</span> logs<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-<h4 id="执行命令"><a href="#执行命令" class="headerlink" title="执行命令"></a>执行命令</h4><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">docker-compose</span> <span class="token builtin class-name">exec</span> service_name <span class="token builtin class-name">command</span> <span class="token comment"># 例如: docker-compose exec db psql -U postgres</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-<h4 id="删除和重建服务"><a href="#删除和重建服务" class="headerlink" title="删除和重建服务"></a>删除和重建服务</h4><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">docker-compose</span> down       <span class="token comment"># 停止和删除容器</span>
-<span class="token function">docker-compose</span> build      <span class="token comment"># 构建或者重新构建服务</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
-<h4 id="拉取和推送服务"><a href="#拉取和推送服务" class="headerlink" title="拉取和推送服务"></a>拉取和推送服务</h4><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">docker-compose</span> pull      <span class="token comment"># 拉取服务的最新镜像</span>
-<span class="token function">docker-compose</span> push      <span class="token comment"># 推送服务镜像至registry</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
-<p>注意：以上的命令需要在包含docker-compose.yml文件的目录中运行。如果你的docker-compose文件名不是默认的docker-compose.yml，你需要使用-f参数指定文件名，例如 docker-compose -f my-docker-compose.yml up。</p>
-<h2 id="端口映射"><a href="#端口映射" class="headerlink" title="端口映射"></a>端口映射</h2><p>你可以通过使用-p选项在运行容器时指定端口映射<br><code>-p</code>选项允许你将容器内的端口映射到宿主机的端口。其格式为<code>-p &lt;host-port&gt;:&lt;container-port&gt;</code>。例如，如果你有一个在容器的80端口上运行的web服务器，你希望将其映射到宿主机的8080端口上，你可以使用以下命令：</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">docker</span> run <span class="token parameter variable">-p</span> <span class="token number">8080</span>:80 <span class="token parameter variable">-d</span> my-web-app<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-<p>在这个例子中，任何发送到宿主机8080端口的请求都会被转发到容器的80端口。</p>
-<h2 id="卷映射"><a href="#卷映射" class="headerlink" title="卷映射"></a>卷映射</h2><p><code>-v</code>选项允许你将宿主机的文件或目录映射到容器内的文件或目录。其格式为<code>-v &lt;host-path&gt;:&lt;container-path&gt;</code>。例如，如果你希望将宿主机的<code>/home/user/data</code>目录映射到容器的<code>/app/data</code>目录，你可以使用以下命令：</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">docker</span> run <span class="token parameter variable">-v</span> /home/user/data:/app/data <span class="token parameter variable">-d</span> my-app<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-<p>在这个例子中，容器内的<code>/app/data</code>目录将直接映射到宿主机的<code>/home/user/data</code>目录，任何对这个目录的修改（无论是在宿主机上还是在容器内）都会立即反映到另一方。</p>
-<p>这两种映射方式都是Docker灵活性的重要表现，它们使得容器能够更好地与宿主机进行交互和数据共享。</p>
-<h2 id="Docker-和-Docker-Compose-的优势和适用场景"><a href="#Docker-和-Docker-Compose-的优势和适用场景" class="headerlink" title="Docker 和 Docker-Compose 的优势和适用场景"></a>Docker 和 Docker-Compose 的优势和适用场景</h2><p>Docker 的主要优点在于它能够提供一致的运行环境，解决了 “在我机器上可以运行” 的问题。它还能够提供隔离的环境，使得应用不会相互影响。此外，Docker 还非常轻量级，运行速度快，资源占用小。</p>
-<p>Docker-Compose 的主要优点在于它可以通过一个 YAML 文件来定义多个 Docker 容器，使得管理多个 Docker 容器变得非常方便。而且，Docker-Compose 还可以方便地管理容器之间的关系，如网络、存储等。</p>
-<p>总的来说，如果你需要快速地部署和管理应用，那么 Docker 和 Docker-Compose 都是非常好的工具。如果你需要管理多个相互关联的 Docker 容器，那么 Docker-Compose 就显得更为有用了。</p>
-<h2 id="补充"><a href="#补充" class="headerlink" title="补充"></a>补充</h2><p>在上述内容中，我们已经讲解了Docker和Docker Compose在CentOS 7下的安装过程，以及一些基本的使用命令。然而，Docker的生态系统非常丰富，有很多其他的功能和特性也值得探索和学习。这里，我将补充一些额外的点：</p>
-<ul>
-<li>Dockerfile： Dockerfile是创建Docker镜像的基础，它是一个文本文件，包含了一系列命令来创建和设置一个新的Docker镜像。学习如何编写Dockerfile，可以帮助你创建适应你的应用需求的定制镜像。</li>
-<li>Docker Registry： Docker Registry是存储Docker镜像的地方。最常见的公共registry是Docker Hub，但你也可以设置自己的私有registry。学习如何使用registry，可以帮助你更好地管理你的Docker镜像。</li>
-<li>Docker网络： Docker提供了多种网络配置选项，以满足不同的需求。例如，你可以创建一个网络，让容器可以在此网络中相互通信，或者可以将一个容器连接到多个网络。</li>
-<li>Docker存储： Docker提供了多种存储选项，如volumes，bind mounts和tmpfs mounts，用于持久化容器数据或共享数据。</li>
-<li>Docker安全： 虽然Docker提供了隔离环境，但仍需关注安全性。例如，需要定期更新镜像以获取最新的安全更新，限制容器的权限，避免在容器中运行root用户等。</li>
-</ul>
-<p>总之，Docker是一个强大且灵活的工具，无论你是在开发环境中快速部署应用，还是在生产环境中运行和扩展应用，它都能提供巨大的帮助。不过，像任何技术一样，最好的使用方式是根据你自己的具体需求和场景去使用它。</p>
-]]></content>
-      <categories>
-        <category>服务器</category>
-        <category>容器化</category>
-        <category>运维</category>
-      </categories>
-      <tags>
-        <tag>docker</tag>
-        <tag>centos</tag>
-        <tag>docker-compose</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Hexo 中为多说添加最近访客</title>
     <url>/2017/03/17/Hexo-%E4%B8%AD%E4%B8%BA%E5%A4%9A%E8%AF%B4%E6%B7%BB%E5%8A%A0%E6%9C%80%E8%BF%91%E8%AE%BF%E5%AE%A2/</url>
     <content><![CDATA[<h2 id="添加自定义样式"><a href="#添加自定义样式" class="headerlink" title="添加自定义样式"></a>添加自定义样式</h2><h3 id="1-多说后台添加"><a href="#1-多说后台添加" class="headerlink" title="1. 多说后台添加"></a>1. 多说后台添加</h3><p>到多说后台管理-&gt;设置-&gt;基本设置-&gt;自定义css中添加如下css样式：</p>
@@ -976,28 +976,6 @@ duoshuo_recent_visit: true<span aria-hidden="true" class="line-numbers-rows"><sp
         <tag>博客</tag>
         <tag>Hexo</tag>
         <tag>NexT</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>JavaScript 主动选择 option</title>
-    <url>/2017/04/11/JavaScript-%E4%B8%BB%E5%8A%A8%E9%80%89%E6%8B%A9-option/</url>
-    <content><![CDATA[<span id="more"></span>
-
-<p>主动选择 <code>select</code> 中的 <code>option</code></p>
-<pre class="line-numbers language-JavaScript" data-language="JavaScript"><code class="language-JavaScript">&#x2F;&#x2F; 获取默认type
-var defaultType &#x3D; &#39;1&#39;;
-var typeSelect &#x3D; document.getElementById(&quot;type&quot;);
-for(var i &#x3D; 0; i &lt; typeSelect.options.length; i++) &#123;
-	if(typeSelect.options[i].value &#x3D;&#x3D;&#x3D; defaultType) &#123;
-		typeSelect.selectedIndex &#x3D; i;
-		break;
-	&#125;
-&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>]]></content>
-      <categories>
-        <category>JavaScript</category>
-      </categories>
-      <tags>
-        <tag>JavaScript</tag>
       </tags>
   </entry>
   <entry>
@@ -1422,9 +1400,31 @@ end<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span>
         <category>JavaScript</category>
       </categories>
       <tags>
-        <tag>JavaScript</tag>
         <tag>MUI</tag>
         <tag>HTML</tag>
+        <tag>JavaScript</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>JavaScript 主动选择 option</title>
+    <url>/2017/04/11/JavaScript-%E4%B8%BB%E5%8A%A8%E9%80%89%E6%8B%A9-option/</url>
+    <content><![CDATA[<span id="more"></span>
+
+<p>主动选择 <code>select</code> 中的 <code>option</code></p>
+<pre class="line-numbers language-JavaScript" data-language="JavaScript"><code class="language-JavaScript">&#x2F;&#x2F; 获取默认type
+var defaultType &#x3D; &#39;1&#39;;
+var typeSelect &#x3D; document.getElementById(&quot;type&quot;);
+for(var i &#x3D; 0; i &lt; typeSelect.options.length; i++) &#123;
+	if(typeSelect.options[i].value &#x3D;&#x3D;&#x3D; defaultType) &#123;
+		typeSelect.selectedIndex &#x3D; i;
+		break;
+	&#125;
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>]]></content>
+      <categories>
+        <category>JavaScript</category>
+      </categories>
+      <tags>
+        <tag>JavaScript</tag>
       </tags>
   </entry>
   <entry>
@@ -3003,25 +3003,6 @@ vm.vfs_cache_pressure <span class="token operator">=</span> <span class="token n
       </tags>
   </entry>
   <entry>
-    <title>Wap APP开发心得</title>
-    <url>/2017/05/03/Wap-APP%E5%BC%80%E5%8F%91%E5%BF%83%E5%BE%97/</url>
-    <content><![CDATA[<p>经过了一个多月，加班加点，总算完成基本完成了这个Wap APP，可以作为 Version one 面见客户了，感受不多。</p>
-<p>MUI 结合 Hbuilder 使用 HTML5+ 开发APP整体来说还是挺顺畅的，虽然文档不完整，但是有开发经验的一眼看过去就知道怎么用了，以后做些不是大型的APP或许会成为我的首选。</p>
-<span id="more"></span>
-
-<p>算来这也算是我第三次做一个完整的 Wap 类型的 APP了，总体来说这次是最满意的，前面两个都是用的 JSP，很多特性也是依赖其完成的，但这次是纯原生页面，实现了做这个之前感觉很难的问题（至少去年这个时候感觉好难），当然了，这中间少不了 5+ 和 MUI 的功劳，遗憾的是没用上 Vue，忙的时候总是感叹自己时间不够，太多想学的东西没时间学，但些许零碎的空闲时间一有了又无法埋头去学，这样不好啊~ </p>
-<p>这个 APP 先发布 iOS 端， 安卓端还有些许适配问题，相信这次之后，对Wap 开发 APP 能够有一个比较深的认识。</p>
-]]></content>
-      <categories>
-        <category>APP开发</category>
-      </categories>
-      <tags>
-        <tag>JavaScript</tag>
-        <tag>MUI</tag>
-        <tag>HTML5</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>cocoapods 私有库的搭建和使用</title>
     <url>/2019/04/01/cocoapods-%E7%A7%81%E6%9C%89%E5%BA%93%E7%9A%84%E6%90%AD%E5%BB%BA%E5%92%8C%E4%BD%BF%E7%94%A8/</url>
     <content><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p><code>cocoapods</code>是非常好用的一个iOS 依赖管理工具，使用它可以方便的管理和更新项目中所使用到的第三方库，以及将自己的项目中的公共组件交由它去管理，实现工程组件化。</p>
@@ -3227,6 +3208,25 @@ end<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span>
         <tag>iOS</tag>
         <tag>pod</tag>
         <tag>cocoapods</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Wap APP开发心得</title>
+    <url>/2017/05/03/Wap-APP%E5%BC%80%E5%8F%91%E5%BF%83%E5%BE%97/</url>
+    <content><![CDATA[<p>经过了一个多月，加班加点，总算完成基本完成了这个Wap APP，可以作为 Version one 面见客户了，感受不多。</p>
+<p>MUI 结合 Hbuilder 使用 HTML5+ 开发APP整体来说还是挺顺畅的，虽然文档不完整，但是有开发经验的一眼看过去就知道怎么用了，以后做些不是大型的APP或许会成为我的首选。</p>
+<span id="more"></span>
+
+<p>算来这也算是我第三次做一个完整的 Wap 类型的 APP了，总体来说这次是最满意的，前面两个都是用的 JSP，很多特性也是依赖其完成的，但这次是纯原生页面，实现了做这个之前感觉很难的问题（至少去年这个时候感觉好难），当然了，这中间少不了 5+ 和 MUI 的功劳，遗憾的是没用上 Vue，忙的时候总是感叹自己时间不够，太多想学的东西没时间学，但些许零碎的空闲时间一有了又无法埋头去学，这样不好啊~ </p>
+<p>这个 APP 先发布 iOS 端， 安卓端还有些许适配问题，相信这次之后，对Wap 开发 APP 能够有一个比较深的认识。</p>
+]]></content>
+      <categories>
+        <category>APP开发</category>
+      </categories>
+      <tags>
+        <tag>MUI</tag>
+        <tag>JavaScript</tag>
+        <tag>HTML5</tag>
       </tags>
   </entry>
   <entry>
@@ -4629,90 +4629,6 @@ _observer &#x3D; [[NSNotificationCenter defaultCenter] addObserverForName:@&quot
       </tags>
   </entry>
   <entry>
-    <title>security 使用</title>
-    <url>/2017/02/08/security%20%E4%BD%BF%E7%94%A8/</url>
-    <content><![CDATA[<h1 id="概要"><a href="#概要" class="headerlink" title="概要"></a>概要</h1><p>这里记录Mac下<code>security </code>相关使用，想起来就补充。</p>
-<h1 id="查看可用签名"><a href="#查看可用签名" class="headerlink" title="查看可用签名"></a>查看可用签名</h1><pre class="line-numbers language-Bash" data-language="Bash"><code class="language-Bash">security find-identity -v -p codesigning<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<span id="more"></span>
-
-<h1 id="签名"><a href="#签名" class="headerlink" title="签名"></a>签名</h1><pre class="line-numbers language-Bash" data-language="Bash"><code class="language-Bash">codesign --force --verify --verbose --sign &quot;iPhone Developer: 396736694@qq.com (Z4965JH2C8)” 目标包<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<h1 id="查看描述文件信息"><a href="#查看描述文件信息" class="headerlink" title="查看描述文件信息"></a>查看描述文件信息</h1><pre class="line-numbers language-Bash" data-language="Bash"><code class="language-Bash">security cms -D -i xxx.mobileprovision<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<h1 id="查看-WIFI-密码"><a href="#查看-WIFI-密码" class="headerlink" title="查看 WIFI 密码"></a>查看 WIFI 密码</h1><pre class="line-numbers language-Bash" data-language="Bash"><code class="language-Bash">security find-generic-password -ga &quot;WIFI_name&quot; | grep &quot;password:&quot;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>]]></content>
-      <categories>
-        <category>iOS</category>
-      </categories>
-      <tags>
-        <tag>打包</tag>
-        <tag>iOS签名</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>为 NexT 主题添加球型标签云</title>
-    <url>/2017/03/19/%E4%B8%BA-NexT-%E4%B8%BB%E9%A2%98%E6%B7%BB%E5%8A%A0%E7%90%83%E5%BD%A2%E6%A0%87%E7%AD%BE%E4%BA%91/</url>
-    <content><![CDATA[<h2 id="确定你已开启标签功能"><a href="#确定你已开启标签功能" class="headerlink" title="确定你已开启标签功能"></a>确定你已开启标签功能</h2><p>参考 <code>NexT</code> 配置文档 <a href="https://theme-next.iissnan.com/theme-settings.html#tags-page">添加标签页面</a> ，开启标签功能。</p>
-<h2 id="了解球形标签云插件"><a href="#了解球形标签云插件" class="headerlink" title="了解球形标签云插件"></a>了解球形标签云插件</h2><p>了解球形标签云 <code>javascript</code> 插件，点击<a href="http://www.goat1000.com/tagcanvas.php">这里</a></p>
-<span id="more"></span>
-
-<h2 id="下载插件"><a href="#下载插件" class="headerlink" title="下载插件"></a>下载插件</h2><p>下载 <code>js</code> 插件 <a href="http://www.goat1000.com/tagcanvas.js?2.8"><code>tagcanvas.js</code></a></p>
-<h2 id="放入对应目录"><a href="#放入对应目录" class="headerlink" title="放入对应目录"></a>放入对应目录</h2><p>将下载的 <code>tagcanvas.js </code> 放入主题目录 <code>themes/NexT/source/js/custom/tagcanvas.js</code>，<code>custom </code> 为新建文件夹。</p>
-<h2 id="新建标签云文件，引用-js"><a href="#新建标签云文件，引用-js" class="headerlink" title="新建标签云文件，引用 js"></a>新建标签云文件，引用 <code>js</code></h2><p>在 <code>themes/NexT/layout/_partials</code> 下建一个 <code>plugin</code> 文件夹，在该目录下 <code>touch</code> 一个名为 <code>tagcanvas.swig</code> 的文件，并写入如下内容：</p>
-<pre class="line-numbers language-XML" data-language="XML"><code class="language-XML">&lt;div class&#x3D;&quot;tags&quot; id&#x3D;&quot;myTags&quot;&gt;
-  &lt;canvas width&#x3D;&quot;350&quot; height&#x3D;&quot;350&quot; id&#x3D;&quot;my3DTags&quot;&gt;
-    &lt;p&gt;Anything in here will be replaced on browsers that support the canvas element&lt;&#x2F;p&gt;
-  &lt;&#x2F;canvas&gt;
-&lt;&#x2F;div&gt;
-&lt;div class&#x3D;&quot;tags&quot; id&#x3D;&quot;tags&quot;&gt;
-  &lt;ul style&#x3D;&quot;display: none&quot;&gt;
-    &#123;&#123; tagcloud(&#123;
-      min_font: 16,
-      max_font: 35,
-      amount: 999,
-      color: true,
-      start_color: &#39;red&#39;,
-      end_color: &#39;red&#39;,
-    &#125;) &#125;&#125;
-  &lt;&#x2F;ul&gt;
-&lt;&#x2F;div&gt;
-&lt;script type&#x3D;&quot;text&#x2F;javascript&quot; src&#x3D;&quot;&#x2F;js&#x2F;custom&#x2F;tagcanvas.js&quot;&gt;&lt;&#x2F;script&gt;
-&lt;script type&#x3D;&quot;text&#x2F;javascript&quot; &gt;
-  window.onload &#x3D; function() &#123;
-    try &#123;
-      TagCanvas.Start(&#39;my3DTags&#39;,&#39;tags&#39;,&#123;
-        textFont: &#39;Georgia,Optima&#39;,
-        textColour: null,
-        outlineColour: &#39;black&#39;,
-        weight: true,
-        reverse: true,
-        depth: 0.8,
-        maxSpeed: 0.05,
-        bgRadius: 1,
-        freezeDecel: true
-      &#125;);
-    &#125; catch(e) &#123;
-      &#x2F;&#x2F; something went wrong, hide the canvas container
-      document.getElementById(&#39;myTags&#39;).style.display &#x3D; &#39;none&#39;;
-    &#125;
-  &#125;;
-&lt;&#x2F;script&gt;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<h2 id="使用-tagcanvas-swig"><a href="#使用-tagcanvas-swig" class="headerlink" title="使用 tagcanvas.swig"></a>使用 <code>tagcanvas.swig</code></h2><p>在 <code>themes/NexT/layout/page.swig</code> 中作如下修改：<br><img src="/images/pages_tag.png" /></p>
-<p>替换红框中原来位置的 <code>div</code> 标签为如下：</p>
-<pre class="line-numbers language-JavaScript" data-language="JavaScript"><code class="language-JavaScript">&#123;# tagcanvas plugin 球型云标签 #&#125;
-&#123;% include &#39;_partials&#x2F;plugin&#x2F;tagcanvas.swig&#39; %&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
-]]></content>
-      <categories>
-        <category>Blog</category>
-      </categories>
-      <tags>
-        <tag>标签</tag>
-        <tag>主题</tag>
-        <tag>球形标签云</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>五分钟搭建你的专属ocserv服务</title>
     <url>/2021/05/13/%E4%BA%94%E5%88%86%E9%92%9F%E6%90%AD%E5%BB%BA%E4%BD%A0%E7%9A%84%E4%B8%93%E5%B1%9Eocserv%E6%9C%8D%E5%8A%A1/</url>
     <content><![CDATA[<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>在天朝，由于互联网审查制度（通常被称为“防火长城”或“GFW”）的存在，一些国际网站和服务（如Google、Facebook、Twitter等）被屏蔽，因此，很多人需要使用VPN（虚拟专用网络）来访问这些被屏蔽的资源。VPN通过创建一个加密的连接，可以使用户的网络流量从审查制度中绕过，从而访问这些资源。作为一名程序员，经常需要翻越全世界的资料，所以，突破GFW是必备技能，但是一定要合法合规使用。</p>
@@ -5543,31 +5459,87 @@ firewall-cmd <span class="token parameter variable">--permanent</span> --add-ric
       </tags>
   </entry>
   <entry>
-    <title>优雅得处理Xcode项目中的TODO、FIXME</title>
-    <url>/2019/08/12/%E4%BC%98%E9%9B%85%E5%BE%97%E5%A4%84%E7%90%86Xcode%E9%A1%B9%E7%9B%AE%E4%B8%AD%E7%9A%84TODO%E3%80%81FIXME/</url>
-    <content><![CDATA[<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>在开发过程中，我们都会不时地写一些 <code>// TODO:</code> 和 &#x2F;&#x2F; <code>FIXME:</code> 注释。有时我们这样做是因为我们知道代码可以做得更好，但暂时不确定如何做，有时由于 deadline 而没有时间编写最佳解决方案，而有时我们只是想着手处理更有趣的事情，这时我们只需在代码中标识一个 <code>// TODO:</code> 以便在将来某一天再处理。</p>
+    <title>security 使用</title>
+    <url>/2017/02/08/security%20%E4%BD%BF%E7%94%A8/</url>
+    <content><![CDATA[<h1 id="概要"><a href="#概要" class="headerlink" title="概要"></a>概要</h1><p>这里记录Mac下<code>security </code>相关使用，想起来就补充。</p>
+<h1 id="查看可用签名"><a href="#查看可用签名" class="headerlink" title="查看可用签名"></a>查看可用签名</h1><pre class="line-numbers language-Bash" data-language="Bash"><code class="language-Bash">security find-identity -v -p codesigning<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
 <span id="more"></span>
 
-<h2 id="痛点"><a href="#痛点" class="headerlink" title="痛点"></a>痛点</h2><p>Xcode 默认无法自动识别这些标记，因为编辑器没有给我们强提示，所以即使有时我们立了 flag 过后也很容易忘记去实现，如下面情况所示：<br><img src="/images/iOS/tips/todo_check_default.png"/></p>
-<h2 id="解决办法"><a href="#解决办法" class="headerlink" title="解决办法"></a>解决办法</h2><p>利用 Xcode 工程设置 <code>Build Phases</code> 在 build 时执行自定义任务，点击 <code>Build Phases</code> 下 + 号，点击 <code>New Run Script Phase</code>，填入内容：</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token assign-left variable">KEYWORDS</span><span class="token operator">=</span><span class="token string">"STUB:|TODO:|FIXME:|DevTeam:|\?\?\?:"</span> 
-<span class="token function">find</span> <span class="token string">"<span class="token variable">$&#123;SRCROOT&#125;</span>"</span> <span class="token punctuation">\</span><span class="token punctuation">(</span> <span class="token parameter variable">-name</span> <span class="token string">"*.h"</span> <span class="token parameter variable">-or</span> <span class="token parameter variable">-name</span> <span class="token string">"*.m"</span> <span class="token parameter variable">-or</span> <span class="token parameter variable">-name</span> <span class="token string">"*.swift"</span> <span class="token punctuation">\</span><span class="token punctuation">)</span> <span class="token parameter variable">-not</span> <span class="token parameter variable">-path</span> <span class="token string">"<span class="token variable">$&#123;SRCROOT&#125;</span>/Pods/*"</span> <span class="token parameter variable">-print0</span> <span class="token operator">|</span> <span class="token function">xargs</span> <span class="token parameter variable">-0</span> <span class="token function">egrep</span> --with-filename --line-number --only-matching <span class="token string">"(<span class="token variable">$KEYWORDS</span>).*\$"</span> <span class="token operator">|</span> perl <span class="token parameter variable">-p</span> <span class="token parameter variable">-e</span> <span class="token string">"s/(<span class="token variable">$KEYWORDS</span>)/1: warning: \<span class="token variable">$1</span>/"</span>
+<h1 id="签名"><a href="#签名" class="headerlink" title="签名"></a>签名</h1><pre class="line-numbers language-Bash" data-language="Bash"><code class="language-Bash">codesign --force --verify --verbose --sign &quot;iPhone Developer: 396736694@qq.com (Z4965JH2C8)” 目标包<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 
-<span class="token assign-left variable">KEYWORDS</span><span class="token operator">=</span><span class="token string">"ERROR:|XXX:|\!\!\!:"</span> 
-<span class="token function">find</span> <span class="token string">"<span class="token variable">$&#123;SRCROOT&#125;</span>"</span> <span class="token punctuation">\</span><span class="token punctuation">(</span> <span class="token parameter variable">-name</span> <span class="token string">"*.h"</span> <span class="token parameter variable">-or</span> <span class="token parameter variable">-name</span> <span class="token string">"*.m"</span> <span class="token parameter variable">-or</span> <span class="token parameter variable">-name</span> <span class="token string">"*.swift"</span> <span class="token punctuation">\</span><span class="token punctuation">)</span> <span class="token parameter variable">-not</span> <span class="token parameter variable">-path</span> <span class="token string">"<span class="token variable">$&#123;SRCROOT&#125;</span>/Pods/*"</span> <span class="token parameter variable">-print0</span> <span class="token operator">|</span> <span class="token function">xargs</span> <span class="token parameter variable">-0</span> <span class="token function">egrep</span> --with-filename --line-number --only-matching <span class="token string">"(<span class="token variable">$KEYWORDS</span>).*\$"</span> <span class="token operator">|</span> perl <span class="token parameter variable">-p</span> <span class="token parameter variable">-e</span> <span class="token string">"s/(<span class="token variable">$KEYWORDS</span>)/1: error: \<span class="token variable">$1</span>/"</span>
-<span class="token assign-left variable">ERROR_OUTPUT</span><span class="token operator">=</span><span class="token variable"><span class="token variable">`</span><span class="token function">find</span> <span class="token string">"<span class="token variable">$&#123;SRCROOT&#125;</span>"</span> <span class="token punctuation">\</span><span class="token punctuation">(</span> <span class="token parameter variable">-name</span> <span class="token string">"*.h"</span> <span class="token parameter variable">-or</span> <span class="token parameter variable">-name</span> <span class="token string">"*.m"</span> <span class="token parameter variable">-or</span> <span class="token parameter variable">-name</span> <span class="token string">"*.swift"</span> <span class="token punctuation">\</span><span class="token punctuation">)</span> <span class="token parameter variable">-not</span> <span class="token parameter variable">-path</span> <span class="token string">"<span class="token variable">$&#123;SRCROOT&#125;</span>/Pods/*"</span> <span class="token parameter variable">-print0</span> <span class="token operator">|</span> <span class="token function">xargs</span> <span class="token parameter variable">-0</span> <span class="token function">egrep</span> --with-filename --line-number --only-matching <span class="token string">"(<span class="token variable">$KEYWORDS</span>).*\$"</span> <span class="token operator">|</span> perl <span class="token parameter variable">-p</span> <span class="token parameter variable">-e</span> <span class="token string">"s/(<span class="token variable">$KEYWORDS</span>)/1: error: \<span class="token variable">$1</span>/"</span><span class="token variable">`</span></span>
+<h1 id="查看描述文件信息"><a href="#查看描述文件信息" class="headerlink" title="查看描述文件信息"></a>查看描述文件信息</h1><pre class="line-numbers language-Bash" data-language="Bash"><code class="language-Bash">security cms -D -i xxx.mobileprovision<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 
-<span class="token builtin class-name">exit</span> <span class="token variable">$&#123;<span class="token operator">#</span>ERROR_OUTPUT&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<h3 id="效果"><a href="#效果" class="headerlink" title="效果"></a>效果</h3><p>这时我们再看看效果，是不是友好多了。<br><img src="/images/iOS/tips/todo_check_custom.png"/></p>
-<h2 id="建议"><a href="#建议" class="headerlink" title="建议"></a>建议</h2><p>在 TODO 等这些标记处中加上日期和作者，虽然 git 能够追溯，但是这样更直接，也就多占用几秒的时间。这使您和团队中的每个人都非常清楚 TODO 待了多长时间，以及是谁写的。目的不是追责，而是要问作者该待办事项是否仍然需要处理，以及在您使用的任何系统中是否有其它方式来跟踪必须完成的工作。</p>
-<p>也可以从 git 中提取 TODO 的作者和日期，但这有时可能会出现问题，尤其是在移动了有 TODO 标记的代码的情况下，因为 TODO 将包含整个历史记录。一目了然，可以轻松获得有关 TODO 的基本信息。</p>
-]]></content>
+<h1 id="查看-WIFI-密码"><a href="#查看-WIFI-密码" class="headerlink" title="查看 WIFI 密码"></a>查看 WIFI 密码</h1><pre class="line-numbers language-Bash" data-language="Bash"><code class="language-Bash">security find-generic-password -ga &quot;WIFI_name&quot; | grep &quot;password:&quot;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>]]></content>
       <categories>
         <category>iOS</category>
       </categories>
       <tags>
-        <tag>工程配置</tag>
-        <tag>Xcode</tag>
+        <tag>打包</tag>
+        <tag>iOS签名</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>为 NexT 主题添加球型标签云</title>
+    <url>/2017/03/19/%E4%B8%BA-NexT-%E4%B8%BB%E9%A2%98%E6%B7%BB%E5%8A%A0%E7%90%83%E5%BD%A2%E6%A0%87%E7%AD%BE%E4%BA%91/</url>
+    <content><![CDATA[<h2 id="确定你已开启标签功能"><a href="#确定你已开启标签功能" class="headerlink" title="确定你已开启标签功能"></a>确定你已开启标签功能</h2><p>参考 <code>NexT</code> 配置文档 <a href="https://theme-next.iissnan.com/theme-settings.html#tags-page">添加标签页面</a> ，开启标签功能。</p>
+<h2 id="了解球形标签云插件"><a href="#了解球形标签云插件" class="headerlink" title="了解球形标签云插件"></a>了解球形标签云插件</h2><p>了解球形标签云 <code>javascript</code> 插件，点击<a href="http://www.goat1000.com/tagcanvas.php">这里</a></p>
+<span id="more"></span>
+
+<h2 id="下载插件"><a href="#下载插件" class="headerlink" title="下载插件"></a>下载插件</h2><p>下载 <code>js</code> 插件 <a href="http://www.goat1000.com/tagcanvas.js?2.8"><code>tagcanvas.js</code></a></p>
+<h2 id="放入对应目录"><a href="#放入对应目录" class="headerlink" title="放入对应目录"></a>放入对应目录</h2><p>将下载的 <code>tagcanvas.js </code> 放入主题目录 <code>themes/NexT/source/js/custom/tagcanvas.js</code>，<code>custom </code> 为新建文件夹。</p>
+<h2 id="新建标签云文件，引用-js"><a href="#新建标签云文件，引用-js" class="headerlink" title="新建标签云文件，引用 js"></a>新建标签云文件，引用 <code>js</code></h2><p>在 <code>themes/NexT/layout/_partials</code> 下建一个 <code>plugin</code> 文件夹，在该目录下 <code>touch</code> 一个名为 <code>tagcanvas.swig</code> 的文件，并写入如下内容：</p>
+<pre class="line-numbers language-XML" data-language="XML"><code class="language-XML">&lt;div class&#x3D;&quot;tags&quot; id&#x3D;&quot;myTags&quot;&gt;
+  &lt;canvas width&#x3D;&quot;350&quot; height&#x3D;&quot;350&quot; id&#x3D;&quot;my3DTags&quot;&gt;
+    &lt;p&gt;Anything in here will be replaced on browsers that support the canvas element&lt;&#x2F;p&gt;
+  &lt;&#x2F;canvas&gt;
+&lt;&#x2F;div&gt;
+&lt;div class&#x3D;&quot;tags&quot; id&#x3D;&quot;tags&quot;&gt;
+  &lt;ul style&#x3D;&quot;display: none&quot;&gt;
+    &#123;&#123; tagcloud(&#123;
+      min_font: 16,
+      max_font: 35,
+      amount: 999,
+      color: true,
+      start_color: &#39;red&#39;,
+      end_color: &#39;red&#39;,
+    &#125;) &#125;&#125;
+  &lt;&#x2F;ul&gt;
+&lt;&#x2F;div&gt;
+&lt;script type&#x3D;&quot;text&#x2F;javascript&quot; src&#x3D;&quot;&#x2F;js&#x2F;custom&#x2F;tagcanvas.js&quot;&gt;&lt;&#x2F;script&gt;
+&lt;script type&#x3D;&quot;text&#x2F;javascript&quot; &gt;
+  window.onload &#x3D; function() &#123;
+    try &#123;
+      TagCanvas.Start(&#39;my3DTags&#39;,&#39;tags&#39;,&#123;
+        textFont: &#39;Georgia,Optima&#39;,
+        textColour: null,
+        outlineColour: &#39;black&#39;,
+        weight: true,
+        reverse: true,
+        depth: 0.8,
+        maxSpeed: 0.05,
+        bgRadius: 1,
+        freezeDecel: true
+      &#125;);
+    &#125; catch(e) &#123;
+      &#x2F;&#x2F; something went wrong, hide the canvas container
+      document.getElementById(&#39;myTags&#39;).style.display &#x3D; &#39;none&#39;;
+    &#125;
+  &#125;;
+&lt;&#x2F;script&gt;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h2 id="使用-tagcanvas-swig"><a href="#使用-tagcanvas-swig" class="headerlink" title="使用 tagcanvas.swig"></a>使用 <code>tagcanvas.swig</code></h2><p>在 <code>themes/NexT/layout/page.swig</code> 中作如下修改：<br><img src="/images/pages_tag.png" /></p>
+<p>替换红框中原来位置的 <code>div</code> 标签为如下：</p>
+<pre class="line-numbers language-JavaScript" data-language="JavaScript"><code class="language-JavaScript">&#123;# tagcanvas plugin 球型云标签 #&#125;
+&#123;% include &#39;_partials&#x2F;plugin&#x2F;tagcanvas.swig&#39; %&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+]]></content>
+      <categories>
+        <category>Blog</category>
+      </categories>
+      <tags>
+        <tag>标签</tag>
+        <tag>主题</tag>
+        <tag>球形标签云</tag>
       </tags>
   </entry>
   <entry>
@@ -5650,6 +5622,34 @@ firewall-cmd <span class="token parameter variable">--permanent</span> --add-ric
       <tags>
         <tag>nginx</tag>
         <tag>反向代理</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>优雅得处理Xcode项目中的TODO、FIXME</title>
+    <url>/2019/08/12/%E4%BC%98%E9%9B%85%E5%BE%97%E5%A4%84%E7%90%86Xcode%E9%A1%B9%E7%9B%AE%E4%B8%AD%E7%9A%84TODO%E3%80%81FIXME/</url>
+    <content><![CDATA[<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>在开发过程中，我们都会不时地写一些 <code>// TODO:</code> 和 &#x2F;&#x2F; <code>FIXME:</code> 注释。有时我们这样做是因为我们知道代码可以做得更好，但暂时不确定如何做，有时由于 deadline 而没有时间编写最佳解决方案，而有时我们只是想着手处理更有趣的事情，这时我们只需在代码中标识一个 <code>// TODO:</code> 以便在将来某一天再处理。</p>
+<span id="more"></span>
+
+<h2 id="痛点"><a href="#痛点" class="headerlink" title="痛点"></a>痛点</h2><p>Xcode 默认无法自动识别这些标记，因为编辑器没有给我们强提示，所以即使有时我们立了 flag 过后也很容易忘记去实现，如下面情况所示：<br><img src="/images/iOS/tips/todo_check_default.png"/></p>
+<h2 id="解决办法"><a href="#解决办法" class="headerlink" title="解决办法"></a>解决办法</h2><p>利用 Xcode 工程设置 <code>Build Phases</code> 在 build 时执行自定义任务，点击 <code>Build Phases</code> 下 + 号，点击 <code>New Run Script Phase</code>，填入内容：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token assign-left variable">KEYWORDS</span><span class="token operator">=</span><span class="token string">"STUB:|TODO:|FIXME:|DevTeam:|\?\?\?:"</span> 
+<span class="token function">find</span> <span class="token string">"<span class="token variable">$&#123;SRCROOT&#125;</span>"</span> <span class="token punctuation">\</span><span class="token punctuation">(</span> <span class="token parameter variable">-name</span> <span class="token string">"*.h"</span> <span class="token parameter variable">-or</span> <span class="token parameter variable">-name</span> <span class="token string">"*.m"</span> <span class="token parameter variable">-or</span> <span class="token parameter variable">-name</span> <span class="token string">"*.swift"</span> <span class="token punctuation">\</span><span class="token punctuation">)</span> <span class="token parameter variable">-not</span> <span class="token parameter variable">-path</span> <span class="token string">"<span class="token variable">$&#123;SRCROOT&#125;</span>/Pods/*"</span> <span class="token parameter variable">-print0</span> <span class="token operator">|</span> <span class="token function">xargs</span> <span class="token parameter variable">-0</span> <span class="token function">egrep</span> --with-filename --line-number --only-matching <span class="token string">"(<span class="token variable">$KEYWORDS</span>).*\$"</span> <span class="token operator">|</span> perl <span class="token parameter variable">-p</span> <span class="token parameter variable">-e</span> <span class="token string">"s/(<span class="token variable">$KEYWORDS</span>)/1: warning: \<span class="token variable">$1</span>/"</span>
+
+<span class="token assign-left variable">KEYWORDS</span><span class="token operator">=</span><span class="token string">"ERROR:|XXX:|\!\!\!:"</span> 
+<span class="token function">find</span> <span class="token string">"<span class="token variable">$&#123;SRCROOT&#125;</span>"</span> <span class="token punctuation">\</span><span class="token punctuation">(</span> <span class="token parameter variable">-name</span> <span class="token string">"*.h"</span> <span class="token parameter variable">-or</span> <span class="token parameter variable">-name</span> <span class="token string">"*.m"</span> <span class="token parameter variable">-or</span> <span class="token parameter variable">-name</span> <span class="token string">"*.swift"</span> <span class="token punctuation">\</span><span class="token punctuation">)</span> <span class="token parameter variable">-not</span> <span class="token parameter variable">-path</span> <span class="token string">"<span class="token variable">$&#123;SRCROOT&#125;</span>/Pods/*"</span> <span class="token parameter variable">-print0</span> <span class="token operator">|</span> <span class="token function">xargs</span> <span class="token parameter variable">-0</span> <span class="token function">egrep</span> --with-filename --line-number --only-matching <span class="token string">"(<span class="token variable">$KEYWORDS</span>).*\$"</span> <span class="token operator">|</span> perl <span class="token parameter variable">-p</span> <span class="token parameter variable">-e</span> <span class="token string">"s/(<span class="token variable">$KEYWORDS</span>)/1: error: \<span class="token variable">$1</span>/"</span>
+<span class="token assign-left variable">ERROR_OUTPUT</span><span class="token operator">=</span><span class="token variable"><span class="token variable">`</span><span class="token function">find</span> <span class="token string">"<span class="token variable">$&#123;SRCROOT&#125;</span>"</span> <span class="token punctuation">\</span><span class="token punctuation">(</span> <span class="token parameter variable">-name</span> <span class="token string">"*.h"</span> <span class="token parameter variable">-or</span> <span class="token parameter variable">-name</span> <span class="token string">"*.m"</span> <span class="token parameter variable">-or</span> <span class="token parameter variable">-name</span> <span class="token string">"*.swift"</span> <span class="token punctuation">\</span><span class="token punctuation">)</span> <span class="token parameter variable">-not</span> <span class="token parameter variable">-path</span> <span class="token string">"<span class="token variable">$&#123;SRCROOT&#125;</span>/Pods/*"</span> <span class="token parameter variable">-print0</span> <span class="token operator">|</span> <span class="token function">xargs</span> <span class="token parameter variable">-0</span> <span class="token function">egrep</span> --with-filename --line-number --only-matching <span class="token string">"(<span class="token variable">$KEYWORDS</span>).*\$"</span> <span class="token operator">|</span> perl <span class="token parameter variable">-p</span> <span class="token parameter variable">-e</span> <span class="token string">"s/(<span class="token variable">$KEYWORDS</span>)/1: error: \<span class="token variable">$1</span>/"</span><span class="token variable">`</span></span>
+
+<span class="token builtin class-name">exit</span> <span class="token variable">$&#123;<span class="token operator">#</span>ERROR_OUTPUT&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="效果"><a href="#效果" class="headerlink" title="效果"></a>效果</h3><p>这时我们再看看效果，是不是友好多了。<br><img src="/images/iOS/tips/todo_check_custom.png"/></p>
+<h2 id="建议"><a href="#建议" class="headerlink" title="建议"></a>建议</h2><p>在 TODO 等这些标记处中加上日期和作者，虽然 git 能够追溯，但是这样更直接，也就多占用几秒的时间。这使您和团队中的每个人都非常清楚 TODO 待了多长时间，以及是谁写的。目的不是追责，而是要问作者该待办事项是否仍然需要处理，以及在您使用的任何系统中是否有其它方式来跟踪必须完成的工作。</p>
+<p>也可以从 git 中提取 TODO 的作者和日期，但这有时可能会出现问题，尤其是在移动了有 TODO 标记的代码的情况下，因为 TODO 将包含整个历史记录。一目了然，可以轻松获得有关 TODO 的基本信息。</p>
+]]></content>
+      <categories>
+        <category>iOS</category>
+      </categories>
+      <tags>
+        <tag>工程配置</tag>
+        <tag>Xcode</tag>
       </tags>
   </entry>
   <entry>
@@ -5949,34 +5949,6 @@ codesign <span class="token parameter variable">-f</span> <span class="token par
       </tags>
   </entry>
   <entry>
-    <title>利用 dumpdecrypted 砸壳</title>
-    <url>/2017/02/08/%E5%88%A9%E7%94%A8dumpdecrypted%E7%A0%B8%E5%A3%B3/</url>
-    <content><![CDATA[<p>1、编译生成</p>
-<p><code>dumpdecrypted.dylib</code></p>
-<p>2、给生成的 <code>dumpdecrypted.dylib</code> 签名</p>
-<span id="more"></span>
-
-<p>3、ssh到手机，<code>ps aux | grep</code> 目标APP查看APP安装目录</p>
-<p>4、（可忽略这步）<code>cycript -p</code> 目标 APP，执行 </p>
-<pre class="line-numbers language-objectivec" data-language="objectivec"><code class="language-objectivec"><span class="token punctuation">[</span><span class="token punctuation">[</span>NSFileManager defaultManager<span class="token punctuation">]</span> URLsForDirectory<span class="token punctuation">:</span>NSDocumentDirectory inDomains<span class="token punctuation">:</span>NSUserDomainMask<span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<p> 查看沙盒目录</p>
-<p>5、将 <code>dumpdecrypted.dylib </code>拷贝 <code>/var/tmp</code>，进入 <code>/var/tmp</code></p>
-<p>6、将 <code>dumpdecrypted.dylib</code> 拷贝到沙盒目录，进入沙盒目录，执行</p>
-<pre class="line-numbers language-Bash" data-language="Bash"><code class="language-Bash">DYLD_INSERT_LIBRARIES&#x3D;dumpdecrypted.dylib &#x2F;var&#x2F;containers&#x2F;Bundle&#x2F;Application&#x2F;0B8A6E0F-9D64-4EF4-97D2-D3A508FC3574&#x2F;APP.app&#x2F;APP<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<p>7、得到目标 <code>APP.decrypted </code>就是二进制文件</p>
-]]></content>
-      <categories>
-        <category>iOS</category>
-      </categories>
-      <tags>
-        <tag>逆向</tag>
-        <tag>iOS安全</tag>
-        <tag>破解</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>动态加载javascript</title>
     <url>/2017/03/09/%E5%8A%A8%E6%80%81%E5%8A%A0%E8%BD%BDjavascript/</url>
     <content><![CDATA[<h2 id="使用以下函数"><a href="#使用以下函数" class="headerlink" title="使用以下函数"></a>使用以下函数</h2><span id="more"></span>
@@ -6036,6 +6008,34 @@ function loadJs(jsurl, head, callback) &#123;
       </categories>
       <tags>
         <tag>javascript</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>利用 dumpdecrypted 砸壳</title>
+    <url>/2017/02/08/%E5%88%A9%E7%94%A8dumpdecrypted%E7%A0%B8%E5%A3%B3/</url>
+    <content><![CDATA[<p>1、编译生成</p>
+<p><code>dumpdecrypted.dylib</code></p>
+<p>2、给生成的 <code>dumpdecrypted.dylib</code> 签名</p>
+<span id="more"></span>
+
+<p>3、ssh到手机，<code>ps aux | grep</code> 目标APP查看APP安装目录</p>
+<p>4、（可忽略这步）<code>cycript -p</code> 目标 APP，执行 </p>
+<pre class="line-numbers language-objectivec" data-language="objectivec"><code class="language-objectivec"><span class="token punctuation">[</span><span class="token punctuation">[</span>NSFileManager defaultManager<span class="token punctuation">]</span> URLsForDirectory<span class="token punctuation">:</span>NSDocumentDirectory inDomains<span class="token punctuation">:</span>NSUserDomainMask<span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p> 查看沙盒目录</p>
+<p>5、将 <code>dumpdecrypted.dylib </code>拷贝 <code>/var/tmp</code>，进入 <code>/var/tmp</code></p>
+<p>6、将 <code>dumpdecrypted.dylib</code> 拷贝到沙盒目录，进入沙盒目录，执行</p>
+<pre class="line-numbers language-Bash" data-language="Bash"><code class="language-Bash">DYLD_INSERT_LIBRARIES&#x3D;dumpdecrypted.dylib &#x2F;var&#x2F;containers&#x2F;Bundle&#x2F;Application&#x2F;0B8A6E0F-9D64-4EF4-97D2-D3A508FC3574&#x2F;APP.app&#x2F;APP<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>7、得到目标 <code>APP.decrypted </code>就是二进制文件</p>
+]]></content>
+      <categories>
+        <category>iOS</category>
+      </categories>
+      <tags>
+        <tag>逆向</tag>
+        <tag>iOS安全</tag>
+        <tag>破解</tag>
       </tags>
   </entry>
   <entry>
@@ -7987,75 +7987,6 @@ print(translate(&#39;មិចញុមវាយលេខចូលហើយម�
       </tags>
   </entry>
   <entry>
-    <title>购买BanwagonHOST VPS自建Shadowsocks记录</title>
-    <url>/2017/07/28/%E8%B4%AD%E4%B9%B0BanwagonHOST-VPS%E8%87%AA%E5%BB%BAShadowsocks%E8%AE%B0%E5%BD%95/</url>
-    <content><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><blockquote>
-<p>不能畅游墙外没法好好生活和工作</p>
-</blockquote>
-<p>本来手里有着五六个 <code>Shadowsocks</code> 帐号，但体验都不佳，一直也没怎么用，是因为一直使用公司搭建的 <code>Cisco Anyconnect</code>，科学上网后百兆带宽可以满速使用，速度虽快，但是客户端软件默认是全局代理的，虽然可以走<code>IP route list</code>达到和<code>Shadowsocks </code>的<code>PAC</code>同样的作用，但效果慎微，而且<code>IP</code>要自己去填，所以公司<code>IT</code>直接没搞这个<code>route list</code>，因为我们大部分电脑和手机<code>APP</code>都在墙内，这就导致在使用了<code>Cisco Anyconnect</code>后大部分电脑或者手机上的<code>APP</code>网络访问困难，常开<code>VPN</code>还是需要<code>Shadowsocks </code>等可根据 <strong>PAC清单自动代理</strong> 或者 <strong>分应用代理</strong> 的一类软件。</p>
-<span id="more"></span>
-
-<h2 id="主题"><a href="#主题" class="headerlink" title="主题"></a>主题</h2><p>废话有点多，进入主题。前几日群里的前辈在群里说道自搭的<code>Shadowsocks</code>在使用了<code>Google</code>提出的<code>TCP</code>拥塞控制新算法——<code>BBR</code>之后，解决了以下两个问题：</p>
-<pre><code> 1. 在有一定丢包率的网络链路上充分利用带宽；
- 2. 降低网络链路上的 buffer 占用率，从而降低延迟。
-</code></pre>
-<p> 正好有时间，大佬说的又激发了我的兴趣，我决定自己也搭一个玩玩，也以备不时之需，经历这一天，也总结了个人认为最省事的路线，以下是步骤记录。</p>
-<h2 id="购买VPS"><a href="#购买VPS" class="headerlink" title="购买VPS"></a>购买<code>VPS</code></h2><p>在请教了群里的前辈购买何档次的<code>BanwagonHOST VPN</code>之后，购买了19.99$&#x2F;年的方案，这是购买地址：<a href="https://bandwagonhost.com/index.php">BanwagonHOST</a>，这里注意两点，第一点：购买时注意买基于<code>KVM</code>的，而不是<code>OpenVZ</code>，<code>KVM</code>是新推出的，只了解了大体不同，想知道具体差异自行<a href="https://www.google.com/">Google</a>，一般来说，买新架构就没错了；第二点：在选择<code>Location</code>时，最好选择美国洛杉矶节点<code>Los Angeles</code>，别问为什么，前人经验，至于是<code>QNET</code>还是<code>MCOM</code>，自行谷歌这二者差异，有人汇总对比了这两种方案，不同城市的<code>ping</code>值有高有低，总体来说<code>QNET</code>稍好，所以我购买的是它。</p>
-<h2 id="重装系统"><a href="#重装系统" class="headerlink" title="重装系统"></a>重装系统</h2><p>付款购买成功后，进入当前页面的<code>Services-My Services</code>菜单下，找到你新购买的<code>Product/Service</code>，进入控制面板<code>KiviVM Control Panel</code>，界面很简单，每个功能浏览一下之后开始吧，预装的貌似是<code>Cent OS 6</code>，重装成你想要的系统吧，根据提示来，很<code>easy</code>。我个人比较习惯<code>Ubuntu</code>，所以安装了面板上支持的最新版本的<code>Ubuntu 16.04 x86_64</code>，面板里有一键安装<code>Shadowsocks Server</code>和<code>ShadowsocksR Server</code>功能，但个人不推荐，没啥别的原因，因为感觉不受我控制。装好后会提示你生成了一个随机的ROOT密码，记下来。执行以下步骤：</p>
-<pre><code>1.回到你的电脑，用你自己的方式`SSH`登陆到你的`VPS`，我用的`iTerm`，输入`ssh root@your_vps_ip_address -p your_vps_port`（本地要配置好`RSA`），默认密码是前面保存的随机密码。
-2.默认ROOT密码不好记，登陆成功后输入`passwd`输入两次新的`ROOT`密码更改密码。
-3.`Ubuntu`的话更新下系统，分别执行`apt-get update`和`apt-get upgrade`（不必须但建议）
-</code></pre>
-<h2 id="安装Shadowsocks"><a href="#安装Shadowsocks" class="headerlink" title="安装Shadowsocks "></a>安装<code>Shadowsocks </code></h2><p>安装的方式有很多，我独爱个人认为最优的那种，执行以下命令：</p>
-<pre class="line-numbers language-Bash" data-language="Bash"><code class="language-Bash">wget --no-check-certificate https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;teddysun&#x2F;shadowsocks_install&#x2F;master&#x2F;shadowsocksR.sh
-chmod +x shadowsocksR.sh
-.&#x2F;shadowsocksR.sh 2&gt;&amp;1 | tee shadowsocksR.log<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
-<p>你也可以用<code>&amp;&amp;</code>连接一次性执行，按提示完成即可。</p>
-<h2 id="安装Google-bbr"><a href="#安装Google-bbr" class="headerlink" title="安装Google bbr"></a>安装<code>Google bbr</code></h2><p>一、如果你的VPS是基于KVM的，运行以下命令：</p>
-<pre class="line-numbers language-Bash" data-language="Bash"><code class="language-Bash">wget --no-check-certificate https:&#x2F;&#x2F;github.com&#x2F;teddysun&#x2F;across&#x2F;raw&#x2F;master&#x2F;bbr.sh
-chmod +x bbr.sh
-.&#x2F;bbr.sh<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
-<p>按照提示安装完成，安装完成后，检测是否成功安装：</p>
-<pre class="line-numbers language-Bash" data-language="Bash"><code class="language-Bash">sysctl net.ipv4.tcp_available_congestion_control<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-<p>输出的信息包含<code>bbr</code>就<code>Ok</code>了，一般为<code>net.ipv4.tcp_available_congestion_control = bbr cubic reno</code></p>
-<p>二、如果你不小心购买了基于<code>OpenVZ</code>的<code>VPS</code>，运行这个：</p>
-<pre class="line-numbers language-Bash" data-language="Bash"><code class="language-Bash">wget https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;kuoruan&#x2F;shell-scripts&#x2F;master&#x2F;ovz-bbr&#x2F;ovz-bbr-installer.sh
-chmod +x ovz-bbr-installer.sh
-.&#x2F;ovz-bbr-installer.sh<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
-<p>这个连提示都是中文的，按照提示安装完成即可，安装完成使用看说明，检测是否安装成功：</p>
-<pre class="line-numbers language-Bash" data-language="Bash"><code class="language-Bash">ping 10.0.0.2<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-<p>如果能通，说明 bbr 已经启动,然后检查 iptables 规则:</p>
-<pre class="line-numbers language-Bash" data-language="Bash"><code class="language-Bash">iptables -t nat -nL
-Chain PREROUTING (policy ACCEPT)
-target     prot opt source               destination
-LKL_IN     all  --  0.0.0.0&#x2F;0            0.0.0.0&#x2F;0
- 
-Chain POSTROUTING (policy ACCEPT)
-target     prot opt source               destination
- 
-Chain OUTPUT (policy ACCEPT)
-target     prot opt source               destination
- 
-Chain LKL_IN (1 references)
-target     prot opt source               destination
-DNAT       tcp  --  0.0.0.0&#x2F;0            0.0.0.0&#x2F;0            tcp dpt:8989 to:10.0.0.2<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<p>里面有相应的端口规则。</p>
-<h2 id="使用Shadowsocks"><a href="#使用Shadowsocks" class="headerlink" title="使用Shadowsocks"></a>使用<code>Shadowsocks</code></h2><p>使用对应的客户端使用的你的<code>Shadowsocks</code>吧，怎么使用自行搜索。想着就那么几个步骤，还是写了这么多。。。</p>
-<h1 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h1><p>我购买时不小心买成了<code>OpenVZ</code>的，请教了群里的一位前辈之后告诉我联系客服，我便邮件联系官方退款了，购买了新的基于<code>KVM</code>，服务态度非常好，值得点赞。供参考，希望能帮到有需要的朋友。</p>
-<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a href="https://blog.kuoruan.com/48.html">搬瓦工(Bandwagonhost)搭建Shadowsocks并优化速度</a></p>
-<p><a href="https://blog.kuoruan.com/116.html">OpenVZ 平台 Google BBR 一键安装脚本</a></p>
-]]></content>
-      <categories>
-        <category>VPN</category>
-      </categories>
-      <tags>
-        <tag>Mac使用</tag>
-        <tag>BanwagonHOST</tag>
-        <tag>Shadowsocks</tag>
-        <tag>科学上网</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>更改 React Native 默认 ios、android 项目文件夹</title>
     <url>/2018/09/10/%E6%9B%B4%E6%94%B9-React-Native-%E9%BB%98%E8%AE%A4-ios%E3%80%81android-%E9%A1%B9%E7%9B%AE%E6%96%87%E4%BB%B6%E5%A4%B9/</url>
     <content><![CDATA[<h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>来到新公司也有一个月了，完成 iOS 端洞客项目<code>V1.3.0-V1.4.0</code>的升级，虽然只是一个小版本的升级，但我在熟悉项目过程当中发现项目垃圾代码实在太多了，别说我了，一般的接锅人看了也难以忍受，在痛苦了几天之后我默默拉了一个新 git 分支改起来，使用 <code>clang format</code>规范化了整个项目的代码，后面结合<code>git hook</code>在<code>git commit</code>前自动<code>reformat</code>代码，这一步可以说是非常爽了。直到今天，我之前简单看了一下，<code>check out</code>到我改之前和改之后的代码，少了有5000+行代码，删除了几十个类文件，但里面还是充斥着大量的垃圾或者不合理的代码。开发完<code>1.4.0</code>，稍微看起来闲了一两天，被个喜欢行使小权利的前端小组长安装研习 <code>React Native</code>，准备接入原生项目，暂时用于替换一个改动比较频繁的详情页，之前就有自己学习过，但是都忘光了，又复习一遍，趁热记录一些小 tip。</p>
@@ -8142,5 +8073,74 @@ DNAT       tcp  --  0.0.0.0&#x2F;0            0.0.0.0&#x2F;0            tcp dpt:
       <categories>
         <category>React Native</category>
       </categories>
+  </entry>
+  <entry>
+    <title>购买BanwagonHOST VPS自建Shadowsocks记录</title>
+    <url>/2017/07/28/%E8%B4%AD%E4%B9%B0BanwagonHOST-VPS%E8%87%AA%E5%BB%BAShadowsocks%E8%AE%B0%E5%BD%95/</url>
+    <content><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><blockquote>
+<p>不能畅游墙外没法好好生活和工作</p>
+</blockquote>
+<p>本来手里有着五六个 <code>Shadowsocks</code> 帐号，但体验都不佳，一直也没怎么用，是因为一直使用公司搭建的 <code>Cisco Anyconnect</code>，科学上网后百兆带宽可以满速使用，速度虽快，但是客户端软件默认是全局代理的，虽然可以走<code>IP route list</code>达到和<code>Shadowsocks </code>的<code>PAC</code>同样的作用，但效果慎微，而且<code>IP</code>要自己去填，所以公司<code>IT</code>直接没搞这个<code>route list</code>，因为我们大部分电脑和手机<code>APP</code>都在墙内，这就导致在使用了<code>Cisco Anyconnect</code>后大部分电脑或者手机上的<code>APP</code>网络访问困难，常开<code>VPN</code>还是需要<code>Shadowsocks </code>等可根据 <strong>PAC清单自动代理</strong> 或者 <strong>分应用代理</strong> 的一类软件。</p>
+<span id="more"></span>
+
+<h2 id="主题"><a href="#主题" class="headerlink" title="主题"></a>主题</h2><p>废话有点多，进入主题。前几日群里的前辈在群里说道自搭的<code>Shadowsocks</code>在使用了<code>Google</code>提出的<code>TCP</code>拥塞控制新算法——<code>BBR</code>之后，解决了以下两个问题：</p>
+<pre><code> 1. 在有一定丢包率的网络链路上充分利用带宽；
+ 2. 降低网络链路上的 buffer 占用率，从而降低延迟。
+</code></pre>
+<p> 正好有时间，大佬说的又激发了我的兴趣，我决定自己也搭一个玩玩，也以备不时之需，经历这一天，也总结了个人认为最省事的路线，以下是步骤记录。</p>
+<h2 id="购买VPS"><a href="#购买VPS" class="headerlink" title="购买VPS"></a>购买<code>VPS</code></h2><p>在请教了群里的前辈购买何档次的<code>BanwagonHOST VPN</code>之后，购买了19.99$&#x2F;年的方案，这是购买地址：<a href="https://bandwagonhost.com/index.php">BanwagonHOST</a>，这里注意两点，第一点：购买时注意买基于<code>KVM</code>的，而不是<code>OpenVZ</code>，<code>KVM</code>是新推出的，只了解了大体不同，想知道具体差异自行<a href="https://www.google.com/">Google</a>，一般来说，买新架构就没错了；第二点：在选择<code>Location</code>时，最好选择美国洛杉矶节点<code>Los Angeles</code>，别问为什么，前人经验，至于是<code>QNET</code>还是<code>MCOM</code>，自行谷歌这二者差异，有人汇总对比了这两种方案，不同城市的<code>ping</code>值有高有低，总体来说<code>QNET</code>稍好，所以我购买的是它。</p>
+<h2 id="重装系统"><a href="#重装系统" class="headerlink" title="重装系统"></a>重装系统</h2><p>付款购买成功后，进入当前页面的<code>Services-My Services</code>菜单下，找到你新购买的<code>Product/Service</code>，进入控制面板<code>KiviVM Control Panel</code>，界面很简单，每个功能浏览一下之后开始吧，预装的貌似是<code>Cent OS 6</code>，重装成你想要的系统吧，根据提示来，很<code>easy</code>。我个人比较习惯<code>Ubuntu</code>，所以安装了面板上支持的最新版本的<code>Ubuntu 16.04 x86_64</code>，面板里有一键安装<code>Shadowsocks Server</code>和<code>ShadowsocksR Server</code>功能，但个人不推荐，没啥别的原因，因为感觉不受我控制。装好后会提示你生成了一个随机的ROOT密码，记下来。执行以下步骤：</p>
+<pre><code>1.回到你的电脑，用你自己的方式`SSH`登陆到你的`VPS`，我用的`iTerm`，输入`ssh root@your_vps_ip_address -p your_vps_port`（本地要配置好`RSA`），默认密码是前面保存的随机密码。
+2.默认ROOT密码不好记，登陆成功后输入`passwd`输入两次新的`ROOT`密码更改密码。
+3.`Ubuntu`的话更新下系统，分别执行`apt-get update`和`apt-get upgrade`（不必须但建议）
+</code></pre>
+<h2 id="安装Shadowsocks"><a href="#安装Shadowsocks" class="headerlink" title="安装Shadowsocks "></a>安装<code>Shadowsocks </code></h2><p>安装的方式有很多，我独爱个人认为最优的那种，执行以下命令：</p>
+<pre class="line-numbers language-Bash" data-language="Bash"><code class="language-Bash">wget --no-check-certificate https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;teddysun&#x2F;shadowsocks_install&#x2F;master&#x2F;shadowsocksR.sh
+chmod +x shadowsocksR.sh
+.&#x2F;shadowsocksR.sh 2&gt;&amp;1 | tee shadowsocksR.log<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<p>你也可以用<code>&amp;&amp;</code>连接一次性执行，按提示完成即可。</p>
+<h2 id="安装Google-bbr"><a href="#安装Google-bbr" class="headerlink" title="安装Google bbr"></a>安装<code>Google bbr</code></h2><p>一、如果你的VPS是基于KVM的，运行以下命令：</p>
+<pre class="line-numbers language-Bash" data-language="Bash"><code class="language-Bash">wget --no-check-certificate https:&#x2F;&#x2F;github.com&#x2F;teddysun&#x2F;across&#x2F;raw&#x2F;master&#x2F;bbr.sh
+chmod +x bbr.sh
+.&#x2F;bbr.sh<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<p>按照提示安装完成，安装完成后，检测是否成功安装：</p>
+<pre class="line-numbers language-Bash" data-language="Bash"><code class="language-Bash">sysctl net.ipv4.tcp_available_congestion_control<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>输出的信息包含<code>bbr</code>就<code>Ok</code>了，一般为<code>net.ipv4.tcp_available_congestion_control = bbr cubic reno</code></p>
+<p>二、如果你不小心购买了基于<code>OpenVZ</code>的<code>VPS</code>，运行这个：</p>
+<pre class="line-numbers language-Bash" data-language="Bash"><code class="language-Bash">wget https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;kuoruan&#x2F;shell-scripts&#x2F;master&#x2F;ovz-bbr&#x2F;ovz-bbr-installer.sh
+chmod +x ovz-bbr-installer.sh
+.&#x2F;ovz-bbr-installer.sh<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<p>这个连提示都是中文的，按照提示安装完成即可，安装完成使用看说明，检测是否安装成功：</p>
+<pre class="line-numbers language-Bash" data-language="Bash"><code class="language-Bash">ping 10.0.0.2<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>如果能通，说明 bbr 已经启动,然后检查 iptables 规则:</p>
+<pre class="line-numbers language-Bash" data-language="Bash"><code class="language-Bash">iptables -t nat -nL
+Chain PREROUTING (policy ACCEPT)
+target     prot opt source               destination
+LKL_IN     all  --  0.0.0.0&#x2F;0            0.0.0.0&#x2F;0
+ 
+Chain POSTROUTING (policy ACCEPT)
+target     prot opt source               destination
+ 
+Chain OUTPUT (policy ACCEPT)
+target     prot opt source               destination
+ 
+Chain LKL_IN (1 references)
+target     prot opt source               destination
+DNAT       tcp  --  0.0.0.0&#x2F;0            0.0.0.0&#x2F;0            tcp dpt:8989 to:10.0.0.2<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>里面有相应的端口规则。</p>
+<h2 id="使用Shadowsocks"><a href="#使用Shadowsocks" class="headerlink" title="使用Shadowsocks"></a>使用<code>Shadowsocks</code></h2><p>使用对应的客户端使用的你的<code>Shadowsocks</code>吧，怎么使用自行搜索。想着就那么几个步骤，还是写了这么多。。。</p>
+<h1 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h1><p>我购买时不小心买成了<code>OpenVZ</code>的，请教了群里的一位前辈之后告诉我联系客服，我便邮件联系官方退款了，购买了新的基于<code>KVM</code>，服务态度非常好，值得点赞。供参考，希望能帮到有需要的朋友。</p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a href="https://blog.kuoruan.com/48.html">搬瓦工(Bandwagonhost)搭建Shadowsocks并优化速度</a></p>
+<p><a href="https://blog.kuoruan.com/116.html">OpenVZ 平台 Google BBR 一键安装脚本</a></p>
+]]></content>
+      <categories>
+        <category>VPN</category>
+      </categories>
+      <tags>
+        <tag>Mac使用</tag>
+        <tag>BanwagonHOST</tag>
+        <tag>Shadowsocks</tag>
+        <tag>科学上网</tag>
+      </tags>
   </entry>
 </search>
