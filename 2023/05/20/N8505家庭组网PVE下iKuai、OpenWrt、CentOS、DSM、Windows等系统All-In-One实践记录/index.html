@@ -33,7 +33,7 @@
 <meta property="og:image" content="https://blog.vanjay.cn/images/aio/dsm_desktop.png">
 <meta property="og:image" content="https://blog.vanjay.cn/images/aio/other_service.png">
 <meta property="article:published_time" content="2023-05-20T14:13:20.000Z">
-<meta property="article:modified_time" content="2023-05-20T15:47:14.887Z">
+<meta property="article:modified_time" content="2023-05-20T16:07:40.981Z">
 <meta property="article:author" content="VanJay">
 <meta property="article:tag" content="NAS">
 <meta property="article:tag" content="软路由">
@@ -280,9 +280,15 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">发表于</span>
-      
 
-      <time title="创建时间：2023-05-20 22:13:20 / 修改时间：23:47:14" itemprop="dateCreated datePublished" datetime="2023-05-20T22:13:20+08:00">2023-05-20</time>
+      <time title="创建时间：2023-05-20 22:13:20" itemprop="dateCreated datePublished" datetime="2023-05-20T22:13:20+08:00">2023-05-20</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2023-05-21 00:07:40" itemprop="dateModified" datetime="2023-05-21T00:07:40+08:00">2023-05-21</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -463,7 +469,7 @@ vfio_virqfd<span aria-hidden="true" class="line-numbers-rows"><span></span><span
 <span class="token punctuation">[</span>    <span class="token number">0.458760</span><span class="token punctuation">]</span> DMAR: Intel<span class="token punctuation">(</span>R<span class="token punctuation">)</span> Virtualization Technology <span class="token keyword">for</span> Directed I/O<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
 <h4 id="更换源，不解释"><a href="#更换源，不解释" class="headerlink" title="更换源，不解释"></a>更换源，不解释</h4><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">先备份： <span class="token function">mv</span> /etc/apt/sources.list  /etc/apt/sources.list.bak
-来一份修改：cp  /etc/apt/sources.list.bak /etc/apt/sources.list 
+来一份修改：cp /etc/apt/sources.list.bak /etc/apt/sources.list 
 
 sources.list 修改为
 deb http://mirrors.aliyun.com/debian/ bullseye main non-free contrib
@@ -481,9 +487,9 @@ deb-src http://mirrors.aliyun.com/debian/ bullseye-backports main non-free contr
 <h3 id="NAS-黑群晖-DSM-安装和配置"><a href="#NAS-黑群晖-DSM-安装和配置" class="headerlink" title="NAS (黑群晖 DSM) 安装和配置"></a>NAS (黑群晖 DSM) 安装和配置</h3><p>黑群晖安装比Hackintosh简直简单了几个数量级，在我看来，都用不上『Hack』这个词。在 pve 里安装 dsm 主要步骤如下，具体细节请自行谷歌：</p>
 <ul>
 <li>虚拟机下安装引导镜像不需要的三个参数去除</li>
-<li>开肩硬件直通和分组IOMMU</li>
+<li>开启硬件直通和分组IOMMU</li>
 <li>虚拟硬盘建立&#x2F; NVMe硬盘直通 &#x2F; SATA硬盘直通 （可以用虚拟磁盘，但建议用另一个磁盘直通，分散风险）</li>
-<li>建立黑群晖虚拟机-UEFl，机型 35。引导顺序设置、移除不需要的软盘和硬盘)</li>
+<li>建立黑群晖虚拟机，引导选UEFl，机型 35。引导顺序设置、移除不需要的软盘和硬盘)</li>
 <li>获取黑群晖地址（路由器查看、群晖助手等）</li>
 <li>安装黑群晖，设置登录相关</li>
 <li>进入系统开启并建立 SMB &#x2F; NFS 共享</li>
@@ -502,7 +508,7 @@ deb-src http://mirrors.aliyun.com/debian/ bullseye-backports main non-free contr
 <li>iKuai网口、DHCP、网段的设置：iKuai的设置需要根据实际的网络环境和需求来进行。在我的案例中，我选择了桥接模式，因此运营商的光猫会WAN口进入8505主机。主机的eth0口用作pve维护通道口，剩下五个口都直通给爱快，一个用于wan口，剩余四个用链路桥接给其他设备使用。</li>
 </ul>
 <h2 id="附录"><a href="#附录" class="headerlink" title="附录"></a>附录</h2><h3 id="OpenWrt-换源"><a href="#OpenWrt-换源" class="headerlink" title="OpenWrt 换源"></a>OpenWrt 换源</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">先备份： <span class="token function">mv</span> /etc/opkg/distfeeds.conf /etc/opkg/distfeeds.conf.bak
-来一份修改：cp  /etc/opkg/distfeeds.conf.bak /etc/opkg/distfeeds.conf
+来一份修改：cp /etc/opkg/distfeeds.conf.bak /etc/opkg/distfeeds.conf
 
 distfeeds.conf 修改为
 src/gz openwrt_core https://mirrors.tuna.tsinghua.edu.cn/openwrt/releases/21.02.0/targets/rockchip/armv8/packages
