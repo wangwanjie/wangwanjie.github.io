@@ -6,7 +6,7 @@
   <link href="https://blog.vanjay.cn/atom.xml" rel="self"/>
   
   <link href="https://blog.vanjay.cn/"/>
-  <updated>2023-05-20T16:07:40.981Z</updated>
+  <updated>2023-05-20T16:15:42.642Z</updated>
   <id>https://blog.vanjay.cn/</id>
   
   <author>
@@ -17,11 +17,11 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>N8505家庭组网PVE下iKuai、OpenWrt、CentOS、DSM、Windows等系统All In One实践记录</title>
-    <link href="https://blog.vanjay.cn/2023/05/20/N8505%E5%AE%B6%E5%BA%AD%E7%BB%84%E7%BD%91PVE%E4%B8%8BiKuai%E3%80%81OpenWrt%E3%80%81CentOS%E3%80%81DSM%E3%80%81Windows%E7%AD%89%E7%B3%BB%E7%BB%9FAll-In-One%E5%AE%9E%E8%B7%B5%E8%AE%B0%E5%BD%95/"/>
-    <id>https://blog.vanjay.cn/2023/05/20/N8505%E5%AE%B6%E5%BA%AD%E7%BB%84%E7%BD%91PVE%E4%B8%8BiKuai%E3%80%81OpenWrt%E3%80%81CentOS%E3%80%81DSM%E3%80%81Windows%E7%AD%89%E7%B3%BB%E7%BB%9FAll-In-One%E5%AE%9E%E8%B7%B5%E8%AE%B0%E5%BD%95/</id>
+    <title>8505处理器家庭组网PVE下iKuai、OpenWrt、CentOS、DSM、Windows等系统All In One实践记录</title>
+    <link href="https://blog.vanjay.cn/2023/05/20/8505%E5%A4%84%E7%90%86%E5%99%A8%E5%AE%B6%E5%BA%AD%E7%BB%84%E7%BD%91PVE%E4%B8%8BiKuai%E3%80%81OpenWrt%E3%80%81CentOS%E3%80%81DSM%E3%80%81Windows%E7%AD%89%E7%B3%BB%E7%BB%9FAll-In-One%E5%AE%9E%E8%B7%B5%E8%AE%B0%E5%BD%95/"/>
+    <id>https://blog.vanjay.cn/2023/05/20/8505%E5%A4%84%E7%90%86%E5%99%A8%E5%AE%B6%E5%BA%AD%E7%BB%84%E7%BD%91PVE%E4%B8%8BiKuai%E3%80%81OpenWrt%E3%80%81CentOS%E3%80%81DSM%E3%80%81Windows%E7%AD%89%E7%B3%BB%E7%BB%9FAll-In-One%E5%AE%9E%E8%B7%B5%E8%AE%B0%E5%BD%95/</id>
     <published>2023-05-20T14:13:20.000Z</published>
-    <updated>2023-05-20T16:07:40.981Z</updated>
+    <updated>2023-05-20T16:15:42.642Z</updated>
     
     
     <summary type="html">&lt;h2 id=&quot;背景&quot;&gt;&lt;a href=&quot;#背景&quot; class=&quot;headerlink&quot; title=&quot;背景&quot;&gt;&lt;/a&gt;背景&lt;/h2&gt;&lt;p&gt;在平日生活和工作中，家庭网络环境的管理和维护始终是一个重要但容易被忽视的问题。智能家居设备越来越多，手机电脑电视等设备不断增多，对于网络的需求越来越高，比如数据同步，路由管理，电视观看内网高清影院等，这些都需要一个稳定且强大的家庭网络环境来支持。&lt;/p&gt;</summary>
