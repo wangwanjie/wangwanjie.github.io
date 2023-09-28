@@ -15,8 +15,33 @@
     <atom:link href="https://blog.vanjay.cn/rss2.xml" rel="self" type="application/rss+xml"/>
     
     <description>成功不是将来才有的&lt;br&gt;而是决定去做的那一刻起&lt;br&gt;持续累积而成</description>
-    <pubDate>Sat, 20 May 2023 17:32:31 GMT</pubDate>
+    <pubDate>Thu, 28 Sep 2023 09:35:18 GMT</pubDate>
     <generator>http://hexo.io/</generator>
+    
+    <item>
+      <title>从 Gitlab 迁移到 Gitea 小记</title>
+      <link>https://blog.vanjay.cn/2023/09/28/%E4%BB%8E-Gitlab-%E8%BF%81%E7%A7%BB%E5%88%B0-Gitea-%E5%B0%8F%E8%AE%B0/</link>
+      <guid>https://blog.vanjay.cn/2023/09/28/%E4%BB%8E-Gitlab-%E8%BF%81%E7%A7%BB%E5%88%B0-Gitea-%E5%B0%8F%E8%AE%B0/</guid>
+      <pubDate>Thu, 28 Sep 2023 09:16:36 GMT</pubDate>
+      
+      <description>&lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h2&gt;&lt;p&gt;在开源的世界中，选择合适的代码托管平台是每个开发者和组织都会面临的选择。近年来，GitLab和Gitea都已经成为开发者社区的热门选择。而对于个人用户来说，是否有必要从GitLab迁移到Gitea呢？这篇博客旨在对比这两者的优劣，并提供一个简单的迁移指南。&lt;/p&gt;</description>
+      
+      
+      
+      
+      <category domain="https://blog.vanjay.cn/categories/%E8%BF%90%E7%BB%B4/">运维</category>
+      
+      <category domain="https://blog.vanjay.cn/categories/%E8%BF%90%E7%BB%B4/%E6%9C%8D%E5%8A%A1%E5%99%A8/">服务器</category>
+      
+      
+      <category domain="https://blog.vanjay.cn/tags/Gitlab/">Gitlab</category>
+      
+      <category domain="https://blog.vanjay.cn/tags/Gitea/">Gitea</category>
+      
+      
+      <comments>https://blog.vanjay.cn/2023/09/28/%E4%BB%8E-Gitlab-%E8%BF%81%E7%A7%BB%E5%88%B0-Gitea-%E5%B0%8F%E8%AE%B0/#disqus_thread</comments>
+      
+    </item>
     
     <item>
       <title>8505处理器家庭组网PVE下iKuai、OpenWrt、CentOS、DSM、Windows等系统All In One实践记录</title>
@@ -540,32 +565,6 @@ Swap:          &lt;span class=&quot;token number&quot;&gt;8&lt;/span&gt;.0G     
       
       
       <comments>https://blog.vanjay.cn/2018/10/01/Ubuntu-18-04-LTS-%E5%AE%89%E8%A3%85%E9%83%A8%E7%BD%B2-Seafile/#disqus_thread</comments>
-      
-    </item>
-    
-    <item>
-      <title>iOS 开发从 Array 生成特定分隔符隔开的 String</title>
-      <link>https://blog.vanjay.cn/2018/10/01/iOS-%E5%BC%80%E5%8F%91%E4%BB%8E-Array-%E7%94%9F%E6%88%90%E7%89%B9%E5%AE%9A%E5%88%86%E9%9A%94%E7%AC%A6%E9%9A%94%E5%BC%80%E7%9A%84-String/</link>
-      <guid>https://blog.vanjay.cn/2018/10/01/iOS-%E5%BC%80%E5%8F%91%E4%BB%8E-Array-%E7%94%9F%E6%88%90%E7%89%B9%E5%AE%9A%E5%88%86%E9%9A%94%E7%AC%A6%E9%9A%94%E5%BC%80%E7%9A%84-String/</guid>
-      <pubDate>Sun, 30 Sep 2018 17:41:45 GMT</pubDate>
-      
-      <description>&lt;p&gt;从一个String Array 或者 Object Array 生成字符串，使用特定的分隔符隔开，起始和末尾不需要分隔符，当传入的是对象的时候，需要指定Object 中 String 的 key 字符串，效果如下图所示：&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;/images/stringFromArray.png&quot; alt=&quot;示例&quot;&gt;&lt;/p&gt;</description>
-      
-      
-      
-      
-      <category domain="https://blog.vanjay.cn/categories/iOS-%E5%BC%80%E5%8F%91/">iOS 开发</category>
-      
-      
-      <category domain="https://blog.vanjay.cn/tags/Objective-C/">Objective-C</category>
-      
-      <category domain="https://blog.vanjay.cn/tags/iOS/">iOS</category>
-      
-      <category domain="https://blog.vanjay.cn/tags/String/">String</category>
-      
-      
-      <comments>https://blog.vanjay.cn/2018/10/01/iOS-%E5%BC%80%E5%8F%91%E4%BB%8E-Array-%E7%94%9F%E6%88%90%E7%89%B9%E5%AE%9A%E5%88%86%E9%9A%94%E7%AC%A6%E9%9A%94%E5%BC%80%E7%9A%84-String/#disqus_thread</comments>
       
     </item>
     
