@@ -1,179 +1,55 @@
 <!DOCTYPE html>
-
-
-
-
-
-
-
-
-
-
-
-
-  
-
-
-<html class="theme-next mist use-motion" lang="zh-CN">
+<html lang="zh-CN">
 <head>
-  <meta charset="UTF-8"/>
-<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
-<meta name="theme-color" content="#222">
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
 
-<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
-<link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
 
-<style>
-    .pace .pace-progress {
-        background: #1E92FB; /*进度条颜色*/
-        height: 3px;
-    }
-    .pace .pace-progress-inner {
-         box-shadow: 0 0 10px #1E92FB, 0 0 5px     #1E92FB; /*阴影颜色*/
-    }
-    .pace .pace-activity {
-        border-top-color: #1E92FB;    /*上边框颜色*/
-        border-left-color: #1E92FB;    /*左边框颜色*/
-    }
-</style>
+<link rel="stylesheet" href="/css/main.css">
 
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic%7CRoboto+Slab:300,300italic,400,400italic,700,700italic%7CPT+Mono:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
 
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css" integrity="sha256-Vzbj7sDDS/woiFS3uNKo8eIuni59rjyNGtXfstRzStA=" crossorigin="anonymous">
 
+<script class="next-config" data-name="main" type="application/json">{"hostname":"blog.vanjay.cn","root":"/","images":"/images","scheme":"Mist","darkmode":false,"version":"8.16.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":"mac"},"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
 
-
-
-
-
-
-
-
-<meta http-equiv="Cache-Control" content="no-transform" />
-<meta http-equiv="Cache-Control" content="no-siteapp" />
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-  
-  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
-
-
-
-
-
-
-
-<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
-
-<link href="/css/main.css?v=6.4.2" rel="stylesheet" type="text/css" />
-
-
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.4.2">
-
-
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.4.2">
-
-
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.4.2">
-
-
-  <link rel="mask-icon" href="/images/logo.svg?v=6.4.2" color="#222">
-
-
-
-
-
-
-
-
-
-<script type="text/javascript" id="hexo.configurations">
-  var NexT = window.NexT || {};
-  var CONFIG = {
-    root: '/',
-    scheme: 'Mist',
-    version: '6.4.2',
-    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
-    fancybox: true,
-    fastclick: false,
-    lazyload: false,
-    tabs: true,
-    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
-    algolia: {
-      applicationID: 'TZKAYD1IX3',
-      apiKey: '0948641672f6c1751c491b30047ab041',
-      indexName: 'ForHexo',
-      hits: {"per_page":10},
-      labels: {"input_placeholder":"搜索文章","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
-    }
-  };
-</script>
-
-
-  
-
-
-
-
-  <meta name="description" content="假如一个 APP 能带来良好的交互体验，那么它一定是”活的”。">
-<meta name="keywords" content="iOS,UITabBar">
+    <meta name="description" content="假如一个 APP 能带来良好的交互体验，那么它一定是”活的”。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="UITabBar 点击动画与切换 VC 动画实现">
-<meta property="og:url" content="https://www.vanjay.cn/2019/06/09/UITabBar-点击动画与切换-VC-动画实现/index.html">
+<meta property="og:url" content="https://blog.vanjay.cn/2019/06/09/UITabBar-%E7%82%B9%E5%87%BB%E5%8A%A8%E7%94%BB%E4%B8%8E%E5%88%87%E6%8D%A2-VC-%E5%8A%A8%E7%94%BB%E5%AE%9E%E7%8E%B0/index.html">
 <meta property="og:site_name" content="VanJay&#39;s Blog">
 <meta property="og:description" content="假如一个 APP 能带来良好的交互体验，那么它一定是”活的”。">
-<meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://www.vanjay.cn/images/iOS/effect.gif">
-<meta property="og:updated_time" content="2019-07-01T03:08:10.000Z">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://blog.vanjay.cn/images/iOS/effect.gif">
+<meta property="article:published_time" content="2019-06-09T07:15:25.000Z">
+<meta property="article:modified_time" content="2023-10-24T04:52:11.051Z">
+<meta property="article:author" content="VanJay">
+<meta property="article:tag" content="iOS">
+<meta property="article:tag" content="UITabBar">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="UITabBar 点击动画与切换 VC 动画实现">
-<meta name="twitter:description" content="假如一个 APP 能带来良好的交互体验，那么它一定是”活的”。">
-<meta name="twitter:image" content="https://www.vanjay.cn/images/iOS/effect.gif">
+<meta name="twitter:image" content="https://blog.vanjay.cn/images/iOS/effect.gif">
+
+
+<link rel="canonical" href="https://blog.vanjay.cn/2019/06/09/UITabBar-%E7%82%B9%E5%87%BB%E5%8A%A8%E7%94%BB%E4%B8%8E%E5%88%87%E6%8D%A2-VC-%E5%8A%A8%E7%94%BB%E5%AE%9E%E7%8E%B0/">
 
 
 
-  <link rel="alternate" href="/atom.xml" title="VanJay's Blog" type="application/atom+xml" />
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://blog.vanjay.cn/2019/06/09/UITabBar-%E7%82%B9%E5%87%BB%E5%8A%A8%E7%94%BB%E4%B8%8E%E5%88%87%E6%8D%A2-VC-%E5%8A%A8%E7%94%BB%E5%AE%9E%E7%8E%B0/","path":"2019/06/09/UITabBar-点击动画与切换-VC-动画实现/","title":"UITabBar 点击动画与切换 VC 动画实现"}</script>
 
-
-
-
-  <link rel="canonical" href="https://www.vanjay.cn/2019/06/09/UITabBar-点击动画与切换-VC-动画实现/"/>
-
-
-
-<script type="text/javascript" id="page.configurations">
-  CONFIG.page = {
-    sidebar: "",
-  };
-</script>
-
-  <title>UITabBar 点击动画与切换 VC 动画实现 | VanJay's Blog</title>
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>UITabBar 点击动画与切换 VC 动画实现 | VanJay's Blog</title>
   
 
+  <script src="/js/third-party/analytics/baidu-analytics.js"></script>
+  <script async src="https://hm.baidu.com/hm.js?dcbe579f2b53b3adfd4034b7acee5785"></script>
 
-
-
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-93918217-1"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'UA-93918217-1');
-</script>
 
 
 
@@ -181,1528 +57,757 @@
 
 
   <noscript>
-  <style type="text/css">
-    .use-motion .motion-element,
-    .use-motion .brand,
-    .use-motion .menu-item,
-    .sidebar-inner,
-    .use-motion .post-block,
-    .use-motion .pagination,
-    .use-motion .comments,
-    .use-motion .post-header,
-    .use-motion .post-body,
-    .use-motion .collection-title { opacity: initial; }
-
-    .use-motion .logo,
-    .use-motion .site-title,
-    .use-motion .site-subtitle {
-      opacity: initial;
-      top: initial;
-    }
-
-    .use-motion {
-      .logo-line-before i { left: initial; }
-      .logo-line-after i { right: initial; }
-    }
-  </style>
-</noscript>
-
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="VanJay's Blog" type="application/atom+xml">
+<link rel="alternate" href="/rss2.xml" title="VanJay's Blog" type="application/rss+xml">
 </head>
 
-<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
 
-  
-  
-    
-  
-
-  <div class="container sidebar-position-left page-post-detail">
-    <div class="headband"></div>
-
-    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
-      <div class="header-inner"><div class="site-brand-wrapper">
-  <div class="site-meta ">
-    
-
-    <div class="custom-logo-site-title">
-      <a href="/" class="brand" rel="start">
-        <span class="logo-line-before"><i></i></span>
-        <span class="site-title">VanJay's Blog</span>
-        <span class="logo-line-after"><i></i></span>
-      </a>
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
     </div>
-    
-      
-        <p class="site-subtitle">一个爱折腾工程师的全栈梦</p>
-      
-    
   </div>
 
-  <div class="site-nav-toggle">
-    <button aria-label="切换导航栏">
-      <span class="btn-bar"></span>
-      <span class="btn-bar"></span>
-      <span class="btn-bar"></span>
-    </button>
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">VanJay's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">一个爱折腾工程师的全栈梦</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
   </div>
 </div>
 
 
 
 <nav class="site-nav">
-  
-    <ul id="menu" class="menu">
-      
-        
-        
-        
-          
-          <li class="menu-item menu-item-home">
-    <a href="/" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
-  </li>
-        
-        
-        
-          
-          <li class="menu-item menu-item-categories">
-    <a href="/categories/" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />分类</a>
-  </li>
-        
-        
-        
-          
-          <li class="menu-item menu-item-about">
-    <a href="/about/" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />关于我</a>
-  </li>
-        
-        
-        
-          
-          <li class="menu-item menu-item-archives">
-    <a href="/archives/" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />时间线</a>
-  </li>
-        
-        
-        
-          
-          <li class="menu-item menu-item-tags">
-    <a href="/tags/" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签</a>
-  </li>
-        
-        
-        
-          
-          <li class="menu-item menu-item-commonweal">
-    <a href="/404.html" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />公益 404</a>
-  </li>
-
-      
-      
-        <li class="menu-item menu-item-search">
-          
-            <a href="javascript:;" class="popup-trigger">
-          
-            
-              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />搜索</a>
-        </li>
-      
-    </ul>
-  
-
-  
-    
-
-  
-
-  
-    <div class="site-search">
-      
-  <div class="popup search-popup local-search-popup">
-  <div class="local-search-header clearfix">
-    <span class="search-icon">
-      <i class="fa fa-search"></i>
-    </span>
-    <span class="popup-btn-close">
-      <i class="fa fa-times-circle"></i>
-    </span>
-    <div class="local-search-input-wrapper">
-      <input autocomplete="off"
-             placeholder="搜索..." spellcheck="false"
-             type="text" id="local-search-input">
-    </div>
-  </div>
-  <div id="local-search-result"></div>
-</div>
-
-
-
-    </div>
-  
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="home fa-fw"></i>首页</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-commonweal"><a href="/404.html" rel="section"><i class="heartbeat fa-fw"></i>公益 404</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="user fa-fw"></i>关于</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
 </nav>
 
 
 
-  
-
-
-
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
 </div>
-    </header>
-
-    
-
-
-    <main id="main" class="main">
-      <div class="main-inner">
-        <div class="content-wrap">
-          
-          <div id="content" class="content">
-            
-
-  <div id="posts" class="posts-expand">
-    
-
-  
-
-  
-  
-  
-
-  
-    <div class="reading-progress-bar"></div>
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://www.vanjay.cn/2019/06/09/UITabBar-点击动画与切换-VC-动画实现/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="VanJay">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/head.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="VanJay's Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">UITabBar 点击动画与切换 VC 动画实现
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              
-              
-            
-
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2019-06-09 15:15:25" itemprop="dateCreated datePublished" datetime="2019-06-09T15:15:25+08:00">2019-06-09</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-
-                
-                  <time title="修改时间：2019-07-01 11:08:10" itemprop="dateModified" datetime="2019-07-01T11:08:10+08:00">2019-07-01</time>
-                
-
-
-              
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/iOS-开发/" itemprop="url" rel="index"><span itemprop="name">iOS 开发</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-             <span id="/2019/06/09/UITabBar-点击动画与切换-VC-动画实现/" class="leancloud_visitors" data-flag-title="UITabBar 点击动画与切换 VC 动画实现">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">热度</span>
-               
-                 <span class="leancloud-visitors-count"></span> ℃
-             </span>
-          
-
-          
-
-          
-            <div class="post-symbolscount">
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">本文字数：</span>
-                
-                <span title="本文字数">7.4k</span>
-              
-
-              
-                <span class="post-meta-divider">|</span>
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-clock-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
-                
-                <span title="阅读时长">7 分钟</span>
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        <blockquote>
-<p>假如一个 APP 能带来良好的交互体验，那么它一定是”活的”。</p>
-</blockquote>
-<a id="more"></a>
-<h2 id="效果图"><a href="#效果图" class="headerlink" title="效果图"></a>效果图</h2><p><img src="/images/iOS/effect.gif"></p>
-<p>show me the code.</p>
-<h2 id="tabBarController-切换-selectedViewController-的动画添加"><a href="#tabBarController-切换-selectedViewController-的动画添加" class="headerlink" title="tabBarController 切换 selectedViewController 的动画添加"></a>tabBarController 切换 selectedViewController 的动画添加</h2><figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="built_in">BOOL</span>)tabBarController:(<span class="built_in">UITabBarController</span> *)tabBarController shouldSelectViewController:(<span class="built_in">UIViewController</span> *)viewController &#123;</span><br><span class="line">    <span class="built_in">NSUInteger</span> shouldSelectIndex = [tabBarController.viewControllers indexOfObject:viewController];</span><br><span class="line">    <span class="keyword">if</span> (tabBarController.selectedIndex == shouldSelectIndex) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">YES</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">CATransition</span> *animation = [<span class="built_in">CATransition</span> animation];</span><br><span class="line">    animation.duration = <span class="number">0.3</span>;</span><br><span class="line">    animation.timingFunction = [<span class="built_in">CAMediaTimingFunction</span> functionWithName:kCAMediaTimingFunctionEaseInEaseOut];</span><br><span class="line">    animation.type = kCATransitionPush;</span><br><span class="line">    <span class="keyword">if</span> (tabBarController.selectedIndex &gt; shouldSelectIndex) &#123;</span><br><span class="line">        animation.subtype = kCATransitionFromLeft;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        animation.subtype = kCATransitionFromRight;</span><br><span class="line">    &#125;</span><br><span class="line">    [[[tabBarController valueForKey:<span class="string">@"_viewControllerTransitionView"</span>] layer] addAnimation:animation forKey:<span class="string">@"animation"</span>];</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="literal">YES</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="点击-UITabBarItem添加动画效果"><a href="#点击-UITabBarItem添加动画效果" class="headerlink" title="点击 UITabBarItem添加动画效果"></a>点击 UITabBarItem添加动画效果</h2><figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="keyword">void</span>)tabBar:(<span class="built_in">UITabBar</span> *)tabBar didSelectItem:(<span class="built_in">UITabBarItem</span> *)item &#123;</span><br><span class="line">    <span class="built_in">NSInteger</span> index = [<span class="keyword">self</span>.tabBar.items indexOfObject:item];</span><br><span class="line">    [<span class="keyword">self</span> animationWithIndex:index];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">#pragma mark - private methods</span></span><br><span class="line">- (<span class="keyword">void</span>)animationWithIndex:(<span class="built_in">NSInteger</span>)index &#123;</span><br><span class="line">    <span class="built_in">NSMutableArray</span> *tabBarbuttonArray = [<span class="built_in">NSMutableArray</span> array];</span><br><span class="line">    <span class="comment">// 找到所有的 UITabBarButton</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="built_in">UIView</span> *tabBarButton <span class="keyword">in</span> <span class="keyword">self</span>.tabBar.subviews) &#123;</span><br><span class="line">        <span class="keyword">if</span> ([tabBarButton isKindOfClass:<span class="built_in">NSClassFromString</span>(<span class="string">@"UITabBarButton"</span>)]) &#123;</span><br><span class="line">            [tabBarbuttonArray addObject:tabBarButton];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// tabBarButton 排序</span></span><br><span class="line">    [tabBarbuttonArray sortUsingComparator:^<span class="built_in">NSComparisonResult</span>(<span class="built_in">UIView</span> *_Nonnull obj1, <span class="built_in">UIView</span> *_Nonnull obj2) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">CGRectGetMinX</span>(obj1.frame) &gt; <span class="built_in">CGRectGetMinX</span>(obj2.frame);</span><br><span class="line">    &#125;];</span><br><span class="line"></span><br><span class="line">    <span class="built_in">UIView</span> *tabbarBtn = tabBarbuttonArray[index];</span><br><span class="line">    <span class="comment">// 找到UITabBarButton中的imageView，加动画</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="built_in">UIView</span> *sub <span class="keyword">in</span> tabbarBtn.subviews) &#123;</span><br><span class="line">        <span class="keyword">if</span> ([sub isKindOfClass:<span class="built_in">NSClassFromString</span>(<span class="string">@"UITabBarSwappableImageView"</span>)]) &#123;</span><br><span class="line">            [<span class="keyword">self</span> preformAnimationForView:sub];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (<span class="keyword">void</span>)preformAnimationForView:(<span class="built_in">UIView</span> *)view &#123;</span><br><span class="line">    [view.layer addAnimation:[<span class="keyword">self</span> scaleAnimation] forKey:<span class="literal">nil</span>];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> 重力效果弹跳</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line">- (<span class="built_in">CAKeyframeAnimation</span> *)gravityElasticAnimation &#123;</span><br><span class="line">    <span class="built_in">CAKeyframeAnimation</span> *animation = [<span class="built_in">CAKeyframeAnimation</span> animationWithKeyPath:<span class="string">@"transform.translation.y"</span>];</span><br><span class="line">    animation.values = @[@<span class="number">0.0</span>, @<span class="number">-4.15</span>, @<span class="number">-7.26</span>, @<span class="number">-9.34</span>, @<span class="number">-10.37</span>, @<span class="number">-9.34</span>, @<span class="number">-7.26</span>, @<span class="number">-4.15</span>, @<span class="number">0.0</span>, @<span class="number">2.0</span>, @<span class="number">-2.9</span>, @<span class="number">-4.94</span>, @<span class="number">-6.11</span>, @<span class="number">-6.42</span>, @<span class="number">-5.86</span>, @<span class="number">-4.44</span>, @<span class="number">-2.16</span>, @<span class="number">0.0</span>];</span><br><span class="line">    animation.duration = <span class="number">0.8</span>;</span><br><span class="line">    animation.beginTime = <span class="built_in">CACurrentMediaTime</span>();</span><br><span class="line">    animation.removedOnCompletion = <span class="literal">YES</span>;</span><br><span class="line">    <span class="keyword">return</span> animation;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> 缩放动画</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line">- (<span class="built_in">CABasicAnimation</span> *)scaleAnimation &#123;</span><br><span class="line">    <span class="built_in">CABasicAnimation</span> *animation = [<span class="built_in">CABasicAnimation</span> animationWithKeyPath:<span class="string">@"transform.scale"</span>];</span><br><span class="line">    animation.timingFunction = [<span class="built_in">CAMediaTimingFunction</span> functionWithName:kCAMediaTimingFunctionEaseInEaseOut];</span><br><span class="line">    animation.duration = <span class="number">0.2</span>;</span><br><span class="line">    animation.repeatCount = <span class="number">1</span>;</span><br><span class="line">    animation.removedOnCompletion = <span class="literal">YES</span>;</span><br><span class="line">    animation.autoreverses = <span class="literal">YES</span>;</span><br><span class="line">    animation.fromValue = @<span class="number">1</span>;</span><br><span class="line">    animation.toValue = @[@<span class="number">0.7</span>, @<span class="number">1</span>];</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> animation;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h1 id="Swift-5-版本"><a href="#Swift-5-版本" class="headerlink" title="Swift 5 版本"></a>Swift 5 版本</h1><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">extension</span> <span class="title">BaseTabBarController</span>: <span class="title">UITabBarControllerDelegate</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">func</span> <span class="title">tabBarController</span><span class="params">(<span class="number">_</span> tabBarController: UITabBarController, animationControllerForTransitionFrom <span class="number">_</span>: UIViewController, to <span class="number">_</span>: UIViewController)</span></span> -&gt; <span class="type">UIViewControllerAnimatedTransitioning</span>? &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="type">TabBarTransition</span>(viewControllers: tabBarController.viewControllers)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">var</span> scaleAnimation: <span class="type">CABasicAnimation</span> &#123;</span><br><span class="line">        <span class="keyword">let</span> animation = <span class="type">CABasicAnimation</span>(keyPath: <span class="string">"transform.scale"</span>)</span><br><span class="line">        animation.timingFunction = <span class="type">CAMediaTimingFunction</span>(name: .easeInEaseOut)</span><br><span class="line">        animation.duration = <span class="number">0.2</span></span><br><span class="line">        animation.repeatCount = <span class="number">1</span></span><br><span class="line">        animation.isRemovedOnCompletion = <span class="literal">true</span></span><br><span class="line">        animation.autoreverses = <span class="literal">true</span></span><br><span class="line">        animation.fromValue = <span class="number">1</span></span><br><span class="line">        animation.toValue = [<span class="number">0.7</span>, <span class="number">1</span>]</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> animation</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">func</span> <span class="title">tabBar</span><span class="params">(<span class="number">_</span> tabBar: UITabBar, didSelect item: UITabBarItem)</span></span> &#123;</span><br><span class="line">        <span class="keyword">let</span> orderedTabBarItemViews: [<span class="type">UIView</span>] = &#123;</span><br><span class="line">            <span class="keyword">let</span> interactionViews = tabBar.subviews.<span class="built_in">filter</span> &#123; $<span class="number">0</span> <span class="keyword">is</span> <span class="type">UIControl</span> &#125;</span><br><span class="line">            <span class="keyword">return</span> interactionViews.sorted(by: &#123; $<span class="number">0</span>.frame.minX &lt; $<span class="number">1</span>.frame.minX &#125;)</span><br><span class="line">        &#125;()</span><br><span class="line"></span><br><span class="line">        <span class="keyword">guard</span></span><br><span class="line">            <span class="keyword">let</span> index = <span class="keyword">self</span>.tabBar.items?.firstIndex(of: item),</span><br><span class="line">            <span class="keyword">let</span> imageView = orderedTabBarItemViews[index].subviews.first <span class="keyword">as</span>? <span class="type">UIImageView</span></span><br><span class="line">        <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">return</span></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 找到UITabBarButton中的imageView，加动画</span></span><br><span class="line">        imageView.layer.add(scaleAnimation, forKey: <span class="literal">nil</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>TabBarTransition.swift:</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">//  TabBarTransition.swift</span></span><br><span class="line"><span class="comment">//  ViPay</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">//  Created by VanJay on 2019/6/30.</span></span><br><span class="line"><span class="comment">//  Copyright © 2019 VanJay. All rights reserved.</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> UIKit</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">TabBarTransition</span>: <span class="title">NSObject</span>, <span class="title">UIViewControllerAnimatedTransitioning</span> </span>&#123;</span><br><span class="line">    <span class="keyword">let</span> viewControllers: [<span class="type">UIViewController</span>]?</span><br><span class="line">    <span class="keyword">let</span> transitionDuration: <span class="type">TimeInterval</span> = <span class="number">0.3</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">init</span>(viewControllers: [<span class="type">UIViewController</span>]?) &#123;</span><br><span class="line">        <span class="keyword">self</span>.viewControllers = viewControllers</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">func</span> <span class="title">transitionDuration</span><span class="params">(using <span class="number">_</span>: UIViewControllerContextTransitioning?)</span></span> -&gt; <span class="type">TimeInterval</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> transitionDuration</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">func</span> <span class="title">animateTransition</span><span class="params">(using transitionContext: UIViewControllerContextTransitioning)</span></span> &#123;</span><br><span class="line">        <span class="keyword">guard</span></span><br><span class="line">            <span class="keyword">let</span> fromVC = transitionContext.viewController(forKey: <span class="type">UITransitionContextViewControllerKey</span>.from),</span><br><span class="line">            <span class="keyword">let</span> fromView = fromVC.view,</span><br><span class="line">            <span class="keyword">let</span> fromIndex = getIndex(forViewController: fromVC),</span><br><span class="line">            <span class="keyword">let</span> toVC = transitionContext.viewController(forKey: <span class="type">UITransitionContextViewControllerKey</span>.to),</span><br><span class="line">            <span class="keyword">let</span> toView = toVC.view,</span><br><span class="line">            <span class="keyword">let</span> toIndex = getIndex(forViewController: toVC)</span><br><span class="line">        <span class="keyword">else</span> &#123;</span><br><span class="line">            transitionContext.completeTransition(<span class="literal">false</span>)</span><br><span class="line">            <span class="keyword">return</span></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">let</span> frame = transitionContext.initialFrame(<span class="keyword">for</span>: fromVC)</span><br><span class="line">        <span class="keyword">var</span> fromFrameEnd = frame</span><br><span class="line">        <span class="keyword">var</span> toFrameStart = frame</span><br><span class="line">        fromFrameEnd.origin.x = toIndex &gt; fromIndex ? frame.origin.x - frame.width : frame.origin.x + frame.width</span><br><span class="line">        toFrameStart.origin.x = toIndex &gt; fromIndex ? frame.origin.x + frame.width : frame.origin.x - frame.width</span><br><span class="line">        toView.frame = toFrameStart</span><br><span class="line"></span><br><span class="line">        <span class="type">DispatchQueue</span>.main.async &#123;</span><br><span class="line">            transitionContext.containerView.addSubview(toView)</span><br><span class="line">            <span class="type">UIView</span>.animate(withDuration: <span class="keyword">self</span>.transitionDuration, animations: &#123;</span><br><span class="line">                fromView.frame = fromFrameEnd</span><br><span class="line">                toView.frame = frame</span><br><span class="line">            &#125;, completion: &#123; success <span class="keyword">in</span></span><br><span class="line">                fromView.removeFromSuperview()</span><br><span class="line">                transitionContext.completeTransition(success)</span><br><span class="line">            &#125;)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="function"><span class="keyword">func</span> <span class="title">getIndex</span><span class="params">(forViewController vc: UIViewController)</span></span> -&gt; <span class="type">Int</span>? &#123;</span><br><span class="line">        <span class="keyword">guard</span> <span class="keyword">let</span> vcs = <span class="keyword">self</span>.viewControllers <span class="keyword">else</span> &#123; <span class="keyword">return</span> <span class="literal">nil</span> &#125;</span><br><span class="line">        <span class="keyword">for</span> (index, thisVC) <span class="keyword">in</span> vcs.enumerated() &#123;</span><br><span class="line">            <span class="keyword">if</span> thisVC == vc &#123; <span class="keyword">return</span> index &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    <div>
-      
-        
-<div class="my_post_copyright">
-  <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
-  <!-- JS库 sweetalert 可修改路径 -->
-  <script type="text/javascript" src="/js/src/sweetalert_mini/jquery-1.7.1.min.js"></script>
-  <script src="/js/src/sweetalert_mini/sweetalert.min.js"></script>
-  <script src="/js/src/sweetalert_mini/import_css.js"></script>
-  <p><span>本文标题:</span><a href="/2019/06/09/UITabBar-点击动画与切换-VC-动画实现/">UITabBar 点击动画与切换 VC 动画实现</a></p>
-  <p><span>文章作者:</span><a href="/" title="访问 VanJay 的个人博客">VanJay</a></p>
-  <p><span>发布时间:</span>2019年06月09日 - 15:06</p>
-  
-    <p><span>最后更新:</span>2019年07月01日 - 11:07</p>
-  
-  <p><span>原始链接:</span><a href="/2019/06/09/UITabBar-点击动画与切换-VC-动画实现/" title="UITabBar 点击动画与切换 VC 动画实现">https://www.vanjay.cn/2019/06/09/UITabBar-点击动画与切换-VC-动画实现/</a>
-    <span class="copy-path"  title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="https://www.vanjay.cn/2019/06/09/UITabBar-点击动画与切换-VC-动画实现/"  aria-label="复制成功！"></i></span>
-  </p>
-  <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)"> CC BY-NC-SA 4.0 Unported</a> 转载请保留原文链接及作者。</p>
-</div>
-<script>
-    var clipboard = new Clipboard('.fa-clipboard');
-    clipboard.on('success', $(function(){
-      $(".fa-clipboard").click(function(){
-        swal({
-          title: "",
-          text: '复制成功',
-          html: false,
-          timer: 500,
-          showConfirmButton: false
-        });
-      });
-    }));
-</script>
-
-      
-    </div>
-
-    
-
-    
-      <div>
-        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
-  <div>对你有帮助？您的支持将更加鼓励我继续创作！</div>
-  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
-    <span>打赏</span>
-  </button>
-  <div id="QR" style="display: none;">
-
-    
-      <div id="wechat" style="display: inline-block">
-        <img id="wechat_qr" src="/images/wechatpay.png" alt="VanJay 微信支付"/>
-        <p>微信支付</p>
-      </div>
-    
-
-    
-      <div id="alipay" style="display: inline-block">
-        <img id="alipay_qr" src="/images/alipay.jpg" alt="VanJay 支付宝"/>
-        <p>支付宝</p>
-      </div>
-    
-
-    
-
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
   </div>
 </div>
 
-      </div>
-    
-
-    
-
-    <footer class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/iOS/" rel="tag"><i class="fa fa-tag"></i> iOS</a>
-          
-            <a href="/tags/UITabBar/" rel="tag"><i class="fa fa-tag"></i> UITabBar</a>
-          
-        </div>
-      
-
-      
-      
-      
-
-      
-        <div class="post-nav">
-          <div class="post-nav-next post-nav-item">
-            
-              <a href="/2019/04/01/cocoapods-私有库的搭建和使用/" rel="next" title="cocoapods 私有库的搭建和使用">
-                <i class="fa fa-chevron-left"></i> cocoapods 私有库的搭建和使用
-              </a>
-            
-          </div>
-
-          <span class="post-nav-divider"></span>
-
-          <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2019/06/29/抓取-App-Store和-Google-Play-应用评论并写入-Excel/" rel="prev" title="抓取 App Store和 Google Play 应用评论并写入 Excel">
-                抓取 App Store和 Google Play 应用评论并写入 Excel <i class="fa fa-chevron-right"></i>
-              </a>
-            
-          </div>
-        </div>
-      
-
-      
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-  </div>
-
-
-          </div>
-          
-
-  
-    <div class="comments" id="comments">
-      <div id="lv-container" data-id="city" data-uid="MTAyMC80MDA5MC8xNjYxNw=="></div>
     </div>
+  </div>
 
-  
-
-
-
-        </div>
+</header>
         
-          
   
-  <div class="sidebar-toggle">
-    <div class="sidebar-toggle-line-wrap">
-      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
-      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
-      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
-    </div>
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%88%E6%9E%9C%E5%9B%BE"><span class="nav-number">1.</span> <span class="nav-text">效果图</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#tabBarController-%E5%88%87%E6%8D%A2-selectedViewController-%E7%9A%84%E5%8A%A8%E7%94%BB%E6%B7%BB%E5%8A%A0"><span class="nav-number">2.</span> <span class="nav-text">tabBarController 切换 selectedViewController 的动画添加</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%82%B9%E5%87%BB-UITabBarItem%E6%B7%BB%E5%8A%A0%E5%8A%A8%E7%94%BB%E6%95%88%E6%9E%9C"><span class="nav-number">3.</span> <span class="nav-text">点击 UITabBarItem添加动画效果</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Swift-5-%E7%89%88%E6%9C%AC"><span class="nav-number"></span> <span class="nav-text">Swift 5 版本</span></a></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="VanJay"
+      src="/images/head.png">
+  <p class="site-author-name" itemprop="name">VanJay</p>
+  <div class="site-description" itemprop="description">成功不是将来才有的<br>而是决定去做的那一刻起<br>持续累积而成</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">49</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">97</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/wangwanjie" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wangwanjie" rel="noopener me" target="_blank"><i class="github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/wangwanjie" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;wangwanjie" rel="noopener me" target="_blank"><i class="twitter fa-fw"></i>Twitter</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="http://www.weibo.com/2406245873/profile?topnav=1&wvr=6" title="微博 → http:&#x2F;&#x2F;www.weibo.com&#x2F;2406245873&#x2F;profile?topnav&#x3D;1&amp;wvr&#x3D;6" rel="noopener me" target="_blank"><i class="weibo fa-fw"></i>微博</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.facebook.com/wangwanjie123" title="Facebook → https:&#x2F;&#x2F;www.facebook.com&#x2F;wangwanjie123" rel="noopener me" target="_blank"><i class="facebook fa-fw"></i>Facebook</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="http://wpa.qq.com/msgrd?v=3&uin=396736694&site=qq&menu=yes" title="QQ → http:&#x2F;&#x2F;wpa.qq.com&#x2F;msgrd?v&#x3D;3&amp;uin&#x3D;396736694&amp;site&#x3D;qq&amp;menu&#x3D;yes" rel="noopener me" target="_blank"><i class="qq fa-fw"></i>QQ</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:vanjay,dev@gmail.com" title="E-Mail → mailto:vanjay,dev@gmail.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
   </div>
 
-  <aside id="sidebar" class="sidebar">
+        </div>
+      </div>
+    </div>
+
     
-    <div class="sidebar-inner">
-
-      
-
-      
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
-            站点概览
-          </li>
+    <div class="sidebar-inner sidebar-blogroll">
+      <div class="links-of-blogroll animated">
+        <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+          链接
+        </div>
+        <ul class="links-of-blogroll-list">
+            <li class="links-of-blogroll-item">
+              <a href="https://www.vanjay.cn/" title="https:&#x2F;&#x2F;www.vanjay.cn" rel="noopener" target="_blank">VanJay</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://boxueio.com/" title="https:&#x2F;&#x2F;boxueio.com" rel="noopener" target="_blank">泊学网</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="http://www.smartisan.com/" title="http:&#x2F;&#x2F;www.smartisan.com&#x2F;" rel="noopener" target="_blank">锤子科技</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://objccn.io/" title="https:&#x2F;&#x2F;objccn.io&#x2F;" rel="noopener" target="_blank">ObjC中国</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://github.com/apple/swift-evolution" title="https:&#x2F;&#x2F;github.com&#x2F;apple&#x2F;swift-evolution" rel="noopener" target="_blank">Swift evolution</a>
+            </li>
         </ul>
-      
-
-      <section class="site-overview-wrap sidebar-panel">
-        <div class="site-overview">
-          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-            
-              <img class="site-author-image" itemprop="image"
-                src="/images/head.png"
-                alt="VanJay" />
-            
-              <p class="site-author-name" itemprop="name">VanJay</p>
-              <p class="site-description motion-element" itemprop="description"></p>
-          </div>
-
-          
-            <nav class="site-state motion-element">
-              
-                <div class="site-state-item site-state-posts">
-                
-                  <a href="/archives/">
-                
-                    <span class="site-state-item-count">41</span>
-                    <span class="site-state-item-name">日志</span>
-                  </a>
-                </div>
-              
-
-              
-                
-                
-                <div class="site-state-item site-state-categories">
-                  <a href="/categories/index.html">
-                    
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                    <span class="site-state-item-count">17</span>
-                    <span class="site-state-item-name">分类</span>
-                  </a>
-                </div>
-              
-
-              
-                
-                
-                <div class="site-state-item site-state-tags">
-                  <a href="/tags/index.html">
-                    
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                    <span class="site-state-item-count">77</span>
-                    <span class="site-state-item-name">标签</span>
-                  </a>
-                </div>
-              
-            </nav>
-          
-
-          
-            <div class="feed-link motion-element">
-              <a href="/atom.xml" rel="alternate">
-                <i class="fa fa-rss"></i>
-                RSS
-              </a>
-            </div>
-          
-
-          
-            <div class="links-of-author motion-element">
-              
-                <span class="links-of-author-item">
-                  <a href="https://github.com/wangwanjie" target="_blank" title="GitHub"><i class="fa fa-fw fa-github"></i>GitHub</a>
-                  
-                </span>
-              
-                <span class="links-of-author-item">
-                  <a href="https://twitter.com/wangwanjie" target="_blank" title="Twitter"><i class="fa fa-fw fa-twitter"></i>Twitter</a>
-                  
-                </span>
-              
-                <span class="links-of-author-item">
-                  <a href="http://www.weibo.com/2406245873/profile?topnav=1&wvr=6" target="_blank" title="微博"><i class="fa fa-fw fa-weibo"></i>微博</a>
-                  
-                </span>
-              
-                <span class="links-of-author-item">
-                  <a href="https://www.facebook.com/wangwanjie123" target="_blank" title="Facebook"><i class="fa fa-fw fa-facebook"></i>Facebook</a>
-                  
-                </span>
-              
-                <span class="links-of-author-item">
-                  <a href="http://wpa.qq.com/msgrd?v=3&uin=396736694&site=qq&menu=yes" target="_blank" title="QQ"><i class="fa fa-fw fa-qq"></i>QQ</a>
-                  
-                </span>
-              
-            </div>
-          
-
-          
-          
-
-          
-          
-            <div class="links-of-blogroll motion-element links-of-blogroll-block">
-              <div class="links-of-blogroll-title">
-                <i class="fa  fa-fw fa-link"></i>
-                友情链接
-              </div>
-              <ul class="links-of-blogroll-list">
-                
-                  <li class="links-of-blogroll-item">
-                    <a href="https://boxueio.com" title="泊学网" target="_blank">泊学网</a>
-                  </li>
-                
-                  <li class="links-of-blogroll-item">
-                    <a href="http://www.smartisan.com/" title="锤子科技" target="_blank">锤子科技</a>
-                  </li>
-                
-                  <li class="links-of-blogroll-item">
-                    <a href="https://objccn.io/" title="ObjC中国" target="_blank">ObjC中国</a>
-                  </li>
-                
-                  <li class="links-of-blogroll-item">
-                    <a href="https://github.com/apple/swift-evolution" title="Swift evolution" target="_blank">Swift evolution</a>
-                  </li>
-                
-              </ul>
-            </div>
-          
-
-          
-            
-          
-          
-
-        </div>
-      </section>
-
-      
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#效果图"><span class="nav-number">1.</span> <span class="nav-text">效果图</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#tabBarController-切换-selectedViewController-的动画添加"><span class="nav-number">2.</span> <span class="nav-text">tabBarController 切换 selectedViewController 的动画添加</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#点击-UITabBarItem添加动画效果"><span class="nav-number">3.</span> <span class="nav-text">点击 UITabBarItem添加动画效果</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Swift-5-版本"><span class="nav-number"></span> <span class="nav-text">Swift 5 版本</span></a></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
-      
-
-      
-
+      </div>
     </div>
   </aside>
 
 
-        
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://blog.vanjay.cn/2019/06/09/UITabBar-%E7%82%B9%E5%87%BB%E5%8A%A8%E7%94%BB%E4%B8%8E%E5%88%87%E6%8D%A2-VC-%E5%8A%A8%E7%94%BB%E5%AE%9E%E7%8E%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/head.png">
+      <meta itemprop="name" content="VanJay">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="VanJay's Blog">
+      <meta itemprop="description" content="成功不是将来才有的<br>而是决定去做的那一刻起<br>持续累积而成">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="UITabBar 点击动画与切换 VC 动画实现 | VanJay's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          UITabBar 点击动画与切换 VC 动画实现
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2019-06-09 15:15:25" itemprop="dateCreated datePublished" datetime="2019-06-09T15:15:25+08:00">2019-06-09</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2023-10-24 12:52:11" itemprop="dateModified" datetime="2023-10-24T12:52:11+08:00">2023-10-24</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/iOS-%E5%BC%80%E5%8F%91/" itemprop="url" rel="index"><span itemprop="name">iOS 开发</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>513</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>2 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><blockquote>
+<p>假如一个 APP 能带来良好的交互体验，那么它一定是”活的”。</p>
+</blockquote>
+<span id="more"></span>
+
+<h2 id="效果图"><a href="#效果图" class="headerlink" title="效果图"></a>效果图</h2><img src="/images/iOS/effect.gif"/>
+
+<p>show me the code.</p>
+<h2 id="tabBarController-切换-selectedViewController-的动画添加"><a href="#tabBarController-切换-selectedViewController-的动画添加" class="headerlink" title="tabBarController 切换 selectedViewController 的动画添加"></a>tabBarController 切换 selectedViewController 的动画添加</h2><pre class="line-numbers language-ObjC" data-language="ObjC"><code class="language-ObjC">- (BOOL)tabBarController:(UITabBarController *)tabBarController shouldSelectViewController:(UIViewController *)viewController &#123;
+    NSUInteger shouldSelectIndex &#x3D; [tabBarController.viewControllers indexOfObject:viewController];
+    if (tabBarController.selectedIndex &#x3D;&#x3D; shouldSelectIndex) &#123;
+        return YES;
+    &#125;
+
+    CATransition *animation &#x3D; [CATransition animation];
+    animation.duration &#x3D; 0.3;
+    animation.timingFunction &#x3D; [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+    animation.type &#x3D; kCATransitionPush;
+    if (tabBarController.selectedIndex &gt; shouldSelectIndex) &#123;
+        animation.subtype &#x3D; kCATransitionFromLeft;
+    &#125; else &#123;
+        animation.subtype &#x3D; kCATransitionFromRight;
+    &#125;
+    [[[tabBarController valueForKey:@&quot;_viewControllerTransitionView&quot;] layer] addAnimation:animation forKey:@&quot;animation&quot;];
+
+    return YES;
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h2 id="点击-UITabBarItem添加动画效果"><a href="#点击-UITabBarItem添加动画效果" class="headerlink" title="点击 UITabBarItem添加动画效果"></a>点击 UITabBarItem添加动画效果</h2><pre class="line-numbers language-ObjC" data-language="ObjC"><code class="language-ObjC">- (void)tabBar:(UITabBar *)tabBar didSelectItem:(UITabBarItem *)item &#123;
+    NSInteger index &#x3D; [self.tabBar.items indexOfObject:item];
+    [self animationWithIndex:index];
+&#125;
+
+#pragma mark - private methods
+- (void)animationWithIndex:(NSInteger)index &#123;
+    NSMutableArray *tabBarbuttonArray &#x3D; [NSMutableArray array];
+    &#x2F;&#x2F; 找到所有的 UITabBarButton
+    for (UIView *tabBarButton in self.tabBar.subviews) &#123;
+        if ([tabBarButton isKindOfClass:NSClassFromString(@&quot;UITabBarButton&quot;)]) &#123;
+            [tabBarbuttonArray addObject:tabBarButton];
+        &#125;
+    &#125;
+    &#x2F;&#x2F; tabBarButton 排序
+    [tabBarbuttonArray sortUsingComparator:^NSComparisonResult(UIView *_Nonnull obj1, UIView *_Nonnull obj2) &#123;
+        return CGRectGetMinX(obj1.frame) &gt; CGRectGetMinX(obj2.frame);
+    &#125;];
+
+    UIView *tabbarBtn &#x3D; tabBarbuttonArray[index];
+    &#x2F;&#x2F; 找到UITabBarButton中的imageView，加动画
+    for (UIView *sub in tabbarBtn.subviews) &#123;
+        if ([sub isKindOfClass:NSClassFromString(@&quot;UITabBarSwappableImageView&quot;)]) &#123;
+            [self preformAnimationForView:sub];
+        &#125;
+    &#125;
+&#125;
+
+- (void)preformAnimationForView:(UIView *)view &#123;
+    [view.layer addAnimation:[self scaleAnimation] forKey:nil];
+&#125;
+
+&#x2F;**
+ 重力效果弹跳
+ *&#x2F;
+- (CAKeyframeAnimation *)gravityElasticAnimation &#123;
+    CAKeyframeAnimation *animation &#x3D; [CAKeyframeAnimation animationWithKeyPath:@&quot;transform.translation.y&quot;];
+    animation.values &#x3D; @[@0.0, @-4.15, @-7.26, @-9.34, @-10.37, @-9.34, @-7.26, @-4.15, @0.0, @2.0, @-2.9, @-4.94, @-6.11, @-6.42, @-5.86, @-4.44, @-2.16, @0.0];
+    animation.duration &#x3D; 0.8;
+    animation.beginTime &#x3D; CACurrentMediaTime();
+    animation.removedOnCompletion &#x3D; YES;
+    return animation;
+&#125;
+
+&#x2F;**
+ 缩放动画
+ *&#x2F;
+- (CABasicAnimation *)scaleAnimation &#123;
+    CABasicAnimation *animation &#x3D; [CABasicAnimation animationWithKeyPath:@&quot;transform.scale&quot;];
+    animation.timingFunction &#x3D; [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+    animation.duration &#x3D; 0.2;
+    animation.repeatCount &#x3D; 1;
+    animation.removedOnCompletion &#x3D; YES;
+    animation.autoreverses &#x3D; YES;
+    animation.fromValue &#x3D; @1;
+    animation.toValue &#x3D; @[@0.7, @1];
+
+    return animation;
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h1 id="Swift-5-版本"><a href="#Swift-5-版本" class="headerlink" title="Swift 5 版本"></a>Swift 5 版本</h1><pre class="line-numbers language-swift" data-language="swift"><code class="language-swift"><span class="token keyword">extension</span> <span class="token class-name">BaseTabBarController</span><span class="token punctuation">:</span> <span class="token class-name">UITabBarControllerDelegate</span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">func</span> <span class="token function-definition function">tabBarController</span><span class="token punctuation">(</span><span class="token omit keyword">_</span> tabBarController<span class="token punctuation">:</span> <span class="token class-name">UITabBarController</span><span class="token punctuation">,</span> animationControllerForTransitionFrom <span class="token omit keyword">_</span><span class="token punctuation">:</span> <span class="token class-name">UIViewController</span><span class="token punctuation">,</span> to <span class="token omit keyword">_</span><span class="token punctuation">:</span> <span class="token class-name">UIViewController</span><span class="token punctuation">)</span> <span class="token operator">-></span> <span class="token class-name">UIViewControllerAnimatedTransitioning</span><span class="token operator">?</span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">return</span> <span class="token class-name">TabBarTransition</span><span class="token punctuation">(</span>viewControllers<span class="token punctuation">:</span> tabBarController<span class="token punctuation">.</span>viewControllers<span class="token punctuation">)</span>
+    <span class="token punctuation">&#125;</span>
+
+    <span class="token keyword">private</span> <span class="token keyword">var</span> scaleAnimation<span class="token punctuation">:</span> <span class="token class-name">CABasicAnimation</span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">let</span> animation <span class="token operator">=</span> <span class="token class-name">CABasicAnimation</span><span class="token punctuation">(</span>keyPath<span class="token punctuation">:</span> <span class="token string-literal"><span class="token string">"transform.scale"</span></span><span class="token punctuation">)</span>
+        animation<span class="token punctuation">.</span>timingFunction <span class="token operator">=</span> <span class="token class-name">CAMediaTimingFunction</span><span class="token punctuation">(</span>name<span class="token punctuation">:</span> <span class="token punctuation">.</span>easeInEaseOut<span class="token punctuation">)</span>
+        animation<span class="token punctuation">.</span>duration <span class="token operator">=</span> <span class="token number">0.2</span>
+        animation<span class="token punctuation">.</span>repeatCount <span class="token operator">=</span> <span class="token number">1</span>
+        animation<span class="token punctuation">.</span>isRemovedOnCompletion <span class="token operator">=</span> <span class="token boolean">true</span>
+        animation<span class="token punctuation">.</span>autoreverses <span class="token operator">=</span> <span class="token boolean">true</span>
+        animation<span class="token punctuation">.</span>fromValue <span class="token operator">=</span> <span class="token number">1</span>
+        animation<span class="token punctuation">.</span>toValue <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token number">0.7</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">]</span>
+
+        <span class="token keyword">return</span> animation
+    <span class="token punctuation">&#125;</span>
+
+    <span class="token keyword">override</span> <span class="token keyword">func</span> <span class="token function-definition function">tabBar</span><span class="token punctuation">(</span><span class="token omit keyword">_</span> tabBar<span class="token punctuation">:</span> <span class="token class-name">UITabBar</span><span class="token punctuation">,</span> didSelect item<span class="token punctuation">:</span> <span class="token class-name">UITabBarItem</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">let</span> orderedTabBarItemViews<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token class-name">UIView</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">&#123;</span>
+            <span class="token keyword">let</span> interactionViews <span class="token operator">=</span> tabBar<span class="token punctuation">.</span>subviews<span class="token punctuation">.</span>filter <span class="token punctuation">&#123;</span> <span class="token short-argument">$0</span> <span class="token keyword">is</span> <span class="token class-name">UIControl</span> <span class="token punctuation">&#125;</span>
+            <span class="token keyword">return</span> interactionViews<span class="token punctuation">.</span><span class="token function">sorted</span><span class="token punctuation">(</span>by<span class="token punctuation">:</span> <span class="token punctuation">&#123;</span> <span class="token short-argument">$0</span><span class="token punctuation">.</span>frame<span class="token punctuation">.</span>minX <span class="token operator">&lt;</span> <span class="token short-argument">$1</span><span class="token punctuation">.</span>frame<span class="token punctuation">.</span>minX <span class="token punctuation">&#125;</span><span class="token punctuation">)</span>
+        <span class="token punctuation">&#125;</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+        <span class="token keyword">guard</span>
+            <span class="token keyword">let</span> index <span class="token operator">=</span> <span class="token keyword">self</span><span class="token punctuation">.</span>tabBar<span class="token punctuation">.</span>items<span class="token operator">?</span><span class="token punctuation">.</span><span class="token function">firstIndex</span><span class="token punctuation">(</span>of<span class="token punctuation">:</span> item<span class="token punctuation">)</span><span class="token punctuation">,</span>
+            <span class="token keyword">let</span> imageView <span class="token operator">=</span> orderedTabBarItemViews<span class="token punctuation">[</span>index<span class="token punctuation">]</span><span class="token punctuation">.</span>subviews<span class="token punctuation">.</span>first <span class="token keyword">as</span><span class="token operator">?</span> <span class="token class-name">UIImageView</span>
+        <span class="token keyword">else</span> <span class="token punctuation">&#123;</span>
+            <span class="token keyword">return</span>
+        <span class="token punctuation">&#125;</span>
+
+        <span class="token comment">// 找到UITabBarButton中的imageView，加动画</span>
+        imageView<span class="token punctuation">.</span>layer<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>scaleAnimation<span class="token punctuation">,</span> forKey<span class="token punctuation">:</span> <span class="token nil constant">nil</span><span class="token punctuation">)</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>TabBarTransition.swift:</p>
+<pre class="line-numbers language-swift" data-language="swift"><code class="language-swift"><span class="token comment">//</span>
+<span class="token comment">//  TabBarTransition.swift</span>
+<span class="token comment">//  ViPay</span>
+<span class="token comment">//</span>
+<span class="token comment">//  Created by VanJay on 2019/6/30.</span>
+<span class="token comment">//  Copyright © 2019 VanJay. All rights reserved.</span>
+<span class="token comment">//</span>
+
+<span class="token keyword">import</span> <span class="token class-name">UIKit</span>
+
+<span class="token keyword">class</span> <span class="token class-name">TabBarTransition</span><span class="token punctuation">:</span> <span class="token class-name">NSObject</span><span class="token punctuation">,</span> <span class="token class-name">UIViewControllerAnimatedTransitioning</span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">let</span> viewControllers<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token class-name">UIViewController</span><span class="token punctuation">]</span><span class="token operator">?</span>
+    <span class="token keyword">let</span> transitionDuration<span class="token punctuation">:</span> <span class="token class-name">TimeInterval</span> <span class="token operator">=</span> <span class="token number">0.3</span>
+
+    <span class="token keyword">init</span><span class="token punctuation">(</span>viewControllers<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token class-name">UIViewController</span><span class="token punctuation">]</span><span class="token operator">?</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">self</span><span class="token punctuation">.</span>viewControllers <span class="token operator">=</span> viewControllers
+    <span class="token punctuation">&#125;</span>
+
+    <span class="token keyword">func</span> <span class="token function-definition function">transitionDuration</span><span class="token punctuation">(</span>using <span class="token omit keyword">_</span><span class="token punctuation">:</span> <span class="token class-name">UIViewControllerContextTransitioning</span><span class="token operator">?</span><span class="token punctuation">)</span> <span class="token operator">-></span> <span class="token class-name">TimeInterval</span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">return</span> transitionDuration
+    <span class="token punctuation">&#125;</span>
+
+    <span class="token keyword">func</span> <span class="token function-definition function">animateTransition</span><span class="token punctuation">(</span>using transitionContext<span class="token punctuation">:</span> <span class="token class-name">UIViewControllerContextTransitioning</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">guard</span>
+            <span class="token keyword">let</span> fromVC <span class="token operator">=</span> transitionContext<span class="token punctuation">.</span><span class="token function">viewController</span><span class="token punctuation">(</span>forKey<span class="token punctuation">:</span> <span class="token class-name">UITransitionContextViewControllerKey</span><span class="token punctuation">.</span>from<span class="token punctuation">)</span><span class="token punctuation">,</span>
+            <span class="token keyword">let</span> fromView <span class="token operator">=</span> fromVC<span class="token punctuation">.</span>view<span class="token punctuation">,</span>
+            <span class="token keyword">let</span> fromIndex <span class="token operator">=</span> <span class="token function">getIndex</span><span class="token punctuation">(</span>forViewController<span class="token punctuation">:</span> fromVC<span class="token punctuation">)</span><span class="token punctuation">,</span>
+            <span class="token keyword">let</span> toVC <span class="token operator">=</span> transitionContext<span class="token punctuation">.</span><span class="token function">viewController</span><span class="token punctuation">(</span>forKey<span class="token punctuation">:</span> <span class="token class-name">UITransitionContextViewControllerKey</span><span class="token punctuation">.</span>to<span class="token punctuation">)</span><span class="token punctuation">,</span>
+            <span class="token keyword">let</span> toView <span class="token operator">=</span> toVC<span class="token punctuation">.</span>view<span class="token punctuation">,</span>
+            <span class="token keyword">let</span> toIndex <span class="token operator">=</span> <span class="token function">getIndex</span><span class="token punctuation">(</span>forViewController<span class="token punctuation">:</span> toVC<span class="token punctuation">)</span>
+        <span class="token keyword">else</span> <span class="token punctuation">&#123;</span>
+            transitionContext<span class="token punctuation">.</span><span class="token function">completeTransition</span><span class="token punctuation">(</span><span class="token boolean">false</span><span class="token punctuation">)</span>
+            <span class="token keyword">return</span>
+        <span class="token punctuation">&#125;</span>
+
+        <span class="token keyword">let</span> frame <span class="token operator">=</span> transitionContext<span class="token punctuation">.</span><span class="token function">initialFrame</span><span class="token punctuation">(</span><span class="token keyword">for</span><span class="token punctuation">:</span> fromVC<span class="token punctuation">)</span>
+        <span class="token keyword">var</span> fromFrameEnd <span class="token operator">=</span> frame
+        <span class="token keyword">var</span> toFrameStart <span class="token operator">=</span> frame
+        fromFrameEnd<span class="token punctuation">.</span>origin<span class="token punctuation">.</span>x <span class="token operator">=</span> toIndex <span class="token operator">></span> fromIndex <span class="token operator">?</span> frame<span class="token punctuation">.</span>origin<span class="token punctuation">.</span>x <span class="token operator">-</span> frame<span class="token punctuation">.</span>width <span class="token punctuation">:</span> frame<span class="token punctuation">.</span>origin<span class="token punctuation">.</span>x <span class="token operator">+</span> frame<span class="token punctuation">.</span>width
+        toFrameStart<span class="token punctuation">.</span>origin<span class="token punctuation">.</span>x <span class="token operator">=</span> toIndex <span class="token operator">></span> fromIndex <span class="token operator">?</span> frame<span class="token punctuation">.</span>origin<span class="token punctuation">.</span>x <span class="token operator">+</span> frame<span class="token punctuation">.</span>width <span class="token punctuation">:</span> frame<span class="token punctuation">.</span>origin<span class="token punctuation">.</span>x <span class="token operator">-</span> frame<span class="token punctuation">.</span>width
+        toView<span class="token punctuation">.</span>frame <span class="token operator">=</span> toFrameStart
+
+        <span class="token class-name">DispatchQueue</span><span class="token punctuation">.</span>main<span class="token punctuation">.</span><span class="token keyword">async</span> <span class="token punctuation">&#123;</span>
+            transitionContext<span class="token punctuation">.</span>containerView<span class="token punctuation">.</span><span class="token function">addSubview</span><span class="token punctuation">(</span>toView<span class="token punctuation">)</span>
+            <span class="token class-name">UIView</span><span class="token punctuation">.</span><span class="token function">animate</span><span class="token punctuation">(</span>withDuration<span class="token punctuation">:</span> <span class="token keyword">self</span><span class="token punctuation">.</span>transitionDuration<span class="token punctuation">,</span> animations<span class="token punctuation">:</span> <span class="token punctuation">&#123;</span>
+                fromView<span class="token punctuation">.</span>frame <span class="token operator">=</span> fromFrameEnd
+                toView<span class="token punctuation">.</span>frame <span class="token operator">=</span> frame
+            <span class="token punctuation">&#125;</span><span class="token punctuation">,</span> completion<span class="token punctuation">:</span> <span class="token punctuation">&#123;</span> success <span class="token keyword">in</span>
+                fromView<span class="token punctuation">.</span><span class="token function">removeFromSuperview</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+                transitionContext<span class="token punctuation">.</span><span class="token function">completeTransition</span><span class="token punctuation">(</span>success<span class="token punctuation">)</span>
+            <span class="token punctuation">&#125;</span><span class="token punctuation">)</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span>
+
+    <span class="token keyword">private</span> <span class="token keyword">func</span> <span class="token function-definition function">getIndex</span><span class="token punctuation">(</span>forViewController vc<span class="token punctuation">:</span> <span class="token class-name">UIViewController</span><span class="token punctuation">)</span> <span class="token operator">-></span> <span class="token class-name">Int</span><span class="token operator">?</span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">guard</span> <span class="token keyword">let</span> vcs <span class="token operator">=</span> <span class="token keyword">self</span><span class="token punctuation">.</span>viewControllers <span class="token keyword">else</span> <span class="token punctuation">&#123;</span> <span class="token keyword">return</span> <span class="token nil constant">nil</span> <span class="token punctuation">&#125;</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span>index<span class="token punctuation">,</span> thisVC<span class="token punctuation">)</span> <span class="token keyword">in</span> vcs<span class="token punctuation">.</span><span class="token function">enumerated</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+            <span class="token keyword">if</span> thisVC <span class="token operator">==</span> vc <span class="token punctuation">&#123;</span> <span class="token keyword">return</span> index <span class="token punctuation">&#125;</span>
+        <span class="token punctuation">&#125;</span>
+        <span class="token keyword">return</span> <span class="token nil constant">nil</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="reward-container">
+  <div>对你有帮助？您的支持将更加鼓励我继续创作！</div>
+  <button>
+    打赏
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/images/wechatpay.png" alt="VanJay 微信">
+        <span>微信</span>
       </div>
-    </main>
+      <div>
+        <img src="/images/alipay.jpg" alt="VanJay 支付宝">
+        <span>支付宝</span>
+      </div>
 
-    <footer id="footer" class="footer">
-      <div class="footer-inner">
-        <div class="copyright">&copy; 2013 – <span itemprop="copyrightYear">2023</span>
-  <span class="with-love" id="animate">
-    <i class="fa fa-heart"></i>
-  </span>
-  <span class="author" itemprop="copyrightHolder">VanJay</span>
+  </div>
+</div>
 
-  
-    <span class="post-meta-divider">|</span>
-    <span class="post-meta-item-icon">
-      <i class="fa fa-area-chart"></i>
-    </span>
-    
-      <span class="post-meta-item-text">站点总字数：</span>
-    
-    <span title="站点总字数">251k</span>
-  
+          <div class="followme">
+  <span>欢迎关注我的其它发布渠道</span>
 
-  
-    <span class="post-meta-divider">|</span>
-    <span class="post-meta-item-icon">
-      <i class="fa fa-coffee"></i>
-    </span>
-    
-      <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
-    
-    <span title="站点阅读时长">3:48</span>
-  
+  <div class="social-list">
+
+      <div class="social-item">
+          <a target="_blank" class="social-link" href="/atom.xml">
+            <span class="icon">
+              <i class="fa fa-rss"></i>
+            </span>
+
+            <span class="label">RSS</span>
+          </a>
+      </div>
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/iOS/" rel="tag"># iOS</a>
+              <a href="/tags/UITabBar/" rel="tag"># UITabBar</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2019/04/01/cocoapods-%E7%A7%81%E6%9C%89%E5%BA%93%E7%9A%84%E6%90%AD%E5%BB%BA%E5%92%8C%E4%BD%BF%E7%94%A8/" rel="prev" title="cocoapods 私有库的搭建和使用">
+                  <i class="fa fa-chevron-left"></i> cocoapods 私有库的搭建和使用
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2019/06/29/%E6%8A%93%E5%8F%96-App-Store%E5%92%8C-Google-Play-%E5%BA%94%E7%94%A8%E8%AF%84%E8%AE%BA%E5%B9%B6%E5%86%99%E5%85%A5-Excel/" rel="next" title="抓取 App Store和 Google Play 应用评论并写入 Excel">
+                  抓取 App Store和 Google Play 应用评论并写入 Excel <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
 </div>
 
 
 
 
-  <script async src="https://busuanzi.icodeq.com/busuanzi.pure.mini.js"></script>
-  <div class="powered-by">
-      <i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
-      本站访客数:<span id="busuanzi_value_site_uv"></span>
+
+
+    <div class="comments" id="lv-container" data-id="city" data-uid="MTAyMC80MDA5MC8xNjYxNw=="></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2013 – 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">&copy VanJay</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
     </span>
+    <span title="站点总字数">64k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">3:53</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/mist/" rel="noopener" target="_blank">NexT.Mist</a> 强力驱动
   </div>
-  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动 从❤️出发 </div>
 
-
-
-  <span class="post-meta-divider">|</span>
-
-
-
-  <div class="theme-info">主题 – <a class="theme-link" target="_blank" href="https://theme-next.org">NexT.Mist</a></div>
-
-
-
-
-        
-
-
-
-
-
-
-
-
-        
-      </div>
-    </footer>
-
-    
-      <div class="back-to-top">
-        <i class="fa fa-arrow-up"></i>
-        
-      </div>
-    
-
-    
-
-    
-
-    
-  </div>
+    </div>
+  </footer>
 
   
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+  <a href="https://github.com/wangwanjie" class="github-corner" title="在 GitHub 上关注我" aria-label="在 GitHub 上关注我" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js" integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js" integrity="sha256-yt2kYMy0w8AbtF89WXb2P1rfjcP/HTHLT7097U8Y5b8=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+  <script src="/js/third-party/fancybox.js"></script>
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script src="/js/third-party/comments/livere.js"></script>
+ <!-- 页面点击小红心 -->
 
 <script type="text/javascript">
-  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
-    window.Promise = null;
-  }
+!function(e,t,a){function r(){for(var e=0;e<n.length;e++)n[e].alpha<=0?(t.body.removeChild(n[e].el),n.splice(e,1)):(n[e].y--,n[e].scale+=.004,n[e].alpha-=.013,n[e].el.style.cssText="left:"+n[e].x+"px;top:"+n[e].y+"px;opacity:"+n[e].alpha+";transform:scale("+n[e].scale+","+n[e].scale+") rotate(45deg);background:"+n[e].color+";z-index:99999");requestAnimationFrame(r)}var n=[];e.requestAnimationFrame=e.requestAnimationFrame||e.webkitRequestAnimationFrame||e.mozRequestAnimationFrame||e.oRequestAnimationFrame||e.msRequestAnimationFrame||function(e){setTimeout(e,1e3/60)},function(e){var a=t.createElement("style");a.type="text/css";try{a.appendChild(t.createTextNode(e))}catch(t){a.styleSheet.cssText=e}t.getElementsByTagName("head")[0].appendChild(a)}(".heart{width: 10px;height: 10px;position: fixed;background: #f00;transform: rotate(45deg);-webkit-transform: rotate(45deg);-moz-transform: rotate(45deg);}.heart:after,.heart:before{content: '';width: inherit;height: inherit;background: inherit;border-radius: 50%;-webkit-border-radius: 50%;-moz-border-radius: 50%;position: fixed;}.heart:after{top: -5px;}.heart:before{left: -5px;}"),function(){var a="function"==typeof e.onclick&&e.onclick;e.onclick=function(e){a&&a(),function(e){var a=t.createElement("div");a.className="heart",n.push({el:a,x:e.clientX-5,y:e.clientY-5,scale:1,alpha:1,color:"rgb("+~~(255*Math.random())+","+~~(255*Math.random())+","+~~(255*Math.random())+")"}),t.body.appendChild(a)}(e)}}(),r()}(window,document);
 </script>
 
 
-
-
-
-
-
-
-
-
-
-
-  
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-
-
-
-  
-  
-    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
-  
-
-  
-  
-    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
-  
-
-  
-  
-    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
-  
-
-  
-  
-    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
-  
-
-  
-  
-    <script type="text/javascript" src="/lib/reading_progress/reading_progress.js"></script>
-  
-
-
-  
-
-
-  <script type="text/javascript" src="/js/src/utils.js?v=6.4.2"></script>
-
-  <script type="text/javascript" src="/js/src/motion.js?v=6.4.2"></script>
-
-
-
-  
-
-
-
-  
-  
-
-  
-  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.4.2"></script>
-<script type="text/javascript" src="/js/src/post-details.js?v=6.4.2"></script>
-
-
-
-  
-
-
-  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.4.2"></script>
-
-
-
-  
-
-
-
-  
-    <script type="text/javascript">
-      window.livereOptions = {
-        refer: '2019/06/09/UITabBar-点击动画与切换-VC-动画实现/'
-      };
-      (function(d, s) {
-        var j, e = d.getElementsByTagName(s)[0];
-        if (typeof LivereTower === 'function') { return; }
-        j = d.createElement(s);
-        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
-        j.async = true;
-        e.parentNode.insertBefore(j, e);
-      })(document, 'script');
-    </script>
-  
-
-
-
-
-
-
-
-
-
-
-  
-
-  <script type="text/javascript">
-    // Popup Window;
-    var isfetched = false;
-    var isXml = true;
-    // Search DB path;
-    var search_path = "search.xml";
-    if (search_path.length === 0) {
-      search_path = "search.xml";
-    } else if (/json$/i.test(search_path)) {
-      isXml = false;
-    }
-    var path = "/" + search_path;
-    // monitor main search box;
-
-    var onPopupClose = function (e) {
-      $('.popup').hide();
-      $('#local-search-input').val('');
-      $('.search-result-list').remove();
-      $('#no-result').remove();
-      $(".local-search-pop-overlay").remove();
-      $('body').css('overflow', '');
-    }
-
-    function proceedsearch() {
-      $("body")
-        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
-        .css('overflow', 'hidden');
-      $('.search-popup-overlay').click(onPopupClose);
-      $('.popup').toggle();
-      var $localSearchInput = $('#local-search-input');
-      $localSearchInput.attr("autocapitalize", "none");
-      $localSearchInput.attr("autocorrect", "off");
-      $localSearchInput.focus();
-    }
-
-    // search function;
-    var searchFunc = function(path, search_id, content_id) {
-      'use strict';
-
-      // start loading animation
-      $("body")
-        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
-          '<div id="search-loading-icon">' +
-          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
-          '</div>' +
-          '</div>')
-        .css('overflow', 'hidden');
-      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
-
-      
-
-      $.ajax({
-        url: path,
-        dataType: isXml ? "xml" : "json",
-        async: true,
-        success: function(res) {
-          // get the contents from search data
-          isfetched = true;
-          $('.popup').detach().appendTo('.header-inner');
-          var datas = isXml ? $("entry", res).map(function() {
-            return {
-              title: $("title", this).text(),
-              content: $("content",this).text(),
-              url: $("url" , this).text()
+<script type="text/javascript">
+/*页面载入完成后，修改手机上跳转 github 样式 */
+!function (e, t, a) {
+    var browser = {
+        versions: function () {
+            var u = navigator.userAgent,
+                app = navigator.appVersion;
+            return { //移动终端浏览器版本信息
+                trident: u.indexOf('Trident') > -1, //IE内核
+                presto: u.indexOf('Presto') > -1, //opera内核
+                webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
+                gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
+                mobile: !!u.match(/AppleWebKit.*Mobile.*/), // || !!u.match(/AppleWebKit/), //是否为移动终端
+                ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+                android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
+                iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者QQHD浏览器
+                iPad: u.indexOf('iPad') > -1, //是否iPad
+                webApp: u.indexOf('Safari') == -1
+                //是否web应该程序，没有头部与底部
             };
-          }).get() : res;
-          var input = document.getElementById(search_id);
-          var resultContent = document.getElementById(content_id);
-          var inputEventFunction = function() {
-            var searchText = input.value.trim().toLowerCase();
-            var keywords = searchText.split(/[\s\-]+/);
-            if (keywords.length > 1) {
-              keywords.push(searchText);
-            }
-            var resultItems = [];
-            if (searchText.length > 0) {
-              // perform local searching
-              datas.forEach(function(data) {
-                var isMatch = false;
-                var hitCount = 0;
-                var searchTextCount = 0;
-                var title = data.title.trim();
-                var titleInLowerCase = title.toLowerCase();
-                var content = data.content.trim().replace(/<[^>]+>/g,"");
-                
-                var contentInLowerCase = content.toLowerCase();
-                var articleUrl = decodeURIComponent(data.url);
-                var indexOfTitle = [];
-                var indexOfContent = [];
-                // only match articles with not empty titles
-                if(title != '') {
-                  keywords.forEach(function(keyword) {
-                    function getIndexByWord(word, text, caseSensitive) {
-                      var wordLen = word.length;
-                      if (wordLen === 0) {
-                        return [];
-                      }
-                      var startPosition = 0, position = [], index = [];
-                      if (!caseSensitive) {
-                        text = text.toLowerCase();
-                        word = word.toLowerCase();
-                      }
-                      while ((position = text.indexOf(word, startPosition)) > -1) {
-                        index.push({position: position, word: word});
-                        startPosition = position + wordLen;
-                      }
-                      return index;
-                    }
+        }(),
+        language: (navigator.browserLanguage || navigator.language).toLowerCase()
+    }
 
-                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
-                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
-                  });
-                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
-                    isMatch = true;
-                    hitCount = indexOfTitle.length + indexOfContent.length;
-                  }
-                }
+    function setDynamicBackground() {
+        $('body').css({
+            'background': 'url(https://source.unsplash.com/random/1600x900)',
+            'background-attachment': 'fixed',
+            'background-repeat': 'repeat',
+            'background-size': 'contain'
+        });
+        $('.main-inner').css({
+            'margin-top': '60px',
+            'padding': '60px 60px 0px 60px',
+            'background': '#fff',
+            'opacity': '0.8',
+            'min-height': '500px'
+        });
+        $('.page-home .main-inner').css({
+            'padding-bottom': '60px',
+        });
+        $('.header').css({
+            'background': 'transparent',
+            'color': '#fff'
+        });
+        $('.footer').css({
+            'background': 'transparent',
+            'color': '#fff'
+        });
 
-                // show search results
-
-                if (isMatch) {
-                  // sort index by position of keyword
-
-                  [indexOfTitle, indexOfContent].forEach(function (index) {
-                    index.sort(function (itemLeft, itemRight) {
-                      if (itemRight.position !== itemLeft.position) {
-                        return itemRight.position - itemLeft.position;
-                      } else {
-                        return itemLeft.word.length - itemRight.word.length;
-                      }
-                    });
-                  });
-
-                  // merge hits into slices
-
-                  function mergeIntoSlice(text, start, end, index) {
-                    var item = index[index.length - 1];
-                    var position = item.position;
-                    var word = item.word;
-                    var hits = [];
-                    var searchTextCountInSlice = 0;
-                    while (position + word.length <= end && index.length != 0) {
-                      if (word === searchText) {
-                        searchTextCountInSlice++;
-                      }
-                      hits.push({position: position, length: word.length});
-                      var wordEnd = position + word.length;
-
-                      // move to next position of hit
-
-                      index.pop();
-                      while (index.length != 0) {
-                        item = index[index.length - 1];
-                        position = item.position;
-                        word = item.word;
-                        if (wordEnd > position) {
-                          index.pop();
-                        } else {
-                          break;
-                        }
-                      }
-                    }
-                    searchTextCount += searchTextCountInSlice;
-                    return {
-                      hits: hits,
-                      start: start,
-                      end: end,
-                      searchTextCount: searchTextCountInSlice
-                    };
-                  }
-
-                  var slicesOfTitle = [];
-                  if (indexOfTitle.length != 0) {
-                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
-                  }
-
-                  var slicesOfContent = [];
-                  while (indexOfContent.length != 0) {
-                    var item = indexOfContent[indexOfContent.length - 1];
-                    var position = item.position;
-                    var word = item.word;
-                    // cut out 100 characters
-                    var start = position - 20;
-                    var end = position + 80;
-                    if(start < 0){
-                      start = 0;
-                    }
-                    if (end < position + word.length) {
-                      end = position + word.length;
-                    }
-                    if(end > content.length){
-                      end = content.length;
-                    }
-                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
-                  }
-
-                  // sort slices in content by search text's count and hits' count
-
-                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
-                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
-                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
-                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
-                      return sliceRight.hits.length - sliceLeft.hits.length;
-                    } else {
-                      return sliceLeft.start - sliceRight.start;
-                    }
-                  });
-
-                  // select top N slices in content
-
-                  var upperBound = parseInt('1');
-                  if (upperBound >= 0) {
-                    slicesOfContent = slicesOfContent.slice(0, upperBound);
-                  }
-
-                  // highlight title and content
-
-                  function highlightKeyword(text, slice) {
-                    var result = '';
-                    var prevEnd = slice.start;
-                    slice.hits.forEach(function (hit) {
-                      result += text.substring(prevEnd, hit.position);
-                      var end = hit.position + hit.length;
-                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
-                      prevEnd = end;
-                    });
-                    result += text.substring(prevEnd, slice.end);
-                    return result;
-                  }
-
-                  var resultItem = '';
-
-                  if (slicesOfTitle.length != 0) {
-                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
-                  } else {
-                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
-                  }
-
-                  slicesOfContent.forEach(function (slice) {
-                    resultItem += "<a href='" + articleUrl + "'>" +
-                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
-                      "...</p>" + "</a>";
-                  });
-
-                  resultItem += "</li>";
-                  resultItems.push({
-                    item: resultItem,
-                    searchTextCount: searchTextCount,
-                    hitCount: hitCount,
-                    id: resultItems.length
-                  });
-                }
-              })
-            };
-            if (keywords.length === 1 && keywords[0] === "") {
-              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
-            } else if (resultItems.length === 0) {
-              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
-            } else {
-              resultItems.sort(function (resultLeft, resultRight) {
-                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
-                  return resultRight.searchTextCount - resultLeft.searchTextCount;
-                } else if (resultLeft.hitCount !== resultRight.hitCount) {
-                  return resultRight.hitCount - resultLeft.hitCount;
-                } else {
-                  return resultRight.id - resultLeft.id;
-                }
-              });
-              var searchResultList = '<ul class=\"search-result-list\">';
-              resultItems.forEach(function (result) {
-                searchResultList += result.item;
-              })
-              searchResultList += "</ul>";
-              resultContent.innerHTML = searchResultList;
-            }
-          }
-
-          if ('auto' === 'auto') {
-            input.addEventListener('input', inputEventFunction);
-          } else {
-            $('.search-icon').click(inputEventFunction);
-            input.addEventListener('keypress', function (event) {
-              if (event.keyCode === 13) {
-                inputEventFunction();
-              }
+        $('.footer-inner .theme-link').css('color', '#EEE');
+    }
+    function setSquareCellBackground(isMobile) {
+        $('body').css({
+            'background-image': 'url("/images/background_cell.png")',
+            'background-position': 'center center',
+            'background-size': 'auto',
+            'background-repeat': 'repeat',
+            'background-attachment': 'fixed'
+        });
+        if (!isMobile) {
+            $('.main-inner').css({
+                'margin-top': '60px',
+                'padding': '60px 60px 0px 60px',
+                'opacity': '0.8',
+                'min-height': '500px'
             });
-          }
-
-          // remove loading animation
-          $(".local-search-pop-overlay").remove();
-          $('body').css('overflow', '');
-
-          proceedsearch();
+            $('.page-home .main-inner').css({
+                'padding-bottom': '60px',
+            });
         }
-      });
+        $('.header').css({
+            'background': 'transparent',
+        });
+        $('.footer').css({
+            'background': 'transparent',
+        });
+    }
+    function setMobileBackgroun() {
+        $('.header').css({
+            'background': 'linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("https://s1.ax1x.com/2018/06/09/CbDIIO.jpg") no-repeat',
+            'background-size': 'cover',
+            'background-color': 'black',
+            'background-position': 'center',
+            'width': '100%',
+            'display': 'table'
+        })
+
+        $('.site-nav-toggle .btn-bar').css('background', '#fff');
     }
 
-    // handle and trigger popup window;
-    $('.popup-trigger').click(function(e) {
-      e.stopPropagation();
-      if (isfetched === false) {
-        searchFunc(path, 'local-search-input', 'local-search-result');
-      } else {
-        proceedsearch();
-      };
-    });
-
-    $('.popup-btn-close').click(onPopupClose);
-    $('.popup').click(function(e){
-      e.stopPropagation();
-    });
-    $(document).on('keyup', function (event) {
-      var shouldDismissSearchPopup = event.which === 27 &&
-        $('.search-popup').is(':visible');
-      if (shouldDismissSearchPopup) {
-        onPopupClose();
-      }
-    });
-  </script>
-
-
-
-
-
-  
-
-  
-  <script>
-    
-    function addCount(Counter) {
-      var $visitors = $(".leancloud_visitors");
-      var url = $visitors.attr('id').trim();
-      var title = $visitors.attr('data-flag-title').trim();
-
-      Counter('get', '/classes/Counter', { where: JSON.stringify({ url }) })
-        .done(function ({ results }) {
-          if (results.length > 0) {
-            var counter = results[0];
-            
-            Counter('put', `/classes/Counter/${counter.objectId}`, JSON.stringify({ time: { "__op":"Increment", "amount":1 } }))
-            
-            .done(function () {
-                  var $element = $(document.getElementById(url));
-                  $element.find('.leancloud-visitors-count').text(counter.time + 1);
-            })
-            
-            .fail(function ({ responseJSON }) {
-                console.log('Failed to save Visitor num, with error message: ' + responseJSON.error);
-            })
-          } else {
-            
-              Counter('post', '/classes/Counter', JSON.stringify({ title: title, url: url, time: 1}))
-                .done(function () {
-                  var $element = $(document.getElementById(url));
-                  $element.find('.leancloud-visitors-count').text(1);
-                })
-                .fail(function () {
-                  console.log('Failed to create');
-                });
-            
-          }
-        })
-      .fail(function ({ responseJSON }) {
-        console.log('LeanCloud Counter Error:' + responseJSON.code + " " + responseJSON.error);
-      });
+    function settingBackground () {
+        if (browser.versions.mobile) {
+            setSquareCellBackground(true);
+        } else {
+            // setDynamicBackground();
+            setSquareCellBackground(false);
+        }
     }
-    
+    if (browser.versions.mobile) {
+        var headerStr = '<div class="site-nav-toggle">' +
+            '    <button aria-label="切换导航栏">' +
+            '      <span class="btn-bar"></span>' +
+            '      <span class="btn-bar"></span>' +
+            '      <span class="btn-bar"></span>' +
+            '    </button>' +
+            '  </div>' +
+            '  <div class="site-meta ">' +
+            '    <div class="custom-logo-site-title">' +
+            '      <a href="/" class="brand" rel="start" style="opacity: 1;">' +
+            '        <span class="logo-line-before"><i class="" style="transform: translateX(100%);"></i></span>' +
+            '        <span class="site-title" style="opacity: 1; top: 0px;">VanJay\'s Blog</span>' +
+            '        <span class="logo-line-after"><i class="" style="transform: translateX(-100%);"></i></span>' +
+            '      </a>' +
+            '    </div>' +
+            '        <p class="site-subtitle" style="opacity: 1; top: 0px;">一个爱折腾工程师的全栈梦</p>' +
+            '  </div>';
+        $('.header .site-brand-wrapper').html(headerStr);
+    }
+    // 设置背景
+    settingBackground();
 
-    $(function() {
-      $.get('https://app-router.leancloud.cn/2/route?appId=' + "ftmd6Qz8JIuEqadbKNDX62Sv-gzGzoHsz")
-        .done(function ({ api_server }) {
-          var Counter = function (method, url, data) {
-            return $.ajax({
-              method: method,
-              url: `https://${api_server}/1.1${url}`,
-              headers: {
-                'X-LC-Id': "ftmd6Qz8JIuEqadbKNDX62Sv-gzGzoHsz",
-                'X-LC-Key': "Bf55iVdUR8NPPHlSxEt30XbD",
-                'Content-Type': 'application/json',
-              },
-              data: data,
-            });
-          };
-          
-          addCount(Counter);
-          
-        })
-    });
-  </script>
-
-
-
-  
-
-  
-
-  
-
-  
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-
-  
-      <!-- 页面点击小红心 -->
-      <script type="text/javascript" src="/js/src/love.js"></script>
-  
-
-  <!-- 代码块复制功能 -->
-  <script type="text/javascript" src="/js/src/clipboard.min.js"></script>
-  <script type="text/javascript" src="/js/src/copy_code.js"></script>
-
-  <!-- github 链接 -->
-  <a target="_blank" href="https://github.com/wangwanjie" class="github-corner" aria-label="View source on GitHub"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#FD6C6C; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
-
-  <!-- 自定义 JS -->
-  <script type="text/javascript" src="/js/src/custom.js"></script>
-
-  <!-- 宠物 -->
-  <script src="/live2dw/lib/L2Dwidget.min.js?0c58a1486de42ac6cc1c59c7d98ae887"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":true,"log":false,"model":{"jsonPath":"/live2dw/assets/wanko.model.json"},"display":{"superSample":2,"width":150,"height":300,"position":"right","hOffset":-30,"vOffset":-180},"mobile":{"show":false,"scale":0.5},"react":{"opacityDefault":0.7,"opacityOnHover":0.2}});</script>
+}(window, document);
+</script>
 </body>
 </html>

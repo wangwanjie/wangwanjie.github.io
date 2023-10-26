@@ -6,5 +6,5 @@ Disallow: /css/
 Disallow: /fonts/
 Disallow: /vendors/
 Disallow: /fancybox/
-Sitemap: https://www.vanjay.cn/sitemap.xml
-Sitemap: https://www.vanjay.cn/baidusitemap.xml
+Sitemap: https://blog.vanjay.cn/sitemap.xml
+Sitemap: https://blog.vanjay.cn/baidusitemap.xml
