@@ -3232,6 +3232,50 @@ end<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span>
       </tags>
   </entry>
   <entry>
+    <title>docker hud 拉取镜像慢解决办法</title>
+    <url>/2023/11/17/docker-hud-%E6%8B%89%E5%8F%96%E9%95%9C%E5%83%8F%E6%85%A2%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/</url>
+    <content><![CDATA[<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>在日常的Docker使用中，我们可能会遇到一个常见的问题：在特定机器上拉取Docker镜像非常缓慢，甚至无法连接到外网。这种情况通常发生在网络限制较多的环境中，如一些公司的内部网络或地理位置较偏远的区域。但幸运的是，如果我们手头有一台可以“翻墙”并访问外网的本地机器，就可以采用一种曲线救国的方法来解决这个问题。本文将介绍如何通过skopeo工具，高效地在本地机器上拉取Docker镜像，并将其迁移到目标机器上。</p>
+<span id="more"></span>
+
+<h2 id="尝试过的解决方案"><a href="#尝试过的解决方案" class="headerlink" title="尝试过的解决方案"></a>尝试过的解决方案</h2><p>在找到最终的解决方案之前，我尝试了几种其他方法：</p>
+<ul>
+<li><a href="https://github.com/NotGlop/docker-drag">docker-drag</a>：这个工具虽然理念不错，但在实际操作中并未奏效。</li>
+<li><a href="https://github.com/moby/moby/blob/master/contrib/download-frozen-image-v2.sh">download-frozen-image-v2.sh</a>：这是Moby项目的一个脚本，但同样没有解决我的问题。</li>
+</ul>
+<p>最终，我发现了 <a href="https://github.com/containers/skopeo">skopeo</a>，这个工具完美地解决了我的问题。</p>
+<h2 id="操作步骤"><a href="#操作步骤" class="headerlink" title="操作步骤"></a>操作步骤</h2><h3 id="1-安装skopeo"><a href="#1-安装skopeo" class="headerlink" title="1. 安装skopeo"></a>1. 安装skopeo</h3><p>首先，无论是在目标机器还是操作机器上，都需要安装skopeo。安装方法可以参考 <a href="https://github.com/containers/skopeo/blob/main/install.md">skopeo Installation Guide</a>。</p>
+<h3 id="2-使用操作机器下载镜像"><a href="#2-使用操作机器下载镜像" class="headerlink" title="2. 使用操作机器下载镜像"></a>2. 使用操作机器下载镜像</h3><p>在操作机器上，运行以下命令来下载Docker镜像：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">skopeo copy --override-os linux --override-arch amd64 docker://tinymediamanager/tinymediamanager:latest dir:./tinymediamanager_image<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>这里的参数解释如下：</p>
+<ul>
+<li>–override-os linux 和 –override-arch amd64 用于指定目标操作系统和架构。</li>
+<li>docker:&#x2F;&#x2F;tinymediamanager&#x2F;tinymediamanager:latest 指定了要拉取的镜像。</li>
+<li>dir:.&#x2F;tinymediamanager_image 表示将镜像保存到当前目录下的 tinymediamanager_image 文件夹。</li>
+</ul>
+<h3 id="3-压缩镜像文件夹"><a href="#3-压缩镜像文件夹" class="headerlink" title="3. 压缩镜像文件夹"></a>3. 压缩镜像文件夹</h3><p>为了更快地将文件传输到目标机器，我们可以将下载的镜像文件夹压缩成tar文件：</p>
+<pre class="line-numbers language-none"><code class="language-none">tar -czf tinymediamanager.tar .&#x2F;tinymediamanager_image<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<h3 id="4-传输至目标机器"><a href="#4-传输至目标机器" class="headerlink" title="4. 传输至目标机器"></a>4. 传输至目标机器</h3><p>使用 scp 命令将tar文件传输到目标机器：</p>
+<pre class="line-numbers language-none"><code class="language-none">scp -i $HOME&#x2F;.ssh&#x2F;id_rsa -r -P your_port .&#x2F;tinymediamanager.tar root@your_ip:&#x2F;root&#x2F;docker_image<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<h3 id="5-在目标机器解压tar"><a href="#5-在目标机器解压tar" class="headerlink" title="5. 在目标机器解压tar"></a>5. 在目标机器解压tar</h3><p>登录目标机器后，执行以下命令来解压tar文件：</p>
+<pre class="line-numbers language-none"><code class="language-none">tar -xzf tinymediamanager.tar -C &#x2F;root&#x2F;docker_images<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<h3 id="6-在目标机器导入镜像"><a href="#6-在目标机器导入镜像" class="headerlink" title="6. 在目标机器导入镜像"></a>6. 在目标机器导入镜像</h3><p>最后，使用skopeo在目标机器上导入镜像：</p>
+<pre class="line-numbers language-none"><code class="language-none">skopeo copy dir:&#x2F;root&#x2F;docker_images&#x2F;tinymediamanager_image docker-daemon:tinymediamanager&#x2F;tinymediamanager:latest<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>通过使用skopeo，我们不仅解决了拉取Docker镜像慢的问题，还学习了如何高效地在不同机器间迁移Docker镜像。感谢开源社区及<a href="https://github.com/containers/skopeo">skopeo贡献者们</a>的辛勤付出和创新精神！</p>
+]]></content>
+      <categories>
+        <category>运维</category>
+      </categories>
+      <tags>
+        <tag>docker</tag>
+        <tag>运维</tag>
+        <tag>服务器</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>git 开发中常见误操作及个人认为的最佳解决办法</title>
     <url>/2016/08/03/git-%E5%BC%80%E5%8F%91%E4%B8%AD%E5%B8%B8%E8%A7%81%E8%AF%AF%E6%93%8D%E4%BD%9C%E5%8F%8A%E4%B8%AA%E4%BA%BA%E8%AE%A4%E4%B8%BA%E7%9A%84%E6%9C%80%E4%BD%B3%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/</url>
     <content><![CDATA[<h1 id="概要"><a href="#概要" class="headerlink" title="概要"></a>概要</h1><p>这篇文章记录的是在使用<code>git</code>过程中遇到的问题及我的解决办法，普通的使用这里不会记录，遇到了更多问题之后我会来更新这篇文章。</p>
@@ -4377,6 +4421,27 @@ static NSDictionary *configDict;
       </tags>
   </entry>
   <entry>
+    <title>security 使用</title>
+    <url>/2017/02/08/security%20%E4%BD%BF%E7%94%A8/</url>
+    <content><![CDATA[<h1 id="概要"><a href="#概要" class="headerlink" title="概要"></a>概要</h1><p>这里记录Mac下<code>security </code>相关使用，想起来就补充。</p>
+<h1 id="查看可用签名"><a href="#查看可用签名" class="headerlink" title="查看可用签名"></a>查看可用签名</h1><pre class="line-numbers language-Bash" data-language="Bash"><code class="language-Bash">security find-identity -v -p codesigning<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<span id="more"></span>
+
+<h1 id="签名"><a href="#签名" class="headerlink" title="签名"></a>签名</h1><pre class="line-numbers language-Bash" data-language="Bash"><code class="language-Bash">codesign --force --verify --verbose --sign &quot;iPhone Developer: 396736694@qq.com (Z4965JH2C8)” 目标包<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<h1 id="查看描述文件信息"><a href="#查看描述文件信息" class="headerlink" title="查看描述文件信息"></a>查看描述文件信息</h1><pre class="line-numbers language-Bash" data-language="Bash"><code class="language-Bash">security cms -D -i xxx.mobileprovision<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<h1 id="查看-WIFI-密码"><a href="#查看-WIFI-密码" class="headerlink" title="查看 WIFI 密码"></a>查看 WIFI 密码</h1><pre class="line-numbers language-Bash" data-language="Bash"><code class="language-Bash">security find-generic-password -ga &quot;WIFI_name&quot; | grep &quot;password:&quot;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>]]></content>
+      <categories>
+        <category>iOS</category>
+      </categories>
+      <tags>
+        <tag>打包</tag>
+        <tag>iOS签名</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>iOS里关于block的一些理解</title>
     <url>/2018/06/18/iOS%E9%87%8C%E5%85%B3%E4%BA%8Eblock%E7%9A%84%E4%B8%80%E4%BA%9B%E7%90%86%E8%A7%A3/</url>
     <content><![CDATA[<h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>block实际上就是Objective-C语言对于闭包的实现。<br>block配合上dispatch_queue，可以方便地实现简单的多线程编程和异步编程。<br>（闭包是一个函数（或指向函数的指针），再加上该函数执行的外部的上下文变量（有时候也称作自由变量）。）</p>
@@ -4628,27 +4693,6 @@ _observer &#x3D; [[NSNotificationCenter defaultCenter] addObserverForName:@&quot
       <tags>
         <tag>Objective-C</tag>
         <tag>Block</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>security 使用</title>
-    <url>/2017/02/08/security%20%E4%BD%BF%E7%94%A8/</url>
-    <content><![CDATA[<h1 id="概要"><a href="#概要" class="headerlink" title="概要"></a>概要</h1><p>这里记录Mac下<code>security </code>相关使用，想起来就补充。</p>
-<h1 id="查看可用签名"><a href="#查看可用签名" class="headerlink" title="查看可用签名"></a>查看可用签名</h1><pre class="line-numbers language-Bash" data-language="Bash"><code class="language-Bash">security find-identity -v -p codesigning<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<span id="more"></span>
-
-<h1 id="签名"><a href="#签名" class="headerlink" title="签名"></a>签名</h1><pre class="line-numbers language-Bash" data-language="Bash"><code class="language-Bash">codesign --force --verify --verbose --sign &quot;iPhone Developer: 396736694@qq.com (Z4965JH2C8)” 目标包<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<h1 id="查看描述文件信息"><a href="#查看描述文件信息" class="headerlink" title="查看描述文件信息"></a>查看描述文件信息</h1><pre class="line-numbers language-Bash" data-language="Bash"><code class="language-Bash">security cms -D -i xxx.mobileprovision<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<h1 id="查看-WIFI-密码"><a href="#查看-WIFI-密码" class="headerlink" title="查看 WIFI 密码"></a>查看 WIFI 密码</h1><pre class="line-numbers language-Bash" data-language="Bash"><code class="language-Bash">security find-generic-password -ga &quot;WIFI_name&quot; | grep &quot;password:&quot;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>]]></content>
-      <categories>
-        <category>iOS</category>
-      </categories>
-      <tags>
-        <tag>打包</tag>
-        <tag>iOS签名</tag>
       </tags>
   </entry>
   <entry>
@@ -8262,6 +8306,75 @@ extension NavigationController: UINavigationControllerDelegate &#123;
       </tags>
   </entry>
   <entry>
+    <title>购买BanwagonHOST VPS自建Shadowsocks记录</title>
+    <url>/2017/07/28/%E8%B4%AD%E4%B9%B0BanwagonHOST-VPS%E8%87%AA%E5%BB%BAShadowsocks%E8%AE%B0%E5%BD%95/</url>
+    <content><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><blockquote>
+<p>不能畅游墙外没法好好生活和工作</p>
+</blockquote>
+<p>本来手里有着五六个 <code>Shadowsocks</code> 帐号，但体验都不佳，一直也没怎么用，是因为一直使用公司搭建的 <code>Cisco Anyconnect</code>，科学上网后百兆带宽可以满速使用，速度虽快，但是客户端软件默认是全局代理的，虽然可以走<code>IP route list</code>达到和<code>Shadowsocks </code>的<code>PAC</code>同样的作用，但效果慎微，而且<code>IP</code>要自己去填，所以公司<code>IT</code>直接没搞这个<code>route list</code>，因为我们大部分电脑和手机<code>APP</code>都在墙内，这就导致在使用了<code>Cisco Anyconnect</code>后大部分电脑或者手机上的<code>APP</code>网络访问困难，常开<code>VPN</code>还是需要<code>Shadowsocks </code>等可根据 <strong>PAC清单自动代理</strong> 或者 <strong>分应用代理</strong> 的一类软件。</p>
+<span id="more"></span>
+
+<h2 id="主题"><a href="#主题" class="headerlink" title="主题"></a>主题</h2><p>废话有点多，进入主题。前几日群里的前辈在群里说道自搭的<code>Shadowsocks</code>在使用了<code>Google</code>提出的<code>TCP</code>拥塞控制新算法——<code>BBR</code>之后，解决了以下两个问题：</p>
+<pre><code> 1. 在有一定丢包率的网络链路上充分利用带宽；
+ 2. 降低网络链路上的 buffer 占用率，从而降低延迟。
+</code></pre>
+<p> 正好有时间，大佬说的又激发了我的兴趣，我决定自己也搭一个玩玩，也以备不时之需，经历这一天，也总结了个人认为最省事的路线，以下是步骤记录。</p>
+<h2 id="购买VPS"><a href="#购买VPS" class="headerlink" title="购买VPS"></a>购买<code>VPS</code></h2><p>在请教了群里的前辈购买何档次的<code>BanwagonHOST VPN</code>之后，购买了19.99$&#x2F;年的方案，这是购买地址：<a href="https://bandwagonhost.com/index.php">BanwagonHOST</a>，这里注意两点，第一点：购买时注意买基于<code>KVM</code>的，而不是<code>OpenVZ</code>，<code>KVM</code>是新推出的，只了解了大体不同，想知道具体差异自行<a href="https://www.google.com/">Google</a>，一般来说，买新架构就没错了；第二点：在选择<code>Location</code>时，最好选择美国洛杉矶节点<code>Los Angeles</code>，别问为什么，前人经验，至于是<code>QNET</code>还是<code>MCOM</code>，自行谷歌这二者差异，有人汇总对比了这两种方案，不同城市的<code>ping</code>值有高有低，总体来说<code>QNET</code>稍好，所以我购买的是它。</p>
+<h2 id="重装系统"><a href="#重装系统" class="headerlink" title="重装系统"></a>重装系统</h2><p>付款购买成功后，进入当前页面的<code>Services-My Services</code>菜单下，找到你新购买的<code>Product/Service</code>，进入控制面板<code>KiviVM Control Panel</code>，界面很简单，每个功能浏览一下之后开始吧，预装的貌似是<code>Cent OS 6</code>，重装成你想要的系统吧，根据提示来，很<code>easy</code>。我个人比较习惯<code>Ubuntu</code>，所以安装了面板上支持的最新版本的<code>Ubuntu 16.04 x86_64</code>，面板里有一键安装<code>Shadowsocks Server</code>和<code>ShadowsocksR Server</code>功能，但个人不推荐，没啥别的原因，因为感觉不受我控制。装好后会提示你生成了一个随机的ROOT密码，记下来。执行以下步骤：</p>
+<pre><code>1.回到你的电脑，用你自己的方式`SSH`登陆到你的`VPS`，我用的`iTerm`，输入`ssh root@your_vps_ip_address -p your_vps_port`（本地要配置好`RSA`），默认密码是前面保存的随机密码。
+2.默认ROOT密码不好记，登陆成功后输入`passwd`输入两次新的`ROOT`密码更改密码。
+3.`Ubuntu`的话更新下系统，分别执行`apt-get update`和`apt-get upgrade`（不必须但建议）
+</code></pre>
+<h2 id="安装Shadowsocks"><a href="#安装Shadowsocks" class="headerlink" title="安装Shadowsocks "></a>安装<code>Shadowsocks </code></h2><p>安装的方式有很多，我独爱个人认为最优的那种，执行以下命令：</p>
+<pre class="line-numbers language-Bash" data-language="Bash"><code class="language-Bash">wget --no-check-certificate https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;teddysun&#x2F;shadowsocks_install&#x2F;master&#x2F;shadowsocksR.sh
+chmod +x shadowsocksR.sh
+.&#x2F;shadowsocksR.sh 2&gt;&amp;1 | tee shadowsocksR.log<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<p>你也可以用<code>&amp;&amp;</code>连接一次性执行，按提示完成即可。</p>
+<h2 id="安装Google-bbr"><a href="#安装Google-bbr" class="headerlink" title="安装Google bbr"></a>安装<code>Google bbr</code></h2><p>一、如果你的VPS是基于KVM的，运行以下命令：</p>
+<pre class="line-numbers language-Bash" data-language="Bash"><code class="language-Bash">wget --no-check-certificate https:&#x2F;&#x2F;github.com&#x2F;teddysun&#x2F;across&#x2F;raw&#x2F;master&#x2F;bbr.sh
+chmod +x bbr.sh
+.&#x2F;bbr.sh<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<p>按照提示安装完成，安装完成后，检测是否成功安装：</p>
+<pre class="line-numbers language-Bash" data-language="Bash"><code class="language-Bash">sysctl net.ipv4.tcp_available_congestion_control<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>输出的信息包含<code>bbr</code>就<code>Ok</code>了，一般为<code>net.ipv4.tcp_available_congestion_control = bbr cubic reno</code></p>
+<p>二、如果你不小心购买了基于<code>OpenVZ</code>的<code>VPS</code>，运行这个：</p>
+<pre class="line-numbers language-Bash" data-language="Bash"><code class="language-Bash">wget https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;kuoruan&#x2F;shell-scripts&#x2F;master&#x2F;ovz-bbr&#x2F;ovz-bbr-installer.sh
+chmod +x ovz-bbr-installer.sh
+.&#x2F;ovz-bbr-installer.sh<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<p>这个连提示都是中文的，按照提示安装完成即可，安装完成使用看说明，检测是否安装成功：</p>
+<pre class="line-numbers language-Bash" data-language="Bash"><code class="language-Bash">ping 10.0.0.2<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>如果能通，说明 bbr 已经启动,然后检查 iptables 规则:</p>
+<pre class="line-numbers language-Bash" data-language="Bash"><code class="language-Bash">iptables -t nat -nL
+Chain PREROUTING (policy ACCEPT)
+target     prot opt source               destination
+LKL_IN     all  --  0.0.0.0&#x2F;0            0.0.0.0&#x2F;0
+ 
+Chain POSTROUTING (policy ACCEPT)
+target     prot opt source               destination
+ 
+Chain OUTPUT (policy ACCEPT)
+target     prot opt source               destination
+ 
+Chain LKL_IN (1 references)
+target     prot opt source               destination
+DNAT       tcp  --  0.0.0.0&#x2F;0            0.0.0.0&#x2F;0            tcp dpt:8989 to:10.0.0.2<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>里面有相应的端口规则。</p>
+<h2 id="使用Shadowsocks"><a href="#使用Shadowsocks" class="headerlink" title="使用Shadowsocks"></a>使用<code>Shadowsocks</code></h2><p>使用对应的客户端使用的你的<code>Shadowsocks</code>吧，怎么使用自行搜索。想着就那么几个步骤，还是写了这么多。。。</p>
+<h1 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h1><p>我购买时不小心买成了<code>OpenVZ</code>的，请教了群里的一位前辈之后告诉我联系客服，我便邮件联系官方退款了，购买了新的基于<code>KVM</code>，服务态度非常好，值得点赞。供参考，希望能帮到有需要的朋友。</p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a href="https://blog.kuoruan.com/48.html">搬瓦工(Bandwagonhost)搭建Shadowsocks并优化速度</a></p>
+<p><a href="https://blog.kuoruan.com/116.html">OpenVZ 平台 Google BBR 一键安装脚本</a></p>
+]]></content>
+      <categories>
+        <category>VPN</category>
+      </categories>
+      <tags>
+        <tag>Mac使用</tag>
+        <tag>BanwagonHOST</tag>
+        <tag>Shadowsocks</tag>
+        <tag>科学上网</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>更改 React Native 默认 ios、android 项目文件夹</title>
     <url>/2018/09/10/%E6%9B%B4%E6%94%B9-React-Native-%E9%BB%98%E8%AE%A4-ios%E3%80%81android-%E9%A1%B9%E7%9B%AE%E6%96%87%E4%BB%B6%E5%A4%B9/</url>
     <content><![CDATA[<h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>来到新公司也有一个月了，完成 iOS 端洞客项目<code>V1.3.0-V1.4.0</code>的升级，虽然只是一个小版本的升级，但我在熟悉项目过程当中发现项目垃圾代码实在太多了，别说我了，一般的接锅人看了也难以忍受，在痛苦了几天之后我默默拉了一个新 git 分支改起来，使用 <code>clang format</code>规范化了整个项目的代码，后面结合<code>git hook</code>在<code>git commit</code>前自动<code>reformat</code>代码，这一步可以说是非常爽了。直到今天，我之前简单看了一下，<code>check out</code>到我改之前和改之后的代码，少了有5000+行代码，删除了几十个类文件，但里面还是充斥着大量的垃圾或者不合理的代码。开发完<code>1.4.0</code>，稍微看起来闲了一两天，被个喜欢行使小权利的前端小组长安装研习 <code>React Native</code>，准备接入原生项目，暂时用于替换一个改动比较频繁的详情页，之前就有自己学习过，但是都忘光了，又复习一遍，趁热记录一些小 tip。</p>
@@ -8348,74 +8461,5 @@ extension NavigationController: UINavigationControllerDelegate &#123;
       <categories>
         <category>React Native</category>
       </categories>
-  </entry>
-  <entry>
-    <title>购买BanwagonHOST VPS自建Shadowsocks记录</title>
-    <url>/2017/07/28/%E8%B4%AD%E4%B9%B0BanwagonHOST-VPS%E8%87%AA%E5%BB%BAShadowsocks%E8%AE%B0%E5%BD%95/</url>
-    <content><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><blockquote>
-<p>不能畅游墙外没法好好生活和工作</p>
-</blockquote>
-<p>本来手里有着五六个 <code>Shadowsocks</code> 帐号，但体验都不佳，一直也没怎么用，是因为一直使用公司搭建的 <code>Cisco Anyconnect</code>，科学上网后百兆带宽可以满速使用，速度虽快，但是客户端软件默认是全局代理的，虽然可以走<code>IP route list</code>达到和<code>Shadowsocks </code>的<code>PAC</code>同样的作用，但效果慎微，而且<code>IP</code>要自己去填，所以公司<code>IT</code>直接没搞这个<code>route list</code>，因为我们大部分电脑和手机<code>APP</code>都在墙内，这就导致在使用了<code>Cisco Anyconnect</code>后大部分电脑或者手机上的<code>APP</code>网络访问困难，常开<code>VPN</code>还是需要<code>Shadowsocks </code>等可根据 <strong>PAC清单自动代理</strong> 或者 <strong>分应用代理</strong> 的一类软件。</p>
-<span id="more"></span>
-
-<h2 id="主题"><a href="#主题" class="headerlink" title="主题"></a>主题</h2><p>废话有点多，进入主题。前几日群里的前辈在群里说道自搭的<code>Shadowsocks</code>在使用了<code>Google</code>提出的<code>TCP</code>拥塞控制新算法——<code>BBR</code>之后，解决了以下两个问题：</p>
-<pre><code> 1. 在有一定丢包率的网络链路上充分利用带宽；
- 2. 降低网络链路上的 buffer 占用率，从而降低延迟。
-</code></pre>
-<p> 正好有时间，大佬说的又激发了我的兴趣，我决定自己也搭一个玩玩，也以备不时之需，经历这一天，也总结了个人认为最省事的路线，以下是步骤记录。</p>
-<h2 id="购买VPS"><a href="#购买VPS" class="headerlink" title="购买VPS"></a>购买<code>VPS</code></h2><p>在请教了群里的前辈购买何档次的<code>BanwagonHOST VPN</code>之后，购买了19.99$&#x2F;年的方案，这是购买地址：<a href="https://bandwagonhost.com/index.php">BanwagonHOST</a>，这里注意两点，第一点：购买时注意买基于<code>KVM</code>的，而不是<code>OpenVZ</code>，<code>KVM</code>是新推出的，只了解了大体不同，想知道具体差异自行<a href="https://www.google.com/">Google</a>，一般来说，买新架构就没错了；第二点：在选择<code>Location</code>时，最好选择美国洛杉矶节点<code>Los Angeles</code>，别问为什么，前人经验，至于是<code>QNET</code>还是<code>MCOM</code>，自行谷歌这二者差异，有人汇总对比了这两种方案，不同城市的<code>ping</code>值有高有低，总体来说<code>QNET</code>稍好，所以我购买的是它。</p>
-<h2 id="重装系统"><a href="#重装系统" class="headerlink" title="重装系统"></a>重装系统</h2><p>付款购买成功后，进入当前页面的<code>Services-My Services</code>菜单下，找到你新购买的<code>Product/Service</code>，进入控制面板<code>KiviVM Control Panel</code>，界面很简单，每个功能浏览一下之后开始吧，预装的貌似是<code>Cent OS 6</code>，重装成你想要的系统吧，根据提示来，很<code>easy</code>。我个人比较习惯<code>Ubuntu</code>，所以安装了面板上支持的最新版本的<code>Ubuntu 16.04 x86_64</code>，面板里有一键安装<code>Shadowsocks Server</code>和<code>ShadowsocksR Server</code>功能，但个人不推荐，没啥别的原因，因为感觉不受我控制。装好后会提示你生成了一个随机的ROOT密码，记下来。执行以下步骤：</p>
-<pre><code>1.回到你的电脑，用你自己的方式`SSH`登陆到你的`VPS`，我用的`iTerm`，输入`ssh root@your_vps_ip_address -p your_vps_port`（本地要配置好`RSA`），默认密码是前面保存的随机密码。
-2.默认ROOT密码不好记，登陆成功后输入`passwd`输入两次新的`ROOT`密码更改密码。
-3.`Ubuntu`的话更新下系统，分别执行`apt-get update`和`apt-get upgrade`（不必须但建议）
-</code></pre>
-<h2 id="安装Shadowsocks"><a href="#安装Shadowsocks" class="headerlink" title="安装Shadowsocks "></a>安装<code>Shadowsocks </code></h2><p>安装的方式有很多，我独爱个人认为最优的那种，执行以下命令：</p>
-<pre class="line-numbers language-Bash" data-language="Bash"><code class="language-Bash">wget --no-check-certificate https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;teddysun&#x2F;shadowsocks_install&#x2F;master&#x2F;shadowsocksR.sh
-chmod +x shadowsocksR.sh
-.&#x2F;shadowsocksR.sh 2&gt;&amp;1 | tee shadowsocksR.log<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
-<p>你也可以用<code>&amp;&amp;</code>连接一次性执行，按提示完成即可。</p>
-<h2 id="安装Google-bbr"><a href="#安装Google-bbr" class="headerlink" title="安装Google bbr"></a>安装<code>Google bbr</code></h2><p>一、如果你的VPS是基于KVM的，运行以下命令：</p>
-<pre class="line-numbers language-Bash" data-language="Bash"><code class="language-Bash">wget --no-check-certificate https:&#x2F;&#x2F;github.com&#x2F;teddysun&#x2F;across&#x2F;raw&#x2F;master&#x2F;bbr.sh
-chmod +x bbr.sh
-.&#x2F;bbr.sh<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
-<p>按照提示安装完成，安装完成后，检测是否成功安装：</p>
-<pre class="line-numbers language-Bash" data-language="Bash"><code class="language-Bash">sysctl net.ipv4.tcp_available_congestion_control<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-<p>输出的信息包含<code>bbr</code>就<code>Ok</code>了，一般为<code>net.ipv4.tcp_available_congestion_control = bbr cubic reno</code></p>
-<p>二、如果你不小心购买了基于<code>OpenVZ</code>的<code>VPS</code>，运行这个：</p>
-<pre class="line-numbers language-Bash" data-language="Bash"><code class="language-Bash">wget https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;kuoruan&#x2F;shell-scripts&#x2F;master&#x2F;ovz-bbr&#x2F;ovz-bbr-installer.sh
-chmod +x ovz-bbr-installer.sh
-.&#x2F;ovz-bbr-installer.sh<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
-<p>这个连提示都是中文的，按照提示安装完成即可，安装完成使用看说明，检测是否安装成功：</p>
-<pre class="line-numbers language-Bash" data-language="Bash"><code class="language-Bash">ping 10.0.0.2<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-<p>如果能通，说明 bbr 已经启动,然后检查 iptables 规则:</p>
-<pre class="line-numbers language-Bash" data-language="Bash"><code class="language-Bash">iptables -t nat -nL
-Chain PREROUTING (policy ACCEPT)
-target     prot opt source               destination
-LKL_IN     all  --  0.0.0.0&#x2F;0            0.0.0.0&#x2F;0
- 
-Chain POSTROUTING (policy ACCEPT)
-target     prot opt source               destination
- 
-Chain OUTPUT (policy ACCEPT)
-target     prot opt source               destination
- 
-Chain LKL_IN (1 references)
-target     prot opt source               destination
-DNAT       tcp  --  0.0.0.0&#x2F;0            0.0.0.0&#x2F;0            tcp dpt:8989 to:10.0.0.2<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<p>里面有相应的端口规则。</p>
-<h2 id="使用Shadowsocks"><a href="#使用Shadowsocks" class="headerlink" title="使用Shadowsocks"></a>使用<code>Shadowsocks</code></h2><p>使用对应的客户端使用的你的<code>Shadowsocks</code>吧，怎么使用自行搜索。想着就那么几个步骤，还是写了这么多。。。</p>
-<h1 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h1><p>我购买时不小心买成了<code>OpenVZ</code>的，请教了群里的一位前辈之后告诉我联系客服，我便邮件联系官方退款了，购买了新的基于<code>KVM</code>，服务态度非常好，值得点赞。供参考，希望能帮到有需要的朋友。</p>
-<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a href="https://blog.kuoruan.com/48.html">搬瓦工(Bandwagonhost)搭建Shadowsocks并优化速度</a></p>
-<p><a href="https://blog.kuoruan.com/116.html">OpenVZ 平台 Google BBR 一键安装脚本</a></p>
-]]></content>
-      <categories>
-        <category>VPN</category>
-      </categories>
-      <tags>
-        <tag>Mac使用</tag>
-        <tag>BanwagonHOST</tag>
-        <tag>Shadowsocks</tag>
-        <tag>科学上网</tag>
-      </tags>
   </entry>
 </search>

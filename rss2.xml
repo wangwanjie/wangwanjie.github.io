@@ -15,8 +15,33 @@
     <atom:link href="https://blog.vanjay.cn/rss2.xml" rel="self" type="application/rss+xml"/>
     
     <description>成功不是将来才有的&lt;br&gt;而是决定去做的那一刻起&lt;br&gt;持续累积而成</description>
-    <pubDate>Thu, 28 Sep 2023 09:35:18 GMT</pubDate>
+    <pubDate>Fri, 17 Nov 2023 01:52:14 GMT</pubDate>
     <generator>http://hexo.io/</generator>
+    
+    <item>
+      <title>docker hud 拉取镜像慢解决办法</title>
+      <link>https://blog.vanjay.cn/2023/11/17/docker-hud-%E6%8B%89%E5%8F%96%E9%95%9C%E5%83%8F%E6%85%A2%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/</link>
+      <guid>https://blog.vanjay.cn/2023/11/17/docker-hud-%E6%8B%89%E5%8F%96%E9%95%9C%E5%83%8F%E6%85%A2%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/</guid>
+      <pubDate>Fri, 17 Nov 2023 01:14:44 GMT</pubDate>
+      
+      <description>&lt;h2 id=&quot;背景&quot;&gt;&lt;a href=&quot;#背景&quot; class=&quot;headerlink&quot; title=&quot;背景&quot;&gt;&lt;/a&gt;背景&lt;/h2&gt;&lt;p&gt;在日常的Docker使用中，我们可能会遇到一个常见的问题：在特定机器上拉取Docker镜像非常缓慢，甚至无法连接到外网。这种情况通常发生在网络限制较多的环境中，如一些公司的内部网络或地理位置较偏远的区域。但幸运的是，如果我们手头有一台可以“翻墙”并访问外网的本地机器，就可以采用一种曲线救国的方法来解决这个问题。本文将介绍如何通过skopeo工具，高效地在本地机器上拉取Docker镜像，并将其迁移到目标机器上。&lt;/p&gt;</description>
+      
+      
+      
+      
+      <category domain="https://blog.vanjay.cn/categories/%E8%BF%90%E7%BB%B4/">运维</category>
+      
+      
+      <category domain="https://blog.vanjay.cn/tags/docker/">docker</category>
+      
+      <category domain="https://blog.vanjay.cn/tags/%E8%BF%90%E7%BB%B4/">运维</category>
+      
+      <category domain="https://blog.vanjay.cn/tags/%E6%9C%8D%E5%8A%A1%E5%99%A8/">服务器</category>
+      
+      
+      <comments>https://blog.vanjay.cn/2023/11/17/docker-hud-%E6%8B%89%E5%8F%96%E9%95%9C%E5%83%8F%E6%85%A2%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/#disqus_thread</comments>
+      
+    </item>
     
     <item>
       <title>从 Gitlab 迁移到 Gitea 小记</title>
@@ -538,33 +563,6 @@ Swap:          &lt;span class=&quot;token number&quot;&gt;8&lt;/span&gt;.0G     
       
       
       <comments>https://blog.vanjay.cn/2018/10/12/Jenkins%20master-slave%20%E7%9A%84%E5%BA%94%E7%94%A8%E5%8F%8A%20iOS%20%E9%A1%B9%E7%9B%AE%E6%8C%81%E7%BB%AD%E9%9B%86%E6%88%90/#disqus_thread</comments>
-      
-    </item>
-    
-    <item>
-      <title>Ubuntu 18.04 LTS 安装部署 Seafile</title>
-      <link>https://blog.vanjay.cn/2018/10/01/Ubuntu-18-04-LTS-%E5%AE%89%E8%A3%85%E9%83%A8%E7%BD%B2-Seafile/</link>
-      <guid>https://blog.vanjay.cn/2018/10/01/Ubuntu-18-04-LTS-%E5%AE%89%E8%A3%85%E9%83%A8%E7%BD%B2-Seafile/</guid>
-      <pubDate>Mon, 01 Oct 2018 09:06:54 GMT</pubDate>
-      
-      <description>&lt;h2 id=&quot;背景&quot;&gt;&lt;a href=&quot;#背景&quot; class=&quot;headerlink&quot; title=&quot;背景&quot;&gt;&lt;/a&gt;背景&lt;/h2&gt;&lt;p&gt;新入职的公司内部同步一些文件使用的 &lt;code&gt;Seafile&lt;/code&gt;，没部署远程，只使用的内网，由于这个 &lt;code&gt;seafile&lt;/code&gt; 是一个前同事搭建的（之前的 iOSer，我来替代他了，阴差阳错。。。），可能那时他也不是太熟吧，把文件存放目录放在了安装位置的挂载分区，导致长时间使用下来，该分区磁盘空间满了，无法继续运行，于是我简单 &lt;code&gt;google&lt;/code&gt; 了一番，开始转移目录，找到了 &lt;code&gt;seafile-data&lt;/code&gt; 目录之后，发现查看都没权限，包括 &lt;code&gt;cp -R&lt;/code&gt;、&lt;code&gt;mv&lt;/code&gt; 都无法运行，直接给了&lt;code&gt;755&lt;/code&gt;权限，&lt;code&gt;mv seafile-data&lt;/code&gt; 目录至新目录，更改 &lt;code&gt;seafile.ini&lt;/code&gt; 文件，指向新目录，重启 &lt;code&gt;seafile&lt;/code&gt;，发现 &lt;code&gt;seafile&lt;/code&gt; 已经无法启动……下意识重启一下电脑，还是不行，这时看下禅道，测试又提了一堆 &lt;code&gt;BUG&lt;/code&gt;，就先放下开始修 BUG 了。第二天早上过来继续，发现系统都进不去了，登录界面无法输入密码，没办法只好命令行登入系统，再次 &lt;code&gt;google&lt;/code&gt; 了解到 &lt;code&gt;seafile&lt;/code&gt; 存放文件的形式类似于 &lt;code&gt;svn&lt;/code&gt; 或 &lt;code&gt;git&lt;/code&gt; ，也是那种打散存放并内部记录 &lt;code&gt;state&lt;/code&gt; 和带有 &lt;code&gt;commit log&lt;/code&gt; 的，看到了官方有修复工具，尝试无果，放弃了，系统也崩了（多年linux 经验解决不了，尝试了几个小时，&lt;code&gt;google&lt;/code&gt; 了解到貌似是 &lt;code&gt;Ubuntu 16.04 LTS&lt;/code&gt; 的 &lt;code&gt;bug&lt;/code&gt; 所致，有个旧内核依赖怎么都干不掉，导致所有的 &lt;code&gt;dpkg -i&lt;/code&gt; 都运行不了），这台机器上安装了 &lt;code&gt;jenkins&lt;/code&gt; 和 &lt;code&gt;seafile&lt;/code&gt;，问过了别无其他，心想 &lt;code&gt;jenkins&lt;/code&gt; 我也熟练部署了，只能硬着头皮去跟组长说要重装系统，于是有了这篇文章。&lt;/p&gt;</description>
-      
-      
-      
-      
-      <category domain="https://blog.vanjay.cn/categories/Linux/">Linux</category>
-      
-      
-      <category domain="https://blog.vanjay.cn/tags/Linux/">Linux</category>
-      
-      <category domain="https://blog.vanjay.cn/tags/Ubuntu/">Ubuntu</category>
-      
-      <category domain="https://blog.vanjay.cn/tags/Seafile/">Seafile</category>
-      
-      <category domain="https://blog.vanjay.cn/tags/%E4%B8%AA%E4%BA%BA%E4%BA%91%E7%9B%98/">个人云盘</category>
-      
-      
-      <comments>https://blog.vanjay.cn/2018/10/01/Ubuntu-18-04-LTS-%E5%AE%89%E8%A3%85%E9%83%A8%E7%BD%B2-Seafile/#disqus_thread</comments>
       
     </item>
     
