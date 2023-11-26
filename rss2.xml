@@ -15,8 +15,37 @@
     <atom:link href="https://blog.vanjay.cn/rss2.xml" rel="self" type="application/rss+xml"/>
     
     <description>成功不是将来才有的&lt;br&gt;而是决定去做的那一刻起&lt;br&gt;持续累积而成</description>
-    <pubDate>Fri, 17 Nov 2023 01:52:14 GMT</pubDate>
+    <pubDate>Sun, 26 Nov 2023 05:33:01 GMT</pubDate>
     <generator>http://hexo.io/</generator>
+    
+    <item>
+      <title>pve下不同服务间启动依赖问题解决</title>
+      <link>https://blog.vanjay.cn/2023/11/26/pve%E4%B8%8B%E4%B8%8D%E5%90%8C%E6%9C%8D%E5%8A%A1%E9%97%B4%E5%90%AF%E5%8A%A8%E4%BE%9D%E8%B5%96%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3/</link>
+      <guid>https://blog.vanjay.cn/2023/11/26/pve%E4%B8%8B%E4%B8%8D%E5%90%8C%E6%9C%8D%E5%8A%A1%E9%97%B4%E5%90%AF%E5%8A%A8%E4%BE%9D%E8%B5%96%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3/</guid>
+      <pubDate>Sun, 26 Nov 2023 05:11:33 GMT</pubDate>
+      
+      <description>&lt;p&gt;在Proxmox VE (PVE) 环境中，我们经常需要管理多个虚拟机或LXC容器，这些容器中部署了各种服务。服务间的依赖关系可能导致如果启动顺序不当，服务无法正确运行。本文将探讨这一问题，并提出一个有效的解决方案。&lt;/p&gt;</description>
+      
+      
+      
+      
+      <category domain="https://blog.vanjay.cn/categories/%E8%BF%90%E7%BB%B4/">运维</category>
+      
+      <category domain="https://blog.vanjay.cn/categories/%E8%BF%90%E7%BB%B4/%E6%9C%8D%E5%8A%A1%E5%99%A8/">服务器</category>
+      
+      
+      <category domain="https://blog.vanjay.cn/tags/docker/">docker</category>
+      
+      <category domain="https://blog.vanjay.cn/tags/pve/">pve</category>
+      
+      <category domain="https://blog.vanjay.cn/tags/nas/">nas</category>
+      
+      <category domain="https://blog.vanjay.cn/tags/%E5%BC%80%E6%9C%BA%E8%87%AA%E5%90%AF/">开机自启</category>
+      
+      
+      <comments>https://blog.vanjay.cn/2023/11/26/pve%E4%B8%8B%E4%B8%8D%E5%90%8C%E6%9C%8D%E5%8A%A1%E9%97%B4%E5%90%AF%E5%8A%A8%E4%BE%9D%E8%B5%96%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3/#disqus_thread</comments>
+      
+    </item>
     
     <item>
       <title>docker hud 拉取镜像慢解决办法</title>
@@ -536,33 +565,6 @@ Swap:          &lt;span class=&quot;token number&quot;&gt;8&lt;/span&gt;.0G     
       
       
       <comments>https://blog.vanjay.cn/2018/11/06/Linux-%E5%8A%A8%E6%80%81%E8%B0%83%E6%95%B4%E5%88%86%E5%8C%BA%E5%A4%A7%E5%B0%8F/#disqus_thread</comments>
-      
-    </item>
-    
-    <item>
-      <title>Jenkins master-slave 的应用及 iOS 项目持续集成</title>
-      <link>https://blog.vanjay.cn/2018/10/12/Jenkins%20master-slave%20%E7%9A%84%E5%BA%94%E7%94%A8%E5%8F%8A%20iOS%20%E9%A1%B9%E7%9B%AE%E6%8C%81%E7%BB%AD%E9%9B%86%E6%88%90/</link>
-      <guid>https://blog.vanjay.cn/2018/10/12/Jenkins%20master-slave%20%E7%9A%84%E5%BA%94%E7%94%A8%E5%8F%8A%20iOS%20%E9%A1%B9%E7%9B%AE%E6%8C%81%E7%BB%AD%E9%9B%86%E6%88%90/</guid>
-      <pubDate>Fri, 12 Oct 2018 11:27:00 GMT</pubDate>
-      
-      <description>&lt;h1 id=&quot;背景&quot;&gt;&lt;a href=&quot;#背景&quot; class=&quot;headerlink&quot; title=&quot;背景&quot;&gt;&lt;/a&gt;背景&lt;/h1&gt;&lt;p&gt;在公司一台服务机上搭建了&lt;code&gt;Jenkins&lt;/code&gt;，&lt;code&gt;Linux&lt;/code&gt;环境，主要用于&lt;code&gt;WEP 前端&lt;/code&gt;、&lt;code&gt;Android&lt;/code&gt;、&lt;code&gt;iOS&lt;/code&gt;的&lt;code&gt;CI&lt;/code&gt;服务，在没有过多去了解的情况下，我想当然的以为如果要打包 &lt;code&gt;iOS&lt;/code&gt;，&lt;code&gt;Jenkins&lt;/code&gt;宿主机系统环境必须是&lt;code&gt;MacOS&lt;/code&gt;，因为知道除了&lt;code&gt;Mac&lt;/code&gt;，其它系统均无法打包&lt;code&gt;iOS&lt;/code&gt;或&lt;code&gt;Mac&lt;/code&gt;应用程序（当然这点在目前看来仍然是对的），于是在公司那台硬盘只剩下可怜巴巴的&lt;code&gt;20G&lt;/code&gt;空间的&lt;code&gt;Mac mini&lt;/code&gt;上安装了&lt;code&gt;Jenkins&lt;/code&gt;，叫安卓同事把他的&lt;code&gt;Jenkins job&lt;/code&gt;又重新放在了&lt;code&gt;Mac mini&lt;/code&gt;上，本想着事情就这么不完美的收尾了，今天忽然在群里看见开发者朋友讨论&lt;code&gt;Jenkins&lt;/code&gt;说到&lt;code&gt;Jenkins&lt;/code&gt;支持&lt;code&gt;master-slave&lt;/code&gt;（主从）模式，支持非宿主机作为一个&lt;code&gt;Node&lt;/code&gt;节点为其服务，一脸蒙蔽，又要把&lt;code&gt;Jenkins&lt;/code&gt;放回&lt;code&gt;Ubuntu&lt;/code&gt;，让这台&lt;code&gt;mini&lt;/code&gt;单独为&lt;code&gt;iOS&lt;/code&gt;打包服务。&lt;/p&gt;</description>
-      
-      
-      
-      
-      <category domain="https://blog.vanjay.cn/categories/%E5%B7%A5%E7%A8%8B%E8%87%AA%E5%8A%A8%E5%8C%96/">工程自动化</category>
-      
-      
-      <category domain="https://blog.vanjay.cn/tags/Jenkins/">Jenkins</category>
-      
-      <category domain="https://blog.vanjay.cn/tags/CI/">CI</category>
-      
-      <category domain="https://blog.vanjay.cn/tags/%E6%8C%81%E7%BB%AD%E9%9B%86%E6%88%90/">持续集成</category>
-      
-      <category domain="https://blog.vanjay.cn/tags/%E5%B7%A5%E7%A8%8B%E8%87%AA%E5%8A%A8%E5%8C%96/">工程自动化</category>
-      
-      
-      <comments>https://blog.vanjay.cn/2018/10/12/Jenkins%20master-slave%20%E7%9A%84%E5%BA%94%E7%94%A8%E5%8F%8A%20iOS%20%E9%A1%B9%E7%9B%AE%E6%8C%81%E7%BB%AD%E9%9B%86%E6%88%90/#disqus_thread</comments>
       
     </item>
     

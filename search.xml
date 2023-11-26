@@ -1507,141 +1507,6 @@ end<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span>
       </tags>
   </entry>
   <entry>
-    <title>MUI webview选项卡 首次只加载首页，点击触发打开页面</title>
-    <url>/2017/04/15/MUI%20webview%E9%80%89%E9%A1%B9%E5%8D%A1%20%E9%A6%96%E6%AC%A1%E5%8F%AA%E5%8A%A0%E8%BD%BD%E9%A6%96%E9%A1%B5%EF%BC%8C%E7%82%B9%E5%87%BB%E8%A7%A6%E5%8F%91%E6%89%93%E5%BC%80%E9%A1%B5%E9%9D%A2/</url>
-    <content><![CDATA[<p><code>MUI</code> 官方的 <code>Demo</code> 的加载 webview 选项卡的逻辑是一次创建全部的选项卡，只默认显示默认创建的页面，这个页面逻辑没必要这么复杂，扩展性也不强，修改一处多处要修改，我做了简单修改，直接修改数据源，就可以达到更改全部的效果。</p>
-<p>直接上全部代码</p>
-<span id="more"></span>
-
-<pre class="line-numbers language-HTML" data-language="HTML"><code class="language-HTML">&lt;!DOCTYPE html&gt;
-&lt;html&gt;
-
-	&lt;head&gt;
-		&lt;meta charset&#x3D;&quot;utf-8&quot;&gt;
-		&lt;title&gt;Main&lt;&#x2F;title&gt;
-		&lt;script type&#x3D;&quot;text&#x2F;javascript&quot; src&#x3D;&quot;..&#x2F;js&#x2F;config.js&quot;&gt;&lt;&#x2F;script&gt;
-		&lt;script type&#x3D;&quot;text&#x2F;javascript&quot; src&#x3D;&quot;..&#x2F;js&#x2F;helper.js&quot;&gt;&lt;&#x2F;script&gt;
-		&lt;script type&#x3D;&quot;text&#x2F;javascript&quot; src&#x3D;&quot;..&#x2F;js&#x2F;common-head.js&quot;&gt;&lt;&#x2F;script&gt;
-		&lt;link rel&#x3D;&quot;stylesheet&quot; href&#x3D;&quot;..&#x2F;css&#x2F;main.css&quot;&gt;
-	&lt;&#x2F;head&gt;
-
-	&lt;body&gt;
-		&lt;nav class&#x3D;&quot;mui-bar mui-bar-tab&quot;&gt;
-			&lt;a class&#x3D;&quot;mui-tab-item&quot;&gt;
-				&lt;span class&#x3D;&quot;mui-icon iconfont icon-zuanshi&quot;&gt;&lt;&#x2F;span&gt;
-				&lt;span class&#x3D;&quot;mui-tab-label&quot;&gt;&lt;&#x2F;span&gt;
-			&lt;&#x2F;a&gt;
-			&lt;a class&#x3D;&quot;mui-tab-item&quot;&gt;
-				&lt;span class&#x3D;&quot;mui-icon iconfont icon-8&quot;&gt;&lt;&#x2F;span&gt;
-				&lt;span class&#x3D;&quot;mui-tab-label&quot;&gt;&lt;&#x2F;span&gt;
-			&lt;&#x2F;a&gt;
-			&lt;a class&#x3D;&quot;mui-tab-item&quot;&gt;
-				&lt;span class&#x3D;&quot;mui-icon iconfont icon-zoushi&quot;&gt;&lt;&#x2F;span&gt;
-				&lt;span class&#x3D;&quot;mui-tab-label&quot;&gt;&lt;&#x2F;span&gt;
-			&lt;&#x2F;a&gt;
-			&lt;a class&#x3D;&quot;mui-tab-item&quot;&gt;
-				&lt;span class&#x3D;&quot;mui-icon iconfont icon-yonghuming&quot;&gt;&lt;&#x2F;span&gt;
-				&lt;span class&#x3D;&quot;mui-tab-label&quot;&gt;&lt;&#x2F;span&gt;
-			&lt;&#x2F;a&gt;
-		&lt;&#x2F;nav&gt;
-		&lt;script type&#x3D;&quot;text&#x2F;javascript&quot; charset&#x3D;&quot;utf-8&quot;&gt;
-			&#x2F;&#x2F;mui初始化
-			mui.init();
-
-			var subpage_style &#x3D; &#123;
-				top: &#39;0px&#39;,
-				bottom: &#39;60px&#39;
-			&#125;;
-
-			var subPages &#x3D; [&#123;
-					href: &#39;wonderfulRecommend.html&#39;,
-					style: subpage_style,
-					id: config.pageID.wonderfulRecommend,
-					name: &quot;精彩推荐&quot;
-				&#125;,
-				&#123;
-					href: &#39;lotteryHall.html&#39;,
-					style: subpage_style,
-					id: config.pageID.lotteryHall,
-					name: &quot;购彩大厅&quot;
-				&#125;,
-				&#123;
-					href: &#39;drawTrend-pullRefresh.html&#39;,
-					style: subpage_style,
-					id: config.pageID.drawTrend_pullRefresh,
-					name: &quot;开奖走势&quot;
-				&#125;,
-				&#123;
-					href: &#39;myLottery.html&#39;,
-					style: subpage_style,
-					id: config.pageID.myLottery,
-					name: &quot;我的彩票&quot;
-				&#125;
-			]
-			&#x2F;&#x2F; 默认显示页面
-			var defaultPageIndex &#x3D; 0;
-			mui.ready(function() &#123;
-				&#x2F;&#x2F; 动态添加 href 和名称
-				var tabBarItems &#x3D; document.getElementsByClassName(&#39;mui-tab-item&#39;);
-				for(var i &#x3D; 0; i &lt; tabBarItems.length; i++) &#123;
-					var tabBarItem &#x3D; tabBarItems[i];
-					&#x2F;&#x2F; 设置目标页面
-					tabBarItem.setAttribute(&#39;href&#39;, subPages[i].href);
-					&#x2F;&#x2F; 设置索引
-					tabBarItem.setAttribute(&#39;index&#39;, i);
-					&#x2F;&#x2F; 设置文字标题
-					var tab_item_label &#x3D; tabBarItem.querySelector(&#39;.mui-tab-label&#39;);
-					tab_item_label.innerHTML &#x3D; subPages[i].name;
-					&#x2F;&#x2F; 默认激活的 mui-tab-item
-					if(i &#x3D;&#x3D; defaultPageIndex) &#123;
-						tabBarItem.classList.add(&#39;mui-active&#39;);
-					&#125;
-				&#125;
-			&#125;)
-			
-			&#x2F;&#x2F;创建子页面，首个选项卡页面显示，其它均隐藏；
-			mui.plusReady(function() &#123;
-				var self &#x3D; plus.webview.currentWebview();
-				var defaultPage &#x3D; plus.webview.create(subPages[defaultPageIndex].href, subPages[defaultPageIndex].id, subPages[defaultPageIndex].style);
-				self.append(defaultPage);
-			&#125;);
-			var activeTab &#x3D; subPages[defaultPageIndex].id;
-			mui(&#39;.mui-bar-tab&#39;).on(&#39;tap&#39;, &#39;a&#39;, function(e) &#123;
-				var targetTab &#x3D; this.getAttribute(&#39;href&#39;);
-
-				if(targetTab &#x3D;&#x3D; activeTab) &#123;
-					return;
-				&#125;
-				var index &#x3D; this.getAttribute(&#39;index&#39;);
-				log(index);
-				&#x2F;&#x2F; 先获取
-				var destPage &#x3D; plus.webview.getWebviewById(subPages[index].id);
-				if(destPage) &#123;
-					destPage.show();
-				&#125; else &#123;
-					var self &#x3D; plus.webview.currentWebview();
-					var sub &#x3D; plus.webview.create(targetTab, subPages[index].id, subPages[index].style);
-					self.append(sub);
-				&#125;
-				&#x2F;&#x2F;隐藏当前;  
-				plus.webview.hide(activeTab); &#x2F;&#x2F;这里应该是关闭页面，不知道隐藏与关闭区别有多大  
-				&#x2F;&#x2F;更改当前活跃的选项卡  
-				activeTab &#x3D; targetTab;
-			&#125;);
-		&lt;&#x2F;script&gt;
-	&lt;&#x2F;body&gt;
-
-&lt;&#x2F;html&gt;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>]]></content>
-      <categories>
-        <category>JavaScript</category>
-      </categories>
-      <tags>
-        <tag>JavaScript</tag>
-        <tag>MUI</tag>
-        <tag>HTML</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Mac QuickLook配置</title>
     <url>/2022/05/18/Mac-QuickLook%E9%85%8D%E7%BD%AE/</url>
     <content><![CDATA[<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>Mac 上的快速预览功能能很大程度上提高工作效率，系统默认支持一些常规的文件预览，一些第三方的文件就需要自己安装插件，但有些文件名后缀不被插件识别，但我们有时仅仅只是想文本预览，此时可以往第三方插件里添加支持，写此篇文章做个备忘。</p>
@@ -1918,255 +1783,6 @@ Ethernet Cards:
         <tag>格式化</tag>
         <tag>OC字符串</tag>
         <tag>Objective-C</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>OC用AFN做Soap请求webService</title>
-    <url>/2016/01/10/OC%E7%94%A8AFN%E5%81%9ASoap%E8%AF%B7%E6%B1%82webService/</url>
-    <content><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>好吧，标题有点拗口。我平时一般不发帖子，因为感觉太花时间了，还是喜欢宅着研究技术。但这个帖子网上资料还是没有很详细的，周末了明天休息，所以现在写下来总结一下，也希望能帮助有这方面需求的开发者朋友，如果错误之处还请谅解，欢迎指出。排版大家就不要在意了，我也不清楚这个支不支持markdown，就直接手动简单排一下。</p>
-<span id="more"></span>
-
-<p>进入主题，最近公司做一个新项目，后台是webService，要做iOS版本的客户端，由于我以前不怎么了解这方面，所以云里雾里得摸索了两天，因为后台人员也不清楚我具体要传什么给他，所以。。。。我就两边跑。。。。最终我确定问题还是在于后端，今天上午完美解决，对webService和WSDL以及CXF有了个大概的了解。</p>
-<p>我就不做过多的概念介绍了，我很懒不愿复制粘贴，只要说一些细节让大家少走弯路就可以。</p>
-<p>在继续往下之前你需要先去了解一些概念：SOAP、WSDL、CXF，和他们之间的关系。这里我觉得这个帖子比较好，推荐一下，Web Service笔记（三）：wsdl 与 soap协议详解 , 对XML或者HTML稍微有点了解看了这篇文章之后对WSDL基本都能大体了解了，这里也感谢一下作者。</p>
-<p>假定现在你对它们有个大体的了解，SOAP请求就是你发一段XML给后台，然后后台返回数据给你，它是通用的，参数后台会在XML中提取，所以我们在这个过程中其实就是在于传的XML的内容，本文也会讲到中间遇到的一些细节。</p>
-<p>首先不要把它想的很复杂，弄通了封装一下，其实这种方式传的东西个人感觉和普通的GET&#x2F;POST差不多，甚或更方便。WSDL文档由于我现在不在公司连不上服务器所以就不介绍。</p>
-<h2 id="开始吧"><a href="#开始吧" class="headerlink" title="开始吧"></a>开始吧</h2><p>首先XML内容，你的SOAP协议版本要和后台一致，不然后台报错会说版本不一致之类的，这里列出，请自行对比。</p>
-<h2 id="SOAP-1-1"><a href="#SOAP-1-1" class="headerlink" title="SOAP 1.1"></a>SOAP 1.1</h2><h3 id="以下是-SOAP-1-1-请求和响应示例。所显示的占位符需替换为实际值。"><a href="#以下是-SOAP-1-1-请求和响应示例。所显示的占位符需替换为实际值。" class="headerlink" title="以下是 SOAP 1.1 请求和响应示例。所显示的占位符需替换为实际值。"></a>以下是 SOAP 1.1 请求和响应示例。所显示的占位符需替换为实际值。</h3><ul>
-<li>请求</li>
-</ul>
-<pre class="line-numbers language-XML" data-language="XML"><code class="language-XML">POST &#x2F;WebServices&#x2F;MobileCodeWS.asmx HTTP&#x2F;1.1
-Host: webservice.webxml.com.cn
-Content-Type: text&#x2F;xml; charset&#x3D;utf-8
-Content-Length: length
-SOAPAction: &quot;http:&#x2F;&#x2F;WebXml.com.cn&#x2F;getMobileCodeInfo&quot;
-
-
-&lt;?xml version&#x3D;&quot;1.0&quot; encoding&#x3D;&quot;utf-8&quot;?&gt;
-&lt;soap:Envelope xmlns:xsi&#x3D;&quot;http:&#x2F;&#x2F;www.w3.org&#x2F;2001&#x2F;XMLSchema-instance&quot; xmlns:xsd&#x3D;&quot;http:&#x2F;&#x2F;www.w3.org&#x2F;2001&#x2F;XMLSchema&quot; xmlns:soap&#x3D;&quot;http:&#x2F;&#x2F;schemas.xmlsoap.org&#x2F;soap&#x2F;envelope&#x2F;&quot;&gt;
-  &lt;soap:Body&gt;
-    &lt;getMobileCodeInfo xmlns&#x3D;&quot;http:&#x2F;&#x2F;WebXml.com.cn&#x2F;&quot;&gt;
-      &lt;mobileCode&gt;string&lt;&#x2F;mobileCode&gt;
-      &lt;userID&gt;string&lt;&#x2F;userID&gt;
-    &lt;&#x2F;getMobileCodeInfo&gt;
-  &lt;&#x2F;soap:Body&gt;
-&lt;&#x2F;soap:Envelope&gt;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<ul>
-<li>响应</li>
-</ul>
-<pre class="line-numbers language-XML" data-language="XML"><code class="language-XML">HTTP&#x2F;1.1 200 OK
-Content-Type: text&#x2F;xml; charset&#x3D;utf-8
-Content-Length: length
-
-&lt;?xml version&#x3D;&quot;1.0&quot; encoding&#x3D;&quot;utf-8&quot;?&gt;
-&lt;soap:Envelope xmlns:xsi&#x3D;&quot;http:&#x2F;&#x2F;www.w3.org&#x2F;2001&#x2F;XMLSchema-instance&quot; xmlns:xsd&#x3D;&quot;http:&#x2F;&#x2F;www.w3.org&#x2F;2001&#x2F;XMLSchema&quot; xmlns:soap&#x3D;&quot;http:&#x2F;&#x2F;schemas.xmlsoap.org&#x2F;soap&#x2F;envelope&#x2F;&quot;&gt;
-  &lt;soap:Body&gt;
-    &lt;getMobileCodeInfoResponse xmlns&#x3D;&quot;http:&#x2F;&#x2F;WebXml.com.cn&#x2F;&quot;&gt;
-      &lt;getMobileCodeInfoResult&gt;string&lt;&#x2F;getMobileCodeInfoResult&gt;
-    &lt;&#x2F;getMobileCodeInfoResponse&gt;
-  &lt;&#x2F;soap:Body&gt;
-&lt;&#x2F;soap:Envelope&gt;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<hr>
-<h2 id="SOAP-1-2"><a href="#SOAP-1-2" class="headerlink" title="SOAP 1.2"></a>SOAP 1.2</h2><h3 id="以下是-SOAP-1-2-请求和响应示例。所显示的占位符需替换为实际值。"><a href="#以下是-SOAP-1-2-请求和响应示例。所显示的占位符需替换为实际值。" class="headerlink" title="以下是 SOAP 1.2 请求和响应示例。所显示的占位符需替换为实际值。"></a>以下是 SOAP 1.2 请求和响应示例。所显示的占位符需替换为实际值。</h3><ul>
-<li>请求</li>
-</ul>
-<pre class="line-numbers language-XML" data-language="XML"><code class="language-XML">POST &#x2F;WebServices&#x2F;MobileCodeWS.asmx HTTP&#x2F;1.1
-Host: webservice.webxml.com.cn
-Content-Type: application&#x2F;soap+xml; charset&#x3D;utf-8
-Content-Length: length
-
-&lt;?xml version&#x3D;&quot;1.0&quot; encoding&#x3D;&quot;utf-8&quot;?&gt;
-&lt;soap12:Envelope xmlns:xsi&#x3D;&quot;http:&#x2F;&#x2F;www.w3.org&#x2F;2001&#x2F;XMLSchema-instance&quot; xmlns:xsd&#x3D;&quot;http:&#x2F;&#x2F;www.w3.org&#x2F;2001&#x2F;XMLSchema&quot; xmlns:soap12&#x3D;&quot;http:&#x2F;&#x2F;www.w3.org&#x2F;2003&#x2F;05&#x2F;soap-envelope&quot;&gt;
-  &lt;soap12:Body&gt;
-    &lt;getMobileCodeInfo xmlns&#x3D;&quot;http:&#x2F;&#x2F;WebXml.com.cn&#x2F;&quot;&gt;
-      &lt;mobileCode&gt;string&lt;&#x2F;mobileCode&gt;
-      &lt;userID&gt;string&lt;&#x2F;userID&gt;
-    &lt;&#x2F;getMobileCodeInfo&gt;
-  &lt;&#x2F;soap12:Body&gt;
-&lt;&#x2F;soap12:Envelope&gt;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<ul>
-<li>响应</li>
-</ul>
-<pre class="line-numbers language-XML" data-language="XML"><code class="language-XML">HTTP&#x2F;1.1 200 OK
-Content-Type: application&#x2F;soap+xml; charset&#x3D;utf-8
-Content-Length: length
-
-&lt;?xml version&#x3D;&quot;1.0&quot; encoding&#x3D;&quot;utf-8&quot;?&gt;
-&lt;soap12:Envelope xmlns:xsi&#x3D;&quot;http:&#x2F;&#x2F;www.w3.org&#x2F;2001&#x2F;XMLSchema-instance&quot; xmlns:xsd&#x3D;&quot;http:&#x2F;&#x2F;www.w3.org&#x2F;2001&#x2F;XMLSchema&quot; xmlns:soap12&#x3D;&quot;http:&#x2F;&#x2F;www.w3.org&#x2F;2003&#x2F;05&#x2F;soap-envelope&quot;&gt;
-  &lt;soap12:Body&gt;
-    &lt;getMobileCodeInfoResponse xmlns&#x3D;&quot;http:&#x2F;&#x2F;WebXml.com.cn&#x2F;&quot;&gt;
-      &lt;getMobileCodeInfoResult&gt;string&lt;&#x2F;getMobileCodeInfoResult&gt;
-    &lt;&#x2F;getMobileCodeInfoResponse&gt;
-  &lt;&#x2F;soap12:Body&gt;
-&lt;&#x2F;soap12:Envelope&gt;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<h2 id="注意点"><a href="#注意点" class="headerlink" title="注意点"></a>注意点</h2><p><strong>直接说注意点，拿SOAP 1.1 请求做例子，要传的XML文档为:</strong></p>
-<pre class="line-numbers language-XML" data-language="XML"><code class="language-XML">&lt;?xml version&#x3D;&quot;1.0&quot; encoding&#x3D;&quot;utf-8&quot;?&gt;
-&lt;soap:Envelope xmlns:xsi&#x3D;&quot;http:&#x2F;&#x2F;www.w3.org&#x2F;2001&#x2F;XMLSchema-instance&quot; xmlns:xsd&#x3D;&quot;http:&#x2F;&#x2F;www.w3.org&#x2F;2001&#x2F;XMLSchema&quot; xmlns:soap&#x3D;&quot;http:&#x2F;&#x2F;schemas.xmlsoap.org&#x2F;soap&#x2F;envelope&#x2F;&quot;&gt;
-  &lt;soap:Body&gt;
-    &lt;getMobileCodeInfo xmlns&#x3D;&quot;http:&#x2F;&#x2F;WebXml.com.cn&#x2F;&quot;&gt;
-      &lt;mobileCode&gt;string&lt;&#x2F;mobileCode&gt;
-      &lt;userID&gt;string&lt;&#x2F;userID&gt;
-    &lt;&#x2F;getMobileCodeInfo&gt;
-  &lt;&#x2F;soap:Body&gt;
-&lt;&#x2F;soap:Envelope&gt;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<p><strong>&lt;soap: Body&gt;</strong> 标签以外的不用改，head一般也不用传，要调用的方法和参数都包在body里面，比如这个例子中， <strong>getMobileCodeInfo</strong> 是WSDL文档发布的你要调用的方法名，其后接的xmlns是你wsdl文档中对应的 <strong>targetNameSpace</strong> ，这个和你JAVA中的 <strong>package</strong> 名对应，比如你后台JAVA代码中该方法中import的package为 <code>com.xxxx.oooo</code> 那么这里的xmlns就是 <code>ooo.xxxx.com</code> ，<code>mobileCode和userID</code>是这个方法中接收的参数名，那么也就是说该方法在其JAVA后台大概是这个样子</p>
-<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token keyword">public</span> getMobileCodeInfo <span class="token punctuation">(</span><span class="token annotation punctuation">@WebParam</span><span class="token punctuation">(</span>name<span class="token operator">=</span><span class="token string">"mobileCode"</span> <span class="token punctuation">,</span> name<span class="token operator">=</span><span class="token string">"userID"</span><span class="token punctuation">)</span> <span class="token class-name">String</span> mobileCode<span class="token punctuation">,</span> <span class="token class-name">String</span> userID<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-<p>对应的WSDL中该operation的input下也应该有两个name就是mobileCode和userID，注意@WebParam(name&#x3D;”mobileCode” , name&#x3D;”userID”) 不能少，这个注解让后台认识参数名，少了后台会一直报unexpected element ，我们后台一开始就少了这个，搞了很久。这种情况是参数分开传的情况，有的后台的参数直接一个request，但是里面包含有几个键值对也其实就是相当于几个参数，刚接触的新手在这里很容易绕弯，比如我后台有这个个方法  public login (WebParam(name&#x3D;”req” ) String req) ，很明显这里只接一个参数，而且叫做req，但是这个请求就是需要账户名和密码，所以在对应的xml中文档应这样写body中内容</p>
-<pre class="line-numbers language-XML" data-language="XML"><code class="language-XML">&lt;soap12:Body&gt;
-    &lt;login xmlns&#x3D;&quot;http:&#x2F;&#x2F;WebXml.com.cn&#x2F;&quot;&gt;
-      &lt;req&gt;&#123;@&quot;userNameKey&quot;: zhangsan, @&quot;password&quot;: pwdpwd&#125;&lt;&#x2F;req&gt;
-    &lt;&#x2F;login&gt;
-&lt;&#x2F;soap12:Body&gt;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<h2 id="NSURLSession请求soap"><a href="#NSURLSession请求soap" class="headerlink" title="NSURLSession请求soap"></a>NSURLSession请求soap</h2><p>最后请求地址就是你的wsdl文档中的Endpoint address地址，请求体就是该XML，发个POST请求就完事啦，这里又有事了，本人是强迫症，因为一开始就用的AFN请求，咋请求咋报错，于是跟着网上找的DEMO换NSURLConnection，一不小心成功了一次，但是这个iOS已经废弃了不喜欢，于是用NSURLSession，恩也成功了，但是还是感觉好麻烦，发个NSURLSession请求soap的代码:</p>
- <pre class="line-numbers language-objectivec" data-language="objectivec"><code class="language-objectivec"> NSString <span class="token operator">*</span>soapStr <span class="token operator">=</span> <span class="token punctuation">[</span>NSString stringWithFormat<span class="token punctuation">:</span><span class="token string">@"&lt;?xml version=\"1.0\" encoding=\"utf-8\"?>\
- &lt;soap:Envelope xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\"\
- xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\">\
- &lt;soap:Header>\
- &lt;/soap:Header>\
- &lt;soap:Body>\
- &lt;login xmlns=\"targetNameSpace地址/\">\
- &lt;param1>test&lt;/param1>\
- &lt;param2>test&lt;/param2>\
- &lt;/login>\
- &lt;/soap:Body>\
- &lt;/soap:Envelope>"</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
-  
- NSURL <span class="token operator">*</span>url<span class="token operator">=</span><span class="token punctuation">[</span>NSURL URLWithString<span class="token punctuation">:</span><span class="token string">@"你自己wsdl文档中对应的endpoint address"</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
-  
- NSMutableURLRequest <span class="token operator">*</span>request<span class="token operator">=</span><span class="token punctuation">[</span>NSMutableURLRequest requestWithURL<span class="token punctuation">:</span>url<span class="token punctuation">]</span><span class="token punctuation">;</span>
-  
- <span class="token comment">// 访问方式</span>
- <span class="token punctuation">[</span>request setHTTPMethod<span class="token punctuation">:</span><span class="token string">@"POST"</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
-  
- <span class="token comment">// 设置请求头(请求头也可以不设置，前两个设不设置都一样，应该默认的，但是SOAPAction我怎么都设置不对，不设置也可以，干脆不设置了)</span>
- <span class="token comment">// [request addValue:@"text/xml; charset=utf-8" forHTTPHeaderField:@"Content-Type"];</span>
-<span class="token comment">//  [request addValue:[NSString stringWithFormat:@"%zd", soapStr.length] forHTTPHeaderField:@"Content-Length"];</span>
- <span class="token comment">//    [request addValue:@"nameSpace/methodName" forHTTPHeaderField:@"SOAPAction"];</span>
-  
- <span class="token comment">// body内容</span>
- <span class="token punctuation">[</span>request setHTTPBody<span class="token punctuation">:</span><span class="token punctuation">[</span>soapStr dataUsingEncoding<span class="token punctuation">:</span>NSUTF8StringEncoding<span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
-  
- NSURLSession <span class="token operator">*</span>session <span class="token operator">=</span> <span class="token punctuation">[</span>NSURLSession sharedSession<span class="token punctuation">]</span><span class="token punctuation">;</span>
-  
- NSURLSessionDataTask <span class="token operator">*</span>task <span class="token operator">=</span> <span class="token punctuation">[</span>session dataTaskWithRequest<span class="token punctuation">:</span>request completionHandler<span class="token punctuation">:</span><span class="token operator">^</span><span class="token punctuation">(</span>NSData <span class="token operator">*</span> _Nullable data<span class="token punctuation">,</span> NSURLResponse <span class="token operator">*</span> _Nullable response<span class="token punctuation">,</span> NSError <span class="token operator">*</span> _Nullable error<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
- NSString <span class="token operator">*</span>result <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">[</span>NSString alloc<span class="token punctuation">]</span> initWithData<span class="token punctuation">:</span>data  encoding<span class="token punctuation">:</span>NSUTF8StringEncoding<span class="token punctuation">]</span><span class="token punctuation">;</span>
-  
- <span class="token function">WJLog</span><span class="token punctuation">(</span><span class="token string">@"进入成功回调Session-----结果：%@----请求地址：%@"</span><span class="token punctuation">,</span> result<span class="token punctuation">,</span> response<span class="token punctuation">.</span>URL<span class="token punctuation">)</span><span class="token punctuation">;</span>
-  
- <span class="token keyword">if</span> <span class="token punctuation">(</span>error<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
- <span class="token function">WJLog</span><span class="token punctuation">(</span><span class="token string">@"Session----失败----%@"</span><span class="token punctuation">,</span> error<span class="token punctuation">.</span>localizedDescription<span class="token punctuation">)</span><span class="token punctuation">;</span>
- <span class="token punctuation">&#125;</span>
- <span class="token punctuation">&#125;</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
-  
- <span class="token punctuation">[</span>task resume<span class="token punctuation">]</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<h2 id="AFHTTPRequestOperation-请求"><a href="#AFHTTPRequestOperation-请求" class="headerlink" title="AFHTTPRequestOperation 请求"></a>AFHTTPRequestOperation 请求</h2><p>经过和后台七改八改都无果，我干脆自己了解这些文档规范，在上午确定我操作没错之后，直接说后台那边有问题，然后后台改，重启服务器我请求没有任何进展，最后竟然是什么问题你们知道么。。前一天其实我已经传对了XML，只是后台改动的代码放错了地方，只放到了正式服没有放测试服，我也是，，，醉了，，不过也好，要是那么顺畅我就不会去过多了解这方面了。<br>好了，要传什么，注意点都讲了，现在到了客户端的问题，用官方SDK请求是不是感觉很麻烦？是的，对于用惯了AFN或者自己封装的网络请求工具类的人来说如果每次都要写这多么代码发一次请求太痛苦了，于是我想可不可以用AFN请求SOAP，一开始想用manager发请求，直接把XML当params发POST肯定是直接挂了，于是想要设置HTTPBody要不用AFHTTPRequestOperation？没错这样确实可以，代码如下：</p>
-<pre class="line-numbers language-objectivec" data-language="objectivec"><code class="language-objectivec">NSMutableURLRequest <span class="token operator">*</span>request<span class="token operator">=</span><span class="token punctuation">[</span>NSMutableURLRequest requestWithURL<span class="token punctuation">:</span>url<span class="token punctuation">]</span><span class="token punctuation">;</span>
- <span class="token punctuation">[</span>request setHTTPMethod<span class="token punctuation">:</span><span class="token string">@"POST"</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
- <span class="token punctuation">[</span>request setHTTPBody<span class="token punctuation">:</span><span class="token punctuation">[</span>soapStr dataUsingEncoding<span class="token punctuation">:</span>NSUTF8StringEncoding<span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
-  
- AFHTTPRequestOperation <span class="token operator">*</span>operation <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">[</span>AFHTTPRequestOperation alloc<span class="token punctuation">]</span> initWithRequest<span class="token punctuation">:</span>request<span class="token punctuation">]</span><span class="token punctuation">;</span>
-  
- <span class="token comment">// 设置返回数据格式</span>
- operation<span class="token punctuation">.</span>responseSerializer <span class="token operator">=</span> <span class="token punctuation">[</span>AFHTTPResponseSerializer serializer<span class="token punctuation">]</span><span class="token punctuation">;</span>
-  
- <span class="token punctuation">[</span>operation setCompletionBlockWithSuccess<span class="token punctuation">:</span><span class="token operator">^</span><span class="token punctuation">(</span>AFHTTPRequestOperation <span class="token operator">*</span> _Nonnull operation<span class="token punctuation">,</span> id  _Nonnull responseObject<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
- NSString <span class="token operator">*</span>result <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">[</span>NSString alloc<span class="token punctuation">]</span> initWithData<span class="token punctuation">:</span>responseObject  encoding<span class="token punctuation">:</span>NSUTF8StringEncoding<span class="token punctuation">]</span><span class="token punctuation">;</span>
- <span class="token function">WJLog</span><span class="token punctuation">(</span><span class="token string">@"AFN--成功--结果：%@----返回数据%@"</span><span class="token punctuation">,</span> result<span class="token punctuation">,</span> responseObject<span class="token punctuation">)</span><span class="token punctuation">;</span>
- <span class="token punctuation">&#125;</span> failure<span class="token punctuation">:</span><span class="token operator">^</span><span class="token punctuation">(</span>AFHTTPRequestOperation <span class="token operator">*</span> _Nonnull operation<span class="token punctuation">,</span> NSError <span class="token operator">*</span> _Nonnull error<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
- <span class="token function">WJLog</span><span class="token punctuation">(</span><span class="token string">@"AFN--失败--%@"</span><span class="token punctuation">,</span> error<span class="token punctuation">.</span>localizedDescription<span class="token punctuation">)</span><span class="token punctuation">;</span>
- <span class="token punctuation">&#125;</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
-  
- <span class="token punctuation">[</span>operation start<span class="token punctuation">]</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<p>这一看感觉和NSURLSession没多大差别，还是想用manager，关键问题就在于设置request的HTTBbody为XML，但是AFHTTPSessionManager已经把request封装了，默认用的params，怎么改？于是想改动或者添加AFN内部方法，但是总感觉这样不好，万一更新库了又要搞一遍。于是想能否拦截这个request，或者通过manager.requestSerializer设置HTTPBody，敲set浏览一下没有HTTPBody字眼的，用KVC也不行，那样还是相当于把XML当params传了，伤心绝望之时看到这个方法:</p>
-<pre class="line-numbers language-objectivec" data-language="objectivec"><code class="language-objectivec"> <span class="token punctuation">[</span>manager<span class="token punctuation">.</span>requestSerializer setQueryStringSerializationWithBlock<span class="token punctuation">:</span><span class="token operator">^</span>NSString <span class="token operator">*</span><span class="token punctuation">(</span>NSURLRequest <span class="token operator">*</span>request<span class="token punctuation">,</span> NSDictionary <span class="token operator">*</span>parameters<span class="token punctuation">,</span> NSError <span class="token operator">*</span>__autoreleasing <span class="token operator">*</span>error<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-   <span class="token comment">// </span>
-<span class="token punctuation">&#125;</span><span class="token punctuation">]</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
-
-<h2 id="简单封装-AFHTTPSessionManager-请求"><a href="#简单封装-AFHTTPSessionManager-请求" class="headerlink" title="简单封装 AFHTTPSessionManager 请求"></a>简单封装 AFHTTPSessionManager 请求</h2><p>一看里面有request 有 params 高兴了，说不定在这里能拦截，于是直接写</p>
-<pre class="line-numbers language-objectivec" data-language="objectivec"><code class="language-objectivec"><span class="token punctuation">[</span>manager<span class="token punctuation">.</span>requestSerializer setQueryStringSerializationWithBlock<span class="token punctuation">:</span><span class="token operator">^</span>NSString <span class="token operator">*</span><span class="token punctuation">(</span>NSURLRequest <span class="token operator">*</span>request<span class="token punctuation">,</span> NSDictionary <span class="token operator">*</span>parameters<span class="token punctuation">,</span> NSError <span class="token operator">*</span>__autoreleasing <span class="token operator">*</span>error<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-    <span class="token keyword">return</span> soapStr<span class="token punctuation">;</span>
-<span class="token punctuation">&#125;</span><span class="token punctuation">]</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
-<p>请求成功，happy。<br>接下来另一个问题了，简单封装一下，我收到的是二进制，所以把AFN封装成了个工具类，供大家参考，欢迎提出改进</p>
-<pre class="line-numbers language-objectivec" data-language="objectivec"><code class="language-objectivec"><span class="token comment">/**
-*  请求SOAP，返回NSData
-*
-*  @param url      请求地址
-*  @param soapBody soap的XML中方法和参数段
-*  @param success  成功block
-*  @param failure  失败block
-*/</span>
-<span class="token operator">+</span> <span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span>SOAPData<span class="token punctuation">:</span><span class="token punctuation">(</span>NSString <span class="token operator">*</span><span class="token punctuation">)</span>url soapBody<span class="token punctuation">:</span><span class="token punctuation">(</span>NSString <span class="token operator">*</span><span class="token punctuation">)</span>soapBody success<span class="token punctuation">:</span><span class="token punctuation">(</span><span class="token keyword">void</span> <span class="token punctuation">(</span><span class="token operator">^</span><span class="token punctuation">)</span><span class="token punctuation">(</span>id responseObject<span class="token punctuation">)</span><span class="token punctuation">)</span>success failure<span class="token punctuation">:</span><span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">(</span><span class="token operator">^</span><span class="token punctuation">)</span><span class="token punctuation">(</span>NSError <span class="token operator">*</span>error<span class="token punctuation">)</span><span class="token punctuation">)</span>failure <span class="token punctuation">&#123;</span>
-     
-    NSString <span class="token operator">*</span>soapStr <span class="token operator">=</span> <span class="token punctuation">[</span>NSString stringWithFormat<span class="token punctuation">:</span>
-                         <span class="token string">@"&lt;?xml version=\"1.0\" encoding=\"utf-8\"?>\
-                         &lt;soap:Envelope xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\"\
-                         xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\">\
-                         &lt;soap:Header>\
-                         &lt;/soap:Header>\
-                         &lt;soap:Body>%@&lt;/soap:Body>\
-                         &lt;/soap:Envelope>"</span><span class="token punctuation">,</span>soapBody<span class="token punctuation">]</span><span class="token punctuation">;</span>
-     
-    AFHTTPSessionManager <span class="token operator">*</span>manager <span class="token operator">=</span> <span class="token punctuation">[</span>AFHTTPSessionManager manager<span class="token punctuation">]</span><span class="token punctuation">;</span>
-    manager<span class="token punctuation">.</span>responseSerializer <span class="token operator">=</span> <span class="token punctuation">[</span>AFXMLParserResponseSerializer serializer<span class="token punctuation">]</span><span class="token punctuation">;</span>
-     
-    <span class="token comment">// 设置请求超时时间</span>
-    manager<span class="token punctuation">.</span>requestSerializer<span class="token punctuation">.</span>timeoutInterval <span class="token operator">=</span> <span class="token number">30</span><span class="token punctuation">;</span>
-     
-    <span class="token comment">// 返回NSData</span>
-    manager<span class="token punctuation">.</span>responseSerializer <span class="token operator">=</span> <span class="token punctuation">[</span>AFHTTPResponseSerializer serializer<span class="token punctuation">]</span><span class="token punctuation">;</span>
-     
-    <span class="token comment">// 设置请求头，也可以不设置</span>
-    <span class="token punctuation">[</span>manager<span class="token punctuation">.</span>requestSerializer setValue<span class="token punctuation">:</span><span class="token string">@"application/soap+xml; charset=utf-8"</span> forHTTPHeaderField<span class="token punctuation">:</span><span class="token string">@"Content-Type"</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
-    <span class="token punctuation">[</span>manager<span class="token punctuation">.</span>requestSerializer setValue<span class="token punctuation">:</span><span class="token punctuation">[</span>NSString stringWithFormat<span class="token punctuation">:</span><span class="token string">@"%zd"</span><span class="token punctuation">,</span> soapStr<span class="token punctuation">.</span>length<span class="token punctuation">]</span> forHTTPHeaderField<span class="token punctuation">:</span><span class="token string">@"Content-Length"</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
- 
-    <span class="token comment">// 设置HTTPBody</span>
-    <span class="token punctuation">[</span>manager<span class="token punctuation">.</span>requestSerializer setQueryStringSerializationWithBlock<span class="token punctuation">:</span><span class="token operator">^</span>NSString <span class="token operator">*</span><span class="token punctuation">(</span>NSURLRequest <span class="token operator">*</span>request<span class="token punctuation">,</span> NSDictionary <span class="token operator">*</span>parameters<span class="token punctuation">,</span> NSError <span class="token operator">*</span>__autoreleasing <span class="token operator">*</span>error<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-        <span class="token keyword">return</span> soapStr<span class="token punctuation">;</span>
-    <span class="token punctuation">&#125;</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
-     
-    <span class="token punctuation">[</span>manager POST<span class="token punctuation">:</span>url parameters<span class="token punctuation">:</span>soapStr success<span class="token punctuation">:</span><span class="token operator">^</span><span class="token punctuation">(</span>NSURLSessionDataTask <span class="token operator">*</span> _Nonnull task<span class="token punctuation">,</span> id  _Nonnull responseObject<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-        <span class="token comment">// 把返回的二进制数据转为字符串</span>
-         NSString <span class="token operator">*</span>result <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">[</span>NSString alloc<span class="token punctuation">]</span> initWithData<span class="token punctuation">:</span>responseObject encoding<span class="token punctuation">:</span>NSUTF8StringEncoding<span class="token punctuation">]</span><span class="token punctuation">;</span>
-         
-        <span class="token comment">// 利用正则表达式取出&lt;return>&lt;/return>之间的字符串</span>
-        NSRegularExpression <span class="token operator">*</span>regular <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">[</span>NSRegularExpression alloc<span class="token punctuation">]</span> initWithPattern<span class="token punctuation">:</span><span class="token string">@"(?&lt;=return\\>).*(?=&lt;/return)"</span> options<span class="token punctuation">:</span>NSRegularExpressionCaseInsensitive error<span class="token punctuation">:</span>nil<span class="token punctuation">]</span><span class="token punctuation">;</span>
-         
-        NSDictionary <span class="token operator">*</span>dict <span class="token operator">=</span> <span class="token punctuation">[</span>NSDictionary dictionary<span class="token punctuation">]</span><span class="token punctuation">;</span>
-        <span class="token keyword">for</span> <span class="token punctuation">(</span>NSTextCheckingResult <span class="token operator">*</span>checkingResult <span class="token keyword">in</span> <span class="token punctuation">[</span>regular matchesInString<span class="token punctuation">:</span>result options<span class="token punctuation">:</span><span class="token number">0</span> range<span class="token punctuation">:</span><span class="token function">NSMakeRange</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> result<span class="token punctuation">.</span>length<span class="token punctuation">)</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-             
-            <span class="token comment">// 得到字典</span>
-            dict <span class="token operator">=</span> <span class="token punctuation">[</span>NSJSONSerialization JSONObjectWithData<span class="token punctuation">:</span><span class="token punctuation">[</span><span class="token punctuation">[</span>result substringWithRange<span class="token punctuation">:</span>checkingResult<span class="token punctuation">.</span>range<span class="token punctuation">]</span> dataUsingEncoding<span class="token punctuation">:</span>NSUTF8StringEncoding<span class="token punctuation">]</span> options<span class="token punctuation">:</span>NSJSONReadingMutableLeaves error<span class="token punctuation">:</span>nil<span class="token punctuation">]</span><span class="token punctuation">;</span>
-        <span class="token punctuation">&#125;</span>
-        <span class="token comment">// 请求成功并且结果有值把结果传出去</span>
-        <span class="token keyword">if</span> <span class="token punctuation">(</span>success <span class="token operator">&amp;&amp;</span> dict<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-            <span class="token function">success</span><span class="token punctuation">(</span>dict<span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token punctuation">&#125;</span>
-         
-    <span class="token punctuation">&#125;</span> failure<span class="token punctuation">:</span><span class="token operator">^</span><span class="token punctuation">(</span>NSURLSessionDataTask <span class="token operator">*</span> _Nullable task<span class="token punctuation">,</span> NSError <span class="token operator">*</span> _Nonnull error<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-        <span class="token keyword">if</span> <span class="token punctuation">(</span>failure<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-            <span class="token function">failure</span><span class="token punctuation">(</span>error<span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token punctuation">&#125;</span>
-    <span class="token punctuation">&#125;</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
-<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<p>原文地址：<a href="http://www.cocoachina.com/bbs/read.php?tid-456019.html">OC用AFN做Soap请求webService</a></p>
-<h2 id="结束语"><a href="#结束语" class="headerlink" title="结束语"></a>结束语</h2><p>差不多了，如果有什么问题指正欢迎大家留言。排版真的很丑，大家见谅，洗洗睡了。</p>
-<blockquote>
-<p>Author: VanJay <br>如需转载，请注明出处</p>
-</blockquote>
-]]></content>
-      <categories>
-        <category>Objective-C</category>
-      </categories>
-      <tags>
-        <tag>AFN</tag>
-        <tag>Soap</tag>
-        <tag>WebService</tag>
       </tags>
   </entry>
   <entry>
@@ -2510,6 +2126,141 @@ emulator<span aria-hidden="true" class="line-numbers-rows"><span></span><span></
         <tag>Ubuntu</tag>
         <tag>Android</tag>
         <tag>Android source build</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>MUI webview选项卡 首次只加载首页，点击触发打开页面</title>
+    <url>/2017/04/15/MUI%20webview%E9%80%89%E9%A1%B9%E5%8D%A1%20%E9%A6%96%E6%AC%A1%E5%8F%AA%E5%8A%A0%E8%BD%BD%E9%A6%96%E9%A1%B5%EF%BC%8C%E7%82%B9%E5%87%BB%E8%A7%A6%E5%8F%91%E6%89%93%E5%BC%80%E9%A1%B5%E9%9D%A2/</url>
+    <content><![CDATA[<p><code>MUI</code> 官方的 <code>Demo</code> 的加载 webview 选项卡的逻辑是一次创建全部的选项卡，只默认显示默认创建的页面，这个页面逻辑没必要这么复杂，扩展性也不强，修改一处多处要修改，我做了简单修改，直接修改数据源，就可以达到更改全部的效果。</p>
+<p>直接上全部代码</p>
+<span id="more"></span>
+
+<pre class="line-numbers language-HTML" data-language="HTML"><code class="language-HTML">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+
+	&lt;head&gt;
+		&lt;meta charset&#x3D;&quot;utf-8&quot;&gt;
+		&lt;title&gt;Main&lt;&#x2F;title&gt;
+		&lt;script type&#x3D;&quot;text&#x2F;javascript&quot; src&#x3D;&quot;..&#x2F;js&#x2F;config.js&quot;&gt;&lt;&#x2F;script&gt;
+		&lt;script type&#x3D;&quot;text&#x2F;javascript&quot; src&#x3D;&quot;..&#x2F;js&#x2F;helper.js&quot;&gt;&lt;&#x2F;script&gt;
+		&lt;script type&#x3D;&quot;text&#x2F;javascript&quot; src&#x3D;&quot;..&#x2F;js&#x2F;common-head.js&quot;&gt;&lt;&#x2F;script&gt;
+		&lt;link rel&#x3D;&quot;stylesheet&quot; href&#x3D;&quot;..&#x2F;css&#x2F;main.css&quot;&gt;
+	&lt;&#x2F;head&gt;
+
+	&lt;body&gt;
+		&lt;nav class&#x3D;&quot;mui-bar mui-bar-tab&quot;&gt;
+			&lt;a class&#x3D;&quot;mui-tab-item&quot;&gt;
+				&lt;span class&#x3D;&quot;mui-icon iconfont icon-zuanshi&quot;&gt;&lt;&#x2F;span&gt;
+				&lt;span class&#x3D;&quot;mui-tab-label&quot;&gt;&lt;&#x2F;span&gt;
+			&lt;&#x2F;a&gt;
+			&lt;a class&#x3D;&quot;mui-tab-item&quot;&gt;
+				&lt;span class&#x3D;&quot;mui-icon iconfont icon-8&quot;&gt;&lt;&#x2F;span&gt;
+				&lt;span class&#x3D;&quot;mui-tab-label&quot;&gt;&lt;&#x2F;span&gt;
+			&lt;&#x2F;a&gt;
+			&lt;a class&#x3D;&quot;mui-tab-item&quot;&gt;
+				&lt;span class&#x3D;&quot;mui-icon iconfont icon-zoushi&quot;&gt;&lt;&#x2F;span&gt;
+				&lt;span class&#x3D;&quot;mui-tab-label&quot;&gt;&lt;&#x2F;span&gt;
+			&lt;&#x2F;a&gt;
+			&lt;a class&#x3D;&quot;mui-tab-item&quot;&gt;
+				&lt;span class&#x3D;&quot;mui-icon iconfont icon-yonghuming&quot;&gt;&lt;&#x2F;span&gt;
+				&lt;span class&#x3D;&quot;mui-tab-label&quot;&gt;&lt;&#x2F;span&gt;
+			&lt;&#x2F;a&gt;
+		&lt;&#x2F;nav&gt;
+		&lt;script type&#x3D;&quot;text&#x2F;javascript&quot; charset&#x3D;&quot;utf-8&quot;&gt;
+			&#x2F;&#x2F;mui初始化
+			mui.init();
+
+			var subpage_style &#x3D; &#123;
+				top: &#39;0px&#39;,
+				bottom: &#39;60px&#39;
+			&#125;;
+
+			var subPages &#x3D; [&#123;
+					href: &#39;wonderfulRecommend.html&#39;,
+					style: subpage_style,
+					id: config.pageID.wonderfulRecommend,
+					name: &quot;精彩推荐&quot;
+				&#125;,
+				&#123;
+					href: &#39;lotteryHall.html&#39;,
+					style: subpage_style,
+					id: config.pageID.lotteryHall,
+					name: &quot;购彩大厅&quot;
+				&#125;,
+				&#123;
+					href: &#39;drawTrend-pullRefresh.html&#39;,
+					style: subpage_style,
+					id: config.pageID.drawTrend_pullRefresh,
+					name: &quot;开奖走势&quot;
+				&#125;,
+				&#123;
+					href: &#39;myLottery.html&#39;,
+					style: subpage_style,
+					id: config.pageID.myLottery,
+					name: &quot;我的彩票&quot;
+				&#125;
+			]
+			&#x2F;&#x2F; 默认显示页面
+			var defaultPageIndex &#x3D; 0;
+			mui.ready(function() &#123;
+				&#x2F;&#x2F; 动态添加 href 和名称
+				var tabBarItems &#x3D; document.getElementsByClassName(&#39;mui-tab-item&#39;);
+				for(var i &#x3D; 0; i &lt; tabBarItems.length; i++) &#123;
+					var tabBarItem &#x3D; tabBarItems[i];
+					&#x2F;&#x2F; 设置目标页面
+					tabBarItem.setAttribute(&#39;href&#39;, subPages[i].href);
+					&#x2F;&#x2F; 设置索引
+					tabBarItem.setAttribute(&#39;index&#39;, i);
+					&#x2F;&#x2F; 设置文字标题
+					var tab_item_label &#x3D; tabBarItem.querySelector(&#39;.mui-tab-label&#39;);
+					tab_item_label.innerHTML &#x3D; subPages[i].name;
+					&#x2F;&#x2F; 默认激活的 mui-tab-item
+					if(i &#x3D;&#x3D; defaultPageIndex) &#123;
+						tabBarItem.classList.add(&#39;mui-active&#39;);
+					&#125;
+				&#125;
+			&#125;)
+			
+			&#x2F;&#x2F;创建子页面，首个选项卡页面显示，其它均隐藏；
+			mui.plusReady(function() &#123;
+				var self &#x3D; plus.webview.currentWebview();
+				var defaultPage &#x3D; plus.webview.create(subPages[defaultPageIndex].href, subPages[defaultPageIndex].id, subPages[defaultPageIndex].style);
+				self.append(defaultPage);
+			&#125;);
+			var activeTab &#x3D; subPages[defaultPageIndex].id;
+			mui(&#39;.mui-bar-tab&#39;).on(&#39;tap&#39;, &#39;a&#39;, function(e) &#123;
+				var targetTab &#x3D; this.getAttribute(&#39;href&#39;);
+
+				if(targetTab &#x3D;&#x3D; activeTab) &#123;
+					return;
+				&#125;
+				var index &#x3D; this.getAttribute(&#39;index&#39;);
+				log(index);
+				&#x2F;&#x2F; 先获取
+				var destPage &#x3D; plus.webview.getWebviewById(subPages[index].id);
+				if(destPage) &#123;
+					destPage.show();
+				&#125; else &#123;
+					var self &#x3D; plus.webview.currentWebview();
+					var sub &#x3D; plus.webview.create(targetTab, subPages[index].id, subPages[index].style);
+					self.append(sub);
+				&#125;
+				&#x2F;&#x2F;隐藏当前;  
+				plus.webview.hide(activeTab); &#x2F;&#x2F;这里应该是关闭页面，不知道隐藏与关闭区别有多大  
+				&#x2F;&#x2F;更改当前活跃的选项卡  
+				activeTab &#x3D; targetTab;
+			&#125;);
+		&lt;&#x2F;script&gt;
+	&lt;&#x2F;body&gt;
+
+&lt;&#x2F;html&gt;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>]]></content>
+      <categories>
+        <category>JavaScript</category>
+      </categories>
+      <tags>
+        <tag>JavaScript</tag>
+        <tag>MUI</tag>
+        <tag>HTML</tag>
       </tags>
   </entry>
   <entry>
@@ -3005,6 +2756,255 @@ vm.vfs_cache_pressure <span class="token operator">=</span> <span class="token n
       </tags>
   </entry>
   <entry>
+    <title>OC用AFN做Soap请求webService</title>
+    <url>/2016/01/10/OC%E7%94%A8AFN%E5%81%9ASoap%E8%AF%B7%E6%B1%82webService/</url>
+    <content><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>好吧，标题有点拗口。我平时一般不发帖子，因为感觉太花时间了，还是喜欢宅着研究技术。但这个帖子网上资料还是没有很详细的，周末了明天休息，所以现在写下来总结一下，也希望能帮助有这方面需求的开发者朋友，如果错误之处还请谅解，欢迎指出。排版大家就不要在意了，我也不清楚这个支不支持markdown，就直接手动简单排一下。</p>
+<span id="more"></span>
+
+<p>进入主题，最近公司做一个新项目，后台是webService，要做iOS版本的客户端，由于我以前不怎么了解这方面，所以云里雾里得摸索了两天，因为后台人员也不清楚我具体要传什么给他，所以。。。。我就两边跑。。。。最终我确定问题还是在于后端，今天上午完美解决，对webService和WSDL以及CXF有了个大概的了解。</p>
+<p>我就不做过多的概念介绍了，我很懒不愿复制粘贴，只要说一些细节让大家少走弯路就可以。</p>
+<p>在继续往下之前你需要先去了解一些概念：SOAP、WSDL、CXF，和他们之间的关系。这里我觉得这个帖子比较好，推荐一下，Web Service笔记（三）：wsdl 与 soap协议详解 , 对XML或者HTML稍微有点了解看了这篇文章之后对WSDL基本都能大体了解了，这里也感谢一下作者。</p>
+<p>假定现在你对它们有个大体的了解，SOAP请求就是你发一段XML给后台，然后后台返回数据给你，它是通用的，参数后台会在XML中提取，所以我们在这个过程中其实就是在于传的XML的内容，本文也会讲到中间遇到的一些细节。</p>
+<p>首先不要把它想的很复杂，弄通了封装一下，其实这种方式传的东西个人感觉和普通的GET&#x2F;POST差不多，甚或更方便。WSDL文档由于我现在不在公司连不上服务器所以就不介绍。</p>
+<h2 id="开始吧"><a href="#开始吧" class="headerlink" title="开始吧"></a>开始吧</h2><p>首先XML内容，你的SOAP协议版本要和后台一致，不然后台报错会说版本不一致之类的，这里列出，请自行对比。</p>
+<h2 id="SOAP-1-1"><a href="#SOAP-1-1" class="headerlink" title="SOAP 1.1"></a>SOAP 1.1</h2><h3 id="以下是-SOAP-1-1-请求和响应示例。所显示的占位符需替换为实际值。"><a href="#以下是-SOAP-1-1-请求和响应示例。所显示的占位符需替换为实际值。" class="headerlink" title="以下是 SOAP 1.1 请求和响应示例。所显示的占位符需替换为实际值。"></a>以下是 SOAP 1.1 请求和响应示例。所显示的占位符需替换为实际值。</h3><ul>
+<li>请求</li>
+</ul>
+<pre class="line-numbers language-XML" data-language="XML"><code class="language-XML">POST &#x2F;WebServices&#x2F;MobileCodeWS.asmx HTTP&#x2F;1.1
+Host: webservice.webxml.com.cn
+Content-Type: text&#x2F;xml; charset&#x3D;utf-8
+Content-Length: length
+SOAPAction: &quot;http:&#x2F;&#x2F;WebXml.com.cn&#x2F;getMobileCodeInfo&quot;
+
+
+&lt;?xml version&#x3D;&quot;1.0&quot; encoding&#x3D;&quot;utf-8&quot;?&gt;
+&lt;soap:Envelope xmlns:xsi&#x3D;&quot;http:&#x2F;&#x2F;www.w3.org&#x2F;2001&#x2F;XMLSchema-instance&quot; xmlns:xsd&#x3D;&quot;http:&#x2F;&#x2F;www.w3.org&#x2F;2001&#x2F;XMLSchema&quot; xmlns:soap&#x3D;&quot;http:&#x2F;&#x2F;schemas.xmlsoap.org&#x2F;soap&#x2F;envelope&#x2F;&quot;&gt;
+  &lt;soap:Body&gt;
+    &lt;getMobileCodeInfo xmlns&#x3D;&quot;http:&#x2F;&#x2F;WebXml.com.cn&#x2F;&quot;&gt;
+      &lt;mobileCode&gt;string&lt;&#x2F;mobileCode&gt;
+      &lt;userID&gt;string&lt;&#x2F;userID&gt;
+    &lt;&#x2F;getMobileCodeInfo&gt;
+  &lt;&#x2F;soap:Body&gt;
+&lt;&#x2F;soap:Envelope&gt;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<ul>
+<li>响应</li>
+</ul>
+<pre class="line-numbers language-XML" data-language="XML"><code class="language-XML">HTTP&#x2F;1.1 200 OK
+Content-Type: text&#x2F;xml; charset&#x3D;utf-8
+Content-Length: length
+
+&lt;?xml version&#x3D;&quot;1.0&quot; encoding&#x3D;&quot;utf-8&quot;?&gt;
+&lt;soap:Envelope xmlns:xsi&#x3D;&quot;http:&#x2F;&#x2F;www.w3.org&#x2F;2001&#x2F;XMLSchema-instance&quot; xmlns:xsd&#x3D;&quot;http:&#x2F;&#x2F;www.w3.org&#x2F;2001&#x2F;XMLSchema&quot; xmlns:soap&#x3D;&quot;http:&#x2F;&#x2F;schemas.xmlsoap.org&#x2F;soap&#x2F;envelope&#x2F;&quot;&gt;
+  &lt;soap:Body&gt;
+    &lt;getMobileCodeInfoResponse xmlns&#x3D;&quot;http:&#x2F;&#x2F;WebXml.com.cn&#x2F;&quot;&gt;
+      &lt;getMobileCodeInfoResult&gt;string&lt;&#x2F;getMobileCodeInfoResult&gt;
+    &lt;&#x2F;getMobileCodeInfoResponse&gt;
+  &lt;&#x2F;soap:Body&gt;
+&lt;&#x2F;soap:Envelope&gt;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<hr>
+<h2 id="SOAP-1-2"><a href="#SOAP-1-2" class="headerlink" title="SOAP 1.2"></a>SOAP 1.2</h2><h3 id="以下是-SOAP-1-2-请求和响应示例。所显示的占位符需替换为实际值。"><a href="#以下是-SOAP-1-2-请求和响应示例。所显示的占位符需替换为实际值。" class="headerlink" title="以下是 SOAP 1.2 请求和响应示例。所显示的占位符需替换为实际值。"></a>以下是 SOAP 1.2 请求和响应示例。所显示的占位符需替换为实际值。</h3><ul>
+<li>请求</li>
+</ul>
+<pre class="line-numbers language-XML" data-language="XML"><code class="language-XML">POST &#x2F;WebServices&#x2F;MobileCodeWS.asmx HTTP&#x2F;1.1
+Host: webservice.webxml.com.cn
+Content-Type: application&#x2F;soap+xml; charset&#x3D;utf-8
+Content-Length: length
+
+&lt;?xml version&#x3D;&quot;1.0&quot; encoding&#x3D;&quot;utf-8&quot;?&gt;
+&lt;soap12:Envelope xmlns:xsi&#x3D;&quot;http:&#x2F;&#x2F;www.w3.org&#x2F;2001&#x2F;XMLSchema-instance&quot; xmlns:xsd&#x3D;&quot;http:&#x2F;&#x2F;www.w3.org&#x2F;2001&#x2F;XMLSchema&quot; xmlns:soap12&#x3D;&quot;http:&#x2F;&#x2F;www.w3.org&#x2F;2003&#x2F;05&#x2F;soap-envelope&quot;&gt;
+  &lt;soap12:Body&gt;
+    &lt;getMobileCodeInfo xmlns&#x3D;&quot;http:&#x2F;&#x2F;WebXml.com.cn&#x2F;&quot;&gt;
+      &lt;mobileCode&gt;string&lt;&#x2F;mobileCode&gt;
+      &lt;userID&gt;string&lt;&#x2F;userID&gt;
+    &lt;&#x2F;getMobileCodeInfo&gt;
+  &lt;&#x2F;soap12:Body&gt;
+&lt;&#x2F;soap12:Envelope&gt;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<ul>
+<li>响应</li>
+</ul>
+<pre class="line-numbers language-XML" data-language="XML"><code class="language-XML">HTTP&#x2F;1.1 200 OK
+Content-Type: application&#x2F;soap+xml; charset&#x3D;utf-8
+Content-Length: length
+
+&lt;?xml version&#x3D;&quot;1.0&quot; encoding&#x3D;&quot;utf-8&quot;?&gt;
+&lt;soap12:Envelope xmlns:xsi&#x3D;&quot;http:&#x2F;&#x2F;www.w3.org&#x2F;2001&#x2F;XMLSchema-instance&quot; xmlns:xsd&#x3D;&quot;http:&#x2F;&#x2F;www.w3.org&#x2F;2001&#x2F;XMLSchema&quot; xmlns:soap12&#x3D;&quot;http:&#x2F;&#x2F;www.w3.org&#x2F;2003&#x2F;05&#x2F;soap-envelope&quot;&gt;
+  &lt;soap12:Body&gt;
+    &lt;getMobileCodeInfoResponse xmlns&#x3D;&quot;http:&#x2F;&#x2F;WebXml.com.cn&#x2F;&quot;&gt;
+      &lt;getMobileCodeInfoResult&gt;string&lt;&#x2F;getMobileCodeInfoResult&gt;
+    &lt;&#x2F;getMobileCodeInfoResponse&gt;
+  &lt;&#x2F;soap12:Body&gt;
+&lt;&#x2F;soap12:Envelope&gt;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h2 id="注意点"><a href="#注意点" class="headerlink" title="注意点"></a>注意点</h2><p><strong>直接说注意点，拿SOAP 1.1 请求做例子，要传的XML文档为:</strong></p>
+<pre class="line-numbers language-XML" data-language="XML"><code class="language-XML">&lt;?xml version&#x3D;&quot;1.0&quot; encoding&#x3D;&quot;utf-8&quot;?&gt;
+&lt;soap:Envelope xmlns:xsi&#x3D;&quot;http:&#x2F;&#x2F;www.w3.org&#x2F;2001&#x2F;XMLSchema-instance&quot; xmlns:xsd&#x3D;&quot;http:&#x2F;&#x2F;www.w3.org&#x2F;2001&#x2F;XMLSchema&quot; xmlns:soap&#x3D;&quot;http:&#x2F;&#x2F;schemas.xmlsoap.org&#x2F;soap&#x2F;envelope&#x2F;&quot;&gt;
+  &lt;soap:Body&gt;
+    &lt;getMobileCodeInfo xmlns&#x3D;&quot;http:&#x2F;&#x2F;WebXml.com.cn&#x2F;&quot;&gt;
+      &lt;mobileCode&gt;string&lt;&#x2F;mobileCode&gt;
+      &lt;userID&gt;string&lt;&#x2F;userID&gt;
+    &lt;&#x2F;getMobileCodeInfo&gt;
+  &lt;&#x2F;soap:Body&gt;
+&lt;&#x2F;soap:Envelope&gt;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p><strong>&lt;soap: Body&gt;</strong> 标签以外的不用改，head一般也不用传，要调用的方法和参数都包在body里面，比如这个例子中， <strong>getMobileCodeInfo</strong> 是WSDL文档发布的你要调用的方法名，其后接的xmlns是你wsdl文档中对应的 <strong>targetNameSpace</strong> ，这个和你JAVA中的 <strong>package</strong> 名对应，比如你后台JAVA代码中该方法中import的package为 <code>com.xxxx.oooo</code> 那么这里的xmlns就是 <code>ooo.xxxx.com</code> ，<code>mobileCode和userID</code>是这个方法中接收的参数名，那么也就是说该方法在其JAVA后台大概是这个样子</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token keyword">public</span> getMobileCodeInfo <span class="token punctuation">(</span><span class="token annotation punctuation">@WebParam</span><span class="token punctuation">(</span>name<span class="token operator">=</span><span class="token string">"mobileCode"</span> <span class="token punctuation">,</span> name<span class="token operator">=</span><span class="token string">"userID"</span><span class="token punctuation">)</span> <span class="token class-name">String</span> mobileCode<span class="token punctuation">,</span> <span class="token class-name">String</span> userID<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>对应的WSDL中该operation的input下也应该有两个name就是mobileCode和userID，注意@WebParam(name&#x3D;”mobileCode” , name&#x3D;”userID”) 不能少，这个注解让后台认识参数名，少了后台会一直报unexpected element ，我们后台一开始就少了这个，搞了很久。这种情况是参数分开传的情况，有的后台的参数直接一个request，但是里面包含有几个键值对也其实就是相当于几个参数，刚接触的新手在这里很容易绕弯，比如我后台有这个个方法  public login (WebParam(name&#x3D;”req” ) String req) ，很明显这里只接一个参数，而且叫做req，但是这个请求就是需要账户名和密码，所以在对应的xml中文档应这样写body中内容</p>
+<pre class="line-numbers language-XML" data-language="XML"><code class="language-XML">&lt;soap12:Body&gt;
+    &lt;login xmlns&#x3D;&quot;http:&#x2F;&#x2F;WebXml.com.cn&#x2F;&quot;&gt;
+      &lt;req&gt;&#123;@&quot;userNameKey&quot;: zhangsan, @&quot;password&quot;: pwdpwd&#125;&lt;&#x2F;req&gt;
+    &lt;&#x2F;login&gt;
+&lt;&#x2F;soap12:Body&gt;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="NSURLSession请求soap"><a href="#NSURLSession请求soap" class="headerlink" title="NSURLSession请求soap"></a>NSURLSession请求soap</h2><p>最后请求地址就是你的wsdl文档中的Endpoint address地址，请求体就是该XML，发个POST请求就完事啦，这里又有事了，本人是强迫症，因为一开始就用的AFN请求，咋请求咋报错，于是跟着网上找的DEMO换NSURLConnection，一不小心成功了一次，但是这个iOS已经废弃了不喜欢，于是用NSURLSession，恩也成功了，但是还是感觉好麻烦，发个NSURLSession请求soap的代码:</p>
+ <pre class="line-numbers language-objectivec" data-language="objectivec"><code class="language-objectivec"> NSString <span class="token operator">*</span>soapStr <span class="token operator">=</span> <span class="token punctuation">[</span>NSString stringWithFormat<span class="token punctuation">:</span><span class="token string">@"&lt;?xml version=\"1.0\" encoding=\"utf-8\"?>\
+ &lt;soap:Envelope xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\"\
+ xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\">\
+ &lt;soap:Header>\
+ &lt;/soap:Header>\
+ &lt;soap:Body>\
+ &lt;login xmlns=\"targetNameSpace地址/\">\
+ &lt;param1>test&lt;/param1>\
+ &lt;param2>test&lt;/param2>\
+ &lt;/login>\
+ &lt;/soap:Body>\
+ &lt;/soap:Envelope>"</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+  
+ NSURL <span class="token operator">*</span>url<span class="token operator">=</span><span class="token punctuation">[</span>NSURL URLWithString<span class="token punctuation">:</span><span class="token string">@"你自己wsdl文档中对应的endpoint address"</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+  
+ NSMutableURLRequest <span class="token operator">*</span>request<span class="token operator">=</span><span class="token punctuation">[</span>NSMutableURLRequest requestWithURL<span class="token punctuation">:</span>url<span class="token punctuation">]</span><span class="token punctuation">;</span>
+  
+ <span class="token comment">// 访问方式</span>
+ <span class="token punctuation">[</span>request setHTTPMethod<span class="token punctuation">:</span><span class="token string">@"POST"</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+  
+ <span class="token comment">// 设置请求头(请求头也可以不设置，前两个设不设置都一样，应该默认的，但是SOAPAction我怎么都设置不对，不设置也可以，干脆不设置了)</span>
+ <span class="token comment">// [request addValue:@"text/xml; charset=utf-8" forHTTPHeaderField:@"Content-Type"];</span>
+<span class="token comment">//  [request addValue:[NSString stringWithFormat:@"%zd", soapStr.length] forHTTPHeaderField:@"Content-Length"];</span>
+ <span class="token comment">//    [request addValue:@"nameSpace/methodName" forHTTPHeaderField:@"SOAPAction"];</span>
+  
+ <span class="token comment">// body内容</span>
+ <span class="token punctuation">[</span>request setHTTPBody<span class="token punctuation">:</span><span class="token punctuation">[</span>soapStr dataUsingEncoding<span class="token punctuation">:</span>NSUTF8StringEncoding<span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+  
+ NSURLSession <span class="token operator">*</span>session <span class="token operator">=</span> <span class="token punctuation">[</span>NSURLSession sharedSession<span class="token punctuation">]</span><span class="token punctuation">;</span>
+  
+ NSURLSessionDataTask <span class="token operator">*</span>task <span class="token operator">=</span> <span class="token punctuation">[</span>session dataTaskWithRequest<span class="token punctuation">:</span>request completionHandler<span class="token punctuation">:</span><span class="token operator">^</span><span class="token punctuation">(</span>NSData <span class="token operator">*</span> _Nullable data<span class="token punctuation">,</span> NSURLResponse <span class="token operator">*</span> _Nullable response<span class="token punctuation">,</span> NSError <span class="token operator">*</span> _Nullable error<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+ NSString <span class="token operator">*</span>result <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">[</span>NSString alloc<span class="token punctuation">]</span> initWithData<span class="token punctuation">:</span>data  encoding<span class="token punctuation">:</span>NSUTF8StringEncoding<span class="token punctuation">]</span><span class="token punctuation">;</span>
+  
+ <span class="token function">WJLog</span><span class="token punctuation">(</span><span class="token string">@"进入成功回调Session-----结果：%@----请求地址：%@"</span><span class="token punctuation">,</span> result<span class="token punctuation">,</span> response<span class="token punctuation">.</span>URL<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  
+ <span class="token keyword">if</span> <span class="token punctuation">(</span>error<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+ <span class="token function">WJLog</span><span class="token punctuation">(</span><span class="token string">@"Session----失败----%@"</span><span class="token punctuation">,</span> error<span class="token punctuation">.</span>localizedDescription<span class="token punctuation">)</span><span class="token punctuation">;</span>
+ <span class="token punctuation">&#125;</span>
+ <span class="token punctuation">&#125;</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+  
+ <span class="token punctuation">[</span>task resume<span class="token punctuation">]</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="AFHTTPRequestOperation-请求"><a href="#AFHTTPRequestOperation-请求" class="headerlink" title="AFHTTPRequestOperation 请求"></a>AFHTTPRequestOperation 请求</h2><p>经过和后台七改八改都无果，我干脆自己了解这些文档规范，在上午确定我操作没错之后，直接说后台那边有问题，然后后台改，重启服务器我请求没有任何进展，最后竟然是什么问题你们知道么。。前一天其实我已经传对了XML，只是后台改动的代码放错了地方，只放到了正式服没有放测试服，我也是，，，醉了，，不过也好，要是那么顺畅我就不会去过多了解这方面了。<br>好了，要传什么，注意点都讲了，现在到了客户端的问题，用官方SDK请求是不是感觉很麻烦？是的，对于用惯了AFN或者自己封装的网络请求工具类的人来说如果每次都要写这多么代码发一次请求太痛苦了，于是我想可不可以用AFN请求SOAP，一开始想用manager发请求，直接把XML当params发POST肯定是直接挂了，于是想要设置HTTPBody要不用AFHTTPRequestOperation？没错这样确实可以，代码如下：</p>
+<pre class="line-numbers language-objectivec" data-language="objectivec"><code class="language-objectivec">NSMutableURLRequest <span class="token operator">*</span>request<span class="token operator">=</span><span class="token punctuation">[</span>NSMutableURLRequest requestWithURL<span class="token punctuation">:</span>url<span class="token punctuation">]</span><span class="token punctuation">;</span>
+ <span class="token punctuation">[</span>request setHTTPMethod<span class="token punctuation">:</span><span class="token string">@"POST"</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+ <span class="token punctuation">[</span>request setHTTPBody<span class="token punctuation">:</span><span class="token punctuation">[</span>soapStr dataUsingEncoding<span class="token punctuation">:</span>NSUTF8StringEncoding<span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+  
+ AFHTTPRequestOperation <span class="token operator">*</span>operation <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">[</span>AFHTTPRequestOperation alloc<span class="token punctuation">]</span> initWithRequest<span class="token punctuation">:</span>request<span class="token punctuation">]</span><span class="token punctuation">;</span>
+  
+ <span class="token comment">// 设置返回数据格式</span>
+ operation<span class="token punctuation">.</span>responseSerializer <span class="token operator">=</span> <span class="token punctuation">[</span>AFHTTPResponseSerializer serializer<span class="token punctuation">]</span><span class="token punctuation">;</span>
+  
+ <span class="token punctuation">[</span>operation setCompletionBlockWithSuccess<span class="token punctuation">:</span><span class="token operator">^</span><span class="token punctuation">(</span>AFHTTPRequestOperation <span class="token operator">*</span> _Nonnull operation<span class="token punctuation">,</span> id  _Nonnull responseObject<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+ NSString <span class="token operator">*</span>result <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">[</span>NSString alloc<span class="token punctuation">]</span> initWithData<span class="token punctuation">:</span>responseObject  encoding<span class="token punctuation">:</span>NSUTF8StringEncoding<span class="token punctuation">]</span><span class="token punctuation">;</span>
+ <span class="token function">WJLog</span><span class="token punctuation">(</span><span class="token string">@"AFN--成功--结果：%@----返回数据%@"</span><span class="token punctuation">,</span> result<span class="token punctuation">,</span> responseObject<span class="token punctuation">)</span><span class="token punctuation">;</span>
+ <span class="token punctuation">&#125;</span> failure<span class="token punctuation">:</span><span class="token operator">^</span><span class="token punctuation">(</span>AFHTTPRequestOperation <span class="token operator">*</span> _Nonnull operation<span class="token punctuation">,</span> NSError <span class="token operator">*</span> _Nonnull error<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+ <span class="token function">WJLog</span><span class="token punctuation">(</span><span class="token string">@"AFN--失败--%@"</span><span class="token punctuation">,</span> error<span class="token punctuation">.</span>localizedDescription<span class="token punctuation">)</span><span class="token punctuation">;</span>
+ <span class="token punctuation">&#125;</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+  
+ <span class="token punctuation">[</span>operation start<span class="token punctuation">]</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>这一看感觉和NSURLSession没多大差别，还是想用manager，关键问题就在于设置request的HTTBbody为XML，但是AFHTTPSessionManager已经把request封装了，默认用的params，怎么改？于是想改动或者添加AFN内部方法，但是总感觉这样不好，万一更新库了又要搞一遍。于是想能否拦截这个request，或者通过manager.requestSerializer设置HTTPBody，敲set浏览一下没有HTTPBody字眼的，用KVC也不行，那样还是相当于把XML当params传了，伤心绝望之时看到这个方法:</p>
+<pre class="line-numbers language-objectivec" data-language="objectivec"><code class="language-objectivec"> <span class="token punctuation">[</span>manager<span class="token punctuation">.</span>requestSerializer setQueryStringSerializationWithBlock<span class="token punctuation">:</span><span class="token operator">^</span>NSString <span class="token operator">*</span><span class="token punctuation">(</span>NSURLRequest <span class="token operator">*</span>request<span class="token punctuation">,</span> NSDictionary <span class="token operator">*</span>parameters<span class="token punctuation">,</span> NSError <span class="token operator">*</span>__autoreleasing <span class="token operator">*</span>error<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+   <span class="token comment">// </span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">]</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<h2 id="简单封装-AFHTTPSessionManager-请求"><a href="#简单封装-AFHTTPSessionManager-请求" class="headerlink" title="简单封装 AFHTTPSessionManager 请求"></a>简单封装 AFHTTPSessionManager 请求</h2><p>一看里面有request 有 params 高兴了，说不定在这里能拦截，于是直接写</p>
+<pre class="line-numbers language-objectivec" data-language="objectivec"><code class="language-objectivec"><span class="token punctuation">[</span>manager<span class="token punctuation">.</span>requestSerializer setQueryStringSerializationWithBlock<span class="token punctuation">:</span><span class="token operator">^</span>NSString <span class="token operator">*</span><span class="token punctuation">(</span>NSURLRequest <span class="token operator">*</span>request<span class="token punctuation">,</span> NSDictionary <span class="token operator">*</span>parameters<span class="token punctuation">,</span> NSError <span class="token operator">*</span>__autoreleasing <span class="token operator">*</span>error<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">return</span> soapStr<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">]</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<p>请求成功，happy。<br>接下来另一个问题了，简单封装一下，我收到的是二进制，所以把AFN封装成了个工具类，供大家参考，欢迎提出改进</p>
+<pre class="line-numbers language-objectivec" data-language="objectivec"><code class="language-objectivec"><span class="token comment">/**
+*  请求SOAP，返回NSData
+*
+*  @param url      请求地址
+*  @param soapBody soap的XML中方法和参数段
+*  @param success  成功block
+*  @param failure  失败block
+*/</span>
+<span class="token operator">+</span> <span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span>SOAPData<span class="token punctuation">:</span><span class="token punctuation">(</span>NSString <span class="token operator">*</span><span class="token punctuation">)</span>url soapBody<span class="token punctuation">:</span><span class="token punctuation">(</span>NSString <span class="token operator">*</span><span class="token punctuation">)</span>soapBody success<span class="token punctuation">:</span><span class="token punctuation">(</span><span class="token keyword">void</span> <span class="token punctuation">(</span><span class="token operator">^</span><span class="token punctuation">)</span><span class="token punctuation">(</span>id responseObject<span class="token punctuation">)</span><span class="token punctuation">)</span>success failure<span class="token punctuation">:</span><span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">(</span><span class="token operator">^</span><span class="token punctuation">)</span><span class="token punctuation">(</span>NSError <span class="token operator">*</span>error<span class="token punctuation">)</span><span class="token punctuation">)</span>failure <span class="token punctuation">&#123;</span>
+     
+    NSString <span class="token operator">*</span>soapStr <span class="token operator">=</span> <span class="token punctuation">[</span>NSString stringWithFormat<span class="token punctuation">:</span>
+                         <span class="token string">@"&lt;?xml version=\"1.0\" encoding=\"utf-8\"?>\
+                         &lt;soap:Envelope xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\"\
+                         xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\">\
+                         &lt;soap:Header>\
+                         &lt;/soap:Header>\
+                         &lt;soap:Body>%@&lt;/soap:Body>\
+                         &lt;/soap:Envelope>"</span><span class="token punctuation">,</span>soapBody<span class="token punctuation">]</span><span class="token punctuation">;</span>
+     
+    AFHTTPSessionManager <span class="token operator">*</span>manager <span class="token operator">=</span> <span class="token punctuation">[</span>AFHTTPSessionManager manager<span class="token punctuation">]</span><span class="token punctuation">;</span>
+    manager<span class="token punctuation">.</span>responseSerializer <span class="token operator">=</span> <span class="token punctuation">[</span>AFXMLParserResponseSerializer serializer<span class="token punctuation">]</span><span class="token punctuation">;</span>
+     
+    <span class="token comment">// 设置请求超时时间</span>
+    manager<span class="token punctuation">.</span>requestSerializer<span class="token punctuation">.</span>timeoutInterval <span class="token operator">=</span> <span class="token number">30</span><span class="token punctuation">;</span>
+     
+    <span class="token comment">// 返回NSData</span>
+    manager<span class="token punctuation">.</span>responseSerializer <span class="token operator">=</span> <span class="token punctuation">[</span>AFHTTPResponseSerializer serializer<span class="token punctuation">]</span><span class="token punctuation">;</span>
+     
+    <span class="token comment">// 设置请求头，也可以不设置</span>
+    <span class="token punctuation">[</span>manager<span class="token punctuation">.</span>requestSerializer setValue<span class="token punctuation">:</span><span class="token string">@"application/soap+xml; charset=utf-8"</span> forHTTPHeaderField<span class="token punctuation">:</span><span class="token string">@"Content-Type"</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token punctuation">[</span>manager<span class="token punctuation">.</span>requestSerializer setValue<span class="token punctuation">:</span><span class="token punctuation">[</span>NSString stringWithFormat<span class="token punctuation">:</span><span class="token string">@"%zd"</span><span class="token punctuation">,</span> soapStr<span class="token punctuation">.</span>length<span class="token punctuation">]</span> forHTTPHeaderField<span class="token punctuation">:</span><span class="token string">@"Content-Length"</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+ 
+    <span class="token comment">// 设置HTTPBody</span>
+    <span class="token punctuation">[</span>manager<span class="token punctuation">.</span>requestSerializer setQueryStringSerializationWithBlock<span class="token punctuation">:</span><span class="token operator">^</span>NSString <span class="token operator">*</span><span class="token punctuation">(</span>NSURLRequest <span class="token operator">*</span>request<span class="token punctuation">,</span> NSDictionary <span class="token operator">*</span>parameters<span class="token punctuation">,</span> NSError <span class="token operator">*</span>__autoreleasing <span class="token operator">*</span>error<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">return</span> soapStr<span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+     
+    <span class="token punctuation">[</span>manager POST<span class="token punctuation">:</span>url parameters<span class="token punctuation">:</span>soapStr success<span class="token punctuation">:</span><span class="token operator">^</span><span class="token punctuation">(</span>NSURLSessionDataTask <span class="token operator">*</span> _Nonnull task<span class="token punctuation">,</span> id  _Nonnull responseObject<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token comment">// 把返回的二进制数据转为字符串</span>
+         NSString <span class="token operator">*</span>result <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">[</span>NSString alloc<span class="token punctuation">]</span> initWithData<span class="token punctuation">:</span>responseObject encoding<span class="token punctuation">:</span>NSUTF8StringEncoding<span class="token punctuation">]</span><span class="token punctuation">;</span>
+         
+        <span class="token comment">// 利用正则表达式取出&lt;return>&lt;/return>之间的字符串</span>
+        NSRegularExpression <span class="token operator">*</span>regular <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">[</span>NSRegularExpression alloc<span class="token punctuation">]</span> initWithPattern<span class="token punctuation">:</span><span class="token string">@"(?&lt;=return\\>).*(?=&lt;/return)"</span> options<span class="token punctuation">:</span>NSRegularExpressionCaseInsensitive error<span class="token punctuation">:</span>nil<span class="token punctuation">]</span><span class="token punctuation">;</span>
+         
+        NSDictionary <span class="token operator">*</span>dict <span class="token operator">=</span> <span class="token punctuation">[</span>NSDictionary dictionary<span class="token punctuation">]</span><span class="token punctuation">;</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span>NSTextCheckingResult <span class="token operator">*</span>checkingResult <span class="token keyword">in</span> <span class="token punctuation">[</span>regular matchesInString<span class="token punctuation">:</span>result options<span class="token punctuation">:</span><span class="token number">0</span> range<span class="token punctuation">:</span><span class="token function">NSMakeRange</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> result<span class="token punctuation">.</span>length<span class="token punctuation">)</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+             
+            <span class="token comment">// 得到字典</span>
+            dict <span class="token operator">=</span> <span class="token punctuation">[</span>NSJSONSerialization JSONObjectWithData<span class="token punctuation">:</span><span class="token punctuation">[</span><span class="token punctuation">[</span>result substringWithRange<span class="token punctuation">:</span>checkingResult<span class="token punctuation">.</span>range<span class="token punctuation">]</span> dataUsingEncoding<span class="token punctuation">:</span>NSUTF8StringEncoding<span class="token punctuation">]</span> options<span class="token punctuation">:</span>NSJSONReadingMutableLeaves error<span class="token punctuation">:</span>nil<span class="token punctuation">]</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+        <span class="token comment">// 请求成功并且结果有值把结果传出去</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>success <span class="token operator">&amp;&amp;</span> dict<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+            <span class="token function">success</span><span class="token punctuation">(</span>dict<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+         
+    <span class="token punctuation">&#125;</span> failure<span class="token punctuation">:</span><span class="token operator">^</span><span class="token punctuation">(</span>NSURLSessionDataTask <span class="token operator">*</span> _Nullable task<span class="token punctuation">,</span> NSError <span class="token operator">*</span> _Nonnull error<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>failure<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+            <span class="token function">failure</span><span class="token punctuation">(</span>error<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>原文地址：<a href="http://www.cocoachina.com/bbs/read.php?tid-456019.html">OC用AFN做Soap请求webService</a></p>
+<h2 id="结束语"><a href="#结束语" class="headerlink" title="结束语"></a>结束语</h2><p>差不多了，如果有什么问题指正欢迎大家留言。排版真的很丑，大家见谅，洗洗睡了。</p>
+<blockquote>
+<p>Author: VanJay <br>如需转载，请注明出处</p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>Objective-C</category>
+      </categories>
+      <tags>
+        <tag>AFN</tag>
+        <tag>Soap</tag>
+        <tag>WebService</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Wap APP开发心得</title>
     <url>/2017/05/03/Wap-APP%E5%BC%80%E5%8F%91%E5%BF%83%E5%BE%97/</url>
     <content><![CDATA[<p>经过了一个多月，加班加点，总算完成基本完成了这个Wap APP，可以作为 Version one 面见客户了，感受不多。</p>
@@ -3334,129 +3334,6 @@ Changes to be committed:
       </categories>
       <tags>
         <tag>git</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>iOS 企业版应用一键更新</title>
-    <url>/2017/03/22/iOS-%E4%BC%81%E4%B8%9A%E7%89%88%E5%BA%94%E7%94%A8%E4%B8%80%E9%94%AE%E6%9B%B4%E6%96%B0/</url>
-    <content><![CDATA[<p>如果后台没有获取版本号的接口，自己就直接从下载企业版应用指向的 <code>plist</code> 文件中获取吧，如果有，就不用这么麻烦还要去下载整个 <code>plist</code> 文件了，直接根据拿到的版本好与本地对比即可。</p>
-<span id="more"></span>
-
-
-<pre class="line-numbers language-objectivec" data-language="objectivec"><code class="language-objectivec"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">pragma</span> <span class="token expression">mark <span class="token operator">-</span></span></span>
-<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">pragma</span> <span class="token expression">mark 检查更新</span></span>
-<span class="token operator">-</span> <span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span>checkForUpdating <span class="token punctuation">&#123;</span>
-    <span class="token comment">// 先清空之前下载的缓存文件</span>
-    NSString <span class="token operator">*</span>tmpDirectory <span class="token operator">=</span> <span class="token function">NSTemporaryDirectory</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    NSFileManager <span class="token operator">*</span>fileManager <span class="token operator">=</span> <span class="token punctuation">[</span>NSFileManager defaultManager<span class="token punctuation">]</span><span class="token punctuation">;</span>
-    NSError <span class="token operator">*</span>error<span class="token punctuation">;</span>
-    NSArray <span class="token operator">*</span>cacheFiles <span class="token operator">=</span> <span class="token punctuation">[</span>fileManager contentsOfDirectoryAtPath<span class="token punctuation">:</span>tmpDirectory error<span class="token punctuation">:</span><span class="token operator">&amp;</span>error<span class="token punctuation">]</span><span class="token punctuation">;</span>
-    <span class="token keyword">for</span> <span class="token punctuation">(</span>NSString <span class="token operator">*</span>file <span class="token keyword">in</span> cacheFiles<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-        error <span class="token operator">=</span> nil<span class="token punctuation">;</span>
-        <span class="token punctuation">[</span>fileManager removeItemAtPath<span class="token punctuation">:</span><span class="token punctuation">[</span>tmpDirectory stringByAppendingPathComponent<span class="token punctuation">:</span>file<span class="token punctuation">]</span> error<span class="token punctuation">:</span><span class="token operator">&amp;</span>error<span class="token punctuation">]</span><span class="token punctuation">;</span>
-    <span class="token punctuation">&#125;</span>
-    
-    <span class="token comment">// 从服务器下载plist文件</span>
-    NSURLRequest <span class="token operator">*</span>downloadRequest <span class="token operator">=</span> <span class="token punctuation">[</span>NSURLRequest requestWithURL<span class="token punctuation">:</span><span class="token punctuation">[</span>NSURL URLWithString<span class="token punctuation">:</span>CheckUpdatingPlistUrl<span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
-    NSURLSessionConfiguration <span class="token operator">*</span>sessionConfig <span class="token operator">=</span> <span class="token punctuation">[</span>NSURLSessionConfiguration defaultSessionConfiguration<span class="token punctuation">]</span><span class="token punctuation">;</span>
-    NSURLSession <span class="token operator">*</span>urlSession <span class="token operator">=</span> <span class="token punctuation">[</span>NSURLSession sessionWithConfiguration<span class="token punctuation">:</span>sessionConfig delegate<span class="token punctuation">:</span>nil delegateQueue<span class="token punctuation">:</span>nil<span class="token punctuation">]</span><span class="token punctuation">;</span>
-    NSURLSessionDownloadTask <span class="token operator">*</span>task <span class="token operator">=</span> <span class="token punctuation">[</span>urlSession downloadTaskWithRequest<span class="token punctuation">:</span>downloadRequest completionHandler<span class="token punctuation">:</span><span class="token operator">^</span><span class="token punctuation">(</span>NSURL <span class="token operator">*</span> _Nullable location<span class="token punctuation">,</span> NSURLResponse <span class="token operator">*</span> _Nullable response<span class="token punctuation">,</span> NSError <span class="token operator">*</span> _Nullable error<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-        <span class="token keyword">if</span> <span class="token punctuation">(</span>error<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-            <span class="token function">WJLog</span><span class="token punctuation">(</span><span class="token string">@"获取下载服务器版本失败:\n%@"</span><span class="token punctuation">,</span> error<span class="token punctuation">.</span>localizedDescription<span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token punctuation">&#125;</span>
-        <span class="token keyword">else</span> <span class="token punctuation">&#123;</span>
-            NSDictionary <span class="token operator">*</span>dict <span class="token operator">=</span> <span class="token punctuation">[</span>NSDictionary dictionaryWithContentsOfURL<span class="token punctuation">:</span>location<span class="token punctuation">]</span><span class="token punctuation">;</span>
-            <span class="token comment">// 服务器版本号</span>
-            NSString <span class="token operator">*</span>serverVersion <span class="token operator">=</span> dict<span class="token punctuation">[</span><span class="token string">@"items"</span><span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token string">@"metadata"</span><span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token string">@"bundle-version"</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
-            
-            <span class="token comment">// 本地版本号</span>
-            NSString <span class="token operator">*</span>localVersion <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">[</span>NSBundle mainBundle<span class="token punctuation">]</span> infoDictionary<span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token string">@"CFBundleShortVersionString"</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
-            
-            <span class="token comment">// 对比版本号，升序</span>
-            <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token punctuation">[</span>localVersion compare<span class="token punctuation">:</span>serverVersion options<span class="token punctuation">:</span>NSNumericSearch<span class="token punctuation">]</span> <span class="token operator">==</span> NSOrderedAscending<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-                
-                <span class="token function">dispatch_async</span><span class="token punctuation">(</span><span class="token function">dispatch_get_main_queue</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token operator">^</span><span class="token punctuation">&#123;</span>
-                     <span class="token comment">// 先提示安装</span>
-                    FCAlertView <span class="token operator">*</span>alert <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">[</span>FCAlertView alloc<span class="token punctuation">]</span> init<span class="token punctuation">]</span><span class="token punctuation">;</span>
-                    <span class="token punctuation">[</span>alert showAlertWithTitle<span class="token punctuation">:</span><span class="token string">@"提示"</span> withSubtitle<span class="token punctuation">:</span><span class="token string">@"新版本已发布，点击确定开始更新"</span> withCustomImage<span class="token punctuation">:</span>nil withDoneButtonTitle<span class="token punctuation">:</span>nil andButtons<span class="token punctuation">:</span>nil<span class="token punctuation">]</span><span class="token punctuation">;</span>
-                    alert<span class="token punctuation">.</span>hideDoneButton <span class="token operator">=</span> YES<span class="token punctuation">;</span>
-                    alert<span class="token punctuation">.</span>bounceAnimations <span class="token operator">=</span> YES<span class="token punctuation">;</span>
-                    alert<span class="token punctuation">.</span>colorScheme <span class="token operator">=</span> alert<span class="token punctuation">.</span>flatOrange<span class="token punctuation">;</span>
-                    <span class="token punctuation">[</span>alert makeAlertTypeCaution<span class="token punctuation">]</span><span class="token punctuation">;</span>
-                    alert<span class="token punctuation">.</span>subTitleColor <span class="token operator">=</span> <span class="token punctuation">[</span>UIColor redColor<span class="token punctuation">]</span><span class="token punctuation">;</span>
-                    <span class="token punctuation">[</span>alert addButton<span class="token punctuation">:</span><span class="token string">@"确定"</span> withActionBlock<span class="token punctuation">:</span><span class="token operator">^</span><span class="token punctuation">&#123;</span>
-                        
-                       <span class="token comment">// 模拟器不支持</span>
-                        <span class="token keyword">if</span> <span class="token punctuation">(</span>TARGET_IPHONE_SIMULATOR<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span> <span class="token function">WJLog</span><span class="token punctuation">(</span><span class="token string">@"模拟器不支持该操作"</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token keyword">return</span><span class="token punctuation">;</span> <span class="token punctuation">&#125;</span>
-                        <span class="token comment">// 真机执行安装</span>
-                        NSURL <span class="token operator">*</span>url <span class="token operator">=</span> <span class="token punctuation">[</span>NSURL URLWithString<span class="token punctuation">:</span><span class="token punctuation">[</span>NSString stringWithFormat<span class="token punctuation">:</span><span class="token string">@"itms-services://?action=download-manifest&amp;url=%@"</span><span class="token punctuation">,</span> CheckUpdatingPlistUrl<span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
-                        <span class="token punctuation">[</span><span class="token punctuation">[</span>UIApplication sharedApplication<span class="token punctuation">]</span> openURL<span class="token punctuation">:</span>url<span class="token punctuation">]</span><span class="token punctuation">;</span>
-                        
-                        <span class="token comment">// 动画退出App</span>
-                        UIWindow <span class="token operator">*</span>window <span class="token operator">=</span> <span class="token punctuation">[</span>UIApplication sharedApplication<span class="token punctuation">]</span><span class="token punctuation">.</span>keyWindow<span class="token punctuation">;</span>
-                        <span class="token punctuation">[</span>UIView animateWithDuration<span class="token punctuation">:</span><span class="token number">.5f</span> animations<span class="token punctuation">:</span><span class="token operator">^</span><span class="token punctuation">&#123;</span>
-                            window<span class="token punctuation">.</span>alpha <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
-                            CGFloat width <span class="token operator">=</span> window<span class="token punctuation">.</span>bounds<span class="token punctuation">.</span>size<span class="token punctuation">.</span>width<span class="token punctuation">;</span>
-                            CGFloat height <span class="token operator">=</span> window<span class="token punctuation">.</span>bounds<span class="token punctuation">.</span>size<span class="token punctuation">.</span>height<span class="token punctuation">;</span>
-                            window<span class="token punctuation">.</span>frame <span class="token operator">=</span> <span class="token function">CGRectMake</span><span class="token punctuation">(</span>width <span class="token operator">*</span> <span class="token number">0.5</span><span class="token punctuation">,</span> height <span class="token operator">*</span> <span class="token number">0.5</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-                        <span class="token punctuation">&#125;</span> completion<span class="token punctuation">:</span><span class="token operator">^</span><span class="token punctuation">(</span>BOOL finished<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-                            <span class="token function">exit</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-                        <span class="token punctuation">&#125;</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
-                        
-                    <span class="token punctuation">&#125;</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
-                    <span class="token punctuation">[</span>alert addButton<span class="token punctuation">:</span><span class="token string">@"下次再说"</span> withActionBlock<span class="token punctuation">:</span>nil<span class="token punctuation">]</span><span class="token punctuation">;</span>
-                <span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-            <span class="token punctuation">&#125;</span>
-        <span class="token punctuation">&#125;</span>
-    <span class="token punctuation">&#125;</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
-    <span class="token punctuation">[</span>task resume<span class="token punctuation">]</span><span class="token punctuation">;</span>
-<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<p>那个 <code>FCAlertView</code> 没有可以用原生的，比如：</p>
-<pre class="line-numbers language-objectivec" data-language="objectivec"><code class="language-objectivec"><span class="token comment">// 对比版本号，升序</span>
-<span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token punctuation">[</span>localVersion compare<span class="token punctuation">:</span>serverVersion options<span class="token punctuation">:</span>NSNumericSearch<span class="token punctuation">]</span> <span class="token operator">==</span> NSOrderedAscending<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-    __weak <span class="token keyword">typeof</span><span class="token punctuation">(</span><span class="token keyword">self</span><span class="token punctuation">)</span> weakSelf <span class="token operator">=</span> <span class="token keyword">self</span><span class="token punctuation">;</span>
-    <span class="token function">dispatch_async</span><span class="token punctuation">(</span><span class="token function">dispatch_get_main_queue</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token operator">^</span><span class="token punctuation">&#123;</span>
-        <span class="token comment">// 先提示安装</span>
-        UIAlertController <span class="token operator">*</span>alertVc <span class="token operator">=</span> <span class="token punctuation">[</span>UIAlertController alertControllerWithTitle<span class="token punctuation">:</span><span class="token string">@"提示"</span> message<span class="token punctuation">:</span><span class="token string">@"新版本已发布，点击确定开始更新"</span> preferredStyle<span class="token punctuation">:</span>UIAlertControllerStyleAlert<span class="token punctuation">]</span><span class="token punctuation">;</span>
-        UIAlertAction <span class="token operator">*</span>confirmAct <span class="token operator">=</span> <span class="token punctuation">[</span>UIAlertAction actionWithTitle<span class="token punctuation">:</span><span class="token string">@"确定"</span> style<span class="token punctuation">:</span>UIAlertActionStyleDefault handler<span class="token punctuation">:</span><span class="token operator">^</span><span class="token punctuation">(</span>UIAlertAction <span class="token operator">*</span> _Nonnull action<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-            
-            <span class="token comment">// 模拟器不支持</span>
-            <span class="token keyword">if</span> <span class="token punctuation">(</span>TARGET_IPHONE_SIMULATOR<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span> <span class="token function">WJLog</span><span class="token punctuation">(</span><span class="token string">@"模拟器不支持该操作"</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token keyword">return</span><span class="token punctuation">;</span> <span class="token punctuation">&#125;</span>
-            <span class="token comment">// 真机执行安装</span>
-            NSURL <span class="token operator">*</span>url <span class="token operator">=</span> <span class="token punctuation">[</span>NSURL URLWithString<span class="token punctuation">:</span><span class="token punctuation">[</span>NSString stringWithFormat<span class="token punctuation">:</span><span class="token string">@"itms-services://?action=download-manifest&amp;url=%@"</span><span class="token punctuation">,</span> CheckUpdatingPlistUrl<span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
-            <span class="token punctuation">[</span><span class="token punctuation">[</span>UIApplication sharedApplication<span class="token punctuation">]</span> openURL<span class="token punctuation">:</span>url<span class="token punctuation">]</span><span class="token punctuation">;</span>
-            
-            <span class="token comment">// 动画退出App</span>
-            UIWindow <span class="token operator">*</span>window <span class="token operator">=</span> <span class="token punctuation">[</span>UIApplication sharedApplication<span class="token punctuation">]</span><span class="token punctuation">.</span>keyWindow<span class="token punctuation">;</span>
-            <span class="token punctuation">[</span>UIView animateWithDuration<span class="token punctuation">:</span><span class="token number">.5f</span> animations<span class="token punctuation">:</span><span class="token operator">^</span><span class="token punctuation">&#123;</span>
-                window<span class="token punctuation">.</span>alpha <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
-                CGFloat width <span class="token operator">=</span> window<span class="token punctuation">.</span>bounds<span class="token punctuation">.</span>size<span class="token punctuation">.</span>width<span class="token punctuation">;</span>
-                CGFloat height <span class="token operator">=</span> window<span class="token punctuation">.</span>bounds<span class="token punctuation">.</span>size<span class="token punctuation">.</span>height<span class="token punctuation">;</span>
-                window<span class="token punctuation">.</span>frame <span class="token operator">=</span> <span class="token function">CGRectMake</span><span class="token punctuation">(</span>width <span class="token operator">*</span> <span class="token number">0.5</span><span class="token punctuation">,</span> height <span class="token operator">*</span> <span class="token number">0.5</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-            <span class="token punctuation">&#125;</span> completion<span class="token punctuation">:</span><span class="token operator">^</span><span class="token punctuation">(</span>BOOL finished<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-                <span class="token function">exit</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-            <span class="token punctuation">&#125;</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
-            
-        <span class="token punctuation">&#125;</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
-        
-        <span class="token comment">// 取消</span>
-        UIAlertAction <span class="token operator">*</span>cancelAct <span class="token operator">=</span> <span class="token punctuation">[</span>UIAlertAction actionWithTitle<span class="token punctuation">:</span><span class="token string">@"下次再说"</span> style<span class="token punctuation">:</span>UIAlertActionStyleDefault handler<span class="token punctuation">:</span>nil<span class="token punctuation">]</span><span class="token punctuation">;</span>
-        
-        <span class="token punctuation">[</span>alertVc addAction<span class="token punctuation">:</span>confirmAct<span class="token punctuation">]</span><span class="token punctuation">;</span>
-        <span class="token punctuation">[</span>alertVc addAction<span class="token punctuation">:</span>cancelAct<span class="token punctuation">]</span><span class="token punctuation">;</span>
-        
-        <span class="token punctuation">[</span>weakSelf<span class="token punctuation">.</span>window<span class="token punctuation">.</span>rootViewController presentViewController<span class="token punctuation">:</span>alertVc animated<span class="token punctuation">:</span>YES completion<span class="token punctuation">:</span>nil<span class="token punctuation">]</span><span class="token punctuation">;</span>
-    <span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>]]></content>
-      <categories>
-        <category>iOS</category>
-      </categories>
-      <tags>
-        <tag>iOS 应用更新</tag>
-        <tag>企业版应用更新</tag>
-        <tag>打包</tag>
-        <tag>发布</tag>
       </tags>
   </entry>
   <entry>
@@ -4006,6 +3883,129 @@ pod package <span class="token variable">$&#123;podspec_name&#125;</span> --no-m
         <tag>iOS</tag>
         <tag>cocoapods</tag>
         <tag>组件化</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>iOS 企业版应用一键更新</title>
+    <url>/2017/03/22/iOS-%E4%BC%81%E4%B8%9A%E7%89%88%E5%BA%94%E7%94%A8%E4%B8%80%E9%94%AE%E6%9B%B4%E6%96%B0/</url>
+    <content><![CDATA[<p>如果后台没有获取版本号的接口，自己就直接从下载企业版应用指向的 <code>plist</code> 文件中获取吧，如果有，就不用这么麻烦还要去下载整个 <code>plist</code> 文件了，直接根据拿到的版本好与本地对比即可。</p>
+<span id="more"></span>
+
+
+<pre class="line-numbers language-objectivec" data-language="objectivec"><code class="language-objectivec"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">pragma</span> <span class="token expression">mark <span class="token operator">-</span></span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">pragma</span> <span class="token expression">mark 检查更新</span></span>
+<span class="token operator">-</span> <span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span>checkForUpdating <span class="token punctuation">&#123;</span>
+    <span class="token comment">// 先清空之前下载的缓存文件</span>
+    NSString <span class="token operator">*</span>tmpDirectory <span class="token operator">=</span> <span class="token function">NSTemporaryDirectory</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    NSFileManager <span class="token operator">*</span>fileManager <span class="token operator">=</span> <span class="token punctuation">[</span>NSFileManager defaultManager<span class="token punctuation">]</span><span class="token punctuation">;</span>
+    NSError <span class="token operator">*</span>error<span class="token punctuation">;</span>
+    NSArray <span class="token operator">*</span>cacheFiles <span class="token operator">=</span> <span class="token punctuation">[</span>fileManager contentsOfDirectoryAtPath<span class="token punctuation">:</span>tmpDirectory error<span class="token punctuation">:</span><span class="token operator">&amp;</span>error<span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token keyword">for</span> <span class="token punctuation">(</span>NSString <span class="token operator">*</span>file <span class="token keyword">in</span> cacheFiles<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        error <span class="token operator">=</span> nil<span class="token punctuation">;</span>
+        <span class="token punctuation">[</span>fileManager removeItemAtPath<span class="token punctuation">:</span><span class="token punctuation">[</span>tmpDirectory stringByAppendingPathComponent<span class="token punctuation">:</span>file<span class="token punctuation">]</span> error<span class="token punctuation">:</span><span class="token operator">&amp;</span>error<span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    
+    <span class="token comment">// 从服务器下载plist文件</span>
+    NSURLRequest <span class="token operator">*</span>downloadRequest <span class="token operator">=</span> <span class="token punctuation">[</span>NSURLRequest requestWithURL<span class="token punctuation">:</span><span class="token punctuation">[</span>NSURL URLWithString<span class="token punctuation">:</span>CheckUpdatingPlistUrl<span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+    NSURLSessionConfiguration <span class="token operator">*</span>sessionConfig <span class="token operator">=</span> <span class="token punctuation">[</span>NSURLSessionConfiguration defaultSessionConfiguration<span class="token punctuation">]</span><span class="token punctuation">;</span>
+    NSURLSession <span class="token operator">*</span>urlSession <span class="token operator">=</span> <span class="token punctuation">[</span>NSURLSession sessionWithConfiguration<span class="token punctuation">:</span>sessionConfig delegate<span class="token punctuation">:</span>nil delegateQueue<span class="token punctuation">:</span>nil<span class="token punctuation">]</span><span class="token punctuation">;</span>
+    NSURLSessionDownloadTask <span class="token operator">*</span>task <span class="token operator">=</span> <span class="token punctuation">[</span>urlSession downloadTaskWithRequest<span class="token punctuation">:</span>downloadRequest completionHandler<span class="token punctuation">:</span><span class="token operator">^</span><span class="token punctuation">(</span>NSURL <span class="token operator">*</span> _Nullable location<span class="token punctuation">,</span> NSURLResponse <span class="token operator">*</span> _Nullable response<span class="token punctuation">,</span> NSError <span class="token operator">*</span> _Nullable error<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>error<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+            <span class="token function">WJLog</span><span class="token punctuation">(</span><span class="token string">@"获取下载服务器版本失败:\n%@"</span><span class="token punctuation">,</span> error<span class="token punctuation">.</span>localizedDescription<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+        <span class="token keyword">else</span> <span class="token punctuation">&#123;</span>
+            NSDictionary <span class="token operator">*</span>dict <span class="token operator">=</span> <span class="token punctuation">[</span>NSDictionary dictionaryWithContentsOfURL<span class="token punctuation">:</span>location<span class="token punctuation">]</span><span class="token punctuation">;</span>
+            <span class="token comment">// 服务器版本号</span>
+            NSString <span class="token operator">*</span>serverVersion <span class="token operator">=</span> dict<span class="token punctuation">[</span><span class="token string">@"items"</span><span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token string">@"metadata"</span><span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token string">@"bundle-version"</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+            
+            <span class="token comment">// 本地版本号</span>
+            NSString <span class="token operator">*</span>localVersion <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">[</span>NSBundle mainBundle<span class="token punctuation">]</span> infoDictionary<span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token string">@"CFBundleShortVersionString"</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+            
+            <span class="token comment">// 对比版本号，升序</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token punctuation">[</span>localVersion compare<span class="token punctuation">:</span>serverVersion options<span class="token punctuation">:</span>NSNumericSearch<span class="token punctuation">]</span> <span class="token operator">==</span> NSOrderedAscending<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+                
+                <span class="token function">dispatch_async</span><span class="token punctuation">(</span><span class="token function">dispatch_get_main_queue</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token operator">^</span><span class="token punctuation">&#123;</span>
+                     <span class="token comment">// 先提示安装</span>
+                    FCAlertView <span class="token operator">*</span>alert <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">[</span>FCAlertView alloc<span class="token punctuation">]</span> init<span class="token punctuation">]</span><span class="token punctuation">;</span>
+                    <span class="token punctuation">[</span>alert showAlertWithTitle<span class="token punctuation">:</span><span class="token string">@"提示"</span> withSubtitle<span class="token punctuation">:</span><span class="token string">@"新版本已发布，点击确定开始更新"</span> withCustomImage<span class="token punctuation">:</span>nil withDoneButtonTitle<span class="token punctuation">:</span>nil andButtons<span class="token punctuation">:</span>nil<span class="token punctuation">]</span><span class="token punctuation">;</span>
+                    alert<span class="token punctuation">.</span>hideDoneButton <span class="token operator">=</span> YES<span class="token punctuation">;</span>
+                    alert<span class="token punctuation">.</span>bounceAnimations <span class="token operator">=</span> YES<span class="token punctuation">;</span>
+                    alert<span class="token punctuation">.</span>colorScheme <span class="token operator">=</span> alert<span class="token punctuation">.</span>flatOrange<span class="token punctuation">;</span>
+                    <span class="token punctuation">[</span>alert makeAlertTypeCaution<span class="token punctuation">]</span><span class="token punctuation">;</span>
+                    alert<span class="token punctuation">.</span>subTitleColor <span class="token operator">=</span> <span class="token punctuation">[</span>UIColor redColor<span class="token punctuation">]</span><span class="token punctuation">;</span>
+                    <span class="token punctuation">[</span>alert addButton<span class="token punctuation">:</span><span class="token string">@"确定"</span> withActionBlock<span class="token punctuation">:</span><span class="token operator">^</span><span class="token punctuation">&#123;</span>
+                        
+                       <span class="token comment">// 模拟器不支持</span>
+                        <span class="token keyword">if</span> <span class="token punctuation">(</span>TARGET_IPHONE_SIMULATOR<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span> <span class="token function">WJLog</span><span class="token punctuation">(</span><span class="token string">@"模拟器不支持该操作"</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token keyword">return</span><span class="token punctuation">;</span> <span class="token punctuation">&#125;</span>
+                        <span class="token comment">// 真机执行安装</span>
+                        NSURL <span class="token operator">*</span>url <span class="token operator">=</span> <span class="token punctuation">[</span>NSURL URLWithString<span class="token punctuation">:</span><span class="token punctuation">[</span>NSString stringWithFormat<span class="token punctuation">:</span><span class="token string">@"itms-services://?action=download-manifest&amp;url=%@"</span><span class="token punctuation">,</span> CheckUpdatingPlistUrl<span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+                        <span class="token punctuation">[</span><span class="token punctuation">[</span>UIApplication sharedApplication<span class="token punctuation">]</span> openURL<span class="token punctuation">:</span>url<span class="token punctuation">]</span><span class="token punctuation">;</span>
+                        
+                        <span class="token comment">// 动画退出App</span>
+                        UIWindow <span class="token operator">*</span>window <span class="token operator">=</span> <span class="token punctuation">[</span>UIApplication sharedApplication<span class="token punctuation">]</span><span class="token punctuation">.</span>keyWindow<span class="token punctuation">;</span>
+                        <span class="token punctuation">[</span>UIView animateWithDuration<span class="token punctuation">:</span><span class="token number">.5f</span> animations<span class="token punctuation">:</span><span class="token operator">^</span><span class="token punctuation">&#123;</span>
+                            window<span class="token punctuation">.</span>alpha <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+                            CGFloat width <span class="token operator">=</span> window<span class="token punctuation">.</span>bounds<span class="token punctuation">.</span>size<span class="token punctuation">.</span>width<span class="token punctuation">;</span>
+                            CGFloat height <span class="token operator">=</span> window<span class="token punctuation">.</span>bounds<span class="token punctuation">.</span>size<span class="token punctuation">.</span>height<span class="token punctuation">;</span>
+                            window<span class="token punctuation">.</span>frame <span class="token operator">=</span> <span class="token function">CGRectMake</span><span class="token punctuation">(</span>width <span class="token operator">*</span> <span class="token number">0.5</span><span class="token punctuation">,</span> height <span class="token operator">*</span> <span class="token number">0.5</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                        <span class="token punctuation">&#125;</span> completion<span class="token punctuation">:</span><span class="token operator">^</span><span class="token punctuation">(</span>BOOL finished<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+                            <span class="token function">exit</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                        <span class="token punctuation">&#125;</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+                        
+                    <span class="token punctuation">&#125;</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+                    <span class="token punctuation">[</span>alert addButton<span class="token punctuation">:</span><span class="token string">@"下次再说"</span> withActionBlock<span class="token punctuation">:</span>nil<span class="token punctuation">]</span><span class="token punctuation">;</span>
+                <span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">&#125;</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token punctuation">[</span>task resume<span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>那个 <code>FCAlertView</code> 没有可以用原生的，比如：</p>
+<pre class="line-numbers language-objectivec" data-language="objectivec"><code class="language-objectivec"><span class="token comment">// 对比版本号，升序</span>
+<span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token punctuation">[</span>localVersion compare<span class="token punctuation">:</span>serverVersion options<span class="token punctuation">:</span>NSNumericSearch<span class="token punctuation">]</span> <span class="token operator">==</span> NSOrderedAscending<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    __weak <span class="token keyword">typeof</span><span class="token punctuation">(</span><span class="token keyword">self</span><span class="token punctuation">)</span> weakSelf <span class="token operator">=</span> <span class="token keyword">self</span><span class="token punctuation">;</span>
+    <span class="token function">dispatch_async</span><span class="token punctuation">(</span><span class="token function">dispatch_get_main_queue</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token operator">^</span><span class="token punctuation">&#123;</span>
+        <span class="token comment">// 先提示安装</span>
+        UIAlertController <span class="token operator">*</span>alertVc <span class="token operator">=</span> <span class="token punctuation">[</span>UIAlertController alertControllerWithTitle<span class="token punctuation">:</span><span class="token string">@"提示"</span> message<span class="token punctuation">:</span><span class="token string">@"新版本已发布，点击确定开始更新"</span> preferredStyle<span class="token punctuation">:</span>UIAlertControllerStyleAlert<span class="token punctuation">]</span><span class="token punctuation">;</span>
+        UIAlertAction <span class="token operator">*</span>confirmAct <span class="token operator">=</span> <span class="token punctuation">[</span>UIAlertAction actionWithTitle<span class="token punctuation">:</span><span class="token string">@"确定"</span> style<span class="token punctuation">:</span>UIAlertActionStyleDefault handler<span class="token punctuation">:</span><span class="token operator">^</span><span class="token punctuation">(</span>UIAlertAction <span class="token operator">*</span> _Nonnull action<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+            
+            <span class="token comment">// 模拟器不支持</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>TARGET_IPHONE_SIMULATOR<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span> <span class="token function">WJLog</span><span class="token punctuation">(</span><span class="token string">@"模拟器不支持该操作"</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token keyword">return</span><span class="token punctuation">;</span> <span class="token punctuation">&#125;</span>
+            <span class="token comment">// 真机执行安装</span>
+            NSURL <span class="token operator">*</span>url <span class="token operator">=</span> <span class="token punctuation">[</span>NSURL URLWithString<span class="token punctuation">:</span><span class="token punctuation">[</span>NSString stringWithFormat<span class="token punctuation">:</span><span class="token string">@"itms-services://?action=download-manifest&amp;url=%@"</span><span class="token punctuation">,</span> CheckUpdatingPlistUrl<span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+            <span class="token punctuation">[</span><span class="token punctuation">[</span>UIApplication sharedApplication<span class="token punctuation">]</span> openURL<span class="token punctuation">:</span>url<span class="token punctuation">]</span><span class="token punctuation">;</span>
+            
+            <span class="token comment">// 动画退出App</span>
+            UIWindow <span class="token operator">*</span>window <span class="token operator">=</span> <span class="token punctuation">[</span>UIApplication sharedApplication<span class="token punctuation">]</span><span class="token punctuation">.</span>keyWindow<span class="token punctuation">;</span>
+            <span class="token punctuation">[</span>UIView animateWithDuration<span class="token punctuation">:</span><span class="token number">.5f</span> animations<span class="token punctuation">:</span><span class="token operator">^</span><span class="token punctuation">&#123;</span>
+                window<span class="token punctuation">.</span>alpha <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+                CGFloat width <span class="token operator">=</span> window<span class="token punctuation">.</span>bounds<span class="token punctuation">.</span>size<span class="token punctuation">.</span>width<span class="token punctuation">;</span>
+                CGFloat height <span class="token operator">=</span> window<span class="token punctuation">.</span>bounds<span class="token punctuation">.</span>size<span class="token punctuation">.</span>height<span class="token punctuation">;</span>
+                window<span class="token punctuation">.</span>frame <span class="token operator">=</span> <span class="token function">CGRectMake</span><span class="token punctuation">(</span>width <span class="token operator">*</span> <span class="token number">0.5</span><span class="token punctuation">,</span> height <span class="token operator">*</span> <span class="token number">0.5</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">&#125;</span> completion<span class="token punctuation">:</span><span class="token operator">^</span><span class="token punctuation">(</span>BOOL finished<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+                <span class="token function">exit</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">&#125;</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+            
+        <span class="token punctuation">&#125;</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+        
+        <span class="token comment">// 取消</span>
+        UIAlertAction <span class="token operator">*</span>cancelAct <span class="token operator">=</span> <span class="token punctuation">[</span>UIAlertAction actionWithTitle<span class="token punctuation">:</span><span class="token string">@"下次再说"</span> style<span class="token punctuation">:</span>UIAlertActionStyleDefault handler<span class="token punctuation">:</span>nil<span class="token punctuation">]</span><span class="token punctuation">;</span>
+        
+        <span class="token punctuation">[</span>alertVc addAction<span class="token punctuation">:</span>confirmAct<span class="token punctuation">]</span><span class="token punctuation">;</span>
+        <span class="token punctuation">[</span>alertVc addAction<span class="token punctuation">:</span>cancelAct<span class="token punctuation">]</span><span class="token punctuation">;</span>
+        
+        <span class="token punctuation">[</span>weakSelf<span class="token punctuation">.</span>window<span class="token punctuation">.</span>rootViewController presentViewController<span class="token punctuation">:</span>alertVc animated<span class="token punctuation">:</span>YES completion<span class="token punctuation">:</span>nil<span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>]]></content>
+      <categories>
+        <category>iOS</category>
+      </categories>
+      <tags>
+        <tag>iOS 应用更新</tag>
+        <tag>企业版应用更新</tag>
+        <tag>打包</tag>
+        <tag>发布</tag>
       </tags>
   </entry>
   <entry>
@@ -4672,6 +4672,130 @@ _observer &#x3D; [[NSNotificationCenter defaultCenter] addObserverForName:@&quot
       <tags>
         <tag>Objective-C</tag>
         <tag>Block</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>pve下不同服务间启动依赖问题解决</title>
+    <url>/2023/11/26/pve%E4%B8%8B%E4%B8%8D%E5%90%8C%E6%9C%8D%E5%8A%A1%E9%97%B4%E5%90%AF%E5%8A%A8%E4%BE%9D%E8%B5%96%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3/</url>
+    <content><![CDATA[<p>在Proxmox VE (PVE) 环境中，我们经常需要管理多个虚拟机或LXC容器，这些容器中部署了各种服务。服务间的依赖关系可能导致如果启动顺序不当，服务无法正确运行。本文将探讨这一问题，并提出一个有效的解决方案。</p>
+<span id="more"></span>
+
+<h2 id="问题背景"><a href="#问题背景" class="headerlink" title="问题背景"></a>问题背景</h2><p>在PVE环境中，服务间的依赖性特别明显。例如，一个服务可能依赖于在另一个虚拟机上运行的数据库服务。传统的解决方法，如设置虚拟机的启动顺序和延迟，存在一些局限性：</p>
+<ol>
+<li><strong>延迟启动时间不准确</strong>：预估的启动时间可能与实际不符，导致服务启动失败。</li>
+<li><strong>无法细化到服务级别</strong>：PVE只允许设置虚拟机级别的启动顺序。</li>
+<li><strong>复杂依赖难以管理</strong>：对于更复杂的服务依赖关系，传统方法难以实现有效管理。</li>
+</ol>
+<h2 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h2><p>为了解决这些问题，我们在目标机器上创建了开机自启动服务。这些服务通过脚本循环检查依赖服务是否可用，只有在所有依赖服务均已启动并运行正常时，才会启动目标服务。</p>
+<h3 id="举例1-Jellyfin-服务依赖群辉启动"><a href="#举例1-Jellyfin-服务依赖群辉启动" class="headerlink" title="举例1: Jellyfin 服务依赖群辉启动"></a>举例1: Jellyfin 服务依赖群辉启动</h3><h4 id="在PVE中，设置LXC容器启动脚本如下："><a href="#在PVE中，设置LXC容器启动脚本如下：" class="headerlink" title="在PVE中，设置LXC容器启动脚本如下："></a>在PVE中，设置LXC容器启动脚本如下：</h4><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">nano</span> /etc/systemd/system/start_jellyfin.service<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token punctuation">[</span>Unit<span class="token punctuation">]</span>
+<span class="token assign-left variable">Description</span><span class="token operator">=</span>Start Jellyfin Service
+<span class="token assign-left variable">After</span><span class="token operator">=</span>network.target
+
+<span class="token punctuation">[</span>Service<span class="token punctuation">]</span>
+<span class="token assign-left variable">Type</span><span class="token operator">=</span>simple
+<span class="token assign-left variable">ExecStart</span><span class="token operator">=</span>/usr/local/bin/start_jellyfin.sh
+
+<span class="token punctuation">[</span>Install<span class="token punctuation">]</span>
+<span class="token assign-left variable">WantedBy</span><span class="token operator">=</span>multi-user.target<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<pre class="line-numbers language-none"><code class="language-none">nano &#x2F;usr&#x2F;local&#x2F;bin&#x2F;start_jellyfin.sh<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<pre class="line-numbers language-none"><code class="language-none">#!&#x2F;bin&#x2F;bash
+
+while true; do
+    if nc -vz -w 2 192.168.18.8 5000 &gt; &#x2F;dev&#x2F;null 2&gt;&amp;1; then
+        sleep 5
+        pct start 105
+        break
+    else
+        sleep 5
+    fi
+done<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h4 id="开机自启"><a href="#开机自启" class="headerlink" title="开机自启"></a>开机自启</h4><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">systemctl <span class="token builtin class-name">enable</span> start_jellyfin<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<h3 id="举例2-NAS工具和其他服务的依赖管理"><a href="#举例2-NAS工具和其他服务的依赖管理" class="headerlink" title="举例2: NAS工具和其他服务的依赖管理"></a>举例2: NAS工具和其他服务的依赖管理</h3><h4 id="在Docker服务机器上，我们设置了以下自启动服务和脚本："><a href="#在Docker服务机器上，我们设置了以下自启动服务和脚本：" class="headerlink" title="在Docker服务机器上，我们设置了以下自启动服务和脚本："></a>在Docker服务机器上，我们设置了以下自启动服务和脚本：</h4><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">nano</span> /etc/systemd/system/restart_nas_ass_services.service<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<pre class="line-numbers language-none"><code class="language-none">[Unit]
+Description&#x3D;Restart NAS Associated Services
+After&#x3D;network-online.target
+Wants&#x3D;network-online.target
+
+[Service]
+Type&#x3D;oneshot
+ExecStart&#x3D;&#x2F;usr&#x2F;local&#x2F;bin&#x2F;restart_nas_ass_services.sh
+RemainAfterExit&#x3D;yes
+
+[Install]
+WantedBy&#x3D;multi-user.target<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">nano</span> /usr/local/bin/restart_nas_ass_services.sh<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<pre class="line-numbers language-none"><code class="language-none">#!&#x2F;bin&#x2F;bash
+
+# 定义需要管理的 Docker 容器列表
+services&#x3D;(&quot;qbittorrent&quot; &quot;alist&quot; &quot;nas-tools&quot; &quot;jackett&quot; &quot;chinesesubfinder&quot; &quot;flaresolverr&quot;)
+
+while true; do
+    if nc -vz -w 2 192.168.18.8 5000 &gt; &#x2F;dev&#x2F;null 2&gt;&amp;1 &amp;&amp;
+       nc -vz -w 2 192.168.18.37 8096 &gt; &#x2F;dev&#x2F;null 2&gt;&amp;1; then
+        sleep 5
+        systemctl daemon-reload
+        mount -a
+
+        # 循环遍历每个服务
+        for service in &quot;$&#123;services[@]&#125;&quot;; do
+            if docker ps --format &#39;&#123;&#123;.Names&#125;&#125;&#39; | grep $service; then
+                # 如果容器已存在，则重启
+                docker restart $service
+            else
+                # 如果容器不存在，则启动
+                docker start $service
+            fi
+        done
+
+        break
+    else
+        sleep 5
+    fi
+done<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h4 id="开机自启-1"><a href="#开机自启-1" class="headerlink" title="开机自启"></a>开机自启</h4><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">systemctl <span class="token builtin class-name">enable</span> restart_nas_ass_services.service<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<h3 id="好处和其他应用场景"><a href="#好处和其他应用场景" class="headerlink" title="好处和其他应用场景"></a>好处和其他应用场景</h3><p>这种方法的好处在于：</p>
+<ul>
+<li><strong>精确控制</strong>：可以根据实际服务的可用性来精确控制启动流程。</li>
+<li><strong>灵活性</strong>：适用于各种复杂的服务依赖情况。</li>
+<li><strong>可扩展性</strong>：容易根据需要添加或修改脚本来管理新的服务依赖。</li>
+</ul>
+<p>此方法不仅适用于PVE环境，还可以应用于任何需要精确管理服务启动顺序的场景，如大型云环境、分布式系统等。</p>
+<h3 id="其他应用场景示例"><a href="#其他应用场景示例" class="headerlink" title="其他应用场景示例"></a>其他应用场景示例</h3><h4 id="大型云环境中的服务依赖管理"><a href="#大型云环境中的服务依赖管理" class="headerlink" title="大型云环境中的服务依赖管理"></a>大型云环境中的服务依赖管理</h4><p>在大型云环境，比如使用Kubernetes或OpenStack，服务之间的依赖管理尤为重要。例如，在Kubernetes环境中，可以编写一个初始化容器（Init Container），该容器在应用容器启动前运行。它可以用于检查数据库服务是否已经就绪，或者其他依赖服务是否可用。一旦所有检查通过，主应用容器才会启动。</p>
+<h4 id="分布式系统中的依赖启动"><a href="#分布式系统中的依赖启动" class="headerlink" title="分布式系统中的依赖启动"></a>分布式系统中的依赖启动</h4><p>在分布式系统中，特别是那些跨多个数据中心的，我们可以通过脚本来监控服务的状态，并根据依赖关系动态地启动服务。例如，一个数据分析服务可能需要等待数据源完全同步后才能开始处理。通过在启动脚本中加入检查逻辑，可以保证服务在数据准备就绪后自动启动。</p>
+<h2 id="补充说明"><a href="#补充说明" class="headerlink" title="补充说明"></a>补充说明</h2><h3 id="为什么使用-nc-vz-w-2-192-168-18-8-5000-作为判断条件"><a href="#为什么使用-nc-vz-w-2-192-168-18-8-5000-作为判断条件" class="headerlink" title="为什么使用 nc -vz -w 2 192.168.18.8 5000 作为判断条件"></a>为什么使用 <code>nc -vz -w 2 192.168.18.8 5000</code> 作为判断条件</h3><p>在之前的脚本示例中，我们使用了 <code>nc -vz -w 2 192.168.18.8 5000 &gt; /dev/null 2&gt;&amp;1</code> 作为检查服务是否可用的条件。这一命令利用了 <code>nc</code>（netcat）工具，是网络编程和调试的强大工具。以下是使用这个命令的原因：</p>
+<ul>
+<li><strong>端口扫描</strong>：<code>nc</code> (netcat) 能够进行端口扫描。使用 <code>-vz</code> 参数，netcat 在不发送任何数据的情况下扫描指定的IP地址和端口。这对于检查特定服务（例如数据库或Web服务器）是否已在特定端口上运行是非常有用的。</li>
+<li><strong>超时设置</strong>：<code>-w 2</code> 设置了超时时间为2秒。这意味着如果在2秒内无法连接到目标端口，命令会终止并返回非零值。</li>
+<li><strong>输出重定向</strong>：<code>&gt; /dev/null 2&gt;&amp;1</code> 将标准输出和标准错误都重定向到了 <code>/dev/null</code>，即忽略了所有输出。这是因为我们只关心命令的退出状态，而不是其输出内容。</li>
+</ul>
+<p>使用这个命令作为条件，脚本可以有效地判断特定服务（在此例中是在IP地址 <code>192.168.18.8</code> 端口 <code>5000</code> 上的服务）是否已经启动并可接受连接。</p>
+<h3 id="nc-命令的退出状态"><a href="#nc-命令的退出状态" class="headerlink" title="nc 命令的退出状态"></a><code>nc</code> 命令的退出状态</h3><p>在使用 <code>nc -vz -w 2 192.168.18.8 5000 &gt; /dev/null 2&gt;&amp;1</code> 作为服务可用性的判断条件时，命令的退出状态（exit status）起到了关键作用。以下是这方面的详细说明：</p>
+<ul>
+<li><strong>成功连接的退出状态</strong>：当 <code>nc</code> 命令能够成功建立到指定端口的连接时，它通常以退出状态 0 结束。这表示目标服务已经启动并且在监听指定的端口。</li>
+<li><strong>连接失败的退出状态</strong>：相反，如果 <code>nc</code> 命令无法建立连接（例如，服务尚未启动或端口不可达），它会以非零状态结束。这个非零状态是一个错误指示，表明命令没有成功执行预期的操作。</li>
+</ul>
+<hr>
+<p>希望本文能帮助您更有效地管理PVE环境中的服务依赖问题。</p>
+]]></content>
+      <categories>
+        <category>运维</category>
+        <category>服务器</category>
+      </categories>
+      <tags>
+        <tag>docker</tag>
+        <tag>pve</tag>
+        <tag>nas</tag>
+        <tag>开机自启</tag>
       </tags>
   </entry>
   <entry>
@@ -6409,92 +6533,6 @@ document.body.classList.toggle(&#39;anotherClass&#39;);
       </tags>
   </entry>
   <entry>
-    <title>在已有 OC 项目无痛集成 React Native</title>
-    <url>/2018/09/03/%E5%9C%A8%E5%B7%B2%E6%9C%89-OC-%E9%A1%B9%E7%9B%AE%E6%97%A0%E7%97%9B%E9%9B%86%E6%88%90-React-Native/</url>
-    <content><![CDATA[<h1 id="基本要求"><a href="#基本要求" class="headerlink" title="基本要求"></a>基本要求</h1><ul>
-<li>对 <code>Cocoapods</code> 使用熟悉</li>
-<li>熟悉 Mac 基本操作</li>
-<li>解决问题的基本功</li>
-</ul>
-<h1 id="官方示例"><a href="#官方示例" class="headerlink" title="官方示例"></a>官方示例</h1><p>这是官方给出的教程，<a href="https://reactnative.cn/docs/integration-with-existing-apps/">集成到现有原生应用</a>，按照这个集成的跑起来没啥问题，但是后期等你用了一些组件，或原生或 <code>RN</code> 的，比如自定义 <code>UIView</code> 给 <code>RN</code> 用，<code>RN</code> 里用的第三方的 <code>component</code> 调用了原生的 <code>API</code>，官方的这些默认的 <code>pod</code> 库就是缺少一些的，跑项目会出一些莫名其妙的问题，我在用了<code>react-navigation</code>后各种运行时红屏报错问题，错误提示也看不出个所以然来，折腾好久才解决问题，这里我将直接记录主要过程和注意点，以备不时之需。</p>
-<span id="more"></span>
-
-<h1 id="踩坑后的做法"><a href="#踩坑后的做法" class="headerlink" title="踩坑后的做法"></a>踩坑后的做法</h1><ul>
-<li>根据官方给出的<a href="https://reactnative.cn/docs/getting-started/">搭建开发环境</a>配置好环境</li>
-<li>这时已经装好了<code>react-native-cli</code>，随便<code>init</code>一个新项目出来</li>
-<li>创建一个文件夹，准备用来存放集成 <code>RN</code> 的项目，比如 <code>ProjectIntegrateRN</code></li>
-<li>拷贝<code>app.json</code>、<code>node_modules</code>、<code>package.json</code> 文件\文件夹 到<code>ProjectIntegrateRN </code>文件夹</li>
-<li>拷贝原来的 <code>OC\Swift</code> 项目至 <code>ProjectIntegrateRN </code>文件夹</li>
-</ul>
-<p><strong>这里假设项目已经使用了 <code>Cocoapods</code> 管理第三方库，进入原生<code>OC\Swift</code>项目根目录</strong>，执行：</p>
-<pre class="line-numbers language-Bash" data-language="Bash"><code class="language-Bash">☁  puma [RN-integration] vim Podfile<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<p>加入<code>React Native</code>的依赖：</p>
-<pre class="line-numbers language-Bash" data-language="Bash"><code class="language-Bash">def rnpods
-    pod &#39;React&#39;, :path &#x3D;&gt; &quot;..&#x2F;node_modules&#x2F;react-native&quot;, :subspecs &#x3D;&gt; [
-      &quot;Core&quot;,
-      &quot;ART&quot;,
-      &quot;RCTActionSheet&quot;,
-      &quot;RCTAnimation&quot;, # FlatList和原生动画功能需要此模块
-      &quot;RCTCameraRoll&quot;,
-      &quot;RCTGeolocation&quot;,
-      &quot;RCTImage&quot;,
-      &quot;RCTNetwork&quot;,
-      &quot;RCTText&quot;,
-      &quot;RCTVibration&quot;,
-      &quot;RCTWebSocket&quot;, # 调试功能需要此模块
-      &quot;DevSupport&quot;, # 如果RN版本 &gt;&#x3D; 0.43，则需要加入此行才能开启开发者菜单
-      &quot;CxxBridge&quot;, # 如果RN版本 &gt;&#x3D; 0.47则加入此行
-      # 在这里继续添加你所需要的其他RN模块
-        #&#39;RCTAdSupport&#39;,
-       &#39;RCTPushNotification&#39;,
-       &#39;RCTSettings&#39;,
-       &#39;RCTLinkingIOS&#39;]
-        
-  # 如果你的RN版本 &gt;&#x3D; 0.42.0，则加入下面这行
-  pod &#39;yoga&#39;, :path &#x3D;&gt; &quot;..&#x2F;node_modules&#x2F;react-native&#x2F;ReactCommon&#x2F;yoga&quot;
-
-  # 如果RN版本 &gt;&#x3D; 0.45则加入下面三个第三方编译依赖
-  pod &#39;DoubleConversion&#39;, :podspec &#x3D;&gt; &quot;..&#x2F;node_modules&#x2F;react-native&#x2F;third-party-podspecs&#x2F;DoubleConversion.podspec&quot;
-  pod &#39;Folly&#39;, :podspec &#x3D;&gt; &quot;..&#x2F;node_modules&#x2F;react-native&#x2F;third-party-podspecs&#x2F;Folly.podspec&quot;
-  pod &#39;glog&#39;, :podspec &#x3D;&gt; &quot;..&#x2F;node_modules&#x2F;react-native&#x2F;third-party-podspecs&#x2F;glog.podspec&quot;
-  
-  pod &#39;RNVectorIcons&#39;, :path &#x3D;&gt; &#39;..&#x2F;node_modules&#x2F;react-native-vector-icons&#39;
-end<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<h1 id="开始使用"><a href="#开始使用" class="headerlink" title="开始使用"></a>开始使用</h1><p>把<code>rnpods </code>加入到 <code>Target &quot;your_scheme&quot; </code> ，<code>pod update</code>或者<code>pod install</code>等结束，不出意外的话应该能跑了.</p>
-<h1 id="更改默认-node-端口"><a href="#更改默认-node-端口" class="headerlink" title="更改默认 node 端口"></a>更改默认 node 端口</h1><p><code>RN</code>项目目录执行：</p>
-<pre class="line-numbers language-Bash" data-language="Bash"><code class="language-Bash">☁  puma [RN-integration] mvim node_modules&#x2F;react-native&#x2F;local-cli&#x2F;server&#x2F;server.js<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<p><code>CTRL+F</code>查找 <code>8081</code> 替换为你想要的端口，比如换成 <code>6666</code> 。</p>
-<p>原生代码里记得更改，比如 <code>OC</code> 项目里这样改：</p>
-<pre class="line-numbers language-Objective-C" data-language="Objective-C"><code class="language-Objective-C">NSURL *jsCodeLocation;
-
-&#x2F;&#x2F; node
-jsCodeLocation &#x3D; [NSURL URLWithString:@&quot;http:&#x2F;&#x2F;localhost:6666&#x2F;src&#x2F;index.bundle?platform&#x3D;ios&quot;];
-
-&#x2F;&#x2F; 如果打包或真机，使用下面这个
-&#x2F;&#x2F;    jsCodeLocation &#x3D; [NSURL URLWithString:[[NSBundle mainBundle] pathForResource:@&quot;index.jsbundle&quot; ofType:nil]];
-
-_rnView &#x3D; [[RCTRootView alloc] initWithBundleURL:jsCodeLocation
-                                      moduleName:@&quot;DongKe&quot;
-                               initialProperties:
-                                   @&#123;
-                                       @&quot;enterpriseID&quot;: self._id,
-                                       @&quot;source&quot;: @(self.source)
-                                   &#125;
-                                   launchOptions:nil];<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-]]></content>
-      <categories>
-        <category>iOS 开发</category>
-      </categories>
-      <tags>
-        <tag>React Native</tag>
-        <tag>Hybrid</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>如何让nginx服务和ocserv共用443端口</title>
     <url>/2023/05/13/%E5%A6%82%E4%BD%95%E8%AE%A9nginx%E6%9C%8D%E5%8A%A1%E5%92%8Cocserv%E5%85%B1%E7%94%A8443%E7%AB%AF%E5%8F%A3/</url>
     <content><![CDATA[<h2 id="前言与需求背景"><a href="#前言与需求背景" class="headerlink" title="前言与需求背景"></a>前言与需求背景</h2><p>在许多应用中，我们可能需要让多个服务共享同一端口。例如，你可能有一个Web服务器（如Nginx）和一个VPN服务器（如OpenConnect VPN，简称ocserv），你希望它们都使用443端口。这样做的好处是可以提高网络性能，因为操作系统通常会为443端口提供更高的处理优先级，从而得到更快的响应。此外，这种设置也可以简化防火墙的配置，因为只需要开放一个端口。</p>
@@ -6728,6 +6766,92 @@ no-route &#x3D; 47.242.201.43&#x2F;255.255.255.255<span aria-hidden="true" class
         <tag>ocserv</tag>
         <tag>nginx</tag>
         <tag>haproxy</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>在已有 OC 项目无痛集成 React Native</title>
+    <url>/2018/09/03/%E5%9C%A8%E5%B7%B2%E6%9C%89-OC-%E9%A1%B9%E7%9B%AE%E6%97%A0%E7%97%9B%E9%9B%86%E6%88%90-React-Native/</url>
+    <content><![CDATA[<h1 id="基本要求"><a href="#基本要求" class="headerlink" title="基本要求"></a>基本要求</h1><ul>
+<li>对 <code>Cocoapods</code> 使用熟悉</li>
+<li>熟悉 Mac 基本操作</li>
+<li>解决问题的基本功</li>
+</ul>
+<h1 id="官方示例"><a href="#官方示例" class="headerlink" title="官方示例"></a>官方示例</h1><p>这是官方给出的教程，<a href="https://reactnative.cn/docs/integration-with-existing-apps/">集成到现有原生应用</a>，按照这个集成的跑起来没啥问题，但是后期等你用了一些组件，或原生或 <code>RN</code> 的，比如自定义 <code>UIView</code> 给 <code>RN</code> 用，<code>RN</code> 里用的第三方的 <code>component</code> 调用了原生的 <code>API</code>，官方的这些默认的 <code>pod</code> 库就是缺少一些的，跑项目会出一些莫名其妙的问题，我在用了<code>react-navigation</code>后各种运行时红屏报错问题，错误提示也看不出个所以然来，折腾好久才解决问题，这里我将直接记录主要过程和注意点，以备不时之需。</p>
+<span id="more"></span>
+
+<h1 id="踩坑后的做法"><a href="#踩坑后的做法" class="headerlink" title="踩坑后的做法"></a>踩坑后的做法</h1><ul>
+<li>根据官方给出的<a href="https://reactnative.cn/docs/getting-started/">搭建开发环境</a>配置好环境</li>
+<li>这时已经装好了<code>react-native-cli</code>，随便<code>init</code>一个新项目出来</li>
+<li>创建一个文件夹，准备用来存放集成 <code>RN</code> 的项目，比如 <code>ProjectIntegrateRN</code></li>
+<li>拷贝<code>app.json</code>、<code>node_modules</code>、<code>package.json</code> 文件\文件夹 到<code>ProjectIntegrateRN </code>文件夹</li>
+<li>拷贝原来的 <code>OC\Swift</code> 项目至 <code>ProjectIntegrateRN </code>文件夹</li>
+</ul>
+<p><strong>这里假设项目已经使用了 <code>Cocoapods</code> 管理第三方库，进入原生<code>OC\Swift</code>项目根目录</strong>，执行：</p>
+<pre class="line-numbers language-Bash" data-language="Bash"><code class="language-Bash">☁  puma [RN-integration] vim Podfile<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>加入<code>React Native</code>的依赖：</p>
+<pre class="line-numbers language-Bash" data-language="Bash"><code class="language-Bash">def rnpods
+    pod &#39;React&#39;, :path &#x3D;&gt; &quot;..&#x2F;node_modules&#x2F;react-native&quot;, :subspecs &#x3D;&gt; [
+      &quot;Core&quot;,
+      &quot;ART&quot;,
+      &quot;RCTActionSheet&quot;,
+      &quot;RCTAnimation&quot;, # FlatList和原生动画功能需要此模块
+      &quot;RCTCameraRoll&quot;,
+      &quot;RCTGeolocation&quot;,
+      &quot;RCTImage&quot;,
+      &quot;RCTNetwork&quot;,
+      &quot;RCTText&quot;,
+      &quot;RCTVibration&quot;,
+      &quot;RCTWebSocket&quot;, # 调试功能需要此模块
+      &quot;DevSupport&quot;, # 如果RN版本 &gt;&#x3D; 0.43，则需要加入此行才能开启开发者菜单
+      &quot;CxxBridge&quot;, # 如果RN版本 &gt;&#x3D; 0.47则加入此行
+      # 在这里继续添加你所需要的其他RN模块
+        #&#39;RCTAdSupport&#39;,
+       &#39;RCTPushNotification&#39;,
+       &#39;RCTSettings&#39;,
+       &#39;RCTLinkingIOS&#39;]
+        
+  # 如果你的RN版本 &gt;&#x3D; 0.42.0，则加入下面这行
+  pod &#39;yoga&#39;, :path &#x3D;&gt; &quot;..&#x2F;node_modules&#x2F;react-native&#x2F;ReactCommon&#x2F;yoga&quot;
+
+  # 如果RN版本 &gt;&#x3D; 0.45则加入下面三个第三方编译依赖
+  pod &#39;DoubleConversion&#39;, :podspec &#x3D;&gt; &quot;..&#x2F;node_modules&#x2F;react-native&#x2F;third-party-podspecs&#x2F;DoubleConversion.podspec&quot;
+  pod &#39;Folly&#39;, :podspec &#x3D;&gt; &quot;..&#x2F;node_modules&#x2F;react-native&#x2F;third-party-podspecs&#x2F;Folly.podspec&quot;
+  pod &#39;glog&#39;, :podspec &#x3D;&gt; &quot;..&#x2F;node_modules&#x2F;react-native&#x2F;third-party-podspecs&#x2F;glog.podspec&quot;
+  
+  pod &#39;RNVectorIcons&#39;, :path &#x3D;&gt; &#39;..&#x2F;node_modules&#x2F;react-native-vector-icons&#39;
+end<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h1 id="开始使用"><a href="#开始使用" class="headerlink" title="开始使用"></a>开始使用</h1><p>把<code>rnpods </code>加入到 <code>Target &quot;your_scheme&quot; </code> ，<code>pod update</code>或者<code>pod install</code>等结束，不出意外的话应该能跑了.</p>
+<h1 id="更改默认-node-端口"><a href="#更改默认-node-端口" class="headerlink" title="更改默认 node 端口"></a>更改默认 node 端口</h1><p><code>RN</code>项目目录执行：</p>
+<pre class="line-numbers language-Bash" data-language="Bash"><code class="language-Bash">☁  puma [RN-integration] mvim node_modules&#x2F;react-native&#x2F;local-cli&#x2F;server&#x2F;server.js<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p><code>CTRL+F</code>查找 <code>8081</code> 替换为你想要的端口，比如换成 <code>6666</code> 。</p>
+<p>原生代码里记得更改，比如 <code>OC</code> 项目里这样改：</p>
+<pre class="line-numbers language-Objective-C" data-language="Objective-C"><code class="language-Objective-C">NSURL *jsCodeLocation;
+
+&#x2F;&#x2F; node
+jsCodeLocation &#x3D; [NSURL URLWithString:@&quot;http:&#x2F;&#x2F;localhost:6666&#x2F;src&#x2F;index.bundle?platform&#x3D;ios&quot;];
+
+&#x2F;&#x2F; 如果打包或真机，使用下面这个
+&#x2F;&#x2F;    jsCodeLocation &#x3D; [NSURL URLWithString:[[NSBundle mainBundle] pathForResource:@&quot;index.jsbundle&quot; ofType:nil]];
+
+_rnView &#x3D; [[RCTRootView alloc] initWithBundleURL:jsCodeLocation
+                                      moduleName:@&quot;DongKe&quot;
+                               initialProperties:
+                                   @&#123;
+                                       @&quot;enterpriseID&quot;: self._id,
+                                       @&quot;source&quot;: @(self.source)
+                                   &#125;
+                                   launchOptions:nil];<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+]]></content>
+      <categories>
+        <category>iOS 开发</category>
+      </categories>
+      <tags>
+        <tag>React Native</tag>
+        <tag>Hybrid</tag>
       </tags>
   </entry>
   <entry>
@@ -7210,6 +7334,163 @@ print(translate(&#39;មិចញុមវាយលេខចូលហើយម�
         <tag>爬虫</tag>
         <tag>JavaScript</tag>
         <tag>SEO</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>更改 React Native 默认 ios、android 项目文件夹</title>
+    <url>/2018/09/10/%E6%9B%B4%E6%94%B9-React-Native-%E9%BB%98%E8%AE%A4-ios%E3%80%81android-%E9%A1%B9%E7%9B%AE%E6%96%87%E4%BB%B6%E5%A4%B9/</url>
+    <content><![CDATA[<h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>来到新公司也有一个月了，完成 iOS 端洞客项目<code>V1.3.0-V1.4.0</code>的升级，虽然只是一个小版本的升级，但我在熟悉项目过程当中发现项目垃圾代码实在太多了，别说我了，一般的接锅人看了也难以忍受，在痛苦了几天之后我默默拉了一个新 git 分支改起来，使用 <code>clang format</code>规范化了整个项目的代码，后面结合<code>git hook</code>在<code>git commit</code>前自动<code>reformat</code>代码，这一步可以说是非常爽了。直到今天，我之前简单看了一下，<code>check out</code>到我改之前和改之后的代码，少了有5000+行代码，删除了几十个类文件，但里面还是充斥着大量的垃圾或者不合理的代码。开发完<code>1.4.0</code>，稍微看起来闲了一两天，被个喜欢行使小权利的前端小组长安装研习 <code>React Native</code>，准备接入原生项目，暂时用于替换一个改动比较频繁的详情页，之前就有自己学习过，但是都忘光了，又复习一遍，趁热记录一些小 tip。</p>
+<span id="more"></span>
+
+<h1 id="接入原生-OC-项目"><a href="#接入原生-OC-项目" class="headerlink" title="接入原生 OC 项目"></a>接入原生 OC 项目</h1><p>这一步我会专门写一篇 blog 来记录，因为还是有踩几个坑的。</p>
+<h1 id="更改-iOS-和-Android-项目名"><a href="#更改-iOS-和-Android-项目名" class="headerlink" title="更改 iOS 和 Android 项目名"></a>更改 iOS 和 Android 项目名</h1><p>本来原生开发的好好的，顶层文件夹用的是项目名，要接入 RN，用的方案也是 RN 顶层文件夹包含安卓和 iOS 项目，但 RN 默认只认 ios 和 android 两个文件夹作为项目路径，google 了一番找了找<a href="https://reactnative.cn/">官方文档</a>没看到有关于这里的自定义，看看 cli 里有没有相关 help，看了下，确实有，如下：</p>
+<h2 id="查看react-native-cli帮助"><a href="#查看react-native-cli帮助" class="headerlink" title="查看react-native cli帮助"></a>查看<code>react-native cli</code>帮助</h2><pre class="line-numbers language-Bash" data-language="Bash"><code class="language-Bash">☁  mobile-dongke-RN [RN-integration] ⚡ react-native run-ios --help
+
+  react-native run-ios [options]
+  builds your app and starts it on iOS simulator
+
+  Options:
+
+    --simulator [string]      Explicitly set simulator to use (default: iPhone 6)
+    --configuration [string]  Explicitly set the scheme configuration to use
+    --scheme [string]         Explicitly set Xcode scheme to use
+    --project-path [string]   Path relative to project root where the Xcode project (.xcodeproj) lives. The default is &#39;ios&#39;. (default: ios)
+    --device [string]         Explicitly set device to use by name.  The value is not required if you have a single device connected.
+    --udid [string]           Explicitly set device to use by udid
+    --no-packager             Do not launch packager while building
+    --verbose                 Do not use xcpretty even if installed
+    --port [number]            (default: 8081)
+    --config [string]         Path to the CLI configuration file
+    -h, --help                output usage information<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>看到可以通过设置<code>--project-path</code>参数来设置关联 XCode 项目的根文件夹，可以看到这里还可以指定模拟器类型，默认使用的是<code>iPhone 6</code>，挺不喜欢的，这里也改了，我们可以通过运行如下命令查看本机有哪些模拟器可以使用：</p>
+<h2 id="查看本机可用模拟器"><a href="#查看本机可用模拟器" class="headerlink" title="查看本机可用模拟器"></a>查看本机可用模拟器</h2><pre class="line-numbers language-Bash" data-language="Bash"><code class="language-Bash">☁  ~  xcrun simctl list devices
+&#x3D;&#x3D; Devices &#x3D;&#x3D;
+-- iOS 8.1 --
+    iPhone 4s (E62E0A29-BCEE-4BB1-B27C-1D5CC225C6B0) (Shutdown)
+    iPhone 5 (2D4FE14B-E33D-491C-B919-3352FA32B03A) (Shutdown)
+    iPhone 5s (A90FF130-CDE8-4D60-AEFE-9DAA4ACA8F9A) (Shutdown)
+    iPhone 6 (518A2EFE-1AD8-47AD-B5AC-F2424D55444D) (Shutdown)
+    iPhone 6 Plus (4BFB145F-1D34-4BE9-9A1B-2EBED4F11DEC) (Shutdown)
+    iPad 2 (83D02E68-7184-4ABF-B6D6-33A9CA056BF0) (Shutdown)
+    iPad Retina (5D2B27ED-87F1-4ADD-8333-31FE4B239EDA) (Shutdown)
+    iPad Air (07AC87B1-9C9B-4645-975E-861CFFB323A3) (Shutdown)
+-- iOS 10.0 --
+    iPhone 5 (43372734-B0C6-4C7B-85C0-DFC41F9B9883) (Shutdown)
+    iPhone 5s (5D88D6F2-4683-4DC2-8FBA-7F762683E22C) (Shutdown)
+    iPhone 6 (CFFB2105-C2A6-4EEC-91F2-2F805F0F94DF) (Shutdown)
+    iPhone 6 Plus (C4B1BC99-AF7B-4F11-8752-DA5C18676428) (Shutdown)
+    iPhone 6s (2D4D0793-6794-4AAF-BC82-BC7313D749D1) (Shutdown)
+    iPhone 6s Plus (BBA3565D-3705-419F-9ABE-994C218B27B0) (Shutdown)
+    iPhone SE (4DB18D89-DA99-4D66-9B18-7ED30A0D9491) (Shutdown)
+    iPad Air (50E6ADA1-B589-43D1-A3A9-B653EC43D298) (Shutdown)
+    iPad Air 2 (15331EA9-7F84-4D63-B36E-FE15C5F89E96) (Shutdown)
+    iPad Pro (9.7 inch) (6A23335C-9A5A-4B84-B671-1F60E5A0E1D0) (Shutdown)
+    iPad Pro (12.9 inch) (451FBDD2-AD2D-4E53-8025-DEA420376618) (Shutdown)
+-- iOS 12.0 --
+    iPhone 5s (89879C1B-D07C-4D4E-BC62-6525A9BB4B7B) (Shutdown)
+    iPhone 6 (D437284B-3464-4F81-9AA7-A19690B80892) (Shutdown)<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h2 id="编写简单的-Shell，省去每次敲烦恼"><a href="#编写简单的-Shell，省去每次敲烦恼" class="headerlink" title="编写简单的 Shell，省去每次敲烦恼"></a>编写简单的 Shell，省去每次敲烦恼</h2><p>这样我们选自己想使用的模拟器、自定义项目路径这两件都 OK 了，最后我们可以编写一个 Shell 脚本，就不用每次都要手敲了，在 RN 项目根路径下运行：</p>
+<pre class="line-numbers language-Bash" data-language="Bash"><code class="language-Bash">☁  mobile-dongke-RN [RN-integration] ⚡ touch run-ios-iPhone_8.sh
+☁  mobile-dongke-RN [RN-integration] ⚡ echo -e &quot;#\!&#x2F;bin&#x2F;bash\n\nreact-native run-ios --project-path &quot;.&#x2F;puma&quot; --simulator &quot;iPhone 8&quot;&quot; &gt;&gt; run-ios-iPhone_8.sh
+☁  mobile-dongke-RN [RN-integration] ⚡ chmod +x run-ios-iPhone_8.sh<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<h1 id="使用Shell脚本启动iOS项目"><a href="#使用Shell脚本启动iOS项目" class="headerlink" title="使用Shell脚本启动iOS项目"></a>使用<code>Shell</code>脚本启动<code>iOS</code>项目</h1><p>下次运行直接运行<code>run-ios-iPhone_8.sh</code>就好了，当然你也可以直接从 XCode 启动项目。</p>
+<pre class="line-numbers language-Bash" data-language="Bash"><code class="language-Bash">☁  mobile-dongke-RN [RN-integration] ⚡ .&#x2F;run-ios-iPhone_8.sh<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<h1 id="安卓端项目路径自定义"><a href="#安卓端项目路径自定义" class="headerlink" title="安卓端项目路径自定义"></a>安卓端项目路径自定义</h1><p>同理我们可以运行<code>react-native run-android --help</code>查看帮助，可以看到可以通过指定<code>--root</code>参数来设置，读者可以根据帮助自行设置。</p>
+<pre class="line-numbers language-Bash" data-language="Bash"><code class="language-Bash">☁  mobile-dongke-RN [RN-integration] ⚡ react-native run-android --help
+
+  react-native run-android [options]
+  builds your app and starts it on a connected Android emulator or device
+
+  Options:
+
+    --install-debug
+    --root [string]           Override the root directory for the android build (which contains the android directory) (default: )
+    --flavor [string]         --flavor has been deprecated. Use --variant instead
+    --variant [string]
+    --appFolder [string]      Specify a different application folder name for the android source. (default: app)
+    --appId [string]          Specify an applicationId to launch after build. (default: )
+    --appIdSuffix [string]    Specify an applicationIdSuffix to launch after build. (default: )
+    --main-activity [string]  Name of the activity to start (default: MainActivity)
+    --deviceId [string]       builds your app and starts it on a specific device&#x2F;simulator with the given device id (listed by running &quot;adb devices&quot; on the command line).
+    --no-packager             Do not launch packager while building
+    --port [number]            (default: 8081)
+    --terminal [string]       Launches the Metro Bundler in a new window using the specified terminal path. (default: )
+    --config [string]         Path to the CLI configuration file
+    -h, --help                output usage information<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>]]></content>
+      <categories>
+        <category>React Native</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>购买BanwagonHOST VPS自建Shadowsocks记录</title>
+    <url>/2017/07/28/%E8%B4%AD%E4%B9%B0BanwagonHOST-VPS%E8%87%AA%E5%BB%BAShadowsocks%E8%AE%B0%E5%BD%95/</url>
+    <content><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><blockquote>
+<p>不能畅游墙外没法好好生活和工作</p>
+</blockquote>
+<p>本来手里有着五六个 <code>Shadowsocks</code> 帐号，但体验都不佳，一直也没怎么用，是因为一直使用公司搭建的 <code>Cisco Anyconnect</code>，科学上网后百兆带宽可以满速使用，速度虽快，但是客户端软件默认是全局代理的，虽然可以走<code>IP route list</code>达到和<code>Shadowsocks </code>的<code>PAC</code>同样的作用，但效果慎微，而且<code>IP</code>要自己去填，所以公司<code>IT</code>直接没搞这个<code>route list</code>，因为我们大部分电脑和手机<code>APP</code>都在墙内，这就导致在使用了<code>Cisco Anyconnect</code>后大部分电脑或者手机上的<code>APP</code>网络访问困难，常开<code>VPN</code>还是需要<code>Shadowsocks </code>等可根据 <strong>PAC清单自动代理</strong> 或者 <strong>分应用代理</strong> 的一类软件。</p>
+<span id="more"></span>
+
+<h2 id="主题"><a href="#主题" class="headerlink" title="主题"></a>主题</h2><p>废话有点多，进入主题。前几日群里的前辈在群里说道自搭的<code>Shadowsocks</code>在使用了<code>Google</code>提出的<code>TCP</code>拥塞控制新算法——<code>BBR</code>之后，解决了以下两个问题：</p>
+<pre><code> 1. 在有一定丢包率的网络链路上充分利用带宽；
+ 2. 降低网络链路上的 buffer 占用率，从而降低延迟。
+</code></pre>
+<p> 正好有时间，大佬说的又激发了我的兴趣，我决定自己也搭一个玩玩，也以备不时之需，经历这一天，也总结了个人认为最省事的路线，以下是步骤记录。</p>
+<h2 id="购买VPS"><a href="#购买VPS" class="headerlink" title="购买VPS"></a>购买<code>VPS</code></h2><p>在请教了群里的前辈购买何档次的<code>BanwagonHOST VPN</code>之后，购买了19.99$&#x2F;年的方案，这是购买地址：<a href="https://bandwagonhost.com/index.php">BanwagonHOST</a>，这里注意两点，第一点：购买时注意买基于<code>KVM</code>的，而不是<code>OpenVZ</code>，<code>KVM</code>是新推出的，只了解了大体不同，想知道具体差异自行<a href="https://www.google.com/">Google</a>，一般来说，买新架构就没错了；第二点：在选择<code>Location</code>时，最好选择美国洛杉矶节点<code>Los Angeles</code>，别问为什么，前人经验，至于是<code>QNET</code>还是<code>MCOM</code>，自行谷歌这二者差异，有人汇总对比了这两种方案，不同城市的<code>ping</code>值有高有低，总体来说<code>QNET</code>稍好，所以我购买的是它。</p>
+<h2 id="重装系统"><a href="#重装系统" class="headerlink" title="重装系统"></a>重装系统</h2><p>付款购买成功后，进入当前页面的<code>Services-My Services</code>菜单下，找到你新购买的<code>Product/Service</code>，进入控制面板<code>KiviVM Control Panel</code>，界面很简单，每个功能浏览一下之后开始吧，预装的貌似是<code>Cent OS 6</code>，重装成你想要的系统吧，根据提示来，很<code>easy</code>。我个人比较习惯<code>Ubuntu</code>，所以安装了面板上支持的最新版本的<code>Ubuntu 16.04 x86_64</code>，面板里有一键安装<code>Shadowsocks Server</code>和<code>ShadowsocksR Server</code>功能，但个人不推荐，没啥别的原因，因为感觉不受我控制。装好后会提示你生成了一个随机的ROOT密码，记下来。执行以下步骤：</p>
+<pre><code>1.回到你的电脑，用你自己的方式`SSH`登陆到你的`VPS`，我用的`iTerm`，输入`ssh root@your_vps_ip_address -p your_vps_port`（本地要配置好`RSA`），默认密码是前面保存的随机密码。
+2.默认ROOT密码不好记，登陆成功后输入`passwd`输入两次新的`ROOT`密码更改密码。
+3.`Ubuntu`的话更新下系统，分别执行`apt-get update`和`apt-get upgrade`（不必须但建议）
+</code></pre>
+<h2 id="安装Shadowsocks"><a href="#安装Shadowsocks" class="headerlink" title="安装Shadowsocks "></a>安装<code>Shadowsocks </code></h2><p>安装的方式有很多，我独爱个人认为最优的那种，执行以下命令：</p>
+<pre class="line-numbers language-Bash" data-language="Bash"><code class="language-Bash">wget --no-check-certificate https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;teddysun&#x2F;shadowsocks_install&#x2F;master&#x2F;shadowsocksR.sh
+chmod +x shadowsocksR.sh
+.&#x2F;shadowsocksR.sh 2&gt;&amp;1 | tee shadowsocksR.log<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<p>你也可以用<code>&amp;&amp;</code>连接一次性执行，按提示完成即可。</p>
+<h2 id="安装Google-bbr"><a href="#安装Google-bbr" class="headerlink" title="安装Google bbr"></a>安装<code>Google bbr</code></h2><p>一、如果你的VPS是基于KVM的，运行以下命令：</p>
+<pre class="line-numbers language-Bash" data-language="Bash"><code class="language-Bash">wget --no-check-certificate https:&#x2F;&#x2F;github.com&#x2F;teddysun&#x2F;across&#x2F;raw&#x2F;master&#x2F;bbr.sh
+chmod +x bbr.sh
+.&#x2F;bbr.sh<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<p>按照提示安装完成，安装完成后，检测是否成功安装：</p>
+<pre class="line-numbers language-Bash" data-language="Bash"><code class="language-Bash">sysctl net.ipv4.tcp_available_congestion_control<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>输出的信息包含<code>bbr</code>就<code>Ok</code>了，一般为<code>net.ipv4.tcp_available_congestion_control = bbr cubic reno</code></p>
+<p>二、如果你不小心购买了基于<code>OpenVZ</code>的<code>VPS</code>，运行这个：</p>
+<pre class="line-numbers language-Bash" data-language="Bash"><code class="language-Bash">wget https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;kuoruan&#x2F;shell-scripts&#x2F;master&#x2F;ovz-bbr&#x2F;ovz-bbr-installer.sh
+chmod +x ovz-bbr-installer.sh
+.&#x2F;ovz-bbr-installer.sh<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<p>这个连提示都是中文的，按照提示安装完成即可，安装完成使用看说明，检测是否安装成功：</p>
+<pre class="line-numbers language-Bash" data-language="Bash"><code class="language-Bash">ping 10.0.0.2<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>如果能通，说明 bbr 已经启动,然后检查 iptables 规则:</p>
+<pre class="line-numbers language-Bash" data-language="Bash"><code class="language-Bash">iptables -t nat -nL
+Chain PREROUTING (policy ACCEPT)
+target     prot opt source               destination
+LKL_IN     all  --  0.0.0.0&#x2F;0            0.0.0.0&#x2F;0
+ 
+Chain POSTROUTING (policy ACCEPT)
+target     prot opt source               destination
+ 
+Chain OUTPUT (policy ACCEPT)
+target     prot opt source               destination
+ 
+Chain LKL_IN (1 references)
+target     prot opt source               destination
+DNAT       tcp  --  0.0.0.0&#x2F;0            0.0.0.0&#x2F;0            tcp dpt:8989 to:10.0.0.2<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>里面有相应的端口规则。</p>
+<h2 id="使用Shadowsocks"><a href="#使用Shadowsocks" class="headerlink" title="使用Shadowsocks"></a>使用<code>Shadowsocks</code></h2><p>使用对应的客户端使用的你的<code>Shadowsocks</code>吧，怎么使用自行搜索。想着就那么几个步骤，还是写了这么多。。。</p>
+<h1 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h1><p>我购买时不小心买成了<code>OpenVZ</code>的，请教了群里的一位前辈之后告诉我联系客服，我便邮件联系官方退款了，购买了新的基于<code>KVM</code>，服务态度非常好，值得点赞。供参考，希望能帮到有需要的朋友。</p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a href="https://blog.kuoruan.com/48.html">搬瓦工(Bandwagonhost)搭建Shadowsocks并优化速度</a></p>
+<p><a href="https://blog.kuoruan.com/116.html">OpenVZ 平台 Google BBR 一键安装脚本</a></p>
+]]></content>
+      <categories>
+        <category>VPN</category>
+      </categories>
+      <tags>
+        <tag>Mac使用</tag>
+        <tag>BanwagonHOST</tag>
+        <tag>Shadowsocks</tag>
+        <tag>科学上网</tag>
       </tags>
   </entry>
   <entry>
@@ -8303,163 +8584,6 @@ extension NavigationController: UINavigationControllerDelegate &#123;
         <tag>iOS</tag>
         <tag>Swift</tag>
         <tag>导航栏</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>更改 React Native 默认 ios、android 项目文件夹</title>
-    <url>/2018/09/10/%E6%9B%B4%E6%94%B9-React-Native-%E9%BB%98%E8%AE%A4-ios%E3%80%81android-%E9%A1%B9%E7%9B%AE%E6%96%87%E4%BB%B6%E5%A4%B9/</url>
-    <content><![CDATA[<h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>来到新公司也有一个月了，完成 iOS 端洞客项目<code>V1.3.0-V1.4.0</code>的升级，虽然只是一个小版本的升级，但我在熟悉项目过程当中发现项目垃圾代码实在太多了，别说我了，一般的接锅人看了也难以忍受，在痛苦了几天之后我默默拉了一个新 git 分支改起来，使用 <code>clang format</code>规范化了整个项目的代码，后面结合<code>git hook</code>在<code>git commit</code>前自动<code>reformat</code>代码，这一步可以说是非常爽了。直到今天，我之前简单看了一下，<code>check out</code>到我改之前和改之后的代码，少了有5000+行代码，删除了几十个类文件，但里面还是充斥着大量的垃圾或者不合理的代码。开发完<code>1.4.0</code>，稍微看起来闲了一两天，被个喜欢行使小权利的前端小组长安装研习 <code>React Native</code>，准备接入原生项目，暂时用于替换一个改动比较频繁的详情页，之前就有自己学习过，但是都忘光了，又复习一遍，趁热记录一些小 tip。</p>
-<span id="more"></span>
-
-<h1 id="接入原生-OC-项目"><a href="#接入原生-OC-项目" class="headerlink" title="接入原生 OC 项目"></a>接入原生 OC 项目</h1><p>这一步我会专门写一篇 blog 来记录，因为还是有踩几个坑的。</p>
-<h1 id="更改-iOS-和-Android-项目名"><a href="#更改-iOS-和-Android-项目名" class="headerlink" title="更改 iOS 和 Android 项目名"></a>更改 iOS 和 Android 项目名</h1><p>本来原生开发的好好的，顶层文件夹用的是项目名，要接入 RN，用的方案也是 RN 顶层文件夹包含安卓和 iOS 项目，但 RN 默认只认 ios 和 android 两个文件夹作为项目路径，google 了一番找了找<a href="https://reactnative.cn/">官方文档</a>没看到有关于这里的自定义，看看 cli 里有没有相关 help，看了下，确实有，如下：</p>
-<h2 id="查看react-native-cli帮助"><a href="#查看react-native-cli帮助" class="headerlink" title="查看react-native cli帮助"></a>查看<code>react-native cli</code>帮助</h2><pre class="line-numbers language-Bash" data-language="Bash"><code class="language-Bash">☁  mobile-dongke-RN [RN-integration] ⚡ react-native run-ios --help
-
-  react-native run-ios [options]
-  builds your app and starts it on iOS simulator
-
-  Options:
-
-    --simulator [string]      Explicitly set simulator to use (default: iPhone 6)
-    --configuration [string]  Explicitly set the scheme configuration to use
-    --scheme [string]         Explicitly set Xcode scheme to use
-    --project-path [string]   Path relative to project root where the Xcode project (.xcodeproj) lives. The default is &#39;ios&#39;. (default: ios)
-    --device [string]         Explicitly set device to use by name.  The value is not required if you have a single device connected.
-    --udid [string]           Explicitly set device to use by udid
-    --no-packager             Do not launch packager while building
-    --verbose                 Do not use xcpretty even if installed
-    --port [number]            (default: 8081)
-    --config [string]         Path to the CLI configuration file
-    -h, --help                output usage information<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<p>看到可以通过设置<code>--project-path</code>参数来设置关联 XCode 项目的根文件夹，可以看到这里还可以指定模拟器类型，默认使用的是<code>iPhone 6</code>，挺不喜欢的，这里也改了，我们可以通过运行如下命令查看本机有哪些模拟器可以使用：</p>
-<h2 id="查看本机可用模拟器"><a href="#查看本机可用模拟器" class="headerlink" title="查看本机可用模拟器"></a>查看本机可用模拟器</h2><pre class="line-numbers language-Bash" data-language="Bash"><code class="language-Bash">☁  ~  xcrun simctl list devices
-&#x3D;&#x3D; Devices &#x3D;&#x3D;
--- iOS 8.1 --
-    iPhone 4s (E62E0A29-BCEE-4BB1-B27C-1D5CC225C6B0) (Shutdown)
-    iPhone 5 (2D4FE14B-E33D-491C-B919-3352FA32B03A) (Shutdown)
-    iPhone 5s (A90FF130-CDE8-4D60-AEFE-9DAA4ACA8F9A) (Shutdown)
-    iPhone 6 (518A2EFE-1AD8-47AD-B5AC-F2424D55444D) (Shutdown)
-    iPhone 6 Plus (4BFB145F-1D34-4BE9-9A1B-2EBED4F11DEC) (Shutdown)
-    iPad 2 (83D02E68-7184-4ABF-B6D6-33A9CA056BF0) (Shutdown)
-    iPad Retina (5D2B27ED-87F1-4ADD-8333-31FE4B239EDA) (Shutdown)
-    iPad Air (07AC87B1-9C9B-4645-975E-861CFFB323A3) (Shutdown)
--- iOS 10.0 --
-    iPhone 5 (43372734-B0C6-4C7B-85C0-DFC41F9B9883) (Shutdown)
-    iPhone 5s (5D88D6F2-4683-4DC2-8FBA-7F762683E22C) (Shutdown)
-    iPhone 6 (CFFB2105-C2A6-4EEC-91F2-2F805F0F94DF) (Shutdown)
-    iPhone 6 Plus (C4B1BC99-AF7B-4F11-8752-DA5C18676428) (Shutdown)
-    iPhone 6s (2D4D0793-6794-4AAF-BC82-BC7313D749D1) (Shutdown)
-    iPhone 6s Plus (BBA3565D-3705-419F-9ABE-994C218B27B0) (Shutdown)
-    iPhone SE (4DB18D89-DA99-4D66-9B18-7ED30A0D9491) (Shutdown)
-    iPad Air (50E6ADA1-B589-43D1-A3A9-B653EC43D298) (Shutdown)
-    iPad Air 2 (15331EA9-7F84-4D63-B36E-FE15C5F89E96) (Shutdown)
-    iPad Pro (9.7 inch) (6A23335C-9A5A-4B84-B671-1F60E5A0E1D0) (Shutdown)
-    iPad Pro (12.9 inch) (451FBDD2-AD2D-4E53-8025-DEA420376618) (Shutdown)
--- iOS 12.0 --
-    iPhone 5s (89879C1B-D07C-4D4E-BC62-6525A9BB4B7B) (Shutdown)
-    iPhone 6 (D437284B-3464-4F81-9AA7-A19690B80892) (Shutdown)<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<h2 id="编写简单的-Shell，省去每次敲烦恼"><a href="#编写简单的-Shell，省去每次敲烦恼" class="headerlink" title="编写简单的 Shell，省去每次敲烦恼"></a>编写简单的 Shell，省去每次敲烦恼</h2><p>这样我们选自己想使用的模拟器、自定义项目路径这两件都 OK 了，最后我们可以编写一个 Shell 脚本，就不用每次都要手敲了，在 RN 项目根路径下运行：</p>
-<pre class="line-numbers language-Bash" data-language="Bash"><code class="language-Bash">☁  mobile-dongke-RN [RN-integration] ⚡ touch run-ios-iPhone_8.sh
-☁  mobile-dongke-RN [RN-integration] ⚡ echo -e &quot;#\!&#x2F;bin&#x2F;bash\n\nreact-native run-ios --project-path &quot;.&#x2F;puma&quot; --simulator &quot;iPhone 8&quot;&quot; &gt;&gt; run-ios-iPhone_8.sh
-☁  mobile-dongke-RN [RN-integration] ⚡ chmod +x run-ios-iPhone_8.sh<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
-
-<h1 id="使用Shell脚本启动iOS项目"><a href="#使用Shell脚本启动iOS项目" class="headerlink" title="使用Shell脚本启动iOS项目"></a>使用<code>Shell</code>脚本启动<code>iOS</code>项目</h1><p>下次运行直接运行<code>run-ios-iPhone_8.sh</code>就好了，当然你也可以直接从 XCode 启动项目。</p>
-<pre class="line-numbers language-Bash" data-language="Bash"><code class="language-Bash">☁  mobile-dongke-RN [RN-integration] ⚡ .&#x2F;run-ios-iPhone_8.sh<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<h1 id="安卓端项目路径自定义"><a href="#安卓端项目路径自定义" class="headerlink" title="安卓端项目路径自定义"></a>安卓端项目路径自定义</h1><p>同理我们可以运行<code>react-native run-android --help</code>查看帮助，可以看到可以通过指定<code>--root</code>参数来设置，读者可以根据帮助自行设置。</p>
-<pre class="line-numbers language-Bash" data-language="Bash"><code class="language-Bash">☁  mobile-dongke-RN [RN-integration] ⚡ react-native run-android --help
-
-  react-native run-android [options]
-  builds your app and starts it on a connected Android emulator or device
-
-  Options:
-
-    --install-debug
-    --root [string]           Override the root directory for the android build (which contains the android directory) (default: )
-    --flavor [string]         --flavor has been deprecated. Use --variant instead
-    --variant [string]
-    --appFolder [string]      Specify a different application folder name for the android source. (default: app)
-    --appId [string]          Specify an applicationId to launch after build. (default: )
-    --appIdSuffix [string]    Specify an applicationIdSuffix to launch after build. (default: )
-    --main-activity [string]  Name of the activity to start (default: MainActivity)
-    --deviceId [string]       builds your app and starts it on a specific device&#x2F;simulator with the given device id (listed by running &quot;adb devices&quot; on the command line).
-    --no-packager             Do not launch packager while building
-    --port [number]            (default: 8081)
-    --terminal [string]       Launches the Metro Bundler in a new window using the specified terminal path. (default: )
-    --config [string]         Path to the CLI configuration file
-    -h, --help                output usage information<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>]]></content>
-      <categories>
-        <category>React Native</category>
-      </categories>
-  </entry>
-  <entry>
-    <title>购买BanwagonHOST VPS自建Shadowsocks记录</title>
-    <url>/2017/07/28/%E8%B4%AD%E4%B9%B0BanwagonHOST-VPS%E8%87%AA%E5%BB%BAShadowsocks%E8%AE%B0%E5%BD%95/</url>
-    <content><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><blockquote>
-<p>不能畅游墙外没法好好生活和工作</p>
-</blockquote>
-<p>本来手里有着五六个 <code>Shadowsocks</code> 帐号，但体验都不佳，一直也没怎么用，是因为一直使用公司搭建的 <code>Cisco Anyconnect</code>，科学上网后百兆带宽可以满速使用，速度虽快，但是客户端软件默认是全局代理的，虽然可以走<code>IP route list</code>达到和<code>Shadowsocks </code>的<code>PAC</code>同样的作用，但效果慎微，而且<code>IP</code>要自己去填，所以公司<code>IT</code>直接没搞这个<code>route list</code>，因为我们大部分电脑和手机<code>APP</code>都在墙内，这就导致在使用了<code>Cisco Anyconnect</code>后大部分电脑或者手机上的<code>APP</code>网络访问困难，常开<code>VPN</code>还是需要<code>Shadowsocks </code>等可根据 <strong>PAC清单自动代理</strong> 或者 <strong>分应用代理</strong> 的一类软件。</p>
-<span id="more"></span>
-
-<h2 id="主题"><a href="#主题" class="headerlink" title="主题"></a>主题</h2><p>废话有点多，进入主题。前几日群里的前辈在群里说道自搭的<code>Shadowsocks</code>在使用了<code>Google</code>提出的<code>TCP</code>拥塞控制新算法——<code>BBR</code>之后，解决了以下两个问题：</p>
-<pre><code> 1. 在有一定丢包率的网络链路上充分利用带宽；
- 2. 降低网络链路上的 buffer 占用率，从而降低延迟。
-</code></pre>
-<p> 正好有时间，大佬说的又激发了我的兴趣，我决定自己也搭一个玩玩，也以备不时之需，经历这一天，也总结了个人认为最省事的路线，以下是步骤记录。</p>
-<h2 id="购买VPS"><a href="#购买VPS" class="headerlink" title="购买VPS"></a>购买<code>VPS</code></h2><p>在请教了群里的前辈购买何档次的<code>BanwagonHOST VPN</code>之后，购买了19.99$&#x2F;年的方案，这是购买地址：<a href="https://bandwagonhost.com/index.php">BanwagonHOST</a>，这里注意两点，第一点：购买时注意买基于<code>KVM</code>的，而不是<code>OpenVZ</code>，<code>KVM</code>是新推出的，只了解了大体不同，想知道具体差异自行<a href="https://www.google.com/">Google</a>，一般来说，买新架构就没错了；第二点：在选择<code>Location</code>时，最好选择美国洛杉矶节点<code>Los Angeles</code>，别问为什么，前人经验，至于是<code>QNET</code>还是<code>MCOM</code>，自行谷歌这二者差异，有人汇总对比了这两种方案，不同城市的<code>ping</code>值有高有低，总体来说<code>QNET</code>稍好，所以我购买的是它。</p>
-<h2 id="重装系统"><a href="#重装系统" class="headerlink" title="重装系统"></a>重装系统</h2><p>付款购买成功后，进入当前页面的<code>Services-My Services</code>菜单下，找到你新购买的<code>Product/Service</code>，进入控制面板<code>KiviVM Control Panel</code>，界面很简单，每个功能浏览一下之后开始吧，预装的貌似是<code>Cent OS 6</code>，重装成你想要的系统吧，根据提示来，很<code>easy</code>。我个人比较习惯<code>Ubuntu</code>，所以安装了面板上支持的最新版本的<code>Ubuntu 16.04 x86_64</code>，面板里有一键安装<code>Shadowsocks Server</code>和<code>ShadowsocksR Server</code>功能，但个人不推荐，没啥别的原因，因为感觉不受我控制。装好后会提示你生成了一个随机的ROOT密码，记下来。执行以下步骤：</p>
-<pre><code>1.回到你的电脑，用你自己的方式`SSH`登陆到你的`VPS`，我用的`iTerm`，输入`ssh root@your_vps_ip_address -p your_vps_port`（本地要配置好`RSA`），默认密码是前面保存的随机密码。
-2.默认ROOT密码不好记，登陆成功后输入`passwd`输入两次新的`ROOT`密码更改密码。
-3.`Ubuntu`的话更新下系统，分别执行`apt-get update`和`apt-get upgrade`（不必须但建议）
-</code></pre>
-<h2 id="安装Shadowsocks"><a href="#安装Shadowsocks" class="headerlink" title="安装Shadowsocks "></a>安装<code>Shadowsocks </code></h2><p>安装的方式有很多，我独爱个人认为最优的那种，执行以下命令：</p>
-<pre class="line-numbers language-Bash" data-language="Bash"><code class="language-Bash">wget --no-check-certificate https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;teddysun&#x2F;shadowsocks_install&#x2F;master&#x2F;shadowsocksR.sh
-chmod +x shadowsocksR.sh
-.&#x2F;shadowsocksR.sh 2&gt;&amp;1 | tee shadowsocksR.log<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
-<p>你也可以用<code>&amp;&amp;</code>连接一次性执行，按提示完成即可。</p>
-<h2 id="安装Google-bbr"><a href="#安装Google-bbr" class="headerlink" title="安装Google bbr"></a>安装<code>Google bbr</code></h2><p>一、如果你的VPS是基于KVM的，运行以下命令：</p>
-<pre class="line-numbers language-Bash" data-language="Bash"><code class="language-Bash">wget --no-check-certificate https:&#x2F;&#x2F;github.com&#x2F;teddysun&#x2F;across&#x2F;raw&#x2F;master&#x2F;bbr.sh
-chmod +x bbr.sh
-.&#x2F;bbr.sh<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
-<p>按照提示安装完成，安装完成后，检测是否成功安装：</p>
-<pre class="line-numbers language-Bash" data-language="Bash"><code class="language-Bash">sysctl net.ipv4.tcp_available_congestion_control<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-<p>输出的信息包含<code>bbr</code>就<code>Ok</code>了，一般为<code>net.ipv4.tcp_available_congestion_control = bbr cubic reno</code></p>
-<p>二、如果你不小心购买了基于<code>OpenVZ</code>的<code>VPS</code>，运行这个：</p>
-<pre class="line-numbers language-Bash" data-language="Bash"><code class="language-Bash">wget https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;kuoruan&#x2F;shell-scripts&#x2F;master&#x2F;ovz-bbr&#x2F;ovz-bbr-installer.sh
-chmod +x ovz-bbr-installer.sh
-.&#x2F;ovz-bbr-installer.sh<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
-<p>这个连提示都是中文的，按照提示安装完成即可，安装完成使用看说明，检测是否安装成功：</p>
-<pre class="line-numbers language-Bash" data-language="Bash"><code class="language-Bash">ping 10.0.0.2<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-<p>如果能通，说明 bbr 已经启动,然后检查 iptables 规则:</p>
-<pre class="line-numbers language-Bash" data-language="Bash"><code class="language-Bash">iptables -t nat -nL
-Chain PREROUTING (policy ACCEPT)
-target     prot opt source               destination
-LKL_IN     all  --  0.0.0.0&#x2F;0            0.0.0.0&#x2F;0
- 
-Chain POSTROUTING (policy ACCEPT)
-target     prot opt source               destination
- 
-Chain OUTPUT (policy ACCEPT)
-target     prot opt source               destination
- 
-Chain LKL_IN (1 references)
-target     prot opt source               destination
-DNAT       tcp  --  0.0.0.0&#x2F;0            0.0.0.0&#x2F;0            tcp dpt:8989 to:10.0.0.2<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<p>里面有相应的端口规则。</p>
-<h2 id="使用Shadowsocks"><a href="#使用Shadowsocks" class="headerlink" title="使用Shadowsocks"></a>使用<code>Shadowsocks</code></h2><p>使用对应的客户端使用的你的<code>Shadowsocks</code>吧，怎么使用自行搜索。想着就那么几个步骤，还是写了这么多。。。</p>
-<h1 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h1><p>我购买时不小心买成了<code>OpenVZ</code>的，请教了群里的一位前辈之后告诉我联系客服，我便邮件联系官方退款了，购买了新的基于<code>KVM</code>，服务态度非常好，值得点赞。供参考，希望能帮到有需要的朋友。</p>
-<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a href="https://blog.kuoruan.com/48.html">搬瓦工(Bandwagonhost)搭建Shadowsocks并优化速度</a></p>
-<p><a href="https://blog.kuoruan.com/116.html">OpenVZ 平台 Google BBR 一键安装脚本</a></p>
-]]></content>
-      <categories>
-        <category>VPN</category>
-      </categories>
-      <tags>
-        <tag>Mac使用</tag>
-        <tag>BanwagonHOST</tag>
-        <tag>Shadowsocks</tag>
-        <tag>科学上网</tag>
       </tags>
   </entry>
 </search>
