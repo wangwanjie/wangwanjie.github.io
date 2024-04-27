@@ -15,8 +15,33 @@
     <atom:link href="https://blog.vanjay.cn/rss2.xml" rel="self" type="application/rss+xml"/>
     
     <description>成功不是将来才有的&lt;br&gt;而是决定去做的那一刻起&lt;br&gt;持续累积而成</description>
-    <pubDate>Sun, 14 Apr 2024 09:05:06 GMT</pubDate>
+    <pubDate>Sat, 27 Apr 2024 10:49:12 GMT</pubDate>
     <generator>http://hexo.io/</generator>
+    
+    <item>
+      <title>iptables 混乱处理大法</title>
+      <link>https://blog.vanjay.cn/2024/04/27/iptables-%E6%B7%B7%E4%B9%B1%E5%A4%84%E7%90%86%E5%A4%A7%E6%B3%95/</link>
+      <guid>https://blog.vanjay.cn/2024/04/27/iptables-%E6%B7%B7%E4%B9%B1%E5%A4%84%E7%90%86%E5%A4%A7%E6%B3%95/</guid>
+      <pubDate>Sat, 27 Apr 2024 10:14:52 GMT</pubDate>
+      
+      <description>&lt;p&gt;在使用Linux系统的过程中，由于误操作或第三方软件（例如Docker）的介入，经常会发现iptables规则被意外修改，导致某些功能不按预期工作。例如，即使添加了相应的规则，它们也可能不生效。在清楚了解本机环境和服务的情况下，一个有效的解决策略是清空所有规则并重新添加。&lt;/p&gt;</description>
+      
+      
+      
+      
+      <category domain="https://blog.vanjay.cn/categories/%E8%BF%90%E7%BB%B4/">运维</category>
+      
+      
+      <category domain="https://blog.vanjay.cn/tags/Linux/">Linux</category>
+      
+      <category domain="https://blog.vanjay.cn/tags/%E8%BF%90%E7%BB%B4/">运维</category>
+      
+      <category domain="https://blog.vanjay.cn/tags/iptables/">iptables</category>
+      
+      
+      <comments>https://blog.vanjay.cn/2024/04/27/iptables-%E6%B7%B7%E4%B9%B1%E5%A4%84%E7%90%86%E5%A4%A7%E6%B3%95/#disqus_thread</comments>
+      
+    </item>
     
     <item>
       <title>解决公司运维网络限制的两种办法</title>
@@ -530,36 +555,6 @@
       
       
       <comments>https://blog.vanjay.cn/2019/01/05/Ubuntu%2018.04%20%E7%BC%96%E8%AF%91%20Android%20%E6%BA%90%E7%A0%81/#disqus_thread</comments>
-      
-    </item>
-    
-    <item>
-      <title>Ubuntu 18.04 添加、修改交换空间</title>
-      <link>https://blog.vanjay.cn/2019/01/05/Ubuntu-18-04-%E6%B7%BB%E5%8A%A0%E3%80%81%E4%BF%AE%E6%94%B9%E4%BA%A4%E6%8D%A2%E7%A9%BA%E9%97%B4/</link>
-      <guid>https://blog.vanjay.cn/2019/01/05/Ubuntu-18-04-%E6%B7%BB%E5%8A%A0%E3%80%81%E4%BF%AE%E6%94%B9%E4%BA%A4%E6%8D%A2%E7%A9%BA%E9%97%B4/</guid>
-      <pubDate>Sat, 05 Jan 2019 06:35:17 GMT</pubDate>
-      
-      <description>&lt;h1 id=&quot;检查系统的交换信息&quot;&gt;&lt;a href=&quot;#检查系统的交换信息&quot; class=&quot;headerlink&quot; title=&quot;检查系统的交换信息&quot;&gt;&lt;/a&gt;检查系统的交换信息&lt;/h1&gt;&lt;p&gt;查看是否已经存在&lt;code&gt;swapfile&lt;/code&gt;&lt;/p&gt;
-&lt;pre class=&quot;line-numbers language-bash&quot; data-language=&quot;bash&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;span class=&quot;token function&quot;&gt;sudo&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;swapon&lt;/span&gt; &lt;span class=&quot;token parameter variable&quot;&gt;--show&lt;/span&gt;&lt;span aria-hidden=&quot;true&quot; class=&quot;line-numbers-rows&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;如果您没有收到任何输出，这意味着您的系统当前没有可用的交换空间。&lt;/p&gt;
-&lt;p&gt;您可以使用&lt;code&gt;free&lt;/code&gt;实用程序验证没有活动交换：&lt;/p&gt;
-&lt;pre class=&quot;line-numbers language-bash&quot; data-language=&quot;bash&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;tungee@tungee-Macmini:~$ &lt;span class=&quot;token function&quot;&gt;free&lt;/span&gt; &lt;span class=&quot;token parameter variable&quot;&gt;-h&lt;/span&gt;
-              total        used        &lt;span class=&quot;token function&quot;&gt;free&lt;/span&gt;      shared  buff/cache   available
-Mem:           &lt;span class=&quot;token number&quot;&gt;7&lt;/span&gt;.7G        &lt;span class=&quot;token number&quot;&gt;6&lt;/span&gt;.0G        &lt;span class=&quot;token number&quot;&gt;1&lt;/span&gt;.2G         97M        439M        &lt;span class=&quot;token number&quot;&gt;1&lt;/span&gt;.3G
-Swap:          &lt;span class=&quot;token number&quot;&gt;8&lt;/span&gt;.0G        &lt;span class=&quot;token number&quot;&gt;4&lt;/span&gt;.1G        &lt;span class=&quot;token number&quot;&gt;3&lt;/span&gt;.9G&lt;span aria-hidden=&quot;true&quot; class=&quot;line-numbers-rows&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;</description>
-      
-      
-      
-      
-      <category domain="https://blog.vanjay.cn/categories/Linux/">Linux</category>
-      
-      
-      <category domain="https://blog.vanjay.cn/tags/Ubuntu/">Ubuntu</category>
-      
-      <category domain="https://blog.vanjay.cn/tags/swap-%E7%A9%BA%E9%97%B4/">swap 空间</category>
-      
-      
-      <comments>https://blog.vanjay.cn/2019/01/05/Ubuntu-18-04-%E6%B7%BB%E5%8A%A0%E3%80%81%E4%BF%AE%E6%94%B9%E4%BA%A4%E6%8D%A2%E7%A9%BA%E9%97%B4/#disqus_thread</comments>
       
     </item>
     
