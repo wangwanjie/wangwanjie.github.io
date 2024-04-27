@@ -4296,195 +4296,6 @@ static NSDictionary *configDict;
       </tags>
   </entry>
   <entry>
-    <title>iOS企业内部应用分发</title>
-    <url>/2017/01/11/iOS%E4%BC%81%E4%B8%9A%E5%86%85%E9%83%A8%E5%BA%94%E7%94%A8%E5%88%86%E5%8F%91/</url>
-    <content><![CDATA[<blockquote>
-<p>iOS 支持以无线方式安装企业内部应用，而无需使用 iTunes 或 App Store。</p>
-</blockquote>
-<p>VanJay</p>
-<h2 id="格式要求"><a href="#格式要求" class="headerlink" title="格式要求"></a>格式要求</h2><p>应用格式要求:.ipa，并且使用企业内部预置描述文件进行构建，即经企业证书签名。</p>
-<h3 id="无线安装要求："><a href="#无线安装要求：" class="headerlink" title="无线安装要求："></a>无线安装要求：</h3><ol>
-<li>XML 清单文件（一个 plist 配置文件）</li>
-<li>可让设备访问 Apple iTunes 服务器的网络配置（设备要能连接互联网，因为要校验）</li>
-<li>对于 iOS 7.1 或更高版本， plist 文件和 ipa 文件需要放在 HTTPS 的服务器上<br>为了安装应用，用户使用特殊的 URL 前缀从您的网站上下载plist清单文件，您可以分发该特殊前缀的URL给用户或者放置于可供用户访问的互联网上。</li>
-</ol>
-<span id="more"></span>
-
-<h2 id="准备分发企业内部应用"><a href="#准备分发企业内部应用" class="headerlink" title="准备分发企业内部应用:"></a>准备分发企业内部应用:</h2><ol>
-<li>   创建应用的归档，格式为 *.ipa 格式，并且归档中包括企业内部预置描述文件，且使用分发证书签名；</li>
-<li>   无线清单文件，您可以使用支持编辑 plist 文档的编辑器编写或者直接修改下面提供的范例，各字段意义范例中会写明；</li>
-<li>   可直接供内连网或互联网访问的 HTTPS 服务器。</li>
-</ol>
-<h2 id="关于无线-plist-清单文件"><a href="#关于无线-plist-清单文件" class="headerlink" title="关于无线 plist 清单文件"></a>关于无线 plist 清单文件</h2><p>单文件是一个 XML plist 文件，可供 Apple 设备用来从您的 Web 服务器上查找、下载和安装应用。</p>
-<h2 id="以下栏是必填项："><a href="#以下栏是必填项：" class="headerlink" title="以下栏是必填项："></a><strong>以下栏是必填项：</strong></h2><ol>
-<li>URL：应用 (*.ipa) 文件的完全限定 HTTPS URL</li>
-<li>display-image：57 x 57 px 的 PNG 图像，在下载和安装过程中显示，图片的 Web URL</li>
-<li>full-size-image：512 x 512 px 的 PNG 图像，表示 iTunes 中相应的应用，图片的 Web URL</li>
-<li>bundle-identifier：应用的包标识符，与 Xcode 项目中指定的完全一样</li>
-<li>bundle-version：应用的包版本，在 Xcode 项目中指定</li>
-<li>title：下载和安装过程中显示的应用的名称<br>样本清单文件还包含可选字段。例如，如果应用文件太大，并且想要在执行错误检验（TCP 通信通常会执行该检验）的基础上确保下载的完整性，可以使用 MD5 校验，使用见范例。<br>您也可以在一个plist文件中配置多个应用，一个 item 作为一项。</li>
-</ol>
-<h2 id="构建网站"><a href="#构建网站" class="headerlink" title="构建网站"></a>构建网站</h2><p>将这些项目上传到网站上可供已认证的用户访问的区域：</p>
-<ol>
-<li>应用 (.ipa) 文件</li>
-<li>清单 (.plist) 文件<br>您的网站可以是链接到清单文件的单个页面。用户轻点 Web 链接后会下载清单文件，并触发下载和安装。<br><em>以下是示例链接：</em><pre class="line-numbers language-XML" data-language="XML"><code class="language-XML">&lt;a href&#x3D;&quot;itms-services:&#x2F;&#x2F;?action&#x3D;download-manifest&amp;url&#x3D;https:&#x2F;&#x2F;example.com&#x2F;manifest.plist&quot;&gt;安装应用&lt;&#x2F;a&gt;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-<strong>虽然 URL 的协议部分是“itms-services”，但 iTunes Store 并不参与此过程。</strong></li>
-</ol>
-<h2 id="配置服务器-MIME-类型（一般不用配置）"><a href="#配置服务器-MIME-类型（一般不用配置）" class="headerlink" title="配置服务器 MIME 类型（一般不用配置）"></a>配置服务器 MIME 类型（一般不用配置）</h2><p>您可能需要配置 Web 服务器，让清单文件和应用文件可正确传输。</p>
-<ul>
-<li>对于 Server 应用，请将 MIME 类型添加到网页服务的 MIME 类型设置：<ul>
-<li>application&#x2F;octet-stream ipa</li>
-<li>text&#x2F;xml plist</li>
-</ul>
-</li>
-<li>对于微软的互联网信息服务器 (IIS)，请使用 IIS Manager 在服务器的“属性”页面中添加 MIME 类型：<ul>
-<li>.ipa application&#x2F;octet-stream</li>
-<li>.plist text&#x2F;xml</li>
-</ul>
-</li>
-</ul>
-<h2 id="无线-iOS-应用分发故障诊断"><a href="#无线-iOS-应用分发故障诊断" class="headerlink" title="无线 iOS 应用分发故障诊断"></a>无线 iOS 应用分发故障诊断</h2><p>如果无线应用分发失败，并显示“无法下载”信息：</p>
-<ol>
-<li>请确定应用已正确进行签名。测试方法是使用 Apple Configurator 2 将它安装到设备上，然后查看是否发生错误。</li>
-<li>请确定清单文件的链接是否正确，清单文件是否可供网络用户访问。</li>
-<li>请确定 .ipa 文件（在清单文件中）的 URL 是否正确，并且该 .ipa 文件是否可供网络用户通过 HTTPS 访问。</li>
-</ol>
-<h2 id="网络配置要求"><a href="#网络配置要求" class="headerlink" title="网络配置要求"></a>网络配置要求</h2><p>如果设备连接到内网，那么您必须允许它访问以下站点：</p>
-<pre class="line-numbers language-none"><code class="language-none">https:&#x2F;&#x2F;ax.init.itunes.apple.com<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<p>使用蜂窝移动网络下载应用时，设备会限制其当前文件大小。如果无法访问此站点，安装可能会失败。</p>
-<p><code>https://ppq.apple.com</code> 设备会联系此网站，检查用来给预置描述文件签名的分发证书状态。</p>
-<h2 id="应用更新"><a href="#应用更新" class="headerlink" title="应用更新"></a>应用更新</h2><ol>
-<li>程序内检查 Server 端ipa版本和本地版本，比较是否已发布新版本，并提示用户更新。</li>
-<li>如果用户想保留旧版本数据，请告知其不要卸载旧版本，并且新旧版本 bundle-identifier 相同。</li>
-<li>更新方法：直接使用应用内部的openURL 方法，打开的是plist文件的web url 带 itms-services描述 链接（真机）。</li>
-</ol>
-<h2 id="证书验证"><a href="#证书验证" class="headerlink" title="证书验证"></a>证书验证</h2><ul>
-<li>用户首次打开应用时，系统会通过联系 Apple 的 OCSP 服务器来验证分发证书。如果证书已撤销，应用将不会启动。为了验证状态，设备必须能够访问 ocsp.apple.com。</li>
-<li>OCSP 响应会在设备上缓存一段时间（由 OCSP 服务器指定），当前为 3 到 7 天之间。在重新启动设备和缓存的响应过期之前，将不会再次检查证书的有效性。如果当时收到撤销命令，系统将阻止应用运行。<br><em>【警告】</em>撤销分发证书会导致使用该证书签名的所有应用失效。只有万不得已时才应撤销证书，比如确定专用密钥已丢失或确信证书已遭破解。</li>
-</ul>
-<h2 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h2><p>示例 iOS 应用 plist 清单文件，可复制，保存为plist格式，也可从 <a href="https://github.com/wangwanjie/SharedResources/blob/master/example_zn.plist">这里</a> 下载</p>
-<pre class="line-numbers language-XML" data-language="XML"><code class="language-XML">&lt;!DOCTYPE plist PUBLIC &quot;-&#x2F;&#x2F;Apple&#x2F;&#x2F;DTD PLIST 1.0&#x2F;&#x2F;EN&quot; &quot;http:&#x2F;&#x2F;www.apple.com&#x2F;DTDs&#x2F;PropertyList-1.0.dtd&quot;&gt;
-&lt;plist version&#x3D;&quot;1.0&quot;&gt;
-&lt;dict&gt;
-  &lt;key&gt;items&lt;&#x2F;key&gt;
-  &lt;array&gt;
-   &lt;dict&gt;
-     &lt;key&gt;assets&lt;&#x2F;key&gt;
-      &lt;array&gt;
-        &lt;dict&gt;
-          &lt;key&gt;kind&lt;&#x2F;key&gt;
-          &lt;string&gt;software-package&lt;&#x2F;string&gt;
-          &lt;key&gt;md5-size&lt;&#x2F;key&gt;
-          &lt;integer&gt;10485760&lt;&#x2F;integer&gt;
-          &lt;key&gt;md5s&lt;&#x2F;key&gt;
-          &lt;array&gt;
-            &lt;string&gt;41fa64bb7a7cae5a46bfb45821ac8bba&lt;&#x2F;string&gt;
-            &lt;string&gt;51fa64bb7a7cae5a46bfb45821ac8bba&lt;&#x2F;string&gt;
-          &lt;&#x2F;array&gt;
-          &lt;key&gt;url&lt;&#x2F;key&gt;
-          &lt;string&gt;https:&#x2F;&#x2F;www.example.com&#x2F;apps&#x2F;foo.ipa&lt;&#x2F;string&gt;
-        &lt;&#x2F;dict&gt;
-        &lt;dict&gt;
-         &lt;key&gt;kind&lt;&#x2F;key&gt;
-         &lt;string&gt;display-image&lt;&#x2F;string&gt;
-         &lt;key&gt;needs-shine&lt;&#x2F;key&gt;
-         &lt;true&#x2F;&gt;
-         &lt;key&gt;url&lt;&#x2F;key&gt;
-         &lt;string&gt;https:&#x2F;&#x2F;www.example.com&#x2F;image.57x57.png&lt;&#x2F;string&gt;
-        &lt;&#x2F;dict&gt;
-        &lt;dict&gt;
-         &lt;key&gt;kind&lt;&#x2F;key&gt;
-         &lt;string&gt;full-size-image&lt;&#x2F;string&gt;
-         &lt;key&gt;md5&lt;&#x2F;key&gt;
-         &lt;string&gt;61fa64bb7a7cae5a46bfb45821ac8bba&lt;&#x2F;string&gt;
-         &lt;key&gt;needs-shine&lt;&#x2F;key&gt;
-         &lt;true&#x2F;&gt;
-         &lt;key&gt;url&lt;&#x2F;key&gt;&lt;string&gt;https:&#x2F;&#x2F;www.example.com&#x2F;image.512x512.jpg&lt;&#x2F;string&gt;
-        &lt;&#x2F;dict&gt;
-      &lt;&#x2F;array&gt;
-&lt;key&gt;metadata&lt;&#x2F;key&gt;
-      &lt;dict&gt;
-       &lt;key&gt;bundle-identifier&lt;&#x2F;key&gt;
-       &lt;string&gt;com.example.fooapp&lt;&#x2F;string&gt;
-       &lt;key&gt;bundle-version&lt;&#x2F;key&gt;
-       &lt;string&gt;1.0&lt;&#x2F;string&gt;
-       &lt;key&gt;kind&lt;&#x2F;key&gt;
-       &lt;string&gt;software&lt;&#x2F;string&gt;
-       &lt;key&gt;subtitle&lt;&#x2F;key&gt;
-       &lt;string&gt;Apple&lt;&#x2F;string&gt;
-       &lt;key&gt;title&lt;&#x2F;key&gt;
-       &lt;string&gt;Example Corporate App&lt;&#x2F;string&gt;
-      &lt;&#x2F;dict&gt;
-    &lt;&#x2F;dict&gt;
-  &lt;&#x2F;array&gt;
-&lt;&#x2F;dict&gt;
-&lt;&#x2F;plist&gt;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<h2 id="简单配置示例"><a href="#简单配置示例" class="headerlink" title="简单配置示例"></a>简单配置示例</h2><p>作为包体积较小的应用，如以下简单配置即可，从<a href="https://github.com/wangwanjie/SharedResources/blob/master/simple.plist">这里</a>下载</p>
-<pre class="line-numbers language-XMl" data-language="XMl"><code class="language-XMl">&lt;!DOCTYPE plist PUBLIC &quot;-&#x2F;&#x2F;Apple&#x2F;&#x2F;DTD PLIST 1.0&#x2F;&#x2F;EN&quot; &quot;http:&#x2F;&#x2F;www.apple.com&#x2F;DTDs&#x2F;PropertyList-1.0.dtd&quot;&gt;
-&lt;plist version&#x3D;&quot;1.0&quot;&gt;
-&lt;dict&gt;
-	&lt;key&gt;items&lt;&#x2F;key&gt;
-	&lt;array&gt;
-		&lt;dict&gt;
-			&lt;key&gt;assets&lt;&#x2F;key&gt;
-			&lt;array&gt;
-				&lt;dict&gt;
-					&lt;key&gt;kind&lt;&#x2F;key&gt;
-					&lt;string&gt;software-package&lt;&#x2F;string&gt;
-					&lt;key&gt;url&lt;&#x2F;key&gt;
-					&lt;string&gt;https:&#x2F;&#x2F;yourwebsite&#x2F;appName.ipa&lt;&#x2F;string&gt;
-				&lt;&#x2F;dict&gt;
-				&lt;dict&gt;
-					&lt;key&gt;kind&lt;&#x2F;key&gt;
-					&lt;string&gt;full-size-image&lt;&#x2F;string&gt;
-					&lt;key&gt;needs-shine&lt;&#x2F;key&gt;
-					&lt;true&#x2F;&gt;
-					&lt;key&gt;url&lt;&#x2F;key&gt;
-					&lt;string&gt;https:&#x2F;&#x2F;yourwebsite&#x2F;app_icon_full_size.png&lt;&#x2F;string&gt;
-				&lt;&#x2F;dict&gt;
-				&lt;dict&gt;
-					&lt;key&gt;kind&lt;&#x2F;key&gt;
-					&lt;string&gt;display-image&lt;&#x2F;string&gt;
-					&lt;key&gt;needs-shine&lt;&#x2F;key&gt;
-					&lt;true&#x2F;&gt;
-					&lt;key&gt;url&lt;&#x2F;key&gt;
-					&lt;string&gt;https:&#x2F;&#x2F;yourwebsite&#x2F;app_icon_download.png&lt;&#x2F;string&gt;
-				&lt;&#x2F;dict&gt;
-			&lt;&#x2F;array&gt;
-			&lt;key&gt;metadata&lt;&#x2F;key&gt;
-			&lt;dict&gt;
-				&lt;key&gt;bundle-identifier&lt;&#x2F;key&gt;
-				&lt;string&gt; your app bundle id &lt;&#x2F;string&gt;
-				&lt;key&gt;bundle-version&lt;&#x2F;key&gt;
-				&lt;string&gt;shortVersion&lt;&#x2F;string&gt;
-				&lt;key&gt;kind&lt;&#x2F;key&gt;
-				&lt;string&gt;software&lt;&#x2F;string&gt;
-				&lt;key&gt;subtitle&lt;&#x2F;key&gt;
-				&lt;string&gt;欢迎使用&lt;&#x2F;string&gt;
-				&lt;key&gt;title&lt;&#x2F;key&gt;
-				&lt;string&gt; app 名称&lt;&#x2F;string&gt;
-			&lt;&#x2F;dict&gt;
-		&lt;&#x2F;dict&gt;
-	&lt;&#x2F;array&gt;
-&lt;&#x2F;dict&gt;
-&lt;&#x2F;plist&gt;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-
-<blockquote>
-<p>Author: CoderJay <br>如需转载，请注明出处</p>
-</blockquote>
-]]></content>
-      <categories>
-        <category>iOS</category>
-      </categories>
-      <tags>
-        <tag>打包</tag>
-        <tag>发布</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>iOS里关于block的一些理解</title>
     <url>/2018/06/18/iOS%E9%87%8C%E5%85%B3%E4%BA%8Eblock%E7%9A%84%E4%B8%80%E4%BA%9B%E7%90%86%E8%A7%A3/</url>
     <content><![CDATA[<h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>block实际上就是Objective-C语言对于闭包的实现。<br>block配合上dispatch_queue，可以方便地实现简单的多线程编程和异步编程。<br>（闭包是一个函数（或指向函数的指针），再加上该函数执行的外部的上下文变量（有时候也称作自由变量）。）</p>
@@ -4739,6 +4550,195 @@ _observer &#x3D; [[NSNotificationCenter defaultCenter] addObserverForName:@&quot
       </tags>
   </entry>
   <entry>
+    <title>iOS企业内部应用分发</title>
+    <url>/2017/01/11/iOS%E4%BC%81%E4%B8%9A%E5%86%85%E9%83%A8%E5%BA%94%E7%94%A8%E5%88%86%E5%8F%91/</url>
+    <content><![CDATA[<blockquote>
+<p>iOS 支持以无线方式安装企业内部应用，而无需使用 iTunes 或 App Store。</p>
+</blockquote>
+<p>VanJay</p>
+<h2 id="格式要求"><a href="#格式要求" class="headerlink" title="格式要求"></a>格式要求</h2><p>应用格式要求:.ipa，并且使用企业内部预置描述文件进行构建，即经企业证书签名。</p>
+<h3 id="无线安装要求："><a href="#无线安装要求：" class="headerlink" title="无线安装要求："></a>无线安装要求：</h3><ol>
+<li>XML 清单文件（一个 plist 配置文件）</li>
+<li>可让设备访问 Apple iTunes 服务器的网络配置（设备要能连接互联网，因为要校验）</li>
+<li>对于 iOS 7.1 或更高版本， plist 文件和 ipa 文件需要放在 HTTPS 的服务器上<br>为了安装应用，用户使用特殊的 URL 前缀从您的网站上下载plist清单文件，您可以分发该特殊前缀的URL给用户或者放置于可供用户访问的互联网上。</li>
+</ol>
+<span id="more"></span>
+
+<h2 id="准备分发企业内部应用"><a href="#准备分发企业内部应用" class="headerlink" title="准备分发企业内部应用:"></a>准备分发企业内部应用:</h2><ol>
+<li>   创建应用的归档，格式为 *.ipa 格式，并且归档中包括企业内部预置描述文件，且使用分发证书签名；</li>
+<li>   无线清单文件，您可以使用支持编辑 plist 文档的编辑器编写或者直接修改下面提供的范例，各字段意义范例中会写明；</li>
+<li>   可直接供内连网或互联网访问的 HTTPS 服务器。</li>
+</ol>
+<h2 id="关于无线-plist-清单文件"><a href="#关于无线-plist-清单文件" class="headerlink" title="关于无线 plist 清单文件"></a>关于无线 plist 清单文件</h2><p>单文件是一个 XML plist 文件，可供 Apple 设备用来从您的 Web 服务器上查找、下载和安装应用。</p>
+<h2 id="以下栏是必填项："><a href="#以下栏是必填项：" class="headerlink" title="以下栏是必填项："></a><strong>以下栏是必填项：</strong></h2><ol>
+<li>URL：应用 (*.ipa) 文件的完全限定 HTTPS URL</li>
+<li>display-image：57 x 57 px 的 PNG 图像，在下载和安装过程中显示，图片的 Web URL</li>
+<li>full-size-image：512 x 512 px 的 PNG 图像，表示 iTunes 中相应的应用，图片的 Web URL</li>
+<li>bundle-identifier：应用的包标识符，与 Xcode 项目中指定的完全一样</li>
+<li>bundle-version：应用的包版本，在 Xcode 项目中指定</li>
+<li>title：下载和安装过程中显示的应用的名称<br>样本清单文件还包含可选字段。例如，如果应用文件太大，并且想要在执行错误检验（TCP 通信通常会执行该检验）的基础上确保下载的完整性，可以使用 MD5 校验，使用见范例。<br>您也可以在一个plist文件中配置多个应用，一个 item 作为一项。</li>
+</ol>
+<h2 id="构建网站"><a href="#构建网站" class="headerlink" title="构建网站"></a>构建网站</h2><p>将这些项目上传到网站上可供已认证的用户访问的区域：</p>
+<ol>
+<li>应用 (.ipa) 文件</li>
+<li>清单 (.plist) 文件<br>您的网站可以是链接到清单文件的单个页面。用户轻点 Web 链接后会下载清单文件，并触发下载和安装。<br><em>以下是示例链接：</em><pre class="line-numbers language-XML" data-language="XML"><code class="language-XML">&lt;a href&#x3D;&quot;itms-services:&#x2F;&#x2F;?action&#x3D;download-manifest&amp;url&#x3D;https:&#x2F;&#x2F;example.com&#x2F;manifest.plist&quot;&gt;安装应用&lt;&#x2F;a&gt;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<strong>虽然 URL 的协议部分是“itms-services”，但 iTunes Store 并不参与此过程。</strong></li>
+</ol>
+<h2 id="配置服务器-MIME-类型（一般不用配置）"><a href="#配置服务器-MIME-类型（一般不用配置）" class="headerlink" title="配置服务器 MIME 类型（一般不用配置）"></a>配置服务器 MIME 类型（一般不用配置）</h2><p>您可能需要配置 Web 服务器，让清单文件和应用文件可正确传输。</p>
+<ul>
+<li>对于 Server 应用，请将 MIME 类型添加到网页服务的 MIME 类型设置：<ul>
+<li>application&#x2F;octet-stream ipa</li>
+<li>text&#x2F;xml plist</li>
+</ul>
+</li>
+<li>对于微软的互联网信息服务器 (IIS)，请使用 IIS Manager 在服务器的“属性”页面中添加 MIME 类型：<ul>
+<li>.ipa application&#x2F;octet-stream</li>
+<li>.plist text&#x2F;xml</li>
+</ul>
+</li>
+</ul>
+<h2 id="无线-iOS-应用分发故障诊断"><a href="#无线-iOS-应用分发故障诊断" class="headerlink" title="无线 iOS 应用分发故障诊断"></a>无线 iOS 应用分发故障诊断</h2><p>如果无线应用分发失败，并显示“无法下载”信息：</p>
+<ol>
+<li>请确定应用已正确进行签名。测试方法是使用 Apple Configurator 2 将它安装到设备上，然后查看是否发生错误。</li>
+<li>请确定清单文件的链接是否正确，清单文件是否可供网络用户访问。</li>
+<li>请确定 .ipa 文件（在清单文件中）的 URL 是否正确，并且该 .ipa 文件是否可供网络用户通过 HTTPS 访问。</li>
+</ol>
+<h2 id="网络配置要求"><a href="#网络配置要求" class="headerlink" title="网络配置要求"></a>网络配置要求</h2><p>如果设备连接到内网，那么您必须允许它访问以下站点：</p>
+<pre class="line-numbers language-none"><code class="language-none">https:&#x2F;&#x2F;ax.init.itunes.apple.com<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>使用蜂窝移动网络下载应用时，设备会限制其当前文件大小。如果无法访问此站点，安装可能会失败。</p>
+<p><code>https://ppq.apple.com</code> 设备会联系此网站，检查用来给预置描述文件签名的分发证书状态。</p>
+<h2 id="应用更新"><a href="#应用更新" class="headerlink" title="应用更新"></a>应用更新</h2><ol>
+<li>程序内检查 Server 端ipa版本和本地版本，比较是否已发布新版本，并提示用户更新。</li>
+<li>如果用户想保留旧版本数据，请告知其不要卸载旧版本，并且新旧版本 bundle-identifier 相同。</li>
+<li>更新方法：直接使用应用内部的openURL 方法，打开的是plist文件的web url 带 itms-services描述 链接（真机）。</li>
+</ol>
+<h2 id="证书验证"><a href="#证书验证" class="headerlink" title="证书验证"></a>证书验证</h2><ul>
+<li>用户首次打开应用时，系统会通过联系 Apple 的 OCSP 服务器来验证分发证书。如果证书已撤销，应用将不会启动。为了验证状态，设备必须能够访问 ocsp.apple.com。</li>
+<li>OCSP 响应会在设备上缓存一段时间（由 OCSP 服务器指定），当前为 3 到 7 天之间。在重新启动设备和缓存的响应过期之前，将不会再次检查证书的有效性。如果当时收到撤销命令，系统将阻止应用运行。<br><em>【警告】</em>撤销分发证书会导致使用该证书签名的所有应用失效。只有万不得已时才应撤销证书，比如确定专用密钥已丢失或确信证书已遭破解。</li>
+</ul>
+<h2 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h2><p>示例 iOS 应用 plist 清单文件，可复制，保存为plist格式，也可从 <a href="https://github.com/wangwanjie/SharedResources/blob/master/example_zn.plist">这里</a> 下载</p>
+<pre class="line-numbers language-XML" data-language="XML"><code class="language-XML">&lt;!DOCTYPE plist PUBLIC &quot;-&#x2F;&#x2F;Apple&#x2F;&#x2F;DTD PLIST 1.0&#x2F;&#x2F;EN&quot; &quot;http:&#x2F;&#x2F;www.apple.com&#x2F;DTDs&#x2F;PropertyList-1.0.dtd&quot;&gt;
+&lt;plist version&#x3D;&quot;1.0&quot;&gt;
+&lt;dict&gt;
+  &lt;key&gt;items&lt;&#x2F;key&gt;
+  &lt;array&gt;
+   &lt;dict&gt;
+     &lt;key&gt;assets&lt;&#x2F;key&gt;
+      &lt;array&gt;
+        &lt;dict&gt;
+          &lt;key&gt;kind&lt;&#x2F;key&gt;
+          &lt;string&gt;software-package&lt;&#x2F;string&gt;
+          &lt;key&gt;md5-size&lt;&#x2F;key&gt;
+          &lt;integer&gt;10485760&lt;&#x2F;integer&gt;
+          &lt;key&gt;md5s&lt;&#x2F;key&gt;
+          &lt;array&gt;
+            &lt;string&gt;41fa64bb7a7cae5a46bfb45821ac8bba&lt;&#x2F;string&gt;
+            &lt;string&gt;51fa64bb7a7cae5a46bfb45821ac8bba&lt;&#x2F;string&gt;
+          &lt;&#x2F;array&gt;
+          &lt;key&gt;url&lt;&#x2F;key&gt;
+          &lt;string&gt;https:&#x2F;&#x2F;www.example.com&#x2F;apps&#x2F;foo.ipa&lt;&#x2F;string&gt;
+        &lt;&#x2F;dict&gt;
+        &lt;dict&gt;
+         &lt;key&gt;kind&lt;&#x2F;key&gt;
+         &lt;string&gt;display-image&lt;&#x2F;string&gt;
+         &lt;key&gt;needs-shine&lt;&#x2F;key&gt;
+         &lt;true&#x2F;&gt;
+         &lt;key&gt;url&lt;&#x2F;key&gt;
+         &lt;string&gt;https:&#x2F;&#x2F;www.example.com&#x2F;image.57x57.png&lt;&#x2F;string&gt;
+        &lt;&#x2F;dict&gt;
+        &lt;dict&gt;
+         &lt;key&gt;kind&lt;&#x2F;key&gt;
+         &lt;string&gt;full-size-image&lt;&#x2F;string&gt;
+         &lt;key&gt;md5&lt;&#x2F;key&gt;
+         &lt;string&gt;61fa64bb7a7cae5a46bfb45821ac8bba&lt;&#x2F;string&gt;
+         &lt;key&gt;needs-shine&lt;&#x2F;key&gt;
+         &lt;true&#x2F;&gt;
+         &lt;key&gt;url&lt;&#x2F;key&gt;&lt;string&gt;https:&#x2F;&#x2F;www.example.com&#x2F;image.512x512.jpg&lt;&#x2F;string&gt;
+        &lt;&#x2F;dict&gt;
+      &lt;&#x2F;array&gt;
+&lt;key&gt;metadata&lt;&#x2F;key&gt;
+      &lt;dict&gt;
+       &lt;key&gt;bundle-identifier&lt;&#x2F;key&gt;
+       &lt;string&gt;com.example.fooapp&lt;&#x2F;string&gt;
+       &lt;key&gt;bundle-version&lt;&#x2F;key&gt;
+       &lt;string&gt;1.0&lt;&#x2F;string&gt;
+       &lt;key&gt;kind&lt;&#x2F;key&gt;
+       &lt;string&gt;software&lt;&#x2F;string&gt;
+       &lt;key&gt;subtitle&lt;&#x2F;key&gt;
+       &lt;string&gt;Apple&lt;&#x2F;string&gt;
+       &lt;key&gt;title&lt;&#x2F;key&gt;
+       &lt;string&gt;Example Corporate App&lt;&#x2F;string&gt;
+      &lt;&#x2F;dict&gt;
+    &lt;&#x2F;dict&gt;
+  &lt;&#x2F;array&gt;
+&lt;&#x2F;dict&gt;
+&lt;&#x2F;plist&gt;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h2 id="简单配置示例"><a href="#简单配置示例" class="headerlink" title="简单配置示例"></a>简单配置示例</h2><p>作为包体积较小的应用，如以下简单配置即可，从<a href="https://github.com/wangwanjie/SharedResources/blob/master/simple.plist">这里</a>下载</p>
+<pre class="line-numbers language-XMl" data-language="XMl"><code class="language-XMl">&lt;!DOCTYPE plist PUBLIC &quot;-&#x2F;&#x2F;Apple&#x2F;&#x2F;DTD PLIST 1.0&#x2F;&#x2F;EN&quot; &quot;http:&#x2F;&#x2F;www.apple.com&#x2F;DTDs&#x2F;PropertyList-1.0.dtd&quot;&gt;
+&lt;plist version&#x3D;&quot;1.0&quot;&gt;
+&lt;dict&gt;
+	&lt;key&gt;items&lt;&#x2F;key&gt;
+	&lt;array&gt;
+		&lt;dict&gt;
+			&lt;key&gt;assets&lt;&#x2F;key&gt;
+			&lt;array&gt;
+				&lt;dict&gt;
+					&lt;key&gt;kind&lt;&#x2F;key&gt;
+					&lt;string&gt;software-package&lt;&#x2F;string&gt;
+					&lt;key&gt;url&lt;&#x2F;key&gt;
+					&lt;string&gt;https:&#x2F;&#x2F;yourwebsite&#x2F;appName.ipa&lt;&#x2F;string&gt;
+				&lt;&#x2F;dict&gt;
+				&lt;dict&gt;
+					&lt;key&gt;kind&lt;&#x2F;key&gt;
+					&lt;string&gt;full-size-image&lt;&#x2F;string&gt;
+					&lt;key&gt;needs-shine&lt;&#x2F;key&gt;
+					&lt;true&#x2F;&gt;
+					&lt;key&gt;url&lt;&#x2F;key&gt;
+					&lt;string&gt;https:&#x2F;&#x2F;yourwebsite&#x2F;app_icon_full_size.png&lt;&#x2F;string&gt;
+				&lt;&#x2F;dict&gt;
+				&lt;dict&gt;
+					&lt;key&gt;kind&lt;&#x2F;key&gt;
+					&lt;string&gt;display-image&lt;&#x2F;string&gt;
+					&lt;key&gt;needs-shine&lt;&#x2F;key&gt;
+					&lt;true&#x2F;&gt;
+					&lt;key&gt;url&lt;&#x2F;key&gt;
+					&lt;string&gt;https:&#x2F;&#x2F;yourwebsite&#x2F;app_icon_download.png&lt;&#x2F;string&gt;
+				&lt;&#x2F;dict&gt;
+			&lt;&#x2F;array&gt;
+			&lt;key&gt;metadata&lt;&#x2F;key&gt;
+			&lt;dict&gt;
+				&lt;key&gt;bundle-identifier&lt;&#x2F;key&gt;
+				&lt;string&gt; your app bundle id &lt;&#x2F;string&gt;
+				&lt;key&gt;bundle-version&lt;&#x2F;key&gt;
+				&lt;string&gt;shortVersion&lt;&#x2F;string&gt;
+				&lt;key&gt;kind&lt;&#x2F;key&gt;
+				&lt;string&gt;software&lt;&#x2F;string&gt;
+				&lt;key&gt;subtitle&lt;&#x2F;key&gt;
+				&lt;string&gt;欢迎使用&lt;&#x2F;string&gt;
+				&lt;key&gt;title&lt;&#x2F;key&gt;
+				&lt;string&gt; app 名称&lt;&#x2F;string&gt;
+			&lt;&#x2F;dict&gt;
+		&lt;&#x2F;dict&gt;
+	&lt;&#x2F;array&gt;
+&lt;&#x2F;dict&gt;
+&lt;&#x2F;plist&gt;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+<blockquote>
+<p>Author: CoderJay <br>如需转载，请注明出处</p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>iOS</category>
+      </categories>
+      <tags>
+        <tag>打包</tag>
+        <tag>发布</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>iptables 混乱处理大法</title>
     <url>/2024/04/27/iptables-%E6%B7%B7%E4%B9%B1%E5%A4%84%E7%90%86%E5%A4%A7%E6%B3%95/</url>
     <content><![CDATA[<p>在使用Linux系统的过程中，由于误操作或第三方软件（例如Docker）的介入，经常会发现iptables规则被意外修改，导致某些功能不按预期工作。例如，即使添加了相应的规则，它们也可能不生效。在清楚了解本机环境和服务的情况下，一个有效的解决策略是清空所有规则并重新添加。</p>
@@ -4794,6 +4794,9 @@ iptables -A INPUT -p tcp --dport 443 -j ACCEPT<span aria-hidden="true" class="li
 <pre class="line-numbers language-none"><code class="language-none">iptables -t nat -A POSTROUTING -o [网卡名] -j MASQUERADE<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 <p>或</p>
 <pre class="line-numbers language-none"><code class="language-none">iptables -t nat -A POSTROUTING -s 192.168.90.0&#x2F;24 -o $(ip route show | sed -n &#39;s&#x2F;^default.* dev \([^ ]*\).*&#x2F;\1&#x2F;p&#39;) -j MASQUERADE<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<h4 id="配置转发"><a href="#配置转发" class="headerlink" title="配置转发"></a>配置转发</h4><pre class="line-numbers language-none"><code class="language-none">iptables -A FORWARD -s 192.168.90.0&#x2F;24 -j ACCEPT 
+iptables -A FORWARD -m state --state RELATED,ESTABLISHED -j ACCEPT<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
 
 <h4 id="持久化配置"><a href="#持久化配置" class="headerlink" title="持久化配置"></a>持久化配置</h4><p>别忘了在配置完成后，使用iptables-save或相关工具持久化iptables规则，以防重启后丢失</p>
 <pre class="line-numbers language-none"><code class="language-none">sudo sh -c &quot;iptables-save &gt; &#x2F;etc&#x2F;iptables&#x2F;rules.v4&quot;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
@@ -6571,68 +6574,6 @@ codesign <span class="token parameter variable">-f</span> <span class="token par
       </tags>
   </entry>
   <entry>
-    <title>动态加载javascript</title>
-    <url>/2017/03/09/%E5%8A%A8%E6%80%81%E5%8A%A0%E8%BD%BDjavascript/</url>
-    <content><![CDATA[<h2 id="使用以下函数"><a href="#使用以下函数" class="headerlink" title="使用以下函数"></a>使用以下函数</h2><span id="more"></span>
-
-
-<pre class="line-numbers language-JavaScript" data-language="JavaScript"><code class="language-JavaScript">var dynamicLoading &#x3D; &#123;
-    meta : function()&#123;
-        document.write(&#39;&lt;meta charset&#x3D;&quot;utf-8&quot;&gt;&#39;);
-        document.write(&#39;&lt;meta http-equiv&#x3D;&quot;X-UA-Compatible&quot; content&#x3D;&quot;IE&#x3D;edge&quot;&gt;&#39;);
-        document.write(&#39;&lt;meta name&#x3D;&quot;viewport&quot; content&#x3D;&quot;width&#x3D;device-width, user-scalable&#x3D;no, initial-scale&#x3D;1, maximum-scale&#x3D;1, minimum-scale&#x3D;1, shrink-to-fit&#x3D;no&quot;&gt;&#39;);
-    &#125;,
-    css: function(path)&#123;
-        if(!path || path.length &#x3D;&#x3D;&#x3D; 0)&#123;
-            throw new Error(&#39;argument &quot;path&quot; is required!&#39;);
-        &#125;
-        document.write(&#39;&lt;link rel&#x3D;&quot;stylesheet&quot; type&#x3D;&quot;text&#x2F;css&quot; href&#x3D;&quot;&#39; + path + &#39;&quot;&gt;&#39;);
-    &#125;,
-    js: function(path, charset)&#123;
-        if(!path || path.length &#x3D;&#x3D;&#x3D; 0)&#123;
-            throw new Error(&#39;argument &quot;path&quot; is required!&#39;);
-        &#125;
-        document.write(&#39;&lt;script type&#x3D;&quot;text&#x2F;javascript&quot; src&#x3D;&quot;&#39; + path + &#39;&quot;&gt;&lt;&#x2F;script&gt;&#39;);
-    &#125;
-&#125;;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-
-<pre class="line-numbers language-JavaScript" data-language="JavaScript"><code class="language-JavaScript">&#x2F;&#x2F; 另外一个独立的动态加载js的函数
-function loadJs(jsurl, head, callback) &#123;
-	var script &#x3D; document.createElement(script);
-	script.setAttribute(&quot;type&quot;, &quot;text&#x2F;javascript&quot;);
-
-	if(callback) &#123;
-		if(script.readyState) &#123; &#x2F;&#x2F;IE
-			script.onreadystatechange &#x3D; function() &#123;
-				if(script.readyState &#x3D;&#x3D; &quot;loaded&quot; ||
-					script.readyState &#x3D;&#x3D; &quot;complete&quot;) &#123;
-					script.onreadystatechange &#x3D; null;
-					callback();
-				&#125;
-			&#125;;
-		&#125; else &#123; &#x2F;&#x2F;Others
-			script.onload &#x3D; function() &#123;
-				callback();
-			&#125;;
-		&#125;
-	&#125;
-	script.setAttribute(&quot;src&quot;, jsurl);
-
-	if(head)
-		document.getElementsByTagName(head)[0].appendChild(script);
-	else &#123;
-		document.body.appendChild(script);
-	&#125;
-&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>]]></content>
-      <categories>
-        <category>JavaScript</category>
-      </categories>
-      <tags>
-        <tag>javascript</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>原生 JavaScript 判断 DOM 是否包含某个 class</title>
     <url>/2017/03/23/%E5%8E%9F%E7%94%9F-JavaScript-%E5%88%A4%E6%96%AD-DOM-%E6%98%AF%E5%90%A6%E5%8C%85%E5%90%AB%E6%9F%90%E4%B8%AA-class/</url>
     <content><![CDATA[<h2 id="使用-classlist"><a href="#使用-classlist" class="headerlink" title="使用 classlist"></a>使用 <code>classlist</code></h2><span id="more"></span>
@@ -6767,6 +6708,68 @@ _rnView &#x3D; [[RCTRootView alloc] initWithBundleURL:jsCodeLocation
       <tags>
         <tag>React Native</tag>
         <tag>Hybrid</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>动态加载javascript</title>
+    <url>/2017/03/09/%E5%8A%A8%E6%80%81%E5%8A%A0%E8%BD%BDjavascript/</url>
+    <content><![CDATA[<h2 id="使用以下函数"><a href="#使用以下函数" class="headerlink" title="使用以下函数"></a>使用以下函数</h2><span id="more"></span>
+
+
+<pre class="line-numbers language-JavaScript" data-language="JavaScript"><code class="language-JavaScript">var dynamicLoading &#x3D; &#123;
+    meta : function()&#123;
+        document.write(&#39;&lt;meta charset&#x3D;&quot;utf-8&quot;&gt;&#39;);
+        document.write(&#39;&lt;meta http-equiv&#x3D;&quot;X-UA-Compatible&quot; content&#x3D;&quot;IE&#x3D;edge&quot;&gt;&#39;);
+        document.write(&#39;&lt;meta name&#x3D;&quot;viewport&quot; content&#x3D;&quot;width&#x3D;device-width, user-scalable&#x3D;no, initial-scale&#x3D;1, maximum-scale&#x3D;1, minimum-scale&#x3D;1, shrink-to-fit&#x3D;no&quot;&gt;&#39;);
+    &#125;,
+    css: function(path)&#123;
+        if(!path || path.length &#x3D;&#x3D;&#x3D; 0)&#123;
+            throw new Error(&#39;argument &quot;path&quot; is required!&#39;);
+        &#125;
+        document.write(&#39;&lt;link rel&#x3D;&quot;stylesheet&quot; type&#x3D;&quot;text&#x2F;css&quot; href&#x3D;&quot;&#39; + path + &#39;&quot;&gt;&#39;);
+    &#125;,
+    js: function(path, charset)&#123;
+        if(!path || path.length &#x3D;&#x3D;&#x3D; 0)&#123;
+            throw new Error(&#39;argument &quot;path&quot; is required!&#39;);
+        &#125;
+        document.write(&#39;&lt;script type&#x3D;&quot;text&#x2F;javascript&quot; src&#x3D;&quot;&#39; + path + &#39;&quot;&gt;&lt;&#x2F;script&gt;&#39;);
+    &#125;
+&#125;;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+<pre class="line-numbers language-JavaScript" data-language="JavaScript"><code class="language-JavaScript">&#x2F;&#x2F; 另外一个独立的动态加载js的函数
+function loadJs(jsurl, head, callback) &#123;
+	var script &#x3D; document.createElement(script);
+	script.setAttribute(&quot;type&quot;, &quot;text&#x2F;javascript&quot;);
+
+	if(callback) &#123;
+		if(script.readyState) &#123; &#x2F;&#x2F;IE
+			script.onreadystatechange &#x3D; function() &#123;
+				if(script.readyState &#x3D;&#x3D; &quot;loaded&quot; ||
+					script.readyState &#x3D;&#x3D; &quot;complete&quot;) &#123;
+					script.onreadystatechange &#x3D; null;
+					callback();
+				&#125;
+			&#125;;
+		&#125; else &#123; &#x2F;&#x2F;Others
+			script.onload &#x3D; function() &#123;
+				callback();
+			&#125;;
+		&#125;
+	&#125;
+	script.setAttribute(&quot;src&quot;, jsurl);
+
+	if(head)
+		document.getElementsByTagName(head)[0].appendChild(script);
+	else &#123;
+		document.body.appendChild(script);
+	&#125;
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>]]></content>
+      <categories>
+        <category>JavaScript</category>
+      </categories>
+      <tags>
+        <tag>javascript</tag>
       </tags>
   </entry>
   <entry>
@@ -7003,6 +7006,488 @@ no-route &#x3D; 47.242.201.43&#x2F;255.255.255.255<span aria-hidden="true" class
         <tag>ocserv</tag>
         <tag>nginx</tag>
         <tag>haproxy</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>抓取 App Store和 Google Play 应用评论并写入 Excel</title>
+    <url>/2019/06/29/%E6%8A%93%E5%8F%96-App-Store%E5%92%8C-Google-Play-%E5%BA%94%E7%94%A8%E8%AF%84%E8%AE%BA%E5%B9%B6%E5%86%99%E5%85%A5-Excel/</url>
+    <content><![CDATA[<p>这几天开始在利用业余时间用 Swift 5 重写公司项目，继上一次用 Swift 写项目隔了有两年了吧（中间陆续在学习），Swift 变得更加好用了，真是愈发嫌弃 OC，来新公司把所负责的 App 从规范到基础服务再到业务里外优化了一番，算是有所成果了。新项目到写得正 high，组长丢给我一个任务，产品经理需要竞品在 App Store 和 Google Play 的评论数据用于调研，简单实现了一番，趁热打铁，记录一下结果，以便日后需要。</p>
+<span id="more"></span>
+
+<h1 id="想到第一方案"><a href="#想到第一方案" class="headerlink" title="想到第一方案"></a>想到第一方案</h1><p>在未做调研前，想到的第一方案是利用 Appium + mitmproxy + python 实现，想怎么抓就怎么抓，唰唰唰先代理看看，结果发现 App Store 启用网络代理后无法联网，原因是 <a href="https://www.owasp.org/index.php/Certificate_and_Public_Key_Pinning">SSL Pinning</a>，然后就解决这个问题，找到 <a href="https://github.com/nabla-c0d3/ssl-kill-switch2">ssl-kill-switch2</a>，可以解决这个问题，在越狱手机上安装了 deb 包，关闭 itunesstored 服务，发现并不生效:</p>
+<pre class="line-numbers language-none"><code class="language-none">dpkg -i com.nablac0d3.sslkillswitch2_0.13.deb
+ps -ef | grep itunesstored
+kill -s KILL 1170<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<p>看 <a href="https://github.com/nabla-c0d3/ssl-kill-switch2/issues">Issues</a> 确实在 iOS 11.4.1 上无法生效，可惜我的越狱设备正好是这个版本，该方案夭折。</p>
+<h1 id="调研第三方服务商"><a href="#调研第三方服务商" class="headerlink" title="调研第三方服务商"></a>调研第三方服务商</h1><p>既然一方案夭折，想想该需求市场上肯定有数据服务商，于是谷歌搜索了一 ha，果然前面几位都是“科学家”网站，进去看看，可以看到有广告 <a href="https://link.zhihu.com/?target=http://wetest.qq.com/bee/?from=content_zhihu_quying">产品舆情 - WeTest腾讯质量开放平台</a> 和 <a href="http://aso100.com/">七麦数据</a> 的，前者没去看，简单看了下后者，注册账号，两个问题</p>
+<pre><code>- 不能查看非中国区评论
+- 不能自定义生成的 Excel 选项
+</code></pre>
+<p>于是，该方案 pass</p>
+<h1 id="App-Store-从官方渠道获取最近500条"><a href="#App-Store-从官方渠道获取最近500条" class="headerlink" title="App Store 从官方渠道获取最近500条"></a>App Store 从官方渠道获取最近500条</h1><p>考虑到多款竞品在 App Store 对应国区的评论数均不足 500条，于是使用苹果官方提供的 <a href="https://itunes.apple.com/rss/customerreviews/page=1/id=414478124/sortby=mostrecent/json?l=en&&cc=cn">API</a> </p>
+<p><code>https://itunes.apple.com/rss/customerreviews/page=1/id=414478124/sortby=mostrecent/json?l=en&amp;&amp;cc=cn</code></p>
+<p>page 和 id 自行更改，该 API最多可以获取一个App的最近500条评论（每页最多50，最多10页），该方案顺利抓取数据，代码：</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token comment">#!/usr/bin/python3</span>
+<span class="token comment"># -*- coding: utf-8 -*-</span>
+
+<span class="token keyword">import</span> requests
+<span class="token keyword">import</span> urllib<span class="token punctuation">.</span>request
+<span class="token keyword">import</span> re
+<span class="token keyword">import</span> xlsxwriter
+<span class="token keyword">import</span> json
+<span class="token keyword">import</span> os
+
+
+<span class="token keyword">def</span> <span class="token function">getHTMLText</span><span class="token punctuation">(</span>url<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    response <span class="token operator">=</span> urllib<span class="token punctuation">.</span>request<span class="token punctuation">.</span>urlopen<span class="token punctuation">(</span>url<span class="token punctuation">)</span>
+    myjson <span class="token operator">=</span> json<span class="token punctuation">.</span>loads<span class="token punctuation">(</span>response<span class="token punctuation">.</span>read<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span>decode<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+
+    <span class="token keyword">return</span> myjson
+
+    <span class="token comment"># try:</span>
+    <span class="token comment">#     r = requests.get(url)</span>
+    <span class="token comment">#     r.raise_for_status()</span>
+    <span class="token comment">#     r.encoding = r.apparent_encoding</span>
+    <span class="token comment">#     return r.text</span>
+    <span class="token comment"># except:</span>
+    <span class="token comment">#     return ''</span>
+
+
+<span class="token keyword">def</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+
+    appid <span class="token operator">=</span> <span class="token builtin">input</span><span class="token punctuation">(</span><span class="token string">"请输入应用id号:"</span><span class="token punctuation">)</span>
+    appName <span class="token operator">=</span> <span class="token builtin">input</span><span class="token punctuation">(</span><span class="token string">"请输入应用名称:"</span><span class="token punctuation">)</span>
+
+    <span class="token keyword">if</span> <span class="token keyword">not</span> os<span class="token punctuation">.</span>path<span class="token punctuation">.</span>exists<span class="token punctuation">(</span>appid<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        os<span class="token punctuation">.</span>system<span class="token punctuation">(</span><span class="token string">'mkdir '</span> <span class="token operator">+</span> appid<span class="token punctuation">)</span>
+
+    workbook <span class="token operator">=</span> xlsxwriter<span class="token punctuation">.</span>Workbook<span class="token punctuation">(</span>appid <span class="token operator">+</span> <span class="token string">'/'</span> <span class="token operator">+</span> appName <span class="token operator">+</span> <span class="token string">'_comments.xlsx'</span><span class="token punctuation">)</span>
+    worksheet <span class="token operator">=</span> workbook<span class="token punctuation">.</span>add_worksheet<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token builtin">format</span> <span class="token operator">=</span> workbook<span class="token punctuation">.</span>add_format<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token builtin">format</span><span class="token punctuation">.</span>set_border<span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span>
+    <span class="token builtin">format</span><span class="token punctuation">.</span>set_border<span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span>
+    format_title <span class="token operator">=</span> workbook<span class="token punctuation">.</span>add_format<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    format_title<span class="token punctuation">.</span>set_border<span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span>
+    format_title<span class="token punctuation">.</span>set_bg_color<span class="token punctuation">(</span><span class="token string">'#cccccc'</span><span class="token punctuation">)</span>
+    format_title<span class="token punctuation">.</span>set_align<span class="token punctuation">(</span><span class="token string">'left'</span><span class="token punctuation">)</span>
+    format_title<span class="token punctuation">.</span>set_bold<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    title <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">'作者'</span><span class="token punctuation">,</span> <span class="token string">'标题'</span><span class="token punctuation">,</span> <span class="token string">'评论内容'</span><span class="token punctuation">,</span> <span class="token string">'版本'</span><span class="token punctuation">,</span> <span class="token string">'评级'</span><span class="token punctuation">,</span> <span class="token string">'投票'</span><span class="token punctuation">]</span>
+
+    <span class="token comment"># 设置单元格宽度</span>
+    worksheet<span class="token punctuation">.</span>set_column<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">30</span><span class="token punctuation">)</span>
+    worksheet<span class="token punctuation">.</span>set_column<span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">40</span><span class="token punctuation">)</span>
+    worksheet<span class="token punctuation">.</span>set_column<span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">100</span><span class="token punctuation">)</span>
+    worksheet<span class="token punctuation">.</span>set_column<span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">10</span><span class="token punctuation">)</span>
+    worksheet<span class="token punctuation">.</span>set_column<span class="token punctuation">(</span><span class="token number">4</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">,</span> <span class="token number">10</span><span class="token punctuation">)</span>
+    worksheet<span class="token punctuation">.</span>set_column<span class="token punctuation">(</span><span class="token number">5</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">,</span> <span class="token number">10</span><span class="token punctuation">)</span>
+
+    worksheet<span class="token punctuation">.</span>write_row<span class="token punctuation">(</span><span class="token string">'A1'</span><span class="token punctuation">,</span> title<span class="token punctuation">,</span> format_title<span class="token punctuation">)</span>
+
+    count <span class="token operator">=</span> <span class="token number">0</span>
+
+    total <span class="token operator">=</span> <span class="token number">10</span>
+    totalCount <span class="token operator">=</span> <span class="token number">0</span>
+    <span class="token keyword">for</span> n <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span>total<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        url <span class="token operator">=</span> <span class="token string">'https://itunes.apple.com/rss/customerreviews/page='</span> <span class="token operator">+</span> \
+            <span class="token builtin">str</span><span class="token punctuation">(</span>n<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token string">'/id='</span> <span class="token operator">+</span> <span class="token builtin">str</span><span class="token punctuation">(</span>appid<span class="token punctuation">)</span> <span class="token operator">+</span> \
+            <span class="token string">'/sortby=mostrecent/json?l=en&amp;&amp;cc=kh'</span>
+
+        <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">'当前地址：'</span> <span class="token operator">+</span> url<span class="token punctuation">)</span>
+
+        jsonText <span class="token operator">=</span> getHTMLText<span class="token punctuation">(</span>url<span class="token punctuation">)</span>
+
+        fileName <span class="token operator">=</span> appid <span class="token operator">+</span> <span class="token string">'/'</span> <span class="token operator">+</span> <span class="token builtin">str</span><span class="token punctuation">(</span>n<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token string">'.json'</span>
+
+        data_feed <span class="token operator">=</span> jsonText<span class="token punctuation">[</span><span class="token string">'feed'</span><span class="token punctuation">]</span>
+        entry <span class="token operator">=</span> data_feed<span class="token punctuation">[</span><span class="token string">'entry'</span><span class="token punctuation">]</span>
+        <span class="token keyword">for</span> i <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span><span class="token builtin">len</span><span class="token punctuation">(</span>entry<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+            value <span class="token operator">=</span> entry<span class="token punctuation">[</span>i<span class="token punctuation">]</span>
+            fixedIndex <span class="token operator">=</span> i <span class="token operator">+</span> <span class="token number">1</span>
+            startRow <span class="token operator">=</span> totalCount <span class="token operator">+</span> <span class="token number">1</span>
+            worksheet<span class="token punctuation">.</span>write<span class="token punctuation">(</span>
+                startRow<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> value<span class="token punctuation">[</span><span class="token string">'author'</span><span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token string">'name'</span><span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token string">'label'</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token builtin">format</span><span class="token punctuation">)</span>
+            worksheet<span class="token punctuation">.</span>write<span class="token punctuation">(</span>startRow<span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> value<span class="token punctuation">[</span><span class="token string">'title'</span><span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token string">'label'</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token builtin">format</span><span class="token punctuation">)</span>
+            worksheet<span class="token punctuation">.</span>write<span class="token punctuation">(</span>startRow<span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> value<span class="token punctuation">[</span><span class="token string">'content'</span><span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token string">'label'</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token builtin">format</span><span class="token punctuation">)</span>
+            worksheet<span class="token punctuation">.</span>write<span class="token punctuation">(</span>
+                startRow<span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> value<span class="token punctuation">[</span><span class="token string">'im:version'</span><span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token string">'label'</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token builtin">format</span><span class="token punctuation">)</span>
+            worksheet<span class="token punctuation">.</span>write<span class="token punctuation">(</span>
+                startRow<span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">,</span> value<span class="token punctuation">[</span><span class="token string">'im:rating'</span><span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token string">'label'</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token builtin">format</span><span class="token punctuation">)</span>
+            worksheet<span class="token punctuation">.</span>write<span class="token punctuation">(</span>
+                startRow<span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">,</span> value<span class="token punctuation">[</span><span class="token string">'im:rating'</span><span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token string">'label'</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token builtin">format</span><span class="token punctuation">)</span>
+            totalCount <span class="token operator">=</span> totalCount <span class="token operator">+</span> <span class="token number">1</span>
+
+        <span class="token keyword">with</span> <span class="token builtin">open</span><span class="token punctuation">(</span>fileName<span class="token punctuation">,</span> <span class="token string">'w'</span><span class="token punctuation">)</span> <span class="token keyword">as</span> <span class="token builtin">file</span><span class="token punctuation">:</span>
+            <span class="token builtin">file</span><span class="token punctuation">.</span>write<span class="token punctuation">(</span>json<span class="token punctuation">.</span>dumps<span class="token punctuation">(</span>jsonText<span class="token punctuation">,</span> sort_keys<span class="token operator">=</span><span class="token boolean">True</span><span class="token punctuation">,</span>
+                                  indent<span class="token operator">=</span><span class="token number">4</span><span class="token punctuation">,</span> ensure_ascii<span class="token operator">=</span><span class="token boolean">False</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+
+        count <span class="token operator">=</span> count <span class="token operator">+</span> <span class="token number">1</span>
+        <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"当前进度: &#123;:.2f&#125;%"</span><span class="token punctuation">.</span><span class="token builtin">format</span><span class="token punctuation">(</span>count <span class="token operator">*</span> <span class="token number">100</span> <span class="token operator">/</span> total<span class="token punctuation">)</span><span class="token punctuation">,</span> end<span class="token operator">=</span><span class="token string">"\n\n"</span><span class="token punctuation">)</span>
+
+    workbook<span class="token punctuation">.</span>close<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+
+<span class="token keyword">if</span> __name__ <span class="token operator">==</span> <span class="token string">'__main__'</span><span class="token punctuation">:</span>
+    main<span class="token punctuation">(</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+
+<h1 id="Google-Play-App评论获取"><a href="#Google-Play-App评论获取" class="headerlink" title="Google Play App评论获取"></a>Google Play App评论获取</h1><p>谷歌相比苹果而言这方面更加开放，App 数据获取 API 次数不限，而且有 <a href="https://github.com/facundoolano/google-play-scraper">现成的 npm 库</a>，笔芯，感谢开源世界。新建个 node 项目，三下五除二实验了一下，库高效可用，于是开始简单分析数据编写代码，产出如下：</p>
+<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token string">'use strict'</span><span class="token punctuation">;</span>
+
+<span class="token keyword">var</span> gplay <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'google-play-scraper'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">var</span> fs <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">"fs"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// const readline = require('readline').createInterface(&#123;</span>
+<span class="token comment">//   input: process.stdin,</span>
+<span class="token comment">//   output: process.stdout</span>
+<span class="token comment">// &#125;)</span>
+
+<span class="token comment">// readline.question(`请输入 apk 包名：`, (inputText) => &#123;</span>
+<span class="token comment">//   bundle_id = inputText</span>
+<span class="token comment">//   console.log(`包名： $&#123;bundle_id&#125;!`)</span>
+
+<span class="token comment">//   readline.close()</span>
+
+<span class="token comment">//   fs.mkdirSync(bundle_id)</span>
+
+<span class="token comment">//   gplay.reviews(&#123;</span>
+<span class="token comment">//     appId: bundle_id,</span>
+<span class="token comment">//     lang: 'kh'</span>
+<span class="token comment">//   &#125;)</span>
+<span class="token comment">//     .then((body) => &#123;</span>
+<span class="token comment">//       fs.writeFile(`$&#123;bundle_id&#125;/comments.json`, JSON.stringify(body), (err) => &#123;</span>
+<span class="token comment">//         if (err) &#123;</span>
+<span class="token comment">//           console.error(err);</span>
+<span class="token comment">//           return;</span>
+<span class="token comment">//         &#125;;</span>
+<span class="token comment">//         console.log("File has been created");</span>
+<span class="token comment">//       &#125;);</span>
+<span class="token comment">//     &#125;)</span>
+<span class="token comment">// &#125;)</span>
+
+<span class="token keyword">var</span> arr <span class="token operator">=</span> <span class="token punctuation">[</span>
+  <span class="token punctuation">&#123;</span>
+  <span class="token string-property property">'bundle_id'</span><span class="token operator">:</span> <span class="token string">'com.pipay.app.android'</span><span class="token punctuation">,</span>
+  <span class="token string-property property">'name'</span><span class="token operator">:</span> <span class="token string">'PiPay'</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+<span class="token comment">// &#123;</span>
+<span class="token comment">//   'bundle_id': 'com.aeon_cambodia.rielpay',</span>
+<span class="token comment">//   'name': 'AEON Wallet'</span>
+<span class="token comment">// &#125;,</span>
+<span class="token comment">// &#123;</span>
+<span class="token comment">//   'bundle_id': 'com.wingmoney.wingpay',</span>
+<span class="token comment">//   'name': 'Wing Money'</span>
+<span class="token comment">// &#125;,</span>
+<span class="token comment">// &#123;</span>
+<span class="token comment">//   'bundle_id': 'th.co.truemoney.wallet',</span>
+<span class="token comment">//   'name': 'True Money'</span>
+<span class="token comment">// &#125;</span>
+<span class="token punctuation">]</span>
+
+<span class="token keyword">const</span> total <span class="token operator">=</span> <span class="token number">50</span>
+
+<span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">let</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> arr<span class="token punctuation">.</span>length<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+  <span class="token keyword">const</span> object <span class="token operator">=</span> arr<span class="token punctuation">[</span>i<span class="token punctuation">]</span>
+  <span class="token keyword">var</span> bundle_id<span class="token punctuation">,</span> name
+  <span class="token keyword">if</span> <span class="token punctuation">(</span>object<span class="token punctuation">.</span><span class="token function">hasOwnProperty</span><span class="token punctuation">(</span><span class="token string">'bundle_id'</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    bundle_id <span class="token operator">=</span> object<span class="token punctuation">[</span><span class="token string">'bundle_id'</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>fs<span class="token punctuation">.</span><span class="token function">existsSync</span><span class="token punctuation">(</span>bundle_id<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+      fs<span class="token punctuation">.</span><span class="token function">mkdirSync</span><span class="token punctuation">(</span>bundle_id<span class="token punctuation">)</span>
+    <span class="token punctuation">&#125;</span>
+  <span class="token punctuation">&#125;</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span>object<span class="token punctuation">.</span><span class="token function">hasOwnProperty</span><span class="token punctuation">(</span><span class="token string">'bundle_id'</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    name <span class="token operator">=</span> object<span class="token punctuation">[</span><span class="token string">'name'</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+  <span class="token punctuation">&#125;</span>
+
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">包名：</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">$&#123;</span>bundle_id<span class="token interpolation-punctuation punctuation">&#125;</span></span><span class="token string">  应用名：</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">$&#123;</span>name<span class="token interpolation-punctuation punctuation">&#125;</span></span><span class="token template-punctuation string">`</span></span><span class="token punctuation">)</span>
+
+  <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">let</span> index <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> index <span class="token operator">&lt;</span> total<span class="token punctuation">;</span> index<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    gplay<span class="token punctuation">.</span><span class="token function">reviews</span><span class="token punctuation">(</span><span class="token punctuation">&#123;</span>
+      <span class="token literal-property property">appId</span><span class="token operator">:</span> bundle_id<span class="token punctuation">,</span>
+      <span class="token literal-property property">lang</span><span class="token operator">:</span> <span class="token string">'kh'</span><span class="token punctuation">,</span>
+      <span class="token literal-property property">page</span><span class="token operator">:</span> index
+    <span class="token punctuation">&#125;</span><span class="token punctuation">)</span>
+      <span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token parameter">body</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>body<span class="token punctuation">.</span>length <span class="token operator">></span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+          fs<span class="token punctuation">.</span><span class="token function">writeFile</span><span class="token punctuation">(</span><span class="token template-string"><span class="token template-punctuation string">`</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">$&#123;</span>bundle_id<span class="token interpolation-punctuation punctuation">&#125;</span></span><span class="token string">/</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">$&#123;</span>index<span class="token interpolation-punctuation punctuation">&#125;</span></span><span class="token string">.json</span><span class="token template-punctuation string">`</span></span><span class="token punctuation">,</span> <span class="token constant">JSON</span><span class="token punctuation">.</span><span class="token function">stringify</span><span class="token punctuation">(</span>body<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token parameter">err</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">&#123;</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>err<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+              console<span class="token punctuation">.</span><span class="token function">error</span><span class="token punctuation">(</span>err<span class="token punctuation">)</span><span class="token punctuation">;</span>
+              <span class="token keyword">return</span><span class="token punctuation">;</span>
+            <span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+            console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">成功写入文件 </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">$&#123;</span>bundle_id<span class="token interpolation-punctuation punctuation">&#125;</span></span><span class="token string">/</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">$&#123;</span>index<span class="token interpolation-punctuation punctuation">&#125;</span></span><span class="token string">.json</span><span class="token template-punctuation string">`</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+          <span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span> <span class="token keyword">else</span> <span class="token punctuation">&#123;</span>
+          console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'无更多评论'</span><span class="token punctuation">)</span>
+        <span class="token punctuation">&#125;</span>
+      <span class="token punctuation">&#125;</span><span class="token punctuation">)</span>
+  <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>抓取后评论数据本地存档，如下：</p>
+<pre class="line-numbers language-none"><code class="language-none">➜ ls th.co.truemoney.wallet
+0.json                          35.json                         61.json
+1.json                          36.json                         62.json
+10.json                         37.json                         63.json
+11.json                         38.json                         64.json
+12.json                         39.json                         65.json
+13.json                         4.json                          66.json
+14.json                         40.json                         67.json
+15.json                         41.json                         68.json
+16.json                         42.json                         69.json
+17.json                         43.json                         7.json
+18.json                         44.json                         70.json
+19.json                         45.json                         71.json
+2.json                          46.json                         72.json
+20.json                         47.json                         73.json
+21.json                         48.json                         74.json
+...<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h1 id="将数据生成-Excel-并简单美化"><a href="#将数据生成-Excel-并简单美化" class="headerlink" title="将数据生成 Excel 并简单美化"></a>将数据生成 Excel 并简单美化</h1><h2 id="for-AppStore"><a href="#for-AppStore" class="headerlink" title="for AppStore"></a>for AppStore</h2><pre class="line-numbers language-none"><code class="language-none">#!&#x2F;usr&#x2F;bin&#x2F;python3
+# -*- coding: utf-8 -*-
+
+import xlsxwriter
+import json
+import os
+from googletrans import Translator
+import sys
+sys.path.append(&quot;..&quot;)
+from mtranslate.mtranslate import translate
+
+# translator &#x3D; Translator()
+# print(translator.translate(&#39;មិចញុមវាយលេខចូលហើយមិចក៏មិនអោយ&#39;, dest&#x3D;&#39;zh-CN&#39;).text)
+
+arr &#x3D; [&#123;
+    &#39;id&#39;: &#39;1234143591&#39;,
+    &#39;name&#39;: &#39;PiPay&#39;
+    &#125;,
+        &#123;
+    &#39;id&#39;: &#39;1328330562&#39;,
+    &#39;name&#39;: &#39;AEON Wallet&#39;
+    &#125;,
+        &#123;
+    &#39;id&#39;: &#39;1113286385&#39;,
+    &#39;name&#39;: &#39;Wing Money&#39;
+    &#125;,
+        &#123;
+    &#39;id&#39;: &#39;1162466939&#39;,
+        &#39;name&#39;: &#39;True Money&#39;
+&#125;]
+
+
+def translateToChinese(text):
+    translator &#x3D; Translator()
+
+    try:
+        return translator.translate(text, dest&#x3D;&#39;zh-CN&#39;).text
+    except print(0):
+        return text
+
+
+def main():
+
+    for item in arr:
+        appid &#x3D; item[&#39;id&#39;]
+        name &#x3D; item[&#39;name&#39;]
+
+        # appid &#x3D; input(&quot;请输入应用id号:&quot;)
+        # name &#x3D; input(&quot;请输入应用名称:&quot;)
+
+        workbook &#x3D; xlsxwriter.Workbook(
+            str(appid) + &#39;&#x2F;&#39; + name + &#39;_comments.xlsx&#39;)
+        worksheet &#x3D; workbook.add_worksheet()
+        format &#x3D; workbook.add_format()
+        format.set_border(1)
+        format.set_border(1)
+        format_title &#x3D; workbook.add_format()
+        format_title.set_border(1)
+        format_title.set_bg_color(&#39;#cccccc&#39;)
+        format_title.set_align(&#39;left&#39;)
+        format_title.set_bold()
+        title &#x3D; [&#39;作者&#39;, &#39;标题&#39;, &#39;评论内容&#39;, &#39;版本&#39;, &#39;评级&#39;, &#39;投票&#39;]
+
+        # 设置单元格宽度
+        worksheet.set_column(0, 0, 30)
+        worksheet.set_column(1, 1, 40)
+        worksheet.set_column(2, 2, 100)
+        worksheet.set_column(3, 3, 10)
+        worksheet.set_column(4, 4, 10)
+        worksheet.set_column(5, 5, 10)
+
+        worksheet.write_row(&#39;A1&#39;, title, format_title)
+
+        total &#x3D; 50
+        totalCount &#x3D; 0
+        for n in range(total):
+            fileName &#x3D; appid + &#39;&#x2F;&#39; + str(n) + &#39;.json&#39;
+            if not os.path.exists(fileName):
+                continue
+
+            with open(fileName, &#39;r&#39;) as file:
+                result &#x3D; json.load(file)
+                data_feed &#x3D; result[&#39;feed&#39;]
+                entry &#x3D; data_feed[&#39;entry&#39;]
+                for i in range(len(entry)):
+                    value &#x3D; entry[i]
+                    fixedIndex &#x3D; i + 1
+                    startRow &#x3D; totalCount + 1
+                    worksheet.write(
+                        startRow, 0, value[&#39;author&#39;][&#39;name&#39;][&#39;label&#39;], format)
+                    worksheet.write(startRow, 1, value[&#39;title&#39;][&#39;label&#39;], format)
+                    worksheet.write(
+                        startRow, 2, translate(value[&#39;content&#39;][&#39;label&#39;], &#39;zh-CN&#39;), format)
+                        # startRow, 2,value[&#39;content&#39;][&#39;label&#39;], format)
+                    worksheet.write(
+                        startRow, 3, value[&#39;im:version&#39;][&#39;label&#39;], format)
+                    worksheet.write(
+                        startRow, 4, value[&#39;im:rating&#39;][&#39;label&#39;], format)
+                    worksheet.write(
+                        startRow, 5, value[&#39;im:rating&#39;][&#39;label&#39;], format)
+                    totalCount &#x3D; totalCount + 1
+
+        workbook.close()
+
+
+if __name__ &#x3D;&#x3D; &#39;__main__&#39;:
+    main()<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h2 id="for-Google-Play"><a href="#for-Google-Play" class="headerlink" title="for Google Play"></a>for Google Play</h2><pre class="line-numbers language-none"><code class="language-none">#!&#x2F;usr&#x2F;bin&#x2F;python3
+# -*- coding: utf-8 -*-
+
+import xlsxwriter
+import json
+import os
+from googletrans import Translator
+import sys
+sys.path.append(&quot;..&quot;)
+from mtranslate.mtranslate import translate
+
+# translator &#x3D; Translator()
+# print(translator.translate(&#39;មិចញុមវាយលេខចូលហើយមិចក៏មិនអោយ&#39;, dest&#x3D;&#39;zh-CN&#39;).text)
+# print(translate(&#39;មិចញុមវាយលេខចូលហើយមិចក៏មិនអោយ&#39;, &#39;zh-CN&#39;))
+
+arr &#x3D; [&#123;
+    &#39;bundle_id&#39;: &#39;com.pipay.app.android&#39;,
+    &#39;name&#39;: &#39;PiPay&#39;
+# &#125;,
+#     &#123;
+    # &#39;bundle_id&#39;: &#39;com.aeon_cambodia.rielpay&#39;,
+    # &#39;name&#39;: &#39;AEON Wallet&#39;
+# &#125;,
+#     &#123;
+    # &#39;bundle_id&#39;: &#39;com.wingmoney.wingpay&#39;,
+    # &#39;name&#39;: &#39;Wing Money&#39;
+# &#125;,
+#     &#123;
+    # &#39;bundle_id&#39;: &#39;th.co.truemoney.wallet&#39;,
+    # &#39;name&#39;: &#39;True Money&#39;
+&#125;]
+
+def translateToChinese(text):
+    translator &#x3D; Translator()
+
+    try:
+        return translator.translate(text, dest&#x3D;&#39;zh-CN&#39;).text
+    except print(0):
+        return text
+
+
+def main():
+
+    for item in arr:
+        bundle_id &#x3D; item[&#39;bundle_id&#39;]
+        name &#x3D; item[&#39;name&#39;]
+
+    # appid &#x3D; input(&quot;请输入应用id号:&quot;)
+    # appName &#x3D; input(&quot;请输入应用名称:&quot;)
+
+        workbook &#x3D; xlsxwriter.Workbook(
+            bundle_id + &#39;&#x2F;&#39; + name + &#39;_comments.xlsx&#39;)
+        worksheet &#x3D; workbook.add_worksheet()
+        format &#x3D; workbook.add_format()
+        format.set_border(1)
+        format.set_border(1)
+        format_title &#x3D; workbook.add_format()
+        format_title.set_border(1)
+        format_title.set_bg_color(&#39;#cccccc&#39;)
+        format_title.set_align(&#39;left&#39;)
+        format_title.set_bold()
+        title &#x3D; [&#39;作者&#39;, &#39;标题&#39;, &#39;评论内容&#39;, &#39;日期&#39;, &#39;评分&#39;, &#39;头像&#39;]
+
+        # 设置单元格宽度
+        worksheet.set_column(0, 0, 30)
+        worksheet.set_column(1, 1, 30)
+        worksheet.set_column(2, 2, 100)
+        worksheet.set_column(3, 3, 20)
+        worksheet.set_column(4, 4, 10)
+        worksheet.set_column(5, 5, 120)
+
+        worksheet.write_row(&#39;A1&#39;, title, format_title)
+
+        total &#x3D; 50
+        totalCount &#x3D; 0
+        for n in range(total):
+            fileName &#x3D; bundle_id + &#39;&#x2F;&#39; + str(n) + &#39;.json&#39;
+            if not os.path.exists(fileName):
+                continue
+
+            with open(fileName, &#39;r&#39;) as file:
+                result &#x3D; json.load(file)
+                entry &#x3D; result
+                for i in range(len(entry)):
+                    value &#x3D; entry[i]
+                    fixedIndex &#x3D; i + 1
+                    startRow &#x3D; totalCount + 1
+                    worksheet.write(
+                        startRow, 0, value[&#39;userName&#39;], format)
+                    worksheet.write(
+                        startRow, 1, value[&#39;title&#39;], format)
+                    worksheet.write(
+                        startRow, 2, translate(value[&#39;text&#39;], &#39;zh-CN&#39;), format)
+                    worksheet.write(
+                        startRow, 3, value[&#39;date&#39;], format)
+                    worksheet.write(
+                        startRow, 4, value[&#39;score&#39;], format)
+                    worksheet.write(
+                        startRow, 5, value[&#39;userImage&#39;], format)
+                    totalCount &#x3D; totalCount + 1
+
+        workbook.close()
+
+if __name__ &#x3D;&#x3D; &#39;__main__&#39;:
+    pass
+    main()<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h1 id="Excuse-me？"><a href="#Excuse-me？" class="headerlink" title="Excuse me？"></a>Excuse me？</h1><p>整理下数据发给产品，准备继续撸 Swift 搬砖了，产品又跟我说发现个大问题，几千条评论全是英语和高棉语，看不懂！！！好吧，给你翻译（谷歌翻译）。随便一 google，谷歌有免费的 python API 的开源库 <a href="https://pypi.org/project/googletrans/">googletrans</a>，看看介绍</p>
+<blockquote>
+<p>Googletrans is a free and unlimited python library that implemented Google Translate API. This uses the Google Translate Ajax API to make calls to such methods as detect and translate.<br>Compatible with Python 2.7+ and 3.4+. (Note: Python 2 support will be dropped in the next major release.)<br>For details refer to the API Documentation.</p>
+</blockquote>
+<p>太棒了，还无限制，两三行代码就能使用，关键代码：</p>
+<pre class="line-numbers language-none"><code class="language-none">from googletrans import Translator
+
+translator &#x3D; Translator()
+print(translator.translate(&#39;មិចញុមវាយលេខចូលហើយមិចក៏មិនអោយ&#39;, dest&#x3D;&#39;zh-CN&#39;).text)<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>但数据量比较大，亲测使用该方式翻译速度较慢，于是找到 <a href="https://github.com/mouuff/mtranslate">mtranslate</a> ，其是对 <code>googletrans </code>的一个封装，可以稍微加快翻译速度，最后使用该库完成翻译，代码就几行：</p>
+<pre class="line-numbers language-none"><code class="language-none">from mtranslate.mtranslate import translate
+
+print(translate(&#39;មិចញុមវាយលេខចូលហើយមិចក៏មិនអោយ&#39;, &#39;zh-CN&#39;))<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<p>PS：翻译库 JavaScript 版本的可以使用 <a href="https://github.com/matheuss/google-translate-api">google-translate-api</a></p>
+<h1 id="效果图"><a href="#效果图" class="headerlink" title="效果图"></a>效果图</h1><img src="/images/app_comments/example.jpg"/>
+<img src="/images/app_comments/google_play.jpg"/>
+
+<h1 id="完整-Demo-地址"><a href="#完整-Demo-地址" class="headerlink" title="完整 Demo 地址"></a>完整 Demo 地址</h1><p>附上 <a href="https://github.com/wangwanjie/fetch-appstore-comments">github 完整项目地址</a></p>
+]]></content>
+      <categories>
+        <category>爬虫</category>
+      </categories>
+      <tags>
+        <tag>Python</tag>
+        <tag>爬虫</tag>
+        <tag>JavaScript</tag>
+        <tag>SEO</tag>
       </tags>
   </entry>
   <entry>
@@ -8185,488 +8670,6 @@ extension NavigationController: UINavigationControllerDelegate &#123;
       <categories>
         <category>React Native</category>
       </categories>
-  </entry>
-  <entry>
-    <title>抓取 App Store和 Google Play 应用评论并写入 Excel</title>
-    <url>/2019/06/29/%E6%8A%93%E5%8F%96-App-Store%E5%92%8C-Google-Play-%E5%BA%94%E7%94%A8%E8%AF%84%E8%AE%BA%E5%B9%B6%E5%86%99%E5%85%A5-Excel/</url>
-    <content><![CDATA[<p>这几天开始在利用业余时间用 Swift 5 重写公司项目，继上一次用 Swift 写项目隔了有两年了吧（中间陆续在学习），Swift 变得更加好用了，真是愈发嫌弃 OC，来新公司把所负责的 App 从规范到基础服务再到业务里外优化了一番，算是有所成果了。新项目到写得正 high，组长丢给我一个任务，产品经理需要竞品在 App Store 和 Google Play 的评论数据用于调研，简单实现了一番，趁热打铁，记录一下结果，以便日后需要。</p>
-<span id="more"></span>
-
-<h1 id="想到第一方案"><a href="#想到第一方案" class="headerlink" title="想到第一方案"></a>想到第一方案</h1><p>在未做调研前，想到的第一方案是利用 Appium + mitmproxy + python 实现，想怎么抓就怎么抓，唰唰唰先代理看看，结果发现 App Store 启用网络代理后无法联网，原因是 <a href="https://www.owasp.org/index.php/Certificate_and_Public_Key_Pinning">SSL Pinning</a>，然后就解决这个问题，找到 <a href="https://github.com/nabla-c0d3/ssl-kill-switch2">ssl-kill-switch2</a>，可以解决这个问题，在越狱手机上安装了 deb 包，关闭 itunesstored 服务，发现并不生效:</p>
-<pre class="line-numbers language-none"><code class="language-none">dpkg -i com.nablac0d3.sslkillswitch2_0.13.deb
-ps -ef | grep itunesstored
-kill -s KILL 1170<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
-
-<p>看 <a href="https://github.com/nabla-c0d3/ssl-kill-switch2/issues">Issues</a> 确实在 iOS 11.4.1 上无法生效，可惜我的越狱设备正好是这个版本，该方案夭折。</p>
-<h1 id="调研第三方服务商"><a href="#调研第三方服务商" class="headerlink" title="调研第三方服务商"></a>调研第三方服务商</h1><p>既然一方案夭折，想想该需求市场上肯定有数据服务商，于是谷歌搜索了一 ha，果然前面几位都是“科学家”网站，进去看看，可以看到有广告 <a href="https://link.zhihu.com/?target=http://wetest.qq.com/bee/?from=content_zhihu_quying">产品舆情 - WeTest腾讯质量开放平台</a> 和 <a href="http://aso100.com/">七麦数据</a> 的，前者没去看，简单看了下后者，注册账号，两个问题</p>
-<pre><code>- 不能查看非中国区评论
-- 不能自定义生成的 Excel 选项
-</code></pre>
-<p>于是，该方案 pass</p>
-<h1 id="App-Store-从官方渠道获取最近500条"><a href="#App-Store-从官方渠道获取最近500条" class="headerlink" title="App Store 从官方渠道获取最近500条"></a>App Store 从官方渠道获取最近500条</h1><p>考虑到多款竞品在 App Store 对应国区的评论数均不足 500条，于是使用苹果官方提供的 <a href="https://itunes.apple.com/rss/customerreviews/page=1/id=414478124/sortby=mostrecent/json?l=en&&cc=cn">API</a> </p>
-<p><code>https://itunes.apple.com/rss/customerreviews/page=1/id=414478124/sortby=mostrecent/json?l=en&amp;&amp;cc=cn</code></p>
-<p>page 和 id 自行更改，该 API最多可以获取一个App的最近500条评论（每页最多50，最多10页），该方案顺利抓取数据，代码：</p>
-<pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token comment">#!/usr/bin/python3</span>
-<span class="token comment"># -*- coding: utf-8 -*-</span>
-
-<span class="token keyword">import</span> requests
-<span class="token keyword">import</span> urllib<span class="token punctuation">.</span>request
-<span class="token keyword">import</span> re
-<span class="token keyword">import</span> xlsxwriter
-<span class="token keyword">import</span> json
-<span class="token keyword">import</span> os
-
-
-<span class="token keyword">def</span> <span class="token function">getHTMLText</span><span class="token punctuation">(</span>url<span class="token punctuation">)</span><span class="token punctuation">:</span>
-    response <span class="token operator">=</span> urllib<span class="token punctuation">.</span>request<span class="token punctuation">.</span>urlopen<span class="token punctuation">(</span>url<span class="token punctuation">)</span>
-    myjson <span class="token operator">=</span> json<span class="token punctuation">.</span>loads<span class="token punctuation">(</span>response<span class="token punctuation">.</span>read<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span>decode<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
-
-    <span class="token keyword">return</span> myjson
-
-    <span class="token comment"># try:</span>
-    <span class="token comment">#     r = requests.get(url)</span>
-    <span class="token comment">#     r.raise_for_status()</span>
-    <span class="token comment">#     r.encoding = r.apparent_encoding</span>
-    <span class="token comment">#     return r.text</span>
-    <span class="token comment"># except:</span>
-    <span class="token comment">#     return ''</span>
-
-
-<span class="token keyword">def</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
-
-    appid <span class="token operator">=</span> <span class="token builtin">input</span><span class="token punctuation">(</span><span class="token string">"请输入应用id号:"</span><span class="token punctuation">)</span>
-    appName <span class="token operator">=</span> <span class="token builtin">input</span><span class="token punctuation">(</span><span class="token string">"请输入应用名称:"</span><span class="token punctuation">)</span>
-
-    <span class="token keyword">if</span> <span class="token keyword">not</span> os<span class="token punctuation">.</span>path<span class="token punctuation">.</span>exists<span class="token punctuation">(</span>appid<span class="token punctuation">)</span><span class="token punctuation">:</span>
-        os<span class="token punctuation">.</span>system<span class="token punctuation">(</span><span class="token string">'mkdir '</span> <span class="token operator">+</span> appid<span class="token punctuation">)</span>
-
-    workbook <span class="token operator">=</span> xlsxwriter<span class="token punctuation">.</span>Workbook<span class="token punctuation">(</span>appid <span class="token operator">+</span> <span class="token string">'/'</span> <span class="token operator">+</span> appName <span class="token operator">+</span> <span class="token string">'_comments.xlsx'</span><span class="token punctuation">)</span>
-    worksheet <span class="token operator">=</span> workbook<span class="token punctuation">.</span>add_worksheet<span class="token punctuation">(</span><span class="token punctuation">)</span>
-    <span class="token builtin">format</span> <span class="token operator">=</span> workbook<span class="token punctuation">.</span>add_format<span class="token punctuation">(</span><span class="token punctuation">)</span>
-    <span class="token builtin">format</span><span class="token punctuation">.</span>set_border<span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span>
-    <span class="token builtin">format</span><span class="token punctuation">.</span>set_border<span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span>
-    format_title <span class="token operator">=</span> workbook<span class="token punctuation">.</span>add_format<span class="token punctuation">(</span><span class="token punctuation">)</span>
-    format_title<span class="token punctuation">.</span>set_border<span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span>
-    format_title<span class="token punctuation">.</span>set_bg_color<span class="token punctuation">(</span><span class="token string">'#cccccc'</span><span class="token punctuation">)</span>
-    format_title<span class="token punctuation">.</span>set_align<span class="token punctuation">(</span><span class="token string">'left'</span><span class="token punctuation">)</span>
-    format_title<span class="token punctuation">.</span>set_bold<span class="token punctuation">(</span><span class="token punctuation">)</span>
-    title <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">'作者'</span><span class="token punctuation">,</span> <span class="token string">'标题'</span><span class="token punctuation">,</span> <span class="token string">'评论内容'</span><span class="token punctuation">,</span> <span class="token string">'版本'</span><span class="token punctuation">,</span> <span class="token string">'评级'</span><span class="token punctuation">,</span> <span class="token string">'投票'</span><span class="token punctuation">]</span>
-
-    <span class="token comment"># 设置单元格宽度</span>
-    worksheet<span class="token punctuation">.</span>set_column<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">30</span><span class="token punctuation">)</span>
-    worksheet<span class="token punctuation">.</span>set_column<span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">40</span><span class="token punctuation">)</span>
-    worksheet<span class="token punctuation">.</span>set_column<span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">100</span><span class="token punctuation">)</span>
-    worksheet<span class="token punctuation">.</span>set_column<span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">10</span><span class="token punctuation">)</span>
-    worksheet<span class="token punctuation">.</span>set_column<span class="token punctuation">(</span><span class="token number">4</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">,</span> <span class="token number">10</span><span class="token punctuation">)</span>
-    worksheet<span class="token punctuation">.</span>set_column<span class="token punctuation">(</span><span class="token number">5</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">,</span> <span class="token number">10</span><span class="token punctuation">)</span>
-
-    worksheet<span class="token punctuation">.</span>write_row<span class="token punctuation">(</span><span class="token string">'A1'</span><span class="token punctuation">,</span> title<span class="token punctuation">,</span> format_title<span class="token punctuation">)</span>
-
-    count <span class="token operator">=</span> <span class="token number">0</span>
-
-    total <span class="token operator">=</span> <span class="token number">10</span>
-    totalCount <span class="token operator">=</span> <span class="token number">0</span>
-    <span class="token keyword">for</span> n <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span>total<span class="token punctuation">)</span><span class="token punctuation">:</span>
-        url <span class="token operator">=</span> <span class="token string">'https://itunes.apple.com/rss/customerreviews/page='</span> <span class="token operator">+</span> \
-            <span class="token builtin">str</span><span class="token punctuation">(</span>n<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token string">'/id='</span> <span class="token operator">+</span> <span class="token builtin">str</span><span class="token punctuation">(</span>appid<span class="token punctuation">)</span> <span class="token operator">+</span> \
-            <span class="token string">'/sortby=mostrecent/json?l=en&amp;&amp;cc=kh'</span>
-
-        <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">'当前地址：'</span> <span class="token operator">+</span> url<span class="token punctuation">)</span>
-
-        jsonText <span class="token operator">=</span> getHTMLText<span class="token punctuation">(</span>url<span class="token punctuation">)</span>
-
-        fileName <span class="token operator">=</span> appid <span class="token operator">+</span> <span class="token string">'/'</span> <span class="token operator">+</span> <span class="token builtin">str</span><span class="token punctuation">(</span>n<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token string">'.json'</span>
-
-        data_feed <span class="token operator">=</span> jsonText<span class="token punctuation">[</span><span class="token string">'feed'</span><span class="token punctuation">]</span>
-        entry <span class="token operator">=</span> data_feed<span class="token punctuation">[</span><span class="token string">'entry'</span><span class="token punctuation">]</span>
-        <span class="token keyword">for</span> i <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span><span class="token builtin">len</span><span class="token punctuation">(</span>entry<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
-            value <span class="token operator">=</span> entry<span class="token punctuation">[</span>i<span class="token punctuation">]</span>
-            fixedIndex <span class="token operator">=</span> i <span class="token operator">+</span> <span class="token number">1</span>
-            startRow <span class="token operator">=</span> totalCount <span class="token operator">+</span> <span class="token number">1</span>
-            worksheet<span class="token punctuation">.</span>write<span class="token punctuation">(</span>
-                startRow<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> value<span class="token punctuation">[</span><span class="token string">'author'</span><span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token string">'name'</span><span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token string">'label'</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token builtin">format</span><span class="token punctuation">)</span>
-            worksheet<span class="token punctuation">.</span>write<span class="token punctuation">(</span>startRow<span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> value<span class="token punctuation">[</span><span class="token string">'title'</span><span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token string">'label'</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token builtin">format</span><span class="token punctuation">)</span>
-            worksheet<span class="token punctuation">.</span>write<span class="token punctuation">(</span>startRow<span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> value<span class="token punctuation">[</span><span class="token string">'content'</span><span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token string">'label'</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token builtin">format</span><span class="token punctuation">)</span>
-            worksheet<span class="token punctuation">.</span>write<span class="token punctuation">(</span>
-                startRow<span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> value<span class="token punctuation">[</span><span class="token string">'im:version'</span><span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token string">'label'</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token builtin">format</span><span class="token punctuation">)</span>
-            worksheet<span class="token punctuation">.</span>write<span class="token punctuation">(</span>
-                startRow<span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">,</span> value<span class="token punctuation">[</span><span class="token string">'im:rating'</span><span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token string">'label'</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token builtin">format</span><span class="token punctuation">)</span>
-            worksheet<span class="token punctuation">.</span>write<span class="token punctuation">(</span>
-                startRow<span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">,</span> value<span class="token punctuation">[</span><span class="token string">'im:rating'</span><span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token string">'label'</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token builtin">format</span><span class="token punctuation">)</span>
-            totalCount <span class="token operator">=</span> totalCount <span class="token operator">+</span> <span class="token number">1</span>
-
-        <span class="token keyword">with</span> <span class="token builtin">open</span><span class="token punctuation">(</span>fileName<span class="token punctuation">,</span> <span class="token string">'w'</span><span class="token punctuation">)</span> <span class="token keyword">as</span> <span class="token builtin">file</span><span class="token punctuation">:</span>
-            <span class="token builtin">file</span><span class="token punctuation">.</span>write<span class="token punctuation">(</span>json<span class="token punctuation">.</span>dumps<span class="token punctuation">(</span>jsonText<span class="token punctuation">,</span> sort_keys<span class="token operator">=</span><span class="token boolean">True</span><span class="token punctuation">,</span>
-                                  indent<span class="token operator">=</span><span class="token number">4</span><span class="token punctuation">,</span> ensure_ascii<span class="token operator">=</span><span class="token boolean">False</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
-
-        count <span class="token operator">=</span> count <span class="token operator">+</span> <span class="token number">1</span>
-        <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"当前进度: &#123;:.2f&#125;%"</span><span class="token punctuation">.</span><span class="token builtin">format</span><span class="token punctuation">(</span>count <span class="token operator">*</span> <span class="token number">100</span> <span class="token operator">/</span> total<span class="token punctuation">)</span><span class="token punctuation">,</span> end<span class="token operator">=</span><span class="token string">"\n\n"</span><span class="token punctuation">)</span>
-
-    workbook<span class="token punctuation">.</span>close<span class="token punctuation">(</span><span class="token punctuation">)</span>
-
-
-<span class="token keyword">if</span> __name__ <span class="token operator">==</span> <span class="token string">'__main__'</span><span class="token punctuation">:</span>
-    main<span class="token punctuation">(</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-
-
-<h1 id="Google-Play-App评论获取"><a href="#Google-Play-App评论获取" class="headerlink" title="Google Play App评论获取"></a>Google Play App评论获取</h1><p>谷歌相比苹果而言这方面更加开放，App 数据获取 API 次数不限，而且有 <a href="https://github.com/facundoolano/google-play-scraper">现成的 npm 库</a>，笔芯，感谢开源世界。新建个 node 项目，三下五除二实验了一下，库高效可用，于是开始简单分析数据编写代码，产出如下：</p>
-<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token string">'use strict'</span><span class="token punctuation">;</span>
-
-<span class="token keyword">var</span> gplay <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'google-play-scraper'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token keyword">var</span> fs <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">"fs"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-
-<span class="token comment">// const readline = require('readline').createInterface(&#123;</span>
-<span class="token comment">//   input: process.stdin,</span>
-<span class="token comment">//   output: process.stdout</span>
-<span class="token comment">// &#125;)</span>
-
-<span class="token comment">// readline.question(`请输入 apk 包名：`, (inputText) => &#123;</span>
-<span class="token comment">//   bundle_id = inputText</span>
-<span class="token comment">//   console.log(`包名： $&#123;bundle_id&#125;!`)</span>
-
-<span class="token comment">//   readline.close()</span>
-
-<span class="token comment">//   fs.mkdirSync(bundle_id)</span>
-
-<span class="token comment">//   gplay.reviews(&#123;</span>
-<span class="token comment">//     appId: bundle_id,</span>
-<span class="token comment">//     lang: 'kh'</span>
-<span class="token comment">//   &#125;)</span>
-<span class="token comment">//     .then((body) => &#123;</span>
-<span class="token comment">//       fs.writeFile(`$&#123;bundle_id&#125;/comments.json`, JSON.stringify(body), (err) => &#123;</span>
-<span class="token comment">//         if (err) &#123;</span>
-<span class="token comment">//           console.error(err);</span>
-<span class="token comment">//           return;</span>
-<span class="token comment">//         &#125;;</span>
-<span class="token comment">//         console.log("File has been created");</span>
-<span class="token comment">//       &#125;);</span>
-<span class="token comment">//     &#125;)</span>
-<span class="token comment">// &#125;)</span>
-
-<span class="token keyword">var</span> arr <span class="token operator">=</span> <span class="token punctuation">[</span>
-  <span class="token punctuation">&#123;</span>
-  <span class="token string-property property">'bundle_id'</span><span class="token operator">:</span> <span class="token string">'com.pipay.app.android'</span><span class="token punctuation">,</span>
-  <span class="token string-property property">'name'</span><span class="token operator">:</span> <span class="token string">'PiPay'</span>
-<span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
-<span class="token comment">// &#123;</span>
-<span class="token comment">//   'bundle_id': 'com.aeon_cambodia.rielpay',</span>
-<span class="token comment">//   'name': 'AEON Wallet'</span>
-<span class="token comment">// &#125;,</span>
-<span class="token comment">// &#123;</span>
-<span class="token comment">//   'bundle_id': 'com.wingmoney.wingpay',</span>
-<span class="token comment">//   'name': 'Wing Money'</span>
-<span class="token comment">// &#125;,</span>
-<span class="token comment">// &#123;</span>
-<span class="token comment">//   'bundle_id': 'th.co.truemoney.wallet',</span>
-<span class="token comment">//   'name': 'True Money'</span>
-<span class="token comment">// &#125;</span>
-<span class="token punctuation">]</span>
-
-<span class="token keyword">const</span> total <span class="token operator">=</span> <span class="token number">50</span>
-
-<span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">let</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> arr<span class="token punctuation">.</span>length<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-  <span class="token keyword">const</span> object <span class="token operator">=</span> arr<span class="token punctuation">[</span>i<span class="token punctuation">]</span>
-  <span class="token keyword">var</span> bundle_id<span class="token punctuation">,</span> name
-  <span class="token keyword">if</span> <span class="token punctuation">(</span>object<span class="token punctuation">.</span><span class="token function">hasOwnProperty</span><span class="token punctuation">(</span><span class="token string">'bundle_id'</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-    bundle_id <span class="token operator">=</span> object<span class="token punctuation">[</span><span class="token string">'bundle_id'</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
-
-    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>fs<span class="token punctuation">.</span><span class="token function">existsSync</span><span class="token punctuation">(</span>bundle_id<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-      fs<span class="token punctuation">.</span><span class="token function">mkdirSync</span><span class="token punctuation">(</span>bundle_id<span class="token punctuation">)</span>
-    <span class="token punctuation">&#125;</span>
-  <span class="token punctuation">&#125;</span>
-  <span class="token keyword">if</span> <span class="token punctuation">(</span>object<span class="token punctuation">.</span><span class="token function">hasOwnProperty</span><span class="token punctuation">(</span><span class="token string">'bundle_id'</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-    name <span class="token operator">=</span> object<span class="token punctuation">[</span><span class="token string">'name'</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
-  <span class="token punctuation">&#125;</span>
-
-  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">包名：</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">$&#123;</span>bundle_id<span class="token interpolation-punctuation punctuation">&#125;</span></span><span class="token string">  应用名：</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">$&#123;</span>name<span class="token interpolation-punctuation punctuation">&#125;</span></span><span class="token template-punctuation string">`</span></span><span class="token punctuation">)</span>
-
-  <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">let</span> index <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> index <span class="token operator">&lt;</span> total<span class="token punctuation">;</span> index<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-    gplay<span class="token punctuation">.</span><span class="token function">reviews</span><span class="token punctuation">(</span><span class="token punctuation">&#123;</span>
-      <span class="token literal-property property">appId</span><span class="token operator">:</span> bundle_id<span class="token punctuation">,</span>
-      <span class="token literal-property property">lang</span><span class="token operator">:</span> <span class="token string">'kh'</span><span class="token punctuation">,</span>
-      <span class="token literal-property property">page</span><span class="token operator">:</span> index
-    <span class="token punctuation">&#125;</span><span class="token punctuation">)</span>
-      <span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token parameter">body</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">&#123;</span>
-        <span class="token keyword">if</span> <span class="token punctuation">(</span>body<span class="token punctuation">.</span>length <span class="token operator">></span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-          fs<span class="token punctuation">.</span><span class="token function">writeFile</span><span class="token punctuation">(</span><span class="token template-string"><span class="token template-punctuation string">`</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">$&#123;</span>bundle_id<span class="token interpolation-punctuation punctuation">&#125;</span></span><span class="token string">/</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">$&#123;</span>index<span class="token interpolation-punctuation punctuation">&#125;</span></span><span class="token string">.json</span><span class="token template-punctuation string">`</span></span><span class="token punctuation">,</span> <span class="token constant">JSON</span><span class="token punctuation">.</span><span class="token function">stringify</span><span class="token punctuation">(</span>body<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token parameter">err</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">&#123;</span>
-            <span class="token keyword">if</span> <span class="token punctuation">(</span>err<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-              console<span class="token punctuation">.</span><span class="token function">error</span><span class="token punctuation">(</span>err<span class="token punctuation">)</span><span class="token punctuation">;</span>
-              <span class="token keyword">return</span><span class="token punctuation">;</span>
-            <span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
-            console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">成功写入文件 </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">$&#123;</span>bundle_id<span class="token interpolation-punctuation punctuation">&#125;</span></span><span class="token string">/</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">$&#123;</span>index<span class="token interpolation-punctuation punctuation">&#125;</span></span><span class="token string">.json</span><span class="token template-punctuation string">`</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-          <span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token punctuation">&#125;</span> <span class="token keyword">else</span> <span class="token punctuation">&#123;</span>
-          console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'无更多评论'</span><span class="token punctuation">)</span>
-        <span class="token punctuation">&#125;</span>
-      <span class="token punctuation">&#125;</span><span class="token punctuation">)</span>
-  <span class="token punctuation">&#125;</span>
-<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<p>抓取后评论数据本地存档，如下：</p>
-<pre class="line-numbers language-none"><code class="language-none">➜ ls th.co.truemoney.wallet
-0.json                          35.json                         61.json
-1.json                          36.json                         62.json
-10.json                         37.json                         63.json
-11.json                         38.json                         64.json
-12.json                         39.json                         65.json
-13.json                         4.json                          66.json
-14.json                         40.json                         67.json
-15.json                         41.json                         68.json
-16.json                         42.json                         69.json
-17.json                         43.json                         7.json
-18.json                         44.json                         70.json
-19.json                         45.json                         71.json
-2.json                          46.json                         72.json
-20.json                         47.json                         73.json
-21.json                         48.json                         74.json
-...<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<h1 id="将数据生成-Excel-并简单美化"><a href="#将数据生成-Excel-并简单美化" class="headerlink" title="将数据生成 Excel 并简单美化"></a>将数据生成 Excel 并简单美化</h1><h2 id="for-AppStore"><a href="#for-AppStore" class="headerlink" title="for AppStore"></a>for AppStore</h2><pre class="line-numbers language-none"><code class="language-none">#!&#x2F;usr&#x2F;bin&#x2F;python3
-# -*- coding: utf-8 -*-
-
-import xlsxwriter
-import json
-import os
-from googletrans import Translator
-import sys
-sys.path.append(&quot;..&quot;)
-from mtranslate.mtranslate import translate
-
-# translator &#x3D; Translator()
-# print(translator.translate(&#39;មិចញុមវាយលេខចូលហើយមិចក៏មិនអោយ&#39;, dest&#x3D;&#39;zh-CN&#39;).text)
-
-arr &#x3D; [&#123;
-    &#39;id&#39;: &#39;1234143591&#39;,
-    &#39;name&#39;: &#39;PiPay&#39;
-    &#125;,
-        &#123;
-    &#39;id&#39;: &#39;1328330562&#39;,
-    &#39;name&#39;: &#39;AEON Wallet&#39;
-    &#125;,
-        &#123;
-    &#39;id&#39;: &#39;1113286385&#39;,
-    &#39;name&#39;: &#39;Wing Money&#39;
-    &#125;,
-        &#123;
-    &#39;id&#39;: &#39;1162466939&#39;,
-        &#39;name&#39;: &#39;True Money&#39;
-&#125;]
-
-
-def translateToChinese(text):
-    translator &#x3D; Translator()
-
-    try:
-        return translator.translate(text, dest&#x3D;&#39;zh-CN&#39;).text
-    except print(0):
-        return text
-
-
-def main():
-
-    for item in arr:
-        appid &#x3D; item[&#39;id&#39;]
-        name &#x3D; item[&#39;name&#39;]
-
-        # appid &#x3D; input(&quot;请输入应用id号:&quot;)
-        # name &#x3D; input(&quot;请输入应用名称:&quot;)
-
-        workbook &#x3D; xlsxwriter.Workbook(
-            str(appid) + &#39;&#x2F;&#39; + name + &#39;_comments.xlsx&#39;)
-        worksheet &#x3D; workbook.add_worksheet()
-        format &#x3D; workbook.add_format()
-        format.set_border(1)
-        format.set_border(1)
-        format_title &#x3D; workbook.add_format()
-        format_title.set_border(1)
-        format_title.set_bg_color(&#39;#cccccc&#39;)
-        format_title.set_align(&#39;left&#39;)
-        format_title.set_bold()
-        title &#x3D; [&#39;作者&#39;, &#39;标题&#39;, &#39;评论内容&#39;, &#39;版本&#39;, &#39;评级&#39;, &#39;投票&#39;]
-
-        # 设置单元格宽度
-        worksheet.set_column(0, 0, 30)
-        worksheet.set_column(1, 1, 40)
-        worksheet.set_column(2, 2, 100)
-        worksheet.set_column(3, 3, 10)
-        worksheet.set_column(4, 4, 10)
-        worksheet.set_column(5, 5, 10)
-
-        worksheet.write_row(&#39;A1&#39;, title, format_title)
-
-        total &#x3D; 50
-        totalCount &#x3D; 0
-        for n in range(total):
-            fileName &#x3D; appid + &#39;&#x2F;&#39; + str(n) + &#39;.json&#39;
-            if not os.path.exists(fileName):
-                continue
-
-            with open(fileName, &#39;r&#39;) as file:
-                result &#x3D; json.load(file)
-                data_feed &#x3D; result[&#39;feed&#39;]
-                entry &#x3D; data_feed[&#39;entry&#39;]
-                for i in range(len(entry)):
-                    value &#x3D; entry[i]
-                    fixedIndex &#x3D; i + 1
-                    startRow &#x3D; totalCount + 1
-                    worksheet.write(
-                        startRow, 0, value[&#39;author&#39;][&#39;name&#39;][&#39;label&#39;], format)
-                    worksheet.write(startRow, 1, value[&#39;title&#39;][&#39;label&#39;], format)
-                    worksheet.write(
-                        startRow, 2, translate(value[&#39;content&#39;][&#39;label&#39;], &#39;zh-CN&#39;), format)
-                        # startRow, 2,value[&#39;content&#39;][&#39;label&#39;], format)
-                    worksheet.write(
-                        startRow, 3, value[&#39;im:version&#39;][&#39;label&#39;], format)
-                    worksheet.write(
-                        startRow, 4, value[&#39;im:rating&#39;][&#39;label&#39;], format)
-                    worksheet.write(
-                        startRow, 5, value[&#39;im:rating&#39;][&#39;label&#39;], format)
-                    totalCount &#x3D; totalCount + 1
-
-        workbook.close()
-
-
-if __name__ &#x3D;&#x3D; &#39;__main__&#39;:
-    main()<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<h2 id="for-Google-Play"><a href="#for-Google-Play" class="headerlink" title="for Google Play"></a>for Google Play</h2><pre class="line-numbers language-none"><code class="language-none">#!&#x2F;usr&#x2F;bin&#x2F;python3
-# -*- coding: utf-8 -*-
-
-import xlsxwriter
-import json
-import os
-from googletrans import Translator
-import sys
-sys.path.append(&quot;..&quot;)
-from mtranslate.mtranslate import translate
-
-# translator &#x3D; Translator()
-# print(translator.translate(&#39;មិចញុមវាយលេខចូលហើយមិចក៏មិនអោយ&#39;, dest&#x3D;&#39;zh-CN&#39;).text)
-# print(translate(&#39;មិចញុមវាយលេខចូលហើយមិចក៏មិនអោយ&#39;, &#39;zh-CN&#39;))
-
-arr &#x3D; [&#123;
-    &#39;bundle_id&#39;: &#39;com.pipay.app.android&#39;,
-    &#39;name&#39;: &#39;PiPay&#39;
-# &#125;,
-#     &#123;
-    # &#39;bundle_id&#39;: &#39;com.aeon_cambodia.rielpay&#39;,
-    # &#39;name&#39;: &#39;AEON Wallet&#39;
-# &#125;,
-#     &#123;
-    # &#39;bundle_id&#39;: &#39;com.wingmoney.wingpay&#39;,
-    # &#39;name&#39;: &#39;Wing Money&#39;
-# &#125;,
-#     &#123;
-    # &#39;bundle_id&#39;: &#39;th.co.truemoney.wallet&#39;,
-    # &#39;name&#39;: &#39;True Money&#39;
-&#125;]
-
-def translateToChinese(text):
-    translator &#x3D; Translator()
-
-    try:
-        return translator.translate(text, dest&#x3D;&#39;zh-CN&#39;).text
-    except print(0):
-        return text
-
-
-def main():
-
-    for item in arr:
-        bundle_id &#x3D; item[&#39;bundle_id&#39;]
-        name &#x3D; item[&#39;name&#39;]
-
-    # appid &#x3D; input(&quot;请输入应用id号:&quot;)
-    # appName &#x3D; input(&quot;请输入应用名称:&quot;)
-
-        workbook &#x3D; xlsxwriter.Workbook(
-            bundle_id + &#39;&#x2F;&#39; + name + &#39;_comments.xlsx&#39;)
-        worksheet &#x3D; workbook.add_worksheet()
-        format &#x3D; workbook.add_format()
-        format.set_border(1)
-        format.set_border(1)
-        format_title &#x3D; workbook.add_format()
-        format_title.set_border(1)
-        format_title.set_bg_color(&#39;#cccccc&#39;)
-        format_title.set_align(&#39;left&#39;)
-        format_title.set_bold()
-        title &#x3D; [&#39;作者&#39;, &#39;标题&#39;, &#39;评论内容&#39;, &#39;日期&#39;, &#39;评分&#39;, &#39;头像&#39;]
-
-        # 设置单元格宽度
-        worksheet.set_column(0, 0, 30)
-        worksheet.set_column(1, 1, 30)
-        worksheet.set_column(2, 2, 100)
-        worksheet.set_column(3, 3, 20)
-        worksheet.set_column(4, 4, 10)
-        worksheet.set_column(5, 5, 120)
-
-        worksheet.write_row(&#39;A1&#39;, title, format_title)
-
-        total &#x3D; 50
-        totalCount &#x3D; 0
-        for n in range(total):
-            fileName &#x3D; bundle_id + &#39;&#x2F;&#39; + str(n) + &#39;.json&#39;
-            if not os.path.exists(fileName):
-                continue
-
-            with open(fileName, &#39;r&#39;) as file:
-                result &#x3D; json.load(file)
-                entry &#x3D; result
-                for i in range(len(entry)):
-                    value &#x3D; entry[i]
-                    fixedIndex &#x3D; i + 1
-                    startRow &#x3D; totalCount + 1
-                    worksheet.write(
-                        startRow, 0, value[&#39;userName&#39;], format)
-                    worksheet.write(
-                        startRow, 1, value[&#39;title&#39;], format)
-                    worksheet.write(
-                        startRow, 2, translate(value[&#39;text&#39;], &#39;zh-CN&#39;), format)
-                    worksheet.write(
-                        startRow, 3, value[&#39;date&#39;], format)
-                    worksheet.write(
-                        startRow, 4, value[&#39;score&#39;], format)
-                    worksheet.write(
-                        startRow, 5, value[&#39;userImage&#39;], format)
-                    totalCount &#x3D; totalCount + 1
-
-        workbook.close()
-
-if __name__ &#x3D;&#x3D; &#39;__main__&#39;:
-    pass
-    main()<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<h1 id="Excuse-me？"><a href="#Excuse-me？" class="headerlink" title="Excuse me？"></a>Excuse me？</h1><p>整理下数据发给产品，准备继续撸 Swift 搬砖了，产品又跟我说发现个大问题，几千条评论全是英语和高棉语，看不懂！！！好吧，给你翻译（谷歌翻译）。随便一 google，谷歌有免费的 python API 的开源库 <a href="https://pypi.org/project/googletrans/">googletrans</a>，看看介绍</p>
-<blockquote>
-<p>Googletrans is a free and unlimited python library that implemented Google Translate API. This uses the Google Translate Ajax API to make calls to such methods as detect and translate.<br>Compatible with Python 2.7+ and 3.4+. (Note: Python 2 support will be dropped in the next major release.)<br>For details refer to the API Documentation.</p>
-</blockquote>
-<p>太棒了，还无限制，两三行代码就能使用，关键代码：</p>
-<pre class="line-numbers language-none"><code class="language-none">from googletrans import Translator
-
-translator &#x3D; Translator()
-print(translator.translate(&#39;មិចញុមវាយលេខចូលហើយមិចក៏មិនអោយ&#39;, dest&#x3D;&#39;zh-CN&#39;).text)<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
-
-<p>但数据量比较大，亲测使用该方式翻译速度较慢，于是找到 <a href="https://github.com/mouuff/mtranslate">mtranslate</a> ，其是对 <code>googletrans </code>的一个封装，可以稍微加快翻译速度，最后使用该库完成翻译，代码就几行：</p>
-<pre class="line-numbers language-none"><code class="language-none">from mtranslate.mtranslate import translate
-
-print(translate(&#39;មិចញុមវាយលេខចូលហើយមិចក៏មិនអោយ&#39;, &#39;zh-CN&#39;))<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
-
-<p>PS：翻译库 JavaScript 版本的可以使用 <a href="https://github.com/matheuss/google-translate-api">google-translate-api</a></p>
-<h1 id="效果图"><a href="#效果图" class="headerlink" title="效果图"></a>效果图</h1><img src="/images/app_comments/example.jpg"/>
-<img src="/images/app_comments/google_play.jpg"/>
-
-<h1 id="完整-Demo-地址"><a href="#完整-Demo-地址" class="headerlink" title="完整 Demo 地址"></a>完整 Demo 地址</h1><p>附上 <a href="https://github.com/wangwanjie/fetch-appstore-comments">github 完整项目地址</a></p>
-]]></content>
-      <categories>
-        <category>爬虫</category>
-      </categories>
-      <tags>
-        <tag>Python</tag>
-        <tag>爬虫</tag>
-        <tag>JavaScript</tag>
-        <tag>SEO</tag>
-      </tags>
   </entry>
   <entry>
     <title>解决公司运维网络限制的两种办法</title>

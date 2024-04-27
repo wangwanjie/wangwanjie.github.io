@@ -6,7 +6,7 @@
   <link href="https://blog.vanjay.cn/atom.xml" rel="self"/>
   
   <link href="https://blog.vanjay.cn/"/>
-  <updated>2024-04-27T10:49:12.595Z</updated>
+  <updated>2024-04-27T11:24:11.278Z</updated>
   <id>https://blog.vanjay.cn/</id>
   
   <author>
@@ -21,7 +21,7 @@
     <link href="https://blog.vanjay.cn/2024/04/27/iptables-%E6%B7%B7%E4%B9%B1%E5%A4%84%E7%90%86%E5%A4%A7%E6%B3%95/"/>
     <id>https://blog.vanjay.cn/2024/04/27/iptables-%E6%B7%B7%E4%B9%B1%E5%A4%84%E7%90%86%E5%A4%A7%E6%B3%95/</id>
     <published>2024-04-27T10:14:52.000Z</published>
-    <updated>2024-04-27T10:49:12.595Z</updated>
+    <updated>2024-04-27T11:24:11.278Z</updated>
     
     
     <summary type="html">&lt;p&gt;在使用Linux系统的过程中，由于误操作或第三方软件（例如Docker）的介入，经常会发现iptables规则被意外修改，导致某些功能不按预期工作。例如，即使添加了相应的规则，它们也可能不生效。在清楚了解本机环境和服务的情况下，一个有效的解决策略是清空所有规则并重新添加。&lt;/p&gt;</summary>
