@@ -6,7 +6,7 @@
   <link href="https://blog.vanjay.cn/atom.xml" rel="self"/>
   
   <link href="https://blog.vanjay.cn/"/>
-  <updated>2024-09-25T02:55:25.710Z</updated>
+  <updated>2024-09-25T02:59:09.663Z</updated>
   <id>https://blog.vanjay.cn/</id>
   
   <author>
@@ -21,13 +21,21 @@
     <link href="https://blog.vanjay.cn/2024/09/25/%E7%8E%B0%E6%9C%89%E5%B7%A5%E7%A8%8B-Xcode-16-%E9%80%82%E9%85%8D%E6%8C%87%E5%8D%97/"/>
     <id>https://blog.vanjay.cn/2024/09/25/%E7%8E%B0%E6%9C%89%E5%B7%A5%E7%A8%8B-Xcode-16-%E9%80%82%E9%85%8D%E6%8C%87%E5%8D%97/</id>
     <published>2024-09-25T01:58:52.000Z</published>
-    <updated>2024-09-25T02:55:25.710Z</updated>
+    <updated>2024-09-25T02:59:09.663Z</updated>
     
     
     <summary type="html">&lt;p&gt;现有工程 Xcode 16 适配，备忘&lt;/p&gt;</summary>
     
     
     
+    <category term="iOS" scheme="https://blog.vanjay.cn/categories/iOS/"/>
+    
+    
+    <category term="iOS" scheme="https://blog.vanjay.cn/tags/iOS/"/>
+    
+    <category term="Xcode" scheme="https://blog.vanjay.cn/tags/Xcode/"/>
+    
+    <category term="iOS工程适配" scheme="https://blog.vanjay.cn/tags/iOS%E5%B7%A5%E7%A8%8B%E9%80%82%E9%85%8D/"/>
     
   </entry>
   

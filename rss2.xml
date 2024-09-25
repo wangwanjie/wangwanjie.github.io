@@ -15,7 +15,7 @@
     <atom:link href="https://blog.vanjay.cn/rss2.xml" rel="self" type="application/rss+xml"/>
     
     <description>成功不是将来才有的&lt;br&gt;而是决定去做的那一刻起&lt;br&gt;持续累积而成</description>
-    <pubDate>Wed, 25 Sep 2024 02:55:25 GMT</pubDate>
+    <pubDate>Wed, 25 Sep 2024 02:59:09 GMT</pubDate>
     <generator>http://hexo.io/</generator>
     
     <item>
@@ -29,6 +29,14 @@
       
       
       
+      <category domain="https://blog.vanjay.cn/categories/iOS/">iOS</category>
+      
+      
+      <category domain="https://blog.vanjay.cn/tags/iOS/">iOS</category>
+      
+      <category domain="https://blog.vanjay.cn/tags/Xcode/">Xcode</category>
+      
+      <category domain="https://blog.vanjay.cn/tags/iOS%E5%B7%A5%E7%A8%8B%E9%80%82%E9%85%8D/">iOS工程适配</category>
       
       
       <comments>https://blog.vanjay.cn/2024/09/25/%E7%8E%B0%E6%9C%89%E5%B7%A5%E7%A8%8B-Xcode-16-%E9%80%82%E9%85%8D%E6%8C%87%E5%8D%97/#disqus_thread</comments>
