@@ -961,6 +961,119 @@ http_server <span class="token operator">=</span> WSGIServer<span class="token p
       </tags>
   </entry>
   <entry>
+    <title>CentOS 7 下 Docker 和 Docker-Compose 的安装与使用</title>
+    <url>/2021/06/14/CentOS-7-%E4%B8%8B-Docker-%E5%92%8C-Docker-Compose-%E7%9A%84%E5%AE%89%E8%A3%85%E4%B8%8E%E4%BD%BF%E7%94%A8/</url>
+    <content><![CDATA[<h2 id="需求背景"><a href="#需求背景" class="headerlink" title="需求背景"></a>需求背景</h2><p>随着微服务架构的流行，如何高效、快速地部署和管理各种服务成为了一个问题。传统的部署方式，如手动安装配置环境、手动部署和更新应用，不仅耗费人力物力，而且容易出错，且不易复制和扩展。</p>
+<p>为了解决这个问题，Docker诞生了。Docker是一个开源的应用容器引擎，允许开发者打包他们的应用以及依赖包到一个可移植的容器中，然后发布到任何流行的Linux机器或Windows机器上，也可以实现虚拟化。容器是完全沙盒机制，相互之间不会有任何接口。</p>
+<span id="more"></span>
+
+<p>Docker带来的好处包括：</p>
+<ul>
+<li>环境一致性：解决了”在我机器上可以运行”的问题。无论在开发、测试还是生产环境，Docker都可以确保环境的一致性。</li>
+<li>便捷的版本控制和分发：Docker的镜像（Image）提供了版本控制的功能，可以方便地回滚到旧版本。而且，Docker的镜像可以通过Docker Hub等平台进行共享和分发，方便了应用的部署和传播。</li>
+<li>隔离性：每个Docker容器都在自己的环境中运行，不会影响其他的容器。这为应用提供了良好的安全性。</li>
+<li>轻量性和性能高：Docker容器是在宿主机的内核上直接运行，没有传统虚拟化技术的额外开销，所以运行速度快，资源占用小。</li>
+</ul>
+<p>接下来，我们会详细介绍在CentOS 7下如何安装和使用Docker以及Docker-Compose。</p>
+<h2 id="CentOS-7-下-Docker-和-Docker-Compose-的安装"><a href="#CentOS-7-下-Docker-和-Docker-Compose-的安装" class="headerlink" title="CentOS 7 下 Docker 和 Docker-Compose 的安装"></a>CentOS 7 下 Docker 和 Docker-Compose 的安装</h2><p>首先，我们需要在CentOS 7下安装Docker。你可以通过以下步骤进行安装：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 卸载旧版本(如果安装过的话)</span>
+<span class="token function">sudo</span> yum remove <span class="token function">docker</span> <span class="token punctuation">\</span>
+                  docker-client <span class="token punctuation">\</span>
+                  docker-client-latest <span class="token punctuation">\</span>
+                  docker-common <span class="token punctuation">\</span>
+                  docker-latest <span class="token punctuation">\</span>
+                  docker-latest-logrotate <span class="token punctuation">\</span>
+                  docker-logrotate <span class="token punctuation">\</span>
+                  docker-engine<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h2 id="安装一些必要的系统工具"><a href="#安装一些必要的系统工具" class="headerlink" title="安装一些必要的系统工具"></a>安装一些必要的系统工具</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">sudo</span> yum <span class="token function">install</span> <span class="token parameter variable">-y</span> yum-utils device-mapper-persistent-data lvm2<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h2 id="添加软件源信息"><a href="#添加软件源信息" class="headerlink" title="添加软件源信息"></a>添加软件源信息</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">sudo</span> yum-config-manager --add-repo http://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo
+<span class="token comment">## 更新 yum 缓存</span>
+<span class="token function">sudo</span> yum makecache all
+<span class="token comment">## 安装 Docker-ce</span>
+<span class="token function">sudo</span> yum <span class="token parameter variable">-y</span> <span class="token function">install</span> docker-ce<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>安装完 Docker 之后，启动 Docker：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">sudo</span> systemctl start <span class="token function">docker</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>在安装完 Docker 之后，你可以通过以下命令来检查 Docker 是否安装成功：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">sudo</span> <span class="token function">docker</span> run hello-world<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>如果能看到 “Hello from Docker!” 的消息，说明 Docker 已经成功安装并运行。</p>
+<p>接下来我们将安装 Docker Compose。Docker Compose 是 Docker 的一个编排工具，可以用来定义和管理多个 Docker 容器。</p>
+<p>首先，下载最新版本的 Docker Compose：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">curl</span> <span class="token parameter variable">-L</span> https://github.com/docker/compose/releases/download/v2.17.3/docker-compose-linux-aarch64 <span class="token parameter variable">-o</span> /usr/local/bin/docker-compose<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>然后，设置文件的可执行权限：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">sudo</span> <span class="token function">chmod</span> +x /usr/local/bin/docker-compose<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>你可以通过以下命令来检查 Docker Compose 是否安装成功：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">docker-compose</span> <span class="token parameter variable">--version</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>如果能看到 Docker Compose 的版本信息，说明 Docker Compose 已经成功安装。</p>
+<h3 id="Docker-的常用命令和操作"><a href="#Docker-的常用命令和操作" class="headerlink" title="Docker 的常用命令和操作"></a>Docker 的常用命令和操作</h3><p>在安装完 Docker 之后，你可能会用到以下一些常用的命令和操作：</p>
+<ul>
+<li>查看 Docker 进程：docker ps</li>
+<li>查看所有 Docker 容器（包括停止的）：docker ps -a</li>
+<li>在 Docker 容器中执行命令：docker exec -it <container_id> <command></li>
+<li>运行 Docker 容器：docker run -d -p <host_port>:<container_port> <image></li>
+<li>停止 Docker 容器：docker stop <container_id></li>
+<li>删除 Docker 容器：docker rm <container_id></li>
+<li>删除 Docker 镜像：docker rmi <image_id></li>
+</ul>
+<h4 id="docker-inspect-命令"><a href="#docker-inspect-命令" class="headerlink" title="docker inspect 命令"></a>docker inspect 命令</h4><p>这个命令用于返回 Docker 对象的底层信息。这个对象可以是容器、镜像、卷、网络等。docker inspect 返回一个 JSON 对象，包含了 Docker 对象的所有配置和状态信息。例如，如果你想查看一个正在运行的容器的 IP 地址，你可以使用 docker inspect 命令，然后从返回的 JSON 对象中查找相应的字段。<br>使用示例：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">docker</span> inspect container_name_or_id
+root@iZj6cgd384kfewiompdstqZ <span class="token punctuation">[</span>02时10分38秒<span class="token punctuation">]</span> <span class="token punctuation">[</span>/var/www/blog<span class="token punctuation">]</span> <span class="token punctuation">[</span>master<span class="token punctuation">]</span>
+-<span class="token operator">></span> <span class="token comment"># docker inspect a0974a35724f | grep RestartPolicy -A 2</span>
+            <span class="token string">"RestartPolicy"</span><span class="token builtin class-name">:</span> <span class="token punctuation">&#123;</span>
+                <span class="token string">"Name"</span><span class="token builtin class-name">:</span> <span class="token string">"always"</span>,
+                <span class="token string">"MaximumRetryCount"</span><span class="token builtin class-name">:</span> <span class="token number">0</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h4 id="docker-stats-–all-命令"><a href="#docker-stats-–all-命令" class="headerlink" title="docker stats –all 命令"></a>docker stats –all 命令</h4><p>这个命令用于实时显示 Docker 容器的资源使用情况，包括 CPU 使用率、内存使用量、网络 I&#x2F;O、磁盘 I&#x2F;O 等。–all 或 -a 选项表示显示所有容器的资源使用情况，而不仅仅是正在运行的容器。<br>使用示例：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">docker</span> stats <span class="token parameter variable">--all</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>这两个命令是 Docker 命令行工具中非常有用的工具，可以帮助你理解和管理 Docker 容器的状态和资源使用情况。</p>
+<h3 id="Docker-compose-的常用命令和操作"><a href="#Docker-compose-的常用命令和操作" class="headerlink" title="Docker-compose 的常用命令和操作"></a>Docker-compose 的常用命令和操作</h3><p>在Compose中，你可以用YAML文件定义服务需要的环境，然后通过一个命令就可以从这个配置中创建并启动所有服务。以下是一些常用的Docker Compose命令：</p>
+<p>####启动、停止和重启服务</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">docker-compose</span> up      <span class="token comment"># 启动服务</span>
+<span class="token function">docker-compose</span> stop    <span class="token comment"># 停止服务</span>
+<span class="token function">docker-compose</span> restart <span class="token comment"># 重启服务</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<h4 id="列出服务的状态"><a href="#列出服务的状态" class="headerlink" title="列出服务的状态"></a>列出服务的状态</h4><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">docker-compose</span> <span class="token function">ps</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h4 id="查看输出（类似于docker-logs）"><a href="#查看输出（类似于docker-logs）" class="headerlink" title="查看输出（类似于docker logs）"></a>查看输出（类似于docker logs）</h4><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">docker-compose</span> logs<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h4 id="执行命令"><a href="#执行命令" class="headerlink" title="执行命令"></a>执行命令</h4><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">docker-compose</span> <span class="token builtin class-name">exec</span> service_name <span class="token builtin class-name">command</span> <span class="token comment"># 例如: docker-compose exec db psql -U postgres</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h4 id="删除和重建服务"><a href="#删除和重建服务" class="headerlink" title="删除和重建服务"></a>删除和重建服务</h4><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">docker-compose</span> down       <span class="token comment"># 停止和删除容器</span>
+<span class="token function">docker-compose</span> build      <span class="token comment"># 构建或者重新构建服务</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<h4 id="拉取和推送服务"><a href="#拉取和推送服务" class="headerlink" title="拉取和推送服务"></a>拉取和推送服务</h4><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">docker-compose</span> pull      <span class="token comment"># 拉取服务的最新镜像</span>
+<span class="token function">docker-compose</span> push      <span class="token comment"># 推送服务镜像至registry</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<p>注意：以上的命令需要在包含docker-compose.yml文件的目录中运行。如果你的docker-compose文件名不是默认的docker-compose.yml，你需要使用-f参数指定文件名，例如 docker-compose -f my-docker-compose.yml up。</p>
+<h2 id="端口映射"><a href="#端口映射" class="headerlink" title="端口映射"></a>端口映射</h2><p>你可以通过使用-p选项在运行容器时指定端口映射<br><code>-p</code>选项允许你将容器内的端口映射到宿主机的端口。其格式为<code>-p &lt;host-port&gt;:&lt;container-port&gt;</code>。例如，如果你有一个在容器的80端口上运行的web服务器，你希望将其映射到宿主机的8080端口上，你可以使用以下命令：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">docker</span> run <span class="token parameter variable">-p</span> <span class="token number">8080</span>:80 <span class="token parameter variable">-d</span> my-web-app<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>在这个例子中，任何发送到宿主机8080端口的请求都会被转发到容器的80端口。</p>
+<h2 id="卷映射"><a href="#卷映射" class="headerlink" title="卷映射"></a>卷映射</h2><p><code>-v</code>选项允许你将宿主机的文件或目录映射到容器内的文件或目录。其格式为<code>-v &lt;host-path&gt;:&lt;container-path&gt;</code>。例如，如果你希望将宿主机的<code>/home/user/data</code>目录映射到容器的<code>/app/data</code>目录，你可以使用以下命令：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">docker</span> run <span class="token parameter variable">-v</span> /home/user/data:/app/data <span class="token parameter variable">-d</span> my-app<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>在这个例子中，容器内的<code>/app/data</code>目录将直接映射到宿主机的<code>/home/user/data</code>目录，任何对这个目录的修改（无论是在宿主机上还是在容器内）都会立即反映到另一方。</p>
+<p>这两种映射方式都是Docker灵活性的重要表现，它们使得容器能够更好地与宿主机进行交互和数据共享。</p>
+<h2 id="Docker-和-Docker-Compose-的优势和适用场景"><a href="#Docker-和-Docker-Compose-的优势和适用场景" class="headerlink" title="Docker 和 Docker-Compose 的优势和适用场景"></a>Docker 和 Docker-Compose 的优势和适用场景</h2><p>Docker 的主要优点在于它能够提供一致的运行环境，解决了 “在我机器上可以运行” 的问题。它还能够提供隔离的环境，使得应用不会相互影响。此外，Docker 还非常轻量级，运行速度快，资源占用小。</p>
+<p>Docker-Compose 的主要优点在于它可以通过一个 YAML 文件来定义多个 Docker 容器，使得管理多个 Docker 容器变得非常方便。而且，Docker-Compose 还可以方便地管理容器之间的关系，如网络、存储等。</p>
+<p>总的来说，如果你需要快速地部署和管理应用，那么 Docker 和 Docker-Compose 都是非常好的工具。如果你需要管理多个相互关联的 Docker 容器，那么 Docker-Compose 就显得更为有用了。</p>
+<h2 id="补充"><a href="#补充" class="headerlink" title="补充"></a>补充</h2><p>在上述内容中，我们已经讲解了Docker和Docker Compose在CentOS 7下的安装过程，以及一些基本的使用命令。然而，Docker的生态系统非常丰富，有很多其他的功能和特性也值得探索和学习。这里，我将补充一些额外的点：</p>
+<ul>
+<li>Dockerfile： Dockerfile是创建Docker镜像的基础，它是一个文本文件，包含了一系列命令来创建和设置一个新的Docker镜像。学习如何编写Dockerfile，可以帮助你创建适应你的应用需求的定制镜像。</li>
+<li>Docker Registry： Docker Registry是存储Docker镜像的地方。最常见的公共registry是Docker Hub，但你也可以设置自己的私有registry。学习如何使用registry，可以帮助你更好地管理你的Docker镜像。</li>
+<li>Docker网络： Docker提供了多种网络配置选项，以满足不同的需求。例如，你可以创建一个网络，让容器可以在此网络中相互通信，或者可以将一个容器连接到多个网络。</li>
+<li>Docker存储： Docker提供了多种存储选项，如volumes，bind mounts和tmpfs mounts，用于持久化容器数据或共享数据。</li>
+<li>Docker安全： 虽然Docker提供了隔离环境，但仍需关注安全性。例如，需要定期更新镜像以获取最新的安全更新，限制容器的权限，避免在容器中运行root用户等。</li>
+</ul>
+<p>总之，Docker是一个强大且灵活的工具，无论你是在开发环境中快速部署应用，还是在生产环境中运行和扩展应用，它都能提供巨大的帮助。不过，像任何技术一样，最好的使用方式是根据你自己的具体需求和场景去使用它。</p>
+]]></content>
+      <categories>
+        <category>服务器</category>
+        <category>容器化</category>
+        <category>运维</category>
+      </categories>
+      <tags>
+        <tag>docker</tag>
+        <tag>centos</tag>
+        <tag>docker-compose</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Hexo 中为多说添加最近访客</title>
     <url>/2017/03/17/Hexo-%E4%B8%AD%E4%B8%BA%E5%A4%9A%E8%AF%B4%E6%B7%BB%E5%8A%A0%E6%9C%80%E8%BF%91%E8%AE%BF%E5%AE%A2/</url>
     <content><![CDATA[<h2 id="添加自定义样式"><a href="#添加自定义样式" class="headerlink" title="添加自定义样式"></a>添加自定义样式</h2><h3 id="1-多说后台添加"><a href="#1-多说后台添加" class="headerlink" title="1. 多说后台添加"></a>1. 多说后台添加</h3><p>到多说后台管理-&gt;设置-&gt;基本设置-&gt;自定义css中添加如下css样式：</p>
@@ -1099,205 +1212,6 @@ for(var i &#x3D; 0; i &lt; typeSelect.options.length; i++) &#123;
       </categories>
       <tags>
         <tag>JavaScript</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Linux 动态调整分区大小</title>
-    <url>/2018/11/06/Linux-%E5%8A%A8%E6%80%81%E8%B0%83%E6%95%B4%E5%88%86%E5%8C%BA%E5%A4%A7%E5%B0%8F/</url>
-    <content><![CDATA[<h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p><code>Ubuntu</code>根分区<code>\</code>空间告急，即将使用完毕</p>
-<h1 id="先清理出一定空间"><a href="#先清理出一定空间" class="headerlink" title="先清理出一定空间"></a>先清理出一定空间</h1><h2 id="移除不再需要的软件包"><a href="#移除不再需要的软件包" class="headerlink" title="移除不再需要的软件包"></a>移除不再需要的软件包</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">sudo</span> <span class="token function">apt</span> autoremove<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<h2 id="清理Ubuntu中的APT缓存"><a href="#清理Ubuntu中的APT缓存" class="headerlink" title="清理Ubuntu中的APT缓存"></a>清理Ubuntu中的APT缓存</h2><span id="more"></span>
-<p>你可以使用以下命令查看此缓存的大小：</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">sudo</span> <span class="token function">du</span> <span class="token parameter variable">-sh</span> /var/cache/apt<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-<p>删除之</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">sudo</span> <span class="token function">apt</span> clean<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<h2 id="清理缩略图缓存"><a href="#清理缩略图缓存" class="headerlink" title="清理缩略图缓存"></a>清理缩略图缓存</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">rm</span> <span class="token parameter variable">-rf</span> ~/.cache/thumbnails/*<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<h2 id="手动删除老旧Linux内核"><a href="#手动删除老旧Linux内核" class="headerlink" title="手动删除老旧Linux内核"></a>手动删除老旧Linux内核</h2><p>首先使用如下命令列出当前 Ubuntu 中所有已经安装的 Linux Kernel：</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">sudo</span> dpkg <span class="token parameter variable">--list</span> <span class="token string">'linux-image*'</span>*<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-<p>删除旧版内核与删除任何其他软件包一样：</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">sudo</span> <span class="token function">apt</span> remove linux-image-VERSION<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-<p>请自行将上述 VERSION 替换为要清除的内核版本，系统极客建议保持至少两个或三个最新版本内核，这样在无法使用最新内核启动系统时至少还有那么几个可替代品救急</p>
-<h2 id="删除多余的孤立包"><a href="#删除多余的孤立包" class="headerlink" title="删除多余的孤立包"></a>删除多余的孤立包</h2><p>首先我们要说说什么是 Ubuntu 系统中的孤立包（也叫多余的包）：假设你安装了一个名为 myprogram 的软件包，而这个包又依赖于 mylib 库，这个库通常在安装 myprogram 时便会自动安装到系统当中。当你卸载 myprogram 应用时，mylib 库可能仍然保留在系统中。 此种情况下，mylib 就会成为一个孤立的包。</p>
-<p>gtkorphan 这款图形化应用可以可以轻松找出并删除 Ubuntu 系统中的孤立包，先使用如下终端命令进行安装：</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">sudo</span> <span class="token function">apt</span> <span class="token function">install</span> gtkorphan<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-<p>安装好后在「多余的包」选项卡中即可对查找、删除孤立包</p>
-<h2 id="使用GUI工具释放Ubuntu空间"><a href="#使用GUI工具释放Ubuntu空间" class="headerlink" title="使用GUI工具释放Ubuntu空间"></a>使用GUI工具释放Ubuntu空间</h2><p><a href="https://github.com/oguzhaninan/Stacer/releases">Stacer地址</a>，下载 deb 包安装打开、使用</p>
-<h1 id="调整分区、根目录扩容"><a href="#调整分区、根目录扩容" class="headerlink" title="调整分区、根目录扩容"></a>调整分区、根目录扩容</h1><p>我的是多系统，安装了 WIndows 10 、Deepin 15.8 和 Ubuntu 18.04，Ubuntu 根分区只给了10G，home 给了50，但是用不完，目标，从<code>home</code>起始位置分10个G给根分区（根分区在 home 分区之前）。<br>由于根分区和 home 都被 Ubuntu 在使用，所以无法在 Ubuntu 中操作本身使用的根分区和<code>home</code>分区，所以应该到外部操作。</p>
-<h2 id="工具"><a href="#工具" class="headerlink" title="工具"></a>工具</h2><p><a href="https://gparted.org/download.php">gparted</a></p>
-<p>GParted is a free partition manager that enables you to resize, copy, and move partitions without data loss.</p>
-<h2 id="思路一"><a href="#思路一" class="headerlink" title="思路一"></a>思路一</h2><p>在其它 Linux 系统中操作 Ubuntu 磁盘，不同版本 Linux 安装 gparted 命令如下：</p>
-<table>
-<thead>
-<tr>
-<th align="center">Linux 发行版本</th>
-<th align="center">安装命令</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center">Debian</td>
-<td align="center">sudo apt-get install gparted</td>
-</tr>
-<tr>
-<td align="center">Fedora</td>
-<td align="center">su -c “yum install gparted”</td>
-</tr>
-<tr>
-<td align="center">Mageia</td>
-<td align="center">sudo urpmi gparted</td>
-</tr>
-<tr>
-<td align="center">OpenSUSE</td>
-<td align="center">sudo zypper install gparted</td>
-</tr>
-<tr>
-<td align="center">Ubuntu</td>
-<td align="center">sudo apt-get install gparted</td>
-</tr>
-<tr>
-<td align="center">Deepin</td>
-<td align="center">sudo apt-get install gparted</td>
-</tr>
-<tr>
-<td align="center">安装后执行</td>
-<td align="center"></td>
-</tr>
-</tbody></table>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">sudo</span> <span class="token function">gparted</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-<p>使用软件，方法同大多数磁盘分区调整工具</p>
-<h2 id="思路二"><a href="#思路二" class="headerlink" title="思路二"></a>思路二</h2><p>如果本机没有多系统（对于方案一，硬盘拆下来接到其它机器也是可以的），由于<code>gparted</code>官方提供了可启动的刻录镜像，我们直接下载<code>iSO</code>镜像刻录至<code>CD</code>或者<code>USB</code>设备，从该启动盘启动即可操作 Ubuntu 所使用的分区</p>
-<p>比如当前最新的桌面版是 <a href="https://downloads.sourceforge.net/gparted/gparted-live-0.33.0-1-amd64.iso">gparted-live-0.33.0-1-amd64.iso</a>，你可以下载该镜像刻录至 U 盘，随后从 U 盘启动进行操作</p>
-<p>PS：刻录可使用 <a href="https://www.balena.io/etcher/">Etcher</a> ，全平台使用</p>
-<h1 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h1><p>修改系统所在分区或引导所在分区存在无法启动被修改的分区的系统的风险，建议新手或者以防万一，对系统做一个完整备份，这里是一些免费磁盘和分区工具，可以完整备份分区或磁盘，使用方法自行看文档。</p>
-<p><a href="http://clonezilla.org/">Clonezilla</a>  </p>
-<p><a href="http://doclone.nongnu.org/">doClone</a></p>
-<p><a href="http://www.fsarchiver.org/">FSArchiver</a></p>
-<p><a href="http://g4l.sourceforge.net/">G4L</a></p>
-<p><a href="http://www.feyrer.de/g4u">g4u</a></p>
-<p><a href="http://partimage.org/">Partimage</a></p>
-<p><a href="http://partclone.org/">Partclone</a></p>
-]]></content>
-      <categories>
-        <category>Linux</category>
-      </categories>
-      <tags>
-        <tag>分区调整</tag>
-        <tag>Linux</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>CentOS 7 下 Docker 和 Docker-Compose 的安装与使用</title>
-    <url>/2021/06/14/CentOS-7-%E4%B8%8B-Docker-%E5%92%8C-Docker-Compose-%E7%9A%84%E5%AE%89%E8%A3%85%E4%B8%8E%E4%BD%BF%E7%94%A8/</url>
-    <content><![CDATA[<h2 id="需求背景"><a href="#需求背景" class="headerlink" title="需求背景"></a>需求背景</h2><p>随着微服务架构的流行，如何高效、快速地部署和管理各种服务成为了一个问题。传统的部署方式，如手动安装配置环境、手动部署和更新应用，不仅耗费人力物力，而且容易出错，且不易复制和扩展。</p>
-<p>为了解决这个问题，Docker诞生了。Docker是一个开源的应用容器引擎，允许开发者打包他们的应用以及依赖包到一个可移植的容器中，然后发布到任何流行的Linux机器或Windows机器上，也可以实现虚拟化。容器是完全沙盒机制，相互之间不会有任何接口。</p>
-<span id="more"></span>
-
-<p>Docker带来的好处包括：</p>
-<ul>
-<li>环境一致性：解决了”在我机器上可以运行”的问题。无论在开发、测试还是生产环境，Docker都可以确保环境的一致性。</li>
-<li>便捷的版本控制和分发：Docker的镜像（Image）提供了版本控制的功能，可以方便地回滚到旧版本。而且，Docker的镜像可以通过Docker Hub等平台进行共享和分发，方便了应用的部署和传播。</li>
-<li>隔离性：每个Docker容器都在自己的环境中运行，不会影响其他的容器。这为应用提供了良好的安全性。</li>
-<li>轻量性和性能高：Docker容器是在宿主机的内核上直接运行，没有传统虚拟化技术的额外开销，所以运行速度快，资源占用小。</li>
-</ul>
-<p>接下来，我们会详细介绍在CentOS 7下如何安装和使用Docker以及Docker-Compose。</p>
-<h2 id="CentOS-7-下-Docker-和-Docker-Compose-的安装"><a href="#CentOS-7-下-Docker-和-Docker-Compose-的安装" class="headerlink" title="CentOS 7 下 Docker 和 Docker-Compose 的安装"></a>CentOS 7 下 Docker 和 Docker-Compose 的安装</h2><p>首先，我们需要在CentOS 7下安装Docker。你可以通过以下步骤进行安装：</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 卸载旧版本(如果安装过的话)</span>
-<span class="token function">sudo</span> yum remove <span class="token function">docker</span> <span class="token punctuation">\</span>
-                  docker-client <span class="token punctuation">\</span>
-                  docker-client-latest <span class="token punctuation">\</span>
-                  docker-common <span class="token punctuation">\</span>
-                  docker-latest <span class="token punctuation">\</span>
-                  docker-latest-logrotate <span class="token punctuation">\</span>
-                  docker-logrotate <span class="token punctuation">\</span>
-                  docker-engine<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<h2 id="安装一些必要的系统工具"><a href="#安装一些必要的系统工具" class="headerlink" title="安装一些必要的系统工具"></a>安装一些必要的系统工具</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">sudo</span> yum <span class="token function">install</span> <span class="token parameter variable">-y</span> yum-utils device-mapper-persistent-data lvm2<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-<h2 id="添加软件源信息"><a href="#添加软件源信息" class="headerlink" title="添加软件源信息"></a>添加软件源信息</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">sudo</span> yum-config-manager --add-repo http://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo
-<span class="token comment">## 更新 yum 缓存</span>
-<span class="token function">sudo</span> yum makecache all
-<span class="token comment">## 安装 Docker-ce</span>
-<span class="token function">sudo</span> yum <span class="token parameter variable">-y</span> <span class="token function">install</span> docker-ce<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<p>安装完 Docker 之后，启动 Docker：</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">sudo</span> systemctl start <span class="token function">docker</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<p>在安装完 Docker 之后，你可以通过以下命令来检查 Docker 是否安装成功：</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">sudo</span> <span class="token function">docker</span> run hello-world<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<p>如果能看到 “Hello from Docker!” 的消息，说明 Docker 已经成功安装并运行。</p>
-<p>接下来我们将安装 Docker Compose。Docker Compose 是 Docker 的一个编排工具，可以用来定义和管理多个 Docker 容器。</p>
-<p>首先，下载最新版本的 Docker Compose：</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">curl</span> <span class="token parameter variable">-L</span> https://github.com/docker/compose/releases/download/v2.17.3/docker-compose-linux-aarch64 <span class="token parameter variable">-o</span> /usr/local/bin/docker-compose<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-<p>然后，设置文件的可执行权限：</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">sudo</span> <span class="token function">chmod</span> +x /usr/local/bin/docker-compose<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-<p>你可以通过以下命令来检查 Docker Compose 是否安装成功：</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">docker-compose</span> <span class="token parameter variable">--version</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-<p>如果能看到 Docker Compose 的版本信息，说明 Docker Compose 已经成功安装。</p>
-<h3 id="Docker-的常用命令和操作"><a href="#Docker-的常用命令和操作" class="headerlink" title="Docker 的常用命令和操作"></a>Docker 的常用命令和操作</h3><p>在安装完 Docker 之后，你可能会用到以下一些常用的命令和操作：</p>
-<ul>
-<li>查看 Docker 进程：docker ps</li>
-<li>查看所有 Docker 容器（包括停止的）：docker ps -a</li>
-<li>在 Docker 容器中执行命令：docker exec -it <container_id> <command></li>
-<li>运行 Docker 容器：docker run -d -p <host_port>:<container_port> <image></li>
-<li>停止 Docker 容器：docker stop <container_id></li>
-<li>删除 Docker 容器：docker rm <container_id></li>
-<li>删除 Docker 镜像：docker rmi <image_id></li>
-</ul>
-<h4 id="docker-inspect-命令"><a href="#docker-inspect-命令" class="headerlink" title="docker inspect 命令"></a>docker inspect 命令</h4><p>这个命令用于返回 Docker 对象的底层信息。这个对象可以是容器、镜像、卷、网络等。docker inspect 返回一个 JSON 对象，包含了 Docker 对象的所有配置和状态信息。例如，如果你想查看一个正在运行的容器的 IP 地址，你可以使用 docker inspect 命令，然后从返回的 JSON 对象中查找相应的字段。<br>使用示例：</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">docker</span> inspect container_name_or_id
-root@iZj6cgd384kfewiompdstqZ <span class="token punctuation">[</span>02时10分38秒<span class="token punctuation">]</span> <span class="token punctuation">[</span>/var/www/blog<span class="token punctuation">]</span> <span class="token punctuation">[</span>master<span class="token punctuation">]</span>
--<span class="token operator">></span> <span class="token comment"># docker inspect a0974a35724f | grep RestartPolicy -A 2</span>
-            <span class="token string">"RestartPolicy"</span><span class="token builtin class-name">:</span> <span class="token punctuation">&#123;</span>
-                <span class="token string">"Name"</span><span class="token builtin class-name">:</span> <span class="token string">"always"</span>,
-                <span class="token string">"MaximumRetryCount"</span><span class="token builtin class-name">:</span> <span class="token number">0</span>
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<h4 id="docker-stats-–all-命令"><a href="#docker-stats-–all-命令" class="headerlink" title="docker stats –all 命令"></a>docker stats –all 命令</h4><p>这个命令用于实时显示 Docker 容器的资源使用情况，包括 CPU 使用率、内存使用量、网络 I&#x2F;O、磁盘 I&#x2F;O 等。–all 或 -a 选项表示显示所有容器的资源使用情况，而不仅仅是正在运行的容器。<br>使用示例：</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">docker</span> stats <span class="token parameter variable">--all</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-<p>这两个命令是 Docker 命令行工具中非常有用的工具，可以帮助你理解和管理 Docker 容器的状态和资源使用情况。</p>
-<h3 id="Docker-compose-的常用命令和操作"><a href="#Docker-compose-的常用命令和操作" class="headerlink" title="Docker-compose 的常用命令和操作"></a>Docker-compose 的常用命令和操作</h3><p>在Compose中，你可以用YAML文件定义服务需要的环境，然后通过一个命令就可以从这个配置中创建并启动所有服务。以下是一些常用的Docker Compose命令：</p>
-<p>####启动、停止和重启服务</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">docker-compose</span> up      <span class="token comment"># 启动服务</span>
-<span class="token function">docker-compose</span> stop    <span class="token comment"># 停止服务</span>
-<span class="token function">docker-compose</span> restart <span class="token comment"># 重启服务</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
-<h4 id="列出服务的状态"><a href="#列出服务的状态" class="headerlink" title="列出服务的状态"></a>列出服务的状态</h4><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">docker-compose</span> <span class="token function">ps</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-<h4 id="查看输出（类似于docker-logs）"><a href="#查看输出（类似于docker-logs）" class="headerlink" title="查看输出（类似于docker logs）"></a>查看输出（类似于docker logs）</h4><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">docker-compose</span> logs<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-<h4 id="执行命令"><a href="#执行命令" class="headerlink" title="执行命令"></a>执行命令</h4><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">docker-compose</span> <span class="token builtin class-name">exec</span> service_name <span class="token builtin class-name">command</span> <span class="token comment"># 例如: docker-compose exec db psql -U postgres</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-<h4 id="删除和重建服务"><a href="#删除和重建服务" class="headerlink" title="删除和重建服务"></a>删除和重建服务</h4><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">docker-compose</span> down       <span class="token comment"># 停止和删除容器</span>
-<span class="token function">docker-compose</span> build      <span class="token comment"># 构建或者重新构建服务</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
-<h4 id="拉取和推送服务"><a href="#拉取和推送服务" class="headerlink" title="拉取和推送服务"></a>拉取和推送服务</h4><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">docker-compose</span> pull      <span class="token comment"># 拉取服务的最新镜像</span>
-<span class="token function">docker-compose</span> push      <span class="token comment"># 推送服务镜像至registry</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
-<p>注意：以上的命令需要在包含docker-compose.yml文件的目录中运行。如果你的docker-compose文件名不是默认的docker-compose.yml，你需要使用-f参数指定文件名，例如 docker-compose -f my-docker-compose.yml up。</p>
-<h2 id="端口映射"><a href="#端口映射" class="headerlink" title="端口映射"></a>端口映射</h2><p>你可以通过使用-p选项在运行容器时指定端口映射<br><code>-p</code>选项允许你将容器内的端口映射到宿主机的端口。其格式为<code>-p &lt;host-port&gt;:&lt;container-port&gt;</code>。例如，如果你有一个在容器的80端口上运行的web服务器，你希望将其映射到宿主机的8080端口上，你可以使用以下命令：</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">docker</span> run <span class="token parameter variable">-p</span> <span class="token number">8080</span>:80 <span class="token parameter variable">-d</span> my-web-app<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-<p>在这个例子中，任何发送到宿主机8080端口的请求都会被转发到容器的80端口。</p>
-<h2 id="卷映射"><a href="#卷映射" class="headerlink" title="卷映射"></a>卷映射</h2><p><code>-v</code>选项允许你将宿主机的文件或目录映射到容器内的文件或目录。其格式为<code>-v &lt;host-path&gt;:&lt;container-path&gt;</code>。例如，如果你希望将宿主机的<code>/home/user/data</code>目录映射到容器的<code>/app/data</code>目录，你可以使用以下命令：</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">docker</span> run <span class="token parameter variable">-v</span> /home/user/data:/app/data <span class="token parameter variable">-d</span> my-app<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-<p>在这个例子中，容器内的<code>/app/data</code>目录将直接映射到宿主机的<code>/home/user/data</code>目录，任何对这个目录的修改（无论是在宿主机上还是在容器内）都会立即反映到另一方。</p>
-<p>这两种映射方式都是Docker灵活性的重要表现，它们使得容器能够更好地与宿主机进行交互和数据共享。</p>
-<h2 id="Docker-和-Docker-Compose-的优势和适用场景"><a href="#Docker-和-Docker-Compose-的优势和适用场景" class="headerlink" title="Docker 和 Docker-Compose 的优势和适用场景"></a>Docker 和 Docker-Compose 的优势和适用场景</h2><p>Docker 的主要优点在于它能够提供一致的运行环境，解决了 “在我机器上可以运行” 的问题。它还能够提供隔离的环境，使得应用不会相互影响。此外，Docker 还非常轻量级，运行速度快，资源占用小。</p>
-<p>Docker-Compose 的主要优点在于它可以通过一个 YAML 文件来定义多个 Docker 容器，使得管理多个 Docker 容器变得非常方便。而且，Docker-Compose 还可以方便地管理容器之间的关系，如网络、存储等。</p>
-<p>总的来说，如果你需要快速地部署和管理应用，那么 Docker 和 Docker-Compose 都是非常好的工具。如果你需要管理多个相互关联的 Docker 容器，那么 Docker-Compose 就显得更为有用了。</p>
-<h2 id="补充"><a href="#补充" class="headerlink" title="补充"></a>补充</h2><p>在上述内容中，我们已经讲解了Docker和Docker Compose在CentOS 7下的安装过程，以及一些基本的使用命令。然而，Docker的生态系统非常丰富，有很多其他的功能和特性也值得探索和学习。这里，我将补充一些额外的点：</p>
-<ul>
-<li>Dockerfile： Dockerfile是创建Docker镜像的基础，它是一个文本文件，包含了一系列命令来创建和设置一个新的Docker镜像。学习如何编写Dockerfile，可以帮助你创建适应你的应用需求的定制镜像。</li>
-<li>Docker Registry： Docker Registry是存储Docker镜像的地方。最常见的公共registry是Docker Hub，但你也可以设置自己的私有registry。学习如何使用registry，可以帮助你更好地管理你的Docker镜像。</li>
-<li>Docker网络： Docker提供了多种网络配置选项，以满足不同的需求。例如，你可以创建一个网络，让容器可以在此网络中相互通信，或者可以将一个容器连接到多个网络。</li>
-<li>Docker存储： Docker提供了多种存储选项，如volumes，bind mounts和tmpfs mounts，用于持久化容器数据或共享数据。</li>
-<li>Docker安全： 虽然Docker提供了隔离环境，但仍需关注安全性。例如，需要定期更新镜像以获取最新的安全更新，限制容器的权限，避免在容器中运行root用户等。</li>
-</ul>
-<p>总之，Docker是一个强大且灵活的工具，无论你是在开发环境中快速部署应用，还是在生产环境中运行和扩展应用，它都能提供巨大的帮助。不过，像任何技术一样，最好的使用方式是根据你自己的具体需求和场景去使用它。</p>
-]]></content>
-      <categories>
-        <category>服务器</category>
-        <category>容器化</category>
-        <category>运维</category>
-      </categories>
-      <tags>
-        <tag>docker</tag>
-        <tag>centos</tag>
-        <tag>docker-compose</tag>
       </tags>
   </entry>
   <entry>
@@ -1504,6 +1418,92 @@ end<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span>
         <tag>CI</tag>
         <tag>持续集成</tag>
         <tag>工程自动化</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Linux 动态调整分区大小</title>
+    <url>/2018/11/06/Linux-%E5%8A%A8%E6%80%81%E8%B0%83%E6%95%B4%E5%88%86%E5%8C%BA%E5%A4%A7%E5%B0%8F/</url>
+    <content><![CDATA[<h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p><code>Ubuntu</code>根分区<code>\</code>空间告急，即将使用完毕</p>
+<h1 id="先清理出一定空间"><a href="#先清理出一定空间" class="headerlink" title="先清理出一定空间"></a>先清理出一定空间</h1><h2 id="移除不再需要的软件包"><a href="#移除不再需要的软件包" class="headerlink" title="移除不再需要的软件包"></a>移除不再需要的软件包</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">sudo</span> <span class="token function">apt</span> autoremove<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<h2 id="清理Ubuntu中的APT缓存"><a href="#清理Ubuntu中的APT缓存" class="headerlink" title="清理Ubuntu中的APT缓存"></a>清理Ubuntu中的APT缓存</h2><span id="more"></span>
+<p>你可以使用以下命令查看此缓存的大小：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">sudo</span> <span class="token function">du</span> <span class="token parameter variable">-sh</span> /var/cache/apt<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>删除之</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">sudo</span> <span class="token function">apt</span> clean<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<h2 id="清理缩略图缓存"><a href="#清理缩略图缓存" class="headerlink" title="清理缩略图缓存"></a>清理缩略图缓存</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">rm</span> <span class="token parameter variable">-rf</span> ~/.cache/thumbnails/*<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<h2 id="手动删除老旧Linux内核"><a href="#手动删除老旧Linux内核" class="headerlink" title="手动删除老旧Linux内核"></a>手动删除老旧Linux内核</h2><p>首先使用如下命令列出当前 Ubuntu 中所有已经安装的 Linux Kernel：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">sudo</span> dpkg <span class="token parameter variable">--list</span> <span class="token string">'linux-image*'</span>*<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>删除旧版内核与删除任何其他软件包一样：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">sudo</span> <span class="token function">apt</span> remove linux-image-VERSION<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>请自行将上述 VERSION 替换为要清除的内核版本，系统极客建议保持至少两个或三个最新版本内核，这样在无法使用最新内核启动系统时至少还有那么几个可替代品救急</p>
+<h2 id="删除多余的孤立包"><a href="#删除多余的孤立包" class="headerlink" title="删除多余的孤立包"></a>删除多余的孤立包</h2><p>首先我们要说说什么是 Ubuntu 系统中的孤立包（也叫多余的包）：假设你安装了一个名为 myprogram 的软件包，而这个包又依赖于 mylib 库，这个库通常在安装 myprogram 时便会自动安装到系统当中。当你卸载 myprogram 应用时，mylib 库可能仍然保留在系统中。 此种情况下，mylib 就会成为一个孤立的包。</p>
+<p>gtkorphan 这款图形化应用可以可以轻松找出并删除 Ubuntu 系统中的孤立包，先使用如下终端命令进行安装：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">sudo</span> <span class="token function">apt</span> <span class="token function">install</span> gtkorphan<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>安装好后在「多余的包」选项卡中即可对查找、删除孤立包</p>
+<h2 id="使用GUI工具释放Ubuntu空间"><a href="#使用GUI工具释放Ubuntu空间" class="headerlink" title="使用GUI工具释放Ubuntu空间"></a>使用GUI工具释放Ubuntu空间</h2><p><a href="https://github.com/oguzhaninan/Stacer/releases">Stacer地址</a>，下载 deb 包安装打开、使用</p>
+<h1 id="调整分区、根目录扩容"><a href="#调整分区、根目录扩容" class="headerlink" title="调整分区、根目录扩容"></a>调整分区、根目录扩容</h1><p>我的是多系统，安装了 WIndows 10 、Deepin 15.8 和 Ubuntu 18.04，Ubuntu 根分区只给了10G，home 给了50，但是用不完，目标，从<code>home</code>起始位置分10个G给根分区（根分区在 home 分区之前）。<br>由于根分区和 home 都被 Ubuntu 在使用，所以无法在 Ubuntu 中操作本身使用的根分区和<code>home</code>分区，所以应该到外部操作。</p>
+<h2 id="工具"><a href="#工具" class="headerlink" title="工具"></a>工具</h2><p><a href="https://gparted.org/download.php">gparted</a></p>
+<p>GParted is a free partition manager that enables you to resize, copy, and move partitions without data loss.</p>
+<h2 id="思路一"><a href="#思路一" class="headerlink" title="思路一"></a>思路一</h2><p>在其它 Linux 系统中操作 Ubuntu 磁盘，不同版本 Linux 安装 gparted 命令如下：</p>
+<table>
+<thead>
+<tr>
+<th align="center">Linux 发行版本</th>
+<th align="center">安装命令</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">Debian</td>
+<td align="center">sudo apt-get install gparted</td>
+</tr>
+<tr>
+<td align="center">Fedora</td>
+<td align="center">su -c “yum install gparted”</td>
+</tr>
+<tr>
+<td align="center">Mageia</td>
+<td align="center">sudo urpmi gparted</td>
+</tr>
+<tr>
+<td align="center">OpenSUSE</td>
+<td align="center">sudo zypper install gparted</td>
+</tr>
+<tr>
+<td align="center">Ubuntu</td>
+<td align="center">sudo apt-get install gparted</td>
+</tr>
+<tr>
+<td align="center">Deepin</td>
+<td align="center">sudo apt-get install gparted</td>
+</tr>
+<tr>
+<td align="center">安装后执行</td>
+<td align="center"></td>
+</tr>
+</tbody></table>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">sudo</span> <span class="token function">gparted</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>使用软件，方法同大多数磁盘分区调整工具</p>
+<h2 id="思路二"><a href="#思路二" class="headerlink" title="思路二"></a>思路二</h2><p>如果本机没有多系统（对于方案一，硬盘拆下来接到其它机器也是可以的），由于<code>gparted</code>官方提供了可启动的刻录镜像，我们直接下载<code>iSO</code>镜像刻录至<code>CD</code>或者<code>USB</code>设备，从该启动盘启动即可操作 Ubuntu 所使用的分区</p>
+<p>比如当前最新的桌面版是 <a href="https://downloads.sourceforge.net/gparted/gparted-live-0.33.0-1-amd64.iso">gparted-live-0.33.0-1-amd64.iso</a>，你可以下载该镜像刻录至 U 盘，随后从 U 盘启动进行操作</p>
+<p>PS：刻录可使用 <a href="https://www.balena.io/etcher/">Etcher</a> ，全平台使用</p>
+<h1 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h1><p>修改系统所在分区或引导所在分区存在无法启动被修改的分区的系统的风险，建议新手或者以防万一，对系统做一个完整备份，这里是一些免费磁盘和分区工具，可以完整备份分区或磁盘，使用方法自行看文档。</p>
+<p><a href="http://clonezilla.org/">Clonezilla</a>  </p>
+<p><a href="http://doclone.nongnu.org/">doClone</a></p>
+<p><a href="http://www.fsarchiver.org/">FSArchiver</a></p>
+<p><a href="http://g4l.sourceforge.net/">G4L</a></p>
+<p><a href="http://www.feyrer.de/g4u">g4u</a></p>
+<p><a href="http://partimage.org/">Partimage</a></p>
+<p><a href="http://partclone.org/">Partclone</a></p>
+]]></content>
+      <categories>
+        <category>Linux</category>
+      </categories>
+      <tags>
+        <tag>分区调整</tag>
+        <tag>Linux</tag>
       </tags>
   </entry>
   <entry>
@@ -1746,6 +1746,56 @@ kMDItemContentType <span class="token operator">=</span> <span class="token stri
       </tags>
   </entry>
   <entry>
+    <title>Mac 彻底卸载 MYSQL 解决疑难杂症</title>
+    <url>/2017/03/18/Mac-%E5%BD%BB%E5%BA%95%E5%8D%B8%E8%BD%BD-MYSQL-%E8%A7%A3%E5%86%B3%E7%96%91%E9%9A%BE%E6%9D%82%E7%97%87/</url>
+    <content><![CDATA[<h2 id="备份数据库"><a href="#备份数据库" class="headerlink" title="备份数据库"></a>备份数据库</h2><p>备份看个人了，可以用软件如 <code>Navicat</code> 导出，也可以用 <code>mysqldump</code> 命令导出。</p>
+<h2 id="kill-mysql相关进程"><a href="#kill-mysql相关进程" class="headerlink" title="kill mysql相关进程"></a>kill <code>mysql</code>相关进程</h2><p>终端运行 <code>ps -ax | grep mysql</code> 查看 <code>mysql</code> 相关进程， 有的话 <code>kill</code></p>
+<span id="more"></span>
+
+<h2 id="卸载-Homebrew-安装的mysql"><a href="#卸载-Homebrew-安装的mysql" class="headerlink" title="卸载 Homebrew 安装的mysql"></a>卸载 Homebrew 安装的mysql</h2><p>卸载全部以前用 <code>brew</code> 安装	的 <code>mysql</code>，先 <code>brew list</code> 查看安装的 <code>mysql</code> 版本，假如列出了 <code>mysql@5.5</code>， 则运行 <code>brew uninstall mysql@5.5</code>，卸载完后执行 <code>brew cleanup</code>。</p>
+<h2 id="移除残留文件"><a href="#移除残留文件" class="headerlink" title="移除残留文件"></a>移除残留文件</h2><p>删除与 <code>mysql</code> 相关的文件</p>
+<pre class="line-numbers language-Bash" data-language="Bash"><code class="language-Bash">sudo rm &#x2F;usr&#x2F;local&#x2F;mysql;
+sudo rm -rf &#x2F;usr&#x2F;local&#x2F;var&#x2F;mysql;
+sudo rm -rf &#x2F;usr&#x2F;local&#x2F;mysql*;
+sudo rm -rf &#x2F;Library&#x2F;StartupItems&#x2F;MySQLCOM;
+sudo rm -rf &#x2F;Library&#x2F;PreferencePanes&#x2F;My*<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h2 id="移除残留自动登陆项"><a href="#移除残留自动登陆项" class="headerlink" title="移除残留自动登陆项"></a>移除残留自动登陆项</h2><p>移除自动登陆项，如果你安装过 <code>DMG</code> 版本的 	<code>mysql</code>，则把以下命令中的 <code>LaunchAgents </code> 替换为 <code>LaunchDaemons </code> 再执行一次</p>
+<pre class="line-numbers language-Bash" data-language="Bash"><code class="language-Bash">launchctl unload -w ~&#x2F;Library&#x2F;LaunchAgents&#x2F;homebrew.mxcl.mysql.plist<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p><code>unload</code> 之后再删除该文件，</p>
+<pre class="line-numbers language-Bash" data-language="Bash"><code class="language-Bash">sudo rm ~&#x2F;Library&#x2F;LaunchAgents&#x2F;homebrew.mxcl.mysql.plist
+或
+sudo rm ~&#x2F;Library&#x2F;LaunchDaemons&#x2F;homebrew.mxcl.mysql.plist<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<h2 id="移除残留配置"><a href="#移除残留配置" class="headerlink" title="移除残留配置"></a>移除残留配置</h2><p><code>subl /etc/hostconfig</code> &#96;</p>
+<p>后输入 <code>Remove the line MYSQLCOM=-YES-</code> &#96; </p>
+<h2 id="移除残留偏好设置"><a href="#移除残留偏好设置" class="headerlink" title="移除残留偏好设置"></a>移除残留偏好设置</h2><pre class="line-numbers language-Bash" data-language="Bash"><code class="language-Bash">rm -rf ~&#x2F;Library&#x2F;PreferencePanes&#x2F;My*;
+sudo rm -rf &#x2F;Library&#x2F;Receipts&#x2F;mysql*;
+sudo rm -rf &#x2F;Library&#x2F;Receipts&#x2F;MySQL*;
+sudo rm -rf &#x2F;private&#x2F;var&#x2F;db&#x2F;receipts&#x2F;*mysql*<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h2 id="重启电脑，重新安装-mysql"><a href="#重启电脑，重新安装-mysql" class="headerlink" title="重启电脑，重新安装 mysql"></a>重启电脑，重新安装 <code>mysql</code></h2><p>建议使用 <code>Homebrew</code> 安装</p>
+<pre class="line-numbers language-Bash" data-language="Bash"><code class="language-Bash">brew search mysql
+brew install 你要的版本<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+
+<h2 id="启动-mysql"><a href="#启动-mysql" class="headerlink" title="启动 mysql"></a>启动 <code>mysql</code></h2><pre class="line-numbers language-Bash" data-language="Bash"><code class="language-Bash">mysql.server start<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>如果报 <code>commond not found</code>，则在 <code>~/.zshrc</code> 或者 <code>~/.bashrc</code> 中加入以下两行（注意替换mysql路径）：</p>
+<pre class="line-numbers language-Bash" data-language="Bash"><code class="language-Bash">export MYSQL&#x3D;&#x2F;usr&#x2F;local&#x2F;Cellar&#x2F;mysql@5.6&#x2F;5.6.35&#x2F;support-files
+export PATH&#x3D;$MYSQL:$PATH<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+]]></content>
+      <categories>
+        <category>系统疑难</category>
+      </categories>
+      <tags>
+        <tag>Mac</tag>
+        <tag>MYSQL</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Mac查看CPU具体型号</title>
     <url>/2016/11/16/Mac%E6%9F%A5%E7%9C%8BCPU%E5%85%B7%E4%BD%93%E5%9E%8B%E5%8F%B7/</url>
     <content><![CDATA[<h2 id="查看-CPU-型号"><a href="#查看-CPU-型号" class="headerlink" title="查看 CPU 型号"></a>查看 CPU 型号</h2><pre class="line-numbers language-Bash" data-language="Bash"><code class="language-Bash">sysctl machdep.cpu.brand_string<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
@@ -1932,56 +1982,6 @@ Ethernet Cards:
         <tag>格式化</tag>
         <tag>OC字符串</tag>
         <tag>Objective-C</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Mac 彻底卸载 MYSQL 解决疑难杂症</title>
-    <url>/2017/03/18/Mac-%E5%BD%BB%E5%BA%95%E5%8D%B8%E8%BD%BD-MYSQL-%E8%A7%A3%E5%86%B3%E7%96%91%E9%9A%BE%E6%9D%82%E7%97%87/</url>
-    <content><![CDATA[<h2 id="备份数据库"><a href="#备份数据库" class="headerlink" title="备份数据库"></a>备份数据库</h2><p>备份看个人了，可以用软件如 <code>Navicat</code> 导出，也可以用 <code>mysqldump</code> 命令导出。</p>
-<h2 id="kill-mysql相关进程"><a href="#kill-mysql相关进程" class="headerlink" title="kill mysql相关进程"></a>kill <code>mysql</code>相关进程</h2><p>终端运行 <code>ps -ax | grep mysql</code> 查看 <code>mysql</code> 相关进程， 有的话 <code>kill</code></p>
-<span id="more"></span>
-
-<h2 id="卸载-Homebrew-安装的mysql"><a href="#卸载-Homebrew-安装的mysql" class="headerlink" title="卸载 Homebrew 安装的mysql"></a>卸载 Homebrew 安装的mysql</h2><p>卸载全部以前用 <code>brew</code> 安装	的 <code>mysql</code>，先 <code>brew list</code> 查看安装的 <code>mysql</code> 版本，假如列出了 <code>mysql@5.5</code>， 则运行 <code>brew uninstall mysql@5.5</code>，卸载完后执行 <code>brew cleanup</code>。</p>
-<h2 id="移除残留文件"><a href="#移除残留文件" class="headerlink" title="移除残留文件"></a>移除残留文件</h2><p>删除与 <code>mysql</code> 相关的文件</p>
-<pre class="line-numbers language-Bash" data-language="Bash"><code class="language-Bash">sudo rm &#x2F;usr&#x2F;local&#x2F;mysql;
-sudo rm -rf &#x2F;usr&#x2F;local&#x2F;var&#x2F;mysql;
-sudo rm -rf &#x2F;usr&#x2F;local&#x2F;mysql*;
-sudo rm -rf &#x2F;Library&#x2F;StartupItems&#x2F;MySQLCOM;
-sudo rm -rf &#x2F;Library&#x2F;PreferencePanes&#x2F;My*<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<h2 id="移除残留自动登陆项"><a href="#移除残留自动登陆项" class="headerlink" title="移除残留自动登陆项"></a>移除残留自动登陆项</h2><p>移除自动登陆项，如果你安装过 <code>DMG</code> 版本的 	<code>mysql</code>，则把以下命令中的 <code>LaunchAgents </code> 替换为 <code>LaunchDaemons </code> 再执行一次</p>
-<pre class="line-numbers language-Bash" data-language="Bash"><code class="language-Bash">launchctl unload -w ~&#x2F;Library&#x2F;LaunchAgents&#x2F;homebrew.mxcl.mysql.plist<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<p><code>unload</code> 之后再删除该文件，</p>
-<pre class="line-numbers language-Bash" data-language="Bash"><code class="language-Bash">sudo rm ~&#x2F;Library&#x2F;LaunchAgents&#x2F;homebrew.mxcl.mysql.plist
-或
-sudo rm ~&#x2F;Library&#x2F;LaunchDaemons&#x2F;homebrew.mxcl.mysql.plist<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
-
-<h2 id="移除残留配置"><a href="#移除残留配置" class="headerlink" title="移除残留配置"></a>移除残留配置</h2><p><code>subl /etc/hostconfig</code> &#96;</p>
-<p>后输入 <code>Remove the line MYSQLCOM=-YES-</code> &#96; </p>
-<h2 id="移除残留偏好设置"><a href="#移除残留偏好设置" class="headerlink" title="移除残留偏好设置"></a>移除残留偏好设置</h2><pre class="line-numbers language-Bash" data-language="Bash"><code class="language-Bash">rm -rf ~&#x2F;Library&#x2F;PreferencePanes&#x2F;My*;
-sudo rm -rf &#x2F;Library&#x2F;Receipts&#x2F;mysql*;
-sudo rm -rf &#x2F;Library&#x2F;Receipts&#x2F;MySQL*;
-sudo rm -rf &#x2F;private&#x2F;var&#x2F;db&#x2F;receipts&#x2F;*mysql*<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
-
-<h2 id="重启电脑，重新安装-mysql"><a href="#重启电脑，重新安装-mysql" class="headerlink" title="重启电脑，重新安装 mysql"></a>重启电脑，重新安装 <code>mysql</code></h2><p>建议使用 <code>Homebrew</code> 安装</p>
-<pre class="line-numbers language-Bash" data-language="Bash"><code class="language-Bash">brew search mysql
-brew install 你要的版本<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
-
-
-<h2 id="启动-mysql"><a href="#启动-mysql" class="headerlink" title="启动 mysql"></a>启动 <code>mysql</code></h2><pre class="line-numbers language-Bash" data-language="Bash"><code class="language-Bash">mysql.server start<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<p>如果报 <code>commond not found</code>，则在 <code>~/.zshrc</code> 或者 <code>~/.bashrc</code> 中加入以下两行（注意替换mysql路径）：</p>
-<pre class="line-numbers language-Bash" data-language="Bash"><code class="language-Bash">export MYSQL&#x3D;&#x2F;usr&#x2F;local&#x2F;Cellar&#x2F;mysql@5.6&#x2F;5.6.35&#x2F;support-files
-export PATH&#x3D;$MYSQL:$PATH<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
-
-]]></content>
-      <categories>
-        <category>系统疑难</category>
-      </categories>
-      <tags>
-        <tag>Mac</tag>
-        <tag>MYSQL</tag>
       </tags>
   </entry>
   <entry>
@@ -2672,6 +2672,74 @@ e   <span class="token number">4.0</span> KiB <span class="token punctuation">[<
       </tags>
   </entry>
   <entry>
+    <title>Ubuntu 18.04 搭建 Jenkins</title>
+    <url>/2018/09/12/Ubuntu-18-04-%E6%90%AD%E5%BB%BA-Jenkins/</url>
+    <content><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><blockquote>
+<p>工欲善其事，必先利其器</p>
+</blockquote>
+<p>打包是开发过程中必不可少的一步，随着项目的壮大，打包时间越来越长，如果一直手动操作，浪费时间不说，还容易出错。记录一下安装<code>Jenkins</code>的过程，以备不时之需。</p>
+<span id="more"></span>
+
+<h1 id="环境（要求）"><a href="#环境（要求）" class="headerlink" title="环境（要求）"></a>环境（要求）</h1><ul>
+<li>宿主机系统：Ubuntu 18.04</li>
+<li><code>root</code>用户最高权限</li>
+</ul>
+<h1 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h1><h2 id="安装-JAVA"><a href="#安装-JAVA" class="headerlink" title="安装 JAVA"></a>安装 <code>JAVA</code></h2><p><code>Jenkins</code>是基于<code>JAVA</code>的应用程序，所以要先安装<code>Java OpenJDK</code>。</p>
+<h3 id="添加源"><a href="#添加源" class="headerlink" title="添加源"></a>添加源</h3><p>安装包<code>software-properties-common</code>，添加<code>java OpenJDK PPA </code>仓库源</p>
+<pre class="line-numbers language-Bash" data-language="Bash"><code class="language-Bash">sudo apt install software-properties-common apt-transport-https -y
+sudo add-apt-repository ppa:openjdk-r&#x2F;ppa -y<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<h3 id="安装JAVA-8"><a href="#安装JAVA-8" class="headerlink" title="安装JAVA 8"></a>安装<code>JAVA 8</code></h3><pre class="line-numbers language-Bash" data-language="Bash"><code class="language-Bash">sudo apt install openjdk-8-jdk -y<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<h4 id="检查-JAVA-是否安装成功"><a href="#检查-JAVA-是否安装成功" class="headerlink" title="检查 JAVA 是否安装成功"></a>检查 <code>JAVA</code> 是否安装成功</h4><pre class="line-numbers language-Bash" data-language="Bash"><code class="language-Bash">java -version<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<h2 id="安装-Jenkins"><a href="#安装-Jenkins" class="headerlink" title="安装 Jenkins"></a>安装 <code>Jenkins</code></h2><p><code>Jenkins</code>提供<code>Ubuntu</code>安装包，从该仓库安装</p>
+<h3 id="添加Jenkins签名"><a href="#添加Jenkins签名" class="headerlink" title="添加Jenkins签名"></a>添加<code>Jenkins</code>签名</h3><pre class="line-numbers language-Bash" data-language="Bash"><code class="language-Bash">wget -q -O - https:&#x2F;&#x2F;pkg.jenkins.io&#x2F;debian-stable&#x2F;jenkins.io.key | sudo apt-key add <span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<h3 id="添加Jenkins仓库"><a href="#添加Jenkins仓库" class="headerlink" title="添加Jenkins仓库"></a>添加<code>Jenkins</code>仓库</h3><h4 id="添加稳定版"><a href="#添加稳定版" class="headerlink" title="添加稳定版"></a>添加稳定版</h4><pre class="line-numbers language-Bash" data-language="Bash"><code class="language-Bash">sudo apt-add-repository &quot;deb https:&#x2F;&#x2F;pkg.jenkins.io&#x2F;debian-stable binary&#x2F;&quot;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<h4 id="添加最新版"><a href="#添加最新版" class="headerlink" title="添加最新版"></a>添加最新版</h4><pre class="line-numbers language-Bash" data-language="Bash"><code class="language-Bash">sudo apt-add-repository &quot;deb http:&#x2F;&#x2F;pkg.jenkins-ci.org&#x2F;debian binary&#x2F;&quot;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h3 id="更新apt，安装Jenkins"><a href="#更新apt，安装Jenkins" class="headerlink" title="更新apt，安装Jenkins"></a>更新<code>apt</code>，安装<code>Jenkins</code></h3><pre class="line-numbers language-Bash" data-language="Bash"><code class="language-Bash">sudo apt update
+sudo apt install jenkins -y<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<h3 id="启动Jenkins并加入开机自启"><a href="#启动Jenkins并加入开机自启" class="headerlink" title="启动Jenkins并加入开机自启"></a>启动<code>Jenkins</code>并加入开机自启</h3><pre class="line-numbers language-Bash" data-language="Bash"><code class="language-Bash">systemctl start jenkins
+systemctl enable jenkins<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<h3 id="检查Jenkins是否启动"><a href="#检查Jenkins是否启动" class="headerlink" title="检查Jenkins是否启动"></a>检查<code>Jenkins</code>是否启动</h3><p><code>Jenkins</code>已经启动，默认端口是<code>8080</code>,检查一下是否已运行</p>
+<pre class="line-numbers language-Bash" data-language="Bash"><code class="language-Bash">netstat -plntu<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<h1 id="配置防火墙"><a href="#配置防火墙" class="headerlink" title="配置防火墙"></a>配置防火墙</h1><pre class="line-numbers language-Bash" data-language="Bash"><code class="language-Bash">ufw allow ssh
+ufw allow http
+ufw allow https
+ufw enable<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<p>如果需要从外部机器打开<code>Jenkins</code>，记得开启防火墙端口，以默认<code>8080</code>端口为例</p>
+<pre class="line-numbers language-Bash" data-language="Bash"><code class="language-Bash">sudo firewall-cmd --permanent --add-port&#x3D;8080&#x2F;tcp
+sudo firewall-cmd --reload
+sudo firewall-cmd --list-all<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<h1 id="启动Jenkins"><a href="#启动Jenkins" class="headerlink" title="启动Jenkins"></a>启动<code>Jenkins</code></h1><p>浏览器打开<a href="localhost:8080"><code>localhost:8080</code></a>，不出意外进入<code>Jenkins</code>界面了，<code>Jenkins</code>会有一个初始的管理密码，查看：</p>
+<pre class="line-numbers language-Bash" data-language="Bash"><code class="language-Bash">cat &#x2F;var&#x2F;lib&#x2F;jenkins&#x2F;secrets&#x2F;initialAdminPassword<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<h2 id="安装推荐的插件"><a href="#安装推荐的插件" class="headerlink" title="安装推荐的插件"></a>安装推荐的插件</h2><p>复制该密码到浏览器，将进入到<code>Jenkins</code>初始化界面，按照指引安装推荐的插件，等待结束。如果一直提示网络离线，请确保没有使用 VPN，如果用了<code>Shadowsocks</code>，走<code>PAC</code>模式都不行，请关闭。</p>
+<h2 id="安装其它插件"><a href="#安装其它插件" class="headerlink" title="安装其它插件"></a>安装其它插件</h2><h3 id="正常联网安装"><a href="#正常联网安装" class="headerlink" title="正常联网安装"></a>正常联网安装</h3><p>如果网络一直没问题的话，在<code>jenkins</code>内可以安装插件就在 <code>Manage Jenkins</code> -&gt; <code>Manage Plugins</code> -&gt; <code>Available</code>里面搜索想要安装的插件，安装完后记得重启<code>Jenkins</code>，如果网络一直不好，可以选择下面的方式离线安装。</p>
+<h3 id="离线下载安装"><a href="#离线下载安装" class="headerlink" title="离线下载安装"></a>离线下载安装</h3><p>去 <a href="https://plugins.jenkins.io/">https://plugins.jenkins.io</a> 下载<code>Jenkins</code>插件，下载好后在<code>Jenkins</code>页面安装，在 <code>Manage Jenkins</code> -&gt; <code>Manage Plugins</code> -&gt; <code>Advanced</code> -&gt; <code>Upload Plugin</code>里上传安装。这里建议安装<code>Environment Injector Plugin</code>、<code>build-name-setter</code>，第一个是在构建时可以在运行时引入环境变量，在<code>master-slave</code>模式下尤为有用，第二个是可以动态修改构建名称，默认的是<code>#1</code>、<code>#2</code> 这样直接根据构建次数命名的非常不直观，自定义以后就能实现类似于<code>DongKe_ad_hoc_#9_origin/ftr-1.5.0_bbeec66325a14413ae17257793028ceb5cd6204b </code>这样非常直观的名称。</p>
+<h1 id="使用-Jenkins"><a href="#使用-Jenkins" class="headerlink" title="使用 Jenkins"></a>使用 <code>Jenkins</code></h1><p>新建 <code>Item</code>开始使用，具体使用方法谷歌，其实不难。也可以查看 <a href="https://wiki.jenkins.io/">WIKI</a>。</p>
+<h1 id="注意点"><a href="#注意点" class="headerlink" title="注意点"></a>注意点</h1><p>如果更改了用户组，记得修改权限，否则<code>Jenkins</code>将抛出<code>IO error</code>无法启动。比如本来<code>/var/lib/jenkins</code>目录所有者是<code>usera</code>，现在需要更改为<code>userb</code>所有：</p>
+<pre class="line-numbers language-Bash" data-language="Bash"><code class="language-Bash">sudo chown -R userb:userb &#x2F;var&#x2F;lib&#x2F;jenkins
+# 修改权限，我是直接给了777
+sudo chmod -R 777 &#x2F;var&#x2F;lib&#x2F;jenkins<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+]]></content>
+      <categories>
+        <category>工程自动化</category>
+      </categories>
+      <tags>
+        <tag>Jenkins</tag>
+        <tag>CI</tag>
+        <tag>持续集成</tag>
+        <tag>工程自动化</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Ubuntu 18.04 LTS 安装部署 Seafile</title>
     <url>/2018/10/01/Ubuntu-18-04-LTS-%E5%AE%89%E8%A3%85%E9%83%A8%E7%BD%B2-Seafile/</url>
     <content><![CDATA[<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>新入职的公司内部同步一些文件使用的 <code>Seafile</code>，没部署远程，只使用的内网，由于这个 <code>seafile</code> 是一个前同事搭建的（之前的 iOSer，我来替代他了，阴差阳错。。。），可能那时他也不是太熟吧，把文件存放目录放在了安装位置的挂载分区，导致长时间使用下来，该分区磁盘空间满了，无法继续运行，于是我简单 <code>google</code> 了一番，开始转移目录，找到了 <code>seafile-data</code> 目录之后，发现查看都没权限，包括 <code>cp -R</code>、<code>mv</code> 都无法运行，直接给了<code>755</code>权限，<code>mv seafile-data</code> 目录至新目录，更改 <code>seafile.ini</code> 文件，指向新目录，重启 <code>seafile</code>，发现 <code>seafile</code> 已经无法启动……下意识重启一下电脑，还是不行，这时看下禅道，测试又提了一堆 <code>BUG</code>，就先放下开始修 BUG 了。第二天早上过来继续，发现系统都进不去了，登录界面无法输入密码，没办法只好命令行登入系统，再次 <code>google</code> 了解到 <code>seafile</code> 存放文件的形式类似于 <code>svn</code> 或 <code>git</code> ，也是那种打散存放并内部记录 <code>state</code> 和带有 <code>commit log</code> 的，看到了官方有修复工具，尝试无果，放弃了，系统也崩了（多年linux 经验解决不了，尝试了几个小时，<code>google</code> 了解到貌似是 <code>Ubuntu 16.04 LTS</code> 的 <code>bug</code> 所致，有个旧内核依赖怎么都干不掉，导致所有的 <code>dpkg -i</code> 都运行不了），这台机器上安装了 <code>jenkins</code> 和 <code>seafile</code>，问过了别无其他，心想 <code>jenkins</code> 我也熟练部署了，只能硬着头皮去跟组长说要重装系统，于是有了这篇文章。</p>
@@ -2870,135 +2938,6 @@ SERVER_EMAIL &#x3D; EMAIL_HOST_USER<span aria-hidden="true" class="line-numbers-
       </tags>
   </entry>
   <entry>
-    <title>Ubuntu 18.04 搭建 Jenkins</title>
-    <url>/2018/09/12/Ubuntu-18-04-%E6%90%AD%E5%BB%BA-Jenkins/</url>
-    <content><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><blockquote>
-<p>工欲善其事，必先利其器</p>
-</blockquote>
-<p>打包是开发过程中必不可少的一步，随着项目的壮大，打包时间越来越长，如果一直手动操作，浪费时间不说，还容易出错。记录一下安装<code>Jenkins</code>的过程，以备不时之需。</p>
-<span id="more"></span>
-
-<h1 id="环境（要求）"><a href="#环境（要求）" class="headerlink" title="环境（要求）"></a>环境（要求）</h1><ul>
-<li>宿主机系统：Ubuntu 18.04</li>
-<li><code>root</code>用户最高权限</li>
-</ul>
-<h1 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h1><h2 id="安装-JAVA"><a href="#安装-JAVA" class="headerlink" title="安装 JAVA"></a>安装 <code>JAVA</code></h2><p><code>Jenkins</code>是基于<code>JAVA</code>的应用程序，所以要先安装<code>Java OpenJDK</code>。</p>
-<h3 id="添加源"><a href="#添加源" class="headerlink" title="添加源"></a>添加源</h3><p>安装包<code>software-properties-common</code>，添加<code>java OpenJDK PPA </code>仓库源</p>
-<pre class="line-numbers language-Bash" data-language="Bash"><code class="language-Bash">sudo apt install software-properties-common apt-transport-https -y
-sudo add-apt-repository ppa:openjdk-r&#x2F;ppa -y<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
-
-<h3 id="安装JAVA-8"><a href="#安装JAVA-8" class="headerlink" title="安装JAVA 8"></a>安装<code>JAVA 8</code></h3><pre class="line-numbers language-Bash" data-language="Bash"><code class="language-Bash">sudo apt install openjdk-8-jdk -y<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<h4 id="检查-JAVA-是否安装成功"><a href="#检查-JAVA-是否安装成功" class="headerlink" title="检查 JAVA 是否安装成功"></a>检查 <code>JAVA</code> 是否安装成功</h4><pre class="line-numbers language-Bash" data-language="Bash"><code class="language-Bash">java -version<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<h2 id="安装-Jenkins"><a href="#安装-Jenkins" class="headerlink" title="安装 Jenkins"></a>安装 <code>Jenkins</code></h2><p><code>Jenkins</code>提供<code>Ubuntu</code>安装包，从该仓库安装</p>
-<h3 id="添加Jenkins签名"><a href="#添加Jenkins签名" class="headerlink" title="添加Jenkins签名"></a>添加<code>Jenkins</code>签名</h3><pre class="line-numbers language-Bash" data-language="Bash"><code class="language-Bash">wget -q -O - https:&#x2F;&#x2F;pkg.jenkins.io&#x2F;debian-stable&#x2F;jenkins.io.key | sudo apt-key add <span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<h3 id="添加Jenkins仓库"><a href="#添加Jenkins仓库" class="headerlink" title="添加Jenkins仓库"></a>添加<code>Jenkins</code>仓库</h3><h4 id="添加稳定版"><a href="#添加稳定版" class="headerlink" title="添加稳定版"></a>添加稳定版</h4><pre class="line-numbers language-Bash" data-language="Bash"><code class="language-Bash">sudo apt-add-repository &quot;deb https:&#x2F;&#x2F;pkg.jenkins.io&#x2F;debian-stable binary&#x2F;&quot;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<h4 id="添加最新版"><a href="#添加最新版" class="headerlink" title="添加最新版"></a>添加最新版</h4><pre class="line-numbers language-Bash" data-language="Bash"><code class="language-Bash">sudo apt-add-repository &quot;deb http:&#x2F;&#x2F;pkg.jenkins-ci.org&#x2F;debian binary&#x2F;&quot;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-<h3 id="更新apt，安装Jenkins"><a href="#更新apt，安装Jenkins" class="headerlink" title="更新apt，安装Jenkins"></a>更新<code>apt</code>，安装<code>Jenkins</code></h3><pre class="line-numbers language-Bash" data-language="Bash"><code class="language-Bash">sudo apt update
-sudo apt install jenkins -y<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
-
-<h3 id="启动Jenkins并加入开机自启"><a href="#启动Jenkins并加入开机自启" class="headerlink" title="启动Jenkins并加入开机自启"></a>启动<code>Jenkins</code>并加入开机自启</h3><pre class="line-numbers language-Bash" data-language="Bash"><code class="language-Bash">systemctl start jenkins
-systemctl enable jenkins<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
-
-<h3 id="检查Jenkins是否启动"><a href="#检查Jenkins是否启动" class="headerlink" title="检查Jenkins是否启动"></a>检查<code>Jenkins</code>是否启动</h3><p><code>Jenkins</code>已经启动，默认端口是<code>8080</code>,检查一下是否已运行</p>
-<pre class="line-numbers language-Bash" data-language="Bash"><code class="language-Bash">netstat -plntu<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<h1 id="配置防火墙"><a href="#配置防火墙" class="headerlink" title="配置防火墙"></a>配置防火墙</h1><pre class="line-numbers language-Bash" data-language="Bash"><code class="language-Bash">ufw allow ssh
-ufw allow http
-ufw allow https
-ufw enable<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
-<p>如果需要从外部机器打开<code>Jenkins</code>，记得开启防火墙端口，以默认<code>8080</code>端口为例</p>
-<pre class="line-numbers language-Bash" data-language="Bash"><code class="language-Bash">sudo firewall-cmd --permanent --add-port&#x3D;8080&#x2F;tcp
-sudo firewall-cmd --reload
-sudo firewall-cmd --list-all<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
-
-<h1 id="启动Jenkins"><a href="#启动Jenkins" class="headerlink" title="启动Jenkins"></a>启动<code>Jenkins</code></h1><p>浏览器打开<a href="localhost:8080"><code>localhost:8080</code></a>，不出意外进入<code>Jenkins</code>界面了，<code>Jenkins</code>会有一个初始的管理密码，查看：</p>
-<pre class="line-numbers language-Bash" data-language="Bash"><code class="language-Bash">cat &#x2F;var&#x2F;lib&#x2F;jenkins&#x2F;secrets&#x2F;initialAdminPassword<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<h2 id="安装推荐的插件"><a href="#安装推荐的插件" class="headerlink" title="安装推荐的插件"></a>安装推荐的插件</h2><p>复制该密码到浏览器，将进入到<code>Jenkins</code>初始化界面，按照指引安装推荐的插件，等待结束。如果一直提示网络离线，请确保没有使用 VPN，如果用了<code>Shadowsocks</code>，走<code>PAC</code>模式都不行，请关闭。</p>
-<h2 id="安装其它插件"><a href="#安装其它插件" class="headerlink" title="安装其它插件"></a>安装其它插件</h2><h3 id="正常联网安装"><a href="#正常联网安装" class="headerlink" title="正常联网安装"></a>正常联网安装</h3><p>如果网络一直没问题的话，在<code>jenkins</code>内可以安装插件就在 <code>Manage Jenkins</code> -&gt; <code>Manage Plugins</code> -&gt; <code>Available</code>里面搜索想要安装的插件，安装完后记得重启<code>Jenkins</code>，如果网络一直不好，可以选择下面的方式离线安装。</p>
-<h3 id="离线下载安装"><a href="#离线下载安装" class="headerlink" title="离线下载安装"></a>离线下载安装</h3><p>去 <a href="https://plugins.jenkins.io/">https://plugins.jenkins.io</a> 下载<code>Jenkins</code>插件，下载好后在<code>Jenkins</code>页面安装，在 <code>Manage Jenkins</code> -&gt; <code>Manage Plugins</code> -&gt; <code>Advanced</code> -&gt; <code>Upload Plugin</code>里上传安装。这里建议安装<code>Environment Injector Plugin</code>、<code>build-name-setter</code>，第一个是在构建时可以在运行时引入环境变量，在<code>master-slave</code>模式下尤为有用，第二个是可以动态修改构建名称，默认的是<code>#1</code>、<code>#2</code> 这样直接根据构建次数命名的非常不直观，自定义以后就能实现类似于<code>DongKe_ad_hoc_#9_origin/ftr-1.5.0_bbeec66325a14413ae17257793028ceb5cd6204b </code>这样非常直观的名称。</p>
-<h1 id="使用-Jenkins"><a href="#使用-Jenkins" class="headerlink" title="使用 Jenkins"></a>使用 <code>Jenkins</code></h1><p>新建 <code>Item</code>开始使用，具体使用方法谷歌，其实不难。也可以查看 <a href="https://wiki.jenkins.io/">WIKI</a>。</p>
-<h1 id="注意点"><a href="#注意点" class="headerlink" title="注意点"></a>注意点</h1><p>如果更改了用户组，记得修改权限，否则<code>Jenkins</code>将抛出<code>IO error</code>无法启动。比如本来<code>/var/lib/jenkins</code>目录所有者是<code>usera</code>，现在需要更改为<code>userb</code>所有：</p>
-<pre class="line-numbers language-Bash" data-language="Bash"><code class="language-Bash">sudo chown -R userb:userb &#x2F;var&#x2F;lib&#x2F;jenkins
-# 修改权限，我是直接给了777
-sudo chmod -R 777 &#x2F;var&#x2F;lib&#x2F;jenkins<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
-]]></content>
-      <categories>
-        <category>工程自动化</category>
-      </categories>
-      <tags>
-        <tag>Jenkins</tag>
-        <tag>CI</tag>
-        <tag>持续集成</tag>
-        <tag>工程自动化</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Ubuntu 开启 ssh 登录</title>
-    <url>/2013/04/02/Ubuntu-%E5%BC%80%E5%90%AF-ssh-%E7%99%BB%E5%BD%95/</url>
-    <content><![CDATA[<p>电脑多了，总是需要切来切去，工作或者在家里都不止一台电脑，jenkins 构建机、网盘机等，linux 服务机我这用的基本都是 Ubuntu，记录下 Ubuntu 开启 ssh 登录。</p>
-<span id="more"></span>
-
-<h2 id="查看是否安装了-ssh"><a href="#查看是否安装了-ssh" class="headerlink" title="查看是否安装了 ssh"></a>查看是否安装了 ssh</h2><pre class="line-numbers language-Bash" data-language="Bash"><code class="language-Bash">ps -e | grep ssh<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<h2 id="安装ssh-server服务"><a href="#安装ssh-server服务" class="headerlink" title="安装ssh-server服务"></a>安装ssh-server服务</h2><pre class="line-numbers language-Bash" data-language="Bash"><code class="language-Bash">sudo apt-get install openssh-server<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<h2 id="查看安装的服务"><a href="#查看安装的服务" class="headerlink" title="查看安装的服务"></a>查看安装的服务</h2><pre class="line-numbers language-Bash" data-language="Bash"><code class="language-Bash">dpkg -l | grep ssh<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<p>再次<code>ps -e | grep ssh</code>查看 ssh 是否运行</p>
-<h2 id="远程登录测试"><a href="#远程登录测试" class="headerlink" title="远程登录测试"></a>远程登录测试</h2><pre class="line-numbers language-Bash" data-language="Bash"><code class="language-Bash">ssh user@ip<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<h2 id="开启允许密码登录"><a href="#开启允许密码登录" class="headerlink" title="开启允许密码登录"></a>开启允许密码登录</h2><p>在有些云服务器，比如亚马逊的轻量应用服务器上，默认是关闭密码登录的，只能使用密钥登录，比较麻烦（但是安全），我们可以在从服务商后台远程登录后，设置允许ssh登录并重启ssh服务。</p>
-<p>修改 root 用户和服务商默认创建的用户密码（此处以centos用户为例）：</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 设置 root 用户密码</span>
-<span class="token function">sudo</span> <span class="token function">passwd</span> root
-<span class="token comment"># 设置用户 centos 密码</span>
-<span class="token function">sudo</span> <span class="token function">passwd</span> centos
-<span class="token comment"># 以 root 用户登录</span>
-<span class="token function">su</span> root
-<span class="token comment"># 修改允许密码登录（此处使用	sed 修改），如果稳妥些最好手动修改，修改重要数据记得备份</span>
-<span class="token function">sed</span> <span class="token parameter variable">-ri</span> <span class="token string">'s/^#?(PasswordAuthentication)\s+(yes|no)/\1 yes/'</span> /etc/ssh/sshd_config <span class="token operator">&amp;&amp;</span>
-<span class="token function">sed</span> <span class="token parameter variable">-ri</span> <span class="token string">'s/^#?(PermitRootLogin)\s+(yes|no)/\1 yes/'</span> /etc/ssh/sshd_config <span class="token operator">&amp;&amp;</span>
-<span class="token function">sed</span> <span class="token parameter variable">-ri</span> <span class="token string">'s/^/#/;s/sleep 10"\s+/&amp;\n/'</span> /root/.ssh/authorized_keys
-<span class="token comment"># 或者手动修改</span>
-<span class="token function">vi</span> /etc/ssh/sshd_config 
-<span class="token comment"># 或者</span>
-<span class="token function">nano</span> /etc/ssh/sshd_config
-<span class="token comment"># 修改完重启 ssh 服务</span>
-<span class="token function">service</span> sshd restart<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>]]></content>
-      <categories>
-        <category>Linux</category>
-      </categories>
-      <tags>
-        <tag>Linux</tag>
-        <tag>SSH</tag>
-        <tag>Shell</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Wap APP开发心得</title>
-    <url>/2017/05/03/Wap-APP%E5%BC%80%E5%8F%91%E5%BF%83%E5%BE%97/</url>
-    <content><![CDATA[<p>经过了一个多月，加班加点，总算完成基本完成了这个Wap APP，可以作为 Version one 面见客户了，感受不多。</p>
-<p>MUI 结合 Hbuilder 使用 HTML5+ 开发APP整体来说还是挺顺畅的，虽然文档不完整，但是有开发经验的一眼看过去就知道怎么用了，以后做些不是大型的APP或许会成为我的首选。</p>
-<span id="more"></span>
-
-<p>算来这也算是我第三次做一个完整的 Wap 类型的 APP了，总体来说这次是最满意的，前面两个都是用的 JSP，很多特性也是依赖其完成的，但这次是纯原生页面，实现了做这个之前感觉很难的问题（至少去年这个时候感觉好难），当然了，这中间少不了 5+ 和 MUI 的功劳，遗憾的是没用上 Vue，忙的时候总是感叹自己时间不够，太多想学的东西没时间学，但些许零碎的空闲时间一有了又无法埋头去学，这样不好啊~ </p>
-<p>这个 APP 先发布 iOS 端， 安卓端还有些许适配问题，相信这次之后，对Wap 开发 APP 能够有一个比较深的认识。</p>
-]]></content>
-      <categories>
-        <category>APP开发</category>
-      </categories>
-      <tags>
-        <tag>JavaScript</tag>
-        <tag>MUI</tag>
-        <tag>HTML5</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Ubuntu 18.04 添加、修改交换空间</title>
     <url>/2019/01/05/Ubuntu-18-04-%E6%B7%BB%E5%8A%A0%E3%80%81%E4%BF%AE%E6%94%B9%E4%BA%A4%E6%8D%A2%E7%A9%BA%E9%97%B4/</url>
     <content><![CDATA[<h1 id="检查系统的交换信息"><a href="#检查系统的交换信息" class="headerlink" title="检查系统的交换信息"></a>检查系统的交换信息</h1><p>查看是否已经存在<code>swapfile</code></p>
@@ -3085,6 +3024,67 @@ vm.vfs_cache_pressure <span class="token operator">=</span> <span class="token n
       <tags>
         <tag>Ubuntu</tag>
         <tag>swap 空间</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Ubuntu 开启 ssh 登录</title>
+    <url>/2013/04/02/Ubuntu-%E5%BC%80%E5%90%AF-ssh-%E7%99%BB%E5%BD%95/</url>
+    <content><![CDATA[<p>电脑多了，总是需要切来切去，工作或者在家里都不止一台电脑，jenkins 构建机、网盘机等，linux 服务机我这用的基本都是 Ubuntu，记录下 Ubuntu 开启 ssh 登录。</p>
+<span id="more"></span>
+
+<h2 id="查看是否安装了-ssh"><a href="#查看是否安装了-ssh" class="headerlink" title="查看是否安装了 ssh"></a>查看是否安装了 ssh</h2><pre class="line-numbers language-Bash" data-language="Bash"><code class="language-Bash">ps -e | grep ssh<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<h2 id="安装ssh-server服务"><a href="#安装ssh-server服务" class="headerlink" title="安装ssh-server服务"></a>安装ssh-server服务</h2><pre class="line-numbers language-Bash" data-language="Bash"><code class="language-Bash">sudo apt-get install openssh-server<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<h2 id="查看安装的服务"><a href="#查看安装的服务" class="headerlink" title="查看安装的服务"></a>查看安装的服务</h2><pre class="line-numbers language-Bash" data-language="Bash"><code class="language-Bash">dpkg -l | grep ssh<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>再次<code>ps -e | grep ssh</code>查看 ssh 是否运行</p>
+<h2 id="远程登录测试"><a href="#远程登录测试" class="headerlink" title="远程登录测试"></a>远程登录测试</h2><pre class="line-numbers language-Bash" data-language="Bash"><code class="language-Bash">ssh user@ip<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<h2 id="开启允许密码登录"><a href="#开启允许密码登录" class="headerlink" title="开启允许密码登录"></a>开启允许密码登录</h2><p>在有些云服务器，比如亚马逊的轻量应用服务器上，默认是关闭密码登录的，只能使用密钥登录，比较麻烦（但是安全），我们可以在从服务商后台远程登录后，设置允许ssh登录并重启ssh服务。</p>
+<p>修改 root 用户和服务商默认创建的用户密码（此处以centos用户为例）：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 设置 root 用户密码</span>
+<span class="token function">sudo</span> <span class="token function">passwd</span> root
+<span class="token comment"># 设置用户 centos 密码</span>
+<span class="token function">sudo</span> <span class="token function">passwd</span> centos
+<span class="token comment"># 以 root 用户登录</span>
+<span class="token function">su</span> root
+<span class="token comment"># 修改允许密码登录（此处使用	sed 修改），如果稳妥些最好手动修改，修改重要数据记得备份</span>
+<span class="token function">sed</span> <span class="token parameter variable">-ri</span> <span class="token string">'s/^#?(PasswordAuthentication)\s+(yes|no)/\1 yes/'</span> /etc/ssh/sshd_config <span class="token operator">&amp;&amp;</span>
+<span class="token function">sed</span> <span class="token parameter variable">-ri</span> <span class="token string">'s/^#?(PermitRootLogin)\s+(yes|no)/\1 yes/'</span> /etc/ssh/sshd_config <span class="token operator">&amp;&amp;</span>
+<span class="token function">sed</span> <span class="token parameter variable">-ri</span> <span class="token string">'s/^/#/;s/sleep 10"\s+/&amp;\n/'</span> /root/.ssh/authorized_keys
+<span class="token comment"># 或者手动修改</span>
+<span class="token function">vi</span> /etc/ssh/sshd_config 
+<span class="token comment"># 或者</span>
+<span class="token function">nano</span> /etc/ssh/sshd_config
+<span class="token comment"># 修改完重启 ssh 服务</span>
+<span class="token function">service</span> sshd restart<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>]]></content>
+      <categories>
+        <category>Linux</category>
+      </categories>
+      <tags>
+        <tag>Linux</tag>
+        <tag>SSH</tag>
+        <tag>Shell</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Wap APP开发心得</title>
+    <url>/2017/05/03/Wap-APP%E5%BC%80%E5%8F%91%E5%BF%83%E5%BE%97/</url>
+    <content><![CDATA[<p>经过了一个多月，加班加点，总算完成基本完成了这个Wap APP，可以作为 Version one 面见客户了，感受不多。</p>
+<p>MUI 结合 Hbuilder 使用 HTML5+ 开发APP整体来说还是挺顺畅的，虽然文档不完整，但是有开发经验的一眼看过去就知道怎么用了，以后做些不是大型的APP或许会成为我的首选。</p>
+<span id="more"></span>
+
+<p>算来这也算是我第三次做一个完整的 Wap 类型的 APP了，总体来说这次是最满意的，前面两个都是用的 JSP，很多特性也是依赖其完成的，但这次是纯原生页面，实现了做这个之前感觉很难的问题（至少去年这个时候感觉好难），当然了，这中间少不了 5+ 和 MUI 的功劳，遗憾的是没用上 Vue，忙的时候总是感叹自己时间不够，太多想学的东西没时间学，但些许零碎的空闲时间一有了又无法埋头去学，这样不好啊~ </p>
+<p>这个 APP 先发布 iOS 端， 安卓端还有些许适配问题，相信这次之后，对Wap 开发 APP 能够有一个比较深的认识。</p>
+]]></content>
+      <categories>
+        <category>APP开发</category>
+      </categories>
+      <tags>
+        <tag>JavaScript</tag>
+        <tag>MUI</tag>
+        <tag>HTML5</tag>
       </tags>
   </entry>
   <entry>
@@ -3340,67 +3340,6 @@ end<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span>
       </tags>
   </entry>
   <entry>
-    <title>git 开发中常见误操作及个人认为的最佳解决办法</title>
-    <url>/2016/08/03/git-%E5%BC%80%E5%8F%91%E4%B8%AD%E5%B8%B8%E8%A7%81%E8%AF%AF%E6%93%8D%E4%BD%9C%E5%8F%8A%E4%B8%AA%E4%BA%BA%E8%AE%A4%E4%B8%BA%E7%9A%84%E6%9C%80%E4%BD%B3%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/</url>
-    <content><![CDATA[<h1 id="概要"><a href="#概要" class="headerlink" title="概要"></a>概要</h1><p>这篇文章记录的是在使用<code>git</code>过程中遇到的问题及我的解决办法，普通的使用这里不会记录，遇到了更多问题之后我会来更新这篇文章。</p>
-<span id="more"></span>
-
-<h2 id="commit时选错了对应文件"><a href="#commit时选错了对应文件" class="headerlink" title="commit时选错了对应文件"></a><code>commit</code>时选错了对应文件</h2><p>提交记录一般只做一件事情就好，可以的话，适当的细分是很有必要的，当然对应的关联的改动文件也要正确，但是如果是一次改动中动了多个文件，但是改了两个需求，又想分两次提交，当然是多选该功能改动的文件然后写<code>commit log</code>，但是如果不小心选错了或者多选择了不相关文件并已经<code>commit</code>了的话，可是使用<code>git reset</code>来恢复，先<code>git log</code>复制最新一次的上一次的<code>commit id</code>，执行<code>git reset --soft desc_commit_id</code>，此时代码便会恢复到你刚刚提交之前，改动都还在但是错误的 <code>commit log</code> 不见了，这是强迫症最舒服的地方，此时你可以重新选择文件再次提交，干净的<code>commit log</code>是不是很舒服？</p>
-<p><strong>注意</strong><code>git reset</code>是有点危险的操作，在不确定是否一定抛弃已有改动，不要使用<code>git reset --hard</code>，注意这里的参数，<code>--hard</code>和<code>--soft</code>，前者会恢复到当次 <code>commit id</code>并且<code>discard</code>了<code>commit id</code>之前所有的<code>commit id</code>的改动，如果远程端没有记录，那么你将丢失未保存的所有改动，切记切记；而后者只会删除你不需要的<code>commit log</code>，但是该<code>commit id</code>之前所有的<code>commit id</code>的改动都还在，只是’commit log’被清了，此时你可以重新写<code>log</code>，如果已经推送到了远程，发现很及时的话，先<code>git pull</code>最新代码，确保没有同事新提交过代码，直接用<code>reset</code>之后的记录覆盖远端，如果有同事提交了，可以<code>git reset --soft</code>之后<code>cheery pick</code>该记录再覆盖远端。</p>
-<p>慢慢细读并跟着走的话应该可以看懂了，这里还是实例记录下：</p>
-<pre class="line-numbers language-Bash" data-language="Bash"><code class="language-Bash">☁  Desktop  mkdir example
-☁  Desktop  cd example
-☁  example  git init
-Initialized empty Git repository in &#x2F;Users&#x2F;VanJay&#x2F;Desktop&#x2F;example&#x2F;.git&#x2F;
-☁  example [master] git add .
-☁  example [master] git clone https:&#x2F;&#x2F;github.com&#x2F;dracula&#x2F;xcode.git
-☁  example [master] git commit -m &quot;Initial commit&quot;
-On branch master
-
-Initial commit
-
-nothing to commit
-☁  example [master] git log
-fatal: your current branch &#39;master&#39; does not have any commits yet
-☁  example [master] touch a.file
-☁  example [master] ⚡ git add .
-☁  example [master] ⚡ git commit -m &quot;Added a.file&quot;
-[master (root-commit) fa2ed5d] Added a.file
- 1 file changed, 0 insertions(+), 0 deletions(-)
- create mode 100644 a.file
-☁  example [master] git log
-☁  example [master] touch b.file
-☁  example [master] ⚡ touch c.file
-☁  example [master] ⚡ git add .
-☁  example [master] ⚡ git commit help
-error: pathspec &#39;help&#39; did not match any file(s) known to git.
-☁  example [master] ⚡ git commit --help
-☁  example [master] ⚡ git commit -m &quot;Added b.file&quot;
-[master 0a03cd8] Added b.file
- 2 files changed, 0 insertions(+), 0 deletions(-)
- create mode 100644 b.file
- create mode 100644 c.file
-☁  example [master] git log
-☁  example [master] git reset --soft fa2ed5d01756b3b63b00488418c1a73eb30c4d66
-☁  example [master] ⚡ git status
-On branch master
-Changes to be committed:
-  (use &quot;git reset HEAD &lt;file&gt;...&quot; to unstage)
-
-	new file:   b.file
-	new file:   c.file
-☁  example [master] ⚡ git log<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<p>可以看到在提交了 <code>b.file</code>和<code>c.file</code>之后恢复了之前的状态，<code>git log</code>查看只有一次<code>commit log</code>了，这个时候可以重新写<code>log</code>提交。</p>
-]]></content>
-      <categories>
-        <category>git</category>
-      </categories>
-      <tags>
-        <tag>git</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>iOS 企业版应用一键更新</title>
     <url>/2017/03/22/iOS-%E4%BC%81%E4%B8%9A%E7%89%88%E5%BA%94%E7%94%A8%E4%B8%80%E9%94%AE%E6%9B%B4%E6%96%B0/</url>
     <content><![CDATA[<p>如果后台没有获取版本号的接口，自己就直接从下载企业版应用指向的 <code>plist</code> 文件中获取吧，如果有，就不用这么麻烦还要去下载整个 <code>plist</code> 文件了，直接根据拿到的版本好与本地对比即可。</p>
@@ -3521,6 +3460,67 @@ Changes to be committed:
         <tag>企业版应用更新</tag>
         <tag>打包</tag>
         <tag>发布</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>git 开发中常见误操作及个人认为的最佳解决办法</title>
+    <url>/2016/08/03/git-%E5%BC%80%E5%8F%91%E4%B8%AD%E5%B8%B8%E8%A7%81%E8%AF%AF%E6%93%8D%E4%BD%9C%E5%8F%8A%E4%B8%AA%E4%BA%BA%E8%AE%A4%E4%B8%BA%E7%9A%84%E6%9C%80%E4%BD%B3%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/</url>
+    <content><![CDATA[<h1 id="概要"><a href="#概要" class="headerlink" title="概要"></a>概要</h1><p>这篇文章记录的是在使用<code>git</code>过程中遇到的问题及我的解决办法，普通的使用这里不会记录，遇到了更多问题之后我会来更新这篇文章。</p>
+<span id="more"></span>
+
+<h2 id="commit时选错了对应文件"><a href="#commit时选错了对应文件" class="headerlink" title="commit时选错了对应文件"></a><code>commit</code>时选错了对应文件</h2><p>提交记录一般只做一件事情就好，可以的话，适当的细分是很有必要的，当然对应的关联的改动文件也要正确，但是如果是一次改动中动了多个文件，但是改了两个需求，又想分两次提交，当然是多选该功能改动的文件然后写<code>commit log</code>，但是如果不小心选错了或者多选择了不相关文件并已经<code>commit</code>了的话，可是使用<code>git reset</code>来恢复，先<code>git log</code>复制最新一次的上一次的<code>commit id</code>，执行<code>git reset --soft desc_commit_id</code>，此时代码便会恢复到你刚刚提交之前，改动都还在但是错误的 <code>commit log</code> 不见了，这是强迫症最舒服的地方，此时你可以重新选择文件再次提交，干净的<code>commit log</code>是不是很舒服？</p>
+<p><strong>注意</strong><code>git reset</code>是有点危险的操作，在不确定是否一定抛弃已有改动，不要使用<code>git reset --hard</code>，注意这里的参数，<code>--hard</code>和<code>--soft</code>，前者会恢复到当次 <code>commit id</code>并且<code>discard</code>了<code>commit id</code>之前所有的<code>commit id</code>的改动，如果远程端没有记录，那么你将丢失未保存的所有改动，切记切记；而后者只会删除你不需要的<code>commit log</code>，但是该<code>commit id</code>之前所有的<code>commit id</code>的改动都还在，只是’commit log’被清了，此时你可以重新写<code>log</code>，如果已经推送到了远程，发现很及时的话，先<code>git pull</code>最新代码，确保没有同事新提交过代码，直接用<code>reset</code>之后的记录覆盖远端，如果有同事提交了，可以<code>git reset --soft</code>之后<code>cheery pick</code>该记录再覆盖远端。</p>
+<p>慢慢细读并跟着走的话应该可以看懂了，这里还是实例记录下：</p>
+<pre class="line-numbers language-Bash" data-language="Bash"><code class="language-Bash">☁  Desktop  mkdir example
+☁  Desktop  cd example
+☁  example  git init
+Initialized empty Git repository in &#x2F;Users&#x2F;VanJay&#x2F;Desktop&#x2F;example&#x2F;.git&#x2F;
+☁  example [master] git add .
+☁  example [master] git clone https:&#x2F;&#x2F;github.com&#x2F;dracula&#x2F;xcode.git
+☁  example [master] git commit -m &quot;Initial commit&quot;
+On branch master
+
+Initial commit
+
+nothing to commit
+☁  example [master] git log
+fatal: your current branch &#39;master&#39; does not have any commits yet
+☁  example [master] touch a.file
+☁  example [master] ⚡ git add .
+☁  example [master] ⚡ git commit -m &quot;Added a.file&quot;
+[master (root-commit) fa2ed5d] Added a.file
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+ create mode 100644 a.file
+☁  example [master] git log
+☁  example [master] touch b.file
+☁  example [master] ⚡ touch c.file
+☁  example [master] ⚡ git add .
+☁  example [master] ⚡ git commit help
+error: pathspec &#39;help&#39; did not match any file(s) known to git.
+☁  example [master] ⚡ git commit --help
+☁  example [master] ⚡ git commit -m &quot;Added b.file&quot;
+[master 0a03cd8] Added b.file
+ 2 files changed, 0 insertions(+), 0 deletions(-)
+ create mode 100644 b.file
+ create mode 100644 c.file
+☁  example [master] git log
+☁  example [master] git reset --soft fa2ed5d01756b3b63b00488418c1a73eb30c4d66
+☁  example [master] ⚡ git status
+On branch master
+Changes to be committed:
+  (use &quot;git reset HEAD &lt;file&gt;...&quot; to unstage)
+
+	new file:   b.file
+	new file:   c.file
+☁  example [master] ⚡ git log<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>可以看到在提交了 <code>b.file</code>和<code>c.file</code>之后恢复了之前的状态，<code>git log</code>查看只有一次<code>commit log</code>了，这个时候可以重新写<code>log</code>提交。</p>
+]]></content>
+      <categories>
+        <category>git</category>
+      </categories>
+      <tags>
+        <tag>git</tag>
       </tags>
   </entry>
   <entry>
@@ -6486,6 +6486,66 @@ sys<span class="token punctuation">.</span>stdout <span class="token operator">=
       </tags>
   </entry>
   <entry>
+    <title>免越狱钉钉远程打卡</title>
+    <url>/2019/02/15/%E5%85%8D%E8%B6%8A%E7%8B%B1%E9%92%89%E9%92%89%E8%BF%9C%E7%A8%8B%E6%89%93%E5%8D%A1/</url>
+    <content><![CDATA[<blockquote>
+<p>无需越狱，解决 iOS 版钉钉远程打卡<br>折腾记录，备忘</p>
+</blockquote>
+<span id="more"></span>
+
+<h1 id="准备动态库"><a href="#准备动态库" class="headerlink" title="准备动态库"></a>准备动态库</h1><p>准备好<code>DingTalkHelper.dylib</code>和<code>libsubstrate.dylib</code><br>备注：<code>DingTalkHelper.dylib</code>可以去 <a href="http://cydiaupdates.com/">http://cydiaupdates.com</a> 下载 <code>com.kevll.dingtalkhelper.deb</code> 用 <a href="patcherplus">patcherplus</a> 生成</p>
+<h1 id="创建mobileprovision描述文件"><a href="#创建mobileprovision描述文件" class="headerlink" title="创建mobileprovision描述文件"></a>创建<code>mobileprovision</code>描述文件</h1><p>去 <a href="https://developer.apple.com/account">苹果开发者后台</a> 随意创建一个 <code># App ID</code>，并创建<code>iOS Provisioning Profiles</code>下载到电脑</p>
+<h1 id="生成-entitlements-plist"><a href="#生成-entitlements-plist" class="headerlink" title="生成 entitlements.plist"></a>生成 <code>entitlements.plist</code></h1><pre class="line-numbers language-none"><code class="language-none">security cms -D -i path&#x2F;to&#x2F;downloaded.mobileprovision &gt; provision.plist
+&#x2F;usr&#x2F;libexec&#x2F;PlistBuddy -x -c &#39;Print :Entitlements&#39; provision.plist &gt; entitlements.plist<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<h1 id="安装optool"><a href="#安装optool" class="headerlink" title="安装optool"></a>安装<code>optool</code></h1><p>去 <a href="https://github.com/alexzielenski/optool">https://github.com/alexzielenski/optool</a> 下载源代码</p>
+<h2 id="下载代码"><a href="#下载代码" class="headerlink" title="下载代码"></a>下载代码</h2><pre class="line-numbers language-none"><code class="language-none">git clone https:&#x2F;&#x2F;github.com&#x2F;alexzielenski&#x2F;optool --depth&#x3D;1<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<h2 id="下载git依赖项目"><a href="#下载git依赖项目" class="headerlink" title="下载git依赖项目"></a>下载<code>git</code>依赖项目</h2><pre class="line-numbers language-none"><code class="language-none">git submodule update --init --recursive<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<h2 id="编译项目"><a href="#编译项目" class="headerlink" title="编译项目"></a>编译项目</h2><p>打开<code>Xcode</code>编译项目 或者运行命令</p>
+<pre class="line-numbers language-none"><code class="language-none">xcodebuild -project optool.xcodeproj -configuration Release ARCHS&#x3D;&quot;x86_64&quot; build<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<h2 id="把生成的-optool可执行文件拷贝到bin-目录"><a href="#把生成的-optool可执行文件拷贝到bin-目录" class="headerlink" title="把生成的 optool可执行文件拷贝到bin 目录"></a>把生成的 <code>optool</code>可执行文件拷贝到<code>bin</code> 目录</h2><pre class="line-numbers language-none"><code class="language-none">cp optool &#x2F;usr&#x2F;local&#x2F;bin<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<h2 id="编译报错解决"><a href="#编译报错解决" class="headerlink" title="编译报错解决"></a>编译报错解决</h2><p>去项目工程设置<code>Building Settings</code>修改<code>Base SDK</code>为最新<code>macOS</code></p>
+<h1 id="下载砸了壳的-ipa"><a href="#下载砸了壳的-ipa" class="headerlink" title="下载砸了壳的 ipa"></a>下载砸了壳的 <code>ipa</code></h1><p>可以去某助手下载，或者从已越狱的 iPhone 上导出，iOS 11 上可使用 <code>CrackerXI</code>导出</p>
+<h1 id="重签名-ipa"><a href="#重签名-ipa" class="headerlink" title="重签名 ipa"></a>重签名 ipa</h1><h2 id="解压"><a href="#解压" class="headerlink" title="解压"></a>解压</h2><pre class="line-numbers language-none"><code class="language-none">unzip DingTalk.ipa<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<h2 id="插入动态库到钉钉二进制文件"><a href="#插入动态库到钉钉二进制文件" class="headerlink" title="插入动态库到钉钉二进制文件"></a>插入动态库到钉钉二进制文件</h2><pre class="line-numbers language-none"><code class="language-none">install_name_tool -change &#x2F;Library&#x2F;Frameworks&#x2F;CydiaSubstrate.framework&#x2F;CydiaSubstrate @loader_path&#x2F;libsubstrate.dylib DingTalkHelper.dylib
+cp libsubstrate.dylib DingTalkHelper.dylib Payload&#x2F;DingTalk.app
+删 watch 相关文件
+optool install -c load -p &quot;@executable_path&#x2F;DingTalkHelper.dylib&quot; -t Payload&#x2F;DingTalk.app&#x2F;DingTalk<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+<h2 id="删除旧签名信息"><a href="#删除旧签名信息" class="headerlink" title="删除旧签名信息"></a>删除旧签名信息</h2><pre class="line-numbers language-none"><code class="language-none">rm -rf Payload&#x2F;MyApp.app&#x2F;_CodeSignature<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<h2 id="替换旧描述文件"><a href="#替换旧描述文件" class="headerlink" title="替换旧描述文件"></a>替换旧描述文件</h2><pre class="line-numbers language-none"><code class="language-none">cp path&#x2F;to&#x2F;MyProfile.mobileprovision Payload&#x2F;MyApp.app&#x2F;embedded.mobileprovision<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<h2 id="重签名二进制文件和动态库"><a href="#重签名二进制文件和动态库" class="headerlink" title="重签名二进制文件和动态库"></a>重签名二进制文件和动态库</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">codesign <span class="token parameter variable">-f</span> <span class="token parameter variable">-s</span> <span class="token string">"iPhone Developer: your certificate"</span> <span class="token parameter variable">--entitlements</span> entitlements.plist Payload/DingTalk.app/Frameworks/*
+
+codesign <span class="token parameter variable">-f</span> <span class="token parameter variable">-s</span> <span class="token string">"iPhone Developer: your certificate"</span> <span class="token parameter variable">--entitlements</span> entitlements.plist Payload/DingTalk.app/libsubstrate.dylib
+
+codesign <span class="token parameter variable">-f</span> <span class="token parameter variable">-s</span> <span class="token string">"iPhone Developer: your certificate"</span> <span class="token parameter variable">--entitlements</span> entitlements.plist Payload/DingTalk.app/DingTalkHelper.dylib
+
+codesign <span class="token parameter variable">-f</span> <span class="token parameter variable">-s</span> <span class="token string">"iPhone Developer: your certificate"</span> <span class="token parameter variable">--entitlements</span> entitlements.plist Payload/DingTalk.app<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h2 id="重新打包"><a href="#重新打包" class="headerlink" title="重新打包"></a>重新打包</h2><pre class="line-numbers language-none"><code class="language-none">zip -qr DingTalk-resigned.ipa Payload<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>PS ： <code>security find-identity -p codesigning</code> 查看可用证书</p>
+<h1 id="运行ipa"><a href="#运行ipa" class="headerlink" title="运行ipa"></a>运行<code>ipa</code></h1><p>新建 <code>MonkeyDev</code>app 项目， 把生成的 <code>DingTalk-resigned.ipa</code> 放进 <code>TargetApp</code>，修改 <code>Bundle identifier</code> 为 <code>com.laiwang.DingTalk</code> ，修改  <code>Bundle display name</code> 为 <code>钉钉</code>，运行安装到手机即可。</p>
+<h1 id="使用插件"><a href="#使用插件" class="headerlink" title="使用插件"></a>使用插件</h1><p>打开 钉钉 – 设置 – 钉钉小助手，低调使用。</p>
+]]></content>
+      <categories>
+        <category>工具教程</category>
+      </categories>
+      <tags>
+        <tag>免越狱</tag>
+        <tag>钉钉远程打卡</tag>
+        <tag>教程</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>利用 dumpdecrypted 砸壳</title>
     <url>/2017/02/08/%E5%88%A9%E7%94%A8dumpdecrypted%E7%A0%B8%E5%A3%B3/</url>
     <content><![CDATA[<p>1、编译生成</p>
@@ -6573,66 +6633,6 @@ function loadJs(jsurl, head, callback) &#123;
       </categories>
       <tags>
         <tag>javascript</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>免越狱钉钉远程打卡</title>
-    <url>/2019/02/15/%E5%85%8D%E8%B6%8A%E7%8B%B1%E9%92%89%E9%92%89%E8%BF%9C%E7%A8%8B%E6%89%93%E5%8D%A1/</url>
-    <content><![CDATA[<blockquote>
-<p>无需越狱，解决 iOS 版钉钉远程打卡<br>折腾记录，备忘</p>
-</blockquote>
-<span id="more"></span>
-
-<h1 id="准备动态库"><a href="#准备动态库" class="headerlink" title="准备动态库"></a>准备动态库</h1><p>准备好<code>DingTalkHelper.dylib</code>和<code>libsubstrate.dylib</code><br>备注：<code>DingTalkHelper.dylib</code>可以去 <a href="http://cydiaupdates.com/">http://cydiaupdates.com</a> 下载 <code>com.kevll.dingtalkhelper.deb</code> 用 <a href="patcherplus">patcherplus</a> 生成</p>
-<h1 id="创建mobileprovision描述文件"><a href="#创建mobileprovision描述文件" class="headerlink" title="创建mobileprovision描述文件"></a>创建<code>mobileprovision</code>描述文件</h1><p>去 <a href="https://developer.apple.com/account">苹果开发者后台</a> 随意创建一个 <code># App ID</code>，并创建<code>iOS Provisioning Profiles</code>下载到电脑</p>
-<h1 id="生成-entitlements-plist"><a href="#生成-entitlements-plist" class="headerlink" title="生成 entitlements.plist"></a>生成 <code>entitlements.plist</code></h1><pre class="line-numbers language-none"><code class="language-none">security cms -D -i path&#x2F;to&#x2F;downloaded.mobileprovision &gt; provision.plist
-&#x2F;usr&#x2F;libexec&#x2F;PlistBuddy -x -c &#39;Print :Entitlements&#39; provision.plist &gt; entitlements.plist<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
-
-<h1 id="安装optool"><a href="#安装optool" class="headerlink" title="安装optool"></a>安装<code>optool</code></h1><p>去 <a href="https://github.com/alexzielenski/optool">https://github.com/alexzielenski/optool</a> 下载源代码</p>
-<h2 id="下载代码"><a href="#下载代码" class="headerlink" title="下载代码"></a>下载代码</h2><pre class="line-numbers language-none"><code class="language-none">git clone https:&#x2F;&#x2F;github.com&#x2F;alexzielenski&#x2F;optool --depth&#x3D;1<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<h2 id="下载git依赖项目"><a href="#下载git依赖项目" class="headerlink" title="下载git依赖项目"></a>下载<code>git</code>依赖项目</h2><pre class="line-numbers language-none"><code class="language-none">git submodule update --init --recursive<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<h2 id="编译项目"><a href="#编译项目" class="headerlink" title="编译项目"></a>编译项目</h2><p>打开<code>Xcode</code>编译项目 或者运行命令</p>
-<pre class="line-numbers language-none"><code class="language-none">xcodebuild -project optool.xcodeproj -configuration Release ARCHS&#x3D;&quot;x86_64&quot; build<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<h2 id="把生成的-optool可执行文件拷贝到bin-目录"><a href="#把生成的-optool可执行文件拷贝到bin-目录" class="headerlink" title="把生成的 optool可执行文件拷贝到bin 目录"></a>把生成的 <code>optool</code>可执行文件拷贝到<code>bin</code> 目录</h2><pre class="line-numbers language-none"><code class="language-none">cp optool &#x2F;usr&#x2F;local&#x2F;bin<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<h2 id="编译报错解决"><a href="#编译报错解决" class="headerlink" title="编译报错解决"></a>编译报错解决</h2><p>去项目工程设置<code>Building Settings</code>修改<code>Base SDK</code>为最新<code>macOS</code></p>
-<h1 id="下载砸了壳的-ipa"><a href="#下载砸了壳的-ipa" class="headerlink" title="下载砸了壳的 ipa"></a>下载砸了壳的 <code>ipa</code></h1><p>可以去某助手下载，或者从已越狱的 iPhone 上导出，iOS 11 上可使用 <code>CrackerXI</code>导出</p>
-<h1 id="重签名-ipa"><a href="#重签名-ipa" class="headerlink" title="重签名 ipa"></a>重签名 ipa</h1><h2 id="解压"><a href="#解压" class="headerlink" title="解压"></a>解压</h2><pre class="line-numbers language-none"><code class="language-none">unzip DingTalk.ipa<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<h2 id="插入动态库到钉钉二进制文件"><a href="#插入动态库到钉钉二进制文件" class="headerlink" title="插入动态库到钉钉二进制文件"></a>插入动态库到钉钉二进制文件</h2><pre class="line-numbers language-none"><code class="language-none">install_name_tool -change &#x2F;Library&#x2F;Frameworks&#x2F;CydiaSubstrate.framework&#x2F;CydiaSubstrate @loader_path&#x2F;libsubstrate.dylib DingTalkHelper.dylib
-cp libsubstrate.dylib DingTalkHelper.dylib Payload&#x2F;DingTalk.app
-删 watch 相关文件
-optool install -c load -p &quot;@executable_path&#x2F;DingTalkHelper.dylib&quot; -t Payload&#x2F;DingTalk.app&#x2F;DingTalk<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
-
-
-<h2 id="删除旧签名信息"><a href="#删除旧签名信息" class="headerlink" title="删除旧签名信息"></a>删除旧签名信息</h2><pre class="line-numbers language-none"><code class="language-none">rm -rf Payload&#x2F;MyApp.app&#x2F;_CodeSignature<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<h2 id="替换旧描述文件"><a href="#替换旧描述文件" class="headerlink" title="替换旧描述文件"></a>替换旧描述文件</h2><pre class="line-numbers language-none"><code class="language-none">cp path&#x2F;to&#x2F;MyProfile.mobileprovision Payload&#x2F;MyApp.app&#x2F;embedded.mobileprovision<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<h2 id="重签名二进制文件和动态库"><a href="#重签名二进制文件和动态库" class="headerlink" title="重签名二进制文件和动态库"></a>重签名二进制文件和动态库</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">codesign <span class="token parameter variable">-f</span> <span class="token parameter variable">-s</span> <span class="token string">"iPhone Developer: your certificate"</span> <span class="token parameter variable">--entitlements</span> entitlements.plist Payload/DingTalk.app/Frameworks/*
-
-codesign <span class="token parameter variable">-f</span> <span class="token parameter variable">-s</span> <span class="token string">"iPhone Developer: your certificate"</span> <span class="token parameter variable">--entitlements</span> entitlements.plist Payload/DingTalk.app/libsubstrate.dylib
-
-codesign <span class="token parameter variable">-f</span> <span class="token parameter variable">-s</span> <span class="token string">"iPhone Developer: your certificate"</span> <span class="token parameter variable">--entitlements</span> entitlements.plist Payload/DingTalk.app/DingTalkHelper.dylib
-
-codesign <span class="token parameter variable">-f</span> <span class="token parameter variable">-s</span> <span class="token string">"iPhone Developer: your certificate"</span> <span class="token parameter variable">--entitlements</span> entitlements.plist Payload/DingTalk.app<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<h2 id="重新打包"><a href="#重新打包" class="headerlink" title="重新打包"></a>重新打包</h2><pre class="line-numbers language-none"><code class="language-none">zip -qr DingTalk-resigned.ipa Payload<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<p>PS ： <code>security find-identity -p codesigning</code> 查看可用证书</p>
-<h1 id="运行ipa"><a href="#运行ipa" class="headerlink" title="运行ipa"></a>运行<code>ipa</code></h1><p>新建 <code>MonkeyDev</code>app 项目， 把生成的 <code>DingTalk-resigned.ipa</code> 放进 <code>TargetApp</code>，修改 <code>Bundle identifier</code> 为 <code>com.laiwang.DingTalk</code> ，修改  <code>Bundle display name</code> 为 <code>钉钉</code>，运行安装到手机即可。</p>
-<h1 id="使用插件"><a href="#使用插件" class="headerlink" title="使用插件"></a>使用插件</h1><p>打开 钉钉 – 设置 – 钉钉小助手，低调使用。</p>
-]]></content>
-      <categories>
-        <category>工具教程</category>
-      </categories>
-      <tags>
-        <tag>免越狱</tag>
-        <tag>钉钉远程打卡</tag>
-        <tag>教程</tag>
       </tags>
   </entry>
   <entry>
@@ -7579,178 +7579,6 @@ print(translate(&#39;មិចញុមវាយលេខចូលហើយម�
       </tags>
   </entry>
   <entry>
-    <title>解决公司运维网络限制的两种办法</title>
-    <url>/2024/04/14/%E8%A7%A3%E5%86%B3%E5%85%AC%E5%8F%B8%E8%BF%90%E7%BB%B4%E7%BD%91%E7%BB%9C%E9%99%90%E5%88%B6%E7%9A%84%E4%B8%A4%E7%A7%8D%E5%8A%9E%E6%B3%95/</url>
-    <content><![CDATA[<p>在当今的企业环境中，出于安全和管理的考虑，很多公司的IT部门对内网进行了严格的限制。这些限制通常包括禁止直接从公司网络访问外部的SSH连接、封锁常用的远程桌面协议如RDP和VNC流量，以及禁用了如TeamViewer、AnyDesk、ToDesk等流行的远程控制软件。这种做法虽然能有效防止潜在的安全威胁，但同时也给需要远程访问工作资源的员工带来了不便。本文将介绍几种绕过这些限制的方法，以便在不影响公司网络安全的前提下，提高工作效率和灵活性。</p>
-<span id="more"></span>
-
-<h2 id="方案一：使用Ocserv或AnyLink部署远程网关"><a href="#方案一：使用Ocserv或AnyLink部署远程网关" class="headerlink" title="方案一：使用Ocserv或AnyLink部署远程网关"></a>方案一：使用Ocserv或AnyLink部署远程网关</h2><h3 id="方案介绍"><a href="#方案介绍" class="headerlink" title="方案介绍"></a>方案介绍</h3><p>Ocserv（OpenConnect Server）和AnyLink都是可以部署在服务器上的软件，它们能够创建一个VPN服务，让用户能够通过VPN安全地连接到公司的内网。这种方式需要为特定IP配置路由，以确保只有访问公司资源时才通过VPN，不影响正常的互联网访问。</p>
-<ul>
-<li>官方地址:<ul>
-<li>Ocserv: <a href="https://ocserv.gitlab.io/www/">https://ocserv.gitlab.io/www/</a></li>
-<li>AnyLink: <a href="https://github.com/bjdgyc/anylink">https://github.com/bjdgyc/anylink</a></li>
-</ul>
-</li>
-</ul>
-<h3 id="部署文档地址"><a href="#部署文档地址" class="headerlink" title="部署文档地址"></a>部署文档地址</h3><ul>
-<li>Ocserv部署文档: <a href="https://ocserv.gitlab.io/www/installation.html">https://ocserv.gitlab.io/www/installation.html</a></li>
-<li>AnyLink部署文档: <a href="https://github.com/bjdgyc/anylink/wiki">https://github.com/bjdgyc/anylink/wiki</a></li>
-</ul>
-<h3 id="好处和缺点"><a href="#好处和缺点" class="headerlink" title="好处和缺点"></a>好处和缺点</h3><p><strong>好处:</strong></p>
-<ul>
-<li>提供安全的远程访问内网资源的能力。</li>
-<li>可以细粒度控制访问权限，增强安全性。</li>
-</ul>
-<p><strong>缺点:</strong></p>
-<ul>
-<li>配置和维护相对复杂，需要一定的网络知识。</li>
-<li>可能与其他会修改路由的软件冲突，如公司内网会推送路由也可能会引起问题。</li>
-<li>在macOS上，如果连接了Cisco AnyConnect，通过数据线连接的iPhone 15可能会断开连接，导致调试工作受阻。iPhone 13和iPhone X未发现此现象。</li>
-</ul>
-<h3 id="效果展示"><a href="#效果展示" class="headerlink" title="效果展示"></a>效果展示</h3><img src="/images/server/guacamole/4.png"/>
-<img src="/images/server/guacamole/5.png"/>
-
-<h2 id="方案二：使用Guacamole部署Web服务作为跳板机"><a href="#方案二：使用Guacamole部署Web服务作为跳板机" class="headerlink" title="方案二：使用Guacamole部署Web服务作为跳板机"></a>方案二：使用Guacamole部署Web服务作为跳板机</h2><h3 id="方案介绍-1"><a href="#方案介绍-1" class="headerlink" title="方案介绍"></a>方案介绍</h3><p>Apache Guacamole是一个客户端无需安装任何插件或软件即可运行的远程桌面网关。用户通过Web浏览器就能访问远程的桌面环境，它支持标准的协议如VNC、RDP和SSH。</p>
-<ul>
-<li>官方地址: <a href="https://guacamole.apache.org/">https://guacamole.apache.org/</a></li>
-</ul>
-<h3 id="部署文档地址-1"><a href="#部署文档地址-1" class="headerlink" title="部署文档地址"></a>部署文档地址</h3><ul>
-<li>Guacamole部署文档: <a href="https://guacamole.apache.org/doc/gug/">https://guacamole.apache.org/doc/gug/</a></li>
-</ul>
-<h3 id="好处和缺点-1"><a href="#好处和缺点-1" class="headerlink" title="好处和缺点"></a>好处和缺点</h3><p><strong>好处:</strong></p>
-<ul>
-<li>无需在客户端安装额外软件，通过浏览器即可访问远程桌面，方便快捷。</li>
-<li>支持多种远程协议，灵活性高。</li>
-<li>部署有OTP二次验证，增强安全性。</li>
-</ul>
-<p><strong>缺点:</strong></p>
-<ul>
-<li>需要额外的服务器资源来部署和运行Guacamole服务。</li>
-<li>对于网络延迟较高的环境，用户体验可能受到影响。</li>
-</ul>
-<h3 id="推荐-docker-部署"><a href="#推荐-docker-部署" class="headerlink" title="推荐 docker 部署"></a>推荐 docker 部署</h3><h4 id="docker-compose-yml"><a href="#docker-compose-yml" class="headerlink" title="docker-compose.yml"></a>docker-compose.yml</h4><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">-<span class="token operator">></span> <span class="token comment"># cat /data/guacamole/docker-compose.yml</span>
-services:
-  guacamole:
-    image: jwetzell/guacamole:latest
-    container_name: guacamole
-    volumes:
-      - ./postgres:/config
-    environment:
-      - <span class="token assign-left variable">EXTENSIONS</span><span class="token operator">=</span>auth-totp
-    ports:
-      - <span class="token number">8181</span>:8080
-volumes:
-  postgres:
-    driver: <span class="token builtin class-name">local</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<h4 id="nginx-反向代理"><a href="#nginx-反向代理" class="headerlink" title="nginx 反向代理"></a>nginx 反向代理</h4><pre class="line-numbers language-none"><code class="language-none">&gt; # cat &#x2F;etc&#x2F;nginx&#x2F;conf.d&#x2F;guacamole.vanjay.cn.conf
-server &#123;
-    listen 127.0.0.2:80;
-    server_name guacamole.ddns.vanjay.cn;
-    return 301 https:&#x2F;&#x2F;$host$request_uri;
-&#125;
-
-server &#123;
-    listen 127.0.0.2:443 ssl;
-    server_name guacamole.ddns.vanjay.cn;
-
-    ssl_certificate &#x2F;etc&#x2F;nginx&#x2F;ssl&#x2F;guacamole.ddns.vanjay.cn_ecc&#x2F;guacamole.ddns.vanjay.cn.cer;
-    ssl_certificate_key &#x2F;etc&#x2F;nginx&#x2F;ssl&#x2F;guacamole.ddns.vanjay.cn_ecc&#x2F;guacamole.ddns.vanjay.cn.key;
-
-    include &#x2F;etc&#x2F;nginx&#x2F;conf.d&#x2F;common&#x2F;ssl_common.conf;
-    include &#x2F;etc&#x2F;nginx&#x2F;conf.d&#x2F;common&#x2F;add_header_fileserver.conf;
-    include &#x2F;etc&#x2F;nginx&#x2F;conf.d&#x2F;common&#x2F;fileserver.conf;
-
-    location &#x2F; &#123;
-        # 不缓存，支持流式输出
-        proxy_cache off;  # 关闭缓存
-        proxy_buffering off;  # 关闭代理缓冲
-        chunked_transfer_encoding on;  # 开启分块传输编码
-        tcp_nopush on;  # 开启TCP NOPUSH选项，禁止Nagle算法
-        tcp_nodelay on;  # 开启TCP NODELAY选项，禁止延迟ACK算法
-        keepalive_timeout 300;  # 设定keep-alive超时时间为65秒
-
-        proxy_pass http:&#x2F;&#x2F;127.0.0.1:8181&#x2F;;
-        include &#x2F;etc&#x2F;nginx&#x2F;conf.d&#x2F;common&#x2F;proxy_http.conf;
-    &#125;
-&#125;#
-root@pve-ubuntu [04:43:08 PM] [~]
--&gt; # cat &#x2F;etc&#x2F;nginx&#x2F;conf.d&#x2F;common&#x2F;ssl_common.conf
-ssl_protocols TLSv1.2 TLSv1.3;
-ssl_ciphers &#39;ECDHE-RSA-AES128-GCM-SHA256:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-RSA-AES128-SHA256:ECDHE-RSA-AES256-SHA384&#39;;
-ssl_prefer_server_ciphers on;
-ssl_session_cache shared:SSL:10m;
-ssl_session_timeout 1d;
-ssl_session_tickets off;
-root@pve-ubuntu [04:43:50 PM] [~]
--&gt; # cat &#x2F;etc&#x2F;nginx&#x2F;conf.d&#x2F;common&#x2F;add_header_fileserver.conf
-add_header Referrer-Policy                      &quot;no-referrer&quot;   always;
-add_header X-Content-Type-Options               &quot;nosniff&quot;       always;
-add_header X-Download-Options                   &quot;noopen&quot;        always;
-add_header X-Frame-Options                      &quot;SAMEORIGIN&quot;    always;
-add_header X-Permitted-Cross-Domain-Policies    &quot;none&quot;          always;
-add_header X-Robots-Tag                         &quot;none&quot;          always;
-add_header X-XSS-Protection                     &quot;1; mode&#x3D;block&quot; always;
-add_header Strict-Transport-Security &quot;max-age&#x3D;63072000; includeSubDomains; preload&quot; always;
-add_header Content-Security-Policy &quot;frame-ancestors &#39;self&#39; *.vanjay.cn&quot;;
-charset utf-8;
-root@pve-ubuntu [04:43:53 PM] [~]
--&gt; # cat &#x2F;etc&#x2F;nginx&#x2F;conf.d&#x2F;common&#x2F;fileserver.conf
-include       mime.types;
-default_type  application&#x2F;octet-stream;
-
-client_header_buffer_size 32k;
-large_client_header_buffers 4 32k;
-client_max_body_size 10240M;
-client_body_timeout 3600s;
-client_body_buffer_size 512k;
-
-sendfile on;
-tcp_nopush on;
-tcp_nodelay on;
-
-fastcgi_send_timeout 3600;
-fastcgi_read_timeout 3600;
-fastcgi_buffer_size 64k;
-fastcgi_buffers 4 64k;
-fastcgi_busy_buffers_size 128k;
-fastcgi_temp_file_write_size 256k;
-fastcgi_intercept_errors on;
-fastcgi_hide_header X-Powered-By;
-
-gzip on;
-gzip_vary on;
-gzip_comp_level 4;
-gzip_min_length  256;
-gzip_types text&#x2F;plain application&#x2F;javascript application&#x2F;x-javascript application&#x2F;json application&#x2F;ld+json application&#x2F;manifest+json application&#x2F;rss+xml text&#x2F;javascript text&#x2F;css application&#x2F;xml;
-gzip_proxied expired no-cache no-store private no_last_modified no_etag  auth;
-gzip_disable &quot;MSIE [1-6]\.&quot;;
-server_tokens off;
-root@pve-ubuntu [04:43:59 PM] [~]
--&gt; # cat &#x2F;etc&#x2F;nginx&#x2F;conf.d&#x2F;common&#x2F;proxy_http.conf
-proxy_http_version 1.1;
-proxy_set_header Upgrade $http_upgrade;
-proxy_set_header Connection &quot;upgrade&quot;;
-proxy_set_header Host $host;
-proxy_set_header X-Real-IP $remote_addr;
-proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-proxy_set_header X-Forwarded-Proto $scheme;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<h3 id="效果展示-1"><a href="#效果展示-1" class="headerlink" title="效果展示"></a>效果展示</h3><img src="/images/server/guacamole/2.png"/>
-<img src="/images/server/guacamole/1.png"/>
-<img src="/images/server/guacamole/3.png"/>
-
-<p>以上是两种常见的绕过公司运维网络限制的方法。当然，选择哪种方案，需要根据具体的工作需求和网络环境来决定。重要的是，在不违反公司政策和法律法规的前提下，寻找最适合自己的工作方式。</p>
-]]></content>
-      <categories>
-        <category>运维</category>
-      </categories>
-      <tags>
-        <tag>运维</tag>
-        <tag>安全</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>现有工程 Xcode 16 适配指南</title>
     <url>/2024/09/25/%E7%8E%B0%E6%9C%89%E5%B7%A5%E7%A8%8B-Xcode-16-%E9%80%82%E9%85%8D%E6%8C%87%E5%8D%97/</url>
     <content><![CDATA[<p>现有工程 Xcode 16 适配，备忘</p>
@@ -7788,75 +7616,6 @@ proxy_set_header X-Forwarded-Proto $scheme;<span aria-hidden="true" class="line-
         <tag>iOS</tag>
         <tag>Xcode</tag>
         <tag>iOS工程适配</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>购买BanwagonHOST VPS自建Shadowsocks记录</title>
-    <url>/2017/07/28/%E8%B4%AD%E4%B9%B0BanwagonHOST-VPS%E8%87%AA%E5%BB%BAShadowsocks%E8%AE%B0%E5%BD%95/</url>
-    <content><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><blockquote>
-<p>不能畅游墙外没法好好生活和工作</p>
-</blockquote>
-<p>本来手里有着五六个 <code>Shadowsocks</code> 帐号，但体验都不佳，一直也没怎么用，是因为一直使用公司搭建的 <code>Cisco Anyconnect</code>，科学上网后百兆带宽可以满速使用，速度虽快，但是客户端软件默认是全局代理的，虽然可以走<code>IP route list</code>达到和<code>Shadowsocks </code>的<code>PAC</code>同样的作用，但效果慎微，而且<code>IP</code>要自己去填，所以公司<code>IT</code>直接没搞这个<code>route list</code>，因为我们大部分电脑和手机<code>APP</code>都在墙内，这就导致在使用了<code>Cisco Anyconnect</code>后大部分电脑或者手机上的<code>APP</code>网络访问困难，常开<code>VPN</code>还是需要<code>Shadowsocks </code>等可根据 <strong>PAC清单自动代理</strong> 或者 <strong>分应用代理</strong> 的一类软件。</p>
-<span id="more"></span>
-
-<h2 id="主题"><a href="#主题" class="headerlink" title="主题"></a>主题</h2><p>废话有点多，进入主题。前几日群里的前辈在群里说道自搭的<code>Shadowsocks</code>在使用了<code>Google</code>提出的<code>TCP</code>拥塞控制新算法——<code>BBR</code>之后，解决了以下两个问题：</p>
-<pre><code> 1. 在有一定丢包率的网络链路上充分利用带宽；
- 2. 降低网络链路上的 buffer 占用率，从而降低延迟。
-</code></pre>
-<p> 正好有时间，大佬说的又激发了我的兴趣，我决定自己也搭一个玩玩，也以备不时之需，经历这一天，也总结了个人认为最省事的路线，以下是步骤记录。</p>
-<h2 id="购买VPS"><a href="#购买VPS" class="headerlink" title="购买VPS"></a>购买<code>VPS</code></h2><p>在请教了群里的前辈购买何档次的<code>BanwagonHOST VPN</code>之后，购买了19.99$&#x2F;年的方案，这是购买地址：<a href="https://bandwagonhost.com/index.php">BanwagonHOST</a>，这里注意两点，第一点：购买时注意买基于<code>KVM</code>的，而不是<code>OpenVZ</code>，<code>KVM</code>是新推出的，只了解了大体不同，想知道具体差异自行<a href="https://www.google.com/">Google</a>，一般来说，买新架构就没错了；第二点：在选择<code>Location</code>时，最好选择美国洛杉矶节点<code>Los Angeles</code>，别问为什么，前人经验，至于是<code>QNET</code>还是<code>MCOM</code>，自行谷歌这二者差异，有人汇总对比了这两种方案，不同城市的<code>ping</code>值有高有低，总体来说<code>QNET</code>稍好，所以我购买的是它。</p>
-<h2 id="重装系统"><a href="#重装系统" class="headerlink" title="重装系统"></a>重装系统</h2><p>付款购买成功后，进入当前页面的<code>Services-My Services</code>菜单下，找到你新购买的<code>Product/Service</code>，进入控制面板<code>KiviVM Control Panel</code>，界面很简单，每个功能浏览一下之后开始吧，预装的貌似是<code>Cent OS 6</code>，重装成你想要的系统吧，根据提示来，很<code>easy</code>。我个人比较习惯<code>Ubuntu</code>，所以安装了面板上支持的最新版本的<code>Ubuntu 16.04 x86_64</code>，面板里有一键安装<code>Shadowsocks Server</code>和<code>ShadowsocksR Server</code>功能，但个人不推荐，没啥别的原因，因为感觉不受我控制。装好后会提示你生成了一个随机的ROOT密码，记下来。执行以下步骤：</p>
-<pre><code>1.回到你的电脑，用你自己的方式`SSH`登陆到你的`VPS`，我用的`iTerm`，输入`ssh root@your_vps_ip_address -p your_vps_port`（本地要配置好`RSA`），默认密码是前面保存的随机密码。
-2.默认ROOT密码不好记，登陆成功后输入`passwd`输入两次新的`ROOT`密码更改密码。
-3.`Ubuntu`的话更新下系统，分别执行`apt-get update`和`apt-get upgrade`（不必须但建议）
-</code></pre>
-<h2 id="安装Shadowsocks"><a href="#安装Shadowsocks" class="headerlink" title="安装Shadowsocks "></a>安装<code>Shadowsocks </code></h2><p>安装的方式有很多，我独爱个人认为最优的那种，执行以下命令：</p>
-<pre class="line-numbers language-Bash" data-language="Bash"><code class="language-Bash">wget --no-check-certificate https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;teddysun&#x2F;shadowsocks_install&#x2F;master&#x2F;shadowsocksR.sh
-chmod +x shadowsocksR.sh
-.&#x2F;shadowsocksR.sh 2&gt;&amp;1 | tee shadowsocksR.log<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
-<p>你也可以用<code>&amp;&amp;</code>连接一次性执行，按提示完成即可。</p>
-<h2 id="安装Google-bbr"><a href="#安装Google-bbr" class="headerlink" title="安装Google bbr"></a>安装<code>Google bbr</code></h2><p>一、如果你的VPS是基于KVM的，运行以下命令：</p>
-<pre class="line-numbers language-Bash" data-language="Bash"><code class="language-Bash">wget --no-check-certificate https:&#x2F;&#x2F;github.com&#x2F;teddysun&#x2F;across&#x2F;raw&#x2F;master&#x2F;bbr.sh
-chmod +x bbr.sh
-.&#x2F;bbr.sh<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
-<p>按照提示安装完成，安装完成后，检测是否成功安装：</p>
-<pre class="line-numbers language-Bash" data-language="Bash"><code class="language-Bash">sysctl net.ipv4.tcp_available_congestion_control<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-<p>输出的信息包含<code>bbr</code>就<code>Ok</code>了，一般为<code>net.ipv4.tcp_available_congestion_control = bbr cubic reno</code></p>
-<p>二、如果你不小心购买了基于<code>OpenVZ</code>的<code>VPS</code>，运行这个：</p>
-<pre class="line-numbers language-Bash" data-language="Bash"><code class="language-Bash">wget https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;kuoruan&#x2F;shell-scripts&#x2F;master&#x2F;ovz-bbr&#x2F;ovz-bbr-installer.sh
-chmod +x ovz-bbr-installer.sh
-.&#x2F;ovz-bbr-installer.sh<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
-<p>这个连提示都是中文的，按照提示安装完成即可，安装完成使用看说明，检测是否安装成功：</p>
-<pre class="line-numbers language-Bash" data-language="Bash"><code class="language-Bash">ping 10.0.0.2<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-<p>如果能通，说明 bbr 已经启动,然后检查 iptables 规则:</p>
-<pre class="line-numbers language-Bash" data-language="Bash"><code class="language-Bash">iptables -t nat -nL
-Chain PREROUTING (policy ACCEPT)
-target     prot opt source               destination
-LKL_IN     all  --  0.0.0.0&#x2F;0            0.0.0.0&#x2F;0
- 
-Chain POSTROUTING (policy ACCEPT)
-target     prot opt source               destination
- 
-Chain OUTPUT (policy ACCEPT)
-target     prot opt source               destination
- 
-Chain LKL_IN (1 references)
-target     prot opt source               destination
-DNAT       tcp  --  0.0.0.0&#x2F;0            0.0.0.0&#x2F;0            tcp dpt:8989 to:10.0.0.2<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<p>里面有相应的端口规则。</p>
-<h2 id="使用Shadowsocks"><a href="#使用Shadowsocks" class="headerlink" title="使用Shadowsocks"></a>使用<code>Shadowsocks</code></h2><p>使用对应的客户端使用的你的<code>Shadowsocks</code>吧，怎么使用自行搜索。想着就那么几个步骤，还是写了这么多。。。</p>
-<h1 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h1><p>我购买时不小心买成了<code>OpenVZ</code>的，请教了群里的一位前辈之后告诉我联系客服，我便邮件联系官方退款了，购买了新的基于<code>KVM</code>，服务态度非常好，值得点赞。供参考，希望能帮到有需要的朋友。</p>
-<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a href="https://blog.kuoruan.com/48.html">搬瓦工(Bandwagonhost)搭建Shadowsocks并优化速度</a></p>
-<p><a href="https://blog.kuoruan.com/116.html">OpenVZ 平台 Google BBR 一键安装脚本</a></p>
-]]></content>
-      <categories>
-        <category>VPN</category>
-      </categories>
-      <tags>
-        <tag>Mac使用</tag>
-        <tag>BanwagonHOST</tag>
-        <tag>Shadowsocks</tag>
-        <tag>科学上网</tag>
       </tags>
   </entry>
   <entry>
@@ -8953,6 +8712,178 @@ extension NavigationController: UINavigationControllerDelegate &#123;
       </tags>
   </entry>
   <entry>
+    <title>解决公司运维网络限制的两种办法</title>
+    <url>/2024/04/14/%E8%A7%A3%E5%86%B3%E5%85%AC%E5%8F%B8%E8%BF%90%E7%BB%B4%E7%BD%91%E7%BB%9C%E9%99%90%E5%88%B6%E7%9A%84%E4%B8%A4%E7%A7%8D%E5%8A%9E%E6%B3%95/</url>
+    <content><![CDATA[<p>在当今的企业环境中，出于安全和管理的考虑，很多公司的IT部门对内网进行了严格的限制。这些限制通常包括禁止直接从公司网络访问外部的SSH连接、封锁常用的远程桌面协议如RDP和VNC流量，以及禁用了如TeamViewer、AnyDesk、ToDesk等流行的远程控制软件。这种做法虽然能有效防止潜在的安全威胁，但同时也给需要远程访问工作资源的员工带来了不便。本文将介绍几种绕过这些限制的方法，以便在不影响公司网络安全的前提下，提高工作效率和灵活性。</p>
+<span id="more"></span>
+
+<h2 id="方案一：使用Ocserv或AnyLink部署远程网关"><a href="#方案一：使用Ocserv或AnyLink部署远程网关" class="headerlink" title="方案一：使用Ocserv或AnyLink部署远程网关"></a>方案一：使用Ocserv或AnyLink部署远程网关</h2><h3 id="方案介绍"><a href="#方案介绍" class="headerlink" title="方案介绍"></a>方案介绍</h3><p>Ocserv（OpenConnect Server）和AnyLink都是可以部署在服务器上的软件，它们能够创建一个VPN服务，让用户能够通过VPN安全地连接到公司的内网。这种方式需要为特定IP配置路由，以确保只有访问公司资源时才通过VPN，不影响正常的互联网访问。</p>
+<ul>
+<li>官方地址:<ul>
+<li>Ocserv: <a href="https://ocserv.gitlab.io/www/">https://ocserv.gitlab.io/www/</a></li>
+<li>AnyLink: <a href="https://github.com/bjdgyc/anylink">https://github.com/bjdgyc/anylink</a></li>
+</ul>
+</li>
+</ul>
+<h3 id="部署文档地址"><a href="#部署文档地址" class="headerlink" title="部署文档地址"></a>部署文档地址</h3><ul>
+<li>Ocserv部署文档: <a href="https://ocserv.gitlab.io/www/installation.html">https://ocserv.gitlab.io/www/installation.html</a></li>
+<li>AnyLink部署文档: <a href="https://github.com/bjdgyc/anylink/wiki">https://github.com/bjdgyc/anylink/wiki</a></li>
+</ul>
+<h3 id="好处和缺点"><a href="#好处和缺点" class="headerlink" title="好处和缺点"></a>好处和缺点</h3><p><strong>好处:</strong></p>
+<ul>
+<li>提供安全的远程访问内网资源的能力。</li>
+<li>可以细粒度控制访问权限，增强安全性。</li>
+</ul>
+<p><strong>缺点:</strong></p>
+<ul>
+<li>配置和维护相对复杂，需要一定的网络知识。</li>
+<li>可能与其他会修改路由的软件冲突，如公司内网会推送路由也可能会引起问题。</li>
+<li>在macOS上，如果连接了Cisco AnyConnect，通过数据线连接的iPhone 15可能会断开连接，导致调试工作受阻。iPhone 13和iPhone X未发现此现象。</li>
+</ul>
+<h3 id="效果展示"><a href="#效果展示" class="headerlink" title="效果展示"></a>效果展示</h3><img src="/images/server/guacamole/4.png"/>
+<img src="/images/server/guacamole/5.png"/>
+
+<h2 id="方案二：使用Guacamole部署Web服务作为跳板机"><a href="#方案二：使用Guacamole部署Web服务作为跳板机" class="headerlink" title="方案二：使用Guacamole部署Web服务作为跳板机"></a>方案二：使用Guacamole部署Web服务作为跳板机</h2><h3 id="方案介绍-1"><a href="#方案介绍-1" class="headerlink" title="方案介绍"></a>方案介绍</h3><p>Apache Guacamole是一个客户端无需安装任何插件或软件即可运行的远程桌面网关。用户通过Web浏览器就能访问远程的桌面环境，它支持标准的协议如VNC、RDP和SSH。</p>
+<ul>
+<li>官方地址: <a href="https://guacamole.apache.org/">https://guacamole.apache.org/</a></li>
+</ul>
+<h3 id="部署文档地址-1"><a href="#部署文档地址-1" class="headerlink" title="部署文档地址"></a>部署文档地址</h3><ul>
+<li>Guacamole部署文档: <a href="https://guacamole.apache.org/doc/gug/">https://guacamole.apache.org/doc/gug/</a></li>
+</ul>
+<h3 id="好处和缺点-1"><a href="#好处和缺点-1" class="headerlink" title="好处和缺点"></a>好处和缺点</h3><p><strong>好处:</strong></p>
+<ul>
+<li>无需在客户端安装额外软件，通过浏览器即可访问远程桌面，方便快捷。</li>
+<li>支持多种远程协议，灵活性高。</li>
+<li>部署有OTP二次验证，增强安全性。</li>
+</ul>
+<p><strong>缺点:</strong></p>
+<ul>
+<li>需要额外的服务器资源来部署和运行Guacamole服务。</li>
+<li>对于网络延迟较高的环境，用户体验可能受到影响。</li>
+</ul>
+<h3 id="推荐-docker-部署"><a href="#推荐-docker-部署" class="headerlink" title="推荐 docker 部署"></a>推荐 docker 部署</h3><h4 id="docker-compose-yml"><a href="#docker-compose-yml" class="headerlink" title="docker-compose.yml"></a>docker-compose.yml</h4><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">-<span class="token operator">></span> <span class="token comment"># cat /data/guacamole/docker-compose.yml</span>
+services:
+  guacamole:
+    image: jwetzell/guacamole:latest
+    container_name: guacamole
+    volumes:
+      - ./postgres:/config
+    environment:
+      - <span class="token assign-left variable">EXTENSIONS</span><span class="token operator">=</span>auth-totp
+    ports:
+      - <span class="token number">8181</span>:8080
+volumes:
+  postgres:
+    driver: <span class="token builtin class-name">local</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h4 id="nginx-反向代理"><a href="#nginx-反向代理" class="headerlink" title="nginx 反向代理"></a>nginx 反向代理</h4><pre class="line-numbers language-none"><code class="language-none">&gt; # cat &#x2F;etc&#x2F;nginx&#x2F;conf.d&#x2F;guacamole.vanjay.cn.conf
+server &#123;
+    listen 127.0.0.2:80;
+    server_name guacamole.ddns.vanjay.cn;
+    return 301 https:&#x2F;&#x2F;$host$request_uri;
+&#125;
+
+server &#123;
+    listen 127.0.0.2:443 ssl;
+    server_name guacamole.ddns.vanjay.cn;
+
+    ssl_certificate &#x2F;etc&#x2F;nginx&#x2F;ssl&#x2F;guacamole.ddns.vanjay.cn_ecc&#x2F;guacamole.ddns.vanjay.cn.cer;
+    ssl_certificate_key &#x2F;etc&#x2F;nginx&#x2F;ssl&#x2F;guacamole.ddns.vanjay.cn_ecc&#x2F;guacamole.ddns.vanjay.cn.key;
+
+    include &#x2F;etc&#x2F;nginx&#x2F;conf.d&#x2F;common&#x2F;ssl_common.conf;
+    include &#x2F;etc&#x2F;nginx&#x2F;conf.d&#x2F;common&#x2F;add_header_fileserver.conf;
+    include &#x2F;etc&#x2F;nginx&#x2F;conf.d&#x2F;common&#x2F;fileserver.conf;
+
+    location &#x2F; &#123;
+        # 不缓存，支持流式输出
+        proxy_cache off;  # 关闭缓存
+        proxy_buffering off;  # 关闭代理缓冲
+        chunked_transfer_encoding on;  # 开启分块传输编码
+        tcp_nopush on;  # 开启TCP NOPUSH选项，禁止Nagle算法
+        tcp_nodelay on;  # 开启TCP NODELAY选项，禁止延迟ACK算法
+        keepalive_timeout 300;  # 设定keep-alive超时时间为65秒
+
+        proxy_pass http:&#x2F;&#x2F;127.0.0.1:8181&#x2F;;
+        include &#x2F;etc&#x2F;nginx&#x2F;conf.d&#x2F;common&#x2F;proxy_http.conf;
+    &#125;
+&#125;#
+root@pve-ubuntu [04:43:08 PM] [~]
+-&gt; # cat &#x2F;etc&#x2F;nginx&#x2F;conf.d&#x2F;common&#x2F;ssl_common.conf
+ssl_protocols TLSv1.2 TLSv1.3;
+ssl_ciphers &#39;ECDHE-RSA-AES128-GCM-SHA256:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-RSA-AES128-SHA256:ECDHE-RSA-AES256-SHA384&#39;;
+ssl_prefer_server_ciphers on;
+ssl_session_cache shared:SSL:10m;
+ssl_session_timeout 1d;
+ssl_session_tickets off;
+root@pve-ubuntu [04:43:50 PM] [~]
+-&gt; # cat &#x2F;etc&#x2F;nginx&#x2F;conf.d&#x2F;common&#x2F;add_header_fileserver.conf
+add_header Referrer-Policy                      &quot;no-referrer&quot;   always;
+add_header X-Content-Type-Options               &quot;nosniff&quot;       always;
+add_header X-Download-Options                   &quot;noopen&quot;        always;
+add_header X-Frame-Options                      &quot;SAMEORIGIN&quot;    always;
+add_header X-Permitted-Cross-Domain-Policies    &quot;none&quot;          always;
+add_header X-Robots-Tag                         &quot;none&quot;          always;
+add_header X-XSS-Protection                     &quot;1; mode&#x3D;block&quot; always;
+add_header Strict-Transport-Security &quot;max-age&#x3D;63072000; includeSubDomains; preload&quot; always;
+add_header Content-Security-Policy &quot;frame-ancestors &#39;self&#39; *.vanjay.cn&quot;;
+charset utf-8;
+root@pve-ubuntu [04:43:53 PM] [~]
+-&gt; # cat &#x2F;etc&#x2F;nginx&#x2F;conf.d&#x2F;common&#x2F;fileserver.conf
+include       mime.types;
+default_type  application&#x2F;octet-stream;
+
+client_header_buffer_size 32k;
+large_client_header_buffers 4 32k;
+client_max_body_size 10240M;
+client_body_timeout 3600s;
+client_body_buffer_size 512k;
+
+sendfile on;
+tcp_nopush on;
+tcp_nodelay on;
+
+fastcgi_send_timeout 3600;
+fastcgi_read_timeout 3600;
+fastcgi_buffer_size 64k;
+fastcgi_buffers 4 64k;
+fastcgi_busy_buffers_size 128k;
+fastcgi_temp_file_write_size 256k;
+fastcgi_intercept_errors on;
+fastcgi_hide_header X-Powered-By;
+
+gzip on;
+gzip_vary on;
+gzip_comp_level 4;
+gzip_min_length  256;
+gzip_types text&#x2F;plain application&#x2F;javascript application&#x2F;x-javascript application&#x2F;json application&#x2F;ld+json application&#x2F;manifest+json application&#x2F;rss+xml text&#x2F;javascript text&#x2F;css application&#x2F;xml;
+gzip_proxied expired no-cache no-store private no_last_modified no_etag  auth;
+gzip_disable &quot;MSIE [1-6]\.&quot;;
+server_tokens off;
+root@pve-ubuntu [04:43:59 PM] [~]
+-&gt; # cat &#x2F;etc&#x2F;nginx&#x2F;conf.d&#x2F;common&#x2F;proxy_http.conf
+proxy_http_version 1.1;
+proxy_set_header Upgrade $http_upgrade;
+proxy_set_header Connection &quot;upgrade&quot;;
+proxy_set_header Host $host;
+proxy_set_header X-Real-IP $remote_addr;
+proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+proxy_set_header X-Forwarded-Proto $scheme;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="效果展示-1"><a href="#效果展示-1" class="headerlink" title="效果展示"></a>效果展示</h3><img src="/images/server/guacamole/2.png"/>
+<img src="/images/server/guacamole/1.png"/>
+<img src="/images/server/guacamole/3.png"/>
+
+<p>以上是两种常见的绕过公司运维网络限制的方法。当然，选择哪种方案，需要根据具体的工作需求和网络环境来决定。重要的是，在不违反公司政策和法律法规的前提下，寻找最适合自己的工作方式。</p>
+]]></content>
+      <categories>
+        <category>运维</category>
+      </categories>
+      <tags>
+        <tag>运维</tag>
+        <tag>安全</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>航母iOS启动优化实践小记</title>
     <url>/2023/10/24/%E8%88%AA%E6%AF%8DiOS%E5%90%AF%E5%8A%A8%E4%BC%98%E5%8C%96%E5%AE%9E%E8%B7%B5%E5%B0%8F%E8%AE%B0/</url>
     <content><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>随着应用的不断迭代和功能的增加，我可能会发现应用的启动时间变得更长。特别是在iOS平台上，启动速度是用户体验的一个非常关键的指标。如果应用启动时间过长，可能会导致用户流失，因为他们不愿意等待这么长的时间。为此，本文将介绍我针对航母的iOS启动时长优化实践。</p>
@@ -9231,6 +9162,75 @@ extension NavigationController: UINavigationControllerDelegate &#123;
       <tags>
         <tag>iOS</tag>
         <tag>启动优化</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>购买BanwagonHOST VPS自建Shadowsocks记录</title>
+    <url>/2017/07/28/%E8%B4%AD%E4%B9%B0BanwagonHOST-VPS%E8%87%AA%E5%BB%BAShadowsocks%E8%AE%B0%E5%BD%95/</url>
+    <content><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><blockquote>
+<p>不能畅游墙外没法好好生活和工作</p>
+</blockquote>
+<p>本来手里有着五六个 <code>Shadowsocks</code> 帐号，但体验都不佳，一直也没怎么用，是因为一直使用公司搭建的 <code>Cisco Anyconnect</code>，科学上网后百兆带宽可以满速使用，速度虽快，但是客户端软件默认是全局代理的，虽然可以走<code>IP route list</code>达到和<code>Shadowsocks </code>的<code>PAC</code>同样的作用，但效果慎微，而且<code>IP</code>要自己去填，所以公司<code>IT</code>直接没搞这个<code>route list</code>，因为我们大部分电脑和手机<code>APP</code>都在墙内，这就导致在使用了<code>Cisco Anyconnect</code>后大部分电脑或者手机上的<code>APP</code>网络访问困难，常开<code>VPN</code>还是需要<code>Shadowsocks </code>等可根据 <strong>PAC清单自动代理</strong> 或者 <strong>分应用代理</strong> 的一类软件。</p>
+<span id="more"></span>
+
+<h2 id="主题"><a href="#主题" class="headerlink" title="主题"></a>主题</h2><p>废话有点多，进入主题。前几日群里的前辈在群里说道自搭的<code>Shadowsocks</code>在使用了<code>Google</code>提出的<code>TCP</code>拥塞控制新算法——<code>BBR</code>之后，解决了以下两个问题：</p>
+<pre><code> 1. 在有一定丢包率的网络链路上充分利用带宽；
+ 2. 降低网络链路上的 buffer 占用率，从而降低延迟。
+</code></pre>
+<p> 正好有时间，大佬说的又激发了我的兴趣，我决定自己也搭一个玩玩，也以备不时之需，经历这一天，也总结了个人认为最省事的路线，以下是步骤记录。</p>
+<h2 id="购买VPS"><a href="#购买VPS" class="headerlink" title="购买VPS"></a>购买<code>VPS</code></h2><p>在请教了群里的前辈购买何档次的<code>BanwagonHOST VPN</code>之后，购买了19.99$&#x2F;年的方案，这是购买地址：<a href="https://bandwagonhost.com/index.php">BanwagonHOST</a>，这里注意两点，第一点：购买时注意买基于<code>KVM</code>的，而不是<code>OpenVZ</code>，<code>KVM</code>是新推出的，只了解了大体不同，想知道具体差异自行<a href="https://www.google.com/">Google</a>，一般来说，买新架构就没错了；第二点：在选择<code>Location</code>时，最好选择美国洛杉矶节点<code>Los Angeles</code>，别问为什么，前人经验，至于是<code>QNET</code>还是<code>MCOM</code>，自行谷歌这二者差异，有人汇总对比了这两种方案，不同城市的<code>ping</code>值有高有低，总体来说<code>QNET</code>稍好，所以我购买的是它。</p>
+<h2 id="重装系统"><a href="#重装系统" class="headerlink" title="重装系统"></a>重装系统</h2><p>付款购买成功后，进入当前页面的<code>Services-My Services</code>菜单下，找到你新购买的<code>Product/Service</code>，进入控制面板<code>KiviVM Control Panel</code>，界面很简单，每个功能浏览一下之后开始吧，预装的貌似是<code>Cent OS 6</code>，重装成你想要的系统吧，根据提示来，很<code>easy</code>。我个人比较习惯<code>Ubuntu</code>，所以安装了面板上支持的最新版本的<code>Ubuntu 16.04 x86_64</code>，面板里有一键安装<code>Shadowsocks Server</code>和<code>ShadowsocksR Server</code>功能，但个人不推荐，没啥别的原因，因为感觉不受我控制。装好后会提示你生成了一个随机的ROOT密码，记下来。执行以下步骤：</p>
+<pre><code>1.回到你的电脑，用你自己的方式`SSH`登陆到你的`VPS`，我用的`iTerm`，输入`ssh root@your_vps_ip_address -p your_vps_port`（本地要配置好`RSA`），默认密码是前面保存的随机密码。
+2.默认ROOT密码不好记，登陆成功后输入`passwd`输入两次新的`ROOT`密码更改密码。
+3.`Ubuntu`的话更新下系统，分别执行`apt-get update`和`apt-get upgrade`（不必须但建议）
+</code></pre>
+<h2 id="安装Shadowsocks"><a href="#安装Shadowsocks" class="headerlink" title="安装Shadowsocks "></a>安装<code>Shadowsocks </code></h2><p>安装的方式有很多，我独爱个人认为最优的那种，执行以下命令：</p>
+<pre class="line-numbers language-Bash" data-language="Bash"><code class="language-Bash">wget --no-check-certificate https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;teddysun&#x2F;shadowsocks_install&#x2F;master&#x2F;shadowsocksR.sh
+chmod +x shadowsocksR.sh
+.&#x2F;shadowsocksR.sh 2&gt;&amp;1 | tee shadowsocksR.log<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<p>你也可以用<code>&amp;&amp;</code>连接一次性执行，按提示完成即可。</p>
+<h2 id="安装Google-bbr"><a href="#安装Google-bbr" class="headerlink" title="安装Google bbr"></a>安装<code>Google bbr</code></h2><p>一、如果你的VPS是基于KVM的，运行以下命令：</p>
+<pre class="line-numbers language-Bash" data-language="Bash"><code class="language-Bash">wget --no-check-certificate https:&#x2F;&#x2F;github.com&#x2F;teddysun&#x2F;across&#x2F;raw&#x2F;master&#x2F;bbr.sh
+chmod +x bbr.sh
+.&#x2F;bbr.sh<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<p>按照提示安装完成，安装完成后，检测是否成功安装：</p>
+<pre class="line-numbers language-Bash" data-language="Bash"><code class="language-Bash">sysctl net.ipv4.tcp_available_congestion_control<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>输出的信息包含<code>bbr</code>就<code>Ok</code>了，一般为<code>net.ipv4.tcp_available_congestion_control = bbr cubic reno</code></p>
+<p>二、如果你不小心购买了基于<code>OpenVZ</code>的<code>VPS</code>，运行这个：</p>
+<pre class="line-numbers language-Bash" data-language="Bash"><code class="language-Bash">wget https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;kuoruan&#x2F;shell-scripts&#x2F;master&#x2F;ovz-bbr&#x2F;ovz-bbr-installer.sh
+chmod +x ovz-bbr-installer.sh
+.&#x2F;ovz-bbr-installer.sh<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<p>这个连提示都是中文的，按照提示安装完成即可，安装完成使用看说明，检测是否安装成功：</p>
+<pre class="line-numbers language-Bash" data-language="Bash"><code class="language-Bash">ping 10.0.0.2<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>如果能通，说明 bbr 已经启动,然后检查 iptables 规则:</p>
+<pre class="line-numbers language-Bash" data-language="Bash"><code class="language-Bash">iptables -t nat -nL
+Chain PREROUTING (policy ACCEPT)
+target     prot opt source               destination
+LKL_IN     all  --  0.0.0.0&#x2F;0            0.0.0.0&#x2F;0
+ 
+Chain POSTROUTING (policy ACCEPT)
+target     prot opt source               destination
+ 
+Chain OUTPUT (policy ACCEPT)
+target     prot opt source               destination
+ 
+Chain LKL_IN (1 references)
+target     prot opt source               destination
+DNAT       tcp  --  0.0.0.0&#x2F;0            0.0.0.0&#x2F;0            tcp dpt:8989 to:10.0.0.2<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>里面有相应的端口规则。</p>
+<h2 id="使用Shadowsocks"><a href="#使用Shadowsocks" class="headerlink" title="使用Shadowsocks"></a>使用<code>Shadowsocks</code></h2><p>使用对应的客户端使用的你的<code>Shadowsocks</code>吧，怎么使用自行搜索。想着就那么几个步骤，还是写了这么多。。。</p>
+<h1 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h1><p>我购买时不小心买成了<code>OpenVZ</code>的，请教了群里的一位前辈之后告诉我联系客服，我便邮件联系官方退款了，购买了新的基于<code>KVM</code>，服务态度非常好，值得点赞。供参考，希望能帮到有需要的朋友。</p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a href="https://blog.kuoruan.com/48.html">搬瓦工(Bandwagonhost)搭建Shadowsocks并优化速度</a></p>
+<p><a href="https://blog.kuoruan.com/116.html">OpenVZ 平台 Google BBR 一键安装脚本</a></p>
+]]></content>
+      <categories>
+        <category>VPN</category>
+      </categories>
+      <tags>
+        <tag>Mac使用</tag>
+        <tag>BanwagonHOST</tag>
+        <tag>Shadowsocks</tag>
+        <tag>科学上网</tag>
       </tags>
   </entry>
 </search>
