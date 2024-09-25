@@ -15,8 +15,127 @@
     <atom:link href="https://blog.vanjay.cn/rss2.xml" rel="self" type="application/rss+xml"/>
     
     <description>成功不是将来才有的&lt;br&gt;而是决定去做的那一刻起&lt;br&gt;持续累积而成</description>
-    <pubDate>Thu, 26 Oct 2023 08:42:06 GMT</pubDate>
+    <pubDate>Wed, 25 Sep 2024 02:55:25 GMT</pubDate>
     <generator>http://hexo.io/</generator>
+    
+    <item>
+      <title>现有工程 Xcode 16 适配指南</title>
+      <link>https://blog.vanjay.cn/2024/09/25/%E7%8E%B0%E6%9C%89%E5%B7%A5%E7%A8%8B-Xcode-16-%E9%80%82%E9%85%8D%E6%8C%87%E5%8D%97/</link>
+      <guid>https://blog.vanjay.cn/2024/09/25/%E7%8E%B0%E6%9C%89%E5%B7%A5%E7%A8%8B-Xcode-16-%E9%80%82%E9%85%8D%E6%8C%87%E5%8D%97/</guid>
+      <pubDate>Wed, 25 Sep 2024 01:58:52 GMT</pubDate>
+      
+      <description>&lt;p&gt;现有工程 Xcode 16 适配，备忘&lt;/p&gt;</description>
+      
+      
+      
+      
+      
+      
+      <comments>https://blog.vanjay.cn/2024/09/25/%E7%8E%B0%E6%9C%89%E5%B7%A5%E7%A8%8B-Xcode-16-%E9%80%82%E9%85%8D%E6%8C%87%E5%8D%97/#disqus_thread</comments>
+      
+    </item>
+    
+    <item>
+      <title>iptables 混乱处理大法</title>
+      <link>https://blog.vanjay.cn/2024/04/27/iptables-%E6%B7%B7%E4%B9%B1%E5%A4%84%E7%90%86%E5%A4%A7%E6%B3%95/</link>
+      <guid>https://blog.vanjay.cn/2024/04/27/iptables-%E6%B7%B7%E4%B9%B1%E5%A4%84%E7%90%86%E5%A4%A7%E6%B3%95/</guid>
+      <pubDate>Sat, 27 Apr 2024 10:14:52 GMT</pubDate>
+      
+      <description>&lt;p&gt;在使用Linux系统的过程中，由于误操作或第三方软件（例如Docker）的介入，经常会发现iptables规则被意外修改，导致某些功能不按预期工作。例如，即使添加了相应的规则，它们也可能不生效。在清楚了解本机环境和服务的情况下，一个有效的解决策略是清空所有规则并重新添加。&lt;/p&gt;</description>
+      
+      
+      
+      
+      <category domain="https://blog.vanjay.cn/categories/%E8%BF%90%E7%BB%B4/">运维</category>
+      
+      
+      <category domain="https://blog.vanjay.cn/tags/Linux/">Linux</category>
+      
+      <category domain="https://blog.vanjay.cn/tags/%E8%BF%90%E7%BB%B4/">运维</category>
+      
+      <category domain="https://blog.vanjay.cn/tags/iptables/">iptables</category>
+      
+      
+      <comments>https://blog.vanjay.cn/2024/04/27/iptables-%E6%B7%B7%E4%B9%B1%E5%A4%84%E7%90%86%E5%A4%A7%E6%B3%95/#disqus_thread</comments>
+      
+    </item>
+    
+    <item>
+      <title>解决公司运维网络限制的两种办法</title>
+      <link>https://blog.vanjay.cn/2024/04/14/%E8%A7%A3%E5%86%B3%E5%85%AC%E5%8F%B8%E8%BF%90%E7%BB%B4%E7%BD%91%E7%BB%9C%E9%99%90%E5%88%B6%E7%9A%84%E4%B8%A4%E7%A7%8D%E5%8A%9E%E6%B3%95/</link>
+      <guid>https://blog.vanjay.cn/2024/04/14/%E8%A7%A3%E5%86%B3%E5%85%AC%E5%8F%B8%E8%BF%90%E7%BB%B4%E7%BD%91%E7%BB%9C%E9%99%90%E5%88%B6%E7%9A%84%E4%B8%A4%E7%A7%8D%E5%8A%9E%E6%B3%95/</guid>
+      <pubDate>Sun, 14 Apr 2024 08:23:43 GMT</pubDate>
+      
+      <description>&lt;p&gt;在当今的企业环境中，出于安全和管理的考虑，很多公司的IT部门对内网进行了严格的限制。这些限制通常包括禁止直接从公司网络访问外部的SSH连接、封锁常用的远程桌面协议如RDP和VNC流量，以及禁用了如TeamViewer、AnyDesk、ToDesk等流行的远程控制软件。这种做法虽然能有效防止潜在的安全威胁，但同时也给需要远程访问工作资源的员工带来了不便。本文将介绍几种绕过这些限制的方法，以便在不影响公司网络安全的前提下，提高工作效率和灵活性。&lt;/p&gt;</description>
+      
+      
+      
+      
+      <category domain="https://blog.vanjay.cn/categories/%E8%BF%90%E7%BB%B4/">运维</category>
+      
+      
+      <category domain="https://blog.vanjay.cn/tags/%E8%BF%90%E7%BB%B4/">运维</category>
+      
+      <category domain="https://blog.vanjay.cn/tags/%E5%AE%89%E5%85%A8/">安全</category>
+      
+      
+      <comments>https://blog.vanjay.cn/2024/04/14/%E8%A7%A3%E5%86%B3%E5%85%AC%E5%8F%B8%E8%BF%90%E7%BB%B4%E7%BD%91%E7%BB%9C%E9%99%90%E5%88%B6%E7%9A%84%E4%B8%A4%E7%A7%8D%E5%8A%9E%E6%B3%95/#disqus_thread</comments>
+      
+    </item>
+    
+    <item>
+      <title>pve下不同服务间启动依赖问题解决</title>
+      <link>https://blog.vanjay.cn/2023/11/26/pve%E4%B8%8B%E4%B8%8D%E5%90%8C%E6%9C%8D%E5%8A%A1%E9%97%B4%E5%90%AF%E5%8A%A8%E4%BE%9D%E8%B5%96%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3/</link>
+      <guid>https://blog.vanjay.cn/2023/11/26/pve%E4%B8%8B%E4%B8%8D%E5%90%8C%E6%9C%8D%E5%8A%A1%E9%97%B4%E5%90%AF%E5%8A%A8%E4%BE%9D%E8%B5%96%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3/</guid>
+      <pubDate>Sun, 26 Nov 2023 05:11:33 GMT</pubDate>
+      
+      <description>&lt;p&gt;在Proxmox VE (PVE) 环境中，我们经常需要管理多个虚拟机或LXC容器，这些容器中部署了各种服务。服务间的依赖关系可能导致如果启动顺序不当，服务无法正确运行。本文将探讨这一问题，并提出一个有效的解决方案。&lt;/p&gt;</description>
+      
+      
+      
+      
+      <category domain="https://blog.vanjay.cn/categories/%E8%BF%90%E7%BB%B4/">运维</category>
+      
+      <category domain="https://blog.vanjay.cn/categories/%E8%BF%90%E7%BB%B4/%E6%9C%8D%E5%8A%A1%E5%99%A8/">服务器</category>
+      
+      
+      <category domain="https://blog.vanjay.cn/tags/docker/">docker</category>
+      
+      <category domain="https://blog.vanjay.cn/tags/pve/">pve</category>
+      
+      <category domain="https://blog.vanjay.cn/tags/nas/">nas</category>
+      
+      <category domain="https://blog.vanjay.cn/tags/%E5%BC%80%E6%9C%BA%E8%87%AA%E5%90%AF/">开机自启</category>
+      
+      
+      <comments>https://blog.vanjay.cn/2023/11/26/pve%E4%B8%8B%E4%B8%8D%E5%90%8C%E6%9C%8D%E5%8A%A1%E9%97%B4%E5%90%AF%E5%8A%A8%E4%BE%9D%E8%B5%96%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3/#disqus_thread</comments>
+      
+    </item>
+    
+    <item>
+      <title>docker hud 拉取镜像慢解决办法</title>
+      <link>https://blog.vanjay.cn/2023/11/17/docker-hud-%E6%8B%89%E5%8F%96%E9%95%9C%E5%83%8F%E6%85%A2%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/</link>
+      <guid>https://blog.vanjay.cn/2023/11/17/docker-hud-%E6%8B%89%E5%8F%96%E9%95%9C%E5%83%8F%E6%85%A2%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/</guid>
+      <pubDate>Fri, 17 Nov 2023 01:14:44 GMT</pubDate>
+      
+      <description>&lt;h2 id=&quot;背景&quot;&gt;&lt;a href=&quot;#背景&quot; class=&quot;headerlink&quot; title=&quot;背景&quot;&gt;&lt;/a&gt;背景&lt;/h2&gt;&lt;p&gt;在日常的Docker使用中，我们可能会遇到一个常见的问题：在特定机器上拉取Docker镜像非常缓慢，甚至无法连接到外网。这种情况通常发生在网络限制较多的环境中，如一些公司的内部网络或地理位置较偏远的区域。但幸运的是，如果我们手头有一台可以“翻墙”并访问外网的本地机器，就可以采用一种曲线救国的方法来解决这个问题。本文将介绍如何通过skopeo工具，高效地在本地机器上拉取Docker镜像，并将其迁移到目标机器上。&lt;/p&gt;</description>
+      
+      
+      
+      
+      <category domain="https://blog.vanjay.cn/categories/%E8%BF%90%E7%BB%B4/">运维</category>
+      
+      
+      <category domain="https://blog.vanjay.cn/tags/docker/">docker</category>
+      
+      <category domain="https://blog.vanjay.cn/tags/%E8%BF%90%E7%BB%B4/">运维</category>
+      
+      <category domain="https://blog.vanjay.cn/tags/%E6%9C%8D%E5%8A%A1%E5%99%A8/">服务器</category>
+      
+      
+      <comments>https://blog.vanjay.cn/2023/11/17/docker-hud-%E6%8B%89%E5%8F%96%E9%95%9C%E5%83%8F%E6%85%A2%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/#disqus_thread</comments>
+      
+    </item>
     
     <item>
       <title>航母iOS启动优化实践小记</title>
@@ -122,6 +241,31 @@
       
       
       <comments>https://blog.vanjay.cn/2023/05/13/%E5%A6%82%E4%BD%95%E8%AE%A9nginx%E6%9C%8D%E5%8A%A1%E5%92%8Cocserv%E5%85%B1%E7%94%A8443%E7%AB%AF%E5%8F%A3/#disqus_thread</comments>
+      
+    </item>
+    
+    <item>
+      <title>Linux和Mac关闭ssh的密码登录，限制使用私钥登录</title>
+      <link>https://blog.vanjay.cn/2023/04/14/Linux%E5%92%8CMac%E5%85%B3%E9%97%ADssh%E7%9A%84%E5%AF%86%E7%A0%81%E7%99%BB%E5%BD%95%EF%BC%8C%E9%99%90%E5%88%B6%E4%BD%BF%E7%94%A8%E7%A7%81%E9%92%A5%E7%99%BB%E5%BD%95/</link>
+      <guid>https://blog.vanjay.cn/2023/04/14/Linux%E5%92%8CMac%E5%85%B3%E9%97%ADssh%E7%9A%84%E5%AF%86%E7%A0%81%E7%99%BB%E5%BD%95%EF%BC%8C%E9%99%90%E5%88%B6%E4%BD%BF%E7%94%A8%E7%A7%81%E9%92%A5%E7%99%BB%E5%BD%95/</guid>
+      <pubDate>Fri, 14 Apr 2023 07:45:02 GMT</pubDate>
+      
+      <description>&lt;p&gt;在当今的网络环境中，安全性是一个不容忽视的话题。尤其是对于那些暴露在公网的服务器来说，采取额外的安全措施变得尤为重要。SSH（Secure Shell）是一种广泛使用的远程登录协议，允许用户安全地访问和管理远程服务器。默认情况下，SSH支持两种认证方式：密码认证和基于密钥的认证。然而，密码认证方式较为脆弱，容易受到暴力破解攻击。为了增强安全性，推荐关闭SSH的密码登录，仅允许使用私钥登录。以下是在Linux和MacOS下实现此目的的步骤。&lt;/p&gt;</description>
+      
+      
+      
+      
+      <category domain="https://blog.vanjay.cn/categories/%E8%BF%90%E7%BB%B4/">运维</category>
+      
+      
+      <category domain="https://blog.vanjay.cn/tags/Linux/">Linux</category>
+      
+      <category domain="https://blog.vanjay.cn/tags/SSH/">SSH</category>
+      
+      <category domain="https://blog.vanjay.cn/tags/%E8%BF%90%E7%BB%B4/">运维</category>
+      
+      
+      <comments>https://blog.vanjay.cn/2023/04/14/Linux%E5%92%8CMac%E5%85%B3%E9%97%ADssh%E7%9A%84%E5%AF%86%E7%A0%81%E7%99%BB%E5%BD%95%EF%BC%8C%E9%99%90%E5%88%B6%E4%BD%BF%E7%94%A8%E7%A7%81%E9%92%A5%E7%99%BB%E5%BD%95/#disqus_thread</comments>
       
     </item>
     
@@ -385,182 +529,6 @@
       
       
       <comments>https://blog.vanjay.cn/2019/04/01/cocoapods-%E7%A7%81%E6%9C%89%E5%BA%93%E7%9A%84%E6%90%AD%E5%BB%BA%E5%92%8C%E4%BD%BF%E7%94%A8/#disqus_thread</comments>
-      
-    </item>
-    
-    <item>
-      <title>免越狱钉钉远程打卡</title>
-      <link>https://blog.vanjay.cn/2019/02/15/%E5%85%8D%E8%B6%8A%E7%8B%B1%E9%92%89%E9%92%89%E8%BF%9C%E7%A8%8B%E6%89%93%E5%8D%A1/</link>
-      <guid>https://blog.vanjay.cn/2019/02/15/%E5%85%8D%E8%B6%8A%E7%8B%B1%E9%92%89%E9%92%89%E8%BF%9C%E7%A8%8B%E6%89%93%E5%8D%A1/</guid>
-      <pubDate>Fri, 15 Feb 2019 06:22:06 GMT</pubDate>
-      
-      <description>&lt;blockquote&gt;
-&lt;p&gt;无需越狱，解决 iOS 版钉钉远程打卡&lt;br&gt;折腾记录，备忘&lt;/p&gt;
-&lt;/blockquote&gt;</description>
-      
-      
-      
-      
-      <category domain="https://blog.vanjay.cn/categories/%E5%B7%A5%E5%85%B7%E6%95%99%E7%A8%8B/">工具教程</category>
-      
-      
-      <category domain="https://blog.vanjay.cn/tags/%E5%85%8D%E8%B6%8A%E7%8B%B1/">免越狱</category>
-      
-      <category domain="https://blog.vanjay.cn/tags/%E9%92%89%E9%92%89%E8%BF%9C%E7%A8%8B%E6%89%93%E5%8D%A1/">钉钉远程打卡</category>
-      
-      <category domain="https://blog.vanjay.cn/tags/%E6%95%99%E7%A8%8B/">教程</category>
-      
-      
-      <comments>https://blog.vanjay.cn/2019/02/15/%E5%85%8D%E8%B6%8A%E7%8B%B1%E9%92%89%E9%92%89%E8%BF%9C%E7%A8%8B%E6%89%93%E5%8D%A1/#disqus_thread</comments>
-      
-    </item>
-    
-    <item>
-      <title>Ubuntu 18.04 编译 Android 源码</title>
-      <link>https://blog.vanjay.cn/2019/01/05/Ubuntu%2018.04%20%E7%BC%96%E8%AF%91%20Android%20%E6%BA%90%E7%A0%81/</link>
-      <guid>https://blog.vanjay.cn/2019/01/05/Ubuntu%2018.04%20%E7%BC%96%E8%AF%91%20Android%20%E6%BA%90%E7%A0%81/</guid>
-      <pubDate>Sat, 05 Jan 2019 08:00:51 GMT</pubDate>
-      
-      <description>&lt;blockquote&gt;
-&lt;p&gt;Android 源码编译的四个流程:&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;ul&gt;
-&lt;li&gt;源码下载;&lt;/li&gt;
-&lt;li&gt;构建编译环境;&lt;/li&gt;
-&lt;li&gt;编译源码;&lt;/li&gt;
-&lt;li&gt;模拟器运行&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h1 id=&quot;源码下载&quot;&gt;&lt;a href=&quot;#源码下载&quot; class=&quot;headerlink&quot; title=&quot;源码下载&quot;&gt;&lt;/a&gt;源码下载&lt;/h1&gt;&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;首先确保自己已经安装了Git.&lt;/p&gt;
-  &lt;pre class=&quot;line-numbers language-bash&quot; data-language=&quot;bash&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;span class=&quot;token function&quot;&gt;sudo&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;apt-get&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;install&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;git&lt;/span&gt; 
-&lt;span class=&quot;token function&quot;&gt;git&lt;/span&gt; config –global user.email “your_email” 
-&lt;span class=&quot;token function&quot;&gt;git&lt;/span&gt; config –global user.name “your_name”&lt;span aria-hidden=&quot;true&quot; class=&quot;line-numbers-rows&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
-&lt;/ul&gt;</description>
-      
-      
-      
-      
-      <category domain="https://blog.vanjay.cn/categories/Android/">Android</category>
-      
-      
-      <category domain="https://blog.vanjay.cn/tags/Ubuntu/">Ubuntu</category>
-      
-      <category domain="https://blog.vanjay.cn/tags/Android/">Android</category>
-      
-      <category domain="https://blog.vanjay.cn/tags/Android-source-build/">Android source build</category>
-      
-      
-      <comments>https://blog.vanjay.cn/2019/01/05/Ubuntu%2018.04%20%E7%BC%96%E8%AF%91%20Android%20%E6%BA%90%E7%A0%81/#disqus_thread</comments>
-      
-    </item>
-    
-    <item>
-      <title>Ubuntu 18.04 添加、修改交换空间</title>
-      <link>https://blog.vanjay.cn/2019/01/05/Ubuntu-18-04-%E6%B7%BB%E5%8A%A0%E3%80%81%E4%BF%AE%E6%94%B9%E4%BA%A4%E6%8D%A2%E7%A9%BA%E9%97%B4/</link>
-      <guid>https://blog.vanjay.cn/2019/01/05/Ubuntu-18-04-%E6%B7%BB%E5%8A%A0%E3%80%81%E4%BF%AE%E6%94%B9%E4%BA%A4%E6%8D%A2%E7%A9%BA%E9%97%B4/</guid>
-      <pubDate>Sat, 05 Jan 2019 06:35:17 GMT</pubDate>
-      
-      <description>&lt;h1 id=&quot;检查系统的交换信息&quot;&gt;&lt;a href=&quot;#检查系统的交换信息&quot; class=&quot;headerlink&quot; title=&quot;检查系统的交换信息&quot;&gt;&lt;/a&gt;检查系统的交换信息&lt;/h1&gt;&lt;p&gt;查看是否已经存在&lt;code&gt;swapfile&lt;/code&gt;&lt;/p&gt;
-&lt;pre class=&quot;line-numbers language-bash&quot; data-language=&quot;bash&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;span class=&quot;token function&quot;&gt;sudo&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;swapon&lt;/span&gt; &lt;span class=&quot;token parameter variable&quot;&gt;--show&lt;/span&gt;&lt;span aria-hidden=&quot;true&quot; class=&quot;line-numbers-rows&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;如果您没有收到任何输出，这意味着您的系统当前没有可用的交换空间。&lt;/p&gt;
-&lt;p&gt;您可以使用&lt;code&gt;free&lt;/code&gt;实用程序验证没有活动交换：&lt;/p&gt;
-&lt;pre class=&quot;line-numbers language-bash&quot; data-language=&quot;bash&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;tungee@tungee-Macmini:~$ &lt;span class=&quot;token function&quot;&gt;free&lt;/span&gt; &lt;span class=&quot;token parameter variable&quot;&gt;-h&lt;/span&gt;
-              total        used        &lt;span class=&quot;token function&quot;&gt;free&lt;/span&gt;      shared  buff/cache   available
-Mem:           &lt;span class=&quot;token number&quot;&gt;7&lt;/span&gt;.7G        &lt;span class=&quot;token number&quot;&gt;6&lt;/span&gt;.0G        &lt;span class=&quot;token number&quot;&gt;1&lt;/span&gt;.2G         97M        439M        &lt;span class=&quot;token number&quot;&gt;1&lt;/span&gt;.3G
-Swap:          &lt;span class=&quot;token number&quot;&gt;8&lt;/span&gt;.0G        &lt;span class=&quot;token number&quot;&gt;4&lt;/span&gt;.1G        &lt;span class=&quot;token number&quot;&gt;3&lt;/span&gt;.9G&lt;span aria-hidden=&quot;true&quot; class=&quot;line-numbers-rows&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;</description>
-      
-      
-      
-      
-      <category domain="https://blog.vanjay.cn/categories/Linux/">Linux</category>
-      
-      
-      <category domain="https://blog.vanjay.cn/tags/Ubuntu/">Ubuntu</category>
-      
-      <category domain="https://blog.vanjay.cn/tags/swap-%E7%A9%BA%E9%97%B4/">swap 空间</category>
-      
-      
-      <comments>https://blog.vanjay.cn/2019/01/05/Ubuntu-18-04-%E6%B7%BB%E5%8A%A0%E3%80%81%E4%BF%AE%E6%94%B9%E4%BA%A4%E6%8D%A2%E7%A9%BA%E9%97%B4/#disqus_thread</comments>
-      
-    </item>
-    
-    <item>
-      <title>Appium + mitmproxy 全自动化抓取APP 数据</title>
-      <link>https://blog.vanjay.cn/2018/12/29/Appium-mitmproxy-%E5%85%A8%E8%87%AA%E5%8A%A8%E5%8C%96%E6%8A%93%E5%8F%96APP-%E6%95%B0%E6%8D%AE/</link>
-      <guid>https://blog.vanjay.cn/2018/12/29/Appium-mitmproxy-%E5%85%A8%E8%87%AA%E5%8A%A8%E5%8C%96%E6%8A%93%E5%8F%96APP-%E6%95%B0%E6%8D%AE/</guid>
-      <pubDate>Sat, 29 Dec 2018 07:34:11 GMT</pubDate>
-      
-      <description>&lt;h1 id=&quot;背景&quot;&gt;&lt;a href=&quot;#背景&quot; class=&quot;headerlink&quot; title=&quot;背景&quot;&gt;&lt;/a&gt;背景&lt;/h1&gt;&lt;p&gt;公司新接到一个某某公司的一个项目需求，其中有一个子项是抓取诸如今日头条、网易新闻、腾讯新闻等新闻类 APP 的新闻，远端根据一个关键词或者一个主账号名称查找获取关于该关键词的所有新闻或主账号下的所有文章，通过简单的抓包分析，发现只有少数 APP 网络请求参数未做签名处理，像这类的能直接分析 url 和 param，利用 python 全自动化获取数据，但是大部分比如网易新闻这类 APP 安全级别较高，参数做了加密或者签名校验，服务端也有同一签名的请求访问次数限制，所以在这样的情况下想要直接获取通过外部调用获取数据几乎变得不可能。&lt;/p&gt;</description>
-      
-      
-      
-      
-      <category domain="https://blog.vanjay.cn/categories/%E7%88%AC%E8%99%AB/">爬虫</category>
-      
-      
-      <category domain="https://blog.vanjay.cn/tags/%E8%87%AA%E5%8A%A8%E5%8C%96/">自动化</category>
-      
-      <category domain="https://blog.vanjay.cn/tags/Python/">Python</category>
-      
-      <category domain="https://blog.vanjay.cn/tags/%E6%8A%93%E5%8C%85/">抓包</category>
-      
-      <category domain="https://blog.vanjay.cn/tags/%E7%88%AC%E8%99%AB/">爬虫</category>
-      
-      
-      <comments>https://blog.vanjay.cn/2018/12/29/Appium-mitmproxy-%E5%85%A8%E8%87%AA%E5%8A%A8%E5%8C%96%E6%8A%93%E5%8F%96APP-%E6%95%B0%E6%8D%AE/#disqus_thread</comments>
-      
-    </item>
-    
-    <item>
-      <title>Linux 动态调整分区大小</title>
-      <link>https://blog.vanjay.cn/2018/11/06/Linux-%E5%8A%A8%E6%80%81%E8%B0%83%E6%95%B4%E5%88%86%E5%8C%BA%E5%A4%A7%E5%B0%8F/</link>
-      <guid>https://blog.vanjay.cn/2018/11/06/Linux-%E5%8A%A8%E6%80%81%E8%B0%83%E6%95%B4%E5%88%86%E5%8C%BA%E5%A4%A7%E5%B0%8F/</guid>
-      <pubDate>Mon, 05 Nov 2018 17:55:03 GMT</pubDate>
-      
-      <description>&lt;h1 id=&quot;背景&quot;&gt;&lt;a href=&quot;#背景&quot; class=&quot;headerlink&quot; title=&quot;背景&quot;&gt;&lt;/a&gt;背景&lt;/h1&gt;&lt;p&gt;&lt;code&gt;Ubuntu&lt;/code&gt;根分区&lt;code&gt;&#92;&lt;/code&gt;空间告急，即将使用完毕&lt;/p&gt;
-&lt;h1 id=&quot;先清理出一定空间&quot;&gt;&lt;a href=&quot;#先清理出一定空间&quot; class=&quot;headerlink&quot; title=&quot;先清理出一定空间&quot;&gt;&lt;/a&gt;先清理出一定空间&lt;/h1&gt;&lt;h2 id=&quot;移除不再需要的软件包&quot;&gt;&lt;a href=&quot;#移除不再需要的软件包&quot; class=&quot;headerlink&quot; title=&quot;移除不再需要的软件包&quot;&gt;&lt;/a&gt;移除不再需要的软件包&lt;/h2&gt;&lt;pre class=&quot;line-numbers language-bash&quot; data-language=&quot;bash&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;span class=&quot;token function&quot;&gt;sudo&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;apt&lt;/span&gt; autoremove&lt;span aria-hidden=&quot;true&quot; class=&quot;line-numbers-rows&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h2 id=&quot;清理Ubuntu中的APT缓存&quot;&gt;&lt;a href=&quot;#清理Ubuntu中的APT缓存&quot; class=&quot;headerlink&quot; title=&quot;清理Ubuntu中的APT缓存&quot;&gt;&lt;/a&gt;清理Ubuntu中的APT缓存&lt;/h2&gt;</description>
-      
-      
-      
-      
-      <category domain="https://blog.vanjay.cn/categories/Linux/">Linux</category>
-      
-      
-      <category domain="https://blog.vanjay.cn/tags/%E5%88%86%E5%8C%BA%E8%B0%83%E6%95%B4/">分区调整</category>
-      
-      <category domain="https://blog.vanjay.cn/tags/Linux/">Linux</category>
-      
-      
-      <comments>https://blog.vanjay.cn/2018/11/06/Linux-%E5%8A%A8%E6%80%81%E8%B0%83%E6%95%B4%E5%88%86%E5%8C%BA%E5%A4%A7%E5%B0%8F/#disqus_thread</comments>
-      
-    </item>
-    
-    <item>
-      <title>Jenkins master-slave 的应用及 iOS 项目持续集成</title>
-      <link>https://blog.vanjay.cn/2018/10/12/Jenkins%20master-slave%20%E7%9A%84%E5%BA%94%E7%94%A8%E5%8F%8A%20iOS%20%E9%A1%B9%E7%9B%AE%E6%8C%81%E7%BB%AD%E9%9B%86%E6%88%90/</link>
-      <guid>https://blog.vanjay.cn/2018/10/12/Jenkins%20master-slave%20%E7%9A%84%E5%BA%94%E7%94%A8%E5%8F%8A%20iOS%20%E9%A1%B9%E7%9B%AE%E6%8C%81%E7%BB%AD%E9%9B%86%E6%88%90/</guid>
-      <pubDate>Fri, 12 Oct 2018 11:27:00 GMT</pubDate>
-      
-      <description>&lt;h1 id=&quot;背景&quot;&gt;&lt;a href=&quot;#背景&quot; class=&quot;headerlink&quot; title=&quot;背景&quot;&gt;&lt;/a&gt;背景&lt;/h1&gt;&lt;p&gt;在公司一台服务机上搭建了&lt;code&gt;Jenkins&lt;/code&gt;，&lt;code&gt;Linux&lt;/code&gt;环境，主要用于&lt;code&gt;WEP 前端&lt;/code&gt;、&lt;code&gt;Android&lt;/code&gt;、&lt;code&gt;iOS&lt;/code&gt;的&lt;code&gt;CI&lt;/code&gt;服务，在没有过多去了解的情况下，我想当然的以为如果要打包 &lt;code&gt;iOS&lt;/code&gt;，&lt;code&gt;Jenkins&lt;/code&gt;宿主机系统环境必须是&lt;code&gt;MacOS&lt;/code&gt;，因为知道除了&lt;code&gt;Mac&lt;/code&gt;，其它系统均无法打包&lt;code&gt;iOS&lt;/code&gt;或&lt;code&gt;Mac&lt;/code&gt;应用程序（当然这点在目前看来仍然是对的），于是在公司那台硬盘只剩下可怜巴巴的&lt;code&gt;20G&lt;/code&gt;空间的&lt;code&gt;Mac mini&lt;/code&gt;上安装了&lt;code&gt;Jenkins&lt;/code&gt;，叫安卓同事把他的&lt;code&gt;Jenkins job&lt;/code&gt;又重新放在了&lt;code&gt;Mac mini&lt;/code&gt;上，本想着事情就这么不完美的收尾了，今天忽然在群里看见开发者朋友讨论&lt;code&gt;Jenkins&lt;/code&gt;说到&lt;code&gt;Jenkins&lt;/code&gt;支持&lt;code&gt;master-slave&lt;/code&gt;（主从）模式，支持非宿主机作为一个&lt;code&gt;Node&lt;/code&gt;节点为其服务，一脸蒙蔽，又要把&lt;code&gt;Jenkins&lt;/code&gt;放回&lt;code&gt;Ubuntu&lt;/code&gt;，让这台&lt;code&gt;mini&lt;/code&gt;单独为&lt;code&gt;iOS&lt;/code&gt;打包服务。&lt;/p&gt;</description>
-      
-      
-      
-      
-      <category domain="https://blog.vanjay.cn/categories/%E5%B7%A5%E7%A8%8B%E8%87%AA%E5%8A%A8%E5%8C%96/">工程自动化</category>
-      
-      
-      <category domain="https://blog.vanjay.cn/tags/Jenkins/">Jenkins</category>
-      
-      <category domain="https://blog.vanjay.cn/tags/CI/">CI</category>
-      
-      <category domain="https://blog.vanjay.cn/tags/%E6%8C%81%E7%BB%AD%E9%9B%86%E6%88%90/">持续集成</category>
-      
-      <category domain="https://blog.vanjay.cn/tags/%E5%B7%A5%E7%A8%8B%E8%87%AA%E5%8A%A8%E5%8C%96/">工程自动化</category>
-      
-      
-      <comments>https://blog.vanjay.cn/2018/10/12/Jenkins%20master-slave%20%E7%9A%84%E5%BA%94%E7%94%A8%E5%8F%8A%20iOS%20%E9%A1%B9%E7%9B%AE%E6%8C%81%E7%BB%AD%E9%9B%86%E6%88%90/#disqus_thread</comments>
       
     </item>
     
