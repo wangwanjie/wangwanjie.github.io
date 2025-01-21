@@ -15,8 +15,33 @@
     <atom:link href="https://blog.vanjay.cn/rss2.xml" rel="self" type="application/rss+xml"/>
     
     <description>成功不是将来才有的&lt;br&gt;而是决定去做的那一刻起&lt;br&gt;持续累积而成</description>
-    <pubDate>Wed, 25 Sep 2024 02:59:09 GMT</pubDate>
+    <pubDate>Tue, 21 Jan 2025 09:25:28 GMT</pubDate>
     <generator>http://hexo.io/</generator>
+    
+    <item>
+      <title>酷狗音乐MacCalyst实践总结</title>
+      <link>https://blog.vanjay.cn/2024/12/16/%E9%85%B7%E7%8B%97%E9%9F%B3%E4%B9%90MacCalyst%E5%AE%9E%E8%B7%B5%E6%80%BB%E7%BB%93/</link>
+      <guid>https://blog.vanjay.cn/2024/12/16/%E9%85%B7%E7%8B%97%E9%9F%B3%E4%B9%90MacCalyst%E5%AE%9E%E8%B7%B5%E6%80%BB%E7%BB%93/</guid>
+      <pubDate>Mon, 16 Dec 2024 08:53:25 GMT</pubDate>
+      
+      <description>&lt;h1 id=&quot;背景&quot;&gt;&lt;a href=&quot;#背景&quot; class=&quot;headerlink&quot; title=&quot;背景&quot;&gt;&lt;/a&gt;背景&lt;/h1&gt;&lt;p&gt;近年来，苹果生态系统中的应用开发面临着越来越多的挑战。尤其是对于已经在多个平台发布应用的公司，如何减少开发人力投入并降低长期维护成本成了核心问题。我们团队在《酷狗音乐》的过程中，深刻感受到了这些问题的困扰。我们原本为iPad和Mac开发了不同版本，两个版本的代码库各自维护，不仅使得更新过程复杂，还让功能同步更加困难。得益于我们的iPad版本且已较成熟且已和手机版独立（改动影响面小），我们决定通过MacCatalyst技术将iPad应用扩展到Mac，以实现尽可能多的代码重用，也符合集团降本增效的治理宗旨。&lt;/p&gt;</description>
+      
+      
+      
+      
+      <category domain="https://blog.vanjay.cn/categories/Mac/">Mac</category>
+      
+      
+      <category domain="https://blog.vanjay.cn/tags/Mac/">Mac</category>
+      
+      <category domain="https://blog.vanjay.cn/tags/iOS/">iOS</category>
+      
+      <category domain="https://blog.vanjay.cn/tags/MacCatalyst/">MacCatalyst</category>
+      
+      
+      <comments>https://blog.vanjay.cn/2024/12/16/%E9%85%B7%E7%8B%97%E9%9F%B3%E4%B9%90MacCalyst%E5%AE%9E%E8%B7%B5%E6%80%BB%E7%BB%93/#disqus_thread</comments>
+      
+    </item>
     
     <item>
       <title>现有工程 Xcode 16 适配指南</title>
@@ -512,31 +537,6 @@
       
       
       <comments>https://blog.vanjay.cn/2019/06/09/UITabBar-%E7%82%B9%E5%87%BB%E5%8A%A8%E7%94%BB%E4%B8%8E%E5%88%87%E6%8D%A2-VC-%E5%8A%A8%E7%94%BB%E5%AE%9E%E7%8E%B0/#disqus_thread</comments>
-      
-    </item>
-    
-    <item>
-      <title>cocoapods 私有库的搭建和使用</title>
-      <link>https://blog.vanjay.cn/2019/04/01/cocoapods-%E7%A7%81%E6%9C%89%E5%BA%93%E7%9A%84%E6%90%AD%E5%BB%BA%E5%92%8C%E4%BD%BF%E7%94%A8/</link>
-      <guid>https://blog.vanjay.cn/2019/04/01/cocoapods-%E7%A7%81%E6%9C%89%E5%BA%93%E7%9A%84%E6%90%AD%E5%BB%BA%E5%92%8C%E4%BD%BF%E7%94%A8/</guid>
-      <pubDate>Mon, 01 Apr 2019 02:17:32 GMT</pubDate>
-      
-      <description>&lt;h1 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h1&gt;&lt;p&gt;&lt;code&gt;cocoapods&lt;/code&gt;是非常好用的一个iOS 依赖管理工具，使用它可以方便的管理和更新项目中所使用到的第三方库，以及将自己的项目中的公共组件交由它去管理，实现工程组件化。&lt;/p&gt;</description>
-      
-      
-      
-      
-      <category domain="https://blog.vanjay.cn/categories/iOS/">iOS</category>
-      
-      
-      <category domain="https://blog.vanjay.cn/tags/iOS/">iOS</category>
-      
-      <category domain="https://blog.vanjay.cn/tags/pod/">pod</category>
-      
-      <category domain="https://blog.vanjay.cn/tags/cocoapods/">cocoapods</category>
-      
-      
-      <comments>https://blog.vanjay.cn/2019/04/01/cocoapods-%E7%A7%81%E6%9C%89%E5%BA%93%E7%9A%84%E6%90%AD%E5%BB%BA%E5%92%8C%E4%BD%BF%E7%94%A8/#disqus_thread</comments>
       
     </item>
     
