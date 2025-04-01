@@ -15,8 +15,44 @@
     <atom:link href="https://blog.vanjay.cn/rss2.xml" rel="self" type="application/rss+xml"/>
     
     <description>成功不是将来才有的&lt;br&gt;而是决定去做的那一刻起&lt;br&gt;持续累积而成</description>
-    <pubDate>Tue, 21 Jan 2025 09:25:28 GMT</pubDate>
+    <pubDate>Tue, 01 Apr 2025 03:49:30 GMT</pubDate>
     <generator>http://hexo.io/</generator>
+    
+    <item>
+      <title>家宽无公网IP使用lucky进行STUN穿透搭配cloudflare配置重定向实现无视端口变化</title>
+      <link>https://blog.vanjay.cn/2025/04/01/%E5%AE%B6%E5%AE%BD%E6%97%A0%E5%85%AC%E7%BD%91IP%E4%BD%BF%E7%94%A8lucky%E8%BF%9B%E8%A1%8CSTUN%E7%A9%BF%E9%80%8F%E6%90%AD%E9%85%8Dcloudflare%E9%85%8D%E7%BD%AE%E9%87%8D%E5%AE%9A%E5%90%91%E5%AE%9E%E7%8E%B0%E6%97%A0%E8%A7%86%E7%AB%AF%E5%8F%A3%E5%8F%98%E5%8C%96/</link>
+      <guid>https://blog.vanjay.cn/2025/04/01/%E5%AE%B6%E5%AE%BD%E6%97%A0%E5%85%AC%E7%BD%91IP%E4%BD%BF%E7%94%A8lucky%E8%BF%9B%E8%A1%8CSTUN%E7%A9%BF%E9%80%8F%E6%90%AD%E9%85%8Dcloudflare%E9%85%8D%E7%BD%AE%E9%87%8D%E5%AE%9A%E5%90%91%E5%AE%9E%E7%8E%B0%E6%97%A0%E8%A7%86%E7%AB%AF%E5%8F%A3%E5%8F%98%E5%8C%96/</guid>
+      <pubDate>Tue, 01 Apr 2025 01:09:59 GMT</pubDate>
+      
+      <description>&lt;h2 id=&quot;背景&quot;&gt;&lt;a href=&quot;#背景&quot; class=&quot;headerlink&quot; title=&quot;背景&quot;&gt;&lt;/a&gt;背景&lt;/h2&gt;&lt;p&gt;我的 All in One 主机，兢兢业业，已稳定运行近两年，承载着无数服务，也承载着我的心血。搭建之初，我曾细细记录，写下&lt;a href=&quot;(https://blog.vanjay.cn/2023/05/20/8505%E5%A4%84%E7%90%86%E5%99%A8%E5%AE%B6%E5%BA%AD%E7%BB%84%E7%BD%91PVE%E4%B8%8BiKuai%E3%80%81OpenWrt%E3%80%81CentOS%E3%80%81DSM%E3%80%81Windows%E7%AD%89%E7%B3%BB%E7%BB%9FAll-In-One%E5%AE%9E%E8%B7%B5%E8%AE%B0%E5%BD%95/)&quot;&gt;《8505 处理器家庭组网 PVE 下 iKuai、OpenWrt、CentOS、DSM、Windows 等系统 All In One 实践记录》&lt;/a&gt;，以为万事俱备，风调雨顺，岂料世事无常，人祸难防。&lt;/p&gt;
+&lt;p&gt;本来一切井然有序，系统运转如常，然今日却落得如此田地。只因某些见不得光的原因，我的公网 IP 竟莫名其妙地蒸发了。这篇文章的诞生，原非我所愿，然电信之所作所为，实在令人不吐不快，故此留一笔，以作纪念，也以警后来者。&lt;/p&gt;</description>
+      
+      
+      
+      
+      <category domain="https://blog.vanjay.cn/categories/%E5%AE%B6%E5%BA%AD%E7%BB%84%E7%BD%91/">家庭组网</category>
+      
+      <category domain="https://blog.vanjay.cn/categories/%E5%AE%B6%E5%BA%AD%E7%BB%84%E7%BD%91/%E6%9C%8D%E5%8A%A1%E5%99%A8/">服务器</category>
+      
+      <category domain="https://blog.vanjay.cn/categories/%E5%AE%B6%E5%BA%AD%E7%BB%84%E7%BD%91/%E6%9C%8D%E5%8A%A1%E5%99%A8/%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F/">内网穿透</category>
+      
+      <category domain="https://blog.vanjay.cn/categories/%E5%AE%B6%E5%BA%AD%E7%BB%84%E7%BD%91/%E6%9C%8D%E5%8A%A1%E5%99%A8/%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F/%E6%89%93%E6%B4%9E/">打洞</category>
+      
+      
+      <category domain="https://blog.vanjay.cn/tags/%E8%BD%AF%E8%B7%AF%E7%94%B1/">软路由</category>
+      
+      <category domain="https://blog.vanjay.cn/tags/pve/">pve</category>
+      
+      <category domain="https://blog.vanjay.cn/tags/%E7%88%B1%E5%BF%AB/">爱快</category>
+      
+      <category domain="https://blog.vanjay.cn/tags/%E5%AE%B6%E5%BA%AD%E7%BB%84%E7%BD%91/">家庭组网</category>
+      
+      <category domain="https://blog.vanjay.cn/tags/lucky/">lucky</category>
+      
+      
+      <comments>https://blog.vanjay.cn/2025/04/01/%E5%AE%B6%E5%AE%BD%E6%97%A0%E5%85%AC%E7%BD%91IP%E4%BD%BF%E7%94%A8lucky%E8%BF%9B%E8%A1%8CSTUN%E7%A9%BF%E9%80%8F%E6%90%AD%E9%85%8Dcloudflare%E9%85%8D%E7%BD%AE%E9%87%8D%E5%AE%9A%E5%90%91%E5%AE%9E%E7%8E%B0%E6%97%A0%E8%A7%86%E7%AB%AF%E5%8F%A3%E5%8F%98%E5%8C%96/#disqus_thread</comments>
+      
+    </item>
     
     <item>
       <title>酷狗音乐MacCalyst实践总结</title>
@@ -512,31 +548,6 @@
       
       
       <comments>https://blog.vanjay.cn/2019/06/29/%E6%8A%93%E5%8F%96-App-Store%E5%92%8C-Google-Play-%E5%BA%94%E7%94%A8%E8%AF%84%E8%AE%BA%E5%B9%B6%E5%86%99%E5%85%A5-Excel/#disqus_thread</comments>
-      
-    </item>
-    
-    <item>
-      <title>UITabBar 点击动画与切换 VC 动画实现</title>
-      <link>https://blog.vanjay.cn/2019/06/09/UITabBar-%E7%82%B9%E5%87%BB%E5%8A%A8%E7%94%BB%E4%B8%8E%E5%88%87%E6%8D%A2-VC-%E5%8A%A8%E7%94%BB%E5%AE%9E%E7%8E%B0/</link>
-      <guid>https://blog.vanjay.cn/2019/06/09/UITabBar-%E7%82%B9%E5%87%BB%E5%8A%A8%E7%94%BB%E4%B8%8E%E5%88%87%E6%8D%A2-VC-%E5%8A%A8%E7%94%BB%E5%AE%9E%E7%8E%B0/</guid>
-      <pubDate>Sun, 09 Jun 2019 07:15:25 GMT</pubDate>
-      
-      <description>&lt;blockquote&gt;
-&lt;p&gt;假如一个 APP 能带来良好的交互体验，那么它一定是”活的”。&lt;/p&gt;
-&lt;/blockquote&gt;</description>
-      
-      
-      
-      
-      <category domain="https://blog.vanjay.cn/categories/iOS-%E5%BC%80%E5%8F%91/">iOS 开发</category>
-      
-      
-      <category domain="https://blog.vanjay.cn/tags/iOS/">iOS</category>
-      
-      <category domain="https://blog.vanjay.cn/tags/UITabBar/">UITabBar</category>
-      
-      
-      <comments>https://blog.vanjay.cn/2019/06/09/UITabBar-%E7%82%B9%E5%87%BB%E5%8A%A8%E7%94%BB%E4%B8%8E%E5%88%87%E6%8D%A2-VC-%E5%8A%A8%E7%94%BB%E5%AE%9E%E7%8E%B0/#disqus_thread</comments>
       
     </item>
     

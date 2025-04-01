@@ -6,7 +6,7 @@
   <link href="https://blog.vanjay.cn/atom.xml" rel="self"/>
   
   <link href="https://blog.vanjay.cn/"/>
-  <updated>2025-01-21T09:25:28.525Z</updated>
+  <updated>2025-04-01T03:49:30.903Z</updated>
   <id>https://blog.vanjay.cn/</id>
   
   <author>
@@ -15,6 +15,40 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>家宽无公网IP使用lucky进行STUN穿透搭配cloudflare配置重定向实现无视端口变化</title>
+    <link href="https://blog.vanjay.cn/2025/04/01/%E5%AE%B6%E5%AE%BD%E6%97%A0%E5%85%AC%E7%BD%91IP%E4%BD%BF%E7%94%A8lucky%E8%BF%9B%E8%A1%8CSTUN%E7%A9%BF%E9%80%8F%E6%90%AD%E9%85%8Dcloudflare%E9%85%8D%E7%BD%AE%E9%87%8D%E5%AE%9A%E5%90%91%E5%AE%9E%E7%8E%B0%E6%97%A0%E8%A7%86%E7%AB%AF%E5%8F%A3%E5%8F%98%E5%8C%96/"/>
+    <id>https://blog.vanjay.cn/2025/04/01/%E5%AE%B6%E5%AE%BD%E6%97%A0%E5%85%AC%E7%BD%91IP%E4%BD%BF%E7%94%A8lucky%E8%BF%9B%E8%A1%8CSTUN%E7%A9%BF%E9%80%8F%E6%90%AD%E9%85%8Dcloudflare%E9%85%8D%E7%BD%AE%E9%87%8D%E5%AE%9A%E5%90%91%E5%AE%9E%E7%8E%B0%E6%97%A0%E8%A7%86%E7%AB%AF%E5%8F%A3%E5%8F%98%E5%8C%96/</id>
+    <published>2025-04-01T01:09:59.000Z</published>
+    <updated>2025-04-01T03:49:30.903Z</updated>
+    
+    
+    <summary type="html">&lt;h2 id=&quot;背景&quot;&gt;&lt;a href=&quot;#背景&quot; class=&quot;headerlink&quot; title=&quot;背景&quot;&gt;&lt;/a&gt;背景&lt;/h2&gt;&lt;p&gt;我的 All in One 主机，兢兢业业，已稳定运行近两年，承载着无数服务，也承载着我的心血。搭建之初，我曾细细记录，写下&lt;a href=&quot;(https://blog.vanjay.cn/2023/05/20/8505%E5%A4%84%E7%90%86%E5%99%A8%E5%AE%B6%E5%BA%AD%E7%BB%84%E7%BD%91PVE%E4%B8%8BiKuai%E3%80%81OpenWrt%E3%80%81CentOS%E3%80%81DSM%E3%80%81Windows%E7%AD%89%E7%B3%BB%E7%BB%9FAll-In-One%E5%AE%9E%E8%B7%B5%E8%AE%B0%E5%BD%95/)&quot;&gt;《8505 处理器家庭组网 PVE 下 iKuai、OpenWrt、CentOS、DSM、Windows 等系统 All In One 实践记录》&lt;/a&gt;，以为万事俱备，风调雨顺，岂料世事无常，人祸难防。&lt;/p&gt;
+&lt;p&gt;本来一切井然有序，系统运转如常，然今日却落得如此田地。只因某些见不得光的原因，我的公网 IP 竟莫名其妙地蒸发了。这篇文章的诞生，原非我所愿，然电信之所作所为，实在令人不吐不快，故此留一笔，以作纪念，也以警后来者。&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="家庭组网" scheme="https://blog.vanjay.cn/categories/%E5%AE%B6%E5%BA%AD%E7%BB%84%E7%BD%91/"/>
+    
+    <category term="服务器" scheme="https://blog.vanjay.cn/categories/%E5%AE%B6%E5%BA%AD%E7%BB%84%E7%BD%91/%E6%9C%8D%E5%8A%A1%E5%99%A8/"/>
+    
+    <category term="内网穿透" scheme="https://blog.vanjay.cn/categories/%E5%AE%B6%E5%BA%AD%E7%BB%84%E7%BD%91/%E6%9C%8D%E5%8A%A1%E5%99%A8/%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F/"/>
+    
+    <category term="打洞" scheme="https://blog.vanjay.cn/categories/%E5%AE%B6%E5%BA%AD%E7%BB%84%E7%BD%91/%E6%9C%8D%E5%8A%A1%E5%99%A8/%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F/%E6%89%93%E6%B4%9E/"/>
+    
+    
+    <category term="软路由" scheme="https://blog.vanjay.cn/tags/%E8%BD%AF%E8%B7%AF%E7%94%B1/"/>
+    
+    <category term="pve" scheme="https://blog.vanjay.cn/tags/pve/"/>
+    
+    <category term="爱快" scheme="https://blog.vanjay.cn/tags/%E7%88%B1%E5%BF%AB/"/>
+    
+    <category term="家庭组网" scheme="https://blog.vanjay.cn/tags/%E5%AE%B6%E5%BA%AD%E7%BB%84%E7%BD%91/"/>
+    
+    <category term="lucky" scheme="https://blog.vanjay.cn/tags/lucky/"/>
+    
+  </entry>
   
   <entry>
     <title>酷狗音乐MacCalyst实践总结</title>
@@ -472,29 +506,6 @@
     <category term="JavaScript" scheme="https://blog.vanjay.cn/tags/JavaScript/"/>
     
     <category term="SEO" scheme="https://blog.vanjay.cn/tags/SEO/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>UITabBar 点击动画与切换 VC 动画实现</title>
-    <link href="https://blog.vanjay.cn/2019/06/09/UITabBar-%E7%82%B9%E5%87%BB%E5%8A%A8%E7%94%BB%E4%B8%8E%E5%88%87%E6%8D%A2-VC-%E5%8A%A8%E7%94%BB%E5%AE%9E%E7%8E%B0/"/>
-    <id>https://blog.vanjay.cn/2019/06/09/UITabBar-%E7%82%B9%E5%87%BB%E5%8A%A8%E7%94%BB%E4%B8%8E%E5%88%87%E6%8D%A2-VC-%E5%8A%A8%E7%94%BB%E5%AE%9E%E7%8E%B0/</id>
-    <published>2019-06-09T07:15:25.000Z</published>
-    <updated>2023-10-24T04:52:11.051Z</updated>
-    
-    
-    <summary type="html">&lt;blockquote&gt;
-&lt;p&gt;假如一个 APP 能带来良好的交互体验，那么它一定是”活的”。&lt;/p&gt;
-&lt;/blockquote&gt;</summary>
-    
-    
-    
-    <category term="iOS 开发" scheme="https://blog.vanjay.cn/categories/iOS-%E5%BC%80%E5%8F%91/"/>
-    
-    
-    <category term="iOS" scheme="https://blog.vanjay.cn/tags/iOS/"/>
-    
-    <category term="UITabBar" scheme="https://blog.vanjay.cn/tags/UITabBar/"/>
     
   </entry>
   
