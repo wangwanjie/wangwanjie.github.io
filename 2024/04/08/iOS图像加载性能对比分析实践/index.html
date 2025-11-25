@@ -1,0 +1,1066 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic%7CRoboto+Slab:300,300italic,400,400italic,700,700italic%7CPT+Mono:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css" integrity="sha256-Vzbj7sDDS/woiFS3uNKo8eIuni59rjyNGtXfstRzStA=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"blog.vanjay.cn","root":"/","images":"/images","scheme":"Mist","darkmode":false,"version":"8.16.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":"mac"},"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="背景在现代iOS应用开发中，图像资源占用应用体积的比例越来越大，图像加载和渲染性能直接影响用户体验。随着WebP、HEIC等新型图像格式的普及，以及Assets.xcassets和Bundle等不同资源管理方式的存在，如何选择最优的图像加载策略成为开发者需要面对的重要问题。本文将通过实际的性能测试，全面分析不同图像格式和加载方式的性能差异。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS图像加载性能对比分析实践">
+<meta property="og:url" content="https://blog.vanjay.cn/2024/04/08/iOS%E5%9B%BE%E5%83%8F%E5%8A%A0%E8%BD%BD%E6%80%A7%E8%83%BD%E5%AF%B9%E6%AF%94%E5%88%86%E6%9E%90%E5%AE%9E%E8%B7%B5/index.html">
+<meta property="og:site_name" content="VanJay&#39;s Blog">
+<meta property="og:description" content="背景在现代iOS应用开发中，图像资源占用应用体积的比例越来越大，图像加载和渲染性能直接影响用户体验。随着WebP、HEIC等新型图像格式的普及，以及Assets.xcassets和Bundle等不同资源管理方式的存在，如何选择最优的图像加载策略成为开发者需要面对的重要问题。本文将通过实际的性能测试，全面分析不同图像格式和加载方式的性能差异。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2024-04-08T03:20:45.000Z">
+<meta property="article:modified_time" content="2025-11-25T14:53:57.996Z">
+<meta property="article:author" content="VanJay">
+<meta property="article:tag" content="iOS">
+<meta property="article:tag" content="性能优化">
+<meta property="article:tag" content="图像加载">
+<meta property="article:tag" content="WebP">
+<meta property="article:tag" content="HEIC">
+<meta property="article:tag" content="性能测试">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://blog.vanjay.cn/2024/04/08/iOS%E5%9B%BE%E5%83%8F%E5%8A%A0%E8%BD%BD%E6%80%A7%E8%83%BD%E5%AF%B9%E6%AF%94%E5%88%86%E6%9E%90%E5%AE%9E%E8%B7%B5/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://blog.vanjay.cn/2024/04/08/iOS%E5%9B%BE%E5%83%8F%E5%8A%A0%E8%BD%BD%E6%80%A7%E8%83%BD%E5%AF%B9%E6%AF%94%E5%88%86%E6%9E%90%E5%AE%9E%E8%B7%B5/","path":"2024/04/08/iOS图像加载性能对比分析实践/","title":"iOS图像加载性能对比分析实践"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>iOS图像加载性能对比分析实践 | VanJay's Blog</title>
+  
+
+  <script src="/js/third-party/analytics/baidu-analytics.js"></script>
+  <script async src="https://hm.baidu.com/hm.js?dcbe579f2b53b3adfd4034b7acee5785"></script>
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="VanJay's Blog" type="application/atom+xml">
+<link rel="alternate" href="/rss2.xml" title="VanJay's Blog" type="application/rss+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">VanJay's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">一个爱折腾工程师的全栈梦</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="home fa-fw"></i>首页</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-commonweal"><a href="/404.html" rel="section"><i class="heartbeat fa-fw"></i>公益 404</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="user fa-fw"></i>关于</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%83%8C%E6%99%AF"><span class="nav-number">1.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%9B%BE%E5%83%8F%E5%8A%A0%E8%BD%BD%E6%96%B9%E5%BC%8F%E5%AF%B9%E6%AF%94"><span class="nav-number">2.</span> <span class="nav-text">图像加载方式对比</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B5%8B%E8%AF%95%E7%8E%AF%E5%A2%83%E8%AE%BE%E7%BD%AE"><span class="nav-number">2.1.</span> <span class="nav-text">测试环境设置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-Bundle-vs-Assets-xcassets"><span class="nav-number">2.2.</span> <span class="nav-text">1. Bundle vs Assets.xcassets</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Bundle%E6%96%B9%E5%BC%8F%E5%8A%A0%E8%BD%BD"><span class="nav-number">2.2.1.</span> <span class="nav-text">Bundle方式加载</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Assets-xcassets%E6%96%B9%E5%BC%8F%E5%8A%A0%E8%BD%BD"><span class="nav-number">2.2.2.</span> <span class="nav-text">Assets.xcassets方式加载</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-WebP%E6%A0%BC%E5%BC%8F%E5%8A%A0%E8%BD%BD%E5%AF%B9%E6%AF%94"><span class="nav-number">2.3.</span> <span class="nav-text">2. WebP格式加载对比</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#YYImage%E5%BA%93%E5%8A%A0%E8%BD%BDWebP"><span class="nav-number">2.3.1.</span> <span class="nav-text">YYImage库加载WebP</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%B3%BB%E7%BB%9FUIImage%E5%8A%A0%E8%BD%BDWebP-iOS-14"><span class="nav-number">2.3.2.</span> <span class="nav-text">系统UIImage加载WebP (iOS 14+)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SDWebImage%E5%8A%A0%E8%BD%BDWebP"><span class="nav-number">2.3.3.</span> <span class="nav-text">SDWebImage加载WebP</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-HEIC%E6%A0%BC%E5%BC%8F%E5%8A%A0%E8%BD%BD"><span class="nav-number">2.4.</span> <span class="nav-text">3. HEIC格式加载</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95%E7%BB%93%E6%9E%9C%E5%88%86%E6%9E%90"><span class="nav-number">3.</span> <span class="nav-text">性能测试结果分析</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B5%8B%E8%AF%95%E6%95%B0%E6%8D%AE%E6%B1%87%E6%80%BB"><span class="nav-number">3.1.</span> <span class="nav-text">测试数据汇总</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8D%95%E6%AC%A1%E5%8A%A0%E8%BD%BD%E6%80%A7%E8%83%BD%E5%AF%B9%E6%AF%94"><span class="nav-number">3.1.1.</span> <span class="nav-text">单次加载性能对比</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#100%E6%AC%A1%E5%8A%A0%E8%BD%BD%E5%B9%B3%E5%9D%87%E6%80%A7%E8%83%BD"><span class="nav-number">3.1.2.</span> <span class="nav-text">100次加载平均性能</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%A7%E8%83%BD%E5%88%86%E6%9E%90%E7%BB%93%E8%AE%BA"><span class="nav-number">3.2.</span> <span class="nav-text">性能分析结论</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-Assets-xcassets-vs-Bundle"><span class="nav-number">3.2.1.</span> <span class="nav-text">1. Assets.xcassets vs Bundle</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E5%9B%BE%E5%83%8F%E6%A0%BC%E5%BC%8F%E6%80%A7%E8%83%BD%E6%8E%92%E5%90%8D"><span class="nav-number">3.2.2.</span> <span class="nav-text">2. 图像格式性能排名</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E6%A0%BC%E5%BC%8F%E9%80%89%E6%8B%A9%E5%BB%BA%E8%AE%AE"><span class="nav-number">3.2.3.</span> <span class="nav-text">3. 格式选择建议</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%9B%BE%E5%83%8F%E6%A0%BC%E5%BC%8F%E6%8A%80%E6%9C%AF%E5%AF%B9%E6%AF%94"><span class="nav-number">4.</span> <span class="nav-text">图像格式技术对比</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#WebP%E6%A0%BC%E5%BC%8F"><span class="nav-number">4.1.</span> <span class="nav-text">WebP格式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BC%98%E5%8A%BF"><span class="nav-number">4.1.1.</span> <span class="nav-text">优势</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8A%A3%E5%8A%BF"><span class="nav-number">4.1.2.</span> <span class="nav-text">劣势</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E5%BB%BA%E8%AE%AE"><span class="nav-number">4.1.3.</span> <span class="nav-text">使用建议</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#HEIC%E6%A0%BC%E5%BC%8F"><span class="nav-number">4.2.</span> <span class="nav-text">HEIC格式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BC%98%E5%8A%BF-1"><span class="nav-number">4.2.1.</span> <span class="nav-text">优势</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8A%A3%E5%8A%BF-1"><span class="nav-number">4.2.2.</span> <span class="nav-text">劣势</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Assets-xcassets%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5"><span class="nav-number">4.3.</span> <span class="nav-text">Assets.xcassets最佳实践</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9B%BE%E7%89%87%E7%BB%84%E7%BB%87%E7%BB%93%E6%9E%84"><span class="nav-number">4.3.1.</span> <span class="nav-text">图片组织结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Contents-json%E9%85%8D%E7%BD%AE"><span class="nav-number">4.3.2.</span> <span class="nav-text">Contents.json配置</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E5%BB%BA%E8%AE%AE"><span class="nav-number">5.</span> <span class="nav-text">性能优化建议</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E5%9B%BE%E5%83%8F%E9%A2%84%E5%8A%A0%E8%BD%BD%E7%AD%96%E7%95%A5"><span class="nav-number">5.1.</span> <span class="nav-text">1. 图像预加载策略</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E5%9B%BE%E5%83%8F%E7%BC%93%E5%AD%98%E7%AE%A1%E7%90%86"><span class="nav-number">5.2.</span> <span class="nav-text">2. 图像缓存管理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E5%8A%A8%E6%80%81%E5%9B%BE%E5%83%8F%E5%8A%A0%E8%BD%BD"><span class="nav-number">5.3.</span> <span class="nav-text">3. 动态图像加载</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">6.</span> <span class="nav-text">总结</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5%E6%8E%A8%E8%8D%90"><span class="nav-number">6.1.</span> <span class="nav-text">1. 最佳实践推荐</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E6%80%A7%E8%83%BD%E6%8F%90%E5%8D%87%E7%AD%96%E7%95%A5"><span class="nav-number">6.2.</span> <span class="nav-text">2. 性能提升策略</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E7%9B%91%E6%8E%A7%E5%92%8C%E8%B0%83%E4%BC%98"><span class="nav-number">6.3.</span> <span class="nav-text">3. 监控和调优</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="VanJay"
+      src="/images/head.png">
+  <p class="site-author-name" itemprop="name">VanJay</p>
+  <div class="site-description" itemprop="description">成功不是将来才有的<br>而是决定去做的那一刻起<br>持续累积而成</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">65</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">29</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">131</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/wangwanjie" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wangwanjie" rel="noopener me" target="_blank"><i class="github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/wangwanjie" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;wangwanjie" rel="noopener me" target="_blank"><i class="twitter fa-fw"></i>Twitter</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="http://www.weibo.com/2406245873/profile?topnav=1&wvr=6" title="微博 → http:&#x2F;&#x2F;www.weibo.com&#x2F;2406245873&#x2F;profile?topnav&#x3D;1&amp;wvr&#x3D;6" rel="noopener me" target="_blank"><i class="weibo fa-fw"></i>微博</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.facebook.com/wangwanjie123" title="Facebook → https:&#x2F;&#x2F;www.facebook.com&#x2F;wangwanjie123" rel="noopener me" target="_blank"><i class="facebook fa-fw"></i>Facebook</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="http://wpa.qq.com/msgrd?v=3&uin=396736694&site=qq&menu=yes" title="QQ → http:&#x2F;&#x2F;wpa.qq.com&#x2F;msgrd?v&#x3D;3&amp;uin&#x3D;396736694&amp;site&#x3D;qq&amp;menu&#x3D;yes" rel="noopener me" target="_blank"><i class="qq fa-fw"></i>QQ</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:vanjay,dev@gmail.com" title="E-Mail → mailto:vanjay,dev@gmail.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="sidebar-inner sidebar-blogroll">
+      <div class="links-of-blogroll animated">
+        <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+          链接
+        </div>
+        <ul class="links-of-blogroll-list">
+            <li class="links-of-blogroll-item">
+              <a href="https://www.vanjay.cn/" title="https:&#x2F;&#x2F;www.vanjay.cn" rel="noopener" target="_blank">VanJay</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://boxueio.com/" title="https:&#x2F;&#x2F;boxueio.com" rel="noopener" target="_blank">泊学网</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="http://www.smartisan.com/" title="http:&#x2F;&#x2F;www.smartisan.com&#x2F;" rel="noopener" target="_blank">锤子科技</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://objccn.io/" title="https:&#x2F;&#x2F;objccn.io&#x2F;" rel="noopener" target="_blank">ObjC中国</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://github.com/apple/swift-evolution" title="https:&#x2F;&#x2F;github.com&#x2F;apple&#x2F;swift-evolution" rel="noopener" target="_blank">Swift evolution</a>
+            </li>
+        </ul>
+      </div>
+    </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://blog.vanjay.cn/2024/04/08/iOS%E5%9B%BE%E5%83%8F%E5%8A%A0%E8%BD%BD%E6%80%A7%E8%83%BD%E5%AF%B9%E6%AF%94%E5%88%86%E6%9E%90%E5%AE%9E%E8%B7%B5/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/head.png">
+      <meta itemprop="name" content="VanJay">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="VanJay's Blog">
+      <meta itemprop="description" content="成功不是将来才有的<br>而是决定去做的那一刻起<br>持续累积而成">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="iOS图像加载性能对比分析实践 | VanJay's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          iOS图像加载性能对比分析实践
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+  
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2024-04-08 11:20:45" itemprop="dateCreated datePublished" datetime="2024-04-08T11:20:45+08:00">2024-04-08</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2024-04-11 16:30:22" itemprop="dateModified" datetime="2024-04-11T16:30:22+08:00">2024-04-11</time>
+      
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/iOS%E5%BC%80%E5%8F%91/" itemprop="url" rel="index"><span itemprop="name">iOS开发</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>1.6k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>6 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>在现代iOS应用开发中，图像资源占用应用体积的比例越来越大，图像加载和渲染性能直接影响用户体验。随着WebP、HEIC等新型图像格式的普及，以及Assets.xcassets和Bundle等不同资源管理方式的存在，如何选择最优的图像加载策略成为开发者需要面对的重要问题。本文将通过实际的性能测试，全面分析不同图像格式和加载方式的性能差异。</p>
+<span id="more"></span>
+
+<h1 id="图像加载方式对比"><a href="#图像加载方式对比" class="headerlink" title="图像加载方式对比"></a>图像加载方式对比</h1><h2 id="测试环境设置"><a href="#测试环境设置" class="headerlink" title="测试环境设置"></a>测试环境设置</h2><p>为了准确比较不同图像加载方式的性能，我们设计了以下测试环境：</p>
+<ul>
+<li><strong>测试设备</strong>: iPhone 14 Pro (iOS 17.0)</li>
+<li><strong>测试图片</strong>: 5张不同尺寸和复杂度的图片</li>
+<li><strong>测试次数</strong>: 每种方式执行1次和100次取平均值</li>
+<li><strong>测试指标</strong>: 加载时间、内存占用、兼容性</li>
+</ul>
+<pre class="line-numbers language-objectivec" data-language="objectivec"><code class="language-objectivec"><span class="token keyword">@interface</span> <span class="token function">KGImageLoadSpeedViewController</span> <span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token keyword">@property</span> <span class="token punctuation">(</span>nonatomic<span class="token punctuation">,</span> copy<span class="token punctuation">)</span> NSArray <span class="token operator">*</span>allImages<span class="token punctuation">;</span>      <span class="token comment">// 原始PNG/JPG图片名称</span>
+<span class="token keyword">@property</span> <span class="token punctuation">(</span>nonatomic<span class="token punctuation">,</span> copy<span class="token punctuation">)</span> NSArray <span class="token operator">*</span>allWebpImages<span class="token punctuation">;</span> <span class="token comment">// WebP格式图片名称</span>
+<span class="token keyword">@end</span>
+
+<span class="token keyword">@implementation</span> KGImageLoadSpeedViewController
+
+<span class="token operator">-</span> <span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span>viewDidLoad <span class="token punctuation">&#123;</span>
+    <span class="token punctuation">[</span><span class="token keyword">super</span> viewDidLoad<span class="token punctuation">]</span><span class="token punctuation">;</span>
+
+    <span class="token comment">// 测试图片列表</span>
+    <span class="token keyword">self</span><span class="token punctuation">.</span>allImages <span class="token operator">=</span> <span class="token operator">@</span><span class="token punctuation">[</span>
+        <span class="token string">@"playview_change_mode_bgview"</span><span class="token punctuation">,</span>
+        <span class="token string">@"rank_headview"</span><span class="token punctuation">,</span>
+        <span class="token string">@"slide_vip_icon_bg_light"</span><span class="token punctuation">,</span>
+        <span class="token string">@"ga_wel_bg"</span><span class="token punctuation">,</span>
+        <span class="token string">@"wish_tag_bg"</span>
+    <span class="token punctuation">]</span><span class="token punctuation">;</span>
+
+    <span class="token comment">// 转换为WebP格式名称</span>
+    NSString <span class="token operator">*</span>extension <span class="token operator">=</span> <span class="token string">@".webp"</span><span class="token punctuation">;</span>
+    <span class="token keyword">self</span><span class="token punctuation">.</span>allWebpImages <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token keyword">self</span><span class="token punctuation">.</span>allImages kg_mapObjectsUsingBlock<span class="token punctuation">:</span><span class="token operator">^</span><span class="token function">id</span><span class="token punctuation">(</span>id obj<span class="token punctuation">,</span> NSUInteger idx<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        NSString <span class="token operator">*</span>imageName <span class="token operator">=</span> obj<span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token punctuation">[</span>imageName hasPrefix<span class="token punctuation">:</span><span class="token string">@"ga_wel_bg"</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+            imageName <span class="token operator">=</span> <span class="token punctuation">[</span>imageName stringByDeletingPathExtension<span class="token punctuation">]</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+        <span class="token keyword">return</span> <span class="token punctuation">[</span>imageName stringByAppendingString<span class="token punctuation">:</span>extension<span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+
+    <span class="token punctuation">[</span><span class="token keyword">self</span> imageLoad<span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h2 id="1-Bundle-vs-Assets-xcassets"><a href="#1-Bundle-vs-Assets-xcassets" class="headerlink" title="1. Bundle vs Assets.xcassets"></a>1. Bundle vs Assets.xcassets</h2><h3 id="Bundle方式加载"><a href="#Bundle方式加载" class="headerlink" title="Bundle方式加载"></a>Bundle方式加载</h3><pre class="line-numbers language-objectivec" data-language="objectivec"><code class="language-objectivec">NSTimeInterval bundleTime <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token keyword">self</span> measureBlockExecutionTime<span class="token punctuation">:</span><span class="token operator">^</span><span class="token punctuation">&#123;</span>
+    <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> count<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        UIImage <span class="token operator">*</span>image <span class="token operator">=</span> <span class="token punctuation">[</span>UIImage imageNamed<span class="token punctuation">:</span>imageName1<span class="token punctuation">]</span><span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>i <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+            <span class="token function">NSLog</span><span class="token punctuation">(</span><span class="token string">@"Bundle图片尺寸: %@"</span><span class="token punctuation">,</span> <span class="token function">NSStringFromCGSize</span><span class="token punctuation">(</span>image<span class="token punctuation">.</span>size<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">]</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="Assets-xcassets方式加载"><a href="#Assets-xcassets方式加载" class="headerlink" title="Assets.xcassets方式加载"></a>Assets.xcassets方式加载</h3><pre class="line-numbers language-objectivec" data-language="objectivec"><code class="language-objectivec">NSTimeInterval assetsTime <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token keyword">self</span> measureBlockExecutionTime<span class="token punctuation">:</span><span class="token operator">^</span><span class="token punctuation">&#123;</span>
+    <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> count<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        UIImage <span class="token operator">*</span>image <span class="token operator">=</span> <span class="token punctuation">[</span>UIImage imageNamed<span class="token punctuation">:</span>assetsImageName<span class="token punctuation">]</span><span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>i <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+            <span class="token function">NSLog</span><span class="token punctuation">(</span><span class="token string">@"Assets图片尺寸: %@"</span><span class="token punctuation">,</span> <span class="token function">NSStringFromCGSize</span><span class="token punctuation">(</span>image<span class="token punctuation">.</span>size<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">]</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h2 id="2-WebP格式加载对比"><a href="#2-WebP格式加载对比" class="headerlink" title="2. WebP格式加载对比"></a>2. WebP格式加载对比</h2><h3 id="YYImage库加载WebP"><a href="#YYImage库加载WebP" class="headerlink" title="YYImage库加载WebP"></a>YYImage库加载WebP</h3><pre class="line-numbers language-objectivec" data-language="objectivec"><code class="language-objectivec"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">import</span> <span class="token expression"><span class="token operator">&lt;</span>YYImage<span class="token operator">/</span>YYImage<span class="token punctuation">.</span>h<span class="token operator">></span></span></span>
+
+NSTimeInterval yyWebpTime <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token keyword">self</span> measureBlockExecutionTime<span class="token punctuation">:</span><span class="token operator">^</span><span class="token punctuation">&#123;</span>
+    <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> count<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        UIImage <span class="token operator">*</span>image <span class="token operator">=</span> <span class="token punctuation">[</span>YYImage imageNamed<span class="token punctuation">:</span>webpImageName<span class="token punctuation">]</span><span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>i <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+            <span class="token function">NSLog</span><span class="token punctuation">(</span><span class="token string">@"YY WebP图片尺寸: %@"</span><span class="token punctuation">,</span> <span class="token function">NSStringFromCGSize</span><span class="token punctuation">(</span>image<span class="token punctuation">.</span>size<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">]</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="系统UIImage加载WebP-iOS-14"><a href="#系统UIImage加载WebP-iOS-14" class="headerlink" title="系统UIImage加载WebP (iOS 14+)"></a>系统UIImage加载WebP (iOS 14+)</h3><pre class="line-numbers language-objectivec" data-language="objectivec"><code class="language-objectivec">NSTimeInterval systemWebpTime <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token keyword">self</span> measureBlockExecutionTime<span class="token punctuation">:</span><span class="token operator">^</span><span class="token punctuation">&#123;</span>
+    <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> count<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        UIImage <span class="token operator">*</span>image <span class="token operator">=</span> <span class="token punctuation">[</span>UIImage imageNamed<span class="token punctuation">:</span>webpImageName<span class="token punctuation">]</span><span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>i <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+            <span class="token function">NSLog</span><span class="token punctuation">(</span><span class="token string">@"系统WebP图片尺寸: %@"</span><span class="token punctuation">,</span> <span class="token function">NSStringFromCGSize</span><span class="token punctuation">(</span>image<span class="token punctuation">.</span>size<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">]</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="SDWebImage加载WebP"><a href="#SDWebImage加载WebP" class="headerlink" title="SDWebImage加载WebP"></a>SDWebImage加载WebP</h3><pre class="line-numbers language-objectivec" data-language="objectivec"><code class="language-objectivec"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">import</span> <span class="token expression"><span class="token operator">&lt;</span>SDWebImage<span class="token operator">/</span>SDImageWebPCoder<span class="token punctuation">.</span>h<span class="token operator">></span></span></span>
+
+NSTimeInterval sdWebpTime <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token keyword">self</span> measureBlockExecutionTime<span class="token punctuation">:</span><span class="token operator">^</span><span class="token punctuation">&#123;</span>
+    <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> count<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        NSString <span class="token operator">*</span>path <span class="token operator">=</span> <span class="token punctuation">[</span>NSBundle<span class="token punctuation">.</span>mainBundle pathForResource<span class="token punctuation">:</span>webpImageName ofType<span class="token punctuation">:</span>nil<span class="token punctuation">]</span><span class="token punctuation">;</span>
+        NSData <span class="token operator">*</span>webpData <span class="token operator">=</span> <span class="token punctuation">[</span>NSData dataWithContentsOfFile<span class="token punctuation">:</span>path<span class="token punctuation">]</span><span class="token punctuation">;</span>
+        UIImage <span class="token operator">*</span>image <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">[</span>SDImageWebPCoder sharedCoder<span class="token punctuation">]</span> decodedImageWithData<span class="token punctuation">:</span>webpData options<span class="token punctuation">:</span>nil<span class="token punctuation">]</span><span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>i <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+            <span class="token function">NSLog</span><span class="token punctuation">(</span><span class="token string">@"SD WebP图片尺寸: %@"</span><span class="token punctuation">,</span> <span class="token function">NSStringFromCGSize</span><span class="token punctuation">(</span>image<span class="token punctuation">.</span>size<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">]</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h2 id="3-HEIC格式加载"><a href="#3-HEIC格式加载" class="headerlink" title="3. HEIC格式加载"></a>3. HEIC格式加载</h2><pre class="line-numbers language-objectivec" data-language="objectivec"><code class="language-objectivec">NSTimeInterval heicTime <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token keyword">self</span> measureBlockExecutionTime<span class="token punctuation">:</span><span class="token operator">^</span><span class="token punctuation">&#123;</span>
+    <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> count<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        UIImage <span class="token operator">*</span>image <span class="token operator">=</span> <span class="token punctuation">[</span>UIImage imageNamed<span class="token punctuation">:</span>heicImageName<span class="token punctuation">]</span><span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>i <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+            <span class="token function">NSLog</span><span class="token punctuation">(</span><span class="token string">@"HEIC图片尺寸: %@"</span><span class="token punctuation">,</span> <span class="token function">NSStringFromCGSize</span><span class="token punctuation">(</span>image<span class="token punctuation">.</span>size<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">]</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h1 id="性能测试结果分析"><a href="#性能测试结果分析" class="headerlink" title="性能测试结果分析"></a>性能测试结果分析</h1><h2 id="测试数据汇总"><a href="#测试数据汇总" class="headerlink" title="测试数据汇总"></a>测试数据汇总</h2><p>经过多轮测试，我们得到了详细的性能数据（时间单位：毫秒）：</p>
+<h3 id="单次加载性能对比"><a href="#单次加载性能对比" class="headerlink" title="单次加载性能对比"></a>单次加载性能对比</h3><table>
+<thead>
+<tr>
+<th>图片名称</th>
+<th>Bundle</th>
+<th>Assets</th>
+<th>YY WebP</th>
+<th>系统 WebP</th>
+<th>HEIC</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>playview_change_mode_bgview</td>
+<td>0.711</td>
+<td>0.273</td>
+<td>7.709</td>
+<td>0.349</td>
+<td>-</td>
+</tr>
+<tr>
+<td>rank_headview</td>
+<td>8.274</td>
+<td>1.381</td>
+<td>13.224</td>
+<td>3.285</td>
+<td>-</td>
+</tr>
+<tr>
+<td>slide_vip_icon_bg_light</td>
+<td>8.971</td>
+<td>1.316</td>
+<td>12.700</td>
+<td>3.045</td>
+<td>-</td>
+</tr>
+<tr>
+<td>ga_wel_bg.jpg</td>
+<td>9.017</td>
+<td>3.875</td>
+<td>54.421</td>
+<td>1.350</td>
+<td>-</td>
+</tr>
+<tr>
+<td>wish_tag_bg</td>
+<td>10.114</td>
+<td>1.625</td>
+<td>34.619</td>
+<td>2.019</td>
+<td>-</td>
+</tr>
+</tbody></table>
+<h3 id="100次加载平均性能"><a href="#100次加载平均性能" class="headerlink" title="100次加载平均性能"></a>100次加载平均性能</h3><table>
+<thead>
+<tr>
+<th>图片名称</th>
+<th>Bundle</th>
+<th>Assets</th>
+<th>YY WebP</th>
+<th>系统 WebP</th>
+<th>HEIC</th>
+<th>SD WebP</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>playview_change_mode_bgview</td>
+<td>0.100</td>
+<td>0.0004</td>
+<td>0.0077</td>
+<td>0.0019</td>
+<td>0.0142</td>
+<td>-</td>
+</tr>
+<tr>
+<td>rank_headview</td>
+<td>0.010</td>
+<td>0.0008</td>
+<td>0.0077</td>
+<td>0.0021</td>
+<td>0.0032</td>
+<td>-</td>
+</tr>
+<tr>
+<td>slide_vip_icon_bg_light</td>
+<td>0.010</td>
+<td>0.0007</td>
+<td>0.0058</td>
+<td>0.0021</td>
+<td>0.0238</td>
+<td>-</td>
+</tr>
+<tr>
+<td>ga_wel_bg</td>
+<td>0.010</td>
+<td>0.0009</td>
+<td>0.0347</td>
+<td>0.0010</td>
+<td>0.0015</td>
+<td>0.0404</td>
+</tr>
+<tr>
+<td>wish_tag_bg</td>
+<td>0.010</td>
+<td>0.0009</td>
+<td>0.0182</td>
+<td>0.0013</td>
+<td>0.0069</td>
+<td>0.0227</td>
+</tr>
+</tbody></table>
+<h2 id="性能分析结论"><a href="#性能分析结论" class="headerlink" title="性能分析结论"></a>性能分析结论</h2><h3 id="1-Assets-xcassets-vs-Bundle"><a href="#1-Assets-xcassets-vs-Bundle" class="headerlink" title="1. Assets.xcassets vs Bundle"></a>1. Assets.xcassets vs Bundle</h3><p><strong>Assets.xcassets的优势明显</strong>：</p>
+<ul>
+<li>平均加载时间比Bundle快<strong>10-100倍</strong></li>
+<li>系统会自动缓存Assets中的图片</li>
+<li>支持多分辨率适配</li>
+<li>内存管理更优</li>
+</ul>
+<h3 id="2-图像格式性能排名"><a href="#2-图像格式性能排名" class="headerlink" title="2. 图像格式性能排名"></a>2. 图像格式性能排名</h3><p>从快到慢的排名：</p>
+<ol>
+<li><strong>Assets.xcassets (PNG&#x2F;JPG)</strong> - 最快</li>
+<li><strong>系统WebP (iOS 14+)</strong> - 次优</li>
+<li><strong>HEIC</strong> - 中等</li>
+<li><strong>SDWebImage WebP</strong> - 较慢</li>
+<li><strong>Bundle PNG&#x2F;JPG</strong> - 慢</li>
+<li><strong>YYImage WebP</strong> - 最慢</li>
+</ol>
+<h3 id="3-格式选择建议"><a href="#3-格式选择建议" class="headerlink" title="3. 格式选择建议"></a>3. 格式选择建议</h3><pre class="line-numbers language-objectivec" data-language="objectivec"><code class="language-objectivec"><span class="token comment">// 优先级：Assets.xcassets > 系统WebP > HEIC > Bundle PNG</span>
+<span class="token keyword">@interface</span> ImageLoadStrategy <span class="token punctuation">:</span> NSObject
+<span class="token operator">+</span> <span class="token punctuation">(</span>UIImage <span class="token operator">*</span><span class="token punctuation">)</span>loadOptimalImage<span class="token punctuation">:</span><span class="token punctuation">(</span>NSString <span class="token operator">*</span><span class="token punctuation">)</span>imageName<span class="token punctuation">;</span>
+<span class="token keyword">@end</span>
+
+<span class="token keyword">@implementation</span> ImageLoadStrategy
+
+<span class="token operator">+</span> <span class="token punctuation">(</span>UIImage <span class="token operator">*</span><span class="token punctuation">)</span>loadOptimalImage<span class="token punctuation">:</span><span class="token punctuation">(</span>NSString <span class="token operator">*</span><span class="token punctuation">)</span>imageName <span class="token punctuation">&#123;</span>
+    <span class="token comment">// 1. 优先尝试加载Assets中的图片</span>
+    UIImage <span class="token operator">*</span>assetsImage <span class="token operator">=</span> <span class="token punctuation">[</span>UIImage imageNamed<span class="token punctuation">:</span>imageName<span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>assetsImage<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">return</span> assetsImage<span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+
+    <span class="token comment">// 2. 尝试系统WebP (iOS 14+)</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">@</span><span class="token function">available</span><span class="token punctuation">(</span>iOS <span class="token number">14.0</span><span class="token punctuation">,</span> <span class="token operator">*</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        NSString <span class="token operator">*</span>webpName <span class="token operator">=</span> <span class="token punctuation">[</span>imageName stringByAppendingString<span class="token punctuation">:</span><span class="token string">@".webp"</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+        UIImage <span class="token operator">*</span>webpImage <span class="token operator">=</span> <span class="token punctuation">[</span>UIImage imageNamed<span class="token punctuation">:</span>webpName<span class="token punctuation">]</span><span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>webpImage<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+            <span class="token keyword">return</span> webpImage<span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span>
+
+    <span class="token comment">// 3. 尝试HEIC格式 (iOS 11+)</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">@</span><span class="token function">available</span><span class="token punctuation">(</span>iOS <span class="token number">11.0</span><span class="token punctuation">,</span> <span class="token operator">*</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        NSString <span class="token operator">*</span>heicName <span class="token operator">=</span> <span class="token punctuation">[</span>imageName stringByAppendingString<span class="token punctuation">:</span><span class="token string">@".heic"</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+        UIImage <span class="token operator">*</span>heicImage <span class="token operator">=</span> <span class="token punctuation">[</span>UIImage imageNamed<span class="token punctuation">:</span>heicName<span class="token punctuation">]</span><span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>heicImage<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+            <span class="token keyword">return</span> heicImage<span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span>
+
+    <span class="token comment">// 4. 最后尝试Bundle中的PNG/JPG</span>
+    NSString <span class="token operator">*</span>bundlePath <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">[</span>NSBundle mainBundle<span class="token punctuation">]</span> pathForResource<span class="token punctuation">:</span>imageName ofType<span class="token punctuation">:</span><span class="token string">@"png"</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>bundlePath<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">return</span> <span class="token punctuation">[</span>UIImage imageWithContentsOfFile<span class="token punctuation">:</span>bundlePath<span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+
+    <span class="token keyword">return</span> nil<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token keyword">@end</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h1 id="图像格式技术对比"><a href="#图像格式技术对比" class="headerlink" title="图像格式技术对比"></a>图像格式技术对比</h1><h2 id="WebP格式"><a href="#WebP格式" class="headerlink" title="WebP格式"></a>WebP格式</h2><h3 id="优势"><a href="#优势" class="headerlink" title="优势"></a>优势</h3><ul>
+<li><strong>体积小</strong>: 比PNG&#x2F;JPG平均小25-35%</li>
+<li><strong>质量好</strong>: 在相同体积下质量更高</li>
+<li><strong>功能丰富</strong>: 支持动画、透明度等</li>
+</ul>
+<h3 id="劣势"><a href="#劣势" class="headerlink" title="劣势"></a>劣势</h3><ul>
+<li><strong>兼容性</strong>: iOS 14+原生支持，旧版本需要第三方库</li>
+<li><strong>解码性能</strong>: 解码比PNG&#x2F;JPG慢</li>
+<li><strong>内存占用</strong>: 解码时需要更多内存</li>
+</ul>
+<h3 id="使用建议"><a href="#使用建议" class="headerlink" title="使用建议"></a>使用建议</h3><pre class="line-numbers language-objectivec" data-language="objectivec"><code class="language-objectivec"><span class="token keyword">@interface</span> WebpImageManager <span class="token punctuation">:</span> NSObject
+<span class="token operator">+</span> <span class="token punctuation">(</span>BOOL<span class="token punctuation">)</span>isWebpSupported<span class="token punctuation">;</span>
+<span class="token operator">+</span> <span class="token punctuation">(</span>UIImage <span class="token operator">*</span><span class="token punctuation">)</span>loadWebpImage<span class="token punctuation">:</span><span class="token punctuation">(</span>NSString <span class="token operator">*</span><span class="token punctuation">)</span>imageName<span class="token punctuation">;</span>
+<span class="token keyword">@end</span>
+
+<span class="token keyword">@implementation</span> WebpImageManager
+
+<span class="token operator">+</span> <span class="token punctuation">(</span>BOOL<span class="token punctuation">)</span>isWebpSupported <span class="token punctuation">&#123;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">@</span><span class="token function">available</span><span class="token punctuation">(</span>iOS <span class="token number">14.0</span><span class="token punctuation">,</span> <span class="token operator">*</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">return</span> YES<span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token keyword">return</span> NO<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token operator">+</span> <span class="token punctuation">(</span>UIImage <span class="token operator">*</span><span class="token punctuation">)</span>loadWebpImage<span class="token punctuation">:</span><span class="token punctuation">(</span>NSString <span class="token operator">*</span><span class="token punctuation">)</span>imageName <span class="token punctuation">&#123;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token keyword">self</span> isWebpSupported<span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token comment">// 使用系统原生支持</span>
+        <span class="token keyword">return</span> <span class="token punctuation">[</span>UIImage imageNamed<span class="token punctuation">:</span>imageName<span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span> <span class="token keyword">else</span> <span class="token punctuation">&#123;</span>
+        <span class="token comment">// 使用第三方库</span>
+        <span class="token keyword">return</span> <span class="token punctuation">[</span>YYImage imageNamed<span class="token punctuation">:</span>imageName<span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token keyword">@end</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h2 id="HEIC格式"><a href="#HEIC格式" class="headerlink" title="HEIC格式"></a>HEIC格式</h2><h3 id="优势-1"><a href="#优势-1" class="headerlink" title="优势"></a>优势</h3><ul>
+<li><strong>压缩率高</strong>: 比JPG小50%左右</li>
+<li><strong>质量优秀</strong>: 保持高质量的同时大幅减少体积</li>
+<li><strong>系统优化</strong>: iOS设备硬件加速支持</li>
+</ul>
+<h3 id="劣势-1"><a href="#劣势-1" class="headerlink" title="劣势"></a>劣势</h3><ul>
+<li><strong>兼容性限制</strong>: 主要在Apple生态系统中支持</li>
+<li><strong>Android兼容性</strong>: Android设备支持有限</li>
+</ul>
+<h2 id="Assets-xcassets最佳实践"><a href="#Assets-xcassets最佳实践" class="headerlink" title="Assets.xcassets最佳实践"></a>Assets.xcassets最佳实践</h2><h3 id="图片组织结构"><a href="#图片组织结构" class="headerlink" title="图片组织结构"></a>图片组织结构</h3><pre class="line-numbers language-none"><code class="language-none">Assets.xcassets&#x2F;
+├── AppIcon.appiconset&#x2F;
+├── LaunchImage.launchimage&#x2F;
+├── welcome_image.imageset&#x2F;
+│   ├── welcome_image.png
+│   ├── welcome_image@2x.png
+│   ├── welcome_image@3x.png
+│   └── Contents.json
+└── icon_images.imageset&#x2F;
+    ├── icon.png
+    ├── icon@2x.png
+    ├── icon@3x.png
+    └── Contents.json<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="Contents-json配置"><a href="#Contents-json配置" class="headerlink" title="Contents.json配置"></a>Contents.json配置</h3><pre class="line-numbers language-json" data-language="json"><code class="language-json"><span class="token punctuation">&#123;</span>
+  <span class="token property">"images"</span> <span class="token operator">:</span> <span class="token punctuation">[</span>
+    <span class="token punctuation">&#123;</span>
+      <span class="token property">"idiom"</span> <span class="token operator">:</span> <span class="token string">"universal"</span><span class="token punctuation">,</span>
+      <span class="token property">"scale"</span> <span class="token operator">:</span> <span class="token string">"1x"</span>
+    <span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+    <span class="token punctuation">&#123;</span>
+      <span class="token property">"idiom"</span> <span class="token operator">:</span> <span class="token string">"universal"</span><span class="token punctuation">,</span>
+      <span class="token property">"scale"</span> <span class="token operator">:</span> <span class="token string">"2x"</span><span class="token punctuation">,</span>
+      <span class="token property">"filename"</span> <span class="token operator">:</span> <span class="token string">"image@2x.png"</span>
+    <span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+    <span class="token punctuation">&#123;</span>
+      <span class="token property">"idiom"</span> <span class="token operator">:</span> <span class="token string">"universal"</span><span class="token punctuation">,</span>
+      <span class="token property">"scale"</span> <span class="token operator">:</span> <span class="token string">"3x"</span><span class="token punctuation">,</span>
+      <span class="token property">"filename"</span> <span class="token operator">:</span> <span class="token string">"image@3x.png"</span>
+    <span class="token punctuation">&#125;</span>
+  <span class="token punctuation">]</span><span class="token punctuation">,</span>
+  <span class="token property">"info"</span> <span class="token operator">:</span> <span class="token punctuation">&#123;</span>
+    <span class="token property">"version"</span> <span class="token operator">:</span> <span class="token number">1</span><span class="token punctuation">,</span>
+    <span class="token property">"author"</span> <span class="token operator">:</span> <span class="token string">"xcode"</span>
+  <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h1 id="性能优化建议"><a href="#性能优化建议" class="headerlink" title="性能优化建议"></a>性能优化建议</h1><h2 id="1-图像预加载策略"><a href="#1-图像预加载策略" class="headerlink" title="1. 图像预加载策略"></a>1. 图像预加载策略</h2><pre class="line-numbers language-objectivec" data-language="objectivec"><code class="language-objectivec"><span class="token keyword">@interface</span> ImagePreloader <span class="token punctuation">:</span> NSObject
+<span class="token operator">+</span> <span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span>preloadCriticalImages<span class="token punctuation">;</span>
+<span class="token keyword">@end</span>
+
+<span class="token keyword">@implementation</span> ImagePreloader
+
+<span class="token operator">+</span> <span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span>preloadCriticalImages <span class="token punctuation">&#123;</span>
+    NSArray <span class="token operator">*</span>criticalImages <span class="token operator">=</span> <span class="token operator">@</span><span class="token punctuation">[</span><span class="token string">@"header_logo"</span><span class="token punctuation">,</span> <span class="token string">@"background_main"</span><span class="token punctuation">,</span> <span class="token string">@"button_primary"</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+
+    <span class="token function">dispatch_async</span><span class="token punctuation">(</span><span class="token function">dispatch_get_global_queue</span><span class="token punctuation">(</span>DISPATCH_QUEUE_PRIORITY_LOW<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token operator">^</span><span class="token punctuation">&#123;</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span>NSString <span class="token operator">*</span>imageName <span class="token keyword">in</span> criticalImages<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+            <span class="token punctuation">[</span>UIImage imageNamed<span class="token punctuation">:</span>imageName<span class="token punctuation">]</span><span class="token punctuation">;</span> <span class="token comment">// 触发系统缓存</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token keyword">@end</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h2 id="2-图像缓存管理"><a href="#2-图像缓存管理" class="headerlink" title="2. 图像缓存管理"></a>2. 图像缓存管理</h2><pre class="line-numbers language-objectivec" data-language="objectivec"><code class="language-objectivec"><span class="token keyword">@interface</span> ImageCacheManager <span class="token punctuation">:</span> NSObject
+<span class="token operator">+</span> <span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span>optimizeImageCache<span class="token punctuation">;</span>
+<span class="token keyword">@end</span>
+
+<span class="token keyword">@implementation</span> ImageCacheManager
+
+<span class="token operator">+</span> <span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span>optimizeImageCache <span class="token punctuation">&#123;</span>
+    <span class="token comment">// 清理不常用的图片缓存</span>
+    <span class="token punctuation">[</span><span class="token punctuation">[</span>NSNotificationCenter defaultCenter<span class="token punctuation">]</span> addObserverForName<span class="token punctuation">:</span>UIApplicationDidReceiveMemoryWarningNotification
+                                                      object<span class="token punctuation">:</span>nil
+                                                       queue<span class="token punctuation">:</span><span class="token punctuation">[</span>NSOperationQueue mainQueue<span class="token punctuation">]</span>
+                                                  usingBlock<span class="token punctuation">:</span><span class="token operator">^</span><span class="token punctuation">(</span>NSNotification <span class="token operator">*</span>note<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token comment">// 在内存不足时清理缓存</span>
+        <span class="token comment">// 注意：UIImage的缓存是系统管理的，这里可以清理自定义缓存</span>
+    <span class="token punctuation">&#125;</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token keyword">@end</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h2 id="3-动态图像加载"><a href="#3-动态图像加载" class="headerlink" title="3. 动态图像加载"></a>3. 动态图像加载</h2><pre class="line-numbers language-objectivec" data-language="objectivec"><code class="language-objectivec"><span class="token keyword">@interface</span> DynamicImageLoader <span class="token punctuation">:</span> NSObject
+<span class="token operator">+</span> <span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span>loadImageOnDemand<span class="token punctuation">:</span><span class="token punctuation">(</span>NSString <span class="token operator">*</span><span class="token punctuation">)</span>imageName completion<span class="token punctuation">:</span><span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">(</span><span class="token operator">^</span><span class="token punctuation">)</span><span class="token punctuation">(</span>UIImage <span class="token operator">*</span>image<span class="token punctuation">)</span><span class="token punctuation">)</span>completion<span class="token punctuation">;</span>
+<span class="token keyword">@end</span>
+
+<span class="token keyword">@implementation</span> DynamicImageLoader
+
+<span class="token operator">+</span> <span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span>loadImageOnDemand<span class="token punctuation">:</span><span class="token punctuation">(</span>NSString <span class="token operator">*</span><span class="token punctuation">)</span>imageName completion<span class="token punctuation">:</span><span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">(</span><span class="token operator">^</span><span class="token punctuation">)</span><span class="token punctuation">(</span>UIImage <span class="token operator">*</span>image<span class="token punctuation">)</span><span class="token punctuation">)</span>completion <span class="token punctuation">&#123;</span>
+    <span class="token function">dispatch_async</span><span class="token punctuation">(</span><span class="token function">dispatch_get_global_queue</span><span class="token punctuation">(</span>DISPATCH_QUEUE_PRIORITY_DEFAULT<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token operator">^</span><span class="token punctuation">&#123;</span>
+        UIImage <span class="token operator">*</span>image <span class="token operator">=</span> <span class="token punctuation">[</span>ImageLoadStrategy loadOptimalImage<span class="token punctuation">:</span>imageName<span class="token punctuation">]</span><span class="token punctuation">;</span>
+
+        <span class="token function">dispatch_async</span><span class="token punctuation">(</span><span class="token function">dispatch_get_main_queue</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token operator">^</span><span class="token punctuation">&#123;</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>completion<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+                <span class="token function">completion</span><span class="token punctuation">(</span>image<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">&#125;</span>
+        <span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token keyword">@end</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>通过详细的性能测试，我们得出以下结论：</p>
+<h2 id="1-最佳实践推荐"><a href="#1-最佳实践推荐" class="headerlink" title="1. 最佳实践推荐"></a>1. 最佳实践推荐</h2><ul>
+<li><strong>优先使用Assets.xcassets</strong>: 性能最优，系统优化最好</li>
+<li><strong>考虑WebP格式</strong>: 在iOS 14+设备上可以获得很好的性能和体积平衡</li>
+<li><strong>谨慎使用HEIC</strong>: 适合特定场景，但要考虑兼容性</li>
+<li><strong>避免Bundle直接加载</strong>: 除非特殊需求，否则不推荐</li>
+</ul>
+<h2 id="2-性能提升策略"><a href="#2-性能提升策略" class="headerlink" title="2. 性能提升策略"></a>2. 性能提升策略</h2><ul>
+<li><strong>预加载关键图像</strong>: 在合适的时机预加载重要图像</li>
+<li><strong>合理使用缓存</strong>: 利用系统缓存机制，避免重复加载</li>
+<li><strong>按需加载</strong>: 非关键图像延迟加载</li>
+<li><strong>格式选择</strong>: 根据目标设备和图像特性选择合适格式</li>
+</ul>
+<h2 id="3-监控和调优"><a href="#3-监控和调优" class="headerlink" title="3. 监控和调优"></a>3. 监控和调优</h2><p>建立完善的图像加载性能监控机制：</p>
+<pre class="line-numbers language-objectivec" data-language="objectivec"><code class="language-objectivec"><span class="token keyword">@interface</span> ImagePerformanceMonitor <span class="token punctuation">:</span> NSObject
+<span class="token operator">+</span> <span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span>trackImageLoad<span class="token punctuation">:</span><span class="token punctuation">(</span>NSString <span class="token operator">*</span><span class="token punctuation">)</span>imageName duration<span class="token punctuation">:</span><span class="token punctuation">(</span>NSTimeInterval<span class="token punctuation">)</span>duration<span class="token punctuation">;</span>
+<span class="token operator">+</span> <span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span>generatePerformanceReport<span class="token punctuation">;</span>
+<span class="token keyword">@end</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>通过以上优化策略，可以将图像加载性能提升5-100倍，显著改善应用的用户体验。在实际项目中，应该根据具体的使用场景和目标用户群体，选择最合适的图像加载策略。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="reward-container">
+  <div>对你有帮助？您的支持将更加鼓励我继续创作！</div>
+  <button>
+    打赏
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/images/wechatpay.png" alt="VanJay 微信">
+        <span>微信</span>
+      </div>
+      <div>
+        <img src="/images/alipay.jpg" alt="VanJay 支付宝">
+        <span>支付宝</span>
+      </div>
+
+  </div>
+</div>
+
+          <div class="followme">
+  <span>欢迎关注我的其它发布渠道</span>
+
+  <div class="social-list">
+
+      <div class="social-item">
+          <a target="_blank" class="social-link" href="/atom.xml">
+            <span class="icon">
+              <i class="fa fa-rss"></i>
+            </span>
+
+            <span class="label">RSS</span>
+          </a>
+      </div>
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/iOS/" rel="tag"># iOS</a>
+              <a href="/tags/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/" rel="tag"># 性能优化</a>
+              <a href="/tags/%E5%9B%BE%E5%83%8F%E5%8A%A0%E8%BD%BD/" rel="tag"># 图像加载</a>
+              <a href="/tags/WebP/" rel="tag"># WebP</a>
+              <a href="/tags/HEIC/" rel="tag"># HEIC</a>
+              <a href="/tags/%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95/" rel="tag"># 性能测试</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2024/03/15/iOS%E5%BA%94%E7%94%A8%E5%8F%8D%E8%B0%83%E8%AF%95%E6%8A%80%E6%9C%AF%E5%AE%9E%E8%B7%B5%E4%B8%8E%E9%98%B2%E6%8A%A4/" rel="prev" title="iOS应用反调试技术实践与防护">
+                  <i class="fa fa-chevron-left"></i> iOS应用反调试技术实践与防护
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2024/04/14/%E8%A7%A3%E5%86%B3%E5%85%AC%E5%8F%B8%E8%BF%90%E7%BB%B4%E7%BD%91%E7%BB%9C%E9%99%90%E5%88%B6%E7%9A%84%E4%B8%A4%E7%A7%8D%E5%8A%9E%E6%B3%95/" rel="next" title="解决公司运维网络限制的两种办法">
+                  解决公司运维网络限制的两种办法 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments" id="lv-container" data-id="city" data-uid="MTAyMC80MDA5MC8xNjYxNw=="></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2013 – 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">&copy VanJay</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">89k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">5:23</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/mist/" rel="noopener" target="_blank">NexT.Mist</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+  <a href="https://github.com/wangwanjie" class="github-corner" title="在 GitHub 上关注我" aria-label="在 GitHub 上关注我" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js" integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js" integrity="sha256-yt2kYMy0w8AbtF89WXb2P1rfjcP/HTHLT7097U8Y5b8=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+  <script src="/js/third-party/fancybox.js"></script>
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script src="/js/third-party/comments/livere.js"></script>
+ <!-- 页面点击小红心 -->
+
+<script type="text/javascript">
+!function(e,t,a){function r(){for(var e=0;e<n.length;e++)n[e].alpha<=0?(t.body.removeChild(n[e].el),n.splice(e,1)):(n[e].y--,n[e].scale+=.004,n[e].alpha-=.013,n[e].el.style.cssText="left:"+n[e].x+"px;top:"+n[e].y+"px;opacity:"+n[e].alpha+";transform:scale("+n[e].scale+","+n[e].scale+") rotate(45deg);background:"+n[e].color+";z-index:99999");requestAnimationFrame(r)}var n=[];e.requestAnimationFrame=e.requestAnimationFrame||e.webkitRequestAnimationFrame||e.mozRequestAnimationFrame||e.oRequestAnimationFrame||e.msRequestAnimationFrame||function(e){setTimeout(e,1e3/60)},function(e){var a=t.createElement("style");a.type="text/css";try{a.appendChild(t.createTextNode(e))}catch(t){a.styleSheet.cssText=e}t.getElementsByTagName("head")[0].appendChild(a)}(".heart{width: 10px;height: 10px;position: fixed;background: #f00;transform: rotate(45deg);-webkit-transform: rotate(45deg);-moz-transform: rotate(45deg);}.heart:after,.heart:before{content: '';width: inherit;height: inherit;background: inherit;border-radius: 50%;-webkit-border-radius: 50%;-moz-border-radius: 50%;position: fixed;}.heart:after{top: -5px;}.heart:before{left: -5px;}"),function(){var a="function"==typeof e.onclick&&e.onclick;e.onclick=function(e){a&&a(),function(e){var a=t.createElement("div");a.className="heart",n.push({el:a,x:e.clientX-5,y:e.clientY-5,scale:1,alpha:1,color:"rgb("+~~(255*Math.random())+","+~~(255*Math.random())+","+~~(255*Math.random())+")"}),t.body.appendChild(a)}(e)}}(),r()}(window,document);
+</script>
+
+
+<script type="text/javascript">
+/*页面载入完成后，修改手机上跳转 github 样式 */
+!function (e, t, a) {
+    var browser = {
+        versions: function () {
+            var u = navigator.userAgent,
+                app = navigator.appVersion;
+            return { //移动终端浏览器版本信息
+                trident: u.indexOf('Trident') > -1, //IE内核
+                presto: u.indexOf('Presto') > -1, //opera内核
+                webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
+                gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
+                mobile: !!u.match(/AppleWebKit.*Mobile.*/), // || !!u.match(/AppleWebKit/), //是否为移动终端
+                ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+                android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
+                iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者QQHD浏览器
+                iPad: u.indexOf('iPad') > -1, //是否iPad
+                webApp: u.indexOf('Safari') == -1
+                //是否web应该程序，没有头部与底部
+            };
+        }(),
+        language: (navigator.browserLanguage || navigator.language).toLowerCase()
+    }
+
+    function setDynamicBackground() {
+        $('body').css({
+            'background': 'url(https://source.unsplash.com/random/1600x900)',
+            'background-attachment': 'fixed',
+            'background-repeat': 'repeat',
+            'background-size': 'contain'
+        });
+        $('.main-inner').css({
+            'margin-top': '60px',
+            'padding': '60px 60px 0px 60px',
+            'background': '#fff',
+            'opacity': '0.8',
+            'min-height': '500px'
+        });
+        $('.page-home .main-inner').css({
+            'padding-bottom': '60px',
+        });
+        $('.header').css({
+            'background': 'transparent',
+            'color': '#fff'
+        });
+        $('.footer').css({
+            'background': 'transparent',
+            'color': '#fff'
+        });
+
+        $('.footer-inner .theme-link').css('color', '#EEE');
+    }
+    function setSquareCellBackground(isMobile) {
+        $('body').css({
+            'background-image': 'url("/images/background_cell.png")',
+            'background-position': 'center center',
+            'background-size': 'auto',
+            'background-repeat': 'repeat',
+            'background-attachment': 'fixed'
+        });
+        if (!isMobile) {
+            $('.main-inner').css({
+                'margin-top': '60px',
+                'padding': '60px 60px 0px 60px',
+                'opacity': '0.8',
+                'min-height': '500px'
+            });
+            $('.page-home .main-inner').css({
+                'padding-bottom': '60px',
+            });
+        }
+        $('.header').css({
+            'background': 'transparent',
+        });
+        $('.footer').css({
+            'background': 'transparent',
+        });
+    }
+    function setMobileBackgroun() {
+        $('.header').css({
+            'background': 'linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("https://s1.ax1x.com/2018/06/09/CbDIIO.jpg") no-repeat',
+            'background-size': 'cover',
+            'background-color': 'black',
+            'background-position': 'center',
+            'width': '100%',
+            'display': 'table'
+        })
+
+        $('.site-nav-toggle .btn-bar').css('background', '#fff');
+    }
+
+    function settingBackground () {
+        if (browser.versions.mobile) {
+            setSquareCellBackground(true);
+        } else {
+            // setDynamicBackground();
+            setSquareCellBackground(false);
+        }
+    }
+    if (browser.versions.mobile) {
+        var headerStr = '<div class="site-nav-toggle">' +
+            '    <button aria-label="切换导航栏">' +
+            '      <span class="btn-bar"></span>' +
+            '      <span class="btn-bar"></span>' +
+            '      <span class="btn-bar"></span>' +
+            '    </button>' +
+            '  </div>' +
+            '  <div class="site-meta ">' +
+            '    <div class="custom-logo-site-title">' +
+            '      <a href="/" class="brand" rel="start" style="opacity: 1;">' +
+            '        <span class="logo-line-before"><i class="" style="transform: translateX(100%);"></i></span>' +
+            '        <span class="site-title" style="opacity: 1; top: 0px;">VanJay\'s Blog</span>' +
+            '        <span class="logo-line-after"><i class="" style="transform: translateX(-100%);"></i></span>' +
+            '      </a>' +
+            '    </div>' +
+            '        <p class="site-subtitle" style="opacity: 1; top: 0px;">一个爱折腾工程师的全栈梦</p>' +
+            '  </div>';
+        $('.header .site-brand-wrapper').html(headerStr);
+    }
+    // 设置背景
+    settingBackground();
+
+}(window, document);
+</script>
+</body>
+</html>

@@ -1,0 +1,898 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic%7CRoboto+Slab:300,300italic,400,400italic,700,700italic%7CPT+Mono:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css" integrity="sha256-Vzbj7sDDS/woiFS3uNKo8eIuni59rjyNGtXfstRzStA=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"blog.vanjay.cn","root":"/","images":"/images","scheme":"Mist","darkmode":false,"version":"8.16.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":"mac"},"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="前言随着应用的不断迭代和功能的增加，我可能会发现应用的启动时间变得更长。特别是在iOS平台上，启动速度是用户体验的一个非常关键的指标。如果应用启动时间过长，可能会导致用户流失，因为他们不愿意等待这么长的时间。为此，本文将介绍我针对航母的iOS启动时长优化实践。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="航母iOS启动优化实践小记">
+<meta property="og:url" content="https://blog.vanjay.cn/2023/10/24/%E8%88%AA%E6%AF%8DiOS%E5%90%AF%E5%8A%A8%E4%BC%98%E5%8C%96%E5%AE%9E%E8%B7%B5%E5%B0%8F%E8%AE%B0/index.html">
+<meta property="og:site_name" content="VanJay&#39;s Blog">
+<meta property="og:description" content="前言随着应用的不断迭代和功能的增加，我可能会发现应用的启动时间变得更长。特别是在iOS平台上，启动速度是用户体验的一个非常关键的指标。如果应用启动时间过长，可能会导致用户流失，因为他们不愿意等待这么长的时间。为此，本文将介绍我针对航母的iOS启动时长优化实践。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://blog.vanjay.cn/images/iOS/launch/framework_pr.png">
+<meta property="og:image" content="https://blog.vanjay.cn/images/iOS/launch/load_pr.png">
+<meta property="og:image" content="https://blog.vanjay.cn/images/iOS/launch/load_after.png">
+<meta property="article:published_time" content="2023-10-24T06:04:34.000Z">
+<meta property="article:modified_time" content="2025-04-05T14:36:36.049Z">
+<meta property="article:author" content="VanJay">
+<meta property="article:tag" content="iOS">
+<meta property="article:tag" content="启动优化">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://blog.vanjay.cn/images/iOS/launch/framework_pr.png">
+
+
+<link rel="canonical" href="https://blog.vanjay.cn/2023/10/24/%E8%88%AA%E6%AF%8DiOS%E5%90%AF%E5%8A%A8%E4%BC%98%E5%8C%96%E5%AE%9E%E8%B7%B5%E5%B0%8F%E8%AE%B0/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://blog.vanjay.cn/2023/10/24/%E8%88%AA%E6%AF%8DiOS%E5%90%AF%E5%8A%A8%E4%BC%98%E5%8C%96%E5%AE%9E%E8%B7%B5%E5%B0%8F%E8%AE%B0/","path":"2023/10/24/航母iOS启动优化实践小记/","title":"航母iOS启动优化实践小记"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>航母iOS启动优化实践小记 | VanJay's Blog</title>
+  
+
+  <script src="/js/third-party/analytics/baidu-analytics.js"></script>
+  <script async src="https://hm.baidu.com/hm.js?dcbe579f2b53b3adfd4034b7acee5785"></script>
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="VanJay's Blog" type="application/atom+xml">
+<link rel="alternate" href="/rss2.xml" title="VanJay's Blog" type="application/rss+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">VanJay's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">一个爱折腾工程师的全栈梦</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="home fa-fw"></i>首页</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-commonweal"><a href="/404.html" rel="section"><i class="heartbeat fa-fw"></i>公益 404</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="user fa-fw"></i>关于</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="nav-number">2.</span> <span class="nav-text">基本概念</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%90%AF%E5%8A%A8%E7%9B%B8%E5%85%B3%E6%A6%82%E5%BF%B5%E5%8F%8A%E4%BC%98%E5%8C%96%E6%96%B9%E5%90%91%E7%A1%AE%E5%AE%9A"><span class="nav-number">2.1.</span> <span class="nav-text">启动相关概念及优化方向确定</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%90%AF%E5%8A%A8%E7%9A%84%E5%AE%9A%E4%B9%89"><span class="nav-number">2.1.1.</span> <span class="nav-text">启动的定义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%90%AF%E5%8A%A8%E7%9A%84%E7%A7%8D%E7%B1%BB"><span class="nav-number">2.1.2.</span> <span class="nav-text">启动的种类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%90%AF%E5%8A%A8%E6%B5%81%E7%A8%8B-%E5%BC%95%E7%94%A8%E8%87%AA-%E6%8A%96%E9%9F%B3%E5%93%81%E8%B4%A8%E5%BB%BA%E8%AE%BE-iOS%E5%90%AF%E5%8A%A8%E4%BC%98%E5%8C%96%E3%80%8A%E5%8E%9F%E7%90%86%E7%AF%87%E3%80%8B"><span class="nav-number">2.1.3.</span> <span class="nav-text">启动流程 引用自 抖音品质建设 - iOS启动优化《原理篇》</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%90%AF%E5%8A%A8%E9%98%B6%E6%AE%B5%E5%8F%8A%E7%A1%AE%E5%AE%9A%E4%BC%98%E5%8C%96%E6%96%B9%E5%90%91"><span class="nav-number">2.1.4.</span> <span class="nav-text">启动阶段及确定优化方向</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-pre-main-%E9%98%B6%E6%AE%B5"><span class="nav-number">2.1.4.1.</span> <span class="nav-text">1. pre-main 阶段:</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-main-%E5%87%BD%E6%95%B0%E4%B9%8B%E5%90%8E%E5%88%B0-didFinishLaunchingWithOptions-%E9%98%B6%E6%AE%B5"><span class="nav-number">2.1.4.2.</span> <span class="nav-text">2. main 函数之后到 didFinishLaunchingWithOptions 阶段:</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#dyld2%E3%80%81dyld3%E3%80%81dyld4-iOS%E7%9A%84%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5%E5%99%A8%E8%BF%9B%E5%8C%96%E5%8F%B2"><span class="nav-number">2.2.</span> <span class="nav-text">dyld2、dyld3、dyld4: iOS的动态链接器进化史</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#dyld2"><span class="nav-number">2.2.1.</span> <span class="nav-text">dyld2</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#dyld3"><span class="nav-number">2.2.2.</span> <span class="nav-text">dyld3</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#dyld4"><span class="nav-number">2.2.3.</span> <span class="nav-text">dyld4</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%90%AF%E5%8A%A8%E9%97%AD%E5%8C%85%E4%BB%8B%E7%BB%8D"><span class="nav-number">2.2.3.1.</span> <span class="nav-text">启动闭包介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E5%92%8C%E4%BD%BF%E7%94%A8%E5%90%AF%E5%8A%A8%E9%97%AD%E5%8C%85%E7%9A%84%E8%BF%87%E7%A8%8B%EF%BC%9A"><span class="nav-number">2.2.3.1.1.</span> <span class="nav-text">创建和使用启动闭包的过程：</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BB%93%E8%AE%BA%EF%BC%9A"><span class="nav-number">2.2.4.</span> <span class="nav-text">结论：</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MachO%E4%BB%8B%E7%BB%8D"><span class="nav-number">2.3.</span> <span class="nav-text">MachO介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Mach-O%E7%BB%93%E6%9E%84"><span class="nav-number">2.3.1.</span> <span class="nav-text">Mach-O结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Segments-%E5%92%8C-Sections"><span class="nav-number">2.3.2.</span> <span class="nav-text">Segments 和 Sections</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Symbols"><span class="nav-number">2.3.3.</span> <span class="nav-text">Symbols</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Mach-O%E7%9A%84%E4%BD%9C%E7%94%A8"><span class="nav-number">2.3.4.</span> <span class="nav-text">Mach-O的作用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">2.3.5.</span> <span class="nav-text">总结</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#RunLoop%E4%BB%8B%E7%BB%8D"><span class="nav-number">2.4.</span> <span class="nav-text">RunLoop介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-RunLoop%E7%9A%84%E7%BB%93%E6%9E%84%EF%BC%9A"><span class="nav-number">2.4.1.</span> <span class="nav-text">1. RunLoop的结构：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-RunLoop%E7%9A%84%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%A8%8B%EF%BC%9A"><span class="nav-number">2.4.2.</span> <span class="nav-text">2. RunLoop的工作流程：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E4%BD%BF%E7%94%A8RunLoop%E8%BF%9B%E8%A1%8C%E5%90%AF%E5%8A%A8%E4%BC%98%E5%8C%96%EF%BC%9A"><span class="nav-number">2.4.3.</span> <span class="nav-text">3. 使用RunLoop进行启动优化：</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%88%AA%E6%AF%8D%E9%97%AE%E9%A2%98%E5%A4%84%E7%90%86"><span class="nav-number">3.</span> <span class="nav-text">航母问题处理</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8A%A8%E6%80%81%E5%BA%93%E5%8A%A0%E8%BD%BD%E6%97%B6%E9%95%BF"><span class="nav-number">3.1.</span> <span class="nav-text">动态库加载时长</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#load-%E9%98%B6%E6%AE%B5%E8%80%97%E6%97%B6"><span class="nav-number">3.2.</span> <span class="nav-text">load 阶段耗时</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BC%98%E5%8C%96%E5%89%8D%EF%BC%88%E4%BE%9D%E8%B5%96CPU%E7%B9%81%E5%BF%99%E5%BA%A6%EF%BC%8C%E5%8D%A1%E9%A1%BF%E6%A6%82%E7%8E%87%E9%AB%98%EF%BC%89"><span class="nav-number">3.2.1.</span> <span class="nav-text">优化前（依赖CPU繁忙度，卡顿概率高）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BC%98%E5%8C%96%E5%90%8E"><span class="nav-number">3.2.2.</span> <span class="nav-text">优化后</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%80%97%E6%97%B6%E6%96%B9%E6%B3%95%EF%BC%88%E4%BE%9D%E8%B5%96CPU%E7%B9%81%E5%BF%99%E5%BA%A6%EF%BC%8C%E5%8D%A1%E9%A1%BF%E6%A6%82%E7%8E%87%E9%AB%98%EF%BC%89"><span class="nav-number">3.3.</span> <span class="nav-text">耗时方法（依赖CPU繁忙度，卡顿概率高）</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%BB%93%E8%AE%BA"><span class="nav-number">4.</span> <span class="nav-text">结论</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E9%93%BE%E6%8E%A5%E6%88%96%E7%9B%B8%E5%85%B3%E5%B7%A5%E5%85%B7"><span class="nav-number">5.</span> <span class="nav-text">参考链接或相关工具</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="VanJay"
+      src="/images/head.png">
+  <p class="site-author-name" itemprop="name">VanJay</p>
+  <div class="site-description" itemprop="description">成功不是将来才有的<br>而是决定去做的那一刻起<br>持续累积而成</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">65</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">29</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">131</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/wangwanjie" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wangwanjie" rel="noopener me" target="_blank"><i class="github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/wangwanjie" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;wangwanjie" rel="noopener me" target="_blank"><i class="twitter fa-fw"></i>Twitter</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="http://www.weibo.com/2406245873/profile?topnav=1&wvr=6" title="微博 → http:&#x2F;&#x2F;www.weibo.com&#x2F;2406245873&#x2F;profile?topnav&#x3D;1&amp;wvr&#x3D;6" rel="noopener me" target="_blank"><i class="weibo fa-fw"></i>微博</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.facebook.com/wangwanjie123" title="Facebook → https:&#x2F;&#x2F;www.facebook.com&#x2F;wangwanjie123" rel="noopener me" target="_blank"><i class="facebook fa-fw"></i>Facebook</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="http://wpa.qq.com/msgrd?v=3&uin=396736694&site=qq&menu=yes" title="QQ → http:&#x2F;&#x2F;wpa.qq.com&#x2F;msgrd?v&#x3D;3&amp;uin&#x3D;396736694&amp;site&#x3D;qq&amp;menu&#x3D;yes" rel="noopener me" target="_blank"><i class="qq fa-fw"></i>QQ</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:vanjay,dev@gmail.com" title="E-Mail → mailto:vanjay,dev@gmail.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="sidebar-inner sidebar-blogroll">
+      <div class="links-of-blogroll animated">
+        <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+          链接
+        </div>
+        <ul class="links-of-blogroll-list">
+            <li class="links-of-blogroll-item">
+              <a href="https://www.vanjay.cn/" title="https:&#x2F;&#x2F;www.vanjay.cn" rel="noopener" target="_blank">VanJay</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://boxueio.com/" title="https:&#x2F;&#x2F;boxueio.com" rel="noopener" target="_blank">泊学网</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="http://www.smartisan.com/" title="http:&#x2F;&#x2F;www.smartisan.com&#x2F;" rel="noopener" target="_blank">锤子科技</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://objccn.io/" title="https:&#x2F;&#x2F;objccn.io&#x2F;" rel="noopener" target="_blank">ObjC中国</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://github.com/apple/swift-evolution" title="https:&#x2F;&#x2F;github.com&#x2F;apple&#x2F;swift-evolution" rel="noopener" target="_blank">Swift evolution</a>
+            </li>
+        </ul>
+      </div>
+    </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://blog.vanjay.cn/2023/10/24/%E8%88%AA%E6%AF%8DiOS%E5%90%AF%E5%8A%A8%E4%BC%98%E5%8C%96%E5%AE%9E%E8%B7%B5%E5%B0%8F%E8%AE%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/head.png">
+      <meta itemprop="name" content="VanJay">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="VanJay's Blog">
+      <meta itemprop="description" content="成功不是将来才有的<br>而是决定去做的那一刻起<br>持续累积而成">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="航母iOS启动优化实践小记 | VanJay's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          航母iOS启动优化实践小记
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2023-10-24 14:04:34" itemprop="dateCreated datePublished" datetime="2023-10-24T14:04:34+08:00">2023-10-24</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2025-04-05 22:36:36" itemprop="dateModified" datetime="2025-04-05T22:36:36+08:00">2025-04-05</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/iOS/" itemprop="url" rel="index"><span itemprop="name">iOS</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>5.9k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>22 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>随着应用的不断迭代和功能的增加，我可能会发现应用的启动时间变得更长。特别是在iOS平台上，启动速度是用户体验的一个非常关键的指标。如果应用启动时间过长，可能会导致用户流失，因为他们不愿意等待这么长的时间。为此，本文将介绍我针对航母的iOS启动时长优化实践。</p>
+<span id="more"></span>
+
+<h1 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h1><h2 id="启动相关概念及优化方向确定"><a href="#启动相关概念及优化方向确定" class="headerlink" title="启动相关概念及优化方向确定"></a>启动相关概念及优化方向确定</h2><h3 id="启动的定义"><a href="#启动的定义" class="headerlink" title="启动的定义"></a>启动的定义</h3><p>启动通常被定义为两种：</p>
+<ul>
+<li>广义：从用户点击应用图标到应用的首页数据完全加载完成。</li>
+<li>狭义：从用户点击应用图标到Launch Image完全消失的那一刻。</li>
+</ul>
+<p>对于“航母”来说，其首页数据加载完毕的标志是视频的第一帧开始播放。而对于其他首页主要展示静态内容的App来说，当Launch Image消失时，就可以认为首页数据已经加载完成。由于不同App的启动标准难以统一，我通常采用狭义的定义：<strong>启动的终点是当启动图完全消失后的首帧</strong>。</p>
+<blockquote>
+<p>Tips：理想的启动时间应该控制在400ms以内，因为标准的启动动画时长为400ms。</p>
+</blockquote>
+<h3 id="启动的种类"><a href="#启动的种类" class="headerlink" title="启动的种类"></a>启动的种类</h3><p>根据不同的启动场景，启动可以划分为三大类：冷启动、热启动和回到前台。</p>
+<ul>
+<li>冷启动：App在系统中没有任何进程缓存信息的情况下启动，如重启手机后首次打开App。</li>
+<li>热启动：当App进程被终止，但随后很快再次启动，这种启动被称为热启动，因为进程的缓存信息仍然存在。</li>
+<li>回前台：这通常不被定义为启动，因为此时App进程仍然存在，只是从suspended状态转到了active状态。</li>
+</ul>
+<p>实际上，针对线上用户的启动类型，到底是冷启动占比较大还是热启动占比较大，这与产品的使用频次密切相关。如果一个App的使用频次非常高，则热启动的比例相对较大。航母作为一款头部音乐类应用，打开频次较高，故热启动比例高。</p>
+<h3 id="启动流程-引用自-抖音品质建设-iOS启动优化《原理篇》"><a href="#启动流程-引用自-抖音品质建设-iOS启动优化《原理篇》" class="headerlink" title="启动流程 引用自 抖音品质建设 - iOS启动优化《原理篇》"></a>启动流程 引用自 <a target="_blank" rel="noopener" href="https://juejin.cn/post/6887741815529832456#heading-7">抖音品质建设 - iOS启动优化《原理篇》</a></h3><ul>
+<li>点击图标，创建进程：用户点击App图标后，系统开始为App分配进程资源。</li>
+<li>mmap 主二进制，找到 dyld 的路径：系统映射应用的主二进制到内存，并查找动态链接编辑器的路径。</li>
+<li>mmap dyld，把入口地址设为_dyld_start：系统将dyld加载到内存，并设置其入口地址。</li>
+<li>重启手机&#x2F;更新&#x2F;下载 App 的第一次启动，会创建启动闭包：在特定条件下，系统会为应用创建启动闭包，用于加速之后的启动。</li>
+<li>把没有加载的动态库 mmap 进来，动态库的数量会影响这个阶段：应用需要的所有未加载的动态库被映射到内存。</li>
+<li>对每个二进制做 bind 和 rebase，主要耗时在 Page In，影响 Page In 数量的是 objc 的元数据：进行地址绑定和基址重定位，其中Page In的数量受到Objective-C元数据的影响。</li>
+<li>初始化 objc 的 runtime，由于闭包已经初始化了大部分，这里只会注册 sel 和装载 category：Objective-C运行时进行初始化，包括注册选择器和加载类别。</li>
+<li>+load 和静态初始化被调用，除了方法本身耗时，这里还会引起大量 Page In：调用类的+load方法和进行其他静态初始化。</li>
+<li>初始化 UIApplication，启动 Main Runloop：UIApplication对象被初始化，并启动主RunLoop。</li>
+<li>执行 will&#x2F;didFinishLaunch，这里主要是业务代码耗时：调用应用代理的启动相关方法，此时主要的耗时是由业务代码导致的。</li>
+<li>Layout，viewDidLoad 和 Layoutsubviews 会在这里调用，Autolayout 太多会影响这部分时间：界面布局开始，相关的界面生命周期方法被调用。</li>
+<li>Display，drawRect 会调用：界面进行渲染，视图的drawRect方法被调用。</li>
+<li>Prepare，图片解码发生在这一步：图片资源进行解码。</li>
+<li>Commit，首帧渲染数据打包发给 RenderServer，启动结束：界面的首帧渲染数据被发送给RenderServer，此时应用启动完成。</li>
+</ul>
+<h3 id="启动阶段及确定优化方向"><a href="#启动阶段及确定优化方向" class="headerlink" title="启动阶段及确定优化方向"></a>启动阶段及确定优化方向</h3><p>iOS应用的启动过程可以大致分为两个阶段：pre-main阶段和main函数之后到didFinishLaunchingWithOptions阶段，所以优化方向可以基本确定在这两个阶段。</p>
+<h4 id="1-pre-main-阶段"><a href="#1-pre-main-阶段" class="headerlink" title="1. pre-main 阶段:"></a>1. pre-main 阶段:</h4><p>这一阶段是从应用启动到main函数被调用之前的时间段。在这个阶段，大部分时间被用于动态链接器加载和初始化应用的动态库，解析Objective-C的runtime数据结构，以及调用类和分类的+load方法。</p>
+<p>优化方向：</p>
+<ul>
+<li><p>减少动态库数量: 每一个动态库的加载都会增加启动时间。考虑合并多个小的动态库，或者将动态库转化为静态库。</p>
+<blockquote>
+<p>这一步航母动态库数量有限，且影响较大的是Flutter和Zego
+  </p>
+</blockquote>
+</li>
+<li><p>避免过多的类和分类加载: 减少使用+load方法，或者将这些初始化工作延迟到应用启动后。</p>
+<blockquote>
+<p>除安全函数的hook外，其他耗时的已延后放到 initialize（这个被证实无用，因为操作的类initialize时间还是在启动阶段内，只是换了个时机），且已尝试将40多个安全函数的load换到同一个地方调用（即使用一个load），仅仅节约了4ms，考虑到收益比，故而还原了此修改。</p>
+</blockquote>
+</li>
+<li><p>启动闭包: 因为使用了dyld3\dyld4，会创建启动闭包来加速启动，但这需要确保应用的动态库和数据结构在每次更新后都没有太大变化。</p>
+<blockquote>
+<p>尝试了启动阶段二进制重排，实测缺页次数大大减少，但是总体启动时间并没有多大变换（热启动下）。</p>
+</blockquote>
+</li>
+<li><p>优化Objective-C的runtime数据结构: 减少C++静态初始化、减少Objective-C类和分类的数量。</p>
+<blockquote>
+<p>工作量太大，要减少大量的类和分类才有收益，有业内测试，20000个类，800ms左右，故而没尝试。</p>
+</blockquote>
+</li>
+</ul>
+<h4 id="2-main-函数之后到-didFinishLaunchingWithOptions-阶段"><a href="#2-main-函数之后到-didFinishLaunchingWithOptions-阶段" class="headerlink" title="2. main 函数之后到 didFinishLaunchingWithOptions 阶段:"></a>2. main 函数之后到 didFinishLaunchingWithOptions 阶段:</h4><p>这一阶段是从main函数被调用到application:didFinishLaunchingWithOptions:方法返回之前的时间段。在这个阶段，主要是应用框架和业务代码的初始化工作。</p>
+<p>优化方向：</p>
+<ul>
+<li><p>延迟初始化: 不是所有的初始化工作都需要在应用启动时完成。考虑使用dispatch_once, dispatch_after或其他技术延迟初始化。</p>
+</li>
+<li><p>并行初始化: 对于不依赖其他模块的初始化工作，可以考虑在后台线程并行初始化。</p>
+<blockquote>
+<p>这两点KGStartUpTaskManager已经做得比较好了，任务分发这里，耗时不长，优化空间不大。</p>
+</blockquote>
+</li>
+<li><p>优化UI渲染: 减少首屏UI元素的数量，使用轻量级的视图和图形，避免在启动时做复杂的布局计算。</p>
+<blockquote>
+<p>首页显示耗时任务已让对应业务修改</p>
+</blockquote>
+</li>
+<li><p>缓存策略: 对于一些重复的、耗时的计算，考虑使用缓存策略。</p>
+<blockquote>
+<p>优化了部分代码实现，已单元测试对比性能，如图片resize，文字绘图方法等。</p>
+</blockquote>
+</li>
+<li><p>利用RunLoop: 可以利用RunLoop在首屏渲染完成后再进行一些非关键的初始化工作。</p>
+<blockquote>
+<p>KGStartUpTaskManager 采用的便是此策略</p>
+</blockquote>
+</li>
+</ul>
+<p>总的来说，iOS应用的启动优化需要从多个方面入手。航母作为一个千万级DAU的产品，已经历多次启动优化迭代，pre-main阶段的优化收益目前来看比较有限，而main函数之后的优化主要是从应用业务逻辑和UI渲染的角度考虑，KGStartUpTaskManager分发目前来看，尚还合理，需要在这个方向上细细抠出启动时长，需要时间和各个业务配合修改，在通用技术层面，能进行修改的，是一些耗时的通用方法优化，比如图片着色、高斯模糊等。</p>
+<h2 id="dyld2、dyld3、dyld4-iOS的动态链接器进化史"><a href="#dyld2、dyld3、dyld4-iOS的动态链接器进化史" class="headerlink" title="dyld2、dyld3、dyld4: iOS的动态链接器进化史"></a>dyld2、dyld3、dyld4: iOS的动态链接器进化史</h2><p>iOS的启动流程是一个复杂且关键的过程，而在其中，dyld即链接扮演着至关重要的角色。作为Apple的动态链接器，dyld负责管理应用程序和它所依赖的库之间的链接。我来看一下，从dyld2到dyld4，这个组件是如何发展的。</p>
+<h3 id="dyld2"><a href="#dyld2" class="headerlink" title="dyld2"></a>dyld2</h3><p>dyld2在iOS 3.1中首次亮相，它支持到iOS 12。这个版本的主要亮点是：</p>
+<ul>
+<li>dyld shared cache：为了提高库的加载速度，dyld2引入了一个技术，将系统的核心库（如UIKit）合并为一个大的缓存文件。</li>
+<li>初步的优化：在这个阶段，Apple开始关注启动时间，并通过预加载和其他技术，尝试减少启动延迟。</li>
+</ul>
+<h3 id="dyld3"><a href="#dyld3" class="headerlink" title="dyld3"></a>dyld3</h3><p>从iOS 13开始，Apple为第三方应用启用了dyld3。这个版本引入了许多关键的改进：</p>
+<ul>
+<li>启动闭包：与之前版本不同，dyld3为每个应用程序创建一个“启动闭包”。这个闭包包含了应用程序启动所需的所有信息，大大减少了启动时的IO操作和磁盘访问。</li>
+<li>更智能的优化：通过对启动过程进行详细的分析，dyld3能够更智能地决定哪些库应该预加载，从而进一步提高启动速度。</li>
+<li>更紧凑的内存布局：dyld3优化了应用程序和库在内存中的布局，减少了页面错误，提高了性能。</li>
+</ul>
+<h3 id="dyld4"><a href="#dyld4" class="headerlink" title="dyld4"></a>dyld4</h3><p><a target="_blank" rel="noopener" href="https://github.com/apple-oss-distributions/dyld/blob/main/doc/dyld4.md">dyld4</a> 在保持相同的 mach-o 解析器的基础上改进 dyld3，并在 non-customer 情况下通过支持不需要预构建闭包的即时加载来做得更好。</p>
+<p>主要特点与改进：</p>
+<ul>
+<li>代码组织结构：dyld4 的代码组织包括 dyld、libdyld、缓存构建工具、其他工具、常用代码、公共头文件、测试、文档等部分。</li>
+<li>启动流程：内核通过将所有的 argc、argv、envp 和 apple 参数推到堆栈并跳到 dyld 的入口点来启动进程。在 dyld4 中，有几行汇编代码来对齐堆栈，并跳入C++代码。</li>
+<li>全局状态管理：所有的 dyld 状态都存储在 dyld 中（而不是在 libdyld 中），并分为两个类进行管理：DyldProcessConfig 和 DyldRuntimeState。</li>
+<li>Loader 对象：每个加载的 mach-o 文件都由一个 dyld4::Loader 对象跟踪。在 dyld4 中，加载的图像列表是 DyldRuntimeState 中的一个 <code>Array&lt;dyld4::Loader*&gt;</code>。</li>
+<li>MachOAnalyzer：dyld4::Loader 对象不直接解析&#x2F;处理 mach-o 文件，而是建立在 dyld3::MachOAnalyzer 层上的薄对象。</li>
+<li>统一的 Prebuilt 和 JustInTime 模型：dyld4 为每个在进程中加载的 mach-o 文件实例化了一个新的抽象基类 Loader。它有两个具体的子类：PrebuiltLoader 和 JustInTimeLoader。</li>
+<li>libdyld.dylib 的变化：libdyld.dylib 是很小的，几乎所有的代码都在 dyld 中。但它还有一个特别之处，那就是 </li>
+<li>_dyld_process_info 例程，它不使用任何当前的 dyld 状态，而是检查另一个进程的 dyld 状态。</li>
+</ul>
+<h4 id="启动闭包介绍"><a href="#启动闭包介绍" class="headerlink" title="启动闭包介绍"></a>启动闭包介绍</h4><p>启动闭包优化是在dyld3和之后的版本中引入的一种策略，它的目标是减少应用启动时间。启动闭包，简而言之，是一个预先计算的数据结构，其中包含了应用启动时所需的所有信息，如需要加载的动态库、链接信息、初始化顺序等。闭包的引入减少了启动时的I&#x2F;O操作和不必要的计算，从而大大加速了应用的启动速度。</p>
+<p>以下是启动闭包优化的主要内容和过程：</p>
+<ol>
+<li><p>依赖的动态库列表<br>在传统的动态链接过程中，dyld需要解析Mach-O文件头，查找它所依赖的所有动态库。在启动闭包中，这个列表是预先计算好的，所以dyld可以立即知道需要加载哪些库，而不用再次解析二进制文件。</p>
+</li>
+<li><p>Bind和Rebase信息<br>在传统启动流程中，dyld会执行两个主要任务：binding和rebasing。binding是解析并链接外部符号的过程，而rebasing是更新程序内部地址引用的过程。启动闭包中预先计算了这些操作的结果，因此dyld可以直接应用这些操作，而无需再次计算。</p>
+</li>
+<li><p>初始化顺序<br>不同的库和模块可能有不同的初始化代码，它们需要在特定的顺序中执行。启动闭包预先计算了这个顺序，确保每个初始化函数都按正确的顺序执行。</p>
+</li>
+<li><p>元数据和其他信息<br>除了上述关键信息，启动闭包还可能包含其他优化数据，例如Objective-C的类、选择器、协议等的元数据，以及其他与特定应用或库相关的优化数据。</p>
+</li>
+</ol>
+<h5 id="创建和使用启动闭包的过程："><a href="#创建和使用启动闭包的过程：" class="headerlink" title="创建和使用启动闭包的过程："></a>创建和使用启动闭包的过程：</h5><ul>
+<li>创建：启动闭包是在应用编译和链接时创建的。在这个过程中，链接器收集所有必要的信息，如依赖关系、bind&#x2F;rebase操作等，并将它们存储在闭包中。</li>
+<li>存储：闭包存储在App的沙盒目录下，通常在tmp&#x2F;com.apple.dyld路径下。这确保了闭包在应用更新或设备重启时都可以轻松地被重新创建。</li>
+<li>加载：当用户启动应用时，dyld首先检查是否有可用的启动闭包。如果找到闭包，dyld会使用它来加速启动过程。如果没有找到，dyld会回退到传统的启动流程。</li>
+<li>更新：如果应用更新或其依赖发生变化，启动闭包需要被重新创建。dyld会自动检测这些更改并在必要时重新生成闭包。</li>
+</ul>
+<p>总的来说，启动闭包优化是dyld在iOS应用启动过程中引入的一种重要优化。通过预先计算和存储关键启动信息，它大大减少了启动时间，为用户提供了更流畅的体验。</p>
+<h3 id="结论："><a href="#结论：" class="headerlink" title="结论："></a>结论：</h3><p>从dyld2到dyld4，Apple一直在努力优化iOS的启动流程。每个新版本都引入了新的技术和特性，旨在为用户提供更快、更流畅的体验。这也再次证明了Apple对用户体验的执着追求。</p>
+<h2 id="MachO介绍"><a href="#MachO介绍" class="headerlink" title="MachO介绍"></a>MachO介绍</h2><p>当我谈论iOS中的Mach-O（Mach Object），我实际上是在讨论macOS和iOS上用于表示可执行文件、目标代码、共享库和动态加载代码的文件格式。Mach-O是macOS和iOS的原生二进制文件格式。</p>
+<h3 id="Mach-O结构"><a href="#Mach-O结构" class="headerlink" title="Mach-O结构"></a>Mach-O结构</h3><p>Mach-O文件由三部分组成：</p>
+<ul>
+<li>Header：描述文件的总体属性，例如其目标架构（如 arm64、x86_64）和文件类型（如可执行文件、共享库或目标代码）。</li>
+<li>Load Commands：告诉操作系统如何加载和运行该文件。这些命令提供了有关文件中段和节的信息、需要的动态链接共享库和初始化例程的信息等。例如，LC_SEGMENT是一个加载命令，描述了内存中的段的位置和大小。</li>
+<li>Data：实际的数据，这可能是代码、常量、符号等。</li>
+</ul>
+<h3 id="Segments-和-Sections"><a href="#Segments-和-Sections" class="headerlink" title="Segments 和 Sections"></a>Segments 和 Sections</h3><p>Mach-O文件进一步被划分为段（Segments）和节（Sections）：</p>
+<ul>
+<li>Segments：是文件中的连续字节块，它们在内存中作为一个单元被加载。每个段可以包含零个或多个节。</li>
+<li>Sections：定义了段内的具体内容和目的。例如，一个段可以有一个文本节来存储可执行代码，和一个数据节来存储常量。</li>
+</ul>
+<p>常见的段和节有：</p>
+<ul>
+<li>__TEXT段：包含代码和常量。这个段的常见节有：</li>
+<li>__text：实际的机器代码。</li>
+<li>__cstring：C-风格的字符串。</li>
+<li>__DATA段：包含数据变量。常见节有：</li>
+<li>__data：包含初始化的全局变量。</li>
+<li>__bss：包含未初始化的全局变量（在内存中，但不占用磁盘空间）。</li>
+</ul>
+<h3 id="Symbols"><a href="#Symbols" class="headerlink" title="Symbols"></a>Symbols</h3><p>Mach-O文件包含一个符号表，列出了所有的函数和变量的名字。这对于调试和动态链接非常有用。</p>
+<h3 id="Mach-O的作用"><a href="#Mach-O的作用" class="headerlink" title="Mach-O的作用"></a>Mach-O的作用</h3><ul>
+<li>执行：Mach-O文件定义了如何在一个特定的架构（如arm64）上执行代码。</li>
+<li>链接：编译器和链接器使用Mach-O文件格式来生成和链接代码。动态链接器dyld使用Mach-O文件的信息来动态加载和链接共享库。</li>
+<li>调试：Mach-O文件中的信息（例如符号表）使得调试工具能够理解和操作代码。</li>
+<li>二进制分析：安全研究员和其他利益相关者可以使用Mach-O文件格式进行二进制分析，了解代码的工作方式、查找漏洞或进行逆向工程。</li>
+</ul>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>Mach-O是macOS和iOS的核心文件格式，用于表示各种类型的二进制文件。它的结构和信息使得操作系统能够加载、执行、链接和调试代码，同时也为二进制分析提供了有价值的信息。</p>
+<h2 id="RunLoop介绍"><a href="#RunLoop介绍" class="headerlink" title="RunLoop介绍"></a>RunLoop介绍</h2><p>iOS的RunLoop是一个核心组件，负责管理应用中的事件循环，如触摸事件、定时器事件、I&#x2F;O事件等。理解RunLoop的工作原理有助于我编写出更高效、更流畅的应用程序。此外，RunLoop与应用启动优化也有关联。</p>
+<h3 id="1-RunLoop的结构："><a href="#1-RunLoop的结构：" class="headerlink" title="1. RunLoop的结构："></a>1. RunLoop的结构：</h3><ul>
+<li>Modes: RunLoop可以在不同的模式下运行。每种模式定义了一组输入源和计时器。例如，NSDefaultRunLoopMode、UITrackingRunLoopMode等。</li>
+<li>Sources: 输入源是与外部事件对应的对象。有两种类型：Source0 和 Source1。Source0 通常用于应用内部事件，如UIEvent或自定义事件。Source1 用于与其他线程或Mach端口的通信。</li>
+<li>Timers: 计时器用于在指定的时间或间隔执行代码。例如，使用NSTimer。</li>
+<li>Observers: 观察者可以在RunLoop的不同阶段得到通知，如进入、退出、睡眠等。</li>
+</ul>
+<h3 id="2-RunLoop的工作流程："><a href="#2-RunLoop的工作流程：" class="headerlink" title="2. RunLoop的工作流程："></a>2. RunLoop的工作流程：</h3><p>以下是RunLoop的简化工作流程：</p>
+<ul>
+<li>通知Observers：即将进入RunLoop。</li>
+<li>通知Observers：即将处理Timers。</li>
+<li>通知Observers：即将处理Sources。</li>
+<li>处理未处理的消息。</li>
+<li>如果没有消息，进入休眠，等待消息。</li>
+<li>通知Observers：即将退出RunLoop。</li>
+</ul>
+<p>这个循环会一直进行，直到应用退出。</p>
+<h3 id="3-使用RunLoop进行启动优化："><a href="#3-使用RunLoop进行启动优化：" class="headerlink" title="3. 使用RunLoop进行启动优化："></a>3. 使用RunLoop进行启动优化：</h3><p>应用启动优化的目的是减少首次启动时用户需要等待的时间。以下是使用RunLoop进行启动优化的方法：</p>
+<ul>
+<li><p>延迟初始化: 可以利用RunLoop在首屏渲染完成后，再进行一些非关键的初始化工作。例如，某些SDK的初始化、某些功能模块的预加载等。</p>
+<blockquote>
+<p>KGStartUpTaskManager 实现了这部分逻辑</p>
+</blockquote>
+</li>
+<li><p>利用Observer：使用CFRunLoopObserver在RunLoop的特定时机执行任务，如在首次RunLoop循环结束后。</p>
+</li>
+<li><p>分散开销：将一些耗时的操作，如大量的数据计算或I&#x2F;O操作，分散到多个RunLoop循环中，以避免阻塞UI。</p>
+</li>
+<li><p>优先处理UI事件：确保UI事件，如用户的触摸、动画等，总是在其他任务之前得到处理，以确保流畅的用户体验。</p>
+</li>
+<li><p>后台预加载：可以创建一个后台线程，利用其RunLoop预加载一些资源或进行预计算。</p>
+</li>
+</ul>
+<p>为了使您对RunLoop有更直观的理解，以下是一个简单的图示：</p>
+<pre class="line-numbers language-none"><code class="language-none">+--------------------------+
+|     RunLoop开始          |
++--------------------------+
+          |
+          V
++--------------------------+
+|  处理所有Source0类型源   |
++--------------------------+
+          |
+          V
++--------------------------+
+|  处理所有Source1类型源   |
++--------------------------+
+          |
+          V
++--------------------------+
+|   处理所有的计时器事件   |
++--------------------------+
+          |
+          V
++--------------------------+
+|   处理消息，如UI事件     |
++--------------------------+
+          |
+          V
++--------------------------+
+|     RunLoop结束          |
++--------------------------+
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>总的来说，通过理解和合理利用RunLoop，我不仅可以优化应用的启动时间，还可以更好地管理应用的事件处理和资源分配，从而提供更好的用户体验。</p>
+<h1 id="航母问题处理"><a href="#航母问题处理" class="headerlink" title="航母问题处理"></a>航母问题处理</h1><p>使用 Instruments 的 App Launch 和 Time Profiler，查看不同阶段的耗时占用及某个阶段的耗时明细</p>
+<h2 id="动态库加载时长"><a href="#动态库加载时长" class="headerlink" title="动态库加载时长"></a>动态库加载时长</h2><p>这部分时长，主要耗时在 Flutter.framework 和 ZegoLiveRoom，这两个库都不好转静态库，所以这部分时长没有尝试优化<br><img src="/images/iOS/launch/framework_pr.png"/></p>
+<h2 id="load-阶段耗时"><a href="#load-阶段耗时" class="headerlink" title="load 阶段耗时"></a>load 阶段耗时</h2><h3 id="优化前（依赖CPU繁忙度，卡顿概率高）"><a href="#优化前（依赖CPU繁忙度，卡顿概率高）" class="headerlink" title="优化前（依赖CPU繁忙度，卡顿概率高）"></a>优化前（依赖CPU繁忙度，卡顿概率高）</h3><img src="/images/iOS/launch/load_pr.png"/>
+
+<pre class="line-numbers language-none"><code class="language-none">85.00 ms    0.2%	85.00 ms	 	  +[_AFURLSessionTaskSwizzling load]
+90.00 ms    1.3%	0 s	 	  			+[GDTCCTUploader load]
+75.00 ms    0.2%	70.00 ms	 	  +[UIActionSheet(kgSafe) load]
+105.00 ms    0.9%	105.00 ms	 	  +[UIAlertView(kgSafe) load]
+75.00 ms    0.2%	70.00 ms	 	  +[UIActionSheet(kgSafe) load]
+75.00 ms    0.2%	70.00 ms	 	  +[AppDelegate(UIScene) load]
+75.00 ms    0.2%	70.00 ms	 	  +[UIWindow(UIScene) load]
+75.00 ms    0.2%	70.00 ms	 	  +[UIApplication(UIScene) load]
+50.00 ms    0.7%	0 s	 	  		+[KGTrackingNotificationManager load]<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="优化后"><a href="#优化后" class="headerlink" title="优化后"></a>优化后</h3><p>这些已在开发阶段处理，Initializing Time 减少了60ms左右</p>
+<pre class="line-numbers language-none"><code class="language-none">+[UIActionSheet(kgSafe) load]
++[UIAlertView(kgSafe) load]
++[UIActionSheet(kgSafe) load]
++[AppDelegate(UIScene) load]
++[UIWindow(UIScene) load]
++[UIApplication(UIScene) load]
++[KGTrackingNotificationManager load]<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>另外几个延后到initialize，pre-main 时间减少，APM上报的启动时长不变（延后）<br><img src="/images/iOS/launch/load_after.png"/></p>
+<h2 id="耗时方法（依赖CPU繁忙度，卡顿概率高）"><a href="#耗时方法（依赖CPU繁忙度，卡顿概率高）" class="headerlink" title="耗时方法（依赖CPU繁忙度，卡顿概率高）"></a>耗时方法（依赖CPU繁忙度，卡顿概率高）</h2><pre class="line-numbers language-none"><code class="language-none">20.00 ms    0.2%	7.00 ms	 	       +[UIImage(KGAssetsExtension) kg_imageNamed:moduleName:] 已优化，查找bundle内存缓存
+14.00 ms    0.1%	4.00 ms	 	      -[KGHomeTabItem drawTextImageWithText:color:font:] 已优化，2倍
+195.00 ms    0.6%	20.00 ms	 	   -[LOTLayerContainer display] 已优化，启动播放最后一帧
+30.00 ms    0.0%		30.00 ms	 	   -[KGCarPlayManage configureTabItems] 已找对应负责开发处理
+120.00 ms    0.4%	110.00 ms	 	   -[FXBlurView snapshotOfUnderlyingView] 已找对应负责开发处理
+15.00 ms    0.0%	15.00 ms	 	      +[NSData(DES) DESDecrypt:WithKey:] 不修改，试了 openssl 版本，收益不高风险高
+50.00 ms    0.0%	50.00 ms	 	      +[LOTAnimationView animationFromJSON:] 已找对应负责开发处理
+65.00 ms    0.4%	65.00 ms	 			Flutter  _GLOBAL__sub_I_timeline.cc Flutter 内部调用，不可避免
+20.00 ms								+[KGNetworkTools kgRequestOrginCall] 已优化，DEBUG 阶段4倍
+40.00 ms  100.0%	40.00 ms	 	 	+[UIImageTools colorizeImage:withColor:forBlendModel:] 待优化，尝试一天多，达不到效果
+20.00 ms  100.0%	20.00 ms	 	 	-[UIImage(YYAdd) imageByResizeToSize:] 已优化，1.5倍
+20.00 ms  100.0%	20.00 ms	 	 	+[KGPublicCommonTools connectedToNetwork] 风险高，不修改
+&gt;  BOOL didRetrieveFlags &#x3D; SCNetworkReachabilityGetFlags(defaultRouteReachability, &amp;flags);<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>已优化的方法部分在耗时占用上，用例测试内测试执行效率提高了一些，减少启动阶段因这些方法导致卡顿耗时的可能。具体数据因本地测试样本太小，数据波动较大，得线上数据验证。</p>
+<h1 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h1><p>经过对这轮启动优化的研究和实践，我得出了以下几点关键发现：</p>
+<ul>
+<li>在pre-main阶段，我成功地移除了部分耗时的加载操作，并将这些时间转移到了initialize阶段，但值得注意的是，这并没有对APM的启动时长造成实质性的变化</li>
+<li>在main之后，KGStartUpTaskManager在启动执行任务划分方面已经比较大程度减少启动阶段主线程的卡顿，且有些任务需要通过与业务部门的协作来推动修改，所以这一阶段只能尝试去优化一些捕获的较大概率容易导致卡顿的方法。</li>
+<li>由于本地测试的样本量有限，要获取更准确的数据，还需进一步在线上环境进行验证。我期待在实际线上环境中进一步确认这些优化措施的效果，并继续完善启动优化的策略。</li>
+</ul>
+<h1 id="参考链接或相关工具"><a href="#参考链接或相关工具" class="headerlink" title="参考链接或相关工具"></a>参考链接或相关工具</h1><p><a target="_blank" rel="noopener" href="https://developer.apple.com/documentation/xcode/reducing-your-app-s-launch-time">reducing-your-app-s-launch-time</a><br><a target="_blank" rel="noopener" href="https://opensource.apple.com/source/CF/">Apple Core Foundation</a><br><a target="_blank" rel="noopener" href="https://opensource.apple.com/source/dyld/">Apple dyld</a><br><a target="_blank" rel="noopener" href="https://developer.apple.com/library/archive/documentation/Performance/Conceptual/CodeFootprint/Articles/MachOOverview.html">Apple MachO</a><br><a target="_blank" rel="noopener" href="https://www.emergetools.com/app">emergetools</a><br><a target="_blank" rel="noopener" href="https://github.com/maniackk/TimeProfiler">https://github.com/maniackk/TimeProfiler</a><br><a target="_blank" rel="noopener" href="https://juejin.cn/post/6887741815529832456">抖音品质建设 - iOS启动优化《原理篇》</a></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="reward-container">
+  <div>对你有帮助？您的支持将更加鼓励我继续创作！</div>
+  <button>
+    打赏
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/images/wechatpay.png" alt="VanJay 微信">
+        <span>微信</span>
+      </div>
+      <div>
+        <img src="/images/alipay.jpg" alt="VanJay 支付宝">
+        <span>支付宝</span>
+      </div>
+
+  </div>
+</div>
+
+          <div class="followme">
+  <span>欢迎关注我的其它发布渠道</span>
+
+  <div class="social-list">
+
+      <div class="social-item">
+          <a target="_blank" class="social-link" href="/atom.xml">
+            <span class="icon">
+              <i class="fa fa-rss"></i>
+            </span>
+
+            <span class="label">RSS</span>
+          </a>
+      </div>
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/iOS/" rel="tag"># iOS</a>
+              <a href="/tags/%E5%90%AF%E5%8A%A8%E4%BC%98%E5%8C%96/" rel="tag"># 启动优化</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2023/10/10/iOS%E5%87%BD%E6%95%B0%E8%B0%83%E7%94%A8%E6%A0%88%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E6%B7%B1%E5%BA%A6%E8%A7%A3%E6%9E%90/" rel="prev" title="iOS函数调用栈性能优化深度解析">
+                  <i class="fa fa-chevron-left"></i> iOS函数调用栈性能优化深度解析
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2023/11/17/docker-hud-%E6%8B%89%E5%8F%96%E9%95%9C%E5%83%8F%E6%85%A2%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/" rel="next" title="docker hud 拉取镜像慢解决办法">
+                  docker hud 拉取镜像慢解决办法 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments" id="lv-container" data-id="city" data-uid="MTAyMC80MDA5MC8xNjYxNw=="></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2013 – 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">&copy VanJay</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">89k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">5:23</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/mist/" rel="noopener" target="_blank">NexT.Mist</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+  <a href="https://github.com/wangwanjie" class="github-corner" title="在 GitHub 上关注我" aria-label="在 GitHub 上关注我" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js" integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js" integrity="sha256-yt2kYMy0w8AbtF89WXb2P1rfjcP/HTHLT7097U8Y5b8=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+  <script src="/js/third-party/fancybox.js"></script>
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script src="/js/third-party/comments/livere.js"></script>
+ <!-- 页面点击小红心 -->
+
+<script type="text/javascript">
+!function(e,t,a){function r(){for(var e=0;e<n.length;e++)n[e].alpha<=0?(t.body.removeChild(n[e].el),n.splice(e,1)):(n[e].y--,n[e].scale+=.004,n[e].alpha-=.013,n[e].el.style.cssText="left:"+n[e].x+"px;top:"+n[e].y+"px;opacity:"+n[e].alpha+";transform:scale("+n[e].scale+","+n[e].scale+") rotate(45deg);background:"+n[e].color+";z-index:99999");requestAnimationFrame(r)}var n=[];e.requestAnimationFrame=e.requestAnimationFrame||e.webkitRequestAnimationFrame||e.mozRequestAnimationFrame||e.oRequestAnimationFrame||e.msRequestAnimationFrame||function(e){setTimeout(e,1e3/60)},function(e){var a=t.createElement("style");a.type="text/css";try{a.appendChild(t.createTextNode(e))}catch(t){a.styleSheet.cssText=e}t.getElementsByTagName("head")[0].appendChild(a)}(".heart{width: 10px;height: 10px;position: fixed;background: #f00;transform: rotate(45deg);-webkit-transform: rotate(45deg);-moz-transform: rotate(45deg);}.heart:after,.heart:before{content: '';width: inherit;height: inherit;background: inherit;border-radius: 50%;-webkit-border-radius: 50%;-moz-border-radius: 50%;position: fixed;}.heart:after{top: -5px;}.heart:before{left: -5px;}"),function(){var a="function"==typeof e.onclick&&e.onclick;e.onclick=function(e){a&&a(),function(e){var a=t.createElement("div");a.className="heart",n.push({el:a,x:e.clientX-5,y:e.clientY-5,scale:1,alpha:1,color:"rgb("+~~(255*Math.random())+","+~~(255*Math.random())+","+~~(255*Math.random())+")"}),t.body.appendChild(a)}(e)}}(),r()}(window,document);
+</script>
+
+
+<script type="text/javascript">
+/*页面载入完成后，修改手机上跳转 github 样式 */
+!function (e, t, a) {
+    var browser = {
+        versions: function () {
+            var u = navigator.userAgent,
+                app = navigator.appVersion;
+            return { //移动终端浏览器版本信息
+                trident: u.indexOf('Trident') > -1, //IE内核
+                presto: u.indexOf('Presto') > -1, //opera内核
+                webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
+                gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
+                mobile: !!u.match(/AppleWebKit.*Mobile.*/), // || !!u.match(/AppleWebKit/), //是否为移动终端
+                ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+                android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
+                iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者QQHD浏览器
+                iPad: u.indexOf('iPad') > -1, //是否iPad
+                webApp: u.indexOf('Safari') == -1
+                //是否web应该程序，没有头部与底部
+            };
+        }(),
+        language: (navigator.browserLanguage || navigator.language).toLowerCase()
+    }
+
+    function setDynamicBackground() {
+        $('body').css({
+            'background': 'url(https://source.unsplash.com/random/1600x900)',
+            'background-attachment': 'fixed',
+            'background-repeat': 'repeat',
+            'background-size': 'contain'
+        });
+        $('.main-inner').css({
+            'margin-top': '60px',
+            'padding': '60px 60px 0px 60px',
+            'background': '#fff',
+            'opacity': '0.8',
+            'min-height': '500px'
+        });
+        $('.page-home .main-inner').css({
+            'padding-bottom': '60px',
+        });
+        $('.header').css({
+            'background': 'transparent',
+            'color': '#fff'
+        });
+        $('.footer').css({
+            'background': 'transparent',
+            'color': '#fff'
+        });
+
+        $('.footer-inner .theme-link').css('color', '#EEE');
+    }
+    function setSquareCellBackground(isMobile) {
+        $('body').css({
+            'background-image': 'url("/images/background_cell.png")',
+            'background-position': 'center center',
+            'background-size': 'auto',
+            'background-repeat': 'repeat',
+            'background-attachment': 'fixed'
+        });
+        if (!isMobile) {
+            $('.main-inner').css({
+                'margin-top': '60px',
+                'padding': '60px 60px 0px 60px',
+                'opacity': '0.8',
+                'min-height': '500px'
+            });
+            $('.page-home .main-inner').css({
+                'padding-bottom': '60px',
+            });
+        }
+        $('.header').css({
+            'background': 'transparent',
+        });
+        $('.footer').css({
+            'background': 'transparent',
+        });
+    }
+    function setMobileBackgroun() {
+        $('.header').css({
+            'background': 'linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("https://s1.ax1x.com/2018/06/09/CbDIIO.jpg") no-repeat',
+            'background-size': 'cover',
+            'background-color': 'black',
+            'background-position': 'center',
+            'width': '100%',
+            'display': 'table'
+        })
+
+        $('.site-nav-toggle .btn-bar').css('background', '#fff');
+    }
+
+    function settingBackground () {
+        if (browser.versions.mobile) {
+            setSquareCellBackground(true);
+        } else {
+            // setDynamicBackground();
+            setSquareCellBackground(false);
+        }
+    }
+    if (browser.versions.mobile) {
+        var headerStr = '<div class="site-nav-toggle">' +
+            '    <button aria-label="切换导航栏">' +
+            '      <span class="btn-bar"></span>' +
+            '      <span class="btn-bar"></span>' +
+            '      <span class="btn-bar"></span>' +
+            '    </button>' +
+            '  </div>' +
+            '  <div class="site-meta ">' +
+            '    <div class="custom-logo-site-title">' +
+            '      <a href="/" class="brand" rel="start" style="opacity: 1;">' +
+            '        <span class="logo-line-before"><i class="" style="transform: translateX(100%);"></i></span>' +
+            '        <span class="site-title" style="opacity: 1; top: 0px;">VanJay\'s Blog</span>' +
+            '        <span class="logo-line-after"><i class="" style="transform: translateX(-100%);"></i></span>' +
+            '      </a>' +
+            '    </div>' +
+            '        <p class="site-subtitle" style="opacity: 1; top: 0px;">一个爱折腾工程师的全栈梦</p>' +
+            '  </div>';
+        $('.header .site-brand-wrapper').html(headerStr);
+    }
+    // 设置背景
+    settingBackground();
+
+}(window, document);
+</script>
+</body>
+</html>

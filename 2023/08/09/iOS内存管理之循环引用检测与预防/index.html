@@ -1,0 +1,1134 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic%7CRoboto+Slab:300,300italic,400,400italic,700,700italic%7CPT+Mono:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css" integrity="sha256-Vzbj7sDDS/woiFS3uNKo8eIuni59rjyNGtXfstRzStA=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"blog.vanjay.cn","root":"/","images":"/images","scheme":"Mist","darkmode":false,"version":"8.16.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":"mac"},"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="背景在iOS开发中，循环引用（Retain Cycle）是导致内存泄漏的主要原因之一。尽管ARC（自动引用计数）大大简化了内存管理，但开发者仍然需要警惕循环引用的风险。如果不及时处理，循环引用会导致对象无法被正常释放，最终造成内存泄漏和应用崩溃。本文将通过实际案例分析循环引用的成因、检测方法和预防策略。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS内存管理之循环引用检测与预防">
+<meta property="og:url" content="https://blog.vanjay.cn/2023/08/09/iOS%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86%E4%B9%8B%E5%BE%AA%E7%8E%AF%E5%BC%95%E7%94%A8%E6%A3%80%E6%B5%8B%E4%B8%8E%E9%A2%84%E9%98%B2/index.html">
+<meta property="og:site_name" content="VanJay&#39;s Blog">
+<meta property="og:description" content="背景在iOS开发中，循环引用（Retain Cycle）是导致内存泄漏的主要原因之一。尽管ARC（自动引用计数）大大简化了内存管理，但开发者仍然需要警惕循环引用的风险。如果不及时处理，循环引用会导致对象无法被正常释放，最终造成内存泄漏和应用崩溃。本文将通过实际案例分析循环引用的成因、检测方法和预防策略。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-08-09T07:20:35.000Z">
+<meta property="article:modified_time" content="2025-11-25T14:57:57.023Z">
+<meta property="article:author" content="VanJay">
+<meta property="article:tag" content="iOS">
+<meta property="article:tag" content="内存管理">
+<meta property="article:tag" content="循环引用">
+<meta property="article:tag" content="ARC">
+<meta property="article:tag" content="弱引用">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://blog.vanjay.cn/2023/08/09/iOS%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86%E4%B9%8B%E5%BE%AA%E7%8E%AF%E5%BC%95%E7%94%A8%E6%A3%80%E6%B5%8B%E4%B8%8E%E9%A2%84%E9%98%B2/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://blog.vanjay.cn/2023/08/09/iOS%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86%E4%B9%8B%E5%BE%AA%E7%8E%AF%E5%BC%95%E7%94%A8%E6%A3%80%E6%B5%8B%E4%B8%8E%E9%A2%84%E9%98%B2/","path":"2023/08/09/iOS内存管理之循环引用检测与预防/","title":"iOS内存管理之循环引用检测与预防"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>iOS内存管理之循环引用检测与预防 | VanJay's Blog</title>
+  
+
+  <script src="/js/third-party/analytics/baidu-analytics.js"></script>
+  <script async src="https://hm.baidu.com/hm.js?dcbe579f2b53b3adfd4034b7acee5785"></script>
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="VanJay's Blog" type="application/atom+xml">
+<link rel="alternate" href="/rss2.xml" title="VanJay's Blog" type="application/rss+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">VanJay's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">一个爱折腾工程师的全栈梦</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="home fa-fw"></i>首页</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-commonweal"><a href="/404.html" rel="section"><i class="heartbeat fa-fw"></i>公益 404</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="user fa-fw"></i>关于</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%83%8C%E6%99%AF"><span class="nav-number">1.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%BE%AA%E7%8E%AF%E5%BC%95%E7%94%A8%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5"><span class="nav-number">2.</span> <span class="nav-text">循环引用基础概念</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E5%BE%AA%E7%8E%AF%E5%BC%95%E7%94%A8"><span class="nav-number">2.1.</span> <span class="nav-text">什么是循环引用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B8%B8%E8%A7%81%E7%9A%84%E5%BE%AA%E7%8E%AF%E5%BC%95%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="nav-number">2.2.</span> <span class="nav-text">常见的循环引用场景</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E5%AF%B9%E8%B1%A1%E9%97%B4%E7%9A%84%E5%8F%8C%E5%90%91%E5%BC%BA%E5%BC%95%E7%94%A8"><span class="nav-number">2.2.1.</span> <span class="nav-text">1. 对象间的双向强引用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-Block%E4%B8%AD%E7%9A%84%E5%BE%AA%E7%8E%AF%E5%BC%95%E7%94%A8"><span class="nav-number">2.2.2.</span> <span class="nav-text">2. Block中的循环引用</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%9E%E9%99%85%E6%A1%88%E4%BE%8B%E5%88%86%E6%9E%90"><span class="nav-number">3.</span> <span class="nav-text">实际案例分析</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A1%88%E4%BE%8B%EF%BC%9A%E4%B8%9A%E5%8A%A1%E7%AE%A1%E7%90%86%E5%99%A8%E4%B8%8EBlock%E5%BE%AA%E7%8E%AF%E5%BC%95%E7%94%A8"><span class="nav-number">3.1.</span> <span class="nav-text">案例：业务管理器与Block循环引用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%97%AE%E9%A2%98%E4%BB%A3%E7%A0%81%E7%A4%BA%E4%BE%8B"><span class="nav-number">3.1.1.</span> <span class="nav-text">问题代码示例</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%B0%83%E7%94%A8%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90"><span class="nav-number">3.1.2.</span> <span class="nav-text">调用代码分析</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BE%AA%E7%8E%AF%E5%BC%95%E7%94%A8%E5%88%86%E6%9E%90"><span class="nav-number">3.2.</span> <span class="nav-text">循环引用分析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BD%93%E5%89%8D%E4%BB%A3%E7%A0%81%E7%9A%84%E9%A3%8E%E9%99%A9"><span class="nav-number">3.2.1.</span> <span class="nav-text">当前代码的风险</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BE%AA%E7%8E%AF%E5%BC%95%E7%94%A8%E9%93%BE"><span class="nav-number">3.2.2.</span> <span class="nav-text">循环引用链</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%BE%AA%E7%8E%AF%E5%BC%95%E7%94%A8%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88"><span class="nav-number">4.</span> <span class="nav-text">循环引用的解决方案</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E4%BD%BF%E7%94%A8%E5%BC%B1%E5%BC%95%E7%94%A8%EF%BC%88Weak-Reference%EF%BC%89"><span class="nav-number">4.1.</span> <span class="nav-text">1. 使用弱引用（Weak Reference）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88%E4%B8%80%EF%BC%9A-weak%E4%BF%AE%E9%A5%B0%E7%AC%A6"><span class="nav-number">4.1.1.</span> <span class="nav-text">解决方案一：__weak修饰符</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88%E4%BA%8C%EF%BC%9A%E5%9C%A8%E7%AE%A1%E7%90%86%E5%99%A8%E4%B8%AD%E4%BD%BF%E7%94%A8%E5%BC%B1%E5%BC%95%E7%94%A8"><span class="nav-number">4.1.2.</span> <span class="nav-text">解决方案二：在管理器中使用弱引用</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E4%BD%BF%E7%94%A8%E5%BC%B1%E5%BC%95%E7%94%A8%E8%A1%A8%EF%BC%88Weak-Reference-Table%EF%BC%89"><span class="nav-number">4.2.</span> <span class="nav-text">2. 使用弱引用表（Weak Reference Table）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E4%BC%98%E5%8C%96%E4%B8%9A%E5%8A%A1%E7%AE%A1%E7%90%86%E5%99%A8%E8%AE%BE%E8%AE%A1"><span class="nav-number">4.3.</span> <span class="nav-text">3. 优化业务管理器设计</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%BE%AA%E7%8E%AF%E5%BC%95%E7%94%A8%E6%A3%80%E6%B5%8B%E5%B7%A5%E5%85%B7"><span class="nav-number">5.</span> <span class="nav-text">循环引用检测工具</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E5%86%85%E5%AD%98%E6%B3%84%E6%BC%8F%E6%A3%80%E6%B5%8B%E5%B7%A5%E5%85%B7"><span class="nav-number">5.1.</span> <span class="nav-text">1. 内存泄漏检测工具</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8Xcode-Instruments"><span class="nav-number">5.1.1.</span> <span class="nav-text">使用Xcode Instruments</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%87%AA%E5%AE%9A%E4%B9%89%E6%A3%80%E6%B5%8B%E5%B7%A5%E5%85%B7"><span class="nav-number">5.1.2.</span> <span class="nav-text">自定义检测工具</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E8%BF%90%E8%A1%8C%E6%97%B6%E6%A3%80%E6%B5%8B"><span class="nav-number">5.2.</span> <span class="nav-text">2. 运行时检测</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5%E5%BB%BA%E8%AE%AE"><span class="nav-number">6.</span> <span class="nav-text">最佳实践建议</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-Block%E4%BD%BF%E7%94%A8%E8%A7%84%E8%8C%83"><span class="nav-number">6.1.</span> <span class="nav-text">1. Block使用规范</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%AD%A3%E7%A1%AE%E7%9A%84Block%E4%BD%BF%E7%94%A8%E6%96%B9%E5%BC%8F"><span class="nav-number">6.1.1.</span> <span class="nav-text">正确的Block使用方式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Block%E5%8F%82%E6%95%B0%E8%AE%BE%E8%AE%A1"><span class="nav-number">6.1.2.</span> <span class="nav-text">Block参数设计</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E4%BB%A3%E7%90%86%E6%A8%A1%E5%BC%8F%E4%BC%98%E5%8C%96"><span class="nav-number">6.2.</span> <span class="nav-text">2. 代理模式优化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E5%AE%9A%E6%97%B6%E5%99%A8%E7%AE%A1%E7%90%86"><span class="nav-number">6.3.</span> <span class="nav-text">3. 定时器管理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-%E9%80%9A%E7%9F%A5%E8%A7%82%E5%AF%9F%E8%80%85%E7%AE%A1%E7%90%86"><span class="nav-number">6.4.</span> <span class="nav-text">4. 通知观察者管理</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86%E7%9B%91%E6%8E%A7%E5%B7%A5%E5%85%B7"><span class="nav-number">7.</span> <span class="nav-text">内存管理监控工具</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E5%BC%80%E5%8F%91%E6%97%B6%E7%9B%91%E6%8E%A7"><span class="nav-number">7.1.</span> <span class="nav-text">1. 开发时监控</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E7%94%9F%E4%BA%A7%E7%8E%AF%E5%A2%83%E7%9B%91%E6%8E%A7"><span class="nav-number">7.2.</span> <span class="nav-text">2. 生产环境监控</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">8.</span> <span class="nav-text">总结</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E8%AF%86%E5%88%AB%E5%BE%AA%E7%8E%AF%E5%BC%95%E7%94%A8"><span class="nav-number">8.1.</span> <span class="nav-text">1. 识别循环引用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E9%A2%84%E9%98%B2%E7%AD%96%E7%95%A5"><span class="nav-number">8.2.</span> <span class="nav-text">2. 预防策略</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5"><span class="nav-number">8.3.</span> <span class="nav-text">3. 最佳实践</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="VanJay"
+      src="/images/head.png">
+  <p class="site-author-name" itemprop="name">VanJay</p>
+  <div class="site-description" itemprop="description">成功不是将来才有的<br>而是决定去做的那一刻起<br>持续累积而成</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">65</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">29</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">131</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/wangwanjie" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wangwanjie" rel="noopener me" target="_blank"><i class="github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/wangwanjie" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;wangwanjie" rel="noopener me" target="_blank"><i class="twitter fa-fw"></i>Twitter</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="http://www.weibo.com/2406245873/profile?topnav=1&wvr=6" title="微博 → http:&#x2F;&#x2F;www.weibo.com&#x2F;2406245873&#x2F;profile?topnav&#x3D;1&amp;wvr&#x3D;6" rel="noopener me" target="_blank"><i class="weibo fa-fw"></i>微博</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.facebook.com/wangwanjie123" title="Facebook → https:&#x2F;&#x2F;www.facebook.com&#x2F;wangwanjie123" rel="noopener me" target="_blank"><i class="facebook fa-fw"></i>Facebook</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="http://wpa.qq.com/msgrd?v=3&uin=396736694&site=qq&menu=yes" title="QQ → http:&#x2F;&#x2F;wpa.qq.com&#x2F;msgrd?v&#x3D;3&amp;uin&#x3D;396736694&amp;site&#x3D;qq&amp;menu&#x3D;yes" rel="noopener me" target="_blank"><i class="qq fa-fw"></i>QQ</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:vanjay,dev@gmail.com" title="E-Mail → mailto:vanjay,dev@gmail.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="sidebar-inner sidebar-blogroll">
+      <div class="links-of-blogroll animated">
+        <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+          链接
+        </div>
+        <ul class="links-of-blogroll-list">
+            <li class="links-of-blogroll-item">
+              <a href="https://www.vanjay.cn/" title="https:&#x2F;&#x2F;www.vanjay.cn" rel="noopener" target="_blank">VanJay</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://boxueio.com/" title="https:&#x2F;&#x2F;boxueio.com" rel="noopener" target="_blank">泊学网</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="http://www.smartisan.com/" title="http:&#x2F;&#x2F;www.smartisan.com&#x2F;" rel="noopener" target="_blank">锤子科技</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://objccn.io/" title="https:&#x2F;&#x2F;objccn.io&#x2F;" rel="noopener" target="_blank">ObjC中国</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://github.com/apple/swift-evolution" title="https:&#x2F;&#x2F;github.com&#x2F;apple&#x2F;swift-evolution" rel="noopener" target="_blank">Swift evolution</a>
+            </li>
+        </ul>
+      </div>
+    </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://blog.vanjay.cn/2023/08/09/iOS%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86%E4%B9%8B%E5%BE%AA%E7%8E%AF%E5%BC%95%E7%94%A8%E6%A3%80%E6%B5%8B%E4%B8%8E%E9%A2%84%E9%98%B2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/head.png">
+      <meta itemprop="name" content="VanJay">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="VanJay's Blog">
+      <meta itemprop="description" content="成功不是将来才有的<br>而是决定去做的那一刻起<br>持续累积而成">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="iOS内存管理之循环引用检测与预防 | VanJay's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          iOS内存管理之循环引用检测与预防
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+  
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2023-08-09 15:20:35" itemprop="dateCreated datePublished" datetime="2023-08-09T15:20:35+08:00">2023-08-09</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2023-08-12 11:45:28" itemprop="dateModified" datetime="2023-08-12T11:45:28+08:00">2023-08-12</time>
+      
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/iOS%E5%BC%80%E5%8F%91/" itemprop="url" rel="index"><span itemprop="name">iOS开发</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>2.2k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>8 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>在iOS开发中，循环引用（Retain Cycle）是导致内存泄漏的主要原因之一。尽管ARC（自动引用计数）大大简化了内存管理，但开发者仍然需要警惕循环引用的风险。如果不及时处理，循环引用会导致对象无法被正常释放，最终造成内存泄漏和应用崩溃。本文将通过实际案例分析循环引用的成因、检测方法和预防策略。</p>
+<span id="more"></span>
+
+<h1 id="循环引用基础概念"><a href="#循环引用基础概念" class="headerlink" title="循环引用基础概念"></a>循环引用基础概念</h1><h2 id="什么是循环引用"><a href="#什么是循环引用" class="headerlink" title="什么是循环引用"></a>什么是循环引用</h2><p>循环引用是指两个或多个对象之间互相持有强引用，导致引用计数永远无法归零，从而无法被系统释放的情况。</p>
+<h2 id="常见的循环引用场景"><a href="#常见的循环引用场景" class="headerlink" title="常见的循环引用场景"></a>常见的循环引用场景</h2><h3 id="1-对象间的双向强引用"><a href="#1-对象间的双向强引用" class="headerlink" title="1. 对象间的双向强引用"></a>1. 对象间的双向强引用</h3><pre class="line-numbers language-objectivec" data-language="objectivec"><code class="language-objectivec"><span class="token keyword">@interface</span> Person <span class="token punctuation">:</span> NSObject
+<span class="token keyword">@property</span> <span class="token punctuation">(</span>nonatomic<span class="token punctuation">,</span> strong<span class="token punctuation">)</span> Dog <span class="token operator">*</span>dog<span class="token punctuation">;</span>
+<span class="token keyword">@end</span>
+
+<span class="token keyword">@interface</span> Dog <span class="token punctuation">:</span> NSObject
+<span class="token keyword">@property</span> <span class="token punctuation">(</span>nonatomic<span class="token punctuation">,</span> strong<span class="token punctuation">)</span> Person <span class="token operator">*</span>owner<span class="token punctuation">;</span>
+<span class="token keyword">@end</span>
+
+<span class="token comment">// 循环引用示例</span>
+Person <span class="token operator">*</span>person <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">[</span>Person alloc<span class="token punctuation">]</span> init<span class="token punctuation">]</span><span class="token punctuation">;</span>
+Dog <span class="token operator">*</span>dog <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">[</span>Dog alloc<span class="token punctuation">]</span> init<span class="token punctuation">]</span><span class="token punctuation">;</span>
+person<span class="token punctuation">.</span>dog <span class="token operator">=</span> dog<span class="token punctuation">;</span>
+dog<span class="token punctuation">.</span>owner <span class="token operator">=</span> person<span class="token punctuation">;</span> <span class="token comment">// 造成循环引用</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="2-Block中的循环引用"><a href="#2-Block中的循环引用" class="headerlink" title="2. Block中的循环引用"></a>2. Block中的循环引用</h3><pre class="line-numbers language-objectivec" data-language="objectivec"><code class="language-objectivec"><span class="token keyword">@interface</span> ViewController <span class="token punctuation">:</span> UIViewController
+<span class="token keyword">@property</span> <span class="token punctuation">(</span>nonatomic<span class="token punctuation">,</span> copy<span class="token punctuation">)</span> <span class="token keyword">void</span> <span class="token punctuation">(</span><span class="token operator">^</span>completionBlock<span class="token punctuation">)</span><span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">@end</span>
+
+<span class="token keyword">@implementation</span> ViewController
+
+<span class="token operator">-</span> <span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span>setupBlock <span class="token punctuation">&#123;</span>
+    <span class="token keyword">self</span><span class="token punctuation">.</span>completionBlock <span class="token operator">=</span> <span class="token operator">^</span><span class="token punctuation">&#123;</span>
+        <span class="token punctuation">[</span><span class="token keyword">self</span> doSomething<span class="token punctuation">]</span><span class="token punctuation">;</span> <span class="token comment">// 循环引用：Block -> self -> Block</span>
+    <span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token operator">-</span> <span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span>doSomething <span class="token punctuation">&#123;</span>
+    <span class="token comment">// 业务逻辑</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token keyword">@end</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h1 id="实际案例分析"><a href="#实际案例分析" class="headerlink" title="实际案例分析"></a>实际案例分析</h1><h2 id="案例：业务管理器与Block循环引用"><a href="#案例：业务管理器与Block循环引用" class="headerlink" title="案例：业务管理器与Block循环引用"></a>案例：业务管理器与Block循环引用</h2><p>让我们通过一个实际的业务场景来分析循环引用问题：</p>
+<h3 id="问题代码示例"><a href="#问题代码示例" class="headerlink" title="问题代码示例"></a>问题代码示例</h3><pre class="line-numbers language-objectivec" data-language="objectivec"><code class="language-objectivec"><span class="token keyword">@interface</span> SomeBussinessManager <span class="token punctuation">:</span> NSObject
+<span class="token operator">-</span> <span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span>doSomeThingWithBlock<span class="token punctuation">:</span><span class="token punctuation">(</span><span class="token keyword">void</span> <span class="token punctuation">(</span><span class="token operator">^</span><span class="token punctuation">)</span><span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span><span class="token punctuation">)</span>blockName<span class="token punctuation">;</span>
+<span class="token keyword">@property</span> <span class="token punctuation">(</span>nonatomic<span class="token punctuation">,</span> strong<span class="token punctuation">)</span> NSArray <span class="token operator">*</span>someProperty<span class="token punctuation">;</span>
+<span class="token keyword">@end</span>
+
+<span class="token keyword">@interface</span> <span class="token function">SomeBussinessManager</span> <span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token keyword">@property</span> <span class="token punctuation">(</span>nonatomic<span class="token punctuation">,</span> copy<span class="token punctuation">)</span> <span class="token keyword">void</span> <span class="token punctuation">(</span><span class="token operator">^</span>retaindBlock<span class="token punctuation">)</span><span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">@end</span>
+
+<span class="token keyword">@implementation</span> SomeBussinessManager
+<span class="token operator">-</span> <span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span>dealloc <span class="token punctuation">&#123;</span>
+    <span class="token function">NSLog</span><span class="token punctuation">(</span><span class="token string">@"%s"</span><span class="token punctuation">,</span> __FUNCTION__<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 检测对象是否正常释放</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token operator">-</span> <span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span>doSomeThingWithBlock<span class="token punctuation">:</span><span class="token punctuation">(</span><span class="token keyword">void</span> <span class="token punctuation">(</span><span class="token operator">^</span><span class="token punctuation">)</span><span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span><span class="token punctuation">)</span>blockName <span class="token punctuation">&#123;</span>
+    <span class="token comment">// 注释掉的代码会造成循环引用</span>
+    <span class="token comment">// self.retaindBlock = blockName;</span>
+
+    <span class="token comment">// 直接执行Block，避免持有</span>
+    <span class="token function">blockName</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+<span class="token keyword">@end</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="调用代码分析"><a href="#调用代码分析" class="headerlink" title="调用代码分析"></a>调用代码分析</h3><pre class="line-numbers language-objectivec" data-language="objectivec"><code class="language-objectivec"><span class="token keyword">@interface</span> RetainCycleTestViewController <span class="token punctuation">:</span> UIViewController
+<span class="token keyword">@end</span>
+
+<span class="token keyword">@implementation</span> RetainCycleTestViewController
+
+<span class="token operator">-</span> <span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span>touchesBegan<span class="token punctuation">:</span><span class="token punctuation">(</span>NSSet<span class="token operator">&lt;</span>UITouch <span class="token operator">*</span><span class="token operator">></span> <span class="token operator">*</span><span class="token punctuation">)</span>touches withEvent<span class="token punctuation">:</span><span class="token punctuation">(</span>UIEvent <span class="token operator">*</span><span class="token punctuation">)</span>event <span class="token punctuation">&#123;</span>
+    SomeBussinessManager <span class="token operator">*</span>manager <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">[</span>SomeBussinessManager alloc<span class="token punctuation">]</span> init<span class="token punctuation">]</span><span class="token punctuation">;</span>
+    manager<span class="token punctuation">.</span>someProperty <span class="token operator">=</span> <span class="token operator">@</span><span class="token punctuation">[</span><span class="token string">@"test"</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+
+    <span class="token comment">// 潜在的循环引用风险</span>
+    <span class="token punctuation">[</span>manager doSomeThingWithBlock<span class="token punctuation">:</span><span class="token operator">^</span><span class="token punctuation">&#123;</span>
+        NSArray <span class="token operator">*</span>someProperty <span class="token operator">=</span> manager<span class="token punctuation">.</span>someProperty<span class="token punctuation">;</span> <span class="token comment">// 捕获了manager的强引用</span>
+        <span class="token function">NSLog</span><span class="token punctuation">(</span><span class="token string">@"访问属性: %@"</span><span class="token punctuation">,</span> someProperty<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token keyword">@end</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h2 id="循环引用分析"><a href="#循环引用分析" class="headerlink" title="循环引用分析"></a>循环引用分析</h2><h3 id="当前代码的风险"><a href="#当前代码的风险" class="headerlink" title="当前代码的风险"></a>当前代码的风险</h3><p>虽然当前代码中<code>doSomeThingWithBlock</code>方法直接执行了Block而没有持有它，但仍然存在潜在风险：</p>
+<ol>
+<li><strong>Block捕获manager</strong>: Block内部访问<code>manager.someProperty</code>时会捕获<code>manager</code>的强引用</li>
+<li><strong>管理器可能持有Block</strong>: 如果将来修改代码持有Block，就会形成循环引用</li>
+<li><strong>隐式引用</strong>: 即使没有显式持有，某些情况下也可能形成隐式引用</li>
+</ol>
+<h3 id="循环引用链"><a href="#循环引用链" class="headerlink" title="循环引用链"></a>循环引用链</h3><p>如果<code>retaindBlock</code>赋值被取消注释，会形成如下循环引用：</p>
+<pre class="line-numbers language-none"><code class="language-none">ViewController -&gt; manager (strong)
+manager -&gt; retaindBlock (copy, strong)
+retaindBlock -&gt; manager (captured, strong)<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<h1 id="循环引用的解决方案"><a href="#循环引用的解决方案" class="headerlink" title="循环引用的解决方案"></a>循环引用的解决方案</h1><h2 id="1-使用弱引用（Weak-Reference）"><a href="#1-使用弱引用（Weak-Reference）" class="headerlink" title="1. 使用弱引用（Weak Reference）"></a>1. 使用弱引用（Weak Reference）</h2><h3 id="解决方案一：-weak修饰符"><a href="#解决方案一：-weak修饰符" class="headerlink" title="解决方案一：__weak修饰符"></a>解决方案一：__weak修饰符</h3><pre class="line-numbers language-objectivec" data-language="objectivec"><code class="language-objectivec"><span class="token operator">-</span> <span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span>touchesBegan<span class="token punctuation">:</span><span class="token punctuation">(</span>NSSet<span class="token operator">&lt;</span>UITouch <span class="token operator">*</span><span class="token operator">></span> <span class="token operator">*</span><span class="token punctuation">)</span>touches withEvent<span class="token punctuation">:</span><span class="token punctuation">(</span>UIEvent <span class="token operator">*</span><span class="token punctuation">)</span>event <span class="token punctuation">&#123;</span>
+    SomeBussinessManager <span class="token operator">*</span>manager <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">[</span>SomeBussinessManager alloc<span class="token punctuation">]</span> init<span class="token punctuation">]</span><span class="token punctuation">;</span>
+    manager<span class="token punctuation">.</span>someProperty <span class="token operator">=</span> <span class="token operator">@</span><span class="token punctuation">[</span><span class="token string">@"test"</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+
+    <span class="token comment">// 使用弱引用避免循环引用</span>
+    __weak <span class="token keyword">typeof</span><span class="token punctuation">(</span>manager<span class="token punctuation">)</span> weakManager <span class="token operator">=</span> manager<span class="token punctuation">;</span>
+    <span class="token punctuation">[</span>manager doSomeThingWithBlock<span class="token punctuation">:</span><span class="token operator">^</span><span class="token punctuation">&#123;</span>
+        __strong <span class="token keyword">typeof</span><span class="token punctuation">(</span>weakManager<span class="token punctuation">)</span> strongManager <span class="token operator">=</span> weakManager<span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>strongManager<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+            NSArray <span class="token operator">*</span>someProperty <span class="token operator">=</span> strongManager<span class="token punctuation">.</span>someProperty<span class="token punctuation">;</span>
+            <span class="token function">NSLog</span><span class="token punctuation">(</span><span class="token string">@"访问属性: %@"</span><span class="token punctuation">,</span> someProperty<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="解决方案二：在管理器中使用弱引用"><a href="#解决方案二：在管理器中使用弱引用" class="headerlink" title="解决方案二：在管理器中使用弱引用"></a>解决方案二：在管理器中使用弱引用</h3><pre class="line-numbers language-objectivec" data-language="objectivec"><code class="language-objectivec"><span class="token keyword">@interface</span> <span class="token function">SomeBussinessManager</span> <span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token keyword">@property</span> <span class="token punctuation">(</span>nonatomic<span class="token punctuation">,</span> copy<span class="token punctuation">)</span> <span class="token keyword">void</span> <span class="token punctuation">(</span><span class="token operator">^</span>retaindBlock<span class="token punctuation">)</span><span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">@property</span> <span class="token punctuation">(</span>nonatomic<span class="token punctuation">,</span> weak<span class="token punctuation">)</span> id weakTarget<span class="token punctuation">;</span> <span class="token comment">// 弱引用目标对象</span>
+<span class="token keyword">@end</span>
+
+<span class="token keyword">@implementation</span> SomeBussinessManager
+
+<span class="token operator">-</span> <span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span>doSomeThingWithBlock<span class="token punctuation">:</span><span class="token punctuation">(</span><span class="token keyword">void</span> <span class="token punctuation">(</span><span class="token operator">^</span><span class="token punctuation">)</span><span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span><span class="token punctuation">)</span>blockName <span class="token punctuation">&#123;</span>
+    <span class="token keyword">self</span><span class="token punctuation">.</span>weakTarget <span class="token operator">=</span> <span class="token punctuation">[</span>blockName target<span class="token punctuation">]</span><span class="token punctuation">;</span> <span class="token comment">// 假设可以获取target</span>
+    <span class="token keyword">self</span><span class="token punctuation">.</span>retaindBlock <span class="token operator">=</span> <span class="token punctuation">[</span>blockName copy<span class="token punctuation">]</span><span class="token punctuation">;</span> <span class="token comment">// 持有Block但使用弱引用target</span>
+
+    <span class="token function">blockName</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token keyword">@end</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h2 id="2-使用弱引用表（Weak-Reference-Table）"><a href="#2-使用弱引用表（Weak-Reference-Table）" class="headerlink" title="2. 使用弱引用表（Weak Reference Table）"></a>2. 使用弱引用表（Weak Reference Table）</h2><pre class="line-numbers language-objectivec" data-language="objectivec"><code class="language-objectivec"><span class="token keyword">@interface</span> WeakReferenceManager <span class="token punctuation">:</span> NSObject
+<span class="token operator">+</span> <span class="token punctuation">(</span>instancetype<span class="token punctuation">)</span>shared<span class="token punctuation">;</span>
+<span class="token operator">-</span> <span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span>setWeakReference<span class="token punctuation">:</span><span class="token punctuation">(</span>id<span class="token punctuation">)</span>object forKey<span class="token punctuation">:</span><span class="token punctuation">(</span>NSString <span class="token operator">*</span><span class="token punctuation">)</span>key<span class="token punctuation">;</span>
+<span class="token operator">-</span> <span class="token punctuation">(</span>id<span class="token punctuation">)</span>getWeakReferenceForKey<span class="token punctuation">:</span><span class="token punctuation">(</span>NSString <span class="token operator">*</span><span class="token punctuation">)</span>key<span class="token punctuation">;</span>
+<span class="token keyword">@end</span>
+
+<span class="token keyword">@implementation</span> WeakReferenceManager
+
+<span class="token keyword">static</span> NSMutableDictionary <span class="token operator">*</span>_weakRefs <span class="token operator">=</span> nil<span class="token punctuation">;</span>
+
+<span class="token operator">+</span> <span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span>initialize <span class="token punctuation">&#123;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token keyword">self</span> <span class="token operator">==</span> <span class="token punctuation">[</span>WeakReferenceManager class<span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        _weakRefs <span class="token operator">=</span> <span class="token punctuation">[</span>NSMutableDictionary dictionary<span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token operator">-</span> <span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span>setWeakReference<span class="token punctuation">:</span><span class="token punctuation">(</span>id<span class="token punctuation">)</span>object forKey<span class="token punctuation">:</span><span class="token punctuation">(</span>NSString <span class="token operator">*</span><span class="token punctuation">)</span>key <span class="token punctuation">&#123;</span>
+    NSValue <span class="token operator">*</span>weakValue <span class="token operator">=</span> <span class="token punctuation">[</span>NSValue valueWithNonretainedObject<span class="token punctuation">:</span>object<span class="token punctuation">]</span><span class="token punctuation">;</span>
+    _weakRefs<span class="token punctuation">[</span>key<span class="token punctuation">]</span> <span class="token operator">=</span> weakValue<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token operator">-</span> <span class="token punctuation">(</span>id<span class="token punctuation">)</span>getWeakReferenceForKey<span class="token punctuation">:</span><span class="token punctuation">(</span>NSString <span class="token operator">*</span><span class="token punctuation">)</span>key <span class="token punctuation">&#123;</span>
+    NSValue <span class="token operator">*</span>weakValue <span class="token operator">=</span> _weakRefs<span class="token punctuation">[</span>key<span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token keyword">return</span> <span class="token punctuation">[</span>weakValue nonretainedObjectValue<span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token keyword">@end</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h2 id="3-优化业务管理器设计"><a href="#3-优化业务管理器设计" class="headerlink" title="3. 优化业务管理器设计"></a>3. 优化业务管理器设计</h2><pre class="line-numbers language-objectivec" data-language="objectivec"><code class="language-objectivec"><span class="token keyword">@interface</span> ImprovedBussinessManager <span class="token punctuation">:</span> NSObject
+<span class="token keyword">@property</span> <span class="token punctuation">(</span>nonatomic<span class="token punctuation">,</span> strong<span class="token punctuation">)</span> NSArray <span class="token operator">*</span>someProperty<span class="token punctuation">;</span>
+
+<span class="token comment">// 避免Block的方案</span>
+<span class="token operator">-</span> <span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span>doSomeThingWithDelegate<span class="token punctuation">:</span><span class="token punctuation">(</span>id<span class="token operator">&lt;</span>BusinessDelegate<span class="token operator">></span><span class="token punctuation">)</span>delegate<span class="token punctuation">;</span>
+<span class="token operator">-</span> <span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span>doSomeThingWithTarget<span class="token punctuation">:</span><span class="token punctuation">(</span>id<span class="token punctuation">)</span>target selector<span class="token punctuation">:</span><span class="token punctuation">(</span>SEL<span class="token punctuation">)</span>selector<span class="token punctuation">;</span>
+<span class="token operator">-</span> <span class="token punctuation">(</span>NSString <span class="token operator">*</span><span class="token punctuation">)</span>getResultFromProperty<span class="token punctuation">;</span>
+<span class="token keyword">@end</span>
+
+<span class="token keyword">@protocol</span> BusinessDelegate <span class="token operator">&lt;</span>NSObject<span class="token operator">></span>
+<span class="token operator">-</span> <span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span>businessDidCompleteWithResult<span class="token punctuation">:</span><span class="token punctuation">(</span>NSString <span class="token operator">*</span><span class="token punctuation">)</span>result<span class="token punctuation">;</span>
+<span class="token keyword">@end</span>
+
+<span class="token keyword">@implementation</span> ImprovedBussinessManager
+
+<span class="token operator">-</span> <span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span>doSomeThingWithDelegate<span class="token punctuation">:</span><span class="token punctuation">(</span>id<span class="token operator">&lt;</span>BusinessDelegate<span class="token operator">></span><span class="token punctuation">)</span>delegate <span class="token punctuation">&#123;</span>
+    <span class="token comment">// 执行业务逻辑</span>
+    NSString <span class="token operator">*</span>result <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token keyword">self</span> processBusiness<span class="token punctuation">]</span><span class="token punctuation">;</span>
+
+    <span class="token comment">// 通过代理回调，避免循环引用</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token punctuation">[</span>delegate respondsToSelector<span class="token punctuation">:</span><span class="token keyword">@selector</span><span class="token punctuation">(</span>businessDidCompleteWithResult<span class="token punctuation">:</span><span class="token punctuation">)</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token punctuation">[</span>delegate businessDidCompleteWithResult<span class="token punctuation">:</span>result<span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token operator">-</span> <span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span>doSomeThingWithTarget<span class="token punctuation">:</span><span class="token punctuation">(</span>id<span class="token punctuation">)</span>target selector<span class="token punctuation">:</span><span class="token punctuation">(</span>SEL<span class="token punctuation">)</span>selector <span class="token punctuation">&#123;</span>
+    NSString <span class="token operator">*</span>result <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token keyword">self</span> processBusiness<span class="token punctuation">]</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>target <span class="token operator">&amp;&amp;</span> selector <span class="token operator">&amp;&amp;</span> <span class="token punctuation">[</span>target respondsToSelector<span class="token punctuation">:</span>selector<span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token comment">// 使用performSelector避免直接引用</span>
+        <span class="token punctuation">[</span>target performSelector<span class="token punctuation">:</span>selector withObject<span class="token punctuation">:</span>result<span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token operator">-</span> <span class="token punctuation">(</span>NSString <span class="token operator">*</span><span class="token punctuation">)</span>getResultFromProperty <span class="token punctuation">&#123;</span>
+    <span class="token keyword">return</span> <span class="token punctuation">[</span><span class="token keyword">self</span><span class="token punctuation">.</span>someProperty componentsJoinedByString<span class="token punctuation">:</span><span class="token string">@", "</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token operator">-</span> <span class="token punctuation">(</span>NSString <span class="token operator">*</span><span class="token punctuation">)</span>processBusiness <span class="token punctuation">&#123;</span>
+    <span class="token comment">// 模拟业务处理</span>
+    <span class="token keyword">return</span> <span class="token punctuation">[</span><span class="token keyword">self</span> getResultFromProperty<span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token keyword">@end</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h1 id="循环引用检测工具"><a href="#循环引用检测工具" class="headerlink" title="循环引用检测工具"></a>循环引用检测工具</h1><h2 id="1-内存泄漏检测工具"><a href="#1-内存泄漏检测工具" class="headerlink" title="1. 内存泄漏检测工具"></a>1. 内存泄漏检测工具</h2><h3 id="使用Xcode-Instruments"><a href="#使用Xcode-Instruments" class="headerlink" title="使用Xcode Instruments"></a>使用Xcode Instruments</h3><pre class="line-numbers language-objectivec" data-language="objectivec"><code class="language-objectivec"><span class="token comment">// 在测试代码中添加标记</span>
+<span class="token operator">-</span> <span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span>createPotentialRetainCycle <span class="token punctuation">&#123;</span>
+    <span class="token comment">// 内存标记点</span>
+    <span class="token function">NSLog</span><span class="token punctuation">(</span><span class="token string">@"创建潜在的循环引用对象"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    SomeBussinessManager <span class="token operator">*</span>manager <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">[</span>SomeBussinessManager alloc<span class="token punctuation">]</span> init<span class="token punctuation">]</span><span class="token punctuation">;</span>
+    manager<span class="token punctuation">.</span>someProperty <span class="token operator">=</span> <span class="token operator">@</span><span class="token punctuation">[</span><span class="token string">@"test"</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+
+    <span class="token comment">// 故意创建循环引用进行测试</span>
+    __weak <span class="token keyword">typeof</span><span class="token punctuation">(</span>manager<span class="token punctuation">)</span> weakManager <span class="token operator">=</span> manager<span class="token punctuation">;</span>
+    <span class="token punctuation">[</span>manager doSomeThingWithBlock<span class="token punctuation">:</span><span class="token operator">^</span><span class="token punctuation">&#123;</span>
+        __strong <span class="token keyword">typeof</span><span class="token punctuation">(</span>weakManager<span class="token punctuation">)</span> strongManager <span class="token operator">=</span> weakManager<span class="token punctuation">;</span>
+        <span class="token function">NSLog</span><span class="token punctuation">(</span><span class="token string">@"Block执行: %@"</span><span class="token punctuation">,</span> strongManager<span class="token punctuation">.</span>someProperty<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+
+    <span class="token comment">// 标记对象应该被释放的位置</span>
+    <span class="token function">dispatch_after</span><span class="token punctuation">(</span><span class="token function">dispatch_time</span><span class="token punctuation">(</span>DISPATCH_TIME_NOW<span class="token punctuation">,</span> <span class="token punctuation">(</span>int64_t<span class="token punctuation">)</span><span class="token punctuation">(</span><span class="token number">2.0</span> <span class="token operator">*</span> NSEC_PER_SEC<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token function">dispatch_get_main_queue</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token operator">^</span><span class="token punctuation">&#123;</span>
+        <span class="token function">NSLog</span><span class="token punctuation">(</span><span class="token string">@"2秒后，manager应该已经被释放"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="自定义检测工具"><a href="#自定义检测工具" class="headerlink" title="自定义检测工具"></a>自定义检测工具</h3><pre class="line-numbers language-objectivec" data-language="objectivec"><code class="language-objectivec"><span class="token keyword">@interface</span> RetainCycleDetector <span class="token punctuation">:</span> NSObject
+<span class="token operator">+</span> <span class="token punctuation">(</span>instancetype<span class="token punctuation">)</span>shared<span class="token punctuation">;</span>
+<span class="token operator">-</span> <span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span>startDetection<span class="token punctuation">;</span>
+<span class="token operator">-</span> <span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span>markObject<span class="token punctuation">:</span><span class="token punctuation">(</span>id<span class="token punctuation">)</span>object<span class="token punctuation">;</span>
+<span class="token operator">-</span> <span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span>checkForObject<span class="token punctuation">:</span><span class="token punctuation">(</span>id<span class="token punctuation">)</span>object<span class="token punctuation">;</span>
+<span class="token keyword">@end</span>
+
+<span class="token keyword">@implementation</span> RetainCycleDetector
+
+<span class="token keyword">static</span> NSMutableSet <span class="token operator">*</span>_monitoredObjects <span class="token operator">=</span> nil<span class="token punctuation">;</span>
+<span class="token keyword">static</span> NSMutableSet <span class="token operator">*</span>_releasedObjects <span class="token operator">=</span> nil<span class="token punctuation">;</span>
+
+<span class="token operator">+</span> <span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span>initialize <span class="token punctuation">&#123;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token keyword">self</span> <span class="token operator">==</span> <span class="token punctuation">[</span>RetainCycleDetector class<span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        _monitoredObjects <span class="token operator">=</span> <span class="token punctuation">[</span>NSMutableSet set<span class="token punctuation">]</span><span class="token punctuation">;</span>
+        _releasedObjects <span class="token operator">=</span> <span class="token punctuation">[</span>NSMutableSet set<span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token operator">-</span> <span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span>markObject<span class="token punctuation">:</span><span class="token punctuation">(</span>id<span class="token punctuation">)</span>object <span class="token punctuation">&#123;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>object<span class="token punctuation">)</span> <span class="token keyword">return</span><span class="token punctuation">;</span>
+
+    NSString <span class="token operator">*</span>objectAddress <span class="token operator">=</span> <span class="token punctuation">[</span>NSString stringWithFormat<span class="token punctuation">:</span><span class="token string">@"%p"</span><span class="token punctuation">,</span> object<span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token punctuation">[</span>_monitoredObjects addObject<span class="token punctuation">:</span>objectAddress<span class="token punctuation">]</span><span class="token punctuation">;</span>
+
+    <span class="token comment">// 监控对象的释放</span>
+    <span class="token punctuation">[</span><span class="token keyword">self</span> swizzleDeallocForClass<span class="token punctuation">:</span><span class="token punctuation">[</span>object class<span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token operator">-</span> <span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span>checkForObject<span class="token punctuation">:</span><span class="token punctuation">(</span>id<span class="token punctuation">)</span>object <span class="token punctuation">&#123;</span>
+    NSString <span class="token operator">*</span>objectAddress <span class="token operator">=</span> <span class="token punctuation">[</span>NSString stringWithFormat<span class="token punctuation">:</span><span class="token string">@"%p"</span><span class="token punctuation">,</span> object<span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token punctuation">[</span>_monitoredObjects containsObject<span class="token punctuation">:</span>objectAddress<span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token function">NSLog</span><span class="token punctuation">(</span><span class="token string">@"⚠️ 检测到潜在循环引用: %@"</span><span class="token punctuation">,</span> object<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token operator">-</span> <span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span>swizzleDeallocForClass<span class="token punctuation">:</span><span class="token punctuation">(</span>Class<span class="token punctuation">)</span>class <span class="token punctuation">&#123;</span>
+    <span class="token comment">// 实现Method Swizzling来监控dealloc</span>
+    SEL originalSelector <span class="token operator">=</span> <span class="token keyword">@selector</span><span class="token punctuation">(</span>dealloc<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    SEL swizzledSelector <span class="token operator">=</span> <span class="token keyword">@selector</span><span class="token punctuation">(</span>detector_dealloc<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    Method originalMethod <span class="token operator">=</span> <span class="token function">class_getInstanceMethod</span><span class="token punctuation">(</span>class<span class="token punctuation">,</span> originalSelector<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    Method swizzledMethod <span class="token operator">=</span> <span class="token function">class_getInstanceMethod</span><span class="token punctuation">(</span>class<span class="token punctuation">,</span> swizzledSelector<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>originalMethod <span class="token operator">&amp;&amp;</span> swizzledMethod<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token function">method_exchangeImplementations</span><span class="token punctuation">(</span>originalMethod<span class="token punctuation">,</span> swizzledMethod<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token keyword">@end</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h2 id="2-运行时检测"><a href="#2-运行时检测" class="headerlink" title="2. 运行时检测"></a>2. 运行时检测</h2><pre class="line-numbers language-objectivec" data-language="objectivec"><code class="language-objectivec"><span class="token keyword">@interface</span> RuntimeRetainCycleDetector <span class="token punctuation">:</span> NSObject
+<span class="token operator">+</span> <span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span>detectRetainCyclesInViewController<span class="token punctuation">:</span><span class="token punctuation">(</span>UIViewController <span class="token operator">*</span><span class="token punctuation">)</span>viewController<span class="token punctuation">;</span>
+<span class="token operator">+</span> <span class="token punctuation">(</span>NSArray <span class="token operator">*</span><span class="token punctuation">)</span>findStrongReferencesToObject<span class="token punctuation">:</span><span class="token punctuation">(</span>id<span class="token punctuation">)</span>object<span class="token punctuation">;</span>
+<span class="token keyword">@end</span>
+
+<span class="token keyword">@implementation</span> RuntimeRetainCycleDetector
+
+<span class="token operator">+</span> <span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span>detectRetainCyclesInViewController<span class="token punctuation">:</span><span class="token punctuation">(</span>UIViewController <span class="token operator">*</span><span class="token punctuation">)</span>viewController <span class="token punctuation">&#123;</span>
+    <span class="token function">NSLog</span><span class="token punctuation">(</span><span class="token string">@"开始检测ViewController中的循环引用"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token comment">// 检查属性</span>
+    <span class="token keyword">unsigned</span> <span class="token keyword">int</span> propertyCount<span class="token punctuation">;</span>
+    objc_property_t <span class="token operator">*</span>properties <span class="token operator">=</span> <span class="token function">class_copyPropertyList</span><span class="token punctuation">(</span><span class="token punctuation">[</span>viewController class<span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token operator">&amp;</span>propertyCount<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">unsigned</span> <span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> propertyCount<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        objc_property_t property <span class="token operator">=</span> properties<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">;</span>
+        NSString <span class="token operator">*</span>propertyName <span class="token operator">=</span> <span class="token punctuation">[</span>NSString stringWithUTF8String<span class="token punctuation">:</span><span class="token function">property_getName</span><span class="token punctuation">(</span>property<span class="token punctuation">)</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+
+        id value <span class="token operator">=</span> <span class="token punctuation">[</span>viewController valueForKey<span class="token punctuation">:</span>propertyName<span class="token punctuation">]</span><span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>value<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+            <span class="token punctuation">[</span><span class="token keyword">self</span> checkForRetainCycleBetweenObject<span class="token punctuation">:</span>viewController andObject<span class="token punctuation">:</span>value propertyName<span class="token punctuation">:</span>propertyName<span class="token punctuation">]</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span>
+
+    <span class="token function">free</span><span class="token punctuation">(</span>properties<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token operator">+</span> <span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span>checkForRetainCycleBetweenObject<span class="token punctuation">:</span><span class="token punctuation">(</span>id<span class="token punctuation">)</span>sourceObject andObject<span class="token punctuation">:</span><span class="token punctuation">(</span>id<span class="token punctuation">)</span>targetObject propertyName<span class="token punctuation">:</span><span class="token punctuation">(</span>NSString <span class="token operator">*</span><span class="token punctuation">)</span>propertyName <span class="token punctuation">&#123;</span>
+    <span class="token comment">// 检查目标对象是否强引用回源对象</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token punctuation">[</span>targetObject isKindOfClass<span class="token punctuation">:</span><span class="token punctuation">[</span>NSArray class<span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        NSArray <span class="token operator">*</span>array <span class="token operator">=</span> <span class="token punctuation">(</span>NSArray <span class="token operator">*</span><span class="token punctuation">)</span>targetObject<span class="token punctuation">;</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span>id item <span class="token keyword">in</span> array<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>item <span class="token operator">==</span> sourceObject<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+                <span class="token function">NSLog</span><span class="token punctuation">(</span><span class="token string">@"🚨 发现循环引用: %@.%@ -> 数组 -> %@"</span><span class="token punctuation">,</span> <span class="token function">NSStringFromClass</span><span class="token punctuation">(</span><span class="token punctuation">[</span>sourceObject class<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">,</span> propertyName<span class="token punctuation">,</span> <span class="token function">NSStringFromClass</span><span class="token punctuation">(</span><span class="token punctuation">[</span>sourceObject class<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">&#125;</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token comment">// 可以添加更多类型的检查...</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token keyword">@end</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h1 id="最佳实践建议"><a href="#最佳实践建议" class="headerlink" title="最佳实践建议"></a>最佳实践建议</h1><h2 id="1-Block使用规范"><a href="#1-Block使用规范" class="headerlink" title="1. Block使用规范"></a>1. Block使用规范</h2><h3 id="正确的Block使用方式"><a href="#正确的Block使用方式" class="headerlink" title="正确的Block使用方式"></a>正确的Block使用方式</h3><pre class="line-numbers language-objectivec" data-language="objectivec"><code class="language-objectivec"><span class="token comment">// ✅ 推荐方式</span>
+__weak <span class="token keyword">typeof</span><span class="token punctuation">(</span><span class="token keyword">self</span><span class="token punctuation">)</span> weakSelf <span class="token operator">=</span> <span class="token keyword">self</span><span class="token punctuation">;</span>
+<span class="token keyword">self</span><span class="token punctuation">.</span>completionBlock <span class="token operator">=</span> <span class="token operator">^</span><span class="token punctuation">&#123;</span>
+    __strong <span class="token keyword">typeof</span><span class="token punctuation">(</span>weakSelf<span class="token punctuation">)</span> strongSelf <span class="token operator">=</span> weakSelf<span class="token punctuation">;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>strongSelf<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token punctuation">[</span>strongSelf updateUI<span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+
+<span class="token comment">// ✅ 对于简单的操作，可以直接使用weakSelf</span>
+<span class="token keyword">self</span><span class="token punctuation">.</span>completionBlock <span class="token operator">=</span> <span class="token operator">^</span><span class="token punctuation">&#123;</span>
+    <span class="token punctuation">[</span>weakSelf updateUI<span class="token punctuation">]</span><span class="token punctuation">;</span> <span class="token comment">// 如果不访问weakSelf的属性，可以直接使用</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+
+<span class="token comment">// ✅ 避免在Block中直接使用self</span>
+<span class="token comment">// self.completionBlock = ^&#123;</span>
+<span class="token comment">//     [self updateUI]; // ❌ 错误：循环引用</span>
+<span class="token comment">// &#125;;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="Block参数设计"><a href="#Block参数设计" class="headerlink" title="Block参数设计"></a>Block参数设计</h3><pre class="line-numbers language-objectivec" data-language="objectivec"><code class="language-objectivec"><span class="token comment">// ✅ 将Block作为参数传递，而不是存储</span>
+<span class="token operator">-</span> <span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span>performAsyncOperationWithCompletion<span class="token punctuation">:</span><span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">(</span><span class="token operator">^</span><span class="token punctuation">)</span><span class="token punctuation">(</span>BOOL success<span class="token punctuation">,</span> NSError <span class="token operator">*</span>error<span class="token punctuation">)</span><span class="token punctuation">)</span>completion <span class="token punctuation">&#123;</span>
+    <span class="token function">dispatch_async</span><span class="token punctuation">(</span><span class="token function">dispatch_get_global_queue</span><span class="token punctuation">(</span>DISPATCH_QUEUE_PRIORITY_DEFAULT<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token operator">^</span><span class="token punctuation">&#123;</span>
+        BOOL success <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token keyword">self</span> doHeavyWork<span class="token punctuation">]</span><span class="token punctuation">;</span>
+        NSError <span class="token operator">*</span>error <span class="token operator">=</span> success <span class="token operator">?</span> nil <span class="token punctuation">:</span> <span class="token punctuation">[</span>NSError errorWithDomain<span class="token punctuation">:</span><span class="token string">@"ErrorDomain"</span> code<span class="token punctuation">:</span><span class="token number">1001</span> userInfo<span class="token punctuation">:</span>nil<span class="token punctuation">]</span><span class="token punctuation">;</span>
+
+        <span class="token function">dispatch_async</span><span class="token punctuation">(</span><span class="token function">dispatch_get_main_queue</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token operator">^</span><span class="token punctuation">&#123;</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>completion<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+                <span class="token function">completion</span><span class="token punctuation">(</span>success<span class="token punctuation">,</span> error<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">&#125;</span>
+        <span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token comment">// ❌ 避免持有Block</span>
+<span class="token keyword">@property</span> <span class="token punctuation">(</span>nonatomic<span class="token punctuation">,</span> copy<span class="token punctuation">)</span> <span class="token keyword">void</span> <span class="token punctuation">(</span><span class="token operator">^</span>completionBlock<span class="token punctuation">)</span><span class="token punctuation">(</span>BOOL success<span class="token punctuation">,</span> NSError <span class="token operator">*</span>error<span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h2 id="2-代理模式优化"><a href="#2-代理模式优化" class="headerlink" title="2. 代理模式优化"></a>2. 代理模式优化</h2><pre class="line-numbers language-objectivec" data-language="objectivec"><code class="language-objectivec"><span class="token comment">// ✅ 使用弱引用代理</span>
+<span class="token keyword">@protocol</span> MyProtocol <span class="token operator">&lt;</span>NSObject<span class="token operator">></span>
+<span class="token operator">@</span>optional
+<span class="token operator">-</span> <span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span>didCompleteOperation<span class="token punctuation">:</span><span class="token punctuation">(</span>id<span class="token punctuation">)</span>result<span class="token punctuation">;</span>
+<span class="token keyword">@end</span>
+
+<span class="token keyword">@interface</span> MyClass <span class="token punctuation">:</span> NSObject
+<span class="token keyword">@property</span> <span class="token punctuation">(</span>nonatomic<span class="token punctuation">,</span> weak<span class="token punctuation">)</span> id<span class="token operator">&lt;</span>MyProtocol<span class="token operator">></span> delegate<span class="token punctuation">;</span> <span class="token comment">// 使用weak引用</span>
+<span class="token keyword">@end</span>
+
+<span class="token comment">// ✅ 及时清理代理</span>
+<span class="token operator">-</span> <span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span>dealloc <span class="token punctuation">&#123;</span>
+    <span class="token keyword">self</span><span class="token punctuation">.</span>delegate <span class="token operator">=</span> nil<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h2 id="3-定时器管理"><a href="#3-定时器管理" class="headerlink" title="3. 定时器管理"></a>3. 定时器管理</h2><pre class="line-numbers language-objectivec" data-language="objectivec"><code class="language-objectivec"><span class="token comment">// ✅ 正确的定时器使用方式</span>
+<span class="token keyword">@interface</span> TimerManager <span class="token punctuation">:</span> NSObject
+<span class="token keyword">@property</span> <span class="token punctuation">(</span>nonatomic<span class="token punctuation">,</span> weak<span class="token punctuation">)</span> id target<span class="token punctuation">;</span>
+<span class="token keyword">@property</span> <span class="token punctuation">(</span>nonatomic<span class="token punctuation">,</span> assign<span class="token punctuation">)</span> SEL selector<span class="token punctuation">;</span>
+<span class="token keyword">@property</span> <span class="token punctuation">(</span>nonatomic<span class="token punctuation">,</span> strong<span class="token punctuation">)</span> NSTimer <span class="token operator">*</span>timer<span class="token punctuation">;</span>
+<span class="token keyword">@end</span>
+
+<span class="token keyword">@implementation</span> TimerManager
+
+<span class="token operator">-</span> <span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span>startTimerWithTarget<span class="token punctuation">:</span><span class="token punctuation">(</span>id<span class="token punctuation">)</span>target selector<span class="token punctuation">:</span><span class="token punctuation">(</span>SEL<span class="token punctuation">)</span>selector interval<span class="token punctuation">:</span><span class="token punctuation">(</span>NSTimeInterval<span class="token punctuation">)</span>interval <span class="token punctuation">&#123;</span>
+    <span class="token keyword">self</span><span class="token punctuation">.</span>target <span class="token operator">=</span> target<span class="token punctuation">;</span>
+    <span class="token keyword">self</span><span class="token punctuation">.</span>selector <span class="token operator">=</span> selector<span class="token punctuation">;</span>
+
+    <span class="token keyword">self</span><span class="token punctuation">.</span>timer <span class="token operator">=</span> <span class="token punctuation">[</span>NSTimer scheduledTimerWithTimeInterval<span class="token punctuation">:</span>interval
+                                                  target<span class="token punctuation">:</span><span class="token keyword">self</span>
+                                                selector<span class="token punctuation">:</span><span class="token keyword">@selector</span><span class="token punctuation">(</span>timerFired<span class="token punctuation">:</span><span class="token punctuation">)</span>
+                                                userInfo<span class="token punctuation">:</span>nil
+                                                 repeats<span class="token punctuation">:</span>YES<span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token operator">-</span> <span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span>timerFired<span class="token punctuation">:</span><span class="token punctuation">(</span>NSTimer <span class="token operator">*</span><span class="token punctuation">)</span>timer <span class="token punctuation">&#123;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token keyword">self</span><span class="token punctuation">.</span>target <span class="token operator">&amp;&amp;</span> <span class="token punctuation">[</span><span class="token keyword">self</span><span class="token punctuation">.</span>target respondsToSelector<span class="token punctuation">:</span><span class="token keyword">self</span><span class="token punctuation">.</span>selector<span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token punctuation">[</span><span class="token keyword">self</span><span class="token punctuation">.</span>target performSelector<span class="token punctuation">:</span><span class="token keyword">self</span><span class="token punctuation">.</span>selector withObject<span class="token punctuation">:</span>nil<span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token operator">-</span> <span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span>dealloc <span class="token punctuation">&#123;</span>
+    <span class="token punctuation">[</span><span class="token keyword">self</span><span class="token punctuation">.</span>timer invalidate<span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token keyword">self</span><span class="token punctuation">.</span>timer <span class="token operator">=</span> nil<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token keyword">@end</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h2 id="4-通知观察者管理"><a href="#4-通知观察者管理" class="headerlink" title="4. 通知观察者管理"></a>4. 通知观察者管理</h2><pre class="line-numbers language-objectivec" data-language="objectivec"><code class="language-objectivec"><span class="token comment">// ✅ 及时移除通知观察者</span>
+<span class="token keyword">@interface</span> NotificationManager <span class="token punctuation">:</span> NSObject
+<span class="token keyword">@end</span>
+
+<span class="token keyword">@implementation</span> NotificationManager
+
+<span class="token operator">-</span> <span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span>setupNotifications <span class="token punctuation">&#123;</span>
+    <span class="token punctuation">[</span><span class="token punctuation">[</span>NSNotificationCenter defaultCenter<span class="token punctuation">]</span> addObserver<span class="token punctuation">:</span><span class="token keyword">self</span>
+                                             selector<span class="token punctuation">:</span><span class="token keyword">@selector</span><span class="token punctuation">(</span>handleNotification<span class="token punctuation">:</span><span class="token punctuation">)</span>
+                                                 name<span class="token punctuation">:</span><span class="token string">@"SomeNotification"</span>
+                                               object<span class="token punctuation">:</span>nil<span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token operator">-</span> <span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span>handleNotification<span class="token punctuation">:</span><span class="token punctuation">(</span>NSNotification <span class="token operator">*</span><span class="token punctuation">)</span>notification <span class="token punctuation">&#123;</span>
+    <span class="token comment">// 处理通知</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token operator">-</span> <span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span>dealloc <span class="token punctuation">&#123;</span>
+    <span class="token punctuation">[</span><span class="token punctuation">[</span>NSNotificationCenter defaultCenter<span class="token punctuation">]</span> removeObserver<span class="token punctuation">:</span><span class="token keyword">self</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token keyword">@end</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h1 id="内存管理监控工具"><a href="#内存管理监控工具" class="headerlink" title="内存管理监控工具"></a>内存管理监控工具</h1><h2 id="1-开发时监控"><a href="#1-开发时监控" class="headerlink" title="1. 开发时监控"></a>1. 开发时监控</h2><pre class="line-numbers language-objectivec" data-language="objectivec"><code class="language-objectivec"><span class="token keyword">@interface</span> MemoryMonitor <span class="token punctuation">:</span> NSObject
+<span class="token operator">+</span> <span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span>enableMemoryLeakDetection<span class="token punctuation">;</span>
+<span class="token operator">+</span> <span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span>logMemoryUsage<span class="token punctuation">;</span>
+<span class="token operator">+</span> <span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span>trackViewControllerLifecycle<span class="token punctuation">:</span><span class="token punctuation">(</span>UIViewController <span class="token operator">*</span><span class="token punctuation">)</span>viewController<span class="token punctuation">;</span>
+<span class="token keyword">@end</span>
+
+<span class="token keyword">@implementation</span> MemoryMonitor
+
+<span class="token operator">+</span> <span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span>trackViewControllerLifecycle<span class="token punctuation">:</span><span class="token punctuation">(</span>UIViewController <span class="token operator">*</span><span class="token punctuation">)</span>viewController <span class="token punctuation">&#123;</span>
+    NSString <span class="token operator">*</span>className <span class="token operator">=</span> <span class="token function">NSStringFromClass</span><span class="token punctuation">(</span><span class="token punctuation">[</span>viewController class<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">NSLog</span><span class="token punctuation">(</span><span class="token string">@"📱 ViewController创建: %@"</span><span class="token punctuation">,</span> className<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token comment">// 在适当的时机检查是否释放</span>
+    <span class="token function">dispatch_after</span><span class="token punctuation">(</span><span class="token function">dispatch_time</span><span class="token punctuation">(</span>DISPATCH_TIME_NOW<span class="token punctuation">,</span> <span class="token punctuation">(</span>int64_t<span class="token punctuation">)</span><span class="token punctuation">(</span><span class="token number">5.0</span> <span class="token operator">*</span> NSEC_PER_SEC<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token function">dispatch_get_main_queue</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token operator">^</span><span class="token punctuation">&#123;</span>
+        <span class="token comment">// 检查对象是否还存在（需要其他配合机制）</span>
+    <span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token operator">+</span> <span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span>logMemoryUsage <span class="token punctuation">&#123;</span>
+    <span class="token keyword">struct</span> mach_task_basic_info info<span class="token punctuation">;</span>
+    mach_msg_type_number_t size <span class="token operator">=</span> MACH_TASK_BASIC_INFO_COUNT<span class="token punctuation">;</span>
+    kern_return_t kerr <span class="token operator">=</span> <span class="token function">task_info</span><span class="token punctuation">(</span><span class="token function">mach_task_self</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> MACH_TASK_BASIC_INFO<span class="token punctuation">,</span> <span class="token punctuation">(</span>task_info_t<span class="token punctuation">)</span><span class="token operator">&amp;</span>info<span class="token punctuation">,</span> <span class="token operator">&amp;</span>size<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>kerr <span class="token operator">==</span> KERN_SUCCESS<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        CGFloat memoryUsage <span class="token operator">=</span> info<span class="token punctuation">.</span>resident_size <span class="token operator">/</span> <span class="token punctuation">(</span><span class="token number">1024.0</span> <span class="token operator">*</span> <span class="token number">1024.0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">NSLog</span><span class="token punctuation">(</span><span class="token string">@"💾 当前内存使用: %.2f MB"</span><span class="token punctuation">,</span> memoryUsage<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token keyword">@end</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h2 id="2-生产环境监控"><a href="#2-生产环境监控" class="headerlink" title="2. 生产环境监控"></a>2. 生产环境监控</h2><pre class="line-numbers language-objectivec" data-language="objectivec"><code class="language-objectivec"><span class="token keyword">@interface</span> ProductionMemoryMonitor <span class="token punctuation">:</span> NSObject
+<span class="token operator">+</span> <span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span>setupProductionMonitoring<span class="token punctuation">;</span>
+<span class="token keyword">@end</span>
+
+<span class="token keyword">@implementation</span> ProductionMemoryMonitor
+
+<span class="token operator">+</span> <span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span>setupProductionMonitoring <span class="token punctuation">&#123;</span>
+    <span class="token comment">// 监控内存压力</span>
+    <span class="token punctuation">[</span><span class="token punctuation">[</span>NSNotificationCenter defaultCenter<span class="token punctuation">]</span> addObserverForName<span class="token punctuation">:</span>UIApplicationDidReceiveMemoryWarningNotification
+                                                      object<span class="token punctuation">:</span>nil
+                                                       queue<span class="token punctuation">:</span><span class="token punctuation">[</span>NSOperationQueue mainQueue<span class="token punctuation">]</span>
+                                                  usingBlock<span class="token punctuation">:</span><span class="token operator">^</span><span class="token punctuation">(</span>NSNotification <span class="token operator">*</span>note<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token function">NSLog</span><span class="token punctuation">(</span><span class="token string">@"⚠️ 收到内存警告"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">[</span><span class="token keyword">self</span> performMemoryCleanup<span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+
+    <span class="token comment">// 定期检查内存使用情况</span>
+    <span class="token punctuation">[</span>NSTimer scheduledTimerWithTimeInterval<span class="token punctuation">:</span><span class="token number">30.0</span>
+                                     target<span class="token punctuation">:</span><span class="token keyword">self</span>
+                                   selector<span class="token punctuation">:</span><span class="token keyword">@selector</span><span class="token punctuation">(</span>checkMemoryUsage<span class="token punctuation">)</span>
+                                   userInfo<span class="token punctuation">:</span>nil
+                                    repeats<span class="token punctuation">:</span>YES<span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token operator">+</span> <span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span>performMemoryCleanup <span class="token punctuation">&#123;</span>
+    <span class="token comment">// 清理缓存</span>
+    <span class="token comment">// 清理不必要的强引用</span>
+    <span class="token comment">// 释放临时资源</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token operator">+</span> <span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span>checkMemoryUsage <span class="token punctuation">&#123;</span>
+    <span class="token comment">// 检查内存使用情况，如果过高则采取相应措施</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token keyword">@end</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>循环引用是iOS开发中常见但容易忽视的问题。通过本文的分析和解决方案，我们可以：</p>
+<h2 id="1-识别循环引用"><a href="#1-识别循环引用" class="headerlink" title="1. 识别循环引用"></a>1. 识别循环引用</h2><ul>
+<li><strong>Block循环引用</strong>: 最常见的形式，需要特别注意</li>
+<li><strong>代理循环引用</strong>: 使用弱引用代理模式</li>
+<li><strong>定时器循环引用</strong>: 及时清理定时器引用</li>
+<li><strong>通知循环引用</strong>: 及时移除通知观察者</li>
+</ul>
+<h2 id="2-预防策略"><a href="#2-预防策略" class="headerlink" title="2. 预防策略"></a>2. 预防策略</h2><ul>
+<li><strong>使用弱引用</strong>: 在Block中使用<code>__weak</code>修饰符</li>
+<li><strong>设计模式优化</strong>: 使用代理模式替代Block存储</li>
+<li><strong>及时清理</strong>: 在适当时机清理强引用</li>
+<li><strong>工具检测</strong>: 使用Instruments和自定义工具检测泄漏</li>
+</ul>
+<h2 id="3-最佳实践"><a href="#3-最佳实践" class="headerlink" title="3. 最佳实践"></a>3. 最佳实践</h2><ul>
+<li><strong>代码审查</strong>: 在代码审查时重点关注循环引用</li>
+<li><strong>单元测试</strong>: 编写测试验证对象正确释放</li>
+<li><strong>监控工具</strong>: 在开发和生产环境中部署监控工具</li>
+<li><strong>文档规范</strong>: 制定团队内存管理规范</li>
+</ul>
+<p>通过合理的内存管理策略和工具支持，我们可以有效避免循环引用导致的内存泄漏，构建更加稳定和高效的iOS应用。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="reward-container">
+  <div>对你有帮助？您的支持将更加鼓励我继续创作！</div>
+  <button>
+    打赏
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/images/wechatpay.png" alt="VanJay 微信">
+        <span>微信</span>
+      </div>
+      <div>
+        <img src="/images/alipay.jpg" alt="VanJay 支付宝">
+        <span>支付宝</span>
+      </div>
+
+  </div>
+</div>
+
+          <div class="followme">
+  <span>欢迎关注我的其它发布渠道</span>
+
+  <div class="social-list">
+
+      <div class="social-item">
+          <a target="_blank" class="social-link" href="/atom.xml">
+            <span class="icon">
+              <i class="fa fa-rss"></i>
+            </span>
+
+            <span class="label">RSS</span>
+          </a>
+      </div>
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/iOS/" rel="tag"># iOS</a>
+              <a href="/tags/%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/" rel="tag"># 内存管理</a>
+              <a href="/tags/%E5%BE%AA%E7%8E%AF%E5%BC%95%E7%94%A8/" rel="tag"># 循环引用</a>
+              <a href="/tags/ARC/" rel="tag"># ARC</a>
+              <a href="/tags/%E5%BC%B1%E5%BC%95%E7%94%A8/" rel="tag"># 弱引用</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2023/05/20/8505%E5%A4%84%E7%90%86%E5%99%A8%E5%AE%B6%E5%BA%AD%E7%BB%84%E7%BD%91PVE%E4%B8%8BiKuai%E3%80%81OpenWrt%E3%80%81CentOS%E3%80%81DSM%E3%80%81Windows%E7%AD%89%E7%B3%BB%E7%BB%9FAll-In-One%E5%AE%9E%E8%B7%B5%E8%AE%B0%E5%BD%95/" rel="prev" title="8505处理器家庭组网PVE下iKuai、OpenWrt、CentOS、DSM、Windows等系统All In One实践记录">
+                  <i class="fa fa-chevron-left"></i> 8505处理器家庭组网PVE下iKuai、OpenWrt、CentOS、DSM、Windows等系统All In One实践记录
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2023/09/02/iOS%E5%9B%BE%E5%83%8F%E4%B8%BB%E9%A2%98%E8%89%B2%E6%8F%90%E5%8F%96%E7%AE%97%E6%B3%95%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E5%AE%9E%E8%B7%B5/" rel="next" title="iOS图像主题色提取算法性能优化实践">
+                  iOS图像主题色提取算法性能优化实践 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments" id="lv-container" data-id="city" data-uid="MTAyMC80MDA5MC8xNjYxNw=="></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2013 – 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">&copy VanJay</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">89k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">5:23</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/mist/" rel="noopener" target="_blank">NexT.Mist</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+  <a href="https://github.com/wangwanjie" class="github-corner" title="在 GitHub 上关注我" aria-label="在 GitHub 上关注我" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js" integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js" integrity="sha256-yt2kYMy0w8AbtF89WXb2P1rfjcP/HTHLT7097U8Y5b8=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+  <script src="/js/third-party/fancybox.js"></script>
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script src="/js/third-party/comments/livere.js"></script>
+ <!-- 页面点击小红心 -->
+
+<script type="text/javascript">
+!function(e,t,a){function r(){for(var e=0;e<n.length;e++)n[e].alpha<=0?(t.body.removeChild(n[e].el),n.splice(e,1)):(n[e].y--,n[e].scale+=.004,n[e].alpha-=.013,n[e].el.style.cssText="left:"+n[e].x+"px;top:"+n[e].y+"px;opacity:"+n[e].alpha+";transform:scale("+n[e].scale+","+n[e].scale+") rotate(45deg);background:"+n[e].color+";z-index:99999");requestAnimationFrame(r)}var n=[];e.requestAnimationFrame=e.requestAnimationFrame||e.webkitRequestAnimationFrame||e.mozRequestAnimationFrame||e.oRequestAnimationFrame||e.msRequestAnimationFrame||function(e){setTimeout(e,1e3/60)},function(e){var a=t.createElement("style");a.type="text/css";try{a.appendChild(t.createTextNode(e))}catch(t){a.styleSheet.cssText=e}t.getElementsByTagName("head")[0].appendChild(a)}(".heart{width: 10px;height: 10px;position: fixed;background: #f00;transform: rotate(45deg);-webkit-transform: rotate(45deg);-moz-transform: rotate(45deg);}.heart:after,.heart:before{content: '';width: inherit;height: inherit;background: inherit;border-radius: 50%;-webkit-border-radius: 50%;-moz-border-radius: 50%;position: fixed;}.heart:after{top: -5px;}.heart:before{left: -5px;}"),function(){var a="function"==typeof e.onclick&&e.onclick;e.onclick=function(e){a&&a(),function(e){var a=t.createElement("div");a.className="heart",n.push({el:a,x:e.clientX-5,y:e.clientY-5,scale:1,alpha:1,color:"rgb("+~~(255*Math.random())+","+~~(255*Math.random())+","+~~(255*Math.random())+")"}),t.body.appendChild(a)}(e)}}(),r()}(window,document);
+</script>
+
+
+<script type="text/javascript">
+/*页面载入完成后，修改手机上跳转 github 样式 */
+!function (e, t, a) {
+    var browser = {
+        versions: function () {
+            var u = navigator.userAgent,
+                app = navigator.appVersion;
+            return { //移动终端浏览器版本信息
+                trident: u.indexOf('Trident') > -1, //IE内核
+                presto: u.indexOf('Presto') > -1, //opera内核
+                webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
+                gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
+                mobile: !!u.match(/AppleWebKit.*Mobile.*/), // || !!u.match(/AppleWebKit/), //是否为移动终端
+                ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+                android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
+                iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者QQHD浏览器
+                iPad: u.indexOf('iPad') > -1, //是否iPad
+                webApp: u.indexOf('Safari') == -1
+                //是否web应该程序，没有头部与底部
+            };
+        }(),
+        language: (navigator.browserLanguage || navigator.language).toLowerCase()
+    }
+
+    function setDynamicBackground() {
+        $('body').css({
+            'background': 'url(https://source.unsplash.com/random/1600x900)',
+            'background-attachment': 'fixed',
+            'background-repeat': 'repeat',
+            'background-size': 'contain'
+        });
+        $('.main-inner').css({
+            'margin-top': '60px',
+            'padding': '60px 60px 0px 60px',
+            'background': '#fff',
+            'opacity': '0.8',
+            'min-height': '500px'
+        });
+        $('.page-home .main-inner').css({
+            'padding-bottom': '60px',
+        });
+        $('.header').css({
+            'background': 'transparent',
+            'color': '#fff'
+        });
+        $('.footer').css({
+            'background': 'transparent',
+            'color': '#fff'
+        });
+
+        $('.footer-inner .theme-link').css('color', '#EEE');
+    }
+    function setSquareCellBackground(isMobile) {
+        $('body').css({
+            'background-image': 'url("/images/background_cell.png")',
+            'background-position': 'center center',
+            'background-size': 'auto',
+            'background-repeat': 'repeat',
+            'background-attachment': 'fixed'
+        });
+        if (!isMobile) {
+            $('.main-inner').css({
+                'margin-top': '60px',
+                'padding': '60px 60px 0px 60px',
+                'opacity': '0.8',
+                'min-height': '500px'
+            });
+            $('.page-home .main-inner').css({
+                'padding-bottom': '60px',
+            });
+        }
+        $('.header').css({
+            'background': 'transparent',
+        });
+        $('.footer').css({
+            'background': 'transparent',
+        });
+    }
+    function setMobileBackgroun() {
+        $('.header').css({
+            'background': 'linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("https://s1.ax1x.com/2018/06/09/CbDIIO.jpg") no-repeat',
+            'background-size': 'cover',
+            'background-color': 'black',
+            'background-position': 'center',
+            'width': '100%',
+            'display': 'table'
+        })
+
+        $('.site-nav-toggle .btn-bar').css('background', '#fff');
+    }
+
+    function settingBackground () {
+        if (browser.versions.mobile) {
+            setSquareCellBackground(true);
+        } else {
+            // setDynamicBackground();
+            setSquareCellBackground(false);
+        }
+    }
+    if (browser.versions.mobile) {
+        var headerStr = '<div class="site-nav-toggle">' +
+            '    <button aria-label="切换导航栏">' +
+            '      <span class="btn-bar"></span>' +
+            '      <span class="btn-bar"></span>' +
+            '      <span class="btn-bar"></span>' +
+            '    </button>' +
+            '  </div>' +
+            '  <div class="site-meta ">' +
+            '    <div class="custom-logo-site-title">' +
+            '      <a href="/" class="brand" rel="start" style="opacity: 1;">' +
+            '        <span class="logo-line-before"><i class="" style="transform: translateX(100%);"></i></span>' +
+            '        <span class="site-title" style="opacity: 1; top: 0px;">VanJay\'s Blog</span>' +
+            '        <span class="logo-line-after"><i class="" style="transform: translateX(-100%);"></i></span>' +
+            '      </a>' +
+            '    </div>' +
+            '        <p class="site-subtitle" style="opacity: 1; top: 0px;">一个爱折腾工程师的全栈梦</p>' +
+            '  </div>';
+        $('.header .site-brand-wrapper').html(headerStr);
+    }
+    // 设置背景
+    settingBackground();
+
+}(window, document);
+</script>
+</body>
+</html>

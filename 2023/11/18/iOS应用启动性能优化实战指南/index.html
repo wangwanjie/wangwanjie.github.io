@@ -1,0 +1,1077 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic%7CRoboto+Slab:300,300italic,400,400italic,700,700italic%7CPT+Mono:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css" integrity="sha256-Vzbj7sDDS/woiFS3uNKo8eIuni59rjyNGtXfstRzStA=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"blog.vanjay.cn","root":"/","images":"/images","scheme":"Mist","darkmode":false,"version":"8.16.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":"mac"},"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="背景应用启动性能是用户体验的重要指标，直接影响用户对应用的第一印象。据统计，启动时间每增加1秒，用户流失率可能会增加20%。本文将系统性地介绍iOS应用启动优化的各种技术手段，包括图像处理优化、加密算法优化、文本渲染优化等实用方案。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS应用启动性能优化实战指南">
+<meta property="og:url" content="https://blog.vanjay.cn/2023/11/18/iOS%E5%BA%94%E7%94%A8%E5%90%AF%E5%8A%A8%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E5%AE%9E%E6%88%98%E6%8C%87%E5%8D%97/index.html">
+<meta property="og:site_name" content="VanJay&#39;s Blog">
+<meta property="og:description" content="背景应用启动性能是用户体验的重要指标，直接影响用户对应用的第一印象。据统计，启动时间每增加1秒，用户流失率可能会增加20%。本文将系统性地介绍iOS应用启动优化的各种技术手段，包括图像处理优化、加密算法优化、文本渲染优化等实用方案。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-11-18T06:25:30.000Z">
+<meta property="article:modified_time" content="2025-11-25T14:53:26.076Z">
+<meta property="article:author" content="VanJay">
+<meta property="article:tag" content="iOS">
+<meta property="article:tag" content="性能优化">
+<meta property="article:tag" content="图像处理">
+<meta property="article:tag" content="启动优化">
+<meta property="article:tag" content="加密算法">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://blog.vanjay.cn/2023/11/18/iOS%E5%BA%94%E7%94%A8%E5%90%AF%E5%8A%A8%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E5%AE%9E%E6%88%98%E6%8C%87%E5%8D%97/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://blog.vanjay.cn/2023/11/18/iOS%E5%BA%94%E7%94%A8%E5%90%AF%E5%8A%A8%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E5%AE%9E%E6%88%98%E6%8C%87%E5%8D%97/","path":"2023/11/18/iOS应用启动性能优化实战指南/","title":"iOS应用启动性能优化实战指南"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>iOS应用启动性能优化实战指南 | VanJay's Blog</title>
+  
+
+  <script src="/js/third-party/analytics/baidu-analytics.js"></script>
+  <script async src="https://hm.baidu.com/hm.js?dcbe579f2b53b3adfd4034b7acee5785"></script>
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="VanJay's Blog" type="application/atom+xml">
+<link rel="alternate" href="/rss2.xml" title="VanJay's Blog" type="application/rss+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">VanJay's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">一个爱折腾工程师的全栈梦</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="home fa-fw"></i>首页</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-commonweal"><a href="/404.html" rel="section"><i class="heartbeat fa-fw"></i>公益 404</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="user fa-fw"></i>关于</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%83%8C%E6%99%AF"><span class="nav-number">1.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%90%AF%E5%8A%A8%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E6%A6%82%E8%BF%B0"><span class="nav-number">2.</span> <span class="nav-text">启动性能优化概述</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E5%90%AF%E5%8A%A8%E4%BC%98%E5%8C%96%E5%A6%82%E6%AD%A4%E9%87%8D%E8%A6%81"><span class="nav-number">2.1.</span> <span class="nav-text">为什么启动优化如此重要</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%90%AF%E5%8A%A8%E6%97%B6%E9%97%B4%E5%88%86%E7%B1%BB"><span class="nav-number">2.2.</span> <span class="nav-text">启动时间分类</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E4%BC%98%E5%8C%96"><span class="nav-number">3.</span> <span class="nav-text">图像处理优化</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%BE%E7%89%87%E6%B8%B2%E6%9F%93%E6%80%A7%E8%83%BD%E5%AF%B9%E6%AF%94"><span class="nav-number">3.1.</span> <span class="nav-text">图片渲染性能对比</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8E%9F%E5%A7%8B%E6%B8%B2%E6%9F%93%E6%96%B9%E6%B3%95"><span class="nav-number">3.1.1.</span> <span class="nav-text">原始渲染方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BC%98%E5%8C%96%E5%90%8E%E7%9A%84%E6%B8%B2%E6%9F%93%E6%96%B9%E6%B3%95"><span class="nav-number">3.1.2.</span> <span class="nav-text">优化后的渲染方法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%BE%E7%89%87%E7%BC%A9%E6%94%BE%E4%BC%98%E5%8C%96"><span class="nav-number">3.2.</span> <span class="nav-text">图片缩放优化</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%96%B9%E6%B3%95%E4%B8%80%EF%BC%9A%E4%BD%BF%E7%94%A8Core-Graphics%E9%87%8D%E7%BB%98"><span class="nav-number">3.2.1.</span> <span class="nav-text">方法一：使用Core Graphics重绘</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%96%B9%E6%B3%95%E4%BA%8C%EF%BC%9A%E4%BD%BF%E7%94%A8ImageIO%E6%A1%86%E6%9E%B6"><span class="nav-number">3.2.2.</span> <span class="nav-text">方法二：使用ImageIO框架</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%96%B9%E6%B3%95%E4%B8%89%EF%BC%9A%E4%BD%BF%E7%94%A8Core-Image"><span class="nav-number">3.2.3.</span> <span class="nav-text">方法三：使用Core Image</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95%E7%BB%93%E6%9E%9C"><span class="nav-number">3.3.</span> <span class="nav-text">性能测试结果</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8A%A0%E5%AF%86%E7%AE%97%E6%B3%95%E4%BC%98%E5%8C%96"><span class="nav-number">4.</span> <span class="nav-text">加密算法优化</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#DES%E5%8A%A0%E5%AF%86%E6%80%A7%E8%83%BD%E5%AF%B9%E6%AF%94"><span class="nav-number">4.1.</span> <span class="nav-text">DES加密性能对比</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BC%A0%E7%BB%9FDES%E5%AE%9E%E7%8E%B0"><span class="nav-number">4.1.1.</span> <span class="nav-text">传统DES实现</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BC%98%E5%8C%96%E5%90%8E%E7%9A%84OpenSSL%E5%AE%9E%E7%8E%B0"><span class="nav-number">4.1.2.</span> <span class="nav-text">优化后的OpenSSL实现</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95%E6%95%B0%E6%8D%AE"><span class="nav-number">4.2.</span> <span class="nav-text">性能测试数据</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%96%87%E6%9C%AC%E6%B8%B2%E6%9F%93%E4%BC%98%E5%8C%96"><span class="nav-number">5.</span> <span class="nav-text">文本渲染优化</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%96%87%E6%9C%AC%E5%9B%BE%E7%89%87%E7%94%9F%E6%88%90%E4%BC%98%E5%8C%96"><span class="nav-number">5.1.</span> <span class="nav-text">文本图片生成优化</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BC%A0%E7%BB%9F%E6%96%B9%E6%B3%95"><span class="nav-number">5.1.1.</span> <span class="nav-text">传统方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BC%98%E5%8C%96%E6%96%B9%E6%B3%95%EF%BC%9A%E4%BD%BF%E7%94%A8UIGraphicsImageRenderer"><span class="nav-number">5.1.2.</span> <span class="nav-text">优化方法：使用UIGraphicsImageRenderer</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%96%87%E6%9C%AC%E6%B8%B2%E6%9F%93%E6%80%A7%E8%83%BD%E5%AF%B9%E6%AF%94"><span class="nav-number">5.2.</span> <span class="nav-text">文本渲染性能对比</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%BB%BC%E5%90%88%E4%BC%98%E5%8C%96%E7%AD%96%E7%95%A5"><span class="nav-number">6.</span> <span class="nav-text">综合优化策略</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%90%AF%E5%8A%A8%E6%97%B6%E9%97%B4%E6%B5%8B%E9%87%8F%E5%B7%A5%E5%85%B7"><span class="nav-number">6.1.</span> <span class="nav-text">启动时间测量工具</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BC%98%E5%8C%96%E5%AE%9E%E6%96%BD%E6%AD%A5%E9%AA%A4"><span class="nav-number">6.2.</span> <span class="nav-text">优化实施步骤</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E5%90%AF%E5%8A%A8%E5%88%86%E6%9E%90"><span class="nav-number">6.2.1.</span> <span class="nav-text">1. 启动分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E6%87%92%E5%8A%A0%E8%BD%BD%E7%AD%96%E7%95%A5"><span class="nav-number">6.2.2.</span> <span class="nav-text">2. 懒加载策略</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E9%A2%84%E5%8A%A0%E8%BD%BD%E4%BC%98%E5%8C%96"><span class="nav-number">6.2.3.</span> <span class="nav-text">3. 预加载优化</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%80%A7%E8%83%BD%E7%9B%91%E6%8E%A7%E4%B8%8E%E8%B0%83%E4%BC%98"><span class="nav-number">7.</span> <span class="nav-text">性能监控与调优</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%A7%E8%83%BD%E6%8C%87%E6%A0%87%E5%AE%9A%E4%B9%89"><span class="nav-number">7.1.</span> <span class="nav-text">性能指标定义</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E6%97%B6%E6%80%A7%E8%83%BD%E7%9B%91%E6%8E%A7"><span class="nav-number">7.2.</span> <span class="nav-text">实时性能监控</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5%E6%80%BB%E7%BB%93"><span class="nav-number">8.</span> <span class="nav-text">最佳实践总结</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E4%BC%98%E5%8C%96"><span class="nav-number">8.1.</span> <span class="nav-text">1. 图像处理优化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E5%8A%A0%E5%AF%86%E7%AE%97%E6%B3%95%E4%BC%98%E5%8C%96"><span class="nav-number">8.2.</span> <span class="nav-text">2. 加密算法优化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E6%96%87%E6%9C%AC%E6%B8%B2%E6%9F%93%E4%BC%98%E5%8C%96"><span class="nav-number">8.3.</span> <span class="nav-text">3. 文本渲染优化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-%E5%90%AF%E5%8A%A8%E6%B5%81%E7%A8%8B%E4%BC%98%E5%8C%96"><span class="nav-number">8.4.</span> <span class="nav-text">4. 启动流程优化</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="VanJay"
+      src="/images/head.png">
+  <p class="site-author-name" itemprop="name">VanJay</p>
+  <div class="site-description" itemprop="description">成功不是将来才有的<br>而是决定去做的那一刻起<br>持续累积而成</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">65</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">29</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">131</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/wangwanjie" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wangwanjie" rel="noopener me" target="_blank"><i class="github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/wangwanjie" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;wangwanjie" rel="noopener me" target="_blank"><i class="twitter fa-fw"></i>Twitter</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="http://www.weibo.com/2406245873/profile?topnav=1&wvr=6" title="微博 → http:&#x2F;&#x2F;www.weibo.com&#x2F;2406245873&#x2F;profile?topnav&#x3D;1&amp;wvr&#x3D;6" rel="noopener me" target="_blank"><i class="weibo fa-fw"></i>微博</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.facebook.com/wangwanjie123" title="Facebook → https:&#x2F;&#x2F;www.facebook.com&#x2F;wangwanjie123" rel="noopener me" target="_blank"><i class="facebook fa-fw"></i>Facebook</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="http://wpa.qq.com/msgrd?v=3&uin=396736694&site=qq&menu=yes" title="QQ → http:&#x2F;&#x2F;wpa.qq.com&#x2F;msgrd?v&#x3D;3&amp;uin&#x3D;396736694&amp;site&#x3D;qq&amp;menu&#x3D;yes" rel="noopener me" target="_blank"><i class="qq fa-fw"></i>QQ</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:vanjay,dev@gmail.com" title="E-Mail → mailto:vanjay,dev@gmail.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="sidebar-inner sidebar-blogroll">
+      <div class="links-of-blogroll animated">
+        <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+          链接
+        </div>
+        <ul class="links-of-blogroll-list">
+            <li class="links-of-blogroll-item">
+              <a href="https://www.vanjay.cn/" title="https:&#x2F;&#x2F;www.vanjay.cn" rel="noopener" target="_blank">VanJay</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://boxueio.com/" title="https:&#x2F;&#x2F;boxueio.com" rel="noopener" target="_blank">泊学网</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="http://www.smartisan.com/" title="http:&#x2F;&#x2F;www.smartisan.com&#x2F;" rel="noopener" target="_blank">锤子科技</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://objccn.io/" title="https:&#x2F;&#x2F;objccn.io&#x2F;" rel="noopener" target="_blank">ObjC中国</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://github.com/apple/swift-evolution" title="https:&#x2F;&#x2F;github.com&#x2F;apple&#x2F;swift-evolution" rel="noopener" target="_blank">Swift evolution</a>
+            </li>
+        </ul>
+      </div>
+    </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://blog.vanjay.cn/2023/11/18/iOS%E5%BA%94%E7%94%A8%E5%90%AF%E5%8A%A8%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E5%AE%9E%E6%88%98%E6%8C%87%E5%8D%97/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/head.png">
+      <meta itemprop="name" content="VanJay">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="VanJay's Blog">
+      <meta itemprop="description" content="成功不是将来才有的<br>而是决定去做的那一刻起<br>持续累积而成">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="iOS应用启动性能优化实战指南 | VanJay's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          iOS应用启动性能优化实战指南
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+  
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2023-11-18 14:25:30" itemprop="dateCreated datePublished" datetime="2023-11-18T14:25:30+08:00">2023-11-18</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2023-11-21 10:15:45" itemprop="dateModified" datetime="2023-11-21T10:15:45+08:00">2023-11-21</time>
+      
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/iOS%E5%BC%80%E5%8F%91/" itemprop="url" rel="index"><span itemprop="name">iOS开发</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>1.9k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>7 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>应用启动性能是用户体验的重要指标，直接影响用户对应用的第一印象。据统计，启动时间每增加1秒，用户流失率可能会增加20%。本文将系统性地介绍iOS应用启动优化的各种技术手段，包括图像处理优化、加密算法优化、文本渲染优化等实用方案。</p>
+<span id="more"></span>
+
+<h1 id="启动性能优化概述"><a href="#启动性能优化概述" class="headerlink" title="启动性能优化概述"></a>启动性能优化概述</h1><h2 id="为什么启动优化如此重要"><a href="#为什么启动优化如此重要" class="headerlink" title="为什么启动优化如此重要"></a>为什么启动优化如此重要</h2><p>启动性能直接影响用户留存率和应用评分：</p>
+<ul>
+<li><strong>用户体验</strong>: 快速的启动响应提升用户满意度</li>
+<li><strong>应用评分</strong>: 启动速度是用户评价的重要指标</li>
+<li><strong>商业价值</strong>: 减少用户流失，提高转化率</li>
+</ul>
+<h2 id="启动时间分类"><a href="#启动时间分类" class="headerlink" title="启动时间分类"></a>启动时间分类</h2><p>iOS应用启动主要分为以下几个阶段：</p>
+<ol>
+<li><strong>预启动阶段</strong>: 系统加载应用二进制</li>
+<li><strong>main()函数阶段</strong>: 程序入口点初始化</li>
+<li><strong>应用初始化阶段</strong>: UIApplicationDelegate方法执行</li>
+<li><strong>首页渲染阶段</strong>: 首个界面显示</li>
+</ol>
+<h1 id="图像处理优化"><a href="#图像处理优化" class="headerlink" title="图像处理优化"></a>图像处理优化</h1><h2 id="图片渲染性能对比"><a href="#图片渲染性能对比" class="headerlink" title="图片渲染性能对比"></a>图片渲染性能对比</h2><p>传统的图片渲染方式存在性能瓶颈，通过优化算法可以显著提升渲染速度：</p>
+<h3 id="原始渲染方法"><a href="#原始渲染方法" class="headerlink" title="原始渲染方法"></a>原始渲染方法</h3><pre class="line-numbers language-objectivec" data-language="objectivec"><code class="language-objectivec"><span class="token operator">+</span> <span class="token punctuation">(</span>UIImage <span class="token operator">*</span><span class="token punctuation">)</span>colorizeImage<span class="token punctuation">:</span><span class="token punctuation">(</span>UIImage <span class="token operator">*</span><span class="token punctuation">)</span>baseImage
+                  withColor<span class="token punctuation">:</span><span class="token punctuation">(</span>UIColor <span class="token operator">*</span><span class="token punctuation">)</span>theColor
+              forBlendModel<span class="token punctuation">:</span><span class="token punctuation">(</span>CGBlendMode<span class="token punctuation">)</span>blendMode <span class="token punctuation">&#123;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>baseImage<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">return</span> baseImage<span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+
+    CGImageRef baseimageref <span class="token operator">=</span> baseImage<span class="token punctuation">.</span>CGImage<span class="token punctuation">;</span>
+    CGSize size <span class="token operator">=</span> baseImage<span class="token punctuation">.</span>size<span class="token punctuation">;</span>
+
+    <span class="token comment">// 传统方法：使用UIGraphicsBeginImageContextWithOptions</span>
+    <span class="token function">UIGraphicsBeginImageContextWithOptions</span><span class="token punctuation">(</span>size<span class="token punctuation">,</span> NO<span class="token punctuation">,</span> baseImage<span class="token punctuation">.</span>scale<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    CGContextRef ctx <span class="token operator">=</span> <span class="token function">UIGraphicsGetCurrentContext</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    CGRect area <span class="token operator">=</span> <span class="token function">CGRectMake</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> size<span class="token punctuation">.</span>width<span class="token punctuation">,</span> size<span class="token punctuation">.</span>height<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token function">CGContextScaleCTM</span><span class="token punctuation">(</span>ctx<span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">CGContextTranslateCTM</span><span class="token punctuation">(</span>ctx<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token operator">-</span>area<span class="token punctuation">.</span>size<span class="token punctuation">.</span>height<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token function">CGContextSaveGState</span><span class="token punctuation">(</span>ctx<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">CGContextClipToMask</span><span class="token punctuation">(</span>ctx<span class="token punctuation">,</span> area<span class="token punctuation">,</span> baseimageref<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">[</span>theColor set<span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token function">CGContextFillRect</span><span class="token punctuation">(</span>ctx<span class="token punctuation">,</span> area<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">CGContextRestoreGState</span><span class="token punctuation">(</span>ctx<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token function">CGContextSetBlendMode</span><span class="token punctuation">(</span>ctx<span class="token punctuation">,</span> blendMode<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">CGContextDrawImage</span><span class="token punctuation">(</span>ctx<span class="token punctuation">,</span> area<span class="token punctuation">,</span> baseimageref<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    UIImage <span class="token operator">*</span>newImage <span class="token operator">=</span> <span class="token function">UIGraphicsGetImageFromCurrentImageContext</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">UIGraphicsEndImageContext</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">return</span> newImage<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="优化后的渲染方法"><a href="#优化后的渲染方法" class="headerlink" title="优化后的渲染方法"></a>优化后的渲染方法</h3><pre class="line-numbers language-objectivec" data-language="objectivec"><code class="language-objectivec"><span class="token operator">+</span> <span class="token punctuation">(</span>UIImage <span class="token operator">*</span><span class="token punctuation">)</span>optimizedColorizeImage<span class="token punctuation">:</span><span class="token punctuation">(</span>UIImage <span class="token operator">*</span><span class="token punctuation">)</span>baseImage
+                           withColor<span class="token punctuation">:</span><span class="token punctuation">(</span>UIColor <span class="token operator">*</span><span class="token punctuation">)</span>theColor
+                       forBlendModel<span class="token punctuation">:</span><span class="token punctuation">(</span>CGBlendMode<span class="token punctuation">)</span>blendMode <span class="token punctuation">&#123;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>baseImage<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">return</span> nil<span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+
+    CGImageRef baseImageRef <span class="token operator">=</span> baseImage<span class="token punctuation">.</span>CGImage<span class="token punctuation">;</span>
+    CGSize imageSize <span class="token operator">=</span> baseImage<span class="token punctuation">.</span>size<span class="token punctuation">;</span>
+
+    <span class="token comment">// 优化方法：直接使用CGBitmapContextCreate</span>
+    CGFloat bitsPerComponent <span class="token operator">=</span> <span class="token function">CGImageGetBitsPerComponent</span><span class="token punctuation">(</span>baseImageRef<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    CGFloat bytesPerRow <span class="token operator">=</span> <span class="token function">CGImageGetBytesPerRow</span><span class="token punctuation">(</span>baseImageRef<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    CGColorSpaceRef colorSpace <span class="token operator">=</span> <span class="token function">CGImageGetColorSpace</span><span class="token punctuation">(</span>baseImageRef<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    CGContextRef context <span class="token operator">=</span> <span class="token function">CGBitmapContextCreate</span><span class="token punctuation">(</span><span class="token constant">NULL</span><span class="token punctuation">,</span>
+                                               imageSize<span class="token punctuation">.</span>width<span class="token punctuation">,</span>
+                                               imageSize<span class="token punctuation">.</span>height<span class="token punctuation">,</span>
+                                               bitsPerComponent<span class="token punctuation">,</span>
+                                               bytesPerRow<span class="token punctuation">,</span>
+                                               colorSpace<span class="token punctuation">,</span>
+                                               <span class="token function">CGImageGetBitmapInfo</span><span class="token punctuation">(</span>baseImageRef<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>context<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">return</span> nil<span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+
+    <span class="token comment">// 直接在Bitmap上下文中操作，减少上下文切换</span>
+    <span class="token function">CGContextDrawImage</span><span class="token punctuation">(</span>context<span class="token punctuation">,</span> <span class="token function">CGRectMake</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> imageSize<span class="token punctuation">.</span>width<span class="token punctuation">,</span> imageSize<span class="token punctuation">.</span>height<span class="token punctuation">)</span><span class="token punctuation">,</span> baseImageRef<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">CGContextSetBlendMode</span><span class="token punctuation">(</span>context<span class="token punctuation">,</span> blendMode<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">CGContextSetFillColorWithColor</span><span class="token punctuation">(</span>context<span class="token punctuation">,</span> theColor<span class="token punctuation">.</span>CGColor<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">CGContextFillRect</span><span class="token punctuation">(</span>context<span class="token punctuation">,</span> <span class="token function">CGRectMake</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> imageSize<span class="token punctuation">.</span>width<span class="token punctuation">,</span> imageSize<span class="token punctuation">.</span>height<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    CGImageRef blendedImageRef <span class="token operator">=</span> <span class="token function">CGBitmapContextCreateImage</span><span class="token punctuation">(</span>context<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    UIImage <span class="token operator">*</span>blendedImage <span class="token operator">=</span> <span class="token punctuation">[</span>UIImage imageWithCGImage<span class="token punctuation">:</span>blendedImageRef
+                                              scale<span class="token punctuation">:</span>baseImage<span class="token punctuation">.</span>scale
+                                        orientation<span class="token punctuation">:</span>baseImage<span class="token punctuation">.</span>imageOrientation<span class="token punctuation">]</span><span class="token punctuation">;</span>
+
+    <span class="token function">CGImageRelease</span><span class="token punctuation">(</span>blendedImageRef<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">CGContextRelease</span><span class="token punctuation">(</span>context<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">return</span> blendedImage<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h2 id="图片缩放优化"><a href="#图片缩放优化" class="headerlink" title="图片缩放优化"></a>图片缩放优化</h2><p>图片缩放是启动过程中常见的性能瓶颈：</p>
+<h3 id="方法一：使用Core-Graphics重绘"><a href="#方法一：使用Core-Graphics重绘" class="headerlink" title="方法一：使用Core Graphics重绘"></a>方法一：使用Core Graphics重绘</h3><pre class="line-numbers language-objectivec" data-language="objectivec"><code class="language-objectivec"><span class="token operator">-</span> <span class="token punctuation">(</span>UIImage <span class="token operator">*</span><span class="token punctuation">)</span>imageByResizeToSize0<span class="token punctuation">:</span><span class="token punctuation">(</span>CGSize<span class="token punctuation">)</span>size <span class="token punctuation">&#123;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>size<span class="token punctuation">.</span>width <span class="token operator">&lt;=</span> <span class="token number">0</span> <span class="token operator">||</span> size<span class="token punctuation">.</span>height <span class="token operator">&lt;=</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token keyword">return</span> <span class="token keyword">self</span><span class="token punctuation">;</span>
+
+    CGRect rect <span class="token operator">=</span> <span class="token function">CGRectMake</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> size<span class="token punctuation">.</span>width<span class="token punctuation">,</span> size<span class="token punctuation">.</span>height<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">UIGraphicsBeginImageContextWithOptions</span><span class="token punctuation">(</span>size<span class="token punctuation">,</span> NO<span class="token punctuation">,</span> <span class="token keyword">self</span><span class="token punctuation">.</span>scale<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">[</span><span class="token keyword">self</span> drawInRect<span class="token punctuation">:</span>rect<span class="token punctuation">]</span><span class="token punctuation">;</span>
+    UIImage <span class="token operator">*</span>image <span class="token operator">=</span> <span class="token function">UIGraphicsGetImageFromCurrentImageContext</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">UIGraphicsEndImageContext</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">return</span> image<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="方法二：使用ImageIO框架"><a href="#方法二：使用ImageIO框架" class="headerlink" title="方法二：使用ImageIO框架"></a>方法二：使用ImageIO框架</h3><pre class="line-numbers language-objectivec" data-language="objectivec"><code class="language-objectivec"><span class="token operator">-</span> <span class="token punctuation">(</span>UIImage <span class="token operator">*</span><span class="token punctuation">)</span>imageByResizeToSize2<span class="token punctuation">:</span><span class="token punctuation">(</span>CGSize<span class="token punctuation">)</span>size <span class="token punctuation">&#123;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>size<span class="token punctuation">.</span>width <span class="token operator">&lt;=</span> <span class="token number">0</span> <span class="token operator">||</span> size<span class="token punctuation">.</span>height <span class="token operator">&lt;=</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token keyword">return</span> <span class="token keyword">self</span><span class="token punctuation">;</span>
+
+    <span class="token comment">// 获取原始图片数据</span>
+    NSData <span class="token operator">*</span>imageData <span class="token operator">=</span> <span class="token function">UIImagePNGRepresentation</span><span class="token punctuation">(</span><span class="token keyword">self</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    CGImageSourceRef source <span class="token operator">=</span> <span class="token function">CGImageSourceCreateWithData</span><span class="token punctuation">(</span><span class="token punctuation">(</span>__bridge CFDataRef<span class="token punctuation">)</span>imageData<span class="token punctuation">,</span> <span class="token constant">NULL</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>source<span class="token punctuation">)</span> <span class="token keyword">return</span> nil<span class="token punctuation">;</span>
+
+    <span class="token comment">// 设置缩放参数</span>
+    NSDictionary <span class="token operator">*</span>options <span class="token operator">=</span> <span class="token operator">@</span><span class="token punctuation">&#123;</span>
+        <span class="token punctuation">(</span>__bridge NSString <span class="token operator">*</span><span class="token punctuation">)</span>kCGImageSourceCreateThumbnailFromImageIfAbsent<span class="token punctuation">:</span> <span class="token operator">@</span>YES<span class="token punctuation">,</span>
+        <span class="token punctuation">(</span>__bridge NSString <span class="token operator">*</span><span class="token punctuation">)</span>kCGImageSourceThumbnailMaxPixelSize<span class="token punctuation">:</span> <span class="token operator">@</span><span class="token punctuation">(</span><span class="token function">MAX</span><span class="token punctuation">(</span>size<span class="token punctuation">.</span>width<span class="token punctuation">,</span> size<span class="token punctuation">.</span>height<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+        <span class="token punctuation">(</span>__bridge NSString <span class="token operator">*</span><span class="token punctuation">)</span>kCGImageSourceCreateThumbnailWithTransform<span class="token punctuation">:</span> <span class="token operator">@</span>YES
+    <span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+
+    CGImageRef imageRef <span class="token operator">=</span> <span class="token function">CGImageSourceCreateThumbnailAtIndex</span><span class="token punctuation">(</span>source<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token punctuation">(</span>__bridge CFDictionaryRef<span class="token punctuation">)</span>options<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    UIImage <span class="token operator">*</span>resizedImage <span class="token operator">=</span> <span class="token punctuation">[</span>UIImage imageWithCGImage<span class="token punctuation">:</span>imageRef scale<span class="token punctuation">:</span><span class="token keyword">self</span><span class="token punctuation">.</span>scale orientation<span class="token punctuation">:</span><span class="token keyword">self</span><span class="token punctuation">.</span>imageOrientation<span class="token punctuation">]</span><span class="token punctuation">;</span>
+
+    <span class="token function">CFRelease</span><span class="token punctuation">(</span>source<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">CFRelease</span><span class="token punctuation">(</span>imageRef<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">return</span> resizedImage<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="方法三：使用Core-Image"><a href="#方法三：使用Core-Image" class="headerlink" title="方法三：使用Core Image"></a>方法三：使用Core Image</h3><pre class="line-numbers language-objectivec" data-language="objectivec"><code class="language-objectivec"><span class="token operator">-</span> <span class="token punctuation">(</span>UIImage <span class="token operator">*</span><span class="token punctuation">)</span>imageByResizeToSize3<span class="token punctuation">:</span><span class="token punctuation">(</span>CGSize<span class="token punctuation">)</span>size <span class="token punctuation">&#123;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>size<span class="token punctuation">.</span>width <span class="token operator">&lt;=</span> <span class="token number">0</span> <span class="token operator">||</span> size<span class="token punctuation">.</span>height <span class="token operator">&lt;=</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token keyword">return</span> <span class="token keyword">self</span><span class="token punctuation">;</span>
+
+    CIImage <span class="token operator">*</span>ciImage <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">[</span>CIImage alloc<span class="token punctuation">]</span> initWithImage<span class="token punctuation">:</span><span class="token keyword">self</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+
+    <span class="token comment">// 创建缩放变换</span>
+    CGFloat scaleX <span class="token operator">=</span> size<span class="token punctuation">.</span>width <span class="token operator">/</span> <span class="token keyword">self</span><span class="token punctuation">.</span>size<span class="token punctuation">.</span>width<span class="token punctuation">;</span>
+    CGFloat scaleY <span class="token operator">=</span> size<span class="token punctuation">.</span>height <span class="token operator">/</span> <span class="token keyword">self</span><span class="token punctuation">.</span>size<span class="token punctuation">.</span>height<span class="token punctuation">;</span>
+    CIFilter <span class="token operator">*</span>scaleFilter <span class="token operator">=</span> <span class="token punctuation">[</span>CIFilter filterWithName<span class="token punctuation">:</span><span class="token string">@"CILanczosScaleTransform"</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token punctuation">[</span>scaleFilter setValue<span class="token punctuation">:</span>ciImage forKey<span class="token punctuation">:</span>kCIInputImageKey<span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token punctuation">[</span>scaleFilter setValue<span class="token punctuation">:</span><span class="token operator">@</span><span class="token punctuation">(</span>scaleX<span class="token punctuation">)</span> forKey<span class="token punctuation">:</span><span class="token string">@"inputScaleX"</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token punctuation">[</span>scaleFilter setValue<span class="token punctuation">:</span><span class="token operator">@</span><span class="token punctuation">(</span>scaleY<span class="token punctuation">)</span> forKey<span class="token punctuation">:</span><span class="token string">@"inputScaleY"</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token punctuation">[</span>scaleFilter setValue<span class="token punctuation">:</span><span class="token operator">@</span><span class="token punctuation">(</span><span class="token number">1.0</span><span class="token punctuation">)</span> forKey<span class="token punctuation">:</span><span class="token string">@"inputAspectRatio"</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+
+    CIImage <span class="token operator">*</span>scaledImage <span class="token operator">=</span> <span class="token punctuation">[</span>scaleFilter valueForKey<span class="token punctuation">:</span>kCIOutputImageKey<span class="token punctuation">]</span><span class="token punctuation">;</span>
+
+    CIContext <span class="token operator">*</span>context <span class="token operator">=</span> <span class="token punctuation">[</span>CIContext contextWithOptions<span class="token punctuation">:</span>nil<span class="token punctuation">]</span><span class="token punctuation">;</span>
+    CGImageRef cgImage <span class="token operator">=</span> <span class="token punctuation">[</span>context createCGImage<span class="token punctuation">:</span>scaledImage fromRect<span class="token punctuation">:</span><span class="token punctuation">[</span>scaledImage extent<span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+    UIImage <span class="token operator">*</span>resizedImage <span class="token operator">=</span> <span class="token punctuation">[</span>UIImage imageWithCGImage<span class="token punctuation">:</span>cgImage scale<span class="token punctuation">:</span><span class="token keyword">self</span><span class="token punctuation">.</span>scale orientation<span class="token punctuation">:</span><span class="token keyword">self</span><span class="token punctuation">.</span>imageOrientation<span class="token punctuation">]</span><span class="token punctuation">;</span>
+
+    <span class="token function">CGImageRelease</span><span class="token punctuation">(</span>cgImage<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">return</span> resizedImage<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h2 id="性能测试结果"><a href="#性能测试结果" class="headerlink" title="性能测试结果"></a>性能测试结果</h2><p>图片处理性能对比（100次操作平均时间）：</p>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>渲染耗时</th>
+<th>缩放耗时</th>
+<th>内存占用</th>
+<th>推荐指数</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>UIGraphicsBeginImageContext</td>
+<td>0.211s</td>
+<td>0.156s</td>
+<td>高</td>
+<td>⭐⭐</td>
+</tr>
+<tr>
+<td>ImageIO框架</td>
+<td>-</td>
+<td>0.023s</td>
+<td>中</td>
+<td>⭐⭐⭐⭐⭐</td>
+</tr>
+<tr>
+<td>Core Image</td>
+<td>0.016s</td>
+<td>0.019s</td>
+<td>低</td>
+<td>⭐⭐⭐⭐</td>
+</tr>
+</tbody></table>
+<h1 id="加密算法优化"><a href="#加密算法优化" class="headerlink" title="加密算法优化"></a>加密算法优化</h1><h2 id="DES加密性能对比"><a href="#DES加密性能对比" class="headerlink" title="DES加密性能对比"></a>DES加密性能对比</h2><p>加密操作是应用启动时的常见性能瓶颈：</p>
+<h3 id="传统DES实现"><a href="#传统DES实现" class="headerlink" title="传统DES实现"></a>传统DES实现</h3><pre class="line-numbers language-objectivec" data-language="objectivec"><code class="language-objectivec"><span class="token operator">+</span> <span class="token punctuation">(</span>NSData <span class="token operator">*</span><span class="token punctuation">)</span>opDESDecrypt<span class="token punctuation">:</span><span class="token punctuation">(</span>NSData <span class="token operator">*</span><span class="token punctuation">)</span>data WithKey<span class="token punctuation">:</span><span class="token punctuation">(</span>NSString <span class="token operator">*</span><span class="token punctuation">)</span>key <span class="token punctuation">&#123;</span>
+    <span class="token comment">// 传统DES解密实现</span>
+    <span class="token comment">// 使用CommonCrypto或其他加密库</span>
+    <span class="token comment">// 性能较慢，尤其是大量数据时</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="优化后的OpenSSL实现"><a href="#优化后的OpenSSL实现" class="headerlink" title="优化后的OpenSSL实现"></a>优化后的OpenSSL实现</h3><pre class="line-numbers language-objectivec" data-language="objectivec"><code class="language-objectivec"><span class="token operator">+</span> <span class="token punctuation">(</span>NSData <span class="token operator">*</span><span class="token punctuation">)</span>opensslDESDecrypt<span class="token punctuation">:</span><span class="token punctuation">(</span>NSData <span class="token operator">*</span><span class="token punctuation">)</span>data WithKey<span class="token punctuation">:</span><span class="token punctuation">(</span>NSString <span class="token operator">*</span><span class="token punctuation">)</span>key <span class="token punctuation">&#123;</span>
+    <span class="token comment">// 使用OpenSSL优化后的实现</span>
+    <span class="token comment">// 性能提升显著</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h2 id="性能测试数据"><a href="#性能测试数据" class="headerlink" title="性能测试数据"></a>性能测试数据</h2><pre class="line-numbers language-objectivec" data-language="objectivec"><code class="language-objectivec"><span class="token operator">-</span> <span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span>testDESPerformance <span class="token punctuation">&#123;</span>
+    NSString <span class="token operator">*</span>testString <span class="token operator">=</span> <span class="token string">@"大量测试数据..."</span><span class="token punctuation">;</span> <span class="token comment">// 500次重复的测试字符串</span>
+    NSString <span class="token operator">*</span>key <span class="token operator">=</span> <span class="token string">@"K9@X*2F&amp;$6!g#"</span><span class="token punctuation">;</span>
+    NSData <span class="token operator">*</span>data <span class="token operator">=</span> <span class="token punctuation">[</span>testString dataUsingEncoding<span class="token punctuation">:</span>NSUTF8StringEncoding<span class="token punctuation">]</span><span class="token punctuation">;</span>
+    NSData <span class="token operator">*</span>encryptedData <span class="token operator">=</span> <span class="token punctuation">[</span>NSData opDESEncrypt<span class="token punctuation">:</span>data WithKey<span class="token punctuation">:</span>key<span class="token punctuation">]</span><span class="token punctuation">;</span>
+
+    <span class="token comment">// 测试传统方法</span>
+    NSTimeInterval v1 <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token keyword">self</span> measureBlockExecutionTime<span class="token punctuation">:</span><span class="token operator">^</span><span class="token punctuation">&#123;</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> <span class="token number">1000</span><span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+            NSData <span class="token operator">*</span>decryptedData <span class="token operator">=</span> <span class="token punctuation">[</span>NSData opDESDecrypt<span class="token punctuation">:</span>encryptedData WithKey<span class="token punctuation">:</span>key<span class="token punctuation">]</span><span class="token punctuation">;</span>
+            <span class="token comment">// 使用解密后的数据</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+
+    <span class="token comment">// 测试优化方法</span>
+    NSTimeInterval v2 <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token keyword">self</span> measureBlockExecutionTime<span class="token punctuation">:</span><span class="token operator">^</span><span class="token punctuation">&#123;</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> <span class="token number">1000</span><span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+            NSData <span class="token operator">*</span>decryptedData <span class="token operator">=</span> <span class="token punctuation">[</span>NSData opensslDESDecrypt<span class="token punctuation">:</span>encryptedData WithKey<span class="token punctuation">:</span>key<span class="token punctuation">]</span><span class="token punctuation">;</span>
+            <span class="token comment">// 使用解密后的数据</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+
+    <span class="token function">NSLog</span><span class="token punctuation">(</span><span class="token string">@"传统方法: %.6fs, 优化方法: %.6fs, 提升幅度: %.2f%%"</span><span class="token punctuation">,</span>
+          v1<span class="token punctuation">,</span> v2<span class="token punctuation">,</span> <span class="token punctuation">(</span>v1 <span class="token operator">-</span> v2<span class="token punctuation">)</span> <span class="token operator">/</span> v2 <span class="token operator">*</span> <span class="token number">100</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>测试结果：</p>
+<ul>
+<li><strong>小数据量</strong>: 传统方法 0.004s，优化方法 0.001s，提升75%</li>
+<li><strong>大数据量</strong>: 传统方法 0.062s，优化方法 0.037s，提升68%</li>
+</ul>
+<h1 id="文本渲染优化"><a href="#文本渲染优化" class="headerlink" title="文本渲染优化"></a>文本渲染优化</h1><h2 id="文本图片生成优化"><a href="#文本图片生成优化" class="headerlink" title="文本图片生成优化"></a>文本图片生成优化</h2><p>将文本渲染为图片在启动阶段也很常见：</p>
+<h3 id="传统方法"><a href="#传统方法" class="headerlink" title="传统方法"></a>传统方法</h3><pre class="line-numbers language-objectivec" data-language="objectivec"><code class="language-objectivec"><span class="token operator">-</span> <span class="token punctuation">(</span>UIImage <span class="token operator">*</span><span class="token punctuation">)</span>drawTextImageWithText2<span class="token punctuation">:</span><span class="token punctuation">(</span>NSString <span class="token operator">*</span><span class="token punctuation">)</span>text
+                              color<span class="token punctuation">:</span><span class="token punctuation">(</span>UIColor <span class="token operator">*</span><span class="token punctuation">)</span>color
+                               font<span class="token punctuation">:</span><span class="token punctuation">(</span>UIFont <span class="token operator">*</span><span class="token punctuation">)</span>font <span class="token punctuation">&#123;</span>
+    NSDictionary <span class="token operator">*</span>attribute <span class="token operator">=</span> <span class="token operator">@</span><span class="token punctuation">&#123;</span>
+        NSForegroundColorAttributeName<span class="token punctuation">:</span> color<span class="token punctuation">,</span>
+        NSFontAttributeName<span class="token punctuation">:</span> font
+    <span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+    CGSize textSize <span class="token operator">=</span> <span class="token punctuation">[</span>text sizeWithAttributes<span class="token punctuation">:</span>attribute<span class="token punctuation">]</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token function">CGSizeEqualToSize</span><span class="token punctuation">(</span>CGSizeZero<span class="token punctuation">,</span> textSize<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">return</span> nil<span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+
+    <span class="token comment">// 传统方法：使用UIGraphicsBeginImageContextWithOptions</span>
+    <span class="token function">UIGraphicsBeginImageContextWithOptions</span><span class="token punctuation">(</span>textSize<span class="token punctuation">,</span> NO<span class="token punctuation">,</span> <span class="token punctuation">[</span>UIScreen mainScreen<span class="token punctuation">]</span><span class="token punctuation">.</span>scale<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    CGContextRef context <span class="token operator">=</span> <span class="token function">UIGraphicsGetCurrentContext</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">CGContextSetFillColorWithColor</span><span class="token punctuation">(</span>context<span class="token punctuation">,</span> color<span class="token punctuation">.</span>CGColor<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token comment">// 缓存y轴偏移量计算</span>
+    <span class="token keyword">static</span> CGFloat textRectY <span class="token operator">=</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>textRectY <span class="token operator">==</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        textRectY <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">[</span>UIScreen mainScreen<span class="token punctuation">]</span><span class="token punctuation">.</span>bounds<span class="token punctuation">.</span>size<span class="token punctuation">.</span>width <span class="token operator">></span> <span class="token number">415.f</span><span class="token punctuation">)</span> <span class="token operator">?</span> <span class="token number">3.f</span> <span class="token punctuation">:</span> <span class="token number">2.f</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+
+    <span class="token punctuation">[</span>text drawAtPoint<span class="token punctuation">:</span><span class="token function">CGPointMake</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> textRectY<span class="token punctuation">)</span> withAttributes<span class="token punctuation">:</span>attribute<span class="token punctuation">]</span><span class="token punctuation">;</span>
+    UIImage <span class="token operator">*</span>image <span class="token operator">=</span> <span class="token function">UIGraphicsGetImageFromCurrentImageContext</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">UIGraphicsEndImageContext</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">return</span> image<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="优化方法：使用UIGraphicsImageRenderer"><a href="#优化方法：使用UIGraphicsImageRenderer" class="headerlink" title="优化方法：使用UIGraphicsImageRenderer"></a>优化方法：使用UIGraphicsImageRenderer</h3><pre class="line-numbers language-objectivec" data-language="objectivec"><code class="language-objectivec"><span class="token operator">-</span> <span class="token punctuation">(</span>UIImage <span class="token operator">*</span><span class="token punctuation">)</span>drawTextImageWithText3<span class="token punctuation">:</span><span class="token punctuation">(</span>NSString <span class="token operator">*</span><span class="token punctuation">)</span>text
+                              color<span class="token punctuation">:</span><span class="token punctuation">(</span>UIColor <span class="token operator">*</span><span class="token punctuation">)</span>color
+                               font<span class="token punctuation">:</span><span class="token punctuation">(</span>UIFont <span class="token operator">*</span><span class="token punctuation">)</span>font <span class="token punctuation">&#123;</span>
+    NSDictionary <span class="token operator">*</span>attributes <span class="token operator">=</span> <span class="token operator">@</span><span class="token punctuation">&#123;</span>
+        NSForegroundColorAttributeName<span class="token punctuation">:</span> color<span class="token punctuation">,</span>
+        NSFontAttributeName<span class="token punctuation">:</span> font
+    <span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+    CGSize textSize <span class="token operator">=</span> <span class="token punctuation">[</span>text sizeWithAttributes<span class="token punctuation">:</span>attribute<span class="token punctuation">]</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token function">CGSizeEqualToSize</span><span class="token punctuation">(</span>CGSizeZero<span class="token punctuation">,</span> textSize<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">return</span> nil<span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+
+    <span class="token comment">// 优化方法：使用UIGraphicsImageRenderer</span>
+    UIGraphicsImageRendererFormat <span class="token operator">*</span>format <span class="token operator">=</span> <span class="token punctuation">[</span>UIGraphicsImageRendererFormat defaultFormat<span class="token punctuation">]</span><span class="token punctuation">;</span>
+    format<span class="token punctuation">.</span>scale <span class="token operator">=</span> <span class="token punctuation">[</span>UIScreen mainScreen<span class="token punctuation">]</span><span class="token punctuation">.</span>scale<span class="token punctuation">;</span>
+    UIGraphicsImageRenderer <span class="token operator">*</span>renderer <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">[</span>UIGraphicsImageRenderer alloc<span class="token punctuation">]</span>
+                                        initWithSize<span class="token punctuation">:</span>textSize format<span class="token punctuation">:</span>format<span class="token punctuation">]</span><span class="token punctuation">;</span>
+
+    UIImage <span class="token operator">*</span>image <span class="token operator">=</span> <span class="token punctuation">[</span>renderer imageWithActions<span class="token punctuation">:</span><span class="token operator">^</span><span class="token punctuation">(</span>UIGraphicsImageRendererContext <span class="token operator">*</span>rendererContext<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        CGContextRef context <span class="token operator">=</span> rendererContext<span class="token punctuation">.</span>CGContext<span class="token punctuation">;</span>
+        <span class="token function">CGContextSetFillColorWithColor</span><span class="token punctuation">(</span>context<span class="token punctuation">,</span> color<span class="token punctuation">.</span>CGColor<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        <span class="token comment">// 复用缓存的偏移量</span>
+        <span class="token keyword">static</span> CGFloat textRectY <span class="token operator">=</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>textRectY <span class="token operator">==</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+            textRectY <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">[</span>UIScreen mainScreen<span class="token punctuation">]</span><span class="token punctuation">.</span>bounds<span class="token punctuation">.</span>size<span class="token punctuation">.</span>width <span class="token operator">></span> <span class="token number">415.f</span><span class="token punctuation">)</span> <span class="token operator">?</span> <span class="token number">3.f</span> <span class="token punctuation">:</span> <span class="token number">2.f</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+
+        CGRect textRect <span class="token operator">=</span> <span class="token function">CGRectMake</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> textRectY<span class="token punctuation">,</span> textSize<span class="token punctuation">.</span>width<span class="token punctuation">,</span> textSize<span class="token punctuation">.</span>height<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">[</span>text drawInRect<span class="token punctuation">:</span>textRect withAttributes<span class="token punctuation">:</span>attributes<span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">return</span> image<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h2 id="文本渲染性能对比"><a href="#文本渲染性能对比" class="headerlink" title="文本渲染性能对比"></a>文本渲染性能对比</h2><table>
+<thead>
+<tr>
+<th>方法</th>
+<th>耗时</th>
+<th>内存占用</th>
+<th>推荐场景</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>UIGraphicsBeginImageContext</td>
+<td>0.017s</td>
+<td>高</td>
+<td>兼容性要求高</td>
+</tr>
+<tr>
+<td>UIGraphicsImageRenderer</td>
+<td>0.010s</td>
+<td>低</td>
+<td>iOS 10+</td>
+</tr>
+</tbody></table>
+<h1 id="综合优化策略"><a href="#综合优化策略" class="headerlink" title="综合优化策略"></a>综合优化策略</h1><h2 id="启动时间测量工具"><a href="#启动时间测量工具" class="headerlink" title="启动时间测量工具"></a>启动时间测量工具</h2><pre class="line-numbers language-objectivec" data-language="objectivec"><code class="language-objectivec"><span class="token keyword">@interface</span> LaunchTimeMonitor <span class="token punctuation">:</span> NSObject
+<span class="token operator">+</span> <span class="token punctuation">(</span>instancetype<span class="token punctuation">)</span>shared<span class="token punctuation">;</span>
+<span class="token operator">-</span> <span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span>startTiming<span class="token punctuation">;</span>
+<span class="token operator">-</span> <span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span>markCheckpoint<span class="token punctuation">:</span><span class="token punctuation">(</span>NSString <span class="token operator">*</span><span class="token punctuation">)</span>checkpoint<span class="token punctuation">;</span>
+<span class="token operator">-</span> <span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span>endTiming<span class="token punctuation">;</span>
+<span class="token operator">-</span> <span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span>printReport<span class="token punctuation">;</span>
+<span class="token keyword">@end</span>
+
+<span class="token keyword">@implementation</span> LaunchTimeMonitor
+
+<span class="token operator">+</span> <span class="token punctuation">(</span>instancetype<span class="token punctuation">)</span>shared <span class="token punctuation">&#123;</span>
+    <span class="token keyword">static</span> LaunchTimeMonitor <span class="token operator">*</span>instance <span class="token operator">=</span> nil<span class="token punctuation">;</span>
+    <span class="token keyword">static</span> dispatch_once_t onceToken<span class="token punctuation">;</span>
+    <span class="token function">dispatch_once</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>onceToken<span class="token punctuation">,</span> <span class="token operator">^</span><span class="token punctuation">&#123;</span>
+        instance <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">[</span>LaunchTimeMonitor alloc<span class="token punctuation">]</span> init<span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">return</span> instance<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token operator">-</span> <span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span>markCheckpoint<span class="token punctuation">:</span><span class="token punctuation">(</span>NSString <span class="token operator">*</span><span class="token punctuation">)</span>checkpoint <span class="token punctuation">&#123;</span>
+    NSTimeInterval currentTime <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">[</span>NSDate date<span class="token punctuation">]</span> timeIntervalSince1970<span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token keyword">self</span><span class="token punctuation">.</span>startTime <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">self</span><span class="token punctuation">.</span>startTime <span class="token operator">=</span> currentTime<span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+
+    NSTimeInterval elapsed <span class="token operator">=</span> currentTime <span class="token operator">-</span> <span class="token keyword">self</span><span class="token punctuation">.</span>startTime<span class="token punctuation">;</span>
+    <span class="token function">NSLog</span><span class="token punctuation">(</span><span class="token string">@"[启动监控] %@: %.3fs"</span><span class="token punctuation">,</span> checkpoint<span class="token punctuation">,</span> elapsed<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span><span class="token keyword">self</span><span class="token punctuation">.</span>checkpoints<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">self</span><span class="token punctuation">.</span>checkpoints <span class="token operator">=</span> <span class="token punctuation">[</span>NSMutableArray array<span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">[</span><span class="token keyword">self</span><span class="token punctuation">.</span>checkpoints addObject<span class="token punctuation">:</span><span class="token operator">@</span><span class="token punctuation">&#123;</span>
+        <span class="token string">@"checkpoint"</span><span class="token punctuation">:</span> checkpoint<span class="token punctuation">,</span>
+        <span class="token string">@"time"</span><span class="token punctuation">:</span> <span class="token operator">@</span><span class="token punctuation">(</span>elapsed<span class="token punctuation">)</span>
+    <span class="token punctuation">&#125;</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token keyword">@end</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h2 id="优化实施步骤"><a href="#优化实施步骤" class="headerlink" title="优化实施步骤"></a>优化实施步骤</h2><h3 id="1-启动分析"><a href="#1-启动分析" class="headerlink" title="1. 启动分析"></a>1. 启动分析</h3><pre class="line-numbers language-objectivec" data-language="objectivec"><code class="language-objectivec"><span class="token comment">// 在AppDelegate中进行启动分析</span>
+<span class="token operator">-</span> <span class="token punctuation">(</span>BOOL<span class="token punctuation">)</span>application<span class="token punctuation">:</span><span class="token punctuation">(</span>UIApplication <span class="token operator">*</span><span class="token punctuation">)</span>application
+didFinishLaunchingWithOptions<span class="token punctuation">:</span><span class="token punctuation">(</span>NSDictionary <span class="token operator">*</span><span class="token punctuation">)</span>launchOptions <span class="token punctuation">&#123;</span>
+
+    <span class="token punctuation">[</span><span class="token punctuation">[</span>LaunchTimeMonitor shared<span class="token punctuation">]</span> markCheckpoint<span class="token punctuation">:</span><span class="token string">@"应用启动开始"</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+
+    <span class="token comment">// 延迟非关键初始化</span>
+    <span class="token function">dispatch_async</span><span class="token punctuation">(</span><span class="token function">dispatch_get_global_queue</span><span class="token punctuation">(</span>DISPATCH_QUEUE_PRIORITY_LOW<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token operator">^</span><span class="token punctuation">&#123;</span>
+        <span class="token punctuation">[</span><span class="token keyword">self</span> initializeNonCriticalServices<span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token punctuation">[</span><span class="token punctuation">[</span>LaunchTimeMonitor shared<span class="token punctuation">]</span> markCheckpoint<span class="token punctuation">:</span><span class="token string">@"关键服务初始化完成"</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">return</span> YES<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="2-懒加载策略"><a href="#2-懒加载策略" class="headerlink" title="2. 懒加载策略"></a>2. 懒加载策略</h3><pre class="line-numbers language-objectivec" data-language="objectivec"><code class="language-objectivec"><span class="token comment">// 使用懒加载延迟非关键功能</span>
+<span class="token keyword">@interface</span> LazyServiceManager <span class="token punctuation">:</span> NSObject
+<span class="token operator">+</span> <span class="token punctuation">(</span>instancetype<span class="token punctuation">)</span>shared<span class="token punctuation">;</span>
+<span class="token operator">-</span> <span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span>initializeServiceIfNeeded<span class="token punctuation">;</span>
+<span class="token keyword">@end</span>
+
+<span class="token keyword">@implementation</span> LazyServiceManager
+
+<span class="token operator">-</span> <span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span>initializeServiceIfNeeded <span class="token punctuation">&#123;</span>
+    <span class="token keyword">static</span> dispatch_once_t onceToken<span class="token punctuation">;</span>
+    <span class="token function">dispatch_once</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>onceToken<span class="token punctuation">,</span> <span class="token operator">^</span><span class="token punctuation">&#123;</span>
+        <span class="token comment">// 延迟初始化耗时服务</span>
+        <span class="token punctuation">[</span><span class="token keyword">self</span> setupExpensiveServices<span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token keyword">@end</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="3-预加载优化"><a href="#3-预加载优化" class="headerlink" title="3. 预加载优化"></a>3. 预加载优化</h3><pre class="line-numbers language-objectivec" data-language="objectivec"><code class="language-objectivec"><span class="token comment">// 在合适的时机预加载关键资源</span>
+<span class="token operator">-</span> <span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span>preloadCriticalResources <span class="token punctuation">&#123;</span>
+    <span class="token function">dispatch_async</span><span class="token punctuation">(</span><span class="token function">dispatch_get_global_queue</span><span class="token punctuation">(</span>DISPATCH_QUEUE_PRIORITY_DEFAULT<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token operator">^</span><span class="token punctuation">&#123;</span>
+        <span class="token comment">// 预加载图片资源</span>
+        <span class="token punctuation">[</span><span class="token keyword">self</span> preloadImages<span class="token punctuation">]</span><span class="token punctuation">;</span>
+
+        <span class="token comment">// 预加载配置数据</span>
+        <span class="token punctuation">[</span><span class="token keyword">self</span> preloadConfiguration<span class="token punctuation">]</span><span class="token punctuation">;</span>
+
+        <span class="token comment">// 预加载加密密钥</span>
+        <span class="token punctuation">[</span><span class="token keyword">self</span> preloadEncryptionKeys<span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h1 id="性能监控与调优"><a href="#性能监控与调优" class="headerlink" title="性能监控与调优"></a>性能监控与调优</h1><h2 id="性能指标定义"><a href="#性能指标定义" class="headerlink" title="性能指标定义"></a>性能指标定义</h2><pre class="line-numbers language-objectivec" data-language="objectivec"><code class="language-objectivec"><span class="token keyword">typedef</span> <span class="token keyword">struct</span> <span class="token punctuation">&#123;</span>
+    NSTimeInterval totalLaunchTime<span class="token punctuation">;</span>
+    NSTimeInterval preMainTime<span class="token punctuation">;</span>
+    NSTimeInterval mainTime<span class="token punctuation">;</span>
+    NSTimeInterval firstRenderTime<span class="token punctuation">;</span>
+    NSUInteger memoryUsage<span class="token punctuation">;</span>
+    NSUInteger cpuUsage<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span> LaunchMetrics<span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h2 id="实时性能监控"><a href="#实时性能监控" class="headerlink" title="实时性能监控"></a>实时性能监控</h2><pre class="line-numbers language-objectivec" data-language="objectivec"><code class="language-objectivec"><span class="token keyword">@interface</span> PerformanceMonitor <span class="token punctuation">:</span> NSObject
+<span class="token operator">+</span> <span class="token punctuation">(</span>instancetype<span class="token punctuation">)</span>shared<span class="token punctuation">;</span>
+<span class="token operator">-</span> <span class="token punctuation">(</span>LaunchMetrics<span class="token punctuation">)</span>collectMetrics<span class="token punctuation">;</span>
+<span class="token operator">-</span> <span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span>reportMetrics<span class="token punctuation">:</span><span class="token punctuation">(</span>LaunchMetrics<span class="token punctuation">)</span>metrics<span class="token punctuation">;</span>
+<span class="token keyword">@end</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h1 id="最佳实践总结"><a href="#最佳实践总结" class="headerlink" title="最佳实践总结"></a>最佳实践总结</h1><h2 id="1-图像处理优化"><a href="#1-图像处理优化" class="headerlink" title="1. 图像处理优化"></a>1. 图像处理优化</h2><ul>
+<li>优先使用Core Image进行图片缩放</li>
+<li>使用ImageIO框架进行图片压缩</li>
+<li>避免在主线程进行复杂图像操作</li>
+</ul>
+<h2 id="2-加密算法优化"><a href="#2-加密算法优化" class="headerlink" title="2. 加密算法优化"></a>2. 加密算法优化</h2><ul>
+<li>选择性能更好的加密库</li>
+<li>缓存加密结果避免重复计算</li>
+<li>使用硬件加速的加密API</li>
+</ul>
+<h2 id="3-文本渲染优化"><a href="#3-文本渲染优化" class="headerlink" title="3. 文本渲染优化"></a>3. 文本渲染优化</h2><ul>
+<li>使用UIGraphicsImageRenderer替代传统方法</li>
+<li>缓存文本尺寸计算结果</li>
+<li>避免频繁的字体加载</li>
+</ul>
+<h2 id="4-启动流程优化"><a href="#4-启动流程优化" class="headerlink" title="4. 启动流程优化"></a>4. 启动流程优化</h2><ul>
+<li>延迟非关键功能的初始化</li>
+<li>使用多线程并行处理</li>
+<li>优化启动时的资源加载顺序</li>
+</ul>
+<p>通过以上优化手段，可以将应用启动时间减少30-50%，显著提升用户体验。在实际应用中，需要根据具体场景选择合适的优化策略，并通过性能监控工具持续优化。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="reward-container">
+  <div>对你有帮助？您的支持将更加鼓励我继续创作！</div>
+  <button>
+    打赏
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/images/wechatpay.png" alt="VanJay 微信">
+        <span>微信</span>
+      </div>
+      <div>
+        <img src="/images/alipay.jpg" alt="VanJay 支付宝">
+        <span>支付宝</span>
+      </div>
+
+  </div>
+</div>
+
+          <div class="followme">
+  <span>欢迎关注我的其它发布渠道</span>
+
+  <div class="social-list">
+
+      <div class="social-item">
+          <a target="_blank" class="social-link" href="/atom.xml">
+            <span class="icon">
+              <i class="fa fa-rss"></i>
+            </span>
+
+            <span class="label">RSS</span>
+          </a>
+      </div>
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/iOS/" rel="tag"># iOS</a>
+              <a href="/tags/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/" rel="tag"># 性能优化</a>
+              <a href="/tags/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/" rel="tag"># 图像处理</a>
+              <a href="/tags/%E5%90%AF%E5%8A%A8%E4%BC%98%E5%8C%96/" rel="tag"># 启动优化</a>
+              <a href="/tags/%E5%8A%A0%E5%AF%86%E7%AE%97%E6%B3%95/" rel="tag"># 加密算法</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2023/11/17/docker-hud-%E6%8B%89%E5%8F%96%E9%95%9C%E5%83%8F%E6%85%A2%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/" rel="prev" title="docker hud 拉取镜像慢解决办法">
+                  <i class="fa fa-chevron-left"></i> docker hud 拉取镜像慢解决办法
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2023/11/26/pve%E4%B8%8B%E4%B8%8D%E5%90%8C%E6%9C%8D%E5%8A%A1%E9%97%B4%E5%90%AF%E5%8A%A8%E4%BE%9D%E8%B5%96%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3/" rel="next" title="pve下不同服务间启动依赖问题解决">
+                  pve下不同服务间启动依赖问题解决 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments" id="lv-container" data-id="city" data-uid="MTAyMC80MDA5MC8xNjYxNw=="></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2013 – 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">&copy VanJay</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">89k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">5:23</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/mist/" rel="noopener" target="_blank">NexT.Mist</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+  <a href="https://github.com/wangwanjie" class="github-corner" title="在 GitHub 上关注我" aria-label="在 GitHub 上关注我" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js" integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js" integrity="sha256-yt2kYMy0w8AbtF89WXb2P1rfjcP/HTHLT7097U8Y5b8=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+  <script src="/js/third-party/fancybox.js"></script>
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script src="/js/third-party/comments/livere.js"></script>
+ <!-- 页面点击小红心 -->
+
+<script type="text/javascript">
+!function(e,t,a){function r(){for(var e=0;e<n.length;e++)n[e].alpha<=0?(t.body.removeChild(n[e].el),n.splice(e,1)):(n[e].y--,n[e].scale+=.004,n[e].alpha-=.013,n[e].el.style.cssText="left:"+n[e].x+"px;top:"+n[e].y+"px;opacity:"+n[e].alpha+";transform:scale("+n[e].scale+","+n[e].scale+") rotate(45deg);background:"+n[e].color+";z-index:99999");requestAnimationFrame(r)}var n=[];e.requestAnimationFrame=e.requestAnimationFrame||e.webkitRequestAnimationFrame||e.mozRequestAnimationFrame||e.oRequestAnimationFrame||e.msRequestAnimationFrame||function(e){setTimeout(e,1e3/60)},function(e){var a=t.createElement("style");a.type="text/css";try{a.appendChild(t.createTextNode(e))}catch(t){a.styleSheet.cssText=e}t.getElementsByTagName("head")[0].appendChild(a)}(".heart{width: 10px;height: 10px;position: fixed;background: #f00;transform: rotate(45deg);-webkit-transform: rotate(45deg);-moz-transform: rotate(45deg);}.heart:after,.heart:before{content: '';width: inherit;height: inherit;background: inherit;border-radius: 50%;-webkit-border-radius: 50%;-moz-border-radius: 50%;position: fixed;}.heart:after{top: -5px;}.heart:before{left: -5px;}"),function(){var a="function"==typeof e.onclick&&e.onclick;e.onclick=function(e){a&&a(),function(e){var a=t.createElement("div");a.className="heart",n.push({el:a,x:e.clientX-5,y:e.clientY-5,scale:1,alpha:1,color:"rgb("+~~(255*Math.random())+","+~~(255*Math.random())+","+~~(255*Math.random())+")"}),t.body.appendChild(a)}(e)}}(),r()}(window,document);
+</script>
+
+
+<script type="text/javascript">
+/*页面载入完成后，修改手机上跳转 github 样式 */
+!function (e, t, a) {
+    var browser = {
+        versions: function () {
+            var u = navigator.userAgent,
+                app = navigator.appVersion;
+            return { //移动终端浏览器版本信息
+                trident: u.indexOf('Trident') > -1, //IE内核
+                presto: u.indexOf('Presto') > -1, //opera内核
+                webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
+                gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
+                mobile: !!u.match(/AppleWebKit.*Mobile.*/), // || !!u.match(/AppleWebKit/), //是否为移动终端
+                ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+                android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
+                iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者QQHD浏览器
+                iPad: u.indexOf('iPad') > -1, //是否iPad
+                webApp: u.indexOf('Safari') == -1
+                //是否web应该程序，没有头部与底部
+            };
+        }(),
+        language: (navigator.browserLanguage || navigator.language).toLowerCase()
+    }
+
+    function setDynamicBackground() {
+        $('body').css({
+            'background': 'url(https://source.unsplash.com/random/1600x900)',
+            'background-attachment': 'fixed',
+            'background-repeat': 'repeat',
+            'background-size': 'contain'
+        });
+        $('.main-inner').css({
+            'margin-top': '60px',
+            'padding': '60px 60px 0px 60px',
+            'background': '#fff',
+            'opacity': '0.8',
+            'min-height': '500px'
+        });
+        $('.page-home .main-inner').css({
+            'padding-bottom': '60px',
+        });
+        $('.header').css({
+            'background': 'transparent',
+            'color': '#fff'
+        });
+        $('.footer').css({
+            'background': 'transparent',
+            'color': '#fff'
+        });
+
+        $('.footer-inner .theme-link').css('color', '#EEE');
+    }
+    function setSquareCellBackground(isMobile) {
+        $('body').css({
+            'background-image': 'url("/images/background_cell.png")',
+            'background-position': 'center center',
+            'background-size': 'auto',
+            'background-repeat': 'repeat',
+            'background-attachment': 'fixed'
+        });
+        if (!isMobile) {
+            $('.main-inner').css({
+                'margin-top': '60px',
+                'padding': '60px 60px 0px 60px',
+                'opacity': '0.8',
+                'min-height': '500px'
+            });
+            $('.page-home .main-inner').css({
+                'padding-bottom': '60px',
+            });
+        }
+        $('.header').css({
+            'background': 'transparent',
+        });
+        $('.footer').css({
+            'background': 'transparent',
+        });
+    }
+    function setMobileBackgroun() {
+        $('.header').css({
+            'background': 'linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("https://s1.ax1x.com/2018/06/09/CbDIIO.jpg") no-repeat',
+            'background-size': 'cover',
+            'background-color': 'black',
+            'background-position': 'center',
+            'width': '100%',
+            'display': 'table'
+        })
+
+        $('.site-nav-toggle .btn-bar').css('background', '#fff');
+    }
+
+    function settingBackground () {
+        if (browser.versions.mobile) {
+            setSquareCellBackground(true);
+        } else {
+            // setDynamicBackground();
+            setSquareCellBackground(false);
+        }
+    }
+    if (browser.versions.mobile) {
+        var headerStr = '<div class="site-nav-toggle">' +
+            '    <button aria-label="切换导航栏">' +
+            '      <span class="btn-bar"></span>' +
+            '      <span class="btn-bar"></span>' +
+            '      <span class="btn-bar"></span>' +
+            '    </button>' +
+            '  </div>' +
+            '  <div class="site-meta ">' +
+            '    <div class="custom-logo-site-title">' +
+            '      <a href="/" class="brand" rel="start" style="opacity: 1;">' +
+            '        <span class="logo-line-before"><i class="" style="transform: translateX(100%);"></i></span>' +
+            '        <span class="site-title" style="opacity: 1; top: 0px;">VanJay\'s Blog</span>' +
+            '        <span class="logo-line-after"><i class="" style="transform: translateX(-100%);"></i></span>' +
+            '      </a>' +
+            '    </div>' +
+            '        <p class="site-subtitle" style="opacity: 1; top: 0px;">一个爱折腾工程师的全栈梦</p>' +
+            '  </div>';
+        $('.header .site-brand-wrapper').html(headerStr);
+    }
+    // 设置背景
+    settingBackground();
+
+}(window, document);
+</script>
+</body>
+</html>

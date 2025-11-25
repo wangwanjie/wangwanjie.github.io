@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic%7CRoboto+Slab:300,300italic,400,400italic,700,700italic%7CPT+Mono:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css" integrity="sha256-Vzbj7sDDS/woiFS3uNKo8eIuni59rjyNGtXfstRzStA=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"blog.vanjay.cn","root":"/","images":"/images","scheme":"Mist","darkmode":false,"version":"8.16.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":"mac"},"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="背景近年来，苹果生态系统中的应用开发面临着越来越多的挑战。尤其是对于已经在多个平台发布应用的公司，如何减少开发人力投入并降低长期维护成本成了核心问题。我们团队在《酷狗音乐》的过程中，深刻感受到了这些问题的困扰。我们原本为iPad和Mac开发了不同版本，两个版本的代码库各自维护，不仅使得更新过程复杂，还让功能同步更加困难。得益于我们的iPad版本且已较成熟且已和手机版独立（改动影响面小），我们决定通">
+<meta property="og:type" content="article">
+<meta property="og:title" content="酷狗音乐MacCalyst实践总结">
+<meta property="og:url" content="https://blog.vanjay.cn/2024/12/16/%E9%85%B7%E7%8B%97%E9%9F%B3%E4%B9%90MacCalyst%E5%AE%9E%E8%B7%B5%E6%80%BB%E7%BB%93/index.html">
+<meta property="og:site_name" content="VanJay&#39;s Blog">
+<meta property="og:description" content="背景近年来，苹果生态系统中的应用开发面临着越来越多的挑战。尤其是对于已经在多个平台发布应用的公司，如何减少开发人力投入并降低长期维护成本成了核心问题。我们团队在《酷狗音乐》的过程中，深刻感受到了这些问题的困扰。我们原本为iPad和Mac开发了不同版本，两个版本的代码库各自维护，不仅使得更新过程复杂，还让功能同步更加困难。得益于我们的iPad版本且已较成熟且已和手机版独立（改动影响面小），我们决定通">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://blog.vanjay.cn/images/MacCatalyst/yuanli.png">
+<meta property="og:image" content="https://blog.vanjay.cn/images/MacCatalyst/progress.png">
+<meta property="og:image" content="https://blog.vanjay.cn/images/MacCatalyst/enable_support.png">
+<meta property="og:image" content="https://blog.vanjay.cn/images/MacCatalyst/problem.png">
+<meta property="og:image" content="https://blog.vanjay.cn/images/MacCatalyst/desktop_lyric.png">
+<meta property="og:image" content="https://blog.vanjay.cn/images/MacCatalyst/menu_bar_lyric.png">
+<meta property="og:image" content="https://blog.vanjay.cn/images/MacCatalyst/result.png">
+<meta property="og:image" content="https://blog.vanjay.cn/images/MacCatalyst/result2.png">
+<meta property="article:published_time" content="2024-12-16T08:53:25.000Z">
+<meta property="article:modified_time" content="2025-04-05T14:36:36.050Z">
+<meta property="article:author" content="VanJay">
+<meta property="article:tag" content="Mac">
+<meta property="article:tag" content="iOS">
+<meta property="article:tag" content="MacCatalyst">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://blog.vanjay.cn/images/MacCatalyst/yuanli.png">
+
+
+<link rel="canonical" href="https://blog.vanjay.cn/2024/12/16/%E9%85%B7%E7%8B%97%E9%9F%B3%E4%B9%90MacCalyst%E5%AE%9E%E8%B7%B5%E6%80%BB%E7%BB%93/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://blog.vanjay.cn/2024/12/16/%E9%85%B7%E7%8B%97%E9%9F%B3%E4%B9%90MacCalyst%E5%AE%9E%E8%B7%B5%E6%80%BB%E7%BB%93/","path":"2024/12/16/酷狗音乐MacCalyst实践总结/","title":"酷狗音乐MacCalyst实践总结"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>酷狗音乐MacCalyst实践总结 | VanJay's Blog</title>
+  
+
+  <script src="/js/third-party/analytics/baidu-analytics.js"></script>
+  <script async src="https://hm.baidu.com/hm.js?dcbe579f2b53b3adfd4034b7acee5785"></script>
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="VanJay's Blog" type="application/atom+xml">
+<link rel="alternate" href="/rss2.xml" title="VanJay's Blog" type="application/rss+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">VanJay's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">一个爱折腾工程师的全栈梦</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="home fa-fw"></i>首页</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-commonweal"><a href="/404.html" rel="section"><i class="heartbeat fa-fw"></i>公益 404</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="user fa-fw"></i>关于</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%83%8C%E6%99%AF"><span class="nav-number">1.</span> <span class="nav-text">背景</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#MacCatalyst-%E7%AE%80%E4%BB%8B"><span class="nav-number">1.1.</span> <span class="nav-text">MacCatalyst 简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E5%8E%9F%E7%90%86"><span class="nav-number">1.2.</span> <span class="nav-text">基本原理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%BC%94%E8%BF%9B%E8%BF%87%E7%A8%8B"><span class="nav-number">1.3.</span> <span class="nav-text">演进过程</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%BF%81%E7%A7%BB%E5%87%86%E5%A4%87"><span class="nav-number">2.</span> <span class="nav-text">迁移准备</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%9E%E8%B7%B5%E4%B8%AD%E8%A7%A3%E5%86%B3%E7%9A%84%E9%97%AE%E9%A2%98"><span class="nav-number">3.</span> <span class="nav-text">实践中解决的问题</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%E8%BF%9B%E5%88%B6%E5%BA%93%E5%A4%84%E7%90%86"><span class="nav-number">3.1.</span> <span class="nav-text">二进制库处理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BC%96%E8%AF%91%E6%8A%A5%E9%94%99%E5%A4%84%E7%90%86"><span class="nav-number">3.2.</span> <span class="nav-text">编译报错处理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B9%B3%E5%8F%B0%E7%89%B9%E5%AE%9A%E5%8A%9F%E8%83%BD%E5%B1%8F%E8%94%BD%E5%A4%84%E7%90%86"><span class="nav-number">3.3.</span> <span class="nav-text">平台特定功能屏蔽处理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%A1%B9%E7%9B%AE%E8%BF%90%E8%A1%8C%E9%85%8D%E7%BD%AE"><span class="nav-number">3.4.</span> <span class="nav-text">项目运行配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8AppKit%E5%BC%80%E5%8F%91%E6%A1%8C%E9%9D%A2%E7%BA%A7%E5%8A%9F%E8%83%BD"><span class="nav-number">3.5.</span> <span class="nav-text">使用AppKit开发桌面级功能</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A1%8C%E9%9D%A2%E6%AD%8C%E8%AF%8D"><span class="nav-number">3.5.1.</span> <span class="nav-text">桌面歌词</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%8F%9C%E5%8D%95%E6%A0%8F%E6%AD%8C%E8%AF%8D"><span class="nav-number">3.5.2.</span> <span class="nav-text">菜单栏歌词</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8C%81%E7%BB%AD%E9%9B%86%E6%88%90%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3"><span class="nav-number">3.6.</span> <span class="nav-text">持续集成遇到的问题解决</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%88%90%E6%9E%9C%E5%B1%95%E7%A4%BA"><span class="nav-number">4.</span> <span class="nav-text">成果展示</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">5.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%B1%95%E6%9C%9B"><span class="nav-number">6.</span> <span class="nav-text">展望</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="VanJay"
+      src="/images/head.png">
+  <p class="site-author-name" itemprop="name">VanJay</p>
+  <div class="site-description" itemprop="description">成功不是将来才有的<br>而是决定去做的那一刻起<br>持续累积而成</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">65</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">29</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">131</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/wangwanjie" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wangwanjie" rel="noopener me" target="_blank"><i class="github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/wangwanjie" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;wangwanjie" rel="noopener me" target="_blank"><i class="twitter fa-fw"></i>Twitter</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="http://www.weibo.com/2406245873/profile?topnav=1&wvr=6" title="微博 → http:&#x2F;&#x2F;www.weibo.com&#x2F;2406245873&#x2F;profile?topnav&#x3D;1&amp;wvr&#x3D;6" rel="noopener me" target="_blank"><i class="weibo fa-fw"></i>微博</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.facebook.com/wangwanjie123" title="Facebook → https:&#x2F;&#x2F;www.facebook.com&#x2F;wangwanjie123" rel="noopener me" target="_blank"><i class="facebook fa-fw"></i>Facebook</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="http://wpa.qq.com/msgrd?v=3&uin=396736694&site=qq&menu=yes" title="QQ → http:&#x2F;&#x2F;wpa.qq.com&#x2F;msgrd?v&#x3D;3&amp;uin&#x3D;396736694&amp;site&#x3D;qq&amp;menu&#x3D;yes" rel="noopener me" target="_blank"><i class="qq fa-fw"></i>QQ</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:vanjay,dev@gmail.com" title="E-Mail → mailto:vanjay,dev@gmail.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="sidebar-inner sidebar-blogroll">
+      <div class="links-of-blogroll animated">
+        <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+          链接
+        </div>
+        <ul class="links-of-blogroll-list">
+            <li class="links-of-blogroll-item">
+              <a href="https://www.vanjay.cn/" title="https:&#x2F;&#x2F;www.vanjay.cn" rel="noopener" target="_blank">VanJay</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://boxueio.com/" title="https:&#x2F;&#x2F;boxueio.com" rel="noopener" target="_blank">泊学网</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="http://www.smartisan.com/" title="http:&#x2F;&#x2F;www.smartisan.com&#x2F;" rel="noopener" target="_blank">锤子科技</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://objccn.io/" title="https:&#x2F;&#x2F;objccn.io&#x2F;" rel="noopener" target="_blank">ObjC中国</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://github.com/apple/swift-evolution" title="https:&#x2F;&#x2F;github.com&#x2F;apple&#x2F;swift-evolution" rel="noopener" target="_blank">Swift evolution</a>
+            </li>
+        </ul>
+      </div>
+    </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://blog.vanjay.cn/2024/12/16/%E9%85%B7%E7%8B%97%E9%9F%B3%E4%B9%90MacCalyst%E5%AE%9E%E8%B7%B5%E6%80%BB%E7%BB%93/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/head.png">
+      <meta itemprop="name" content="VanJay">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="VanJay's Blog">
+      <meta itemprop="description" content="成功不是将来才有的<br>而是决定去做的那一刻起<br>持续累积而成">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="酷狗音乐MacCalyst实践总结 | VanJay's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          酷狗音乐MacCalyst实践总结
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+  
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2024-12-16 16:53:25" itemprop="dateCreated datePublished" datetime="2024-12-16T16:53:25+08:00">2024-12-16</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2025-01-01 10:34:56" itemprop="dateModified" datetime="2025-01-01T10:34:56+08:00">2025-01-01</time>
+      
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Mac/" itemprop="url" rel="index"><span itemprop="name">Mac</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>2.4k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>9 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>近年来，苹果生态系统中的应用开发面临着越来越多的挑战。尤其是对于已经在多个平台发布应用的公司，如何减少开发人力投入并降低长期维护成本成了核心问题。我们团队在《酷狗音乐》的过程中，深刻感受到了这些问题的困扰。我们原本为iPad和Mac开发了不同版本，两个版本的代码库各自维护，不仅使得更新过程复杂，还让功能同步更加困难。得益于我们的iPad版本且已较成熟且已和手机版独立（改动影响面小），我们决定通过MacCatalyst技术将iPad应用扩展到Mac，以实现尽可能多的代码重用，也符合集团降本增效的治理宗旨。</p>
+<span id="more"></span>
+
+
+<h2 id="MacCatalyst-简介"><a href="#MacCatalyst-简介" class="headerlink" title="MacCatalyst 简介"></a>MacCatalyst 简介</h2><p>MacCatalyst是苹果公司自2019年随macOS Catalina 10.15起推出的一项技术，旨在帮助开发者将iPad应用移植到Mac平台。通过该技术，开发者可以在保留大部分iPad应用代码的基础上，迅速创建一个适配Mac系统的新应用。MacCatalyst在Xcode中得到了充分集成，并允许开发者利用现有的UIKit API，同时也能无缝地访问Mac特有的功能，比如菜单栏、鼠标输入等。</p>
+<h2 id="基本原理"><a href="#基本原理" class="headerlink" title="基本原理"></a>基本原理</h2><p>苹果在其开发者工具的不断演进中展现了极高的前瞻性。基础框架如 Foundation、libSystem 和 CoreGraphics 已被优化为多平台兼容，使得同一套代码可以在不同平台上运行变得愈加可行。而对于特定平台需求较高的框架，苹果通过将其动态库“复制”并适配到 Mac 平台来实现支持，这主要归功于共用的运行时框架（runtime）。这种技术革新正是 Mac Catalyst 得以实现的关键。自 macOS Catalina 推出后，iOS 平台的主流动态库已被内置在 macOS 系统中。借助苹果提供的转换工具，iOS 上的 UIKit 控件可以有效地桥接至 macOS 的 AppKit，从而实现应用的跨平台功能。</p>
+<img src="/images/MacCatalyst/yuanli.png"/>
+
+
+<h2 id="演进过程"><a href="#演进过程" class="headerlink" title="演进过程"></a>演进过程</h2><p>随着MacCatalyst的迭代与日渐成熟，苹果持续为其带来更新与优化，以下是近几年WWDC大会上带来的主要新功能：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://developer.apple.com/videos/play/wwdc2019/205">WWDC 2019</a>：首次发布MacCatalyst，标志着将iOS生态与macOS生态统一的步伐正式开启，强调基础API的重用。</li>
+<li><a target="_blank" rel="noopener" href="https://developer.apple.com/videos/play/wwdc2020/10094">WWDC 2020</a>：增强了对多窗口支持的API，同时引入了对鼠标和键盘操作的优化。</li>
+<li><a target="_blank" rel="noopener" href="https://developer.apple.com/videos/play/wwdc2021/10064">WWDC 2021</a>：引入了对全屏模式及系统快捷键的更多支持，并改善了性能表现。</li>
+<li><a target="_blank" rel="noopener" href="https://developer.apple.com/videos/play/wwdc2022/10071">WWDC 2022</a>：增加了与macOS特性更紧密结合的功能，如在菜单栏添加自定义菜单和更好地支持系统级别的拖放功能。</li>
+<li><a target="_blank" rel="noopener" href="https://developer.apple.com/cn/videos/play/wwdc2023/10055/?time=35">WWDC 2023</a>：提升了 Mac Catalyst 的 UIKit 特征系统，增强了 SwiftUI 集成，改进了视图控制器生命周期，引入了动画化符号和图像效果，以及针对文档中心应用和多语言支持的优化。</li>
+</ul>
+<img src="/images/MacCatalyst/progress.png"/>
+
+<p>这些更新让开发者看到了苹果在建设iOS生态与macOS生态统一的决心与成果，为开发者带来了更多的开发选择，这让我们对《酷狗音乐》的跨平台开发提供了强有力的技术可行性基础。</p>
+<h1 id="迁移准备"><a href="#迁移准备" class="headerlink" title="迁移准备"></a>迁移准备</h1><p>从Xcode 12.2开始，Xcode 便支持了开启App支持MacCatalyst的选项，时至今日的Xcode 16，界面上在不断优化，开启MacCatalyst支持很简单，以最新的Xcode 16为例，开启MacCatalyst支持的步骤如下：</p>
+<ul>
+<li>打开Xcode项目：首先，使用Xcode打开现有的iPad项目，并确保所有依赖项和设置都已经正确配置。</li>
+<li>选择目标(Target)：在Xcode中，导航到“Targets”区域，选择你想要支持MacCatalyst的iPad应用目标。</li>
+<li>开启Mac支持：点击“General”选项卡，找到“Supported Destinations”部分。点击“+”加号，添加Mac-Mac Catalyst，这将启用MacCatalyst支持。此操作会将目标扩展到macOS，Xcode 会自动生成相关配置，比如添加沙盒权限部分，自动处理跨平台的能力为多平台共享等</li>
+</ul>
+<img src="/images/MacCatalyst/enable_support.png"/>
+
+
+<h1 id="实践中解决的问题"><a href="#实践中解决的问题" class="headerlink" title="实践中解决的问题"></a>实践中解决的问题</h1><img src="/images/MacCatalyst/problem.png"/>
+
+<h2 id="二进制库处理"><a href="#二进制库处理" class="headerlink" title="二进制库处理"></a>二进制库处理</h2><p>由于是历史项目，所以较多二三方二进制库都还是.a或者Framework单一形式存在的动态或者静态库，不满足MacCatalyst的使用，这里所有的三方库都要使用xcframework，有个注意点，如果使用 cocoapods，且一个 podspec 包含多个 xcframework，不可使用通配符，需类似这样处理：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">xcframework_name_list <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">'libfdk-aac'</span>, <span class="token string">'libffmpeg'</span>, <span class="token string">'libopencore-amrnb'</span>, <span class="token string">'librtmp'</span>, <span class="token string">'libshine'</span>, <span class="token string">'libx264'</span><span class="token punctuation">]</span>
+  xcframework_name_list.each <span class="token keyword">do</span> <span class="token operator">|</span>name<span class="token operator">|</span>
+    subspec_name <span class="token operator">=</span> name.gsub<span class="token punctuation">(</span>/^lib/, <span class="token string">''</span><span class="token punctuation">)</span>
+    s.subspec subspec_name <span class="token keyword">do</span> <span class="token operator">|</span>subspec<span class="token operator">|</span>
+      subspec.vendored_frameworks <span class="token operator">=</span> <span class="token string">"FFmpeg/Frameworks/#&#123;name&#125;.xcframework"</span>
+    end
+  end<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h2 id="编译报错处理"><a href="#编译报错处理" class="headerlink" title="编译报错处理"></a>编译报错处理</h2><p>在迁移过程中，编译错误是不可避免的，尤其是一些跨平台的相关API在MacCatalyst上并不支持。我们处理这些问题的策略包括：</p>
+<ul>
+<li>逐个分析错误信息：阅读详细的错误日志，明确是哪部分代码导致了问题。</li>
+<li>修改不兼容的API调用：针对这些问题，我们使用条件编译，以确保应用能够在MacCatalyst以及iPad下环境下都可正常运行。<br>条件编译判断代码</li>
+</ul>
+<pre class="line-numbers language-none"><code class="language-none">&#x2F;&#x2F; OC
+#if TARGET_OS_MACCATALYST
+&#x2F;&#x2F; coding here
+#endif
+
+&#x2F;&#x2F; Swift
+#if targetEnvironment(macCatalyst))
+&#x2F;&#x2F; coding here
+#endif<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+<h2 id="平台特定功能屏蔽处理"><a href="#平台特定功能屏蔽处理" class="headerlink" title="平台特定功能屏蔽处理"></a>平台特定功能屏蔽处理</h2><p>对于一些只对于特定平台适用的使用习惯，比如</p>
+<ul>
+<li>列表类界面的下拉刷新、上拉加载更多，这些在移动平台更加适用的行为在MacCatalyst平台需要特殊处理，比如使用类似网页的分页控件，刷新则在合适的位置提供刷新按钮</li>
+<li>对于一些在iPad端运行良好可横向滚动的控件，在MacCatalyst端添加鼠标hover时的左右滚动按钮，以更适应桌面端的用户操作行为</li>
+</ul>
+<h2 id="项目运行配置"><a href="#项目运行配置" class="headerlink" title="项目运行配置"></a>项目运行配置</h2><p>除了代码调整外，项目的配置文件也需要特别处理。常见的配置调整包括：</p>
+<ul>
+<li>为不同destination配置不同Info.plist：iPad和MacCatalyst配置文件差异较大且影响严重，应做配置隔离；</li>
+<li>准确处理membership：多平台开发中，平台特性的文件或资源在所难免，应准确处理代码的membership或者是否copy到对应bundle逻辑；</li>
+<li>使用cocoapods插件：由于部分二三方库无法构建xcframework或者本身不支持MacCatalyst（比如GLKit只能转为使用Metal），这部分pod需要处理链接选项以及处理xcconfig的架构排除，使得不用重新pod便可同时运行iPad和MacCatalyst目标</li>
+</ul>
+<pre class="line-numbers language-none"><code class="language-none">root_path &#x3D; Pathname.new(File.dirname(__FILE__)).realpath
+mac_catalyst_satisfy_file &#x3D; &quot;#&#123;root_path&#125;&#x2F;Script&#x2F;mac_catalyst_satisfy.rb&quot;
+catalyst_gem_path &#x3D; &quot;#&#123;root_path&#125;&#x2F;Script&#x2F;MacCatalyst&#x2F;dependency&#x2F;cocoapods-catalyst-support-0.2.1.gem&quot;
+if File.exist?(mac_catalyst_satisfy_file) and File.exist?(catalyst_gem_path)
+  require mac_catalyst_satisfy_file
+  adapter &#x3D; KuGou::MacCatalystAdapter.new
+  adapter.ensure_gem_installed(catalyst_gem_path)
+end
+require &#39;cocoapods-catalyst-support&#39;
+
+platform :ios, &#39;11.0&#39;
+kg_catalyst_configuration do
+  ios &#39;KGShortVideoSDK&#39;
+  ios &#39;KGSharedSDK&#39;
+  ...
+end<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+<h2 id="使用AppKit开发桌面级功能"><a href="#使用AppKit开发桌面级功能" class="headerlink" title="使用AppKit开发桌面级功能"></a>使用AppKit开发桌面级功能</h2><p>作为一款音乐类应用，提供桌面平台的菜单栏歌词和桌面歌词功能似乎是“理所当然”的需求。在使用MacCatalyst的过程中，我们也面临了这一挑战。由于MacCatalyst对NSWindow级别的控制存在局限性，对NSStatusBar的支持也相对有限，我们无法直接实现这些功能。因此，我们采用了Mac平台的Plugin机制，结合Cocoa和AppKit，成功开发并实现了桌面歌词和菜单栏歌词功能，为用户提供了更加符合桌面体验的交互方式。</p>
+<h3 id="桌面歌词"><a href="#桌面歌词" class="headerlink" title="桌面歌词"></a>桌面歌词</h3><img src="/images/MacCatalyst/desktop_lyric.png"/>
+
+<h3 id="菜单栏歌词"><a href="#菜单栏歌词" class="headerlink" title="菜单栏歌词"></a>菜单栏歌词</h3><img src="/images/MacCatalyst/menu_bar_lyric.png"/>
+
+<h2 id="持续集成遇到的问题解决"><a href="#持续集成遇到的问题解决" class="headerlink" title="持续集成遇到的问题解决"></a>持续集成遇到的问题解决</h2><p>由于我们采用了Mac平台的Plugin机制，其构建参数与MacCatalyst的构建参数存在差异。如果仅构建主应用的target，xcodebuild会错误地将不支持的参数传递给Plugin的target导致归档失败。因此，在CI流程中，所有Plugin的代码必须单独构建（包括那些具有多个target的membership代码）。随后，在archive阶段，将这些Plugin嵌入到主应用的archive文件中。我们还实现了全自动打包流程，无需依赖外部工具，并完成了DMG的封装、美化、公证以及协议注入，显著提升了持续集成的效率和自动化水平。</p>
+<h1 id="成果展示"><a href="#成果展示" class="headerlink" title="成果展示"></a>成果展示</h1><img src="/images/MacCatalyst/result.png"/>
+<img src="/images/MacCatalyst/result2.png"/>
+    
+
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>通过使用MacCatalyst技术，我们成功将《酷狗音乐》iPad版移植到了Mac平台。借助MacCatalyst，我们实现了超过95%的代码重用，大幅降低了维护成本。同时，我们根据Mac用户的交互习惯，进行了针对性的优化，提供了流畅而自然的用户体验。</p>
+<h1 id="展望"><a href="#展望" class="headerlink" title="展望"></a>展望</h1><p>展望未来，我们计划继续关注MacCatalyst的更新动向，积极拥抱苹果推出的新功能，以进一步提升用户体验。此外，我们也在探索如何更好地利用SwiftUI与MacCatalyst结合，为未来的开发带来更多灵活性。我们坚信，MacCatalyst将为更多开发者带来无限可能，而《酷狗音乐》也将在这个统一生态中继续为用户提供最佳的音乐体验。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="reward-container">
+  <div>对你有帮助？您的支持将更加鼓励我继续创作！</div>
+  <button>
+    打赏
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/images/wechatpay.png" alt="VanJay 微信">
+        <span>微信</span>
+      </div>
+      <div>
+        <img src="/images/alipay.jpg" alt="VanJay 支付宝">
+        <span>支付宝</span>
+      </div>
+
+  </div>
+</div>
+
+          <div class="followme">
+  <span>欢迎关注我的其它发布渠道</span>
+
+  <div class="social-list">
+
+      <div class="social-item">
+          <a target="_blank" class="social-link" href="/atom.xml">
+            <span class="icon">
+              <i class="fa fa-rss"></i>
+            </span>
+
+            <span class="label">RSS</span>
+          </a>
+      </div>
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/Mac/" rel="tag"># Mac</a>
+              <a href="/tags/iOS/" rel="tag"># iOS</a>
+              <a href="/tags/MacCatalyst/" rel="tag"># MacCatalyst</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2024/09/25/%E7%8E%B0%E6%9C%89%E5%B7%A5%E7%A8%8B-Xcode-16-%E9%80%82%E9%85%8D%E6%8C%87%E5%8D%97/" rel="prev" title="现有工程 Xcode 16 适配指南">
+                  <i class="fa fa-chevron-left"></i> 现有工程 Xcode 16 适配指南
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2025/04/01/%E5%AE%B6%E5%AE%BD%E6%97%A0%E5%85%AC%E7%BD%91IP%E4%BD%BF%E7%94%A8lucky%E8%BF%9B%E8%A1%8CSTUN%E7%A9%BF%E9%80%8F%E6%90%AD%E9%85%8Dcloudflare%E9%85%8D%E7%BD%AE%E9%87%8D%E5%AE%9A%E5%90%91%E5%AE%9E%E7%8E%B0%E6%97%A0%E8%A7%86%E7%AB%AF%E5%8F%A3%E5%8F%98%E5%8C%96/" rel="next" title="家宽无公网IP使用lucky进行STUN穿透搭配cloudflare配置重定向实现无视端口变化">
+                  家宽无公网IP使用lucky进行STUN穿透搭配cloudflare配置重定向实现无视端口变化 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments" id="lv-container" data-id="city" data-uid="MTAyMC80MDA5MC8xNjYxNw=="></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2013 – 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">&copy VanJay</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">89k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">5:23</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/mist/" rel="noopener" target="_blank">NexT.Mist</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+  <a href="https://github.com/wangwanjie" class="github-corner" title="在 GitHub 上关注我" aria-label="在 GitHub 上关注我" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js" integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js" integrity="sha256-yt2kYMy0w8AbtF89WXb2P1rfjcP/HTHLT7097U8Y5b8=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+  <script src="/js/third-party/fancybox.js"></script>
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script src="/js/third-party/comments/livere.js"></script>
+ <!-- 页面点击小红心 -->
+
+<script type="text/javascript">
+!function(e,t,a){function r(){for(var e=0;e<n.length;e++)n[e].alpha<=0?(t.body.removeChild(n[e].el),n.splice(e,1)):(n[e].y--,n[e].scale+=.004,n[e].alpha-=.013,n[e].el.style.cssText="left:"+n[e].x+"px;top:"+n[e].y+"px;opacity:"+n[e].alpha+";transform:scale("+n[e].scale+","+n[e].scale+") rotate(45deg);background:"+n[e].color+";z-index:99999");requestAnimationFrame(r)}var n=[];e.requestAnimationFrame=e.requestAnimationFrame||e.webkitRequestAnimationFrame||e.mozRequestAnimationFrame||e.oRequestAnimationFrame||e.msRequestAnimationFrame||function(e){setTimeout(e,1e3/60)},function(e){var a=t.createElement("style");a.type="text/css";try{a.appendChild(t.createTextNode(e))}catch(t){a.styleSheet.cssText=e}t.getElementsByTagName("head")[0].appendChild(a)}(".heart{width: 10px;height: 10px;position: fixed;background: #f00;transform: rotate(45deg);-webkit-transform: rotate(45deg);-moz-transform: rotate(45deg);}.heart:after,.heart:before{content: '';width: inherit;height: inherit;background: inherit;border-radius: 50%;-webkit-border-radius: 50%;-moz-border-radius: 50%;position: fixed;}.heart:after{top: -5px;}.heart:before{left: -5px;}"),function(){var a="function"==typeof e.onclick&&e.onclick;e.onclick=function(e){a&&a(),function(e){var a=t.createElement("div");a.className="heart",n.push({el:a,x:e.clientX-5,y:e.clientY-5,scale:1,alpha:1,color:"rgb("+~~(255*Math.random())+","+~~(255*Math.random())+","+~~(255*Math.random())+")"}),t.body.appendChild(a)}(e)}}(),r()}(window,document);
+</script>
+
+
+<script type="text/javascript">
+/*页面载入完成后，修改手机上跳转 github 样式 */
+!function (e, t, a) {
+    var browser = {
+        versions: function () {
+            var u = navigator.userAgent,
+                app = navigator.appVersion;
+            return { //移动终端浏览器版本信息
+                trident: u.indexOf('Trident') > -1, //IE内核
+                presto: u.indexOf('Presto') > -1, //opera内核
+                webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
+                gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
+                mobile: !!u.match(/AppleWebKit.*Mobile.*/), // || !!u.match(/AppleWebKit/), //是否为移动终端
+                ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+                android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
+                iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者QQHD浏览器
+                iPad: u.indexOf('iPad') > -1, //是否iPad
+                webApp: u.indexOf('Safari') == -1
+                //是否web应该程序，没有头部与底部
+            };
+        }(),
+        language: (navigator.browserLanguage || navigator.language).toLowerCase()
+    }
+
+    function setDynamicBackground() {
+        $('body').css({
+            'background': 'url(https://source.unsplash.com/random/1600x900)',
+            'background-attachment': 'fixed',
+            'background-repeat': 'repeat',
+            'background-size': 'contain'
+        });
+        $('.main-inner').css({
+            'margin-top': '60px',
+            'padding': '60px 60px 0px 60px',
+            'background': '#fff',
+            'opacity': '0.8',
+            'min-height': '500px'
+        });
+        $('.page-home .main-inner').css({
+            'padding-bottom': '60px',
+        });
+        $('.header').css({
+            'background': 'transparent',
+            'color': '#fff'
+        });
+        $('.footer').css({
+            'background': 'transparent',
+            'color': '#fff'
+        });
+
+        $('.footer-inner .theme-link').css('color', '#EEE');
+    }
+    function setSquareCellBackground(isMobile) {
+        $('body').css({
+            'background-image': 'url("/images/background_cell.png")',
+            'background-position': 'center center',
+            'background-size': 'auto',
+            'background-repeat': 'repeat',
+            'background-attachment': 'fixed'
+        });
+        if (!isMobile) {
+            $('.main-inner').css({
+                'margin-top': '60px',
+                'padding': '60px 60px 0px 60px',
+                'opacity': '0.8',
+                'min-height': '500px'
+            });
+            $('.page-home .main-inner').css({
+                'padding-bottom': '60px',
+            });
+        }
+        $('.header').css({
+            'background': 'transparent',
+        });
+        $('.footer').css({
+            'background': 'transparent',
+        });
+    }
+    function setMobileBackgroun() {
+        $('.header').css({
+            'background': 'linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("https://s1.ax1x.com/2018/06/09/CbDIIO.jpg") no-repeat',
+            'background-size': 'cover',
+            'background-color': 'black',
+            'background-position': 'center',
+            'width': '100%',
+            'display': 'table'
+        })
+
+        $('.site-nav-toggle .btn-bar').css('background', '#fff');
+    }
+
+    function settingBackground () {
+        if (browser.versions.mobile) {
+            setSquareCellBackground(true);
+        } else {
+            // setDynamicBackground();
+            setSquareCellBackground(false);
+        }
+    }
+    if (browser.versions.mobile) {
+        var headerStr = '<div class="site-nav-toggle">' +
+            '    <button aria-label="切换导航栏">' +
+            '      <span class="btn-bar"></span>' +
+            '      <span class="btn-bar"></span>' +
+            '      <span class="btn-bar"></span>' +
+            '    </button>' +
+            '  </div>' +
+            '  <div class="site-meta ">' +
+            '    <div class="custom-logo-site-title">' +
+            '      <a href="/" class="brand" rel="start" style="opacity: 1;">' +
+            '        <span class="logo-line-before"><i class="" style="transform: translateX(100%);"></i></span>' +
+            '        <span class="site-title" style="opacity: 1; top: 0px;">VanJay\'s Blog</span>' +
+            '        <span class="logo-line-after"><i class="" style="transform: translateX(-100%);"></i></span>' +
+            '      </a>' +
+            '    </div>' +
+            '        <p class="site-subtitle" style="opacity: 1; top: 0px;">一个爱折腾工程师的全栈梦</p>' +
+            '  </div>';
+        $('.header .site-brand-wrapper').html(headerStr);
+    }
+    // 设置背景
+    settingBackground();
+
+}(window, document);
+</script>
+</body>
+</html>

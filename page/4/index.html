@@ -157,18 +157,18 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">53</span>
+          <span class="site-state-item-count">65</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
           <a href="/categories/">
-        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-count">29</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">103</span>
+        <span class="site-state-item-count">131</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -238,7 +238,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://blog.vanjay.cn/2018/06/18/iOS%E9%87%8C%E5%85%B3%E4%BA%8Eblock%E7%9A%84%E4%B8%80%E4%BA%9B%E7%90%86%E8%A7%A3/">
+    <link itemprop="mainEntityOfPage" href="https://blog.vanjay.cn/2019/02/15/%E5%85%8D%E8%B6%8A%E7%8B%B1%E9%92%89%E9%92%89%E8%BF%9C%E7%A8%8B%E6%89%93%E5%8D%A1/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/head.png">
@@ -256,27 +256,19 @@
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/2018/06/18/iOS%E9%87%8C%E5%85%B3%E4%BA%8Eblock%E7%9A%84%E4%B8%80%E4%BA%9B%E7%90%86%E8%A7%A3/" class="post-title-link" itemprop="url">iOS里关于block的一些理解</a>
+          <a href="/2019/02/15/%E5%85%8D%E8%B6%8A%E7%8B%B1%E9%92%89%E9%92%89%E8%BF%9C%E7%A8%8B%E6%89%93%E5%8D%A1/" class="post-title-link" itemprop="url">免越狱钉钉远程打卡</a>
         </h2>
 
         <div class="post-meta-container">
           <div class="post-meta">
-  
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2018-06-18 22:21:21" itemprop="dateCreated datePublished" datetime="2018-06-18T22:21:21+08:00">2018-06-18</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2018-06-19 10:54:56" itemprop="dateModified" datetime="2018-06-19T10:54:56+08:00">2018-06-19</time>
       
+
+      <time title="创建时间：2019-02-15 14:22:06 / 修改时间：15:12:59" itemprop="dateCreated datePublished" datetime="2019-02-15T14:22:06+08:00">2019-02-15</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -284,7 +276,7 @@
       </span>
       <span class="post-meta-item-text">分类于</span>
         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/iOS/" itemprop="url" rel="index"><span itemprop="name">iOS</span></a>
+          <a href="/categories/%E5%B7%A5%E5%85%B7%E6%95%99%E7%A8%8B/" itemprop="url" rel="index"><span itemprop="name">工具教程</span></a>
         </span>
     </span>
 
@@ -295,14 +287,14 @@
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>2.2k</span>
+      <span>461</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>8 分钟</span>
+      <span>2 分钟</span>
     </span>
 </div>
 
@@ -313,10 +305,12 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>block实际上就是Objective-C语言对于闭包的实现。<br>block配合上dispatch_queue，可以方便地实现简单的多线程编程和异步编程。<br>（闭包是一个函数（或指向函数的指针），再加上该函数执行的外部的上下文变量（有时候也称作自由变量）。）</p>
+          <blockquote>
+<p>无需越狱，解决 iOS 版钉钉远程打卡<br>折腾记录，备忘</p>
+</blockquote>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2018/06/18/iOS%E9%87%8C%E5%85%B3%E4%BA%8Eblock%E7%9A%84%E4%B8%80%E4%BA%9B%E7%90%86%E8%A7%A3/#more" rel="contents">
+              <a class="btn" href="/2019/02/15/%E5%85%8D%E8%B6%8A%E7%8B%B1%E9%92%89%E9%92%89%E8%BF%9C%E7%A8%8B%E6%89%93%E5%8D%A1/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -347,7 +341,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://blog.vanjay.cn/2018/04/13/%E4%BD%BF%E7%94%A8Nginx%E5%9C%A8%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B8%8A%E5%BC%80%E5%90%AFWeb%E6%96%87%E4%BB%B6%E6%9C%8D%E5%8A%A1/">
+    <link itemprop="mainEntityOfPage" href="https://blog.vanjay.cn/2019/01/05/Ubuntu%2018.04%20%E7%BC%96%E8%AF%91%20Android%20%E6%BA%90%E7%A0%81/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/head.png">
@@ -365,7 +359,337 @@
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/2018/04/13/%E4%BD%BF%E7%94%A8Nginx%E5%9C%A8%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B8%8A%E5%BC%80%E5%90%AFWeb%E6%96%87%E4%BB%B6%E6%9C%8D%E5%8A%A1/" class="post-title-link" itemprop="url">Nginx配置启用Web文件服务器</a>
+          <a href="/2019/01/05/Ubuntu%2018.04%20%E7%BC%96%E8%AF%91%20Android%20%E6%BA%90%E7%A0%81/" class="post-title-link" itemprop="url">Ubuntu 18.04 编译 Android 源码</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2019-01-05 16:00:51" itemprop="dateCreated datePublished" datetime="2019-01-05T16:00:51+08:00">2019-01-05</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2019-01-07 10:33:13" itemprop="dateModified" datetime="2019-01-07T10:33:13+08:00">2019-01-07</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Android/" itemprop="url" rel="index"><span itemprop="name">Android</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>1.5k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>5 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <blockquote>
+<p>Android 源码编译的四个流程:</p>
+</blockquote>
+<ul>
+<li>源码下载;</li>
+<li>构建编译环境;</li>
+<li>编译源码;</li>
+<li>模拟器运行</li>
+</ul>
+<h1 id="源码下载"><a href="#源码下载" class="headerlink" title="源码下载"></a>源码下载</h1><ul>
+<li><p>首先确保自己已经安装了Git.</p>
+  <pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">sudo</span> <span class="token function">apt-get</span> <span class="token function">install</span> <span class="token function">git</span> 
+<span class="token function">git</span> config –global user.email “your_email” 
+<span class="token function">git</span> config –global user.name “your_name”<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre></li>
+</ul>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2019/01/05/Ubuntu%2018.04%20%E7%BC%96%E8%AF%91%20Android%20%E6%BA%90%E7%A0%81/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://blog.vanjay.cn/2019/01/05/Ubuntu-18-04-%E6%B7%BB%E5%8A%A0%E3%80%81%E4%BF%AE%E6%94%B9%E4%BA%A4%E6%8D%A2%E7%A9%BA%E9%97%B4/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/head.png">
+      <meta itemprop="name" content="VanJay">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="VanJay's Blog">
+      <meta itemprop="description" content="成功不是将来才有的<br>而是决定去做的那一刻起<br>持续累积而成">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | VanJay's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2019/01/05/Ubuntu-18-04-%E6%B7%BB%E5%8A%A0%E3%80%81%E4%BF%AE%E6%94%B9%E4%BA%A4%E6%8D%A2%E7%A9%BA%E9%97%B4/" class="post-title-link" itemprop="url">Ubuntu 18.04 添加、修改交换空间</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2019-01-05 14:35:17 / 修改时间：15:37:49" itemprop="dateCreated datePublished" datetime="2019-01-05T14:35:17+08:00">2019-01-05</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>1.4k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>5 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="检查系统的交换信息"><a href="#检查系统的交换信息" class="headerlink" title="检查系统的交换信息"></a>检查系统的交换信息</h1><p>查看是否已经存在<code>swapfile</code></p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">sudo</span> <span class="token function">swapon</span> <span class="token parameter variable">--show</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>如果您没有收到任何输出，这意味着您的系统当前没有可用的交换空间。</p>
+<p>您可以使用<code>free</code>实用程序验证没有活动交换：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">tungee@tungee-Macmini:~$ <span class="token function">free</span> <span class="token parameter variable">-h</span>
+              total        used        <span class="token function">free</span>      shared  buff/cache   available
+Mem:           <span class="token number">7</span>.7G        <span class="token number">6</span>.0G        <span class="token number">1</span>.2G         97M        439M        <span class="token number">1</span>.3G
+Swap:          <span class="token number">8</span>.0G        <span class="token number">4</span>.1G        <span class="token number">3</span>.9G<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2019/01/05/Ubuntu-18-04-%E6%B7%BB%E5%8A%A0%E3%80%81%E4%BF%AE%E6%94%B9%E4%BA%A4%E6%8D%A2%E7%A9%BA%E9%97%B4/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://blog.vanjay.cn/2018/12/29/Appium-mitmproxy-%E5%85%A8%E8%87%AA%E5%8A%A8%E5%8C%96%E6%8A%93%E5%8F%96APP-%E6%95%B0%E6%8D%AE/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/head.png">
+      <meta itemprop="name" content="VanJay">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="VanJay's Blog">
+      <meta itemprop="description" content="成功不是将来才有的<br>而是决定去做的那一刻起<br>持续累积而成">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | VanJay's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2018/12/29/Appium-mitmproxy-%E5%85%A8%E8%87%AA%E5%8A%A8%E5%8C%96%E6%8A%93%E5%8F%96APP-%E6%95%B0%E6%8D%AE/" class="post-title-link" itemprop="url">Appium + mitmproxy 全自动化抓取APP 数据</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2018-12-29 15:34:11 / 修改时间：18:23:27" itemprop="dateCreated datePublished" datetime="2018-12-29T15:34:11+08:00">2018-12-29</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E7%88%AC%E8%99%AB/" itemprop="url" rel="index"><span itemprop="name">爬虫</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>3.4k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>12 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>公司新接到一个某某公司的一个项目需求，其中有一个子项是抓取诸如今日头条、网易新闻、腾讯新闻等新闻类 APP 的新闻，远端根据一个关键词或者一个主账号名称查找获取关于该关键词的所有新闻或主账号下的所有文章，通过简单的抓包分析，发现只有少数 APP 网络请求参数未做签名处理，像这类的能直接分析 url 和 param，利用 python 全自动化获取数据，但是大部分比如网易新闻这类 APP 安全级别较高，参数做了加密或者签名校验，服务端也有同一签名的请求访问次数限制，所以在这样的情况下想要直接获取通过外部调用获取数据几乎变得不可能。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2018/12/29/Appium-mitmproxy-%E5%85%A8%E8%87%AA%E5%8A%A8%E5%8C%96%E6%8A%93%E5%8F%96APP-%E6%95%B0%E6%8D%AE/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://blog.vanjay.cn/2018/11/06/Linux-%E5%8A%A8%E6%80%81%E8%B0%83%E6%95%B4%E5%88%86%E5%8C%BA%E5%A4%A7%E5%B0%8F/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/head.png">
+      <meta itemprop="name" content="VanJay">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="VanJay's Blog">
+      <meta itemprop="description" content="成功不是将来才有的<br>而是决定去做的那一刻起<br>持续累积而成">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | VanJay's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2018/11/06/Linux-%E5%8A%A8%E6%80%81%E8%B0%83%E6%95%B4%E5%88%86%E5%8C%BA%E5%A4%A7%E5%B0%8F/" class="post-title-link" itemprop="url">Linux 动态调整分区大小</a>
         </h2>
 
         <div class="post-meta-container">
@@ -376,16 +700,10 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2018-04-13 22:32:40" itemprop="dateCreated datePublished" datetime="2018-04-13T22:32:40+08:00">2018-04-13</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2018-04-14 23:20:59" itemprop="dateModified" datetime="2018-04-14T23:20:59+08:00">2018-04-14</time>
+        
       
+
+      <time title="创建时间：2018-11-06 01:55:03 / 修改时间：02:30:21" itemprop="dateCreated datePublished" datetime="2018-11-06T01:55:03+08:00">2018-11-06</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -393,11 +711,117 @@
       </span>
       <span class="post-meta-item-text">分类于</span>
         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E6%9C%8D%E5%8A%A1%E5%99%A8/" itemprop="url" rel="index"><span itemprop="name">服务器</span></a>
+          <a href="/categories/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a>
         </span>
-          ，
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>887</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>3 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p><code>Ubuntu</code>根分区<code>\</code>空间告急，即将使用完毕</p>
+<h1 id="先清理出一定空间"><a href="#先清理出一定空间" class="headerlink" title="先清理出一定空间"></a>先清理出一定空间</h1><h2 id="移除不再需要的软件包"><a href="#移除不再需要的软件包" class="headerlink" title="移除不再需要的软件包"></a>移除不再需要的软件包</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">sudo</span> <span class="token function">apt</span> autoremove<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<h2 id="清理Ubuntu中的APT缓存"><a href="#清理Ubuntu中的APT缓存" class="headerlink" title="清理Ubuntu中的APT缓存"></a>清理Ubuntu中的APT缓存</h2>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2018/11/06/Linux-%E5%8A%A8%E6%80%81%E8%B0%83%E6%95%B4%E5%88%86%E5%8C%BA%E5%A4%A7%E5%B0%8F/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://blog.vanjay.cn/2018/10/12/Jenkins%20master-slave%20%E7%9A%84%E5%BA%94%E7%94%A8%E5%8F%8A%20iOS%20%E9%A1%B9%E7%9B%AE%E6%8C%81%E7%BB%AD%E9%9B%86%E6%88%90/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/head.png">
+      <meta itemprop="name" content="VanJay">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="VanJay's Blog">
+      <meta itemprop="description" content="成功不是将来才有的<br>而是决定去做的那一刻起<br>持续累积而成">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | VanJay's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2018/10/12/Jenkins%20master-slave%20%E7%9A%84%E5%BA%94%E7%94%A8%E5%8F%8A%20iOS%20%E9%A1%B9%E7%9B%AE%E6%8C%81%E7%BB%AD%E9%9B%86%E6%88%90/" class="post-title-link" itemprop="url">Jenkins master-slave 的应用及 iOS 项目持续集成</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2018-10-12 19:27:00" itemprop="dateCreated datePublished" datetime="2018-10-12T19:27:00+08:00">2018-10-12</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2018-10-13 10:30:38" itemprop="dateModified" datetime="2018-10-13T10:30:38+08:00">2018-10-13</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E6%9C%8D%E5%8A%A1%E5%99%A8/%E8%BF%90%E7%BB%B4/" itemprop="url" rel="index"><span itemprop="name">运维</span></a>
+          <a href="/categories/%E5%B7%A5%E7%A8%8B%E8%87%AA%E5%8A%A8%E5%8C%96/" itemprop="url" rel="index"><span itemprop="name">工程自动化</span></a>
         </span>
     </span>
 
@@ -426,10 +850,10 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>随着互联网的快速发展，有时我们需要一个能快速、稳定且安全地存取和分享文件的在线服务。可能你是一个开发者，需要分享你的代码库；也可能你是一名摄影师，想要分享你的作品；或者你只是希望能在不同设备之间方便地存取文件。无论哪种情况，一个Web文件服务都可以满足你的需求。</p>
+          <h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>在公司一台服务机上搭建了<code>Jenkins</code>，<code>Linux</code>环境，主要用于<code>WEP 前端</code>、<code>Android</code>、<code>iOS</code>的<code>CI</code>服务，在没有过多去了解的情况下，我想当然的以为如果要打包 <code>iOS</code>，<code>Jenkins</code>宿主机系统环境必须是<code>MacOS</code>，因为知道除了<code>Mac</code>，其它系统均无法打包<code>iOS</code>或<code>Mac</code>应用程序（当然这点在目前看来仍然是对的），于是在公司那台硬盘只剩下可怜巴巴的<code>20G</code>空间的<code>Mac mini</code>上安装了<code>Jenkins</code>，叫安卓同事把他的<code>Jenkins job</code>又重新放在了<code>Mac mini</code>上，本想着事情就这么不完美的收尾了，今天忽然在群里看见开发者朋友讨论<code>Jenkins</code>说到<code>Jenkins</code>支持<code>master-slave</code>（主从）模式，支持非宿主机作为一个<code>Node</code>节点为其服务，一脸蒙蔽，又要把<code>Jenkins</code>放回<code>Ubuntu</code>，让这台<code>mini</code>单独为<code>iOS</code>打包服务。</p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2018/04/13/%E4%BD%BF%E7%94%A8Nginx%E5%9C%A8%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B8%8A%E5%BC%80%E5%90%AFWeb%E6%96%87%E4%BB%B6%E6%9C%8D%E5%8A%A1/#more" rel="contents">
+              <a class="btn" href="/2018/10/12/Jenkins%20master-slave%20%E7%9A%84%E5%BA%94%E7%94%A8%E5%8F%8A%20iOS%20%E9%A1%B9%E7%9B%AE%E6%8C%81%E7%BB%AD%E9%9B%86%E6%88%90/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -460,7 +884,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://blog.vanjay.cn/2017/07/28/%E8%B4%AD%E4%B9%B0BanwagonHOST-VPS%E8%87%AA%E5%BB%BAShadowsocks%E8%AE%B0%E5%BD%95/">
+    <link itemprop="mainEntityOfPage" href="https://blog.vanjay.cn/2018/10/01/Ubuntu-18-04-LTS-%E5%AE%89%E8%A3%85%E9%83%A8%E7%BD%B2-Seafile/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/head.png">
@@ -478,7 +902,7 @@
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/2017/07/28/%E8%B4%AD%E4%B9%B0BanwagonHOST-VPS%E8%87%AA%E5%BB%BAShadowsocks%E8%AE%B0%E5%BD%95/" class="post-title-link" itemprop="url">购买BanwagonHOST VPS自建Shadowsocks记录</a>
+          <a href="/2018/10/01/Ubuntu-18-04-LTS-%E5%AE%89%E8%A3%85%E9%83%A8%E7%BD%B2-Seafile/" class="post-title-link" itemprop="url">Ubuntu 18.04 LTS 安装部署 Seafile</a>
         </h2>
 
         <div class="post-meta-container">
@@ -489,14 +913,14 @@
       </span>
       <span class="post-meta-item-text">发表于</span>
 
-      <time title="创建时间：2017-07-28 00:15:23" itemprop="dateCreated datePublished" datetime="2017-07-28T00:15:23+08:00">2017-07-28</time>
+      <time title="创建时间：2018-10-01 17:06:54" itemprop="dateCreated datePublished" datetime="2018-10-01T17:06:54+08:00">2018-10-01</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2018-07-05 17:30:55" itemprop="dateModified" datetime="2018-07-05T17:30:55+08:00">2018-07-05</time>
+        <time title="修改时间：2018-10-08 14:31:20" itemprop="dateModified" datetime="2018-10-08T14:31:20+08:00">2018-10-08</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -504,7 +928,7 @@
       </span>
       <span class="post-meta-item-text">分类于</span>
         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/VPN/" itemprop="url" rel="index"><span itemprop="name">VPN</span></a>
+          <a href="/categories/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a>
         </span>
     </span>
 
@@ -515,14 +939,327 @@
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>1.3k</span>
+      <span>2k</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>5 分钟</span>
+      <span>7 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>新入职的公司内部同步一些文件使用的 <code>Seafile</code>，没部署远程，只使用的内网，由于这个 <code>seafile</code> 是一个前同事搭建的（之前的 iOSer，我来替代他了，阴差阳错。。。），可能那时他也不是太熟吧，把文件存放目录放在了安装位置的挂载分区，导致长时间使用下来，该分区磁盘空间满了，无法继续运行，于是我简单 <code>google</code> 了一番，开始转移目录，找到了 <code>seafile-data</code> 目录之后，发现查看都没权限，包括 <code>cp -R</code>、<code>mv</code> 都无法运行，直接给了<code>755</code>权限，<code>mv seafile-data</code> 目录至新目录，更改 <code>seafile.ini</code> 文件，指向新目录，重启 <code>seafile</code>，发现 <code>seafile</code> 已经无法启动……下意识重启一下电脑，还是不行，这时看下禅道，测试又提了一堆 <code>BUG</code>，就先放下开始修 BUG 了。第二天早上过来继续，发现系统都进不去了，登录界面无法输入密码，没办法只好命令行登入系统，再次 <code>google</code> 了解到 <code>seafile</code> 存放文件的形式类似于 <code>svn</code> 或 <code>git</code> ，也是那种打散存放并内部记录 <code>state</code> 和带有 <code>commit log</code> 的，看到了官方有修复工具，尝试无果，放弃了，系统也崩了（多年linux 经验解决不了，尝试了几个小时，<code>google</code> 了解到貌似是 <code>Ubuntu 16.04 LTS</code> 的 <code>bug</code> 所致，有个旧内核依赖怎么都干不掉，导致所有的 <code>dpkg -i</code> 都运行不了），这台机器上安装了 <code>jenkins</code> 和 <code>seafile</code>，问过了别无其他，心想 <code>jenkins</code> 我也熟练部署了，只能硬着头皮去跟组长说要重装系统，于是有了这篇文章。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2018/10/01/Ubuntu-18-04-LTS-%E5%AE%89%E8%A3%85%E9%83%A8%E7%BD%B2-Seafile/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://blog.vanjay.cn/2018/10/01/iOS-%E5%BC%80%E5%8F%91%E4%BB%8E-Array-%E7%94%9F%E6%88%90%E7%89%B9%E5%AE%9A%E5%88%86%E9%9A%94%E7%AC%A6%E9%9A%94%E5%BC%80%E7%9A%84-String/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/head.png">
+      <meta itemprop="name" content="VanJay">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="VanJay's Blog">
+      <meta itemprop="description" content="成功不是将来才有的<br>而是决定去做的那一刻起<br>持续累积而成">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | VanJay's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2018/10/01/iOS-%E5%BC%80%E5%8F%91%E4%BB%8E-Array-%E7%94%9F%E6%88%90%E7%89%B9%E5%AE%9A%E5%88%86%E9%9A%94%E7%AC%A6%E9%9A%94%E5%BC%80%E7%9A%84-String/" class="post-title-link" itemprop="url">iOS 开发从 Array 生成特定分隔符隔开的 String</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2018-10-01 01:41:45 / 修改时间：01:53:41" itemprop="dateCreated datePublished" datetime="2018-10-01T01:41:45+08:00">2018-10-01</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/iOS-%E5%BC%80%E5%8F%91/" itemprop="url" rel="index"><span itemprop="name">iOS 开发</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>237</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>1 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>从一个String Array 或者 Object Array 生成字符串，使用特定的分隔符隔开，起始和末尾不需要分隔符，当传入的是对象的时候，需要指定Object 中 String 的 key 字符串，效果如下图所示：</p>
+<p><img src="/images/stringFromArray.png" alt="示例"></p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2018/10/01/iOS-%E5%BC%80%E5%8F%91%E4%BB%8E-Array-%E7%94%9F%E6%88%90%E7%89%B9%E5%AE%9A%E5%88%86%E9%9A%94%E7%AC%A6%E9%9A%94%E5%BC%80%E7%9A%84-String/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://blog.vanjay.cn/2018/09/30/iOS-%E6%95%B0%E5%AD%97%E8%BD%AC-xx-%E4%B8%87-xx-%E4%BA%BF/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/head.png">
+      <meta itemprop="name" content="VanJay">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="VanJay's Blog">
+      <meta itemprop="description" content="成功不是将来才有的<br>而是决定去做的那一刻起<br>持续累积而成">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | VanJay's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2018/09/30/iOS-%E6%95%B0%E5%AD%97%E8%BD%AC-xx-%E4%B8%87-xx-%E4%BA%BF/" class="post-title-link" itemprop="url">iOS 数字转 xx 万 xx 亿</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2018-09-30 13:08:27" itemprop="dateCreated datePublished" datetime="2018-09-30T13:08:27+08:00">2018-09-30</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2018-10-07 21:14:35" itemprop="dateModified" datetime="2018-10-07T21:14:35+08:00">2018-10-07</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/iOS-%E5%BC%80%E5%8F%91/" itemprop="url" rel="index"><span itemprop="name">iOS 开发</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>523</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>2 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h2 id="App-开发显示-XX-万-xx-亿"><a href="#App-开发显示-XX-万-xx-亿" class="headerlink" title="App 开发显示 XX 万 xx 亿"></a>App 开发显示 XX 万 xx 亿</h2><p>APP开发中界面显示很多地方需要显示数字，但是如果数字过大，可能会有将数字显示成 xx 万、xx 百万、xx 亿的需求，简单封装了一下，备忘，以便日后使用。</p>
+<h3 id="这是声明文件，调用者可以决定保留几位小数，是否需要四舍五入，也可依据代码自行扩展方法。"><a href="#这是声明文件，调用者可以决定保留几位小数，是否需要四舍五入，也可依据代码自行扩展方法。" class="headerlink" title="这是声明文件，调用者可以决定保留几位小数，是否需要四舍五入，也可依据代码自行扩展方法。"></a>这是声明文件，调用者可以决定保留几位小数，是否需要四舍五入，也可依据代码自行扩展方法。</h3>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2018/09/30/iOS-%E6%95%B0%E5%AD%97%E8%BD%AC-xx-%E4%B8%87-xx-%E4%BA%BF/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://blog.vanjay.cn/2018/09/12/Ubuntu-18-04-%E6%90%AD%E5%BB%BA-Jenkins/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/head.png">
+      <meta itemprop="name" content="VanJay">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="VanJay's Blog">
+      <meta itemprop="description" content="成功不是将来才有的<br>而是决定去做的那一刻起<br>持续累积而成">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | VanJay's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2018/09/12/Ubuntu-18-04-%E6%90%AD%E5%BB%BA-Jenkins/" class="post-title-link" itemprop="url">Ubuntu 18.04 搭建 Jenkins</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+  
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+        
+      
+
+      <time title="创建时间：2018-09-12 16:53:54 / 修改时间：18:24:50" itemprop="dateCreated datePublished" datetime="2018-09-12T16:53:54+08:00">2018-09-12</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%B7%A5%E7%A8%8B%E8%87%AA%E5%8A%A8%E5%8C%96/" itemprop="url" rel="index"><span itemprop="name">工程自动化</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>820</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>3 分钟</span>
     </span>
 </div>
 
@@ -534,737 +1271,12 @@
     
     <div class="post-body" itemprop="articleBody">
           <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><blockquote>
-<p>不能畅游墙外没法好好生活和工作</p>
+<p>工欲善其事，必先利其器</p>
 </blockquote>
-<p>本来手里有着五六个 <code>Shadowsocks</code> 帐号，但体验都不佳，一直也没怎么用，是因为一直使用公司搭建的 <code>Cisco Anyconnect</code>，科学上网后百兆带宽可以满速使用，速度虽快，但是客户端软件默认是全局代理的，虽然可以走<code>IP route list</code>达到和<code>Shadowsocks </code>的<code>PAC</code>同样的作用，但效果慎微，而且<code>IP</code>要自己去填，所以公司<code>IT</code>直接没搞这个<code>route list</code>，因为我们大部分电脑和手机<code>APP</code>都在墙内，这就导致在使用了<code>Cisco Anyconnect</code>后大部分电脑或者手机上的<code>APP</code>网络访问困难，常开<code>VPN</code>还是需要<code>Shadowsocks </code>等可根据 <strong>PAC清单自动代理</strong> 或者 <strong>分应用代理</strong> 的一类软件。</p>
+<p>打包是开发过程中必不可少的一步，随着项目的壮大，打包时间越来越长，如果一直手动操作，浪费时间不说，还容易出错。记录一下安装<code>Jenkins</code>的过程，以备不时之需。</p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2017/07/28/%E8%B4%AD%E4%B9%B0BanwagonHOST-VPS%E8%87%AA%E5%BB%BAShadowsocks%E8%AE%B0%E5%BD%95/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://blog.vanjay.cn/2017/05/03/Wap-APP%E5%BC%80%E5%8F%91%E5%BF%83%E5%BE%97/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/head.png">
-      <meta itemprop="name" content="VanJay">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="VanJay's Blog">
-      <meta itemprop="description" content="成功不是将来才有的<br>而是决定去做的那一刻起<br>持续累积而成">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | VanJay's Blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2017/05/03/Wap-APP%E5%BC%80%E5%8F%91%E5%BF%83%E5%BE%97/" class="post-title-link" itemprop="url">Wap APP开发心得</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-      
-
-      <time title="创建时间：2017-05-03 16:04:57 / 修改时间：16:19:00" itemprop="dateCreated datePublished" datetime="2017-05-03T16:04:57+08:00">2017-05-03</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/APP%E5%BC%80%E5%8F%91/" itemprop="url" rel="index"><span itemprop="name">APP开发</span></a>
-        </span>
-    </span>
-
-  
-    <span class="post-meta-break"></span>
-    <span class="post-meta-item" title="本文字数">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">本文字数：</span>
-      <span>310</span>
-    </span>
-    <span class="post-meta-item" title="阅读时长">
-      <span class="post-meta-item-icon">
-        <i class="far fa-clock"></i>
-      </span>
-      <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>1 分钟</span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>经过了一个多月，加班加点，总算完成基本完成了这个Wap APP，可以作为 Version one 面见客户了，感受不多。</p>
-<p>MUI 结合 Hbuilder 使用 HTML5+ 开发APP整体来说还是挺顺畅的，虽然文档不完整，但是有开发经验的一眼看过去就知道怎么用了，以后做些不是大型的APP或许会成为我的首选。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2017/05/03/Wap-APP%E5%BC%80%E5%8F%91%E5%BF%83%E5%BE%97/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://blog.vanjay.cn/2017/04/15/MUI%20webview%E9%80%89%E9%A1%B9%E5%8D%A1%20%E9%A6%96%E6%AC%A1%E5%8F%AA%E5%8A%A0%E8%BD%BD%E9%A6%96%E9%A1%B5%EF%BC%8C%E7%82%B9%E5%87%BB%E8%A7%A6%E5%8F%91%E6%89%93%E5%BC%80%E9%A1%B5%E9%9D%A2/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/head.png">
-      <meta itemprop="name" content="VanJay">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="VanJay's Blog">
-      <meta itemprop="description" content="成功不是将来才有的<br>而是决定去做的那一刻起<br>持续累积而成">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | VanJay's Blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2017/04/15/MUI%20webview%E9%80%89%E9%A1%B9%E5%8D%A1%20%E9%A6%96%E6%AC%A1%E5%8F%AA%E5%8A%A0%E8%BD%BD%E9%A6%96%E9%A1%B5%EF%BC%8C%E7%82%B9%E5%87%BB%E8%A7%A6%E5%8F%91%E6%89%93%E5%BC%80%E9%A1%B5%E9%9D%A2/" class="post-title-link" itemprop="url">MUI webview选项卡 首次只加载首页，点击触发打开页面</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-      
-
-      <time title="创建时间：2017-04-15 00:10:03 / 修改时间：00:15:42" itemprop="dateCreated datePublished" datetime="2017-04-15T00:10:03+08:00">2017-04-15</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/JavaScript/" itemprop="url" rel="index"><span itemprop="name">JavaScript</span></a>
-        </span>
-    </span>
-
-  
-    <span class="post-meta-break"></span>
-    <span class="post-meta-item" title="本文字数">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">本文字数：</span>
-      <span>519</span>
-    </span>
-    <span class="post-meta-item" title="阅读时长">
-      <span class="post-meta-item-icon">
-        <i class="far fa-clock"></i>
-      </span>
-      <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>2 分钟</span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p><code>MUI</code> 官方的 <code>Demo</code> 的加载 webview 选项卡的逻辑是一次创建全部的选项卡，只默认显示默认创建的页面，这个页面逻辑没必要这么复杂，扩展性也不强，修改一处多处要修改，我做了简单修改，直接修改数据源，就可以达到更改全部的效果。</p>
-<p>直接上全部代码</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2017/04/15/MUI%20webview%E9%80%89%E9%A1%B9%E5%8D%A1%20%E9%A6%96%E6%AC%A1%E5%8F%AA%E5%8A%A0%E8%BD%BD%E9%A6%96%E9%A1%B5%EF%BC%8C%E7%82%B9%E5%87%BB%E8%A7%A6%E5%8F%91%E6%89%93%E5%BC%80%E9%A1%B5%E9%9D%A2/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://blog.vanjay.cn/2017/04/11/JavaScript-%E4%B8%BB%E5%8A%A8%E9%80%89%E6%8B%A9-option/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/head.png">
-      <meta itemprop="name" content="VanJay">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="VanJay's Blog">
-      <meta itemprop="description" content="成功不是将来才有的<br>而是决定去做的那一刻起<br>持续累积而成">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | VanJay's Blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2017/04/11/JavaScript-%E4%B8%BB%E5%8A%A8%E9%80%89%E6%8B%A9-option/" class="post-title-link" itemprop="url">JavaScript 主动选择 option</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-      
-
-      <time title="创建时间：2017-04-11 16:13:35 / 修改时间：16:16:08" itemprop="dateCreated datePublished" datetime="2017-04-11T16:13:35+08:00">2017-04-11</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/JavaScript/" itemprop="url" rel="index"><span itemprop="name">JavaScript</span></a>
-        </span>
-    </span>
-
-  
-    <span class="post-meta-break"></span>
-    <span class="post-meta-item" title="本文字数">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">本文字数：</span>
-      <span>37</span>
-    </span>
-    <span class="post-meta-item" title="阅读时长">
-      <span class="post-meta-item-icon">
-        <i class="far fa-clock"></i>
-      </span>
-      <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>1 分钟</span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <span id="more"></span>
-
-<p>主动选择 <code>select</code> 中的 <code>option</code></p>
-<pre class="line-numbers language-JavaScript" data-language="JavaScript"><code class="language-JavaScript">&#x2F;&#x2F; 获取默认type
-var defaultType &#x3D; &#39;1&#39;;
-var typeSelect &#x3D; document.getElementById(&quot;type&quot;);
-for(var i &#x3D; 0; i &lt; typeSelect.options.length; i++) &#123;
-	if(typeSelect.options[i].value &#x3D;&#x3D;&#x3D; defaultType) &#123;
-		typeSelect.selectedIndex &#x3D; i;
-		break;
-	&#125;
-&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://blog.vanjay.cn/2017/03/25/%E4%BD%BF%E7%94%A8Python%E8%84%9A%E6%9C%AC%E5%8D%8A%E8%87%AA%E5%8A%A8%E5%8C%96iOS%E4%BC%81%E4%B8%9A%E7%89%88%E5%8C%85%E6%9B%B4%E6%96%B0/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/head.png">
-      <meta itemprop="name" content="VanJay">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="VanJay's Blog">
-      <meta itemprop="description" content="成功不是将来才有的<br>而是决定去做的那一刻起<br>持续累积而成">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | VanJay's Blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2017/03/25/%E4%BD%BF%E7%94%A8Python%E8%84%9A%E6%9C%AC%E5%8D%8A%E8%87%AA%E5%8A%A8%E5%8C%96iOS%E4%BC%81%E4%B8%9A%E7%89%88%E5%8C%85%E6%9B%B4%E6%96%B0/" class="post-title-link" itemprop="url">使用Python脚本半自动化iOS企业版包更新</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2017-03-25 20:30:37" itemprop="dateCreated datePublished" datetime="2017-03-25T20:30:37+08:00">2017-03-25</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2017-03-27 12:53:58" itemprop="dateModified" datetime="2017-03-27T12:53:58+08:00">2017-03-27</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Python3/" itemprop="url" rel="index"><span itemprop="name">Python3</span></a>
-        </span>
-    </span>
-
-  
-    <span class="post-meta-break"></span>
-    <span class="post-meta-item" title="本文字数">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">本文字数：</span>
-      <span>686</span>
-    </span>
-    <span class="post-meta-item" title="阅读时长">
-      <span class="post-meta-item-icon">
-        <i class="far fa-clock"></i>
-      </span>
-      <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>2 分钟</span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>在我之前一篇文章里 <a target="_blank" rel="noopener" href="https://wangwanjie.github.io/2017/01/11/iOS%E4%BC%81%E4%B8%9A%E5%86%85%E9%83%A8%E5%BA%94%E7%94%A8%E5%88%86%E5%8F%91/">iOS企业内部应用分发</a> 讲述了 iOS 企业帐号打包的 <code>ipa</code> 分发，但是如果每次 <code>ipa</code> 更新，重新上传 <code>*.ipa</code> 后还要手动编辑 <code>*.plist</code> 的新的 <code>ipa</code> 的 <code>url</code> 和包的相关信息，这就和打包一样（使用 <a target="_blank" rel="noopener" href="https://github.com/fastlane/fastlane">fastlane</a>），是毫无技术含量但是花时间的事情，作为一个爱偷懒的人，我总是想利用自身所学或者一些工具来代替我做一些重复又没技术含量的事，在本文涉及的这件事里，显然，脚本要派上用场，最终选用了 <code>Python</code> 而没有用 <code>Bash</code> —- 从 <code>ipa</code> 读取相关信息并写入到目的 <code>plist</code>。<code>Python</code> 只是业余，如您有建议或改进，欢迎留言评论指出，感激不尽！</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2017/03/25/%E4%BD%BF%E7%94%A8Python%E8%84%9A%E6%9C%AC%E5%8D%8A%E8%87%AA%E5%8A%A8%E5%8C%96iOS%E4%BC%81%E4%B8%9A%E7%89%88%E5%8C%85%E6%9B%B4%E6%96%B0/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://blog.vanjay.cn/2017/03/23/%E5%8E%9F%E7%94%9F-JavaScript-%E5%88%A4%E6%96%AD-DOM-%E6%98%AF%E5%90%A6%E5%8C%85%E5%90%AB%E6%9F%90%E4%B8%AA-class/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/head.png">
-      <meta itemprop="name" content="VanJay">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="VanJay's Blog">
-      <meta itemprop="description" content="成功不是将来才有的<br>而是决定去做的那一刻起<br>持续累积而成">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | VanJay's Blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2017/03/23/%E5%8E%9F%E7%94%9F-JavaScript-%E5%88%A4%E6%96%AD-DOM-%E6%98%AF%E5%90%A6%E5%8C%85%E5%90%AB%E6%9F%90%E4%B8%AA-class/" class="post-title-link" itemprop="url">原生 JavaScript 判断 DOM 是否包含某个 class</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-      
-
-      <time title="创建时间：2017-03-23 11:05:27 / 修改时间：11:11:02" itemprop="dateCreated datePublished" datetime="2017-03-23T11:05:27+08:00">2017-03-23</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/JavaScript/" itemprop="url" rel="index"><span itemprop="name">JavaScript</span></a>
-        </span>
-    </span>
-
-  
-    <span class="post-meta-break"></span>
-    <span class="post-meta-item" title="本文字数">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">本文字数：</span>
-      <span>96</span>
-    </span>
-    <span class="post-meta-item" title="阅读时长">
-      <span class="post-meta-item-icon">
-        <i class="far fa-clock"></i>
-      </span>
-      <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>1 分钟</span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h2 id="使用-classlist"><a href="#使用-classlist" class="headerlink" title="使用 classlist"></a>使用 <code>classlist</code></h2>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2017/03/23/%E5%8E%9F%E7%94%9F-JavaScript-%E5%88%A4%E6%96%AD-DOM-%E6%98%AF%E5%90%A6%E5%8C%85%E5%90%AB%E6%9F%90%E4%B8%AA-class/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://blog.vanjay.cn/2017/03/22/iOS-%E4%BC%81%E4%B8%9A%E7%89%88%E5%BA%94%E7%94%A8%E4%B8%80%E9%94%AE%E6%9B%B4%E6%96%B0/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/head.png">
-      <meta itemprop="name" content="VanJay">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="VanJay's Blog">
-      <meta itemprop="description" content="成功不是将来才有的<br>而是决定去做的那一刻起<br>持续累积而成">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | VanJay's Blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2017/03/22/iOS-%E4%BC%81%E4%B8%9A%E7%89%88%E5%BA%94%E7%94%A8%E4%B8%80%E9%94%AE%E6%9B%B4%E6%96%B0/" class="post-title-link" itemprop="url">iOS 企业版应用一键更新</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-      
-
-      <time title="创建时间：2017-03-22 14:14:05 / 修改时间：16:54:51" itemprop="dateCreated datePublished" datetime="2017-03-22T14:14:05+08:00">2017-03-22</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/iOS/" itemprop="url" rel="index"><span itemprop="name">iOS</span></a>
-        </span>
-    </span>
-
-  
-    <span class="post-meta-break"></span>
-    <span class="post-meta-item" title="本文字数">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">本文字数：</span>
-      <span>526</span>
-    </span>
-    <span class="post-meta-item" title="阅读时长">
-      <span class="post-meta-item-icon">
-        <i class="far fa-clock"></i>
-      </span>
-      <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>2 分钟</span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>如果后台没有获取版本号的接口，自己就直接从下载企业版应用指向的 <code>plist</code> 文件中获取吧，如果有，就不用这么麻烦还要去下载整个 <code>plist</code> 文件了，直接根据拿到的版本好与本地对比即可。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2017/03/22/iOS-%E4%BC%81%E4%B8%9A%E7%89%88%E5%BA%94%E7%94%A8%E4%B8%80%E9%94%AE%E6%9B%B4%E6%96%B0/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://blog.vanjay.cn/2017/03/19/%E4%B8%BA-NexT-%E4%B8%BB%E9%A2%98%E6%B7%BB%E5%8A%A0%E7%90%83%E5%BD%A2%E6%A0%87%E7%AD%BE%E4%BA%91/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/head.png">
-      <meta itemprop="name" content="VanJay">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="VanJay's Blog">
-      <meta itemprop="description" content="成功不是将来才有的<br>而是决定去做的那一刻起<br>持续累积而成">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | VanJay's Blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2017/03/19/%E4%B8%BA-NexT-%E4%B8%BB%E9%A2%98%E6%B7%BB%E5%8A%A0%E7%90%83%E5%BD%A2%E6%A0%87%E7%AD%BE%E4%BA%91/" class="post-title-link" itemprop="url">为 NexT 主题添加球型标签云</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2017-03-19 20:04:55" itemprop="dateCreated datePublished" datetime="2017-03-19T20:04:55+08:00">2017-03-19</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2017-03-20 10:49:28" itemprop="dateModified" datetime="2017-03-20T10:49:28+08:00">2017-03-20</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Blog/" itemprop="url" rel="index"><span itemprop="name">Blog</span></a>
-        </span>
-    </span>
-
-  
-    <span class="post-meta-break"></span>
-    <span class="post-meta-item" title="本文字数">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">本文字数：</span>
-      <span>289</span>
-    </span>
-    <span class="post-meta-item" title="阅读时长">
-      <span class="post-meta-item-icon">
-        <i class="far fa-clock"></i>
-      </span>
-      <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>1 分钟</span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h2 id="确定你已开启标签功能"><a href="#确定你已开启标签功能" class="headerlink" title="确定你已开启标签功能"></a>确定你已开启标签功能</h2><p>参考 <code>NexT</code> 配置文档 <a target="_blank" rel="noopener" href="https://theme-next.iissnan.com/theme-settings.html#tags-page">添加标签页面</a> ，开启标签功能。</p>
-<h2 id="了解球形标签云插件"><a href="#了解球形标签云插件" class="headerlink" title="了解球形标签云插件"></a>了解球形标签云插件</h2><p>了解球形标签云 <code>javascript</code> 插件，点击<a target="_blank" rel="noopener" href="http://www.goat1000.com/tagcanvas.php">这里</a></p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2017/03/19/%E4%B8%BA-NexT-%E4%B8%BB%E9%A2%98%E6%B7%BB%E5%8A%A0%E7%90%83%E5%BD%A2%E6%A0%87%E7%AD%BE%E4%BA%91/#more" rel="contents">
+              <a class="btn" href="/2018/09/12/Ubuntu-18-04-%E6%90%AD%E5%BB%BA-Jenkins/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -1288,7 +1300,7 @@ for(var i &#x3D; 0; i &lt; typeSelect.options.length; i++) &#123;
 
 
   <nav class="pagination">
-    <a class="extend prev" rel="prev" title="上一页" aria-label="上一页" href="/page/3/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" title="下一页" aria-label="下一页" href="/page/5/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" title="上一页" aria-label="上一页" href="/page/3/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><a class="extend next" rel="next" title="下一页" aria-label="下一页" href="/page/5/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 </div>
@@ -1300,7 +1312,7 @@ for(var i &#x3D; 0; i &lt; typeSelect.options.length; i++) &#123;
 
 <div class="copyright">
   &copy; 2013 – 
-  <span itemprop="copyrightYear">2024</span>
+  <span itemprop="copyrightYear">2025</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
@@ -1311,13 +1323,13 @@ for(var i &#x3D; 0; i &lt; typeSelect.options.length; i++) &#123;
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-line"></i>
     </span>
-    <span title="站点总字数">64k</span>
+    <span title="站点总字数">89k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">3:52</span>
+    <span title="站点阅读时长">5:23</span>
   </span>
 </div>
 <div class="busuanzi-count">
