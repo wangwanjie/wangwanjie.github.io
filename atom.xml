@@ -6,7 +6,7 @@
   <link href="https://blog.vanjay.cn/atom.xml" rel="self"/>
   
   <link href="https://blog.vanjay.cn/"/>
-  <updated>2026-03-29T03:01:03.921Z</updated>
+  <updated>2026-03-29T03:04:23.649Z</updated>
   <id>https://blog.vanjay.cn/</id>
   
   <author>
@@ -21,7 +21,7 @@
     <link href="https://blog.vanjay.cn/2026/03/29/Debian-12-%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%BF%AE%E5%A4%8D-TOTP-%E6%97%B6%E9%97%B4%E5%90%8C%E6%AD%A5%E9%97%AE%E9%A2%98/"/>
     <id>https://blog.vanjay.cn/2026/03/29/Debian-12-%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%BF%AE%E5%A4%8D-TOTP-%E6%97%B6%E9%97%B4%E5%90%8C%E6%AD%A5%E9%97%AE%E9%A2%98/</id>
     <published>2026-03-29T02:59:14.000Z</published>
-    <updated>2026-03-29T03:01:03.921Z</updated>
+    <updated>2026-03-29T03:04:23.649Z</updated>
     
     
     <summary type="html">&lt;p&gt;服务器 TOTP 验证失败，通常因系统时间、时区或 NTP 未同步引起。本文记录 Debian 12 上完整修复过程，时区从 US&amp;#x2F;Eastern (EDT) 调整为 Asia&amp;#x2F;Shanghai，并启用 systemd-timesyncd。&lt;/p&gt;</summary>
