@@ -6,7 +6,7 @@
   <link href="https://blog.vanjay.cn/atom.xml" rel="self"/>
   
   <link href="https://blog.vanjay.cn/"/>
-  <updated>2025-11-25T15:42:19.859Z</updated>
+  <updated>2026-03-29T03:01:03.921Z</updated>
   <id>https://blog.vanjay.cn/</id>
   
   <author>
@@ -15,6 +15,27 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Debian 12 服务器修复 TOTP 时间同步问题</title>
+    <link href="https://blog.vanjay.cn/2026/03/29/Debian-12-%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%BF%AE%E5%A4%8D-TOTP-%E6%97%B6%E9%97%B4%E5%90%8C%E6%AD%A5%E9%97%AE%E9%A2%98/"/>
+    <id>https://blog.vanjay.cn/2026/03/29/Debian-12-%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%BF%AE%E5%A4%8D-TOTP-%E6%97%B6%E9%97%B4%E5%90%8C%E6%AD%A5%E9%97%AE%E9%A2%98/</id>
+    <published>2026-03-29T02:59:14.000Z</published>
+    <updated>2026-03-29T03:01:03.921Z</updated>
+    
+    
+    <summary type="html">&lt;p&gt;服务器 TOTP 验证失败，通常因系统时间、时区或 NTP 未同步引起。本文记录 Debian 12 上完整修复过程，时区从 US&amp;#x2F;Eastern (EDT) 调整为 Asia&amp;#x2F;Shanghai，并启用 systemd-timesyncd。&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="linux" scheme="https://blog.vanjay.cn/categories/linux/"/>
+    
+    <category term="debian" scheme="https://blog.vanjay.cn/categories/linux/debian/"/>
+    
+    <category term="totp" scheme="https://blog.vanjay.cn/categories/linux/debian/totp/"/>
+    
+    
+  </entry>
   
   <entry>
     <title>iOS逆向在正向开发中的应用与实践</title>
@@ -499,32 +520,6 @@
     <category term="OpenWrt" scheme="https://blog.vanjay.cn/tags/OpenWrt/"/>
     
     <category term="AIO" scheme="https://blog.vanjay.cn/tags/AIO/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>如何让nginx服务和ocserv共用443端口</title>
-    <link href="https://blog.vanjay.cn/2023/05/13/%E5%A6%82%E4%BD%95%E8%AE%A9nginx%E6%9C%8D%E5%8A%A1%E5%92%8Cocserv%E5%85%B1%E7%94%A8443%E7%AB%AF%E5%8F%A3/"/>
-    <id>https://blog.vanjay.cn/2023/05/13/%E5%A6%82%E4%BD%95%E8%AE%A9nginx%E6%9C%8D%E5%8A%A1%E5%92%8Cocserv%E5%85%B1%E7%94%A8443%E7%AB%AF%E5%8F%A3/</id>
-    <published>2023-05-13T06:32:07.000Z</published>
-    <updated>2023-05-13T18:47:47.700Z</updated>
-    
-    
-    <summary type="html">&lt;h2 id=&quot;前言与需求背景&quot;&gt;&lt;a href=&quot;#前言与需求背景&quot; class=&quot;headerlink&quot; title=&quot;前言与需求背景&quot;&gt;&lt;/a&gt;前言与需求背景&lt;/h2&gt;&lt;p&gt;在许多应用中，我们可能需要让多个服务共享同一端口。例如，你可能有一个Web服务器（如Nginx）和一个VPN服务器（如OpenConnect VPN，简称ocserv），你希望它们都使用443端口。这样做的好处是可以提高网络性能，因为操作系统通常会为443端口提供更高的处理优先级，从而得到更快的响应。此外，这种设置也可以简化防火墙的配置，因为只需要开放一个端口。&lt;/p&gt;
-&lt;p&gt;然而，实现这种配置并不简单。首先，Nginx和ocserv都需要独占443端口，因此不能直接将它们绑定到同一端口。其次，尽管Nginx可以使用其stream模块来实现TCP级别的反向代理，但这需要额外的配置，并且可能导致一些问题。例如，ocserv需要了解客户端的真实IP，但在Nginx的反向代理后，ocserv只能看到Nginx服务器的IP。&lt;/p&gt;</summary>
-    
-    
-    
-    <category term="服务器" scheme="https://blog.vanjay.cn/categories/%E6%9C%8D%E5%8A%A1%E5%99%A8/"/>
-    
-    <category term="运维" scheme="https://blog.vanjay.cn/categories/%E6%9C%8D%E5%8A%A1%E5%99%A8/%E8%BF%90%E7%BB%B4/"/>
-    
-    
-    <category term="ocserv" scheme="https://blog.vanjay.cn/tags/ocserv/"/>
-    
-    <category term="nginx" scheme="https://blog.vanjay.cn/tags/nginx/"/>
-    
-    <category term="haproxy" scheme="https://blog.vanjay.cn/tags/haproxy/"/>
     
   </entry>
   
