@@ -6,7 +6,7 @@
   <link href="https://blog.vanjay.cn/atom.xml" rel="self"/>
   
   <link href="https://blog.vanjay.cn/"/>
-  <updated>2026-03-29T03:04:23.649Z</updated>
+  <updated>2026-03-29T03:32:36.314Z</updated>
   <id>https://blog.vanjay.cn/</id>
   
   <author>
@@ -15,6 +15,29 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>VPS线路质量检测全指南：NextTrace + MTR双工具实战</title>
+    <link href="https://blog.vanjay.cn/2026/03/29/VPS%E7%BA%BF%E8%B7%AF%E8%B4%A8%E9%87%8F%E6%A3%80%E6%B5%8B%E5%85%A8%E6%8C%87%E5%8D%97%EF%BC%9ANextTrace-MTR%E5%8F%8C%E5%B7%A5%E5%85%B7%E5%AE%9E%E6%88%98/"/>
+    <id>https://blog.vanjay.cn/2026/03/29/VPS%E7%BA%BF%E8%B7%AF%E8%B4%A8%E9%87%8F%E6%A3%80%E6%B5%8B%E5%85%A8%E6%8C%87%E5%8D%97%EF%BC%9ANextTrace-MTR%E5%8F%8C%E5%B7%A5%E5%85%B7%E5%AE%9E%E6%88%98/</id>
+    <published>2026-03-29T03:25:27.000Z</published>
+    <updated>2026-03-29T03:32:36.314Z</updated>
+    
+    
+    <summary type="html">&lt;h2 id=&quot;为什么要做线路测试？&quot;&gt;&lt;a href=&quot;#为什么要做线路测试？&quot; class=&quot;headerlink&quot; title=&quot;为什么要做线路测试？&quot;&gt;&lt;/a&gt;为什么要做线路测试？&lt;/h2&gt;&lt;p&gt;网络质量决定VPS实际体验。&lt;strong&gt;NextTrace&lt;/strong&gt; 看路径是否优质（有无绕路），&lt;strong&gt;MTR&lt;/strong&gt; 看丢包和抖动（稳定性），&lt;strong&gt;双向测试&lt;/strong&gt; 看闭环效果。&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="linux" scheme="https://blog.vanjay.cn/categories/linux/"/>
+    
+    <category term="vps" scheme="https://blog.vanjay.cn/categories/linux/vps/"/>
+    
+    
+    <category term="linux" scheme="https://blog.vanjay.cn/tags/linux/"/>
+    
+    <category term="vps" scheme="https://blog.vanjay.cn/tags/vps/"/>
+    
+  </entry>
   
   <entry>
     <title>Debian 12 服务器修复 TOTP 时间同步问题</title>
@@ -491,35 +514,6 @@
     <category term="ARC" scheme="https://blog.vanjay.cn/tags/ARC/"/>
     
     <category term="弱引用" scheme="https://blog.vanjay.cn/tags/%E5%BC%B1%E5%BC%95%E7%94%A8/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>8505处理器家庭组网PVE下iKuai、OpenWrt、CentOS、DSM、Windows等系统All In One实践记录</title>
-    <link href="https://blog.vanjay.cn/2023/05/20/8505%E5%A4%84%E7%90%86%E5%99%A8%E5%AE%B6%E5%BA%AD%E7%BB%84%E7%BD%91PVE%E4%B8%8BiKuai%E3%80%81OpenWrt%E3%80%81CentOS%E3%80%81DSM%E3%80%81Windows%E7%AD%89%E7%B3%BB%E7%BB%9FAll-In-One%E5%AE%9E%E8%B7%B5%E8%AE%B0%E5%BD%95/"/>
-    <id>https://blog.vanjay.cn/2023/05/20/8505%E5%A4%84%E7%90%86%E5%99%A8%E5%AE%B6%E5%BA%AD%E7%BB%84%E7%BD%91PVE%E4%B8%8BiKuai%E3%80%81OpenWrt%E3%80%81CentOS%E3%80%81DSM%E3%80%81Windows%E7%AD%89%E7%B3%BB%E7%BB%9FAll-In-One%E5%AE%9E%E8%B7%B5%E8%AE%B0%E5%BD%95/</id>
-    <published>2023-05-20T14:13:20.000Z</published>
-    <updated>2023-05-20T17:32:31.910Z</updated>
-    
-    
-    <summary type="html">&lt;h2 id=&quot;背景&quot;&gt;&lt;a href=&quot;#背景&quot; class=&quot;headerlink&quot; title=&quot;背景&quot;&gt;&lt;/a&gt;背景&lt;/h2&gt;&lt;p&gt;在平日生活和工作中，家庭网络环境的管理和维护始终是一个重要但容易被忽视的问题。智能家居设备越来越多，手机电脑电视等设备不断增多，对于网络的需求越来越高，比如数据同步，路由管理，电视观看内网高清影院等，这些都需要一个稳定且强大的家庭网络环境来支持。&lt;/p&gt;</summary>
-    
-    
-    
-    <category term="家庭组网" scheme="https://blog.vanjay.cn/categories/%E5%AE%B6%E5%BA%AD%E7%BB%84%E7%BD%91/"/>
-    
-    <category term="服务器" scheme="https://blog.vanjay.cn/categories/%E5%AE%B6%E5%BA%AD%E7%BB%84%E7%BD%91/%E6%9C%8D%E5%8A%A1%E5%99%A8/"/>
-    
-    
-    <category term="NAS" scheme="https://blog.vanjay.cn/tags/NAS/"/>
-    
-    <category term="软路由" scheme="https://blog.vanjay.cn/tags/%E8%BD%AF%E8%B7%AF%E7%94%B1/"/>
-    
-    <category term="PVE" scheme="https://blog.vanjay.cn/tags/PVE/"/>
-    
-    <category term="OpenWrt" scheme="https://blog.vanjay.cn/tags/OpenWrt/"/>
-    
-    <category term="AIO" scheme="https://blog.vanjay.cn/tags/AIO/"/>
     
   </entry>
   
