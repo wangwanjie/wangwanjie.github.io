@@ -1,0 +1,1086 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic%7CRoboto+Slab:300,300italic,400,400italic,700,700italic%7CPT+Mono:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css" integrity="sha256-Vzbj7sDDS/woiFS3uNKo8eIuni59rjyNGtXfstRzStA=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"blog.vanjay.cn","root":"/","images":"/images","scheme":"Mist","darkmode":false,"version":"8.16.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":"mac"},"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="本文基于一次完整的实操记录整理，涵盖从 Windows 镜像选择、PVE 虚拟机创建、系统安装，到 Intel iGPU SR-IOV 显卡直通配置，以及宿主机稳定性排查的全过程。记录了踩过的坑和解决方案，供后续参考。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="PVE 安装 Windows 11 + Intel SR-IOV 显卡直通 —— 实战总结">
+<meta property="og:url" content="https://blog.vanjay.cn/2026/05/10/PVE-%E5%AE%89%E8%A3%85-Windows-11-Intel-SR-IOV-%E6%98%BE%E5%8D%A1%E7%9B%B4%E9%80%9A-%E2%80%94%E2%80%94-%E5%AE%9E%E6%88%98%E6%80%BB%E7%BB%93/index.html">
+<meta property="og:site_name" content="VanJay&#39;s Blog">
+<meta property="og:description" content="本文基于一次完整的实操记录整理，涵盖从 Windows 镜像选择、PVE 虚拟机创建、系统安装，到 Intel iGPU SR-IOV 显卡直通配置，以及宿主机稳定性排查的全过程。记录了踩过的坑和解决方案，供后续参考。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2026-05-10T15:02:08.000Z">
+<meta property="article:modified_time" content="2026-05-10T15:03:02.186Z">
+<meta property="article:author" content="VanJay">
+<meta property="article:tag" content="pve">
+<meta property="article:tag" content="Windows 11">
+<meta property="article:tag" content="SR-IOV">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://blog.vanjay.cn/2026/05/10/PVE-%E5%AE%89%E8%A3%85-Windows-11-Intel-SR-IOV-%E6%98%BE%E5%8D%A1%E7%9B%B4%E9%80%9A-%E2%80%94%E2%80%94-%E5%AE%9E%E6%88%98%E6%80%BB%E7%BB%93/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://blog.vanjay.cn/2026/05/10/PVE-%E5%AE%89%E8%A3%85-Windows-11-Intel-SR-IOV-%E6%98%BE%E5%8D%A1%E7%9B%B4%E9%80%9A-%E2%80%94%E2%80%94-%E5%AE%9E%E6%88%98%E6%80%BB%E7%BB%93/","path":"2026/05/10/PVE-安装-Windows-11-Intel-SR-IOV-显卡直通-——-实战总结/","title":"PVE 安装 Windows 11 + Intel SR-IOV 显卡直通 —— 实战总结"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>PVE 安装 Windows 11 + Intel SR-IOV 显卡直通 —— 实战总结 | VanJay's Blog</title>
+  
+
+  <script src="/js/third-party/analytics/baidu-analytics.js"></script>
+  <script async src="https://hm.baidu.com/hm.js?dcbe579f2b53b3adfd4034b7acee5785"></script>
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="VanJay's Blog" type="application/atom+xml">
+<link rel="alternate" href="/rss2.xml" title="VanJay's Blog" type="application/rss+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">VanJay's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">一个爱折腾工程师的全栈梦</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="home fa-fw"></i>首页</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-commonweal"><a href="/404.html" rel="section"><i class="heartbeat fa-fw"></i>公益 404</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="user fa-fw"></i>关于</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9B%AE%E5%BD%95"><span class="nav-number">1.</span> <span class="nav-text">目录</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-Windows-%E9%95%9C%E5%83%8F%E9%80%89%E6%8B%A9"><span class="nav-number">2.</span> <span class="nav-text">1. Windows 镜像选择</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%95%9C%E5%83%8F%E6%96%B9%E6%A1%88%E5%AF%B9%E6%AF%94"><span class="nav-number">2.1.</span> <span class="nav-text">镜像方案对比</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8E%A8%E8%8D%90%E6%96%B9%E6%A1%88%EF%BC%9ATiny11-%E6%A0%87%E5%87%86%E7%89%88"><span class="nav-number">2.2.</span> <span class="nav-text">推荐方案：Tiny11 标准版</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%AF%E4%BF%A1%E4%B8%8B%E8%BD%BD%E6%9D%A5%E6%BA%90"><span class="nav-number">2.3.</span> <span class="nav-text">可信下载来源</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%8D%E6%8E%A8%E8%8D%90%E7%9A%84%E9%95%9C%E5%83%8F"><span class="nav-number">2.4.</span> <span class="nav-text">不推荐的镜像</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-PVE-%E7%8E%AF%E5%A2%83%E5%87%86%E5%A4%87"><span class="nav-number">3.</span> <span class="nav-text">2. PVE 环境准备</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%8A%E4%BC%A0-ISO-%E5%88%B0-PVE"><span class="nav-number">3.1.</span> <span class="nav-text">上传 ISO 到 PVE</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9F%A5%E7%9C%8B-PVE-%E8%B5%84%E6%BA%90"><span class="nav-number">3.2.</span> <span class="nav-text">查看 PVE 资源</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E5%88%9B%E5%BB%BA-Windows-11-%E8%99%9A%E6%8B%9F%E6%9C%BA"><span class="nav-number">4.</span> <span class="nav-text">3. 创建 Windows 11 虚拟机</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E5%91%BD%E4%BB%A4%EF%BC%88%E6%8E%A8%E8%8D%90%E9%85%8D%E7%BD%AE%EF%BC%89"><span class="nav-number">4.1.</span> <span class="nav-text">创建命令（推荐配置）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B3%E9%94%AE%E5%8F%82%E6%95%B0%E8%AF%B4%E6%98%8E"><span class="nav-number">4.2.</span> <span class="nav-text">关键参数说明</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%A3%81%E7%9B%98%E6%89%A9%E5%AE%B9"><span class="nav-number">4.3.</span> <span class="nav-text">磁盘扩容</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%A0%E9%99%A4%E9%87%8D%E5%BB%BA"><span class="nav-number">4.4.</span> <span class="nav-text">删除重建</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-%E5%AE%89%E8%A3%85-Windows-11"><span class="nav-number">5.</span> <span class="nav-text">4. 安装 Windows 11</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B5%8F%E8%A7%88%E5%99%A8%E8%BF%9B%E5%85%A5-noVNC-%E6%8E%A7%E5%88%B6%E5%8F%B0"><span class="nav-number">5.1.</span> <span class="nav-text">浏览器进入 noVNC 控制台</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B3%E9%94%AE%E6%AD%A5%E9%AA%A4%EF%BC%9A%E5%8A%A0%E8%BD%BD-VirtIO-SCSI-%E9%A9%B1%E5%8A%A8"><span class="nav-number">5.2.</span> <span class="nav-text">关键步骤：加载 VirtIO SCSI 驱动</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#OOBE-%E9%98%B6%E6%AE%B5%EF%BC%88Tiny11%EF%BC%89"><span class="nav-number">5.3.</span> <span class="nav-text">OOBE 阶段（Tiny11）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#noVNC-%E7%B2%98%E8%B4%B4%E6%8A%80%E5%B7%A7"><span class="nav-number">5.4.</span> <span class="nav-text">noVNC 粘贴技巧</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-%E7%B3%BB%E7%BB%9F%E5%88%9D%E5%A7%8B%E5%8C%96%E9%85%8D%E7%BD%AE"><span class="nav-number">6.</span> <span class="nav-text">5. 系统初始化配置</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%89%E8%A3%85-VirtIO-%E9%A9%B1%E5%8A%A8%EF%BC%88%E8%BF%9B%E7%B3%BB%E7%BB%9F%E5%90%8E%EF%BC%89"><span class="nav-number">6.1.</span> <span class="nav-text">安装 VirtIO 驱动（进系统后）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BC%80%E5%90%AF-RDP%EF%BC%88PowerShell-%E7%AE%A1%E7%90%86%E5%91%98%EF%BC%89"><span class="nav-number">6.2.</span> <span class="nav-text">开启 RDP（PowerShell 管理员）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%89%E8%A3%85%E4%B8%AD%E6%96%87%E8%AF%AD%E8%A8%80%E5%8C%85"><span class="nav-number">6.3.</span> <span class="nav-text">安装中文语言包</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Windows-%E6%BF%80%E6%B4%BB%EF%BC%88massgrave%EF%BC%89"><span class="nav-number">6.4.</span> <span class="nav-text">Windows 激活（massgrave）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8D%B8%E8%BD%BD%E5%AE%89%E8%A3%85%E5%85%89%E9%A9%B1"><span class="nav-number">6.5.</span> <span class="nav-text">卸载安装光驱</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-Intel-SR-IOV-%E6%98%BE%E5%8D%A1%E7%9B%B4%E9%80%9A"><span class="nav-number">7.</span> <span class="nav-text">6. Intel SR-IOV 显卡直通</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%89%8D%E6%8F%90%E6%9D%A1%E4%BB%B6"><span class="nav-number">7.1.</span> <span class="nav-text">前提条件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%AA%8C%E8%AF%81-SR-IOV-%E7%8A%B6%E6%80%81"><span class="nav-number">7.2.</span> <span class="nav-text">验证 SR-IOV 状态</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#GRUB-%E5%8F%82%E6%95%B0%EF%BC%88%E6%8E%A8%E8%8D%90%EF%BC%89"><span class="nav-number">7.3.</span> <span class="nav-text">GRUB 参数（推荐）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#sysfs-conf-%E8%87%AA%E5%8A%A8%E5%88%9B%E5%BB%BA-VF"><span class="nav-number">7.4.</span> <span class="nav-text">sysfs.conf 自动创建 VF</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#VM-%E9%85%8D%E7%BD%AE%EF%BC%88%E5%88%87%E6%8D%A2%E5%88%B0%E7%9B%B4%E9%80%9A%E6%A8%A1%E5%BC%8F%EF%BC%89"><span class="nav-number">7.5.</span> <span class="nav-text">VM 配置（切换到直通模式）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%89%E8%A3%85-Intel-%E6%98%BE%E5%8D%A1%E9%A9%B1%E5%8A%A8%EF%BC%88%E5%9C%A8-VM-%E5%86%85%EF%BC%89"><span class="nav-number">7.6.</span> <span class="nav-text">安装 Intel 显卡驱动（在 VM 内）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#IOMMU-%E7%BB%84%E9%AA%8C%E8%AF%81"><span class="nav-number">7.7.</span> <span class="nav-text">IOMMU 组验证</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-%E5%AE%BF%E4%B8%BB%E6%9C%BA%E7%A8%B3%E5%AE%9A%E6%80%A7%E9%97%AE%E9%A2%98%E6%8E%92%E6%9F%A5"><span class="nav-number">8.</span> <span class="nav-text">7. 宿主机稳定性问题排查</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%97%AE%E9%A2%98%E7%8E%B0%E8%B1%A1"><span class="nav-number">8.1.</span> <span class="nav-text">问题现象</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8E%92%E6%9F%A5%E8%BF%87%E7%A8%8B"><span class="nav-number">8.2.</span> <span class="nav-text">排查过程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A0%B9%E5%9B%A0%E5%88%86%E6%9E%90"><span class="nav-number">8.3.</span> <span class="nav-text">根因分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BF%AE%E5%A4%8D%E6%8E%AA%E6%96%BD"><span class="nav-number">8.4.</span> <span class="nav-text">修复措施</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8-%E5%A4%9A-VF-%E5%B9%B6%E5%8F%91%E5%B4%A9%E6%BA%83%E9%97%AE%E9%A2%98"><span class="nav-number">9.</span> <span class="nav-text">8. 多 VF 并发崩溃问题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%97%AE%E9%A2%98%E7%8E%B0%E8%B1%A1-1"><span class="nav-number">9.1.</span> <span class="nav-text">问题现象</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8E%92%E6%9F%A5%E8%BF%87%E7%A8%8B-1"><span class="nav-number">9.2.</span> <span class="nav-text">排查过程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B0%9D%E8%AF%95%E8%BF%87%E7%9A%84%E6%96%B9%E5%90%91"><span class="nav-number">9.3.</span> <span class="nav-text">尝试过的方向</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A0%B9%E6%9C%AC%E5%8E%9F%E5%9B%A0%E5%AE%9A%E4%BD%8D"><span class="nav-number">9.4.</span> <span class="nav-text">根本原因定位</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9C%80%E7%BB%88%E6%96%B9%E6%A1%88"><span class="nav-number">9.5.</span> <span class="nav-text">最终方案</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%90%8E%E7%BB%AD%E5%8F%AF%E4%BB%A5%E5%B0%9D%E8%AF%95%E7%9A%84%E6%96%B9%E5%90%91"><span class="nav-number">9.6.</span> <span class="nav-text">后续可以尝试的方向</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#9-%E7%BB%8F%E9%AA%8C%E6%80%BB%E7%BB%93%E4%B8%8E%E5%BB%BA%E8%AE%AE"><span class="nav-number">10.</span> <span class="nav-text">9. 经验总结与建议</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Windows-%E9%95%9C%E5%83%8F"><span class="nav-number">10.1.</span> <span class="nav-text">Windows 镜像</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#PVE-%E8%99%9A%E6%8B%9F%E6%9C%BA%E9%85%8D%E7%BD%AE"><span class="nav-number">10.2.</span> <span class="nav-text">PVE 虚拟机配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SR-IOV-%E7%9B%B4%E9%80%9A"><span class="nav-number">10.3.</span> <span class="nav-text">SR-IOV 直通</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%B3%BB%E7%BB%9F%E7%A8%B3%E5%AE%9A%E6%80%A7"><span class="nav-number">10.4.</span> <span class="nav-text">系统稳定性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#BIOS-%E5%BF%85%E9%A1%BB%E7%A1%AE%E8%AE%A4%E7%9A%84%E9%80%89%E9%A1%B9"><span class="nav-number">10.5.</span> <span class="nav-text">BIOS 必须确认的选项</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%99%84%E5%BD%95%EF%BC%9A%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E9%80%9F%E6%9F%A5"><span class="nav-number">11.</span> <span class="nav-text">附录：常用命令速查</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="VanJay"
+      src="/images/head.png">
+  <p class="site-author-name" itemprop="name">VanJay</p>
+  <div class="site-description" itemprop="description">成功不是将来才有的<br>而是决定去做的那一刻起<br>持续累积而成</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">72</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">37</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">147</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/wangwanjie" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wangwanjie" rel="noopener me" target="_blank"><i class="github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/wangwanjie" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;wangwanjie" rel="noopener me" target="_blank"><i class="twitter fa-fw"></i>Twitter</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="http://www.weibo.com/2406245873/profile?topnav=1&wvr=6" title="微博 → http:&#x2F;&#x2F;www.weibo.com&#x2F;2406245873&#x2F;profile?topnav&#x3D;1&amp;wvr&#x3D;6" rel="noopener me" target="_blank"><i class="weibo fa-fw"></i>微博</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.facebook.com/wangwanjie123" title="Facebook → https:&#x2F;&#x2F;www.facebook.com&#x2F;wangwanjie123" rel="noopener me" target="_blank"><i class="facebook fa-fw"></i>Facebook</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="http://wpa.qq.com/msgrd?v=3&uin=396736694&site=qq&menu=yes" title="QQ → http:&#x2F;&#x2F;wpa.qq.com&#x2F;msgrd?v&#x3D;3&amp;uin&#x3D;396736694&amp;site&#x3D;qq&amp;menu&#x3D;yes" rel="noopener me" target="_blank"><i class="qq fa-fw"></i>QQ</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:vanjay,dev@gmail.com" title="E-Mail → mailto:vanjay,dev@gmail.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="sidebar-inner sidebar-blogroll">
+      <div class="links-of-blogroll animated">
+        <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+          链接
+        </div>
+        <ul class="links-of-blogroll-list">
+            <li class="links-of-blogroll-item">
+              <a href="https://www.vanjay.cn/" title="https:&#x2F;&#x2F;www.vanjay.cn" rel="noopener" target="_blank">VanJay</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://boxueio.com/" title="https:&#x2F;&#x2F;boxueio.com" rel="noopener" target="_blank">泊学网</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="http://www.smartisan.com/" title="http:&#x2F;&#x2F;www.smartisan.com&#x2F;" rel="noopener" target="_blank">锤子科技</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://objccn.io/" title="https:&#x2F;&#x2F;objccn.io&#x2F;" rel="noopener" target="_blank">ObjC中国</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://github.com/apple/swift-evolution" title="https:&#x2F;&#x2F;github.com&#x2F;apple&#x2F;swift-evolution" rel="noopener" target="_blank">Swift evolution</a>
+            </li>
+        </ul>
+      </div>
+    </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://blog.vanjay.cn/2026/05/10/PVE-%E5%AE%89%E8%A3%85-Windows-11-Intel-SR-IOV-%E6%98%BE%E5%8D%A1%E7%9B%B4%E9%80%9A-%E2%80%94%E2%80%94-%E5%AE%9E%E6%88%98%E6%80%BB%E7%BB%93/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/head.png">
+      <meta itemprop="name" content="VanJay">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="VanJay's Blog">
+      <meta itemprop="description" content="成功不是将来才有的<br>而是决定去做的那一刻起<br>持续累积而成">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="PVE 安装 Windows 11 + Intel SR-IOV 显卡直通 —— 实战总结 | VanJay's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          PVE 安装 Windows 11 + Intel SR-IOV 显卡直通 —— 实战总结
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2026-05-10 23:02:08 / 修改时间：23:03:02" itemprop="dateCreated datePublished" datetime="2026-05-10T23:02:08+08:00">2026-05-10</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/pve/" itemprop="url" rel="index"><span itemprop="name">pve</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/pve/all-in-one/" itemprop="url" rel="index"><span itemprop="name">all-in-one</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>2.9k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>10 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><blockquote>
+<p>本文基于一次完整的实操记录整理，涵盖从 Windows 镜像选择、PVE 虚拟机创建、系统安装，到 Intel iGPU SR-IOV 显卡直通配置，以及宿主机稳定性排查的全过程。记录了踩过的坑和解决方案，供后续参考。</p>
+</blockquote>
+<hr>
+<span id="more"></span>
+
+<h2 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h2><ol>
+<li><a href="#1-windows-%E9%95%9C%E5%83%8F%E9%80%89%E6%8B%A9">Windows 镜像选择</a></li>
+<li><a href="#2-pve-%E7%8E%AF%E5%A2%83%E5%87%86%E5%A4%87">PVE 环境准备</a></li>
+<li><a href="#3-%E5%88%9B%E5%BB%BA-windows-11-%E8%99%9A%E6%8B%9F%E6%9C%BA">创建 Windows 11 虚拟机</a></li>
+<li><a href="#4-%E5%AE%89%E8%A3%85-windows-11">安装 Windows 11</a></li>
+<li><a href="#5-%E7%B3%BB%E7%BB%9F%E5%88%9D%E5%A7%8B%E5%8C%96%E9%85%8D%E7%BD%AE">系统初始化配置</a></li>
+<li><a href="#6-intel-sr-iov-%E6%98%BE%E5%8D%A1%E7%9B%B4%E9%80%9A">Intel SR-IOV 显卡直通</a></li>
+<li><a href="#7-%E5%AE%BF%E4%B8%BB%E6%9C%BA%E7%A8%B3%E5%AE%9A%E6%80%A7%E9%97%AE%E9%A2%98%E6%8E%92%E6%9F%A5">宿主机稳定性问题排查</a></li>
+<li><a href="#8-%E5%A4%9A-vf-%E5%B9%B6%E5%8F%91%E5%B4%A9%E6%BA%83%E9%97%AE%E9%A2%98">多 VF 并发崩溃问题</a></li>
+<li><a href="#9-%E7%BB%8F%E9%AA%8C%E6%80%BB%E7%BB%93%E4%B8%8E%E5%BB%BA%E8%AE%AE">经验总结与建议</a></li>
+</ol>
+<hr>
+<h2 id="1-Windows-镜像选择"><a href="#1-Windows-镜像选择" class="headerlink" title="1. Windows 镜像选择"></a>1. Windows 镜像选择</h2><h3 id="镜像方案对比"><a href="#镜像方案对比" class="headerlink" title="镜像方案对比"></a>镜像方案对比</h3><table>
+<thead>
+<tr>
+<th>方案</th>
+<th>体积</th>
+<th>兼容性</th>
+<th>更新支持</th>
+<th>适合场景</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Win11 原版</td>
+<td>~6 GB</td>
+<td>✅ 最好</td>
+<td>✅ 完整</td>
+<td>完整功能</td>
+</tr>
+<tr>
+<td>LTSC 2024 IoT</td>
+<td>~5 GB</td>
+<td>✅ 好</td>
+<td>✅ 到 2034</td>
+<td>长期稳定</td>
+</tr>
+<tr>
+<td><strong>Tiny11 标准版</strong></td>
+<td><strong>~5.5 GB</strong></td>
+<td><strong>✅ 好</strong></td>
+<td><strong>✅ 保留</strong></td>
+<td><strong>推荐：轻量日用</strong></td>
+</tr>
+<tr>
+<td>Tiny11 Core</td>
+<td>~3 GB</td>
+<td>⚠️ 较差</td>
+<td>❌ 无</td>
+<td>极限省资源</td>
+</tr>
+<tr>
+<td>X-Lite 系列</td>
+<td>~2-4 GB</td>
+<td>⚠️ 看版本</td>
+<td>⚠️ 看作者</td>
+<td>不推荐生产</td>
+</tr>
+</tbody></table>
+<h3 id="推荐方案：Tiny11-标准版"><a href="#推荐方案：Tiny11-标准版" class="headerlink" title="推荐方案：Tiny11 标准版"></a>推荐方案：Tiny11 标准版</h3><ul>
+<li>保留 Windows Update、Defender、msiserver（<code>.msi</code> 能正常安装）</li>
+<li>砍掉 Edge、Cortana、OneDrive、Teams 等膨胀组件</li>
+<li>跳过 TPM&#x2F;Secure Boot 检查内置</li>
+<li>默认保留”我没有 internet”按钮，绕过微软账号登录</li>
+</ul>
+<h3 id="可信下载来源"><a href="#可信下载来源" class="headerlink" title="可信下载来源"></a>可信下载来源</h3><pre class="line-numbers language-none"><code class="language-none">https:&#x2F;&#x2F;archive.org&#x2F;details&#x2F;tiny11_25H2<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<ul>
+<li>文件名：<code>tiny11_25H2_Nov25.iso</code>（包含 2025 年 11 月安全更新）</li>
+<li>大小约 5.3 GB，区分 x64 &#x2F; ARM，PVE 用 <strong>x64</strong></li>
+<li>下载后务必核对 SHA256（archive.org 页面有公布）</li>
+</ul>
+<h3 id="不推荐的镜像"><a href="#不推荐的镜像" class="headerlink" title="不推荐的镜像"></a>不推荐的镜像</h3><ul>
+<li><strong>X-Lite 26H1</strong>：版本号不是微软官方正式版，基于 Insider build</li>
+<li><strong>Tiny11 Core</strong>：砍掉 Update&#x2F;Defender&#x2F;WinSxS，<code>.msi</code> 装不上，语言包装不了</li>
+<li><strong>pixeldrain &#x2F; 网盘随机来源</strong>：无法验证，风险高</li>
+</ul>
+<hr>
+<h2 id="2-PVE-环境准备"><a href="#2-PVE-环境准备" class="headerlink" title="2. PVE 环境准备"></a>2. PVE 环境准备</h2><h3 id="上传-ISO-到-PVE"><a href="#上传-ISO-到-PVE" class="headerlink" title="上传 ISO 到 PVE"></a>上传 ISO 到 PVE</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 从 Mac 上传 Windows ISO</span>
+<span class="token function">scp</span> /Users/VanJay/Downloads/tiny11_25H2_Nov25.iso <span class="token punctuation">\</span>
+  root@192.168.18.18:/var/lib/vz/template/iso/tiny11_25H2_Nov25.iso
+
+<span class="token comment"># 下载 VirtIO 驱动（在 PVE 上执行）</span>
+<span class="token builtin class-name">cd</span> /var/lib/vz/template/iso/
+<span class="token function">wget</span> https://fedorapeople.org/groups/virt/virtio-win/direct-downloads/stable-virtio/virtio-win.iso
+
+<span class="token comment"># 验证文件</span>
+<span class="token function">ls</span> <span class="token parameter variable">-lh</span> /var/lib/vz/template/iso/<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="查看-PVE-资源"><a href="#查看-PVE-资源" class="headerlink" title="查看 PVE 资源"></a>查看 PVE 资源</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">pvesm status          <span class="token comment"># 查看存储</span>
+<span class="token function">ip</span> <span class="token function">link</span> show <span class="token operator">|</span> <span class="token function">grep</span> vmbr  <span class="token comment"># 查看网桥</span>
+qm list               <span class="token comment"># 查看已有 VM</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<hr>
+<h2 id="3-创建-Windows-11-虚拟机"><a href="#3-创建-Windows-11-虚拟机" class="headerlink" title="3. 创建 Windows 11 虚拟机"></a>3. 创建 Windows 11 虚拟机</h2><h3 id="创建命令（推荐配置）"><a href="#创建命令（推荐配置）" class="headerlink" title="创建命令（推荐配置）"></a>创建命令（推荐配置）</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">qm create <span class="token number">101</span> <span class="token punctuation">\</span>
+  <span class="token parameter variable">--name</span> Win11-tiny <span class="token punctuation">\</span>
+  <span class="token parameter variable">--ostype</span> win11 <span class="token punctuation">\</span>
+  <span class="token parameter variable">--machine</span> q35 <span class="token punctuation">\</span>
+  <span class="token parameter variable">--bios</span> ovmf <span class="token punctuation">\</span>
+  <span class="token parameter variable">--efidisk0</span> local-lvm:1,efitype<span class="token operator">=</span>4m,pre-enrolled-keys<span class="token operator">=</span><span class="token number">1</span> <span class="token punctuation">\</span>
+  <span class="token parameter variable">--tpmstate0</span> local-lvm:1,version<span class="token operator">=</span>v2.0 <span class="token punctuation">\</span>
+  <span class="token parameter variable">--cpu</span> host,hidden<span class="token operator">=</span><span class="token number">1</span>,flags<span class="token operator">=</span>+pcid <span class="token punctuation">\</span>
+  <span class="token parameter variable">--cores</span> <span class="token number">4</span> <span class="token punctuation">\</span>
+  <span class="token parameter variable">--sockets</span> <span class="token number">1</span> <span class="token punctuation">\</span>
+  <span class="token parameter variable">--memory</span> <span class="token number">8192</span> <span class="token punctuation">\</span>
+  <span class="token parameter variable">--balloon</span> <span class="token number">0</span> <span class="token punctuation">\</span>
+  <span class="token parameter variable">--net0</span> virtio,bridge<span class="token operator">=</span>vmbr0,firewall<span class="token operator">=</span><span class="token number">1</span> <span class="token punctuation">\</span>
+  <span class="token parameter variable">--scsihw</span> virtio-scsi-single <span class="token punctuation">\</span>
+  <span class="token parameter variable">--scsi0</span> local-lvm:100,discard<span class="token operator">=</span>on,iothread<span class="token operator">=</span><span class="token number">1</span>,ssd<span class="token operator">=</span><span class="token number">1</span>,cache<span class="token operator">=</span>none <span class="token punctuation">\</span>
+  <span class="token parameter variable">--ide0</span> local:iso/virtio-win.iso,media<span class="token operator">=</span>cdrom <span class="token punctuation">\</span>
+  <span class="token parameter variable">--ide2</span> local:iso/tiny11_25H2_Nov25.iso,media<span class="token operator">=</span>cdrom <span class="token punctuation">\</span>
+  <span class="token parameter variable">--boot</span> <span class="token assign-left variable">order</span><span class="token operator">=</span><span class="token string">'ide2;scsi0;ide0'</span> <span class="token punctuation">\</span>
+  <span class="token parameter variable">--agent</span> <span class="token assign-left variable">enabled</span><span class="token operator">=</span><span class="token number">1</span> <span class="token punctuation">\</span>
+  <span class="token parameter variable">--vga</span> std <span class="token punctuation">\</span>
+  <span class="token parameter variable">--tablet</span> <span class="token number">1</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="关键参数说明"><a href="#关键参数说明" class="headerlink" title="关键参数说明"></a>关键参数说明</h3><table>
+<thead>
+<tr>
+<th>参数</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>--machine q35</code></td>
+<td>Win11 必须用 q35</td>
+</tr>
+<tr>
+<td><code>--bios ovmf</code></td>
+<td>Win11 必须用 UEFI</td>
+</tr>
+<tr>
+<td><code>--tpmstate0</code></td>
+<td>Win11 需要 TPM 2.0</td>
+</tr>
+<tr>
+<td><code>--cpu host,hidden=1</code></td>
+<td><code>hidden=1</code> 隐藏虚拟化特征，避免驱动拒绝加载</td>
+</tr>
+<tr>
+<td><code>--balloon 0</code></td>
+<td>GPU 直通时必须关闭内存气球</td>
+</tr>
+<tr>
+<td><code>--vga std</code></td>
+<td>安装阶段先用模拟显卡，装好后再切直通</td>
+</tr>
+<tr>
+<td><code>discard=on,ssd=1</code></td>
+<td>SSD 必开，自动 TRIM</td>
+</tr>
+</tbody></table>
+<h3 id="磁盘扩容"><a href="#磁盘扩容" class="headerlink" title="磁盘扩容"></a>磁盘扩容</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 关机后扩容（只能增大，不能缩小）</span>
+qm <span class="token function">shutdown</span> <span class="token number">101</span>
+qm resize <span class="token number">101</span> scsi0 100G
+
+<span class="token comment"># Windows 内扩展分区（PowerShell）</span>
+<span class="token variable">$max</span> <span class="token operator">=</span> <span class="token punctuation">(</span>Get-PartitionSupportedSize <span class="token parameter variable">-DriveLetter</span> C<span class="token punctuation">)</span>.SizeMax
+Resize-Partition <span class="token parameter variable">-DriveLetter</span> C <span class="token parameter variable">-Size</span> <span class="token variable">$max</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="删除重建"><a href="#删除重建" class="headerlink" title="删除重建"></a>删除重建</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">qm stop <span class="token number">101</span>
+qm destroy <span class="token number">101</span> <span class="token parameter variable">--purge</span> --destroy-unreferenced-disks <span class="token number">1</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<hr>
+<h2 id="4-安装-Windows-11"><a href="#4-安装-Windows-11" class="headerlink" title="4. 安装 Windows 11"></a>4. 安装 Windows 11</h2><h3 id="浏览器进入-noVNC-控制台"><a href="#浏览器进入-noVNC-控制台" class="headerlink" title="浏览器进入 noVNC 控制台"></a>浏览器进入 noVNC 控制台</h3><pre class="line-numbers language-none"><code class="language-none">https:&#x2F;&#x2F;192.168.18.18:8006<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<h3 id="关键步骤：加载-VirtIO-SCSI-驱动"><a href="#关键步骤：加载-VirtIO-SCSI-驱动" class="headerlink" title="关键步骤：加载 VirtIO SCSI 驱动"></a>关键步骤：加载 VirtIO SCSI 驱动</h3><p>安装到”选择安装位置”时，磁盘列表为空是正常的，需要手动加载驱动：</p>
+<ol>
+<li>点击 <strong>Load driver &#x2F; 加载驱动程序</strong></li>
+<li>Browse → 选择 virtio-win 光驱</li>
+<li>路径：<code>vioscsi</code> → <code>w11</code> → <code>amd64</code> → OK</li>
+<li>选择 <strong>Red Hat VirtIO SCSI controller</strong> → Next</li>
+<li>看到硬盘出现后，顺便加载网卡和 Balloon 驱动：<ul>
+<li>网卡：<code>NetKVM\w11\amd64</code></li>
+<li>内存气球：<code>Balloon\w11\amd64</code></li>
+</ul>
+</li>
+</ol>
+<h3 id="OOBE-阶段（Tiny11）"><a href="#OOBE-阶段（Tiny11）" class="headerlink" title="OOBE 阶段（Tiny11）"></a>OOBE 阶段（Tiny11）</h3><ul>
+<li>出现联网界面时，点击 **”I don’t have internet”**（绕过微软账号）</li>
+<li>创建本地账号，填写用户名和密码</li>
+<li>隐私设置全部选 No&#x2F;Off</li>
+</ul>
+<h3 id="noVNC-粘贴技巧"><a href="#noVNC-粘贴技巧" class="headerlink" title="noVNC 粘贴技巧"></a>noVNC 粘贴技巧</h3><p>控制台左侧有一个拉手按钮，展开后有剪贴板图标，粘贴内容到文本框，再在 VM 内 <code>Ctrl+V</code>。</p>
+<hr>
+<h2 id="5-系统初始化配置"><a href="#5-系统初始化配置" class="headerlink" title="5. 系统初始化配置"></a>5. 系统初始化配置</h2><h3 id="安装-VirtIO-驱动（进系统后）"><a href="#安装-VirtIO-驱动（进系统后）" class="headerlink" title="安装 VirtIO 驱动（进系统后）"></a>安装 VirtIO 驱动（进系统后）</h3><pre class="line-numbers language-none"><code class="language-none">virtio-win 光驱 → virtio-win-gt-x64.msi    # 一键装齐所有驱动
+virtio-win 光驱 → guest-agent\qemu-ga-x86_64.msi  # QEMU Guest Agent<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<h3 id="开启-RDP（PowerShell-管理员）"><a href="#开启-RDP（PowerShell-管理员）" class="headerlink" title="开启 RDP（PowerShell 管理员）"></a>开启 RDP（PowerShell 管理员）</h3><pre class="line-numbers language-powershell" data-language="powershell"><code class="language-powershell"><span class="token comment"># 创建用户</span>
+net user VanJay 657879 <span class="token operator">/</span>add
+net localgroup Administrators VanJay <span class="token operator">/</span>add
+net localgroup <span class="token string">"Remote Desktop Users"</span> VanJay <span class="token operator">/</span>add
+
+<span class="token comment"># 开启 RDP</span>
+<span class="token function">Set-ItemProperty</span> <span class="token operator">-</span>Path <span class="token string">'HKLM:\System\CurrentControlSet\Control\Terminal Server'</span> <span class="token operator">-</span>Name <span class="token string">"fDenyTSConnections"</span> <span class="token operator">-</span>Value 0
+<span class="token function">Set-ItemProperty</span> <span class="token operator">-</span>Path <span class="token string">'HKLM:\System\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp'</span> <span class="token operator">-</span>Name <span class="token string">"UserAuthentication"</span> <span class="token operator">-</span>Value 1
+<span class="token function">Enable-NetFirewallRule</span> <span class="token operator">-</span>DisplayGroup <span class="token string">"Remote Desktop"</span>
+<span class="token function">Set-Service</span> TermService <span class="token operator">-</span>StartupType Automatic
+<span class="token function">Start-Service</span> TermService<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="安装中文语言包"><a href="#安装中文语言包" class="headerlink" title="安装中文语言包"></a>安装中文语言包</h3><pre class="line-numbers language-powershell" data-language="powershell"><code class="language-powershell"><span class="token comment"># 启动 Update 相关服务</span>
+<span class="token function">Set-Service</span> <span class="token operator">-</span>Name wuauserv <span class="token operator">-</span>StartupType Manual<span class="token punctuation">;</span> <span class="token function">Start-Service</span> wuauserv
+<span class="token function">Set-Service</span> <span class="token operator">-</span>Name BITS <span class="token operator">-</span>StartupType Manual<span class="token punctuation">;</span> <span class="token function">Start-Service</span> BITS
+
+<span class="token comment"># 安装中文</span>
+<span class="token function">Install-Language</span> <span class="token operator">-</span>Language zh-CN
+<span class="token function">Set-SystemPreferredUILanguage</span> <span class="token operator">-</span>Language zh-CN
+<span class="token function">Set-WinUILanguageOverride</span> <span class="token operator">-</span>Language zh-CN
+<span class="token function">Set-WinUserLanguageList</span> <span class="token operator">-</span>LanguageList zh-CN<span class="token punctuation">,</span> en-US <span class="token operator">-</span>Force
+<span class="token function">Set-Culture</span> <span class="token operator">-</span>CultureInfo zh-CN
+<span class="token function">Set-WinHomeLocation</span> <span class="token operator">-</span>GeoId 45
+<span class="token function">Set-WinSystemLocale</span> <span class="token operator">-</span>SystemLocale zh-CN
+
+<span class="token comment"># 重启生效</span>
+<span class="token function">Restart-Computer</span> <span class="token operator">-</span>Force<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="Windows-激活（massgrave）"><a href="#Windows-激活（massgrave）" class="headerlink" title="Windows 激活（massgrave）"></a>Windows 激活（massgrave）</h3><pre class="line-numbers language-powershell" data-language="powershell"><code class="language-powershell"><span class="token function">irm</span> https:<span class="token operator">/</span><span class="token operator">/</span>get<span class="token punctuation">.</span>activated<span class="token punctuation">.</span>win <span class="token punctuation">|</span> <span class="token function">iex</span>
+<span class="token comment"># 选 1 (HWID) → 永久激活，绑定硬件指纹</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<p>验证：</p>
+<pre class="line-numbers language-powershell" data-language="powershell"><code class="language-powershell">slmgr <span class="token operator">/</span>xpr
+<span class="token comment"># 显示 "Windows is permanently activated."</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<h3 id="卸载安装光驱"><a href="#卸载安装光驱" class="headerlink" title="卸载安装光驱"></a>卸载安装光驱</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">qm <span class="token builtin class-name">set</span> <span class="token number">101</span> <span class="token parameter variable">--ide0</span> none,media<span class="token operator">=</span>cdrom
+qm <span class="token builtin class-name">set</span> <span class="token number">101</span> <span class="token parameter variable">--ide2</span> none,media<span class="token operator">=</span>cdrom
+qm <span class="token builtin class-name">set</span> <span class="token number">101</span> <span class="token parameter variable">--boot</span> <span class="token assign-left variable">order</span><span class="token operator">=</span><span class="token string">'scsi0'</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<hr>
+<h2 id="6-Intel-SR-IOV-显卡直通"><a href="#6-Intel-SR-IOV-显卡直通" class="headerlink" title="6. Intel SR-IOV 显卡直通"></a>6. Intel SR-IOV 显卡直通</h2><h3 id="前提条件"><a href="#前提条件" class="headerlink" title="前提条件"></a>前提条件</h3><ul>
+<li>PVE 宿主机已安装 <code>i915-sriov-dkms</code></li>
+<li>BIOS 开启：VT-d、SR-IOV Support、Above 4G Decoding、IOMMU Preboot Behavior</li>
+<li>GRUB 启动参数包含 <code>intel_iommu=on</code></li>
+</ul>
+<h3 id="验证-SR-IOV-状态"><a href="#验证-SR-IOV-状态" class="headerlink" title="验证 SR-IOV 状态"></a>验证 SR-IOV 状态</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 查看 VF 是否创建</span>
+<span class="token function">ls</span> /dev/dri/by-path/
+<span class="token comment"># 期望：看到 pci-0000:00:02.0 到 02.7</span>
+
+<span class="token comment"># 查看 VF 驱动绑定</span>
+lspci <span class="token parameter variable">-nnk</span> <span class="token parameter variable">-s</span> 00:02<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="GRUB-参数（推荐）"><a href="#GRUB-参数（推荐）" class="headerlink" title="GRUB 参数（推荐）"></a>GRUB 参数（推荐）</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># /etc/default/grub</span>
+<span class="token assign-left variable">GRUB_CMDLINE_LINUX_DEFAULT</span><span class="token operator">=</span><span class="token string">"quiet intel_iommu=on i915.enable_guc=3 i915.max_vfs=7 module_blacklist=xe"</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<ul>
+<li><code>intel_iommu=on</code>：启用 IOMMU</li>
+<li><code>i915.enable_guc=3</code>：启用 GUC + HuC</li>
+<li><code>i915.max_vfs=7</code>：创建 7 个 VF</li>
+<li><code>module_blacklist=xe</code>：屏蔽新的 Xe 驱动，用 i915</li>
+</ul>
+<h3 id="sysfs-conf-自动创建-VF"><a href="#sysfs-conf-自动创建-VF" class="headerlink" title="sysfs.conf 自动创建 VF"></a>sysfs.conf 自动创建 VF</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># /etc/sysfs.conf</span>
+devices/pci0000:00/0000:00:02.0/sriov_numvfs <span class="token operator">=</span> <span class="token number">7</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<h3 id="VM-配置（切换到直通模式）"><a href="#VM-配置（切换到直通模式）" class="headerlink" title="VM 配置（切换到直通模式）"></a>VM 配置（切换到直通模式）</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 安装完系统、开好 RDP 之后执行</span>
+qm <span class="token function">shutdown</span> <span class="token number">101</span>
+qm <span class="token builtin class-name">set</span> <span class="token number">101</span> <span class="token parameter variable">--hostpci0</span> 0000:00:02.3,pcie<span class="token operator">=</span><span class="token number">1</span>  <span class="token comment"># 不要用 02.2（被 vgaarb 识别为 VGA）</span>
+qm <span class="token builtin class-name">set</span> <span class="token number">101</span> <span class="token parameter variable">--vga</span> none
+qm start <span class="token number">101</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<blockquote>
+<p><strong>注意</strong>：<code>vga: none</code> 后 noVNC 控制台黑屏是正常现象，通过 RDP 远程访问。</p>
+</blockquote>
+<h3 id="安装-Intel-显卡驱动（在-VM-内）"><a href="#安装-Intel-显卡驱动（在-VM-内）" class="headerlink" title="安装 Intel 显卡驱动（在 VM 内）"></a>安装 Intel 显卡驱动（在 VM 内）</h3><pre class="line-numbers language-none"><code class="language-none">https:&#x2F;&#x2F;www.intel.com&#x2F;content&#x2F;www&#x2F;us&#x2F;en&#x2F;download&#x2F;785597&#x2F;intel-arc-iris-xe-graphics-windows.html<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>下载 Intel Arc &amp; Iris Xe Graphics Driver，双击安装，重启。</p>
+<h3 id="IOMMU-组验证"><a href="#IOMMU-组验证" class="headerlink" title="IOMMU 组验证"></a>IOMMU 组验证</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token keyword">for</span> <span class="token for-or-select variable">dev</span> <span class="token keyword">in</span> 0000:00:02.0 0000:00:02.1 0000:00:02.2 0000:00:02.3<span class="token punctuation">;</span> <span class="token keyword">do</span>
+    <span class="token assign-left variable">group</span><span class="token operator">=</span><span class="token variable"><span class="token variable">$(</span>readlink /sys/bus/pci/devices/$dev/iommu_group <span class="token operator">|</span> <span class="token function">xargs</span> <span class="token function">basename</span><span class="token variable">)</span></span>
+    <span class="token builtin class-name">echo</span> <span class="token string">"<span class="token variable">$dev</span>: group <span class="token variable">$group</span>"</span>
+<span class="token keyword">done</span>
+<span class="token comment"># 期望：每个 VF 都在独立的 IOMMU group</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<hr>
+<h2 id="7-宿主机稳定性问题排查"><a href="#7-宿主机稳定性问题排查" class="headerlink" title="7. 宿主机稳定性问题排查"></a>7. 宿主机稳定性问题排查</h2><h3 id="问题现象"><a href="#问题现象" class="headerlink" title="问题现象"></a>问题现象</h3><p>PVE 宿主机在高 I&#x2F;O 负载下（特别是 VM 启动&#x2F;GPU 直通 DMA 操作时）出现 <code>hung_task</code>，SSH 断连，宿主机卡死需要强制重启。</p>
+<h3 id="排查过程"><a href="#排查过程" class="headerlink" title="排查过程"></a>排查过程</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 查看 hung_task</span>
+<span class="token function">dmesg</span> <span class="token operator">|</span> <span class="token function">grep</span> <span class="token parameter variable">-iE</span> <span class="token string">"nvme|hung_task|i/o error"</span> <span class="token operator">|</span> <span class="token function">tail</span> <span class="token parameter variable">-30</span>
+
+<span class="token comment"># 查看 NVMe 健康状态</span>
+<span class="token function">apt</span> <span class="token function">install</span> <span class="token parameter variable">-y</span> nvme-cli
+nvme smart-log /dev/nvme0
+nvme smart-log /dev/nvme1<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="根因分析"><a href="#根因分析" class="headerlink" title="根因分析"></a>根因分析</h3><ol>
+<li><strong>NVMe 固件兼容性问题</strong>：<ul>
+<li><code>nvme nvme0: missing or invalid SUBNQN field</code> — 固件不规范</li>
+<li><code>nvme nvme0: using unchecked data buffer</code> — 内核被迫用不安全 DMA 模式</li>
+</ul>
+</li>
+<li><strong>Samsung 980 历史过热</strong>：<code>Thermal T2 Trans Count: 4008</code>（历史数据，当前温度正常）</li>
+<li><strong>内核版本与 i915 SR-IOV DKMS 兼容性</strong>：7.0.2 内核在某些操作下比 6.17 更容易触发 hung_task</li>
+</ol>
+<h3 id="修复措施"><a href="#修复措施" class="headerlink" title="修复措施"></a>修复措施</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 1. NVMe 调度器改为 none</span>
+<span class="token builtin class-name">echo</span> none <span class="token operator">></span> /sys/block/nvme0n1/queue/scheduler
+<span class="token builtin class-name">echo</span> none <span class="token operator">></span> /sys/block/nvme1n1/queue/scheduler
+
+<span class="token comment"># 永久生效</span>
+<span class="token function">cat</span> <span class="token operator">></span> /etc/udev/rules.d/60-nvme-scheduler.rules <span class="token operator">&lt;&lt;</span> <span class="token string">'EOF'
+ACTION=="add|change", KERNEL=="nvme[0-9]n[0-9]", ATTR&#123;queue/scheduler&#125;="none"
+EOF</span>
+
+<span class="token comment"># 2. 禁用 NVMe 省电模式（防止热节流导致 I/O 超时）</span>
+<span class="token comment"># /etc/default/grub 添加：</span>
+<span class="token comment"># nvme_core.default_ps_max_latency_us=0 pcie_aspm=off</span>
+
+<span class="token comment"># 3. 更新 GRUB</span>
+<span class="token function">update-grub</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<hr>
+<h2 id="8-多-VF-并发崩溃问题"><a href="#8-多-VF-并发崩溃问题" class="headerlink" title="8. 多 VF 并发崩溃问题"></a>8. 多 VF 并发崩溃问题</h2><h3 id="问题现象-1"><a href="#问题现象-1" class="headerlink" title="问题现象"></a>问题现象</h3><p>两个 VM 同时直通不同 VF 时，宿主机直接重启（无 kernel panic 日志，属于硬件级崩溃）。</p>
+<h3 id="排查过程-1"><a href="#排查过程-1" class="headerlink" title="排查过程"></a>排查过程</h3><pre class="line-numbers language-none"><code class="language-none">VF1 FLR × 3  ← VM 100 (DSM) 启动
+VF3 FLR × 1  ← VM 101 (Win11) 启动
+→ 宿主机立即重启<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="尝试过的方向"><a href="#尝试过的方向" class="headerlink" title="尝试过的方向"></a>尝试过的方向</h3><table>
+<thead>
+<tr>
+<th>方案</th>
+<th>结果</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>降低 max_vfs 到 3</td>
+<td>❌ 仍然崩溃</td>
+</tr>
+<tr>
+<td>添加 <code>iommu=pt</code> 参数</td>
+<td>❌ 仍然崩溃</td>
+</tr>
+<tr>
+<td>去掉 <code>pcie=1</code> 参数</td>
+<td>❌ 仍然崩溃</td>
+</tr>
+<tr>
+<td>Block VF（udev rules）</td>
+<td>❌ 时机太晚，i915 已初始化 VF</td>
+</tr>
+<tr>
+<td>systemd service 绑定 vfio-pci</td>
+<td>❌ i915 在 service 前已初始化 VF</td>
+</tr>
+<tr>
+<td>切换到 6.17 内核</td>
+<td>❌ i915-sriov-dkms 需要额外编译</td>
+</tr>
+<tr>
+<td>参考旧机器配置复刻</td>
+<td>❌ 仍然崩溃</td>
+</tr>
+</tbody></table>
+<h3 id="根本原因定位"><a href="#根本原因定位" class="headerlink" title="根本原因定位"></a>根本原因定位</h3><pre class="line-numbers language-none"><code class="language-none">pci 0000:00:02.x: DMAR: Skip IOMMU disabling for graphics<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>妖板（非标准主板）BIOS 对 iGPU 的 IOMMU 处理有特殊行为，第二个 VF FLR 触发时产生硬件级异常。旧机器（小主机，标准 AMI BIOS）同款 CPU 可以同时跑 3 个直通 VM，证明是主板 BIOS 兼容性问题，而非 CPU 或软件问题。</p>
+<h3 id="最终方案"><a href="#最终方案" class="headerlink" title="最终方案"></a>最终方案</h3><p><strong>只给一个 VM 直通 GPU，另一个不直通</strong>：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># DSM 保留直通</span>
+qm config <span class="token number">100</span>  <span class="token comment"># hostpci0: 0000:00:02.1</span>
+
+<span class="token comment"># Win11 取消直通，通过 RDP 使用</span>
+qm <span class="token builtin class-name">set</span> <span class="token number">101</span> <span class="token parameter variable">--delete</span> hostpci0
+qm <span class="token builtin class-name">set</span> <span class="token number">101</span> <span class="token parameter variable">--vga</span> std<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="后续可以尝试的方向"><a href="#后续可以尝试的方向" class="headerlink" title="后续可以尝试的方向"></a>后续可以尝试的方向</h3><ol>
+<li><strong>更新妖板 BIOS</strong>：厂商可能发布过修复 SR-IOV 兼容性的更新</li>
+<li><strong>换标准主板</strong>：小主机平台（N100&#x2F;8505 等）对 SR-IOV 兼容性更好</li>
+<li><strong>等待 i915-sriov-dkms 更新</strong>：后续版本可能改进 VF 初始化时序</li>
+</ol>
+<hr>
+<h2 id="9-经验总结与建议"><a href="#9-经验总结与建议" class="headerlink" title="9. 经验总结与建议"></a>9. 经验总结与建议</h2><h3 id="Windows-镜像"><a href="#Windows-镜像" class="headerlink" title="Windows 镜像"></a>Windows 镜像</h3><ul>
+<li><strong>首选 Tiny11 标准版</strong>，从 archive.org NTDEV 官方页面下载，不要用随机网盘来源</li>
+<li><strong>Tiny11 Core 不适合生产</strong>，激进精简导致 <code>.msi</code> 安装失败、语言包装不上</li>
+<li><strong>X-Lite 系列要谨慎</strong>，26H1 版本号不是微软官方正式版；来源要从官网 windowsxlite.com 跳转</li>
+</ul>
+<h3 id="PVE-虚拟机配置"><a href="#PVE-虚拟机配置" class="headerlink" title="PVE 虚拟机配置"></a>PVE 虚拟机配置</h3><ul>
+<li><strong>安装阶段用模拟显卡</strong>（<code>--vga std</code>），装好系统、开好 RDP 后再切 GPU 直通</li>
+<li><strong>GPU 直通必须关 balloon</strong>（<code>--balloon 0</code>），否则内存不固定会出问题</li>
+<li><strong><code>cpu: host,hidden=1</code></strong> 比单纯 <code>host</code> 更稳定，避免驱动检测到 hypervisor</li>
+<li><strong>VirtIO SCSI 驱动</strong>是安装时最容易忘的一步，看不到磁盘就是缺这个</li>
+</ul>
+<h3 id="SR-IOV-直通"><a href="#SR-IOV-直通" class="headerlink" title="SR-IOV 直通"></a>SR-IOV 直通</h3><ul>
+<li><strong><code>02.2</code> 这个 VF 在 Alder Lake 上被 vgaarb 识别为 VGA controller</strong>，会导致 QEMU 初始化卡死，直通时选用 <code>02.3</code> 或更高编号的 VF</li>
+<li><strong><code>x-vga=1</code> 不适合 SR-IOV VF</strong>，VF 没有独立 VGA BIOS，加了这个参数会卡死</li>
+<li><strong>多 VF 并发直通的稳定性强依赖主板 BIOS</strong>，标准 AMI BIOS 的小主机兼容性明显优于定制主板</li>
+</ul>
+<h3 id="系统稳定性"><a href="#系统稳定性" class="headerlink" title="系统稳定性"></a>系统稳定性</h3><ul>
+<li><strong>NVMe 省电模式</strong>是很多 PVE hung_task 的根本原因，加 <code>nvme_core.default_ps_max_latency_us=0</code> 可显著改善</li>
+<li><strong>NVMe 调度器设为 none</strong>，跳过 Linux 层调度，减少 I&#x2F;O 延迟</li>
+<li><strong>Samsung 980（无 DRAM 缓存 HMB 盘）</strong>在持续高负载下有过热风险，建议加散热片</li>
+<li><strong><code>PWRON After Power Loss</code> 改为 Always On</strong>，服务器断电后自动开机</li>
+</ul>
+<h3 id="BIOS-必须确认的选项"><a href="#BIOS-必须确认的选项" class="headerlink" title="BIOS 必须确认的选项"></a>BIOS 必须确认的选项</h3><table>
+<thead>
+<tr>
+<th>选项</th>
+<th>要求</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>VT-d</td>
+<td>Enabled</td>
+</tr>
+<tr>
+<td>VT-x &#x2F; VMX</td>
+<td>Enabled</td>
+</tr>
+<tr>
+<td>SR-IOV Support</td>
+<td>Enabled</td>
+</tr>
+<tr>
+<td>Above 4G Decoding</td>
+<td>Enabled</td>
+</tr>
+<tr>
+<td>IOMMU Preboot Behavior</td>
+<td>Enable IOMMU during boot</td>
+</tr>
+<tr>
+<td>CSM</td>
+<td>Disabled</td>
+</tr>
+<tr>
+<td>Secure Boot</td>
+<td>Disabled</td>
+</tr>
+<tr>
+<td>DVMT Pre-Allocated</td>
+<td>64M 或以上</td>
+</tr>
+<tr>
+<td>PWRON After Power Loss</td>
+<td>Always On</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="附录：常用命令速查"><a href="#附录：常用命令速查" class="headerlink" title="附录：常用命令速查"></a>附录：常用命令速查</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># VM 管理</span>
+qm list                          <span class="token comment"># 列出所有 VM</span>
+qm start/stop/shutdown <span class="token operator">&lt;</span>vmid<span class="token operator">></span>    <span class="token comment"># 启动/停止/关机</span>
+qm status <span class="token operator">&lt;</span>vmid<span class="token operator">></span>                 <span class="token comment"># 查看状态</span>
+qm config <span class="token operator">&lt;</span>vmid<span class="token operator">></span>                 <span class="token comment"># 查看配置</span>
+qm <span class="token builtin class-name">set</span> <span class="token operator">&lt;</span>vmid<span class="token operator">></span> --<span class="token operator">&lt;</span>key<span class="token operator">></span> <span class="token operator">&lt;</span>value<span class="token operator">></span>    <span class="token comment"># 修改配置</span>
+qm destroy <span class="token operator">&lt;</span>vmid<span class="token operator">></span> <span class="token parameter variable">--purge</span> --destroy-unreferenced-disks <span class="token number">1</span>  <span class="token comment"># 删除 VM</span>
+qm resize <span class="token operator">&lt;</span>vmid<span class="token operator">></span> scsi0 100G      <span class="token comment"># 扩容磁盘</span>
+qm guest cmd <span class="token operator">&lt;</span>vmid<span class="token operator">></span> <span class="token function">ping</span>         <span class="token comment"># 测试 qemu-ga</span>
+
+<span class="token comment"># SR-IOV 相关</span>
+<span class="token function">ls</span> /dev/dri/by-path/             <span class="token comment"># 查看 VF 列表</span>
+lspci <span class="token parameter variable">-nnk</span> <span class="token parameter variable">-s</span> 00:02              <span class="token comment"># 查看 iGPU 及 VF 驱动</span>
+<span class="token function">cat</span> /sys/module/i915/parameters/max_vfs  <span class="token comment"># 查看当前 VF 数量</span>
+
+<span class="token comment"># 内核管理</span>
+proxmox-boot-tool kernel list    <span class="token comment"># 查看可用内核</span>
+proxmox-boot-tool kernel pin <span class="token operator">&lt;</span>version<span class="token operator">></span>  <span class="token comment"># 固定启动内核</span>
+<span class="token function">uname</span> <span class="token parameter variable">-r</span>                         <span class="token comment"># 查看当前内核版本</span>
+
+<span class="token comment"># NVMe 状态</span>
+nvme list                        <span class="token comment"># 列出 NVMe 设备</span>
+nvme smart-log /dev/nvme0        <span class="token comment"># 查看健康状态</span>
+<span class="token function">cat</span> /sys/block/nvme0n1/queue/scheduler  <span class="token comment"># 查看调度器</span>
+
+<span class="token comment"># 日志查看</span>
+<span class="token function">dmesg</span> <span class="token operator">|</span> <span class="token function">grep</span> <span class="token parameter variable">-iE</span> <span class="token string">"hung_task|nvme|i915"</span> <span class="token operator">|</span> <span class="token function">tail</span> <span class="token parameter variable">-30</span>
+journalctl <span class="token parameter variable">-k</span> <span class="token parameter variable">-b</span> <span class="token parameter variable">-1</span> <span class="token operator">|</span> <span class="token function">tail</span> <span class="token parameter variable">-50</span>  <span class="token comment"># 上次启动的内核日志</span>
+journalctl <span class="token parameter variable">-k</span> <span class="token parameter variable">-b</span> <span class="token parameter variable">-1</span> <span class="token operator">|</span> <span class="token function">grep</span> <span class="token parameter variable">-iE</span> <span class="token string">"FLR|panic|BUG"</span> <span class="token operator">|</span> <span class="token function">tail</span> <span class="token parameter variable">-30</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="reward-container">
+  <div>对你有帮助？您的支持将更加鼓励我继续创作！</div>
+  <button>
+    打赏
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/images/wechatpay.png" alt="VanJay 微信">
+        <span>微信</span>
+      </div>
+      <div>
+        <img src="/images/alipay.jpg" alt="VanJay 支付宝">
+        <span>支付宝</span>
+      </div>
+
+  </div>
+</div>
+
+          <div class="followme">
+  <span>欢迎关注我的其它发布渠道</span>
+
+  <div class="social-list">
+
+      <div class="social-item">
+          <a target="_blank" class="social-link" href="/atom.xml">
+            <span class="icon">
+              <i class="fa fa-rss"></i>
+            </span>
+
+            <span class="label">RSS</span>
+          </a>
+      </div>
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/pve/" rel="tag"># pve</a>
+              <a href="/tags/Windows-11/" rel="tag"># Windows 11</a>
+              <a href="/tags/SR-IOV/" rel="tag"># SR-IOV</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2026/05/10/Windows-%E6%B3%A8%E5%86%8C%E8%A1%A8%E4%BC%98%E5%8C%96%E5%90%88%E9%9B%86/" rel="prev" title="Windows 注册表优化合集:打造干净顺手的桌面环境">
+                  <i class="fa fa-chevron-left"></i> Windows 注册表优化合集:打造干净顺手的桌面环境
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments" id="lv-container" data-id="city" data-uid="MTAyMC80MDA5MC8xNjYxNw=="></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2013 – 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">&copy VanJay</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">104k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">6:19</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/mist/" rel="noopener" target="_blank">NexT.Mist</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+  <a href="https://github.com/wangwanjie" class="github-corner" title="在 GitHub 上关注我" aria-label="在 GitHub 上关注我" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js" integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js" integrity="sha256-yt2kYMy0w8AbtF89WXb2P1rfjcP/HTHLT7097U8Y5b8=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+  <script src="/js/third-party/fancybox.js"></script>
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script src="/js/third-party/comments/livere.js"></script>
+ <!-- 页面点击小红心 -->
+
+<script type="text/javascript">
+!function(e,t,a){function r(){for(var e=0;e<n.length;e++)n[e].alpha<=0?(t.body.removeChild(n[e].el),n.splice(e,1)):(n[e].y--,n[e].scale+=.004,n[e].alpha-=.013,n[e].el.style.cssText="left:"+n[e].x+"px;top:"+n[e].y+"px;opacity:"+n[e].alpha+";transform:scale("+n[e].scale+","+n[e].scale+") rotate(45deg);background:"+n[e].color+";z-index:99999");requestAnimationFrame(r)}var n=[];e.requestAnimationFrame=e.requestAnimationFrame||e.webkitRequestAnimationFrame||e.mozRequestAnimationFrame||e.oRequestAnimationFrame||e.msRequestAnimationFrame||function(e){setTimeout(e,1e3/60)},function(e){var a=t.createElement("style");a.type="text/css";try{a.appendChild(t.createTextNode(e))}catch(t){a.styleSheet.cssText=e}t.getElementsByTagName("head")[0].appendChild(a)}(".heart{width: 10px;height: 10px;position: fixed;background: #f00;transform: rotate(45deg);-webkit-transform: rotate(45deg);-moz-transform: rotate(45deg);}.heart:after,.heart:before{content: '';width: inherit;height: inherit;background: inherit;border-radius: 50%;-webkit-border-radius: 50%;-moz-border-radius: 50%;position: fixed;}.heart:after{top: -5px;}.heart:before{left: -5px;}"),function(){var a="function"==typeof e.onclick&&e.onclick;e.onclick=function(e){a&&a(),function(e){var a=t.createElement("div");a.className="heart",n.push({el:a,x:e.clientX-5,y:e.clientY-5,scale:1,alpha:1,color:"rgb("+~~(255*Math.random())+","+~~(255*Math.random())+","+~~(255*Math.random())+")"}),t.body.appendChild(a)}(e)}}(),r()}(window,document);
+</script>
+
+
+<script type="text/javascript">
+/*页面载入完成后，修改手机上跳转 github 样式 */
+!function (e, t, a) {
+    var browser = {
+        versions: function () {
+            var u = navigator.userAgent,
+                app = navigator.appVersion;
+            return { //移动终端浏览器版本信息
+                trident: u.indexOf('Trident') > -1, //IE内核
+                presto: u.indexOf('Presto') > -1, //opera内核
+                webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
+                gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
+                mobile: !!u.match(/AppleWebKit.*Mobile.*/), // || !!u.match(/AppleWebKit/), //是否为移动终端
+                ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+                android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
+                iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者QQHD浏览器
+                iPad: u.indexOf('iPad') > -1, //是否iPad
+                webApp: u.indexOf('Safari') == -1
+                //是否web应该程序，没有头部与底部
+            };
+        }(),
+        language: (navigator.browserLanguage || navigator.language).toLowerCase()
+    }
+
+    function setDynamicBackground() {
+        $('body').css({
+            'background': 'url(https://source.unsplash.com/random/1600x900)',
+            'background-attachment': 'fixed',
+            'background-repeat': 'repeat',
+            'background-size': 'contain'
+        });
+        $('.main-inner').css({
+            'margin-top': '60px',
+            'padding': '60px 60px 0px 60px',
+            'background': '#fff',
+            'opacity': '0.8',
+            'min-height': '500px'
+        });
+        $('.page-home .main-inner').css({
+            'padding-bottom': '60px',
+        });
+        $('.header').css({
+            'background': 'transparent',
+            'color': '#fff'
+        });
+        $('.footer').css({
+            'background': 'transparent',
+            'color': '#fff'
+        });
+
+        $('.footer-inner .theme-link').css('color', '#EEE');
+    }
+    function setSquareCellBackground(isMobile) {
+        $('body').css({
+            'background-image': 'url("/images/background_cell.png")',
+            'background-position': 'center center',
+            'background-size': 'auto',
+            'background-repeat': 'repeat',
+            'background-attachment': 'fixed'
+        });
+        if (!isMobile) {
+            $('.main-inner').css({
+                'margin-top': '60px',
+                'padding': '60px 60px 0px 60px',
+                'opacity': '0.8',
+                'min-height': '500px'
+            });
+            $('.page-home .main-inner').css({
+                'padding-bottom': '60px',
+            });
+        }
+        $('.header').css({
+            'background': 'transparent',
+        });
+        $('.footer').css({
+            'background': 'transparent',
+        });
+    }
+    function setMobileBackgroun() {
+        $('.header').css({
+            'background': 'linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("https://s1.ax1x.com/2018/06/09/CbDIIO.jpg") no-repeat',
+            'background-size': 'cover',
+            'background-color': 'black',
+            'background-position': 'center',
+            'width': '100%',
+            'display': 'table'
+        })
+
+        $('.site-nav-toggle .btn-bar').css('background', '#fff');
+    }
+
+    function settingBackground () {
+        if (browser.versions.mobile) {
+            setSquareCellBackground(true);
+        } else {
+            // setDynamicBackground();
+            setSquareCellBackground(false);
+        }
+    }
+    if (browser.versions.mobile) {
+        var headerStr = '<div class="site-nav-toggle">' +
+            '    <button aria-label="切换导航栏">' +
+            '      <span class="btn-bar"></span>' +
+            '      <span class="btn-bar"></span>' +
+            '      <span class="btn-bar"></span>' +
+            '    </button>' +
+            '  </div>' +
+            '  <div class="site-meta ">' +
+            '    <div class="custom-logo-site-title">' +
+            '      <a href="/" class="brand" rel="start" style="opacity: 1;">' +
+            '        <span class="logo-line-before"><i class="" style="transform: translateX(100%);"></i></span>' +
+            '        <span class="site-title" style="opacity: 1; top: 0px;">VanJay\'s Blog</span>' +
+            '        <span class="logo-line-after"><i class="" style="transform: translateX(-100%);"></i></span>' +
+            '      </a>' +
+            '    </div>' +
+            '        <p class="site-subtitle" style="opacity: 1; top: 0px;">一个爱折腾工程师的全栈梦</p>' +
+            '  </div>';
+        $('.header .site-brand-wrapper').html(headerStr);
+    }
+    // 设置背景
+    settingBackground();
+
+}(window, document);
+</script>
+</body>
+</html>
