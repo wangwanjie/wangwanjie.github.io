@@ -15,8 +15,69 @@
     <atom:link href="https://blog.vanjay.cn/rss2.xml" rel="self" type="application/rss+xml"/>
     
     <description>成功不是将来才有的&lt;br&gt;而是决定去做的那一刻起&lt;br&gt;持续累积而成</description>
-    <pubDate>Sun, 10 May 2026 05:39:56 GMT</pubDate>
+    <pubDate>Sun, 10 May 2026 13:41:01 GMT</pubDate>
     <generator>http://hexo.io/</generator>
+    
+    <item>
+      <title>Windows 注册表优化合集:打造干净顺手的桌面环境</title>
+      <link>https://blog.vanjay.cn/2026/05/10/Windows-%E6%B3%A8%E5%86%8C%E8%A1%A8%E4%BC%98%E5%8C%96%E5%90%88%E9%9B%86/</link>
+      <guid>https://blog.vanjay.cn/2026/05/10/Windows-%E6%B3%A8%E5%86%8C%E8%A1%A8%E4%BC%98%E5%8C%96%E5%90%88%E9%9B%86/</guid>
+      <pubDate>Sun, 10 May 2026 13:40:22 GMT</pubDate>
+      
+      <description>&lt;p&gt;记录一份自用的 Windows(主要面向 Win11,大部分对 Win10 也适用)注册表优化清单。涵盖去快捷方式箭头、显示隐藏文件、桌面图标、右键菜单、任务栏对齐、系统激活等常见需求。所有命令均提供 &lt;strong&gt;PowerShell&lt;/strong&gt; 和 &lt;strong&gt;CMD&lt;/strong&gt; 两种版本,按需取用。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;⚠️ 修改注册表前建议先导出备份:&lt;code&gt;reg export HKCU backup-hkcu.reg /y&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;大部分操作只改 &lt;code&gt;HKCU&lt;/code&gt;,不需要管理员权限;改 &lt;code&gt;HKLM&lt;/code&gt; 的项需要&lt;strong&gt;以管理员身份运行&lt;/strong&gt;终端。&lt;/p&gt;
+&lt;p&gt;所有改动通常需要重启资源管理器(&lt;code&gt;explorer.exe&lt;/code&gt;)才能生效,各小节末尾已包含相关命令。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;hr&gt;</description>
+      
+      
+      
+      
+      <category domain="https://blog.vanjay.cn/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</category>
+      
+      
+      <category domain="https://blog.vanjay.cn/tags/Windows/">Windows</category>
+      
+      <category domain="https://blog.vanjay.cn/tags/%E7%BE%8E%E5%8C%96/">美化</category>
+      
+      
+      <comments>https://blog.vanjay.cn/2026/05/10/Windows-%E6%B3%A8%E5%86%8C%E8%A1%A8%E4%BC%98%E5%8C%96%E5%90%88%E9%9B%86/#disqus_thread</comments>
+      
+    </item>
+    
+    <item>
+      <title>把 PVE 多余物理网口当交换机用</title>
+      <link>https://blog.vanjay.cn/2026/05/10/%E6%8A%8A-PVE-%E5%A4%9A%E4%BD%99%E7%89%A9%E7%90%86%E7%BD%91%E5%8F%A3%E5%BD%93%E4%BA%A4%E6%8D%A2%E6%9C%BA%E7%94%A8/</link>
+      <guid>https://blog.vanjay.cn/2026/05/10/%E6%8A%8A-PVE-%E5%A4%9A%E4%BD%99%E7%89%A9%E7%90%86%E7%BD%91%E5%8F%A3%E5%BD%93%E4%BA%A4%E6%8D%A2%E6%9C%BA%E7%94%A8/</guid>
+      <pubDate>Sun, 10 May 2026 06:38:59 GMT</pubDate>
+      
+      <description>&lt;p&gt;家里的小主机装了 Proxmox VE，板载 4 个网口，但只用到一个接主路由当管理口，剩下三个一直空着。前两天发现书桌旁的物理交换机口又不够用了，懒得再买一台，就琢磨着能不能直接拿 PVE 这几个空口顶上。&lt;/p&gt;
+&lt;p&gt;PVE 本身就是 Linux + KVM，网络这块用的是内核自带的 Linux Bridge，思路其实很直接：&lt;strong&gt;把闲置的物理网口加入到现有的 vmbr0 里&lt;/strong&gt;，bridge 内部二层互通，效果上就跟一台交换机一样。&lt;/p&gt;</description>
+      
+      
+      
+      
+      <category domain="https://blog.vanjay.cn/categories/%E8%BF%90%E7%BB%B4/">运维</category>
+      
+      <category domain="https://blog.vanjay.cn/categories/%E8%BF%90%E7%BB%B4/%E5%AE%B6%E5%BA%AD%E7%BD%91%E7%BB%9C/">家庭网络</category>
+      
+      
+      <category domain="https://blog.vanjay.cn/tags/PVE/">PVE</category>
+      
+      <category domain="https://blog.vanjay.cn/tags/%E7%BD%91%E7%BB%9C/">网络</category>
+      
+      <category domain="https://blog.vanjay.cn/tags/Proxmox/">Proxmox</category>
+      
+      <category domain="https://blog.vanjay.cn/tags/Linux-Bridge/">Linux Bridge</category>
+      
+      <category domain="https://blog.vanjay.cn/tags/Homelab/">Homelab</category>
+      
+      
+      <comments>https://blog.vanjay.cn/2026/05/10/%E6%8A%8A-PVE-%E5%A4%9A%E4%BD%99%E7%89%A9%E7%90%86%E7%BD%91%E5%8F%A3%E5%BD%93%E4%BA%A4%E6%8D%A2%E6%9C%BA%E7%94%A8/#disqus_thread</comments>
+      
+    </item>
     
     <item>
       <title>PVE + Arc Loader 群晖部署:核显 SR-IOV、跨机型数据救援与 NVMe 存储池重建实录</title>
@@ -501,62 +562,6 @@
       
       
       <comments>https://blog.vanjay.cn/2023/09/28/%E4%BB%8E-Gitlab-%E8%BF%81%E7%A7%BB%E5%88%B0-Gitea-%E5%B0%8F%E8%AE%B0/#disqus_thread</comments>
-      
-    </item>
-    
-    <item>
-      <title>iOS图像平均色提取算法优化与实战</title>
-      <link>https://blog.vanjay.cn/2023/09/03/iOS%E5%9B%BE%E5%83%8F%E5%B9%B3%E5%9D%87%E8%89%B2%E6%8F%90%E5%8F%96%E7%AE%97%E6%B3%95%E4%BC%98%E5%8C%96%E4%B8%8E%E5%AE%9E%E6%88%98/</link>
-      <guid>https://blog.vanjay.cn/2023/09/03/iOS%E5%9B%BE%E5%83%8F%E5%B9%B3%E5%9D%87%E8%89%B2%E6%8F%90%E5%8F%96%E7%AE%97%E6%B3%95%E4%BC%98%E5%8C%96%E4%B8%8E%E5%AE%9E%E6%88%98/</guid>
-      <pubDate>Sun, 03 Sep 2023 05:40:25 GMT</pubDate>
-      
-      <description>&lt;h1 id=&quot;背景&quot;&gt;&lt;a href=&quot;#背景&quot; class=&quot;headerlink&quot; title=&quot;背景&quot;&gt;&lt;/a&gt;背景&lt;/h1&gt;&lt;p&gt;图像平均色提取是移动应用开发中的常见需求，广泛应用于音乐播放器的动态背景、图片墙的主题色匹配、UI界面的自适应配色等场景。然而，传统的平均色提取算法在处理大量图片时往往存在性能瓶颈，特别是在需要实时处理的场景中。本文将介绍几种高效的图像平均色提取算法，并通过实际性能测试对比分析各种优化策略。&lt;/p&gt;</description>
-      
-      
-      
-      
-      <category domain="https://blog.vanjay.cn/categories/iOS%E5%BC%80%E5%8F%91/">iOS开发</category>
-      
-      
-      <category domain="https://blog.vanjay.cn/tags/iOS/">iOS</category>
-      
-      <category domain="https://blog.vanjay.cn/tags/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/">性能优化</category>
-      
-      <category domain="https://blog.vanjay.cn/tags/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/">图像处理</category>
-      
-      <category domain="https://blog.vanjay.cn/tags/%E9%A2%9C%E8%89%B2%E6%8F%90%E5%8F%96/">颜色提取</category>
-      
-      <category domain="https://blog.vanjay.cn/tags/Core-Graphics/">Core Graphics</category>
-      
-      
-      <comments>https://blog.vanjay.cn/2023/09/03/iOS%E5%9B%BE%E5%83%8F%E5%B9%B3%E5%9D%87%E8%89%B2%E6%8F%90%E5%8F%96%E7%AE%97%E6%B3%95%E4%BC%98%E5%8C%96%E4%B8%8E%E5%AE%9E%E6%88%98/#disqus_thread</comments>
-      
-    </item>
-    
-    <item>
-      <title>iOS图像主题色提取算法性能优化实践</title>
-      <link>https://blog.vanjay.cn/2023/09/02/iOS%E5%9B%BE%E5%83%8F%E4%B8%BB%E9%A2%98%E8%89%B2%E6%8F%90%E5%8F%96%E7%AE%97%E6%B3%95%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E5%AE%9E%E8%B7%B5/</link>
-      <guid>https://blog.vanjay.cn/2023/09/02/iOS%E5%9B%BE%E5%83%8F%E4%B8%BB%E9%A2%98%E8%89%B2%E6%8F%90%E5%8F%96%E7%AE%97%E6%B3%95%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E5%AE%9E%E8%B7%B5/</guid>
-      <pubDate>Sat, 02 Sep 2023 02:20:15 GMT</pubDate>
-      
-      <description>&lt;h1 id=&quot;背景&quot;&gt;&lt;a href=&quot;#背景&quot; class=&quot;headerlink&quot; title=&quot;背景&quot;&gt;&lt;/a&gt;背景&lt;/h1&gt;&lt;p&gt;在现代移动应用中，图像主题色提取是一项常见的需求，广泛应用于音乐播放器的动态背景、图片墙的色调匹配、UI主题自动适配等场景。然而，传统的主题色提取算法在处理大量图片时往往存在性能瓶颈。本文将介绍一种高效的iOS图像主题色提取算法，并通过多种优化手段显著提升其性能表现。&lt;/p&gt;</description>
-      
-      
-      
-      
-      <category domain="https://blog.vanjay.cn/categories/iOS%E5%BC%80%E5%8F%91/">iOS开发</category>
-      
-      
-      <category domain="https://blog.vanjay.cn/tags/iOS/">iOS</category>
-      
-      <category domain="https://blog.vanjay.cn/tags/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/">图像处理</category>
-      
-      <category domain="https://blog.vanjay.cn/tags/%E7%AE%97%E6%B3%95%E4%BC%98%E5%8C%96/">算法优化</category>
-      
-      <category domain="https://blog.vanjay.cn/tags/%E6%80%A7%E8%83%BD%E8%B0%83%E4%BC%98/">性能调优</category>
-      
-      
-      <comments>https://blog.vanjay.cn/2023/09/02/iOS%E5%9B%BE%E5%83%8F%E4%B8%BB%E9%A2%98%E8%89%B2%E6%8F%90%E5%8F%96%E7%AE%97%E6%B3%95%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E5%AE%9E%E8%B7%B5/#disqus_thread</comments>
       
     </item>
     

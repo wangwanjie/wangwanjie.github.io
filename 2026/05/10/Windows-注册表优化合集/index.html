@@ -1,0 +1,935 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic%7CRoboto+Slab:300,300italic,400,400italic,700,700italic%7CPT+Mono:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css" integrity="sha256-Vzbj7sDDS/woiFS3uNKo8eIuni59rjyNGtXfstRzStA=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"blog.vanjay.cn","root":"/","images":"/images","scheme":"Mist","darkmode":false,"version":"8.16.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":"mac"},"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="记录一份自用的 Windows(主要面向 Win11,大部分对 Win10 也适用)注册表优化清单。涵盖去快捷方式箭头、显示隐藏文件、桌面图标、右键菜单、任务栏对齐、系统激活等常见需求。所有命令均提供 PowerShell 和 CMD 两种版本,按需取用。  ⚠️ 修改注册表前建议先导出备份:reg export HKCU backup-hkcu.reg &#x2F;y 大部分操作只改 HKCU,不需要管理">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Windows 注册表优化合集:打造干净顺手的桌面环境">
+<meta property="og:url" content="https://blog.vanjay.cn/2026/05/10/Windows-%E6%B3%A8%E5%86%8C%E8%A1%A8%E4%BC%98%E5%8C%96%E5%90%88%E9%9B%86/index.html">
+<meta property="og:site_name" content="VanJay&#39;s Blog">
+<meta property="og:description" content="记录一份自用的 Windows(主要面向 Win11,大部分对 Win10 也适用)注册表优化清单。涵盖去快捷方式箭头、显示隐藏文件、桌面图标、右键菜单、任务栏对齐、系统激活等常见需求。所有命令均提供 PowerShell 和 CMD 两种版本,按需取用。  ⚠️ 修改注册表前建议先导出备份:reg export HKCU backup-hkcu.reg &#x2F;y 大部分操作只改 HKCU,不需要管理">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2026-05-10T13:40:22.000Z">
+<meta property="article:modified_time" content="2026-05-10T13:41:01.417Z">
+<meta property="article:author" content="VanJay">
+<meta property="article:tag" content="Windows">
+<meta property="article:tag" content="美化">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://blog.vanjay.cn/2026/05/10/Windows-%E6%B3%A8%E5%86%8C%E8%A1%A8%E4%BC%98%E5%8C%96%E5%90%88%E9%9B%86/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://blog.vanjay.cn/2026/05/10/Windows-%E6%B3%A8%E5%86%8C%E8%A1%A8%E4%BC%98%E5%8C%96%E5%90%88%E9%9B%86/","path":"2026/05/10/Windows-注册表优化合集/","title":"Windows 注册表优化合集:打造干净顺手的桌面环境"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Windows 注册表优化合集:打造干净顺手的桌面环境 | VanJay's Blog</title>
+  
+
+  <script src="/js/third-party/analytics/baidu-analytics.js"></script>
+  <script async src="https://hm.baidu.com/hm.js?dcbe579f2b53b3adfd4034b7acee5785"></script>
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="VanJay's Blog" type="application/atom+xml">
+<link rel="alternate" href="/rss2.xml" title="VanJay's Blog" type="application/rss+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">VanJay's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">一个爱折腾工程师的全栈梦</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="home fa-fw"></i>首页</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-commonweal"><a href="/404.html" rel="section"><i class="heartbeat fa-fw"></i>公益 404</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="user fa-fw"></i>关于</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9B%AE%E5%BD%95"><span class="nav-number">1.</span> <span class="nav-text">目录</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E5%8E%BB%E6%8E%89%E6%A1%8C%E9%9D%A2%E5%BF%AB%E6%8D%B7%E6%96%B9%E5%BC%8F%E7%9A%84%E5%B0%8F%E7%AE%AD%E5%A4%B4"><span class="nav-number">2.</span> <span class="nav-text">1. 去掉桌面快捷方式的小箭头</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#PowerShell-%E7%AE%A1%E7%90%86%E5%91%98"><span class="nav-number">2.1.</span> <span class="nav-text">PowerShell(管理员)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CMD-%E7%AE%A1%E7%90%86%E5%91%98"><span class="nav-number">2.2.</span> <span class="nav-text">CMD(管理员)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%81%A2%E5%A4%8D%E9%BB%98%E8%AE%A4%E7%AE%AD%E5%A4%B4"><span class="nav-number">2.3.</span> <span class="nav-text">恢复默认箭头</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E5%8E%BB%E6%8E%89%E6%96%B0%E5%BB%BA%E5%BF%AB%E6%8D%B7%E6%96%B9%E5%BC%8F%E6%97%B6%E7%9A%84-%E2%80%9C-%E5%BF%AB%E6%8D%B7%E6%96%B9%E5%BC%8F%E2%80%9D-%E5%90%8E%E7%BC%80"><span class="nav-number">3.</span> <span class="nav-text">2. 去掉新建快捷方式时的 “- 快捷方式” 后缀</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#PowerShell"><span class="nav-number">3.1.</span> <span class="nav-text">PowerShell</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CMD"><span class="nav-number">3.2.</span> <span class="nav-text">CMD</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E4%BB%BB%E5%8A%A1%E6%A0%8F%E6%96%87%E4%BB%B6%E8%B5%84%E6%BA%90%E7%AE%A1%E7%90%86%E5%99%A8%E9%BB%98%E8%AE%A4%E6%89%93%E5%BC%80%E2%80%9D%E6%AD%A4%E7%94%B5%E8%84%91%E2%80%9D"><span class="nav-number">4.</span> <span class="nav-text">3. 任务栏文件资源管理器默认打开”此电脑”</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#PowerShell-1"><span class="nav-number">4.1.</span> <span class="nav-text">PowerShell</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CMD-1"><span class="nav-number">4.2.</span> <span class="nav-text">CMD</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#LaunchTo-%E5%8F%96%E5%80%BC%E8%AF%B4%E6%98%8E"><span class="nav-number">4.3.</span> <span class="nav-text">LaunchTo 取值说明</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-%E6%98%BE%E7%A4%BA%E9%9A%90%E8%97%8F%E6%96%87%E4%BB%B6-%E6%98%BE%E7%A4%BA%E6%89%A9%E5%B1%95%E5%90%8D-%E4%B8%8D%E6%98%BE%E7%A4%BA%E7%B3%BB%E7%BB%9F%E5%8F%97%E4%BF%9D%E6%8A%A4%E6%96%87%E4%BB%B6"><span class="nav-number">5.</span> <span class="nav-text">4. 显示隐藏文件 + 显示扩展名(不显示系统受保护文件)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#PowerShell-2"><span class="nav-number">5.1.</span> <span class="nav-text">PowerShell</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CMD-2"><span class="nav-number">5.2.</span> <span class="nav-text">CMD</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%96%E5%80%BC%E5%AF%B9%E7%85%A7"><span class="nav-number">5.3.</span> <span class="nav-text">取值对照</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-%E6%A1%8C%E9%9D%A2%E6%98%BE%E7%A4%BA%E2%80%9D%E6%AD%A4%E7%94%B5%E8%84%91-x2F-%E6%8E%A7%E5%88%B6%E9%9D%A2%E6%9D%BF-x2F-%E7%BD%91%E7%BB%9C-x2F-%E7%94%A8%E6%88%B7%E6%96%87%E4%BB%B6-x2F-%E5%9B%9E%E6%94%B6%E7%AB%99%E2%80%9D"><span class="nav-number">6.</span> <span class="nav-text">5. 桌面显示”此电脑&#x2F;控制面板&#x2F;网络&#x2F;用户文件&#x2F;回收站”</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#PowerShell-3"><span class="nav-number">6.1.</span> <span class="nav-text">PowerShell</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CMD-3"><span class="nav-number">6.2.</span> <span class="nav-text">CMD</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CLSID-%E5%AF%B9%E7%85%A7%E8%A1%A8-%E4%BB%A5%E5%90%8E%E6%83%B3%E9%9A%90%E8%97%8F%E5%93%AA%E4%B8%AA%E5%B0%B1%E6%94%B9%E5%9B%9E-1"><span class="nav-number">6.3.</span> <span class="nav-text">CLSID 对照表(以后想隐藏哪个就改回 1)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-%E5%8F%B3%E9%94%AE%E8%8F%9C%E5%8D%95%E9%BB%98%E8%AE%A4%E5%B1%95%E5%BC%80%E4%B8%BA%E5%AE%8C%E6%95%B4%E6%A8%A1%E5%BC%8F-Win11"><span class="nav-number">7.</span> <span class="nav-text">6. 右键菜单默认展开为完整模式(Win11)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#PowerShell-4"><span class="nav-number">7.1.</span> <span class="nav-text">PowerShell</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CMD-4"><span class="nav-number">7.2.</span> <span class="nav-text">CMD</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%81%A2%E5%A4%8D-Win11-%E9%BB%98%E8%AE%A4%E6%8A%98%E5%8F%A0%E8%8F%9C%E5%8D%95"><span class="nav-number">7.3.</span> <span class="nav-text">恢复 Win11 默认折叠菜单</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-%E4%BB%BB%E5%8A%A1%E6%A0%8F-x2F-%E5%BC%80%E5%A7%8B%E8%8F%9C%E5%8D%95%E5%B7%A6%E5%AF%B9%E9%BD%90-Win11"><span class="nav-number">8.</span> <span class="nav-text">7. 任务栏 &#x2F; 开始菜单左对齐(Win11)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#PowerShell-5"><span class="nav-number">8.1.</span> <span class="nav-text">PowerShell</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CMD-5"><span class="nav-number">8.2.</span> <span class="nav-text">CMD</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%96%E5%80%BC%E8%AF%B4%E6%98%8E"><span class="nav-number">8.3.</span> <span class="nav-text">取值说明</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8-%E4%B8%80%E9%94%AE%E6%BF%80%E6%B4%BB-Windows-x2F-Office"><span class="nav-number">9.</span> <span class="nav-text">8. 一键激活 Windows &#x2F; Office</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#9-%E4%B8%80%E9%94%AE%E5%BA%94%E7%94%A8%E5%85%A8%E9%83%A8-%E6%95%B4%E5%90%88%E8%84%9A%E6%9C%AC"><span class="nav-number">10.</span> <span class="nav-text">9. 一键应用全部:整合脚本</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%94%A8%E6%B3%95"><span class="nav-number">10.1.</span> <span class="nav-text">用法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%99%84-%E7%BB%9F%E4%B8%80%E7%9A%84%E2%80%9D%E9%87%8D%E5%90%AF%E8%B5%84%E6%BA%90%E7%AE%A1%E7%90%86%E5%99%A8%E2%80%9D%E5%91%BD%E4%BB%A4"><span class="nav-number">11.</span> <span class="nav-text">附:统一的”重启资源管理器”命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%86%99%E5%9C%A8%E6%9C%80%E5%90%8E"><span class="nav-number">12.</span> <span class="nav-text">写在最后</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="VanJay"
+      src="/images/head.png">
+  <p class="site-author-name" itemprop="name">VanJay</p>
+  <div class="site-description" itemprop="description">成功不是将来才有的<br>而是决定去做的那一刻起<br>持续累积而成</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">71</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">35</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">145</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/wangwanjie" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wangwanjie" rel="noopener me" target="_blank"><i class="github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/wangwanjie" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;wangwanjie" rel="noopener me" target="_blank"><i class="twitter fa-fw"></i>Twitter</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="http://www.weibo.com/2406245873/profile?topnav=1&wvr=6" title="微博 → http:&#x2F;&#x2F;www.weibo.com&#x2F;2406245873&#x2F;profile?topnav&#x3D;1&amp;wvr&#x3D;6" rel="noopener me" target="_blank"><i class="weibo fa-fw"></i>微博</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.facebook.com/wangwanjie123" title="Facebook → https:&#x2F;&#x2F;www.facebook.com&#x2F;wangwanjie123" rel="noopener me" target="_blank"><i class="facebook fa-fw"></i>Facebook</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="http://wpa.qq.com/msgrd?v=3&uin=396736694&site=qq&menu=yes" title="QQ → http:&#x2F;&#x2F;wpa.qq.com&#x2F;msgrd?v&#x3D;3&amp;uin&#x3D;396736694&amp;site&#x3D;qq&amp;menu&#x3D;yes" rel="noopener me" target="_blank"><i class="qq fa-fw"></i>QQ</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:vanjay,dev@gmail.com" title="E-Mail → mailto:vanjay,dev@gmail.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="sidebar-inner sidebar-blogroll">
+      <div class="links-of-blogroll animated">
+        <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+          链接
+        </div>
+        <ul class="links-of-blogroll-list">
+            <li class="links-of-blogroll-item">
+              <a href="https://www.vanjay.cn/" title="https:&#x2F;&#x2F;www.vanjay.cn" rel="noopener" target="_blank">VanJay</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://boxueio.com/" title="https:&#x2F;&#x2F;boxueio.com" rel="noopener" target="_blank">泊学网</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="http://www.smartisan.com/" title="http:&#x2F;&#x2F;www.smartisan.com&#x2F;" rel="noopener" target="_blank">锤子科技</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://objccn.io/" title="https:&#x2F;&#x2F;objccn.io&#x2F;" rel="noopener" target="_blank">ObjC中国</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://github.com/apple/swift-evolution" title="https:&#x2F;&#x2F;github.com&#x2F;apple&#x2F;swift-evolution" rel="noopener" target="_blank">Swift evolution</a>
+            </li>
+        </ul>
+      </div>
+    </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://blog.vanjay.cn/2026/05/10/Windows-%E6%B3%A8%E5%86%8C%E8%A1%A8%E4%BC%98%E5%8C%96%E5%90%88%E9%9B%86/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/head.png">
+      <meta itemprop="name" content="VanJay">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="VanJay's Blog">
+      <meta itemprop="description" content="成功不是将来才有的<br>而是决定去做的那一刻起<br>持续累积而成">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Windows 注册表优化合集:打造干净顺手的桌面环境 | VanJay's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Windows 注册表优化合集:打造干净顺手的桌面环境
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2026-05-10 21:40:22 / 修改时间：21:41:01" itemprop="dateCreated datePublished" datetime="2026-05-10T21:40:22+08:00">2026-05-10</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" itemprop="url" rel="index"><span itemprop="name">操作系统</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>2.6k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>9 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>记录一份自用的 Windows(主要面向 Win11,大部分对 Win10 也适用)注册表优化清单。涵盖去快捷方式箭头、显示隐藏文件、桌面图标、右键菜单、任务栏对齐、系统激活等常见需求。所有命令均提供 <strong>PowerShell</strong> 和 <strong>CMD</strong> 两种版本,按需取用。</p>
+<blockquote>
+<p>⚠️ 修改注册表前建议先导出备份:<code>reg export HKCU backup-hkcu.reg /y</code></p>
+<p>大部分操作只改 <code>HKCU</code>,不需要管理员权限;改 <code>HKLM</code> 的项需要<strong>以管理员身份运行</strong>终端。</p>
+<p>所有改动通常需要重启资源管理器(<code>explorer.exe</code>)才能生效,各小节末尾已包含相关命令。</p>
+</blockquote>
+<hr>
+<span id="more"></span>
+
+<h2 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h2><ul>
+<li><a href="#1-%E5%8E%BB%E6%8E%89%E6%A1%8C%E9%9D%A2%E5%BF%AB%E6%8D%B7%E6%96%B9%E5%BC%8F%E7%9A%84%E5%B0%8F%E7%AE%AD%E5%A4%B4">1. 去掉桌面快捷方式的小箭头</a></li>
+<li><a href="#2-%E5%8E%BB%E6%8E%89%E6%96%B0%E5%BB%BA%E5%BF%AB%E6%8D%B7%E6%96%B9%E5%BC%8F%E6%97%B6%E7%9A%84---%E5%BF%AB%E6%8D%B7%E6%96%B9%E5%BC%8F-%E5%90%8E%E7%BC%80">2. 去掉新建快捷方式时的 “- 快捷方式” 后缀</a></li>
+<li><a href="#3-%E4%BB%BB%E5%8A%A1%E6%A0%8F%E6%96%87%E4%BB%B6%E8%B5%84%E6%BA%90%E7%AE%A1%E7%90%86%E5%99%A8%E9%BB%98%E8%AE%A4%E6%89%93%E5%BC%80%E6%AD%A4%E7%94%B5%E8%84%91">3. 任务栏文件资源管理器默认打开”此电脑”</a></li>
+<li><a href="#4-%E6%98%BE%E7%A4%BA%E9%9A%90%E8%97%8F%E6%96%87%E4%BB%B6--%E6%98%BE%E7%A4%BA%E6%89%A9%E5%B1%95%E5%90%8D%E4%B8%8D%E6%98%BE%E7%A4%BA%E7%B3%BB%E7%BB%9F%E5%8F%97%E4%BF%9D%E6%8A%A4%E6%96%87%E4%BB%B6">4. 显示隐藏文件 + 显示扩展名(不显示系统受保护文件)</a></li>
+<li><a href="#5-%E6%A1%8C%E9%9D%A2%E6%98%BE%E7%A4%BA%E6%AD%A4%E7%94%B5%E8%84%91%E6%8E%A7%E5%88%B6%E9%9D%A2%E6%9D%BF%E7%BD%91%E7%BB%9C%E7%94%A8%E6%88%B7%E6%96%87%E4%BB%B6%E5%9B%9E%E6%94%B6%E7%AB%99">5. 桌面显示”此电脑&#x2F;控制面板&#x2F;网络&#x2F;用户文件&#x2F;回收站”</a></li>
+<li><a href="#6-%E5%8F%B3%E9%94%AE%E8%8F%9C%E5%8D%95%E9%BB%98%E8%AE%A4%E5%B1%95%E5%BC%80%E4%B8%BA%E5%AE%8C%E6%95%B4%E6%A8%A1%E5%BC%8Fwin11">6. 右键菜单默认展开为完整模式(Win11)</a></li>
+<li><a href="#7-%E4%BB%BB%E5%8A%A1%E6%A0%8F--%E5%BC%80%E5%A7%8B%E8%8F%9C%E5%8D%95%E5%B7%A6%E5%AF%B9%E9%BD%90win11">7. 任务栏 &#x2F; 开始菜单左对齐(Win11)</a></li>
+<li><a href="#8-%E4%B8%80%E9%94%AE%E6%BF%80%E6%B4%BB-windows--office">8. 一键激活 Windows &#x2F; Office</a></li>
+<li><a href="#9-%E4%B8%80%E9%94%AE%E5%BA%94%E7%94%A8%E5%85%A8%E9%83%A8%E6%95%B4%E5%90%88%E8%84%9A%E6%9C%AC">9. 一键应用全部:整合脚本</a></li>
+</ul>
+<hr>
+<h2 id="1-去掉桌面快捷方式的小箭头"><a href="#1-去掉桌面快捷方式的小箭头" class="headerlink" title="1. 去掉桌面快捷方式的小箭头"></a>1. 去掉桌面快捷方式的小箭头</h2><p>原理:在 <code>Shell Icons</code> 下新建一个名为 <code>29</code> 的字符串值,指向一个空白图标资源,系统就会用空白图标覆盖默认的小箭头叠加图标。</p>
+<h3 id="PowerShell-管理员"><a href="#PowerShell-管理员" class="headerlink" title="PowerShell(管理员)"></a>PowerShell(管理员)</h3><pre class="line-numbers language-powershell" data-language="powershell"><code class="language-powershell"><span class="token function">New-Item</span> <span class="token operator">-</span>Path <span class="token string">"HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Shell Icons"</span> <span class="token operator">-</span>Force <span class="token punctuation">|</span> <span class="token function">Out-Null</span>
+<span class="token function">Set-ItemProperty</span> <span class="token operator">-</span>Path <span class="token string">"HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Shell Icons"</span> `
+  <span class="token operator">-</span>Name <span class="token string">"29"</span> <span class="token operator">-</span>Value <span class="token string">"%windir%\System32\imageres.dll,-1015"</span> <span class="token operator">-</span><span class="token function">Type</span> String<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="CMD-管理员"><a href="#CMD-管理员" class="headerlink" title="CMD(管理员)"></a>CMD(管理员)</h3><pre class="line-numbers language-cmd" data-language="cmd"><code class="language-cmd">reg add &quot;HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Shell Icons&quot; &#x2F;v 29 &#x2F;t REG_SZ &#x2F;d &quot;%%windir%%\System32\imageres.dll,-1015&quot; &#x2F;f<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<h3 id="恢复默认箭头"><a href="#恢复默认箭头" class="headerlink" title="恢复默认箭头"></a>恢复默认箭头</h3><pre class="line-numbers language-powershell" data-language="powershell"><code class="language-powershell"><span class="token function">Remove-ItemProperty</span> <span class="token operator">-</span>Path <span class="token string">"HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Shell Icons"</span> <span class="token operator">-</span>Name <span class="token string">"29"</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<blockquote>
+<p>💡 <strong>Win11 提示</strong>:如果发现部分图标仍带箭头,可清一下图标缓存:</p>
+<pre class="line-numbers language-cmd" data-language="cmd"><code class="language-cmd">taskkill &#x2F;f &#x2F;im explorer.exe
+del &#x2F;a &#x2F;q &quot;%localappdata%\IconCache.db&quot;
+del &#x2F;a &#x2F;f &#x2F;q &quot;%localappdata%\Microsoft\Windows\Explorer\iconcache*&quot;
+start explorer.exe<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+</blockquote>
+<hr>
+<h2 id="2-去掉新建快捷方式时的-“-快捷方式”-后缀"><a href="#2-去掉新建快捷方式时的-“-快捷方式”-后缀" class="headerlink" title="2. 去掉新建快捷方式时的 “- 快捷方式” 后缀"></a>2. 去掉新建快捷方式时的 “- 快捷方式” 后缀</h2><p>默认值 <code>1e 00 00 00</code> 表示自动追加后缀,改为 <code>00 00 00 00</code> 即可。</p>
+<h3 id="PowerShell"><a href="#PowerShell" class="headerlink" title="PowerShell"></a>PowerShell</h3><pre class="line-numbers language-powershell" data-language="powershell"><code class="language-powershell"><span class="token function">Set-ItemProperty</span> <span class="token operator">-</span>Path <span class="token string">"HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer"</span> `
+  <span class="token operator">-</span>Name <span class="token string">"link"</span> <span class="token operator">-</span>Value <span class="token punctuation">(</span><span class="token namespace">[byte[]]</span><span class="token punctuation">(</span>0x00<span class="token punctuation">,</span>0x00<span class="token punctuation">,</span>0x00<span class="token punctuation">,</span>0x00<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token operator">-</span><span class="token function">Type</span> Binary<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<h3 id="CMD"><a href="#CMD" class="headerlink" title="CMD"></a>CMD</h3><pre class="line-numbers language-cmd" data-language="cmd"><code class="language-cmd">reg add &quot;HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer&quot; &#x2F;v link &#x2F;t REG_BINARY &#x2F;d 00000000 &#x2F;f<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<hr>
+<h2 id="3-任务栏文件资源管理器默认打开”此电脑”"><a href="#3-任务栏文件资源管理器默认打开”此电脑”" class="headerlink" title="3. 任务栏文件资源管理器默认打开”此电脑”"></a>3. 任务栏文件资源管理器默认打开”此电脑”</h2><p>让点击任务栏的资源管理器图标时,默认打开”此电脑”而不是”主文件夹&#x2F;快速访问”。</p>
+<h3 id="PowerShell-1"><a href="#PowerShell-1" class="headerlink" title="PowerShell"></a>PowerShell</h3><pre class="line-numbers language-powershell" data-language="powershell"><code class="language-powershell"><span class="token function">Set-ItemProperty</span> <span class="token operator">-</span>Path <span class="token string">"HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced"</span> `
+  <span class="token operator">-</span>Name <span class="token string">"LaunchTo"</span> <span class="token operator">-</span>Value 1 <span class="token operator">-</span><span class="token function">Type</span> DWord<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<h3 id="CMD-1"><a href="#CMD-1" class="headerlink" title="CMD"></a>CMD</h3><pre class="line-numbers language-cmd" data-language="cmd"><code class="language-cmd">reg add &quot;HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced&quot; &#x2F;v LaunchTo &#x2F;t REG_DWORD &#x2F;d 1 &#x2F;f<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<h3 id="LaunchTo-取值说明"><a href="#LaunchTo-取值说明" class="headerlink" title="LaunchTo 取值说明"></a><code>LaunchTo</code> 取值说明</h3><table>
+<thead>
+<tr>
+<th>值</th>
+<th>打开位置</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>1</code></td>
+<td>此电脑(This PC)</td>
+</tr>
+<tr>
+<td><code>2</code></td>
+<td>快速访问(Win10) &#x2F; 主文件夹 Home(Win11)</td>
+</tr>
+<tr>
+<td><code>3</code></td>
+<td>下载(仅 Win11 22H2+)</td>
+</tr>
+<tr>
+<td><code>4</code></td>
+<td>OneDrive(仅 Win11)</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>💡 如果之前在任务栏图标上手动改过启动参数(如指向 <code>shell:MyComputerFolder</code>),需要先取消固定再重新固定,<code>LaunchTo</code> 才会生效。</p>
+</blockquote>
+<hr>
+<h2 id="4-显示隐藏文件-显示扩展名-不显示系统受保护文件"><a href="#4-显示隐藏文件-显示扩展名-不显示系统受保护文件" class="headerlink" title="4. 显示隐藏文件 + 显示扩展名(不显示系统受保护文件)"></a>4. 显示隐藏文件 + 显示扩展名(不显示系统受保护文件)</h2><p>只显示普通隐藏文件(如 <code>.git</code>、<code>AppData</code>),<strong>不</strong>显示 <code>pagefile.sys</code>、<code>hiberfil.sys</code>、<code>desktop.ini</code>、<code>System Volume Information</code>、<code>$Recycle.Bin</code> 这类系统受保护文件,日常使用最舒服。</p>
+<h3 id="PowerShell-2"><a href="#PowerShell-2" class="headerlink" title="PowerShell"></a>PowerShell</h3><pre class="line-numbers language-powershell" data-language="powershell"><code class="language-powershell"><span class="token variable">$key</span> = <span class="token string">"HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced"</span>
+<span class="token function">Set-ItemProperty</span> <span class="token operator">-</span>Path <span class="token variable">$key</span> <span class="token operator">-</span>Name <span class="token string">"Hidden"</span>          <span class="token operator">-</span>Value 1 <span class="token operator">-</span><span class="token function">Type</span> DWord  <span class="token comment"># 显示隐藏文件</span>
+<span class="token function">Set-ItemProperty</span> <span class="token operator">-</span>Path <span class="token variable">$key</span> <span class="token operator">-</span>Name <span class="token string">"HideFileExt"</span>     <span class="token operator">-</span>Value 0 <span class="token operator">-</span><span class="token function">Type</span> DWord  <span class="token comment"># 显示扩展名</span>
+<span class="token function">Set-ItemProperty</span> <span class="token operator">-</span>Path <span class="token variable">$key</span> <span class="token operator">-</span>Name <span class="token string">"ShowSuperHidden"</span> <span class="token operator">-</span>Value 0 <span class="token operator">-</span><span class="token function">Type</span> DWord  <span class="token comment"># 不显示受保护系统文件</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="CMD-2"><a href="#CMD-2" class="headerlink" title="CMD"></a>CMD</h3><pre class="line-numbers language-cmd" data-language="cmd"><code class="language-cmd">reg add &quot;HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced&quot; &#x2F;v Hidden &#x2F;t REG_DWORD &#x2F;d 1 &#x2F;f
+reg add &quot;HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced&quot; &#x2F;v HideFileExt &#x2F;t REG_DWORD &#x2F;d 0 &#x2F;f
+reg add &quot;HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced&quot; &#x2F;v ShowSuperHidden &#x2F;t REG_DWORD &#x2F;d 0 &#x2F;f<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="取值对照"><a href="#取值对照" class="headerlink" title="取值对照"></a>取值对照</h3><table>
+<thead>
+<tr>
+<th>键名</th>
+<th>值</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Hidden</code></td>
+<td><code>1</code> 显示 &#x2F; <code>2</code> 不显示</td>
+<td>普通隐藏文件</td>
+</tr>
+<tr>
+<td><code>HideFileExt</code></td>
+<td><code>0</code> 显示扩展名 &#x2F; <code>1</code> 隐藏</td>
+<td>已知类型扩展名</td>
+</tr>
+<tr>
+<td><code>ShowSuperHidden</code></td>
+<td><code>1</code> 显示 &#x2F; <code>0</code> 不显示</td>
+<td>受保护的系统文件</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="5-桌面显示”此电脑-x2F-控制面板-x2F-网络-x2F-用户文件-x2F-回收站”"><a href="#5-桌面显示”此电脑-x2F-控制面板-x2F-网络-x2F-用户文件-x2F-回收站”" class="headerlink" title="5. 桌面显示”此电脑&#x2F;控制面板&#x2F;网络&#x2F;用户文件&#x2F;回收站”"></a>5. 桌面显示”此电脑&#x2F;控制面板&#x2F;网络&#x2F;用户文件&#x2F;回收站”</h2><p>桌面图标的开关在 <code>HideDesktopIcons</code> 下,<strong>值为 <code>1</code> 表示隐藏,<code>0</code> 表示显示</strong>(键名是字面意思,容易理解反)。</p>
+<h3 id="PowerShell-3"><a href="#PowerShell-3" class="headerlink" title="PowerShell"></a>PowerShell</h3><pre class="line-numbers language-powershell" data-language="powershell"><code class="language-powershell"><span class="token variable">$key1</span> = <span class="token string">"HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\HideDesktopIcons\NewStartPanel"</span>
+<span class="token variable">$key2</span> = <span class="token string">"HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\HideDesktopIcons\ClassicStartMenu"</span>
+<span class="token function">New-Item</span> <span class="token operator">-</span>Path <span class="token variable">$key1</span> <span class="token operator">-</span>Force <span class="token punctuation">|</span> <span class="token function">Out-Null</span>
+<span class="token function">New-Item</span> <span class="token operator">-</span>Path <span class="token variable">$key2</span> <span class="token operator">-</span>Force <span class="token punctuation">|</span> <span class="token function">Out-Null</span>
+
+<span class="token variable">$icons</span> = @<span class="token punctuation">&#123;</span>
+    <span class="token string">"&#123;20D04FE0-3AEA-1069-A2D8-08002B30309D&#125;"</span> = <span class="token string">"此电脑"</span>
+    <span class="token string">"&#123;59031a47-3f72-44a7-89c5-5595fe6b30ee&#125;"</span> = <span class="token string">"用户的文件"</span>
+    <span class="token string">"&#123;F02C1A0D-BE21-4350-88B0-7367FC96EF3C&#125;"</span> = <span class="token string">"网络"</span>
+    <span class="token string">"&#123;645FF040-5081-101B-9F08-00AA002F954E&#125;"</span> = <span class="token string">"回收站"</span>
+    <span class="token string">"&#123;5399E694-6CE5-4D6C-8FCE-1D8870FDCBA0&#125;"</span> = <span class="token string">"控制面板"</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token keyword">foreach</span> <span class="token punctuation">(</span><span class="token variable">$clsid</span> in <span class="token variable">$icons</span><span class="token punctuation">.</span>Keys<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token function">Set-ItemProperty</span> <span class="token operator">-</span>Path <span class="token variable">$key1</span> <span class="token operator">-</span>Name <span class="token variable">$clsid</span> <span class="token operator">-</span>Value 0 <span class="token operator">-</span><span class="token function">Type</span> DWord
+    <span class="token function">Set-ItemProperty</span> <span class="token operator">-</span>Path <span class="token variable">$key2</span> <span class="token operator">-</span>Name <span class="token variable">$clsid</span> <span class="token operator">-</span>Value 0 <span class="token operator">-</span><span class="token function">Type</span> DWord
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="CMD-3"><a href="#CMD-3" class="headerlink" title="CMD"></a>CMD</h3><pre class="line-numbers language-cmd" data-language="cmd"><code class="language-cmd">set K&#x3D;HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\HideDesktopIcons\NewStartPanel
+reg add &quot;%K%&quot; &#x2F;v &quot;&#123;20D04FE0-3AEA-1069-A2D8-08002B30309D&#125;&quot; &#x2F;t REG_DWORD &#x2F;d 0 &#x2F;f
+reg add &quot;%K%&quot; &#x2F;v &quot;&#123;59031a47-3f72-44a7-89c5-5595fe6b30ee&#125;&quot; &#x2F;t REG_DWORD &#x2F;d 0 &#x2F;f
+reg add &quot;%K%&quot; &#x2F;v &quot;&#123;F02C1A0D-BE21-4350-88B0-7367FC96EF3C&#125;&quot; &#x2F;t REG_DWORD &#x2F;d 0 &#x2F;f
+reg add &quot;%K%&quot; &#x2F;v &quot;&#123;645FF040-5081-101B-9F08-00AA002F954E&#125;&quot; &#x2F;t REG_DWORD &#x2F;d 0 &#x2F;f
+reg add &quot;%K%&quot; &#x2F;v &quot;&#123;5399E694-6CE5-4D6C-8FCE-1D8870FDCBA0&#125;&quot; &#x2F;t REG_DWORD &#x2F;d 0 &#x2F;f<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="CLSID-对照表-以后想隐藏哪个就改回-1"><a href="#CLSID-对照表-以后想隐藏哪个就改回-1" class="headerlink" title="CLSID 对照表(以后想隐藏哪个就改回 1)"></a>CLSID 对照表(以后想隐藏哪个就改回 <code>1</code>)</h3><table>
+<thead>
+<tr>
+<th>图标</th>
+<th>CLSID</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>此电脑</td>
+<td><code>&#123;20D04FE0-3AEA-1069-A2D8-08002B30309D&#125;</code></td>
+</tr>
+<tr>
+<td>用户的文件</td>
+<td><code>&#123;59031a47-3f72-44a7-89c5-5595fe6b30ee&#125;</code></td>
+</tr>
+<tr>
+<td>网络</td>
+<td><code>&#123;F02C1A0D-BE21-4350-88B0-7367FC96EF3C&#125;</code></td>
+</tr>
+<tr>
+<td>回收站</td>
+<td><code>&#123;645FF040-5081-101B-9F08-00AA002F954E&#125;</code></td>
+</tr>
+<tr>
+<td>控制面板</td>
+<td><code>&#123;5399E694-6CE5-4D6C-8FCE-1D8870FDCBA0&#125;</code></td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>💡 控制面板图标在 Win11 上仍可用,会打开传统控制面板(不是”设置”)。</p>
+</blockquote>
+<hr>
+<h2 id="6-右键菜单默认展开为完整模式-Win11"><a href="#6-右键菜单默认展开为完整模式-Win11" class="headerlink" title="6. 右键菜单默认展开为完整模式(Win11)"></a>6. 右键菜单默认展开为完整模式(Win11)</h2><p>把 Win11 那层”显示更多选项”折叠去掉,恢复成 Win10 风格的完整右键菜单。</p>
+<p>原理:把 Win11 新右键菜单的 shell extension 注册位置(<code>&#123;86ca1aa0-...&#125;</code>)的 <code>InprocServer32</code> 默认值置空,系统找不到实现就回落到经典菜单。</p>
+<h3 id="PowerShell-4"><a href="#PowerShell-4" class="headerlink" title="PowerShell"></a>PowerShell</h3><pre class="line-numbers language-powershell" data-language="powershell"><code class="language-powershell"><span class="token variable">$key</span> = <span class="token string">"HKCU:\SOFTWARE\Classes\CLSID\&#123;86ca1aa0-34aa-4e8b-a509-50c905bae2a2&#125;\InprocServer32"</span>
+<span class="token function">New-Item</span> <span class="token operator">-</span>Path <span class="token variable">$key</span> <span class="token operator">-</span>Force <span class="token punctuation">|</span> <span class="token function">Out-Null</span>
+<span class="token function">Set-ItemProperty</span> <span class="token operator">-</span>Path <span class="token variable">$key</span> <span class="token operator">-</span>Name <span class="token string">"(Default)"</span> <span class="token operator">-</span>Value <span class="token string">""</span> <span class="token operator">-</span><span class="token function">Type</span> String<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="CMD-4"><a href="#CMD-4" class="headerlink" title="CMD"></a>CMD</h3><pre class="line-numbers language-cmd" data-language="cmd"><code class="language-cmd">reg add &quot;HKCU\Software\Classes\CLSID\&#123;86ca1aa0-34aa-4e8b-a509-50c905bae2a2&#125;\InprocServer32&quot; &#x2F;ve &#x2F;d &quot;&quot; &#x2F;f<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<h3 id="恢复-Win11-默认折叠菜单"><a href="#恢复-Win11-默认折叠菜单" class="headerlink" title="恢复 Win11 默认折叠菜单"></a>恢复 Win11 默认折叠菜单</h3><pre class="line-numbers language-powershell" data-language="powershell"><code class="language-powershell"><span class="token function">Remove-Item</span> <span class="token operator">-</span>Path <span class="token string">"HKCU:\SOFTWARE\Classes\CLSID\&#123;86ca1aa0-34aa-4e8b-a509-50c905bae2a2&#125;"</span> <span class="token operator">-</span>Recurse <span class="token operator">-</span>Force<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<pre class="line-numbers language-cmd" data-language="cmd"><code class="language-cmd">reg delete &quot;HKCU\Software\Classes\CLSID\&#123;86ca1aa0-34aa-4e8b-a509-50c905bae2a2&#125;&quot; &#x2F;f<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<blockquote>
+<p>💡 仅 Win11 需要;Win10 默认就是完整菜单。这是目前公认最干净的做法,但未来更新有可能调整,如失效大概率是这个原因。</p>
+</blockquote>
+<hr>
+<h2 id="7-任务栏-x2F-开始菜单左对齐-Win11"><a href="#7-任务栏-x2F-开始菜单左对齐-Win11" class="headerlink" title="7. 任务栏 &#x2F; 开始菜单左对齐(Win11)"></a>7. 任务栏 &#x2F; 开始菜单左对齐(Win11)</h2><h3 id="PowerShell-5"><a href="#PowerShell-5" class="headerlink" title="PowerShell"></a>PowerShell</h3><pre class="line-numbers language-powershell" data-language="powershell"><code class="language-powershell"><span class="token function">Set-ItemProperty</span> <span class="token operator">-</span>Path <span class="token string">"HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced"</span> `
+  <span class="token operator">-</span>Name <span class="token string">"TaskbarAl"</span> <span class="token operator">-</span>Value 0 <span class="token operator">-</span><span class="token function">Type</span> DWord<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<h3 id="CMD-5"><a href="#CMD-5" class="headerlink" title="CMD"></a>CMD</h3><pre class="line-numbers language-cmd" data-language="cmd"><code class="language-cmd">reg add &quot;HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced&quot; &#x2F;v TaskbarAl &#x2F;t REG_DWORD &#x2F;d 0 &#x2F;f<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<h3 id="取值说明"><a href="#取值说明" class="headerlink" title="取值说明"></a>取值说明</h3><table>
+<thead>
+<tr>
+<th>值</th>
+<th>对齐方式</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>0</code></td>
+<td>左对齐</td>
+</tr>
+<tr>
+<td><code>1</code></td>
+<td>居中(Win11 默认)</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>💡 仅 Win11 需要;Win10 任务栏默认就是左对齐。该键改的是<strong>任务栏所有图标</strong>的整体对齐方式。</p>
+</blockquote>
+<hr>
+<h2 id="8-一键激活-Windows-x2F-Office"><a href="#8-一键激活-Windows-x2F-Office" class="headerlink" title="8. 一键激活 Windows &#x2F; Office"></a>8. 一键激活 Windows &#x2F; Office</h2><p>社区维护的开源激活脚本 <a target="_blank" rel="noopener" href="https://github.com/massgravel/Microsoft-Activation-Scripts">Microsoft Activation Scripts (MAS)</a>,GitHub 高星项目,代码完全开源可审查。</p>
+<p><strong>以管理员身份</strong>运行 PowerShell,执行:</p>
+<pre class="line-numbers language-powershell" data-language="powershell"><code class="language-powershell"><span class="token function">irm</span> https:<span class="token operator">/</span><span class="token operator">/</span>get<span class="token punctuation">.</span>activated<span class="token punctuation">.</span>win <span class="token punctuation">|</span> <span class="token function">iex</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>执行后会出现一个交互式菜单,常用选项:</p>
+<ul>
+<li><code>[1] HWID</code> ——激活 Windows 10 &#x2F; 11(数字许可证,绑定主板,<strong>推荐</strong>)</li>
+<li><code>[2] Ohook</code> ——激活 Office(包括 Microsoft 365 &#x2F; Office 2021 等)</li>
+<li><code>[3] KMS38</code> ——激活 Windows 服务器版或老版本</li>
+<li><code>[4] Online KMS</code> ——KMS 激活(180 天周期续期)</li>
+</ul>
+<blockquote>
+<p>⚠️ <strong>使用提示</strong>:</p>
+<ul>
+<li>仅推荐用于个人学习、临时测试。商业环境请购买正版授权。</li>
+<li>部分杀毒软件会误报激活脚本,需要临时关闭实时保护或加白名单。</li>
+<li>项目地址:<a target="_blank" rel="noopener" href="https://github.com/massgravel/Microsoft-Activation-Scripts">https://github.com/massgravel/Microsoft-Activation-Scripts</a></li>
+</ul>
+</blockquote>
+<hr>
+<h2 id="9-一键应用全部-整合脚本"><a href="#9-一键应用全部-整合脚本" class="headerlink" title="9. 一键应用全部:整合脚本"></a>9. 一键应用全部:整合脚本</h2><p>把上面 1~7 的所有改动整合成一个 PowerShell 脚本,<strong>以管理员身份</strong>运行即可一键应用全部修改并自动重启资源管理器。</p>
+<pre class="line-numbers language-powershell" data-language="powershell"><code class="language-powershell"><span class="token comment"># ============================================</span>
+<span class="token comment">#  Windows 桌面环境优化 - 一键应用脚本</span>
+<span class="token comment">#  适用:Windows 10 / 11</span>
+<span class="token comment">#  以管理员身份运行 PowerShell</span>
+<span class="token comment"># ============================================</span>
+
+<span class="token function">Write-Host</span> <span class="token string">"正在应用注册表优化..."</span> <span class="token operator">-</span>ForegroundColor Cyan
+
+<span class="token comment"># 1. 去掉快捷方式小箭头(需管理员)</span>
+<span class="token function">New-Item</span> <span class="token operator">-</span>Path <span class="token string">"HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Shell Icons"</span> <span class="token operator">-</span>Force <span class="token punctuation">|</span> <span class="token function">Out-Null</span>
+<span class="token function">Set-ItemProperty</span> <span class="token operator">-</span>Path <span class="token string">"HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Shell Icons"</span> `
+  <span class="token operator">-</span>Name <span class="token string">"29"</span> <span class="token operator">-</span>Value <span class="token string">"%windir%\System32\imageres.dll,-1015"</span> <span class="token operator">-</span><span class="token function">Type</span> String
+<span class="token function">Write-Host</span> <span class="token string">"  [√] 去掉快捷方式小箭头"</span>
+
+<span class="token comment"># 2. 去掉 "- 快捷方式" 后缀</span>
+<span class="token function">Set-ItemProperty</span> <span class="token operator">-</span>Path <span class="token string">"HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer"</span> `
+  <span class="token operator">-</span>Name <span class="token string">"link"</span> <span class="token operator">-</span>Value <span class="token punctuation">(</span><span class="token namespace">[byte[]]</span><span class="token punctuation">(</span>0x00<span class="token punctuation">,</span>0x00<span class="token punctuation">,</span>0x00<span class="token punctuation">,</span>0x00<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token operator">-</span><span class="token function">Type</span> Binary
+<span class="token function">Write-Host</span> <span class="token string">"  [√] 去掉新建快捷方式后缀"</span>
+
+<span class="token comment"># 3. 资源管理器默认打开"此电脑"</span>
+<span class="token variable">$adv</span> = <span class="token string">"HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced"</span>
+<span class="token function">Set-ItemProperty</span> <span class="token operator">-</span>Path <span class="token variable">$adv</span> <span class="token operator">-</span>Name <span class="token string">"LaunchTo"</span> <span class="token operator">-</span>Value 1 <span class="token operator">-</span><span class="token function">Type</span> DWord
+<span class="token function">Write-Host</span> <span class="token string">"  [√] 资源管理器默认打开'此电脑'"</span>
+
+<span class="token comment"># 4. 显示隐藏文件 + 显示扩展名(不显示系统受保护文件)</span>
+<span class="token function">Set-ItemProperty</span> <span class="token operator">-</span>Path <span class="token variable">$adv</span> <span class="token operator">-</span>Name <span class="token string">"Hidden"</span>          <span class="token operator">-</span>Value 1 <span class="token operator">-</span><span class="token function">Type</span> DWord
+<span class="token function">Set-ItemProperty</span> <span class="token operator">-</span>Path <span class="token variable">$adv</span> <span class="token operator">-</span>Name <span class="token string">"HideFileExt"</span>     <span class="token operator">-</span>Value 0 <span class="token operator">-</span><span class="token function">Type</span> DWord
+<span class="token function">Set-ItemProperty</span> <span class="token operator">-</span>Path <span class="token variable">$adv</span> <span class="token operator">-</span>Name <span class="token string">"ShowSuperHidden"</span> <span class="token operator">-</span>Value 0 <span class="token operator">-</span><span class="token function">Type</span> DWord
+<span class="token function">Write-Host</span> <span class="token string">"  [√] 显示隐藏文件和扩展名"</span>
+
+<span class="token comment"># 5. 桌面显示常用图标</span>
+<span class="token variable">$k1</span> = <span class="token string">"HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\HideDesktopIcons\NewStartPanel"</span>
+<span class="token variable">$k2</span> = <span class="token string">"HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\HideDesktopIcons\ClassicStartMenu"</span>
+<span class="token function">New-Item</span> <span class="token operator">-</span>Path <span class="token variable">$k1</span> <span class="token operator">-</span>Force <span class="token punctuation">|</span> <span class="token function">Out-Null</span>
+<span class="token function">New-Item</span> <span class="token operator">-</span>Path <span class="token variable">$k2</span> <span class="token operator">-</span>Force <span class="token punctuation">|</span> <span class="token function">Out-Null</span>
+<span class="token variable">$clsids</span> = @<span class="token punctuation">(</span>
+    <span class="token string">"&#123;20D04FE0-3AEA-1069-A2D8-08002B30309D&#125;"</span><span class="token punctuation">,</span>  <span class="token comment"># 此电脑</span>
+    <span class="token string">"&#123;59031a47-3f72-44a7-89c5-5595fe6b30ee&#125;"</span><span class="token punctuation">,</span>  <span class="token comment"># 用户的文件</span>
+    <span class="token string">"&#123;F02C1A0D-BE21-4350-88B0-7367FC96EF3C&#125;"</span><span class="token punctuation">,</span>  <span class="token comment"># 网络</span>
+    <span class="token string">"&#123;645FF040-5081-101B-9F08-00AA002F954E&#125;"</span><span class="token punctuation">,</span>  <span class="token comment"># 回收站</span>
+    <span class="token string">"&#123;5399E694-6CE5-4D6C-8FCE-1D8870FDCBA0&#125;"</span>   <span class="token comment"># 控制面板</span>
+<span class="token punctuation">)</span>
+<span class="token keyword">foreach</span> <span class="token punctuation">(</span><span class="token variable">$id</span> in <span class="token variable">$clsids</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token function">Set-ItemProperty</span> <span class="token operator">-</span>Path <span class="token variable">$k1</span> <span class="token operator">-</span>Name <span class="token variable">$id</span> <span class="token operator">-</span>Value 0 <span class="token operator">-</span><span class="token function">Type</span> DWord
+    <span class="token function">Set-ItemProperty</span> <span class="token operator">-</span>Path <span class="token variable">$k2</span> <span class="token operator">-</span>Name <span class="token variable">$id</span> <span class="token operator">-</span>Value 0 <span class="token operator">-</span><span class="token function">Type</span> DWord
+<span class="token punctuation">&#125;</span>
+<span class="token function">Write-Host</span> <span class="token string">"  [√] 桌面显示此电脑/控制面板/网络/用户文件/回收站"</span>
+
+<span class="token comment"># 6. 右键菜单展开为完整模式(Win11)</span>
+<span class="token variable">$ctx</span> = <span class="token string">"HKCU:\SOFTWARE\Classes\CLSID\&#123;86ca1aa0-34aa-4e8b-a509-50c905bae2a2&#125;\InprocServer32"</span>
+<span class="token function">New-Item</span> <span class="token operator">-</span>Path <span class="token variable">$ctx</span> <span class="token operator">-</span>Force <span class="token punctuation">|</span> <span class="token function">Out-Null</span>
+<span class="token function">Set-ItemProperty</span> <span class="token operator">-</span>Path <span class="token variable">$ctx</span> <span class="token operator">-</span>Name <span class="token string">"(Default)"</span> <span class="token operator">-</span>Value <span class="token string">""</span> <span class="token operator">-</span><span class="token function">Type</span> String
+<span class="token function">Write-Host</span> <span class="token string">"  [√] 右键菜单恢复完整模式(Win11)"</span>
+
+<span class="token comment"># 7. 任务栏左对齐(Win11)</span>
+<span class="token function">Set-ItemProperty</span> <span class="token operator">-</span>Path <span class="token variable">$adv</span> <span class="token operator">-</span>Name <span class="token string">"TaskbarAl"</span> <span class="token operator">-</span>Value 0 <span class="token operator">-</span><span class="token function">Type</span> DWord
+<span class="token function">Write-Host</span> <span class="token string">"  [√] 任务栏左对齐(Win11)"</span>
+
+<span class="token comment"># 重启资源管理器</span>
+<span class="token function">Write-Host</span> <span class="token string">"`n正在重启资源管理器..."</span> <span class="token operator">-</span>ForegroundColor Cyan
+<span class="token function">Stop-Process</span> <span class="token operator">-</span>Name explorer <span class="token operator">-</span>Force
+<span class="token function">Start-Process</span> explorer
+
+<span class="token function">Write-Host</span> <span class="token string">"`n所有优化已应用完成!"</span> <span class="token operator">-</span>ForegroundColor Green
+<span class="token function">Write-Host</span> <span class="token string">"如需激活 Windows / Office,请单独运行:"</span> <span class="token operator">-</span>ForegroundColor Yellow
+<span class="token function">Write-Host</span> <span class="token string">"  irm https://get.activated.win | iex"</span> <span class="token operator">-</span>ForegroundColor Yellow<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="用法"><a href="#用法" class="headerlink" title="用法"></a>用法</h3><ol>
+<li>把上面整段代码保存为 <code>tweak.ps1</code>;</li>
+<li>右键开始菜单 → <strong>终端(管理员)</strong> &#x2F; <strong>Windows PowerShell(管理员)</strong>;</li>
+<li>如首次运行 PS 脚本,先放行执行策略:<pre class="line-numbers language-powershell" data-language="powershell"><code class="language-powershell"><span class="token function">Set-ExecutionPolicy</span> <span class="token operator">-</span>Scope <span class="token keyword">Process</span> <span class="token operator">-</span>ExecutionPolicy Bypass<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></li>
+<li>切到脚本所在目录,执行:<pre class="line-numbers language-powershell" data-language="powershell"><code class="language-powershell"><span class="token punctuation">.</span>\tweak<span class="token punctuation">.</span>ps1<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></li>
+</ol>
+<hr>
+<h2 id="附-统一的”重启资源管理器”命令"><a href="#附-统一的”重启资源管理器”命令" class="headerlink" title="附:统一的”重启资源管理器”命令"></a>附:统一的”重启资源管理器”命令</h2><p>每次改完注册表都要重启 explorer 才能看到效果:</p>
+<pre class="line-numbers language-powershell" data-language="powershell"><code class="language-powershell"><span class="token function">Stop-Process</span> <span class="token operator">-</span>Name explorer <span class="token operator">-</span>Force
+<span class="token function">Start-Process</span> explorer<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<p>或 CMD:</p>
+<pre class="line-numbers language-cmd" data-language="cmd"><code class="language-cmd">taskkill &#x2F;f &#x2F;im explorer.exe
+start explorer.exe<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<hr>
+<h2 id="写在最后"><a href="#写在最后" class="headerlink" title="写在最后"></a>写在最后</h2><p>以上配置是个人长期使用下来比较顺手的一套方案,改的都是用户级注册表(<code>HKCU</code> 为主),风险可控、可逆。如果哪天系统大版本更新某些键失效了,按本文恢复命令清一下重新设置即可。</p>
+<p>如有更好的优化项欢迎留言交流。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="reward-container">
+  <div>对你有帮助？您的支持将更加鼓励我继续创作！</div>
+  <button>
+    打赏
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/images/wechatpay.png" alt="VanJay 微信">
+        <span>微信</span>
+      </div>
+      <div>
+        <img src="/images/alipay.jpg" alt="VanJay 支付宝">
+        <span>支付宝</span>
+      </div>
+
+  </div>
+</div>
+
+          <div class="followme">
+  <span>欢迎关注我的其它发布渠道</span>
+
+  <div class="social-list">
+
+      <div class="social-item">
+          <a target="_blank" class="social-link" href="/atom.xml">
+            <span class="icon">
+              <i class="fa fa-rss"></i>
+            </span>
+
+            <span class="label">RSS</span>
+          </a>
+      </div>
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/Windows/" rel="tag"># Windows</a>
+              <a href="/tags/%E7%BE%8E%E5%8C%96/" rel="tag"># 美化</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2026/05/10/%E6%8A%8A-PVE-%E5%A4%9A%E4%BD%99%E7%89%A9%E7%90%86%E7%BD%91%E5%8F%A3%E5%BD%93%E4%BA%A4%E6%8D%A2%E6%9C%BA%E7%94%A8/" rel="prev" title="把 PVE 多余物理网口当交换机用">
+                  <i class="fa fa-chevron-left"></i> 把 PVE 多余物理网口当交换机用
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments" id="lv-container" data-id="city" data-uid="MTAyMC80MDA5MC8xNjYxNw=="></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2013 – 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">&copy VanJay</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">101k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">6:09</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/mist/" rel="noopener" target="_blank">NexT.Mist</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+  <a href="https://github.com/wangwanjie" class="github-corner" title="在 GitHub 上关注我" aria-label="在 GitHub 上关注我" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js" integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js" integrity="sha256-yt2kYMy0w8AbtF89WXb2P1rfjcP/HTHLT7097U8Y5b8=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+  <script src="/js/third-party/fancybox.js"></script>
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script src="/js/third-party/comments/livere.js"></script>
+ <!-- 页面点击小红心 -->
+
+<script type="text/javascript">
+!function(e,t,a){function r(){for(var e=0;e<n.length;e++)n[e].alpha<=0?(t.body.removeChild(n[e].el),n.splice(e,1)):(n[e].y--,n[e].scale+=.004,n[e].alpha-=.013,n[e].el.style.cssText="left:"+n[e].x+"px;top:"+n[e].y+"px;opacity:"+n[e].alpha+";transform:scale("+n[e].scale+","+n[e].scale+") rotate(45deg);background:"+n[e].color+";z-index:99999");requestAnimationFrame(r)}var n=[];e.requestAnimationFrame=e.requestAnimationFrame||e.webkitRequestAnimationFrame||e.mozRequestAnimationFrame||e.oRequestAnimationFrame||e.msRequestAnimationFrame||function(e){setTimeout(e,1e3/60)},function(e){var a=t.createElement("style");a.type="text/css";try{a.appendChild(t.createTextNode(e))}catch(t){a.styleSheet.cssText=e}t.getElementsByTagName("head")[0].appendChild(a)}(".heart{width: 10px;height: 10px;position: fixed;background: #f00;transform: rotate(45deg);-webkit-transform: rotate(45deg);-moz-transform: rotate(45deg);}.heart:after,.heart:before{content: '';width: inherit;height: inherit;background: inherit;border-radius: 50%;-webkit-border-radius: 50%;-moz-border-radius: 50%;position: fixed;}.heart:after{top: -5px;}.heart:before{left: -5px;}"),function(){var a="function"==typeof e.onclick&&e.onclick;e.onclick=function(e){a&&a(),function(e){var a=t.createElement("div");a.className="heart",n.push({el:a,x:e.clientX-5,y:e.clientY-5,scale:1,alpha:1,color:"rgb("+~~(255*Math.random())+","+~~(255*Math.random())+","+~~(255*Math.random())+")"}),t.body.appendChild(a)}(e)}}(),r()}(window,document);
+</script>
+
+
+<script type="text/javascript">
+/*页面载入完成后，修改手机上跳转 github 样式 */
+!function (e, t, a) {
+    var browser = {
+        versions: function () {
+            var u = navigator.userAgent,
+                app = navigator.appVersion;
+            return { //移动终端浏览器版本信息
+                trident: u.indexOf('Trident') > -1, //IE内核
+                presto: u.indexOf('Presto') > -1, //opera内核
+                webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
+                gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
+                mobile: !!u.match(/AppleWebKit.*Mobile.*/), // || !!u.match(/AppleWebKit/), //是否为移动终端
+                ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+                android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
+                iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者QQHD浏览器
+                iPad: u.indexOf('iPad') > -1, //是否iPad
+                webApp: u.indexOf('Safari') == -1
+                //是否web应该程序，没有头部与底部
+            };
+        }(),
+        language: (navigator.browserLanguage || navigator.language).toLowerCase()
+    }
+
+    function setDynamicBackground() {
+        $('body').css({
+            'background': 'url(https://source.unsplash.com/random/1600x900)',
+            'background-attachment': 'fixed',
+            'background-repeat': 'repeat',
+            'background-size': 'contain'
+        });
+        $('.main-inner').css({
+            'margin-top': '60px',
+            'padding': '60px 60px 0px 60px',
+            'background': '#fff',
+            'opacity': '0.8',
+            'min-height': '500px'
+        });
+        $('.page-home .main-inner').css({
+            'padding-bottom': '60px',
+        });
+        $('.header').css({
+            'background': 'transparent',
+            'color': '#fff'
+        });
+        $('.footer').css({
+            'background': 'transparent',
+            'color': '#fff'
+        });
+
+        $('.footer-inner .theme-link').css('color', '#EEE');
+    }
+    function setSquareCellBackground(isMobile) {
+        $('body').css({
+            'background-image': 'url("/images/background_cell.png")',
+            'background-position': 'center center',
+            'background-size': 'auto',
+            'background-repeat': 'repeat',
+            'background-attachment': 'fixed'
+        });
+        if (!isMobile) {
+            $('.main-inner').css({
+                'margin-top': '60px',
+                'padding': '60px 60px 0px 60px',
+                'opacity': '0.8',
+                'min-height': '500px'
+            });
+            $('.page-home .main-inner').css({
+                'padding-bottom': '60px',
+            });
+        }
+        $('.header').css({
+            'background': 'transparent',
+        });
+        $('.footer').css({
+            'background': 'transparent',
+        });
+    }
+    function setMobileBackgroun() {
+        $('.header').css({
+            'background': 'linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("https://s1.ax1x.com/2018/06/09/CbDIIO.jpg") no-repeat',
+            'background-size': 'cover',
+            'background-color': 'black',
+            'background-position': 'center',
+            'width': '100%',
+            'display': 'table'
+        })
+
+        $('.site-nav-toggle .btn-bar').css('background', '#fff');
+    }
+
+    function settingBackground () {
+        if (browser.versions.mobile) {
+            setSquareCellBackground(true);
+        } else {
+            // setDynamicBackground();
+            setSquareCellBackground(false);
+        }
+    }
+    if (browser.versions.mobile) {
+        var headerStr = '<div class="site-nav-toggle">' +
+            '    <button aria-label="切换导航栏">' +
+            '      <span class="btn-bar"></span>' +
+            '      <span class="btn-bar"></span>' +
+            '      <span class="btn-bar"></span>' +
+            '    </button>' +
+            '  </div>' +
+            '  <div class="site-meta ">' +
+            '    <div class="custom-logo-site-title">' +
+            '      <a href="/" class="brand" rel="start" style="opacity: 1;">' +
+            '        <span class="logo-line-before"><i class="" style="transform: translateX(100%);"></i></span>' +
+            '        <span class="site-title" style="opacity: 1; top: 0px;">VanJay\'s Blog</span>' +
+            '        <span class="logo-line-after"><i class="" style="transform: translateX(-100%);"></i></span>' +
+            '      </a>' +
+            '    </div>' +
+            '        <p class="site-subtitle" style="opacity: 1; top: 0px;">一个爱折腾工程师的全栈梦</p>' +
+            '  </div>';
+        $('.header .site-brand-wrapper').html(headerStr);
+    }
+    // 设置背景
+    settingBackground();
+
+}(window, document);
+</script>
+</body>
+</html>
