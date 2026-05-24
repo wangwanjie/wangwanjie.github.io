@@ -1,6 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>ASI 和 AFN 区别</title>
+    <url>/2015/10/06/ASI-%E5%92%8C-AFN-%E5%8C%BA%E5%88%AB/</url>
+    <content><![CDATA[<h3 id="一-底层实现"><a href="#一-底层实现" class="headerlink" title="一 底层实现"></a>一 底层实现</h3><ul>
+<li>AFN的底层基于OC的NSURLConnection和NSURLSession</li>
+<li>ASI的底层基于纯C语言的CFNetwork框架</li>
+<li>ASI的运行性能 高于 AFN</li>
+</ul>
+<span id="more"></span>
+
+<h3 id="二-对服务器返回的数据处理"><a href="#二-对服务器返回的数据处理" class="headerlink" title="二 对服务器返回的数据处理"></a>二 对服务器返回的数据处理</h3><ul>
+<li>ASI没有直接提供对服务器数据处理的方式，直接返回data\string</li>
+<li>AFN提供了多种对服务器数据处理的方式<ul>
+<li>JSON处理</li>
+<li>XML处理</li>
+<li>其他处理</li>
+</ul>
+</li>
+</ul>
+<h3 id="三-监听请求的过程"><a href="#三-监听请求的过程" class="headerlink" title="三 监听请求的过程"></a>三 监听请求的过程</h3><ul>
+<li><p>AFN提供了success和failure两个block来监听请求的过程（只能监听成功和失败）</p>
+<ul>
+<li>success : 请求成功后调用</li>
+<li>failure : 请求失败后调用</li>
+</ul>
+</li>
+<li><p>ASI提供了3套方案，每一套方案都能监听请求的完整过程<br>（监听请求开始、接收到响应头信息、接受到具体数据、接受完毕、请求失败）</p>
+<ul>
+<li>成为代理，遵守协议，实现协议中的代理方法</li>
+<li>成为代理，不遵守协议，自定义代理方法</li>
+<li>设置block</li>
+</ul>
+</li>
+</ul>
+<h3 id="四-在文件下载和文件上传的使用难易度"><a href="#四-在文件下载和文件上传的使用难易度" class="headerlink" title="四 在文件下载和文件上传的使用难易度"></a>四 在文件下载和文件上传的使用难易度</h3><ul>
+<li><p>AFN</p>
+<ul>
+<li>不容易监听下载进度和上传进度</li>
+<li>不容易实现断点续传</li>
+<li>一般只用来下载不大的文件</li>
+</ul>
+</li>
+<li><p>ASI</p>
+<ul>
+<li>非常容易实现下载和上传</li>
+<li>非常容易监听下载进度和上传进度</li>
+<li>非常容易实现断点续传</li>
+<li>下载或大或小的文件都行</li>
+</ul>
+</li>
+</ul>
+<h3 id="五-ASI提供了更多的实用功能"><a href="#五-ASI提供了更多的实用功能" class="headerlink" title="五 ASI提供了更多的实用功能"></a>五 ASI提供了更多的实用功能</h3><ul>
+<li>控制圈圈要不要在请求过程中转</li>
+<li>可以轻松地设置请求之间的依赖：每一个请求都是一个 <strong>NSOperation</strong> 对象</li>
+<li>可以统一管理所有请求（还专门提供了一个叫做 <strong>ASINetworkQueue</strong> 来管理所有的请求对象）</li>
+<li>暂停\恢复\取消所有的请求</li>
+<li>监听整个队列中所有请求的下载进度和上传进度</li>
+</ul>
+]]></content>
+      <categories>
+        <category>Objective-C</category>
+      </categories>
+      <tags>
+        <tag>网络</tag>
+        <tag>网络协议</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>8505处理器家庭组网PVE下iKuai、OpenWrt、CentOS、DSM、Windows等系统All In One实践记录</title>
     <url>/2023/05/20/8505%E5%A4%84%E7%90%86%E5%99%A8%E5%AE%B6%E5%BA%AD%E7%BB%84%E7%BD%91PVE%E4%B8%8BiKuai%E3%80%81OpenWrt%E3%80%81CentOS%E3%80%81DSM%E3%80%81Windows%E7%AD%89%E7%B3%BB%E7%BB%9FAll-In-One%E5%AE%9E%E8%B7%B5%E8%AE%B0%E5%BD%95/</url>
     <content><![CDATA[<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>在平日生活和工作中，家庭网络环境的管理和维护始终是一个重要但容易被忽视的问题。智能家居设备越来越多，手机电脑电视等设备不断增多，对于网络的需求越来越高，比如数据同步，路由管理，电视观看内网高清影院等，这些都需要一个稳定且强大的家庭网络环境来支持。</p>
@@ -215,70 +282,374 @@ src/gz openwrt_telephony https://mirrors.tuna.tsinghua.edu.cn/openwrt/releases/2
       </tags>
   </entry>
   <entry>
-    <title>ASI 和 AFN 区别</title>
-    <url>/2015/10/06/ASI-%E5%92%8C-AFN-%E5%8C%BA%E5%88%AB/</url>
-    <content><![CDATA[<h3 id="一-底层实现"><a href="#一-底层实现" class="headerlink" title="一 底层实现"></a>一 底层实现</h3><ul>
-<li>AFN的底层基于OC的NSURLConnection和NSURLSession</li>
-<li>ASI的底层基于纯C语言的CFNetwork框架</li>
-<li>ASI的运行性能 高于 AFN</li>
-</ul>
+    <title>AnyLink 部署指南 · 群晖 DSM 7.2.2</title>
+    <url>/2026/05/24/AnyLink-%E9%83%A8%E7%BD%B2%E6%8C%87%E5%8D%97-%C2%B7-%E7%BE%A4%E6%99%96-DSM-7-2-2/</url>
+    <content><![CDATA[<blockquote>
+<p>基于 Docker 容器部署 AnyLink VPN 服务，支持 Cisco AnyConnect 协议客户端接入。</p>
+</blockquote>
 <span id="more"></span>
 
-<h3 id="二-对服务器返回的数据处理"><a href="#二-对服务器返回的数据处理" class="headerlink" title="二 对服务器返回的数据处理"></a>二 对服务器返回的数据处理</h3><ul>
-<li>ASI没有直接提供对服务器数据处理的方式，直接返回data\string</li>
-<li>AFN提供了多种对服务器数据处理的方式<ul>
-<li>JSON处理</li>
-<li>XML处理</li>
-<li>其他处理</li>
-</ul>
-</li>
-</ul>
-<h3 id="三-监听请求的过程"><a href="#三-监听请求的过程" class="headerlink" title="三 监听请求的过程"></a>三 监听请求的过程</h3><ul>
-<li><p>AFN提供了success和failure两个block来监听请求的过程（只能监听成功和失败）</p>
+<h2 id="环境信息"><a href="#环境信息" class="headerlink" title="环境信息"></a>环境信息</h2><table>
+<thead>
+<tr>
+<th>项目</th>
+<th>值</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>系统</td>
+<td>群晖 DSM 7.2.2</td>
+</tr>
+<tr>
+<td>机型</td>
+<td>SA6400</td>
+</tr>
+<tr>
+<td>群晖 IP</td>
+<td>192.168.18.8</td>
+</tr>
+<tr>
+<td>物理出口网卡</td>
+<td>ovs_eth4</td>
+</tr>
+<tr>
+<td>VPN 客户端网段</td>
+<td>192.168.90.0&#x2F;24</td>
+</tr>
+<tr>
+<td>VPN 网关</td>
+<td>192.168.90.1</td>
+</tr>
+<tr>
+<td>客户端 IP 范围</td>
+<td>192.168.90.100 ~ 192.168.90.200</td>
+</tr>
+<tr>
+<td>对外端口</td>
+<td>4436（TCP&#x2F;UDP）</td>
+</tr>
+<tr>
+<td>管理面板端口</td>
+<td>8809</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="前置准备"><a href="#前置准备" class="headerlink" title="前置准备"></a>前置准备</h2><h3 id="1-启用-SSH"><a href="#1-启用-SSH" class="headerlink" title="1. 启用 SSH"></a>1. 启用 SSH</h3><p>控制面板 → 终端机与 SNMP → 启用 SSH 功能</p>
+<h3 id="2-安装-Container-Manager"><a href="#2-安装-Container-Manager" class="headerlink" title="2. 安装 Container Manager"></a>2. 安装 Container Manager</h3><p>套件中心 → 搜索 <strong>Container Manager</strong> → 安装</p>
+<h3 id="3-确认内核模块"><a href="#3-确认内核模块" class="headerlink" title="3. 确认内核模块"></a>3. 确认内核模块</h3><p>SSH 登录群晖后执行：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">lsmod <span class="token operator">|</span> <span class="token function">grep</span> tun<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>如无输出则手动加载：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">sudo</span> modprobe tun<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<hr>
+<h2 id="目录结构"><a href="#目录结构" class="headerlink" title="目录结构"></a>目录结构</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">mkdir</span> <span class="token parameter variable">-p</span> /volume1/docker/anylink/<span class="token punctuation">&#123;</span>conf,log<span class="token punctuation">&#125;</span>
+<span class="token builtin class-name">cd</span> /volume1/docker/anylink<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<p>最终结构：</p>
+<pre class="line-numbers language-none"><code class="language-none">&#x2F;volume1&#x2F;docker&#x2F;anylink&#x2F;
+├── docker-compose.yml
+├── conf&#x2F;
+│   ├── server.toml
+│   ├── anylink.db
+│   ├── profile.xml
+│   ├── client_ca.pem
+│   ├── client_ca.key
+│   ├── files&#x2F;
+│   └── cert&#x2F;
+│       ├── anylink.ddns.vanjay.cn.pem
+│       └── anylink.ddns.vanjay.cn.key
+└── log&#x2F;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<hr>
+<h2 id="docker-compose-yml"><a href="#docker-compose-yml" class="headerlink" title="docker-compose.yml"></a>docker-compose.yml</h2><pre class="line-numbers language-yaml" data-language="yaml"><code class="language-yaml"><span class="token key atrule">services</span><span class="token punctuation">:</span>
+  <span class="token key atrule">anylink</span><span class="token punctuation">:</span>
+    <span class="token key atrule">image</span><span class="token punctuation">:</span> bjdgyc/anylink<span class="token punctuation">:</span>latest
+    <span class="token key atrule">container_name</span><span class="token punctuation">:</span> anylink
+    <span class="token key atrule">restart</span><span class="token punctuation">:</span> unless<span class="token punctuation">-</span>stopped
+    <span class="token key atrule">privileged</span><span class="token punctuation">:</span> <span class="token boolean important">true</span>
+    <span class="token comment"># cpus: 2</span>
+    <span class="token comment"># mem_limit: 4g</span>
+    <span class="token key atrule">ports</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> 4436<span class="token punctuation">:</span><span class="token number">443</span>
+      <span class="token punctuation">-</span> 8809<span class="token punctuation">:</span><span class="token number">8800</span>
+      <span class="token punctuation">-</span> 4436<span class="token punctuation">:</span>443/udp
+    <span class="token key atrule">environment</span><span class="token punctuation">:</span>
+      <span class="token key atrule">LINK_LOG_LEVEL</span><span class="token punctuation">:</span> info
+    <span class="token key atrule">command</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> <span class="token punctuation">-</span><span class="token punctuation">-</span>conf=/app/conf/server.toml
+    <span class="token key atrule">volumes</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> ./conf<span class="token punctuation">:</span>/app/conf
+      <span class="token punctuation">-</span> ./log<span class="token punctuation">:</span>/app/log
+    <span class="token key atrule">dns_search</span><span class="token punctuation">:</span> .<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<hr>
+<h2 id="server-toml-关键配置"><a href="#server-toml-关键配置" class="headerlink" title="server.toml 关键配置"></a>server.toml 关键配置</h2><pre class="line-numbers language-toml" data-language="toml"><code class="language-toml"><span class="token comment"># 其他配置文件,可以使用绝对路径</span>
+<span class="token comment"># 或者相对于 anylink 二进制文件的路径</span>
+
+<span class="token comment"># 数据文件</span>
+<span class="token key property">db_type</span> <span class="token punctuation">=</span> <span class="token string">"sqlite3"</span>
+<span class="token key property">db_source</span> <span class="token punctuation">=</span> <span class="token string">"./conf/anylink.db"</span>
+<span class="token comment"># 证书文件</span>
+<span class="token key property">cert_file</span> <span class="token punctuation">=</span> <span class="token string">"./conf/cert/anylink.ddns.vanjay.cn.pem"</span>
+<span class="token key property">cert_key</span> <span class="token punctuation">=</span> <span class="token string">"./conf/cert/anylink.ddns.vanjay.cn.key"</span>
+<span class="token key property">profile</span> <span class="token punctuation">=</span> <span class="token string">"./conf/profile.xml"</span>
+<span class="token key property">files_path</span> <span class="token punctuation">=</span> <span class="token string">"./conf/files"</span>
+<span class="token comment"># 日志目录,为空写入标准输出</span>
+<span class="token key property">log_path</span> <span class="token punctuation">=</span> <span class="token string">"./log"</span> <span class="token comment"># 添加日志文件路径</span>
+<span class="token key property">log_level</span> <span class="token punctuation">=</span> <span class="token string">"info"</span> <span class="token comment"># 修改日志等级为info</span>
+
+<span class="token comment"># 系统名称</span>
+<span class="token key property">issuer</span> <span class="token punctuation">=</span> <span class="token string">"VanJay's Home VPN"</span>
+<span class="token comment"># 后台管理用户</span>
+<span class="token key property">admin_user</span> <span class="token punctuation">=</span> <span class="token string">"VanJay"</span>
+<span class="token key property">admin_pass</span> <span class="token punctuation">=</span> <span class="token string">"$2a$10$Jkfxxxxxxxx"</span>
+<span class="token comment"># 留空表示不开启 otp, 开启otp后密码为  pass + 6位otp</span>
+<span class="token comment"># 生成 ./anylink tool -o</span>
+<span class="token key property">admin_otp</span> <span class="token punctuation">=</span> <span class="token string">""</span>
+<span class="token key property">jwt_secret</span> <span class="token punctuation">=</span> <span class="token string">"njKSeDiwKnypaFjepvVBUxxxxxxx"</span>
+
+<span class="token comment"># 服务监听地址</span>
+<span class="token comment"># server_addr = "443"</span>
+<span class="token comment"># 开启 DTLS, 默认关闭</span>
+<span class="token comment"># server_dtls = false</span>
+<span class="token comment"># server_dtls_addr = "443"</span>
+<span class="token comment"># 后台服务监听地址</span>
+<span class="token comment"># admin_addr = ":8800"</span>
+<span class="token comment"># 开启tcp proxy protocol协议</span>
+<span class="token key property">proxy_protocol</span> <span class="token punctuation">=</span> <span class="token boolean">true</span>
+
+<span class="token comment"># 网络模式，只演示该模式，其他模式请自行参考github</span>
+<span class="token key property">link_mode</span> <span class="token punctuation">=</span> <span class="token string">"tun"</span>
+
+<span class="token comment"># 客户端分配的ip地址池，docker 部署不需要</span>
+<span class="token comment"># ipv4_master = "eth0"</span>
+<span class="token comment"># ipv4_cidr = "192.168.100.0/24"</span>
+<span class="token comment"># pv4_gateway = "192.168.100.1"</span>
+<span class="token comment"># ipv4_start = "192.168.100.100"</span>
+<span class="token comment"># ipv4_end = "192.168.100.200"</span>
+
+<span class="token comment"># 最大客户端数量</span>
+<span class="token key property">max_client</span> <span class="token punctuation">=</span> <span class="token number">100</span>
+<span class="token comment"># 单个用户同时在线数量</span>
+<span class="token key property">max_user_client</span> <span class="token punctuation">=</span> <span class="token number">8</span>
+<span class="token comment"># IP租期(秒)</span>
+<span class="token key property">ip_lease</span> <span class="token punctuation">=</span> <span class="token number">86400</span>
+
+<span class="token comment"># 默认选择的组</span>
+<span class="token key property">default_group</span> <span class="token punctuation">=</span> <span class="token string">"vip"</span>
+
+<span class="token comment"># 客户端失效检测时间(秒) dpd > keepalive</span>
+<span class="token key property">cstp_keepalive</span> <span class="token punctuation">=</span> <span class="token number">25</span>
+<span class="token key property">cstp_dpd</span> <span class="token punctuation">=</span> <span class="token number">30</span>
+<span class="token key property">mobile_keepalive</span> <span class="token punctuation">=</span> <span class="token number">85</span>
+<span class="token key property">mobile_dpd</span> <span class="token punctuation">=</span> <span class="token number">90</span>
+
+<span class="token comment"># 设置最大传输单元</span>
+<span class="token key property">mtu</span> <span class="token punctuation">=</span> <span class="token number">1460</span>
+
+<span class="token comment"># 要发布的默认域，可以多个，空格隔开</span>
+<span class="token key property">default_domain</span> <span class="token punctuation">=</span> <span class="token string">"anylink.ddns.vanjay.cn"</span>
+
+<span class="token comment"># session过期时间，用于断线重连，0永不过期</span>
+<span class="token key property">session_timeout</span> <span class="token punctuation">=</span> <span class="token number">0</span>
+<span class="token key property">auth_timeout</span> <span class="token punctuation">=</span> <span class="token number">0</span>
+<span class="token comment"># 审计去重间隔（秒），-1代表关闭审计日志</span>
+<span class="token key property">audit_interval</span> <span class="token punctuation">=</span> <span class="token number">600</span>
+
+<span class="token key property">show_sql</span> <span class="token punctuation">=</span> <span class="token boolean">false</span>
+
+<span class="token comment"># 是否自动添加nat</span>
+<span class="token key property">iptables_nat</span> <span class="token punctuation">=</span> <span class="token boolean">true</span>
+
+<span class="token comment"># 启用压缩</span>
+<span class="token key property">compression</span> <span class="token punctuation">=</span> <span class="token boolean">false</span>
+<span class="token comment"># 低于及等于多少字节不压缩</span>
+<span class="token key property">no_compress_limit</span> <span class="token punctuation">=</span> <span class="token number">256</span>
+
+<span class="token comment"># 客户端显示详细错误信息(线上环境慎开启)</span>
+<span class="token key property">display_error</span> <span class="token punctuation">=</span> <span class="token boolean">false</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<hr>
+<h2 id="HAProxy-配置（可选）"><a href="#HAProxy-配置（可选）" class="headerlink" title="HAProxy 配置（可选）"></a>HAProxy 配置（可选）</h2><p>如果群晖上运行了 HAProxy 做前置代理，backend 配置如下：</p>
+<pre class="line-numbers language-none"><code class="language-none">backend anylink
+    mode tcp
+    option ssl-hello-chk
+    server anylink 127.0.0.1:4436 send-proxy-v2 check-send-proxy<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
+<blockquote>
+<p>使用 <code>send-proxy-v2</code> 时，<code>server.toml</code> 中必须设置 <code>proxy_protocol = true</code>，否则客户端无法连接。</p>
+</blockquote>
+<hr>
+<h2 id="启动服务"><a href="#启动服务" class="headerlink" title="启动服务"></a>启动服务</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token builtin class-name">cd</span> /volume3/MyDocker/anylink
+<span class="token function">docker</span> compose up <span class="token parameter variable">-d</span>
+
+<span class="token comment"># 查看日志</span>
+<span class="token function">docker</span> logs <span class="token parameter variable">-f</span> anylink<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<hr>
+<h2 id="网络配置（关键步骤）"><a href="#网络配置（关键步骤）" class="headerlink" title="网络配置（关键步骤）"></a>网络配置（关键步骤）</h2><p>群晖 Docker 环境下，VPN 流量需要手动处理两层 NAT：</p>
+<h3 id="问题分析"><a href="#问题分析" class="headerlink" title="问题分析"></a>问题分析</h3><pre class="line-numbers language-none"><code class="language-none">手机 → HAProxy → anylink容器(tun0) → 容器eth0 → 宿主机网桥 → ovs_eth4 → 公网<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
 <ul>
-<li>success : 请求成功后调用</li>
-<li>failure : 请求失败后调用</li>
+<li><strong>容器内</strong>：需要 MASQUERADE，将 VPN 客户端 IP（<code>192.168.90.x</code>）转换为容器 eth0 IP</li>
+<li><strong>宿主机</strong>：需要 FORWARD 放行 + MASQUERADE，将容器 IP 转换为群晖物理 IP 出公网</li>
 </ul>
-</li>
-<li><p>ASI提供了3套方案，每一套方案都能监听请求的完整过程<br>（监听请求开始、接收到响应头信息、接受到具体数据、接受完毕、请求失败）</p>
+<h3 id="宿主机-iptables-规则"><a href="#宿主机-iptables-规则" class="headerlink" title="宿主机 iptables 规则"></a>宿主机 iptables 规则</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 放行 VPN 客户端流量转发</span>
+iptables <span class="token parameter variable">-I</span> FORWARD <span class="token parameter variable">-s</span> <span class="token number">192.168</span>.90.0/24 <span class="token parameter variable">-j</span> ACCEPT
+iptables <span class="token parameter variable">-I</span> FORWARD <span class="token parameter variable">-d</span> <span class="token number">192.168</span>.90.0/24 <span class="token parameter variable">-j</span> ACCEPT
+
+<span class="token comment"># 出口 NAT（注意：出口网卡是 ovs_eth4，不是 eth0）</span>
+iptables <span class="token parameter variable">-t</span> nat <span class="token parameter variable">-A</span> POSTROUTING <span class="token parameter variable">-s</span> <span class="token number">192.168</span>.90.0/24 <span class="token parameter variable">-o</span> ovs_eth4 <span class="token parameter variable">-j</span> MASQUERADE<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="容器内-iptables-规则（关键）"><a href="#容器内-iptables-规则（关键）" class="headerlink" title="容器内 iptables 规则（关键）"></a>容器内 iptables 规则（关键）</h3><blockquote>
+<p>anylink 的 <code>iptables_nat = true</code> 在群晖环境下不会自动生效（legacy&#x2F;nftables 冲突），必须手动添加：</p>
+</blockquote>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">docker</span> <span class="token builtin class-name">exec</span> anylink iptables-legacy <span class="token parameter variable">-t</span> nat <span class="token parameter variable">-A</span> POSTROUTING <span class="token punctuation">\</span>
+  <span class="token parameter variable">-s</span> <span class="token number">192.168</span>.90.0/24 <span class="token parameter variable">-o</span> eth0 <span class="token parameter variable">-j</span> MASQUERADE<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<hr>
+<h2 id="开机自启任务"><a href="#开机自启任务" class="headerlink" title="开机自启任务"></a>开机自启任务</h2><p>群晖重启后内核模块和 iptables 规则会全部丢失，需要设置开机任务。</p>
+<p><strong>路径：</strong> 控制面板 → 任务计划 → 新增 → 触发的任务 → 用户定义的脚本</p>
 <ul>
-<li>成为代理，遵守协议，实现协议中的代理方法</li>
-<li>成为代理，不遵守协议，自定义代理方法</li>
-<li>设置block</li>
+<li>事件：<strong>开机</strong></li>
+<li>用户：<strong>root</strong></li>
 </ul>
-</li>
+<p>确定网口</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">root@SA6400 ~$ <span class="token function">ip</span> route <span class="token operator">|</span> <span class="token function">grep</span> default
+default via <span class="token number">192.168</span>.18.1 dev ovs_eth4 src <span class="token number">192.168</span>.18.8<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<p>脚本内容：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token shebang important">#!/bin/bash</span>
+
+<span class="token comment"># 加载内核模块</span>
+modprobe tun
+modprobe iptable_filter
+modprobe iptable_nat
+
+<span class="token comment"># 等待 Docker 和容器启动</span>
+<span class="token function">sleep</span> <span class="token number">30</span>
+
+<span class="token comment"># 宿主机 iptables 规则</span>
+iptables <span class="token parameter variable">-I</span> FORWARD <span class="token parameter variable">-s</span> <span class="token number">192.168</span>.90.0/24 <span class="token parameter variable">-j</span> ACCEPT
+iptables <span class="token parameter variable">-I</span> FORWARD <span class="token parameter variable">-d</span> <span class="token number">192.168</span>.90.0/24 <span class="token parameter variable">-j</span> ACCEPT
+iptables <span class="token parameter variable">-t</span> nat <span class="token parameter variable">-A</span> POSTROUTING <span class="token parameter variable">-s</span> <span class="token number">192.168</span>.90.0/24 <span class="token parameter variable">-o</span> ovs_eth4 <span class="token parameter variable">-j</span> MASQUERADE
+
+<span class="token comment"># 等容器完全就绪</span>
+<span class="token function">sleep</span> <span class="token number">10</span>
+
+<span class="token comment"># 容器内 NAT 规则（VPN 客户端流量从容器 eth0 出去）</span>
+<span class="token function">docker</span> <span class="token builtin class-name">exec</span> anylink iptables-legacy <span class="token parameter variable">-t</span> nat <span class="token parameter variable">-A</span> POSTROUTING <span class="token punctuation">\</span>
+  <span class="token parameter variable">-s</span> <span class="token number">192.168</span>.90.0/24 <span class="token parameter variable">-o</span> eth0 <span class="token parameter variable">-j</span> MASQUERADE<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<hr>
+<h2 id="验证"><a href="#验证" class="headerlink" title="验证"></a>验证</h2><h3 id="检查服务状态"><a href="#检查服务状态" class="headerlink" title="检查服务状态"></a>检查服务状态</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">docker</span> <span class="token function">ps</span> <span class="token operator">|</span> <span class="token function">grep</span> anylink
+<span class="token function">docker</span> logs anylink <span class="token parameter variable">--tail</span> <span class="token number">20</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<h3 id="检查规则是否生效"><a href="#检查规则是否生效" class="headerlink" title="检查规则是否生效"></a>检查规则是否生效</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 宿主机 NAT</span>
+iptables <span class="token parameter variable">-t</span> nat <span class="token parameter variable">-L</span> POSTROUTING <span class="token parameter variable">-n</span> <span class="token parameter variable">-v</span> <span class="token operator">|</span> <span class="token function">grep</span> <span class="token number">192.168</span>.90
+
+<span class="token comment"># 宿主机 FORWARD</span>
+iptables <span class="token parameter variable">-L</span> FORWARD <span class="token parameter variable">-n</span> <span class="token parameter variable">-v</span> <span class="token operator">|</span> <span class="token function">grep</span> <span class="token number">192.168</span>.90
+
+<span class="token comment"># 容器内 NAT（关键）</span>
+<span class="token function">docker</span> <span class="token builtin class-name">exec</span> anylink iptables-legacy <span class="token parameter variable">-t</span> nat <span class="token parameter variable">-L</span> POSTROUTING <span class="token parameter variable">-n</span> <span class="token parameter variable">-v</span> <span class="token operator">|</span> <span class="token function">grep</span> <span class="token number">192.168</span>.90<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>三条都有输出则配置正确。</p>
+<h3 id="网络连通性测试"><a href="#网络连通性测试" class="headerlink" title="网络连通性测试"></a>网络连通性测试</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 抓包确认 VPN 客户端流量</span>
+tcpdump <span class="token parameter variable">-i</span> any <span class="token parameter variable">-n</span> <span class="token function">host</span> <span class="token number">192.168</span>.90.100
+
+<span class="token comment"># 确认 NAT 出口</span>
+tcpdump <span class="token parameter variable">-i</span> ovs_eth4 <span class="token parameter variable">-n</span> src <span class="token number">192.168</span>.18.8<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<hr>
+<h2 id="客户端连接"><a href="#客户端连接" class="headerlink" title="客户端连接"></a>客户端连接</h2><table>
+<thead>
+<tr>
+<th>平台</th>
+<th>客户端</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>iOS</td>
+<td>App Store 搜索 <strong>Cisco Secure Client</strong></td>
+</tr>
+<tr>
+<td>Android</td>
+<td>Play Store 搜索 <strong>Cisco Secure Client</strong></td>
+</tr>
+<tr>
+<td>macOS</td>
+<td>App Store 搜索 <strong>Cisco Secure Client</strong></td>
+</tr>
+<tr>
+<td>Windows</td>
+<td>下载 Cisco AnyConnect 客户端</td>
+</tr>
+</tbody></table>
+<p>连接地址：<code>anylink.ddns.vanjay.cn:4436</code></p>
+<hr>
+<h2 id="管理面板"><a href="#管理面板" class="headerlink" title="管理面板"></a>管理面板</h2><pre class="line-numbers language-none"><code class="language-none">http:&#x2F;&#x2F;192.168.18.8:8809<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>可查看在线用户、连接状态、IP 分配情况。</p>
+<hr>
+<h2 id="常见问题"><a href="#常见问题" class="headerlink" title="常见问题"></a>常见问题</h2><h3 id="tun-模块未加载"><a href="#tun-模块未加载" class="headerlink" title="tun 模块未加载"></a>tun 模块未加载</h3><pre class="line-numbers language-none"><code class="language-none">[error] Linux module tun is not loaded, please run &#96;modprobe tun&#96;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>解决：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">sudo</span> modprobe tun
+<span class="token function">sudo</span> modprobe iptable_filter
+<span class="token function">sudo</span> modprobe iptable_nat<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="连接成功但无法上网"><a href="#连接成功但无法上网" class="headerlink" title="连接成功但无法上网"></a>连接成功但无法上网</h3><p>最常见原因：容器内缺少 MASQUERADE 规则。执行：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">docker</span> <span class="token builtin class-name">exec</span> anylink iptables-legacy <span class="token parameter variable">-t</span> nat <span class="token parameter variable">-A</span> POSTROUTING <span class="token punctuation">\</span>
+  <span class="token parameter variable">-s</span> <span class="token number">192.168</span>.90.0/24 <span class="token parameter variable">-o</span> eth0 <span class="token parameter variable">-j</span> MASQUERADE<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<h3 id="iptables-nf-tables-警告"><a href="#iptables-nf-tables-警告" class="headerlink" title="iptables nf_tables 警告"></a>iptables nf_tables 警告</h3><pre class="line-numbers language-none"><code class="language-none">iptables v1.8.11 (nf_tables)
+Warning: iptables-legacy tables present<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<p>这是正常现象，只要 <code>docker-compose.yml</code> 中设置了 <code>IPTABLES_LEGACY: &quot;on&quot;</code> 即可忽略。</p>
+<h3 id="proxy-protocol-导致连接失败"><a href="#proxy-protocol-导致连接失败" class="headerlink" title="proxy_protocol 导致连接失败"></a>proxy_protocol 导致连接失败</h3><ul>
+<li>有 HAProxy 前置：<code>proxy_protocol = true</code></li>
+<li>直接暴露端口：<code>proxy_protocol = false</code></li>
 </ul>
-<h3 id="四-在文件下载和文件上传的使用难易度"><a href="#四-在文件下载和文件上传的使用难易度" class="headerlink" title="四 在文件下载和文件上传的使用难易度"></a>四 在文件下载和文件上传的使用难易度</h3><ul>
-<li><p>AFN</p>
-<ul>
-<li>不容易监听下载进度和上传进度</li>
-<li>不容易实现断点续传</li>
-<li>一般只用来下载不大的文件</li>
-</ul>
-</li>
-<li><p>ASI</p>
-<ul>
-<li>非常容易实现下载和上传</li>
-<li>非常容易监听下载进度和上传进度</li>
-<li>非常容易实现断点续传</li>
-<li>下载或大或小的文件都行</li>
-</ul>
-</li>
-</ul>
-<h3 id="五-ASI提供了更多的实用功能"><a href="#五-ASI提供了更多的实用功能" class="headerlink" title="五 ASI提供了更多的实用功能"></a>五 ASI提供了更多的实用功能</h3><ul>
-<li>控制圈圈要不要在请求过程中转</li>
-<li>可以轻松地设置请求之间的依赖：每一个请求都是一个 <strong>NSOperation</strong> 对象</li>
-<li>可以统一管理所有请求（还专门提供了一个叫做 <strong>ASINetworkQueue</strong> 来管理所有的请求对象）</li>
-<li>暂停\恢复\取消所有的请求</li>
-<li>监听整个队列中所有请求的下载进度和上传进度</li>
-</ul>
+<p>两者不能混用。</p>
+<hr>
+<h2 id="防火墙放行"><a href="#防火墙放行" class="headerlink" title="防火墙放行"></a>防火墙放行</h2><p>控制面板 → 安全性 → 防火墙 → 新增规则：</p>
+<table>
+<thead>
+<tr>
+<th>端口</th>
+<th>协议</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>4436</td>
+<td>TCP</td>
+<td>AnyConnect TLS 连接</td>
+</tr>
+<tr>
+<td>4436</td>
+<td>UDP</td>
+<td>DTLS 加速</td>
+</tr>
+<tr>
+<td>8809</td>
+<td>TCP</td>
+<td>Web 管理面板</td>
+</tr>
+</tbody></table>
+<hr>
 ]]></content>
       <categories>
-        <category>Objective-C</category>
+        <category>VPN</category>
+        <category>运维</category>
+        <category>群晖</category>
       </categories>
       <tags>
-        <tag>网络</tag>
-        <tag>网络协议</tag>
+        <tag>anylink</tag>
+        <tag>vpn</tag>
+        <tag>群晖</tag>
       </tags>
   </entry>
   <entry>
@@ -1074,6 +1445,68 @@ root@iZj6cgd384kfewiompdstqZ <span class="token punctuation">[</span>02时10分3
       </tags>
   </entry>
   <entry>
+    <title>Debian 12 服务器修复 TOTP 时间同步问题</title>
+    <url>/2026/03/29/Debian-12-%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%BF%AE%E5%A4%8D-TOTP-%E6%97%B6%E9%97%B4%E5%90%8C%E6%AD%A5%E9%97%AE%E9%A2%98/</url>
+    <content><![CDATA[<p>服务器 TOTP 验证失败，通常因系统时间、时区或 NTP 未同步引起。本文记录 Debian 12 上完整修复过程，时区从 US&#x2F;Eastern (EDT) 调整为 Asia&#x2F;Shanghai，并启用 systemd-timesyncd。</p>
+<span id="more"></span>
+
+<h1 id="Debian-12-服务器修复-TOTP-时间同步问题"><a href="#Debian-12-服务器修复-TOTP-时间同步问题" class="headerlink" title="Debian 12 服务器修复 TOTP 时间同步问题"></a>Debian 12 服务器修复 TOTP 时间同步问题</h1><p>服务器 TOTP 验证失败，通常因系统时间、时区或 NTP 未同步引起。本文记录 Debian 12 上完整修复过程，时区从 US&#x2F;Eastern (EDT) 调整为 Asia&#x2F;Shanghai，并启用 systemd-timesyncd。[web:47][web:48]</p>
+<h2 id="初始问题诊断"><a href="#初始问题诊断" class="headerlink" title="初始问题诊断"></a>初始问题诊断</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">timedatectl status
+               Local time: Sat <span class="token number">2026</span>-03-28 <span class="token number">22</span>:38:09 EDT
+           Universal time: Sun <span class="token number">2026</span>-03-29 02:38:09 UTC
+                 RTC time: Sun <span class="token number">2026</span>-03-29 02:40:18
+                Time zone: US/Eastern <span class="token punctuation">(</span>EDT, -0400<span class="token punctuation">)</span>
+System clock synchronized: no
+              NTP service: n/a
+          RTC <span class="token keyword">in</span> <span class="token builtin class-name">local</span> TZ: no<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p><strong>问题</strong>：时区错（落后 12 小时）、未同步、NTP 未启用。[web:31]</p>
+<h2 id="步骤-1-设置时区为上海"><a href="#步骤-1-设置时区为上海" class="headerlink" title="步骤 1: 设置时区为上海"></a>步骤 1: 设置时区为上海</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">timedatectl set-timezone Asia/Shanghai<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p><strong>验证</strong>：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">timedatectl status
+               Local time: Sun <span class="token number">2026</span>-03-29 <span class="token number">10</span>:39:28 CST
+           Universal time: Sun <span class="token number">2026</span>-03-29 02:39:28 UTC
+                 RTC time: Sun <span class="token number">2026</span>-03-29 02:41:37
+                Time zone: Asia/Shanghai <span class="token punctuation">(</span>CST, +0800<span class="token punctuation">)</span>
+System clock synchronized: no
+              NTP service: n/a
+          RTC <span class="token keyword">in</span> <span class="token builtin class-name">local</span> TZ: no<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>时区正确，但仍未同步。[web:48][web:59]</p>
+<h2 id="步骤-2-安装并配置-systemd-timesyncd"><a href="#步骤-2-安装并配置-systemd-timesyncd" class="headerlink" title="步骤 2: 安装并配置 systemd-timesyncd"></a>步骤 2: 安装并配置 systemd-timesyncd</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">apt</span> <span class="token function">install</span> systemd-timesyncd<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p><strong>输出</strong>：</p>
+<pre class="line-numbers language-none"><code class="language-none">Reading package lists... Done
+...
+Setting up systemd-timesyncd (252.39-1~deb12u1) ...
+Created symlink &#x2F;etc&#x2F;systemd&#x2F;system&#x2F;sysinit.target.wants&#x2F;systemd-timesyncd.service → &#x2F;lib&#x2F;systemd&#x2F;system&#x2F;systemd-timesyncd.service.
+Processing triggers for dbus (1.14.10-1~deb12u1) ...<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>编辑配置文件（nano &#x2F;etc&#x2F;systemd&#x2F;timesyncd.conf），添加中国 NTP 源：</p>
+<pre class="line-numbers language-none"><code class="language-none">[Time]
+NTP&#x3D;ntp.aliyun.com time.pool.aliyun.com
+FallbackNTP&#x3D;pool.ntp.org<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<h2 id="步骤-3-启用并重启-NTP-服务"><a href="#步骤-3-启用并重启-NTP-服务" class="headerlink" title="步骤 3: 启用并重启 NTP 服务"></a>步骤 3: 启用并重启 NTP 服务</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">timedatectl set-ntp <span class="token boolean">true</span>
+systemctl restart systemd-timesyncd<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<h2 id="步骤-4-最终验证"><a href="#步骤-4-最终验证" class="headerlink" title="步骤 4: 最终验证"></a>步骤 4: 最终验证</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">timedatectl status
+               Local time: Sun <span class="token number">2026</span>-03-29 <span class="token number">10</span>:43:12 CST
+           Universal time: Sun <span class="token number">2026</span>-03-29 02:43:12 UTC
+                 RTC time: Sun <span class="token number">2026</span>-03-29 02:43:12
+                Time zone: Asia/Shanghai <span class="token punctuation">(</span>CST, +0800<span class="token punctuation">)</span>
+System clock synchronized: <span class="token function">yes</span>
+              NTP service: active
+          RTC <span class="token keyword">in</span> <span class="token builtin class-name">local</span> TZ: no<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p><strong>成功</strong>：同步 yes，NTP active！TOTP 应正常。[web:54][web:51]</p>
+<h2 id="可选：同步硬件时钟"><a href="#可选：同步硬件时钟" class="headerlink" title="可选：同步硬件时钟"></a>可选：同步硬件时钟</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">sudo</span> hwclock <span class="token parameter variable">-w</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>防止重启丢失同步。[web:36]</p>
+<p><strong>提示</strong>：若需 chrony 等高级工具，`sudo apt install chrony` 并配置。[web:55]</p>
+]]></content>
+      <categories>
+        <category>linux</category>
+        <category>debian</category>
+        <category>totp</category>
+      </categories>
+  </entry>
+  <entry>
     <title>Hexo 中为多说添加最近访客</title>
     <url>/2017/03/17/Hexo-%E4%B8%AD%E4%B8%BA%E5%A4%9A%E8%AF%B4%E6%B7%BB%E5%8A%A0%E6%9C%80%E8%BF%91%E8%AE%BF%E5%AE%A2/</url>
     <content><![CDATA[<h2 id="添加自定义样式"><a href="#添加自定义样式" class="headerlink" title="添加自定义样式"></a>添加自定义样式</h2><h3 id="1-多说后台添加"><a href="#1-多说后台添加" class="headerlink" title="1. 多说后台添加"></a>1. 多说后台添加</h3><p>到多说后台管理-&gt;设置-&gt;基本设置-&gt;自定义css中添加如下css样式：</p>
@@ -1704,68 +2137,6 @@ sudo launchctl load -w &#x2F;System&#x2F;Library&#x2F;LaunchDaemons&#x2F;ssh.pli
         <tag>MUI</tag>
         <tag>HTML</tag>
       </tags>
-  </entry>
-  <entry>
-    <title>Debian 12 服务器修复 TOTP 时间同步问题</title>
-    <url>/2026/03/29/Debian-12-%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%BF%AE%E5%A4%8D-TOTP-%E6%97%B6%E9%97%B4%E5%90%8C%E6%AD%A5%E9%97%AE%E9%A2%98/</url>
-    <content><![CDATA[<p>服务器 TOTP 验证失败，通常因系统时间、时区或 NTP 未同步引起。本文记录 Debian 12 上完整修复过程，时区从 US&#x2F;Eastern (EDT) 调整为 Asia&#x2F;Shanghai，并启用 systemd-timesyncd。</p>
-<span id="more"></span>
-
-<h1 id="Debian-12-服务器修复-TOTP-时间同步问题"><a href="#Debian-12-服务器修复-TOTP-时间同步问题" class="headerlink" title="Debian 12 服务器修复 TOTP 时间同步问题"></a>Debian 12 服务器修复 TOTP 时间同步问题</h1><p>服务器 TOTP 验证失败，通常因系统时间、时区或 NTP 未同步引起。本文记录 Debian 12 上完整修复过程，时区从 US&#x2F;Eastern (EDT) 调整为 Asia&#x2F;Shanghai，并启用 systemd-timesyncd。[web:47][web:48]</p>
-<h2 id="初始问题诊断"><a href="#初始问题诊断" class="headerlink" title="初始问题诊断"></a>初始问题诊断</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">timedatectl status
-               Local time: Sat <span class="token number">2026</span>-03-28 <span class="token number">22</span>:38:09 EDT
-           Universal time: Sun <span class="token number">2026</span>-03-29 02:38:09 UTC
-                 RTC time: Sun <span class="token number">2026</span>-03-29 02:40:18
-                Time zone: US/Eastern <span class="token punctuation">(</span>EDT, -0400<span class="token punctuation">)</span>
-System clock synchronized: no
-              NTP service: n/a
-          RTC <span class="token keyword">in</span> <span class="token builtin class-name">local</span> TZ: no<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<p><strong>问题</strong>：时区错（落后 12 小时）、未同步、NTP 未启用。[web:31]</p>
-<h2 id="步骤-1-设置时区为上海"><a href="#步骤-1-设置时区为上海" class="headerlink" title="步骤 1: 设置时区为上海"></a>步骤 1: 设置时区为上海</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">timedatectl set-timezone Asia/Shanghai<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-<p><strong>验证</strong>：</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">timedatectl status
-               Local time: Sun <span class="token number">2026</span>-03-29 <span class="token number">10</span>:39:28 CST
-           Universal time: Sun <span class="token number">2026</span>-03-29 02:39:28 UTC
-                 RTC time: Sun <span class="token number">2026</span>-03-29 02:41:37
-                Time zone: Asia/Shanghai <span class="token punctuation">(</span>CST, +0800<span class="token punctuation">)</span>
-System clock synchronized: no
-              NTP service: n/a
-          RTC <span class="token keyword">in</span> <span class="token builtin class-name">local</span> TZ: no<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<p>时区正确，但仍未同步。[web:48][web:59]</p>
-<h2 id="步骤-2-安装并配置-systemd-timesyncd"><a href="#步骤-2-安装并配置-systemd-timesyncd" class="headerlink" title="步骤 2: 安装并配置 systemd-timesyncd"></a>步骤 2: 安装并配置 systemd-timesyncd</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">apt</span> <span class="token function">install</span> systemd-timesyncd<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-<p><strong>输出</strong>：</p>
-<pre class="line-numbers language-none"><code class="language-none">Reading package lists... Done
-...
-Setting up systemd-timesyncd (252.39-1~deb12u1) ...
-Created symlink &#x2F;etc&#x2F;systemd&#x2F;system&#x2F;sysinit.target.wants&#x2F;systemd-timesyncd.service → &#x2F;lib&#x2F;systemd&#x2F;system&#x2F;systemd-timesyncd.service.
-Processing triggers for dbus (1.14.10-1~deb12u1) ...<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<p>编辑配置文件（nano &#x2F;etc&#x2F;systemd&#x2F;timesyncd.conf），添加中国 NTP 源：</p>
-<pre class="line-numbers language-none"><code class="language-none">[Time]
-NTP&#x3D;ntp.aliyun.com time.pool.aliyun.com
-FallbackNTP&#x3D;pool.ntp.org<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
-
-<h2 id="步骤-3-启用并重启-NTP-服务"><a href="#步骤-3-启用并重启-NTP-服务" class="headerlink" title="步骤 3: 启用并重启 NTP 服务"></a>步骤 3: 启用并重启 NTP 服务</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">timedatectl set-ntp <span class="token boolean">true</span>
-systemctl restart systemd-timesyncd<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
-
-<h2 id="步骤-4-最终验证"><a href="#步骤-4-最终验证" class="headerlink" title="步骤 4: 最终验证"></a>步骤 4: 最终验证</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">timedatectl status
-               Local time: Sun <span class="token number">2026</span>-03-29 <span class="token number">10</span>:43:12 CST
-           Universal time: Sun <span class="token number">2026</span>-03-29 02:43:12 UTC
-                 RTC time: Sun <span class="token number">2026</span>-03-29 02:43:12
-                Time zone: Asia/Shanghai <span class="token punctuation">(</span>CST, +0800<span class="token punctuation">)</span>
-System clock synchronized: <span class="token function">yes</span>
-              NTP service: active
-          RTC <span class="token keyword">in</span> <span class="token builtin class-name">local</span> TZ: no<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<p><strong>成功</strong>：同步 yes，NTP active！TOTP 应正常。[web:54][web:51]</p>
-<h2 id="可选：同步硬件时钟"><a href="#可选：同步硬件时钟" class="headerlink" title="可选：同步硬件时钟"></a>可选：同步硬件时钟</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">sudo</span> hwclock <span class="token parameter variable">-w</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-<p>防止重启丢失同步。[web:36]</p>
-<p><strong>提示</strong>：若需 chrony 等高级工具，`sudo apt install chrony` 并配置。[web:55]</p>
-]]></content>
-      <categories>
-        <category>linux</category>
-        <category>debian</category>
-        <category>totp</category>
-      </categories>
   </entry>
   <entry>
     <title>Mac QuickLook配置</title>
@@ -3049,9 +3420,9 @@ synoacltool -enforce-inherit /volume3/MyDocker
         <category>运维</category>
       </categories>
       <tags>
+        <tag>群晖</tag>
         <tag>pve</tag>
         <tag>dsm</tag>
-        <tag>群晖</tag>
         <tag>6400</tag>
       </tags>
   </entry>
@@ -5922,148 +6293,6 @@ NS_ASSUME_NONNULL_END<span aria-hidden="true" class="line-numbers-rows"><span></
       </tags>
   </entry>
   <entry>
-    <title>iOS 数字转 xx 万 xx 亿</title>
-    <url>/2018/09/30/iOS-%E6%95%B0%E5%AD%97%E8%BD%AC-xx-%E4%B8%87-xx-%E4%BA%BF/</url>
-    <content><![CDATA[<h2 id="App-开发显示-XX-万-xx-亿"><a href="#App-开发显示-XX-万-xx-亿" class="headerlink" title="App 开发显示 XX 万 xx 亿"></a>App 开发显示 XX 万 xx 亿</h2><p>APP开发中界面显示很多地方需要显示数字，但是如果数字过大，可能会有将数字显示成 xx 万、xx 百万、xx 亿的需求，简单封装了一下，备忘，以便日后使用。</p>
-<h3 id="这是声明文件，调用者可以决定保留几位小数，是否需要四舍五入，也可依据代码自行扩展方法。"><a href="#这是声明文件，调用者可以决定保留几位小数，是否需要四舍五入，也可依据代码自行扩展方法。" class="headerlink" title="这是声明文件，调用者可以决定保留几位小数，是否需要四舍五入，也可依据代码自行扩展方法。"></a>这是声明文件，调用者可以决定保留几位小数，是否需要四舍五入，也可依据代码自行扩展方法。</h3><span id="more"></span>
-
-
-<pre class="line-numbers language-Objective-C//" data-language="Objective-C//"><code class="language-Objective-C//">&#x2F;&#x2F;  TGCaculateNumberTool.h
-&#x2F;&#x2F;  Tungee
-&#x2F;&#x2F;
-&#x2F;&#x2F;  Created by VanJay on 2018&#x2F;8&#x2F;22.
-&#x2F;&#x2F;  Copyright © 2018年 Tungee. All rights reserved.
-&#x2F;&#x2F;
-
-#import &lt;Foundation&#x2F;Foundation.h&gt;
-
-typedef NS_ENUM(NSInteger, TGCNRoundingMode) &#123;
-    TGCNRoundingModeUpAndDown &#x3D; 0,  &#x2F;&#x2F;&#x2F;&lt; 四舍五入
-    TGCNRoundingModeOnlyUp,         &#x2F;&#x2F;&#x2F;&lt; 只入不舍
-    TGCNRoundingModeOnlyDown,       &#x2F;&#x2F;&#x2F;&lt; 只舍不入
-&#125;;
-
-@interface TGCaculateNumberTool : NSObject
-&#x2F;**
- 返回数字描述
-
- @param number 数字
- @param toFixed 保留小数位数
- @param roundingMode 是否四舍五入
- *&#x2F;
-+ (NSString *)stringFromNumber:(double)number toFixedCount:(NSInteger)toFixed roundingMode:(TGCNRoundingMode)roundingMode;
-@end<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<h4 id="这是实现文件"><a href="#这是实现文件" class="headerlink" title="这是实现文件"></a>这是实现文件</h4><pre class="line-numbers language-Objective-C//" data-language="Objective-C//"><code class="language-Objective-C//">&#x2F;&#x2F;  TGCaculateNumberTool.m
-&#x2F;&#x2F;  Tungee
-&#x2F;&#x2F;
-&#x2F;&#x2F;  Created by VanJay on 2018&#x2F;8&#x2F;22.
-&#x2F;&#x2F;  Copyright © 2018年 Tungee. All rights reserved.
-&#x2F;&#x2F;
-
-#import &quot;TGCaculateNumberTool.h&quot;
-
-@implementation TGCaculateNumberTool
-
-static NSNumberFormatter *formater;
-static NSDictionary *configDict;
-
-+ (void)initialize &#123;
-    if (self &#x3D;&#x3D; [TGCaculateNumberTool class]) &#123;
-        formater &#x3D; [[NSNumberFormatter alloc] init];
-        &#x2F;&#x2F; 可自行扩展
-        configDict &#x3D; @&#123;
-            @&quot;wan&quot;: @&#123;
-                @&quot;unit&quot;: @&quot;万&quot;,
-                @&quot;dividend&quot;: @(10000.0)
-            &#125;,
-            @&quot;yi&quot;: @&#123;
-                @&quot;unit&quot;: @&quot;亿&quot;,
-                @&quot;dividend&quot;: @(100000000.0)
-            &#125;,
-            @&quot;wanYi&quot;: @&#123;
-                @&quot;unit&quot;: @&quot;万亿&quot;,
-                @&quot;dividend&quot;: @(1000000000000.0)
-            &#125;
-        &#125;;
-    &#125;
-&#125;
-
-+ (NSString *)stringFromNumber:(double)number toFixedCount:(NSInteger)toFixed roundingMode:(TGCNRoundingMode)roundingMode &#123;
-    NSString *output;
-
-    formater.maximumFractionDigits &#x3D; toFixed;
-
-    if (roundingMode &#x3D;&#x3D; TGCNRoundingModeUpAndDown) &#123;
-        formater.roundingMode &#x3D; NSNumberFormatterRoundHalfEven;  &#x2F;&#x2F; 四舍五入
-    &#125; else if (roundingMode &#x3D;&#x3D; TGCNRoundingModeOnlyUp) &#123;
-        formater.roundingMode &#x3D; NSNumberFormatterRoundCeiling;  &#x2F;&#x2F; 只入不舍
-    &#125; else if (roundingMode &#x3D;&#x3D; TGCNRoundingModeOnlyDown) &#123;
-        formater.roundingMode &#x3D; NSNumberFormatterRoundFloor;     &#x2F;&#x2F; 只舍不入
-    &#125; else &#123;                                                     &#x2F;&#x2F; 默认
-        formater.roundingMode &#x3D; NSNumberFormatterRoundHalfEven;  &#x2F;&#x2F; 四舍五入
-    &#125;
-
-    &#x2F;&#x2F; 如果要五入恰好传入临界值，则h对该值加1，换单位，避免出现10000万这样情况
-    if (formater.roundingMode &#x3D;&#x3D; NSNumberFormatterRoundHalfEven || formater.roundingMode &#x3D;&#x3D; NSNumberFormatterRoundCeiling) &#123;
-        if (number &#x3D;&#x3D; 9999 || number &#x3D;&#x3D; 99999999 || number &#x3D;&#x3D; 999999999999) &#123;
-            number &#x3D; number + 1;
-        &#125;
-    &#125;
-
-    if (number &lt;&#x3D; 0) &#123;
-        output &#x3D; @&quot;0&quot;;
-    &#125; else if (number &lt;&#x3D; 9999) &#123;
-        output &#x3D; [NSString stringWithFormat:@&quot;%@&quot;, [formater stringFromNumber:@(number)]];
-    &#125; else if (number &lt;&#x3D; 99999999) &#123;  &#x2F;&#x2F; 9999999
-        double value &#x3D; (double)number &#x2F; [configDict[@&quot;wan&quot;][@&quot;dividend&quot;] doubleValue];
-        output &#x3D; [NSString stringWithFormat:@&quot;%@%@&quot;, [formater stringFromNumber:@(value)], configDict[@&quot;wan&quot;][@&quot;unit&quot;]];
-    &#125; else if (number &lt;&#x3D; 999999999999) &#123;  &#x2F;&#x2F; 999999999999
-        double value &#x3D; (double)number &#x2F; [configDict[@&quot;yi&quot;][@&quot;dividend&quot;] doubleValue];
-        output &#x3D; [NSString stringWithFormat:@&quot;%@%@&quot;, [formater stringFromNumber:@(value)], configDict[@&quot;yi&quot;][@&quot;unit&quot;]];
-    &#125; else &#123;
-        double value &#x3D; (double)number &#x2F; [configDict[@&quot;wanYi&quot;][@&quot;dividend&quot;] doubleValue];
-        output &#x3D; [NSString stringWithFormat:@&quot;%@%@&quot;, [formater stringFromNumber:@(value)], configDict[@&quot;wanYi&quot;][@&quot;unit&quot;]];
-    &#125;
-    return output;
-&#125;
-
-&#x2F;**
- 计算特定小数位数
-
- @param input 输入数字
- @param toFixed 保留小数位数
- @param isRounded 是否四舍五入
- *&#x2F;
-&#x2F;&#x2F;+ (double)roundFloat:(double)input toFixedCount:(NSInteger)toFixed rounded:(BOOL)isRounded &#123;
-&#x2F;&#x2F;
-&#x2F;&#x2F;    double scale &#x3D; 1;
-&#x2F;&#x2F;    if (toFixed &#x3D;&#x3D; 0) &#123;
-&#x2F;&#x2F;        scale &#x3D; 1;
-&#x2F;&#x2F;    &#125; else if (toFixed &#x3D;&#x3D; 1) &#123;
-&#x2F;&#x2F;        scale &#x3D; 10;
-&#x2F;&#x2F;    &#125; else if (toFixed &#x3D;&#x3D; 2) &#123;
-&#x2F;&#x2F;        scale &#x3D; 100;
-&#x2F;&#x2F;    &#125; else if (toFixed &#x3D;&#x3D; 3) &#123;
-&#x2F;&#x2F;        scale &#x3D; 1000;
-&#x2F;&#x2F;    &#125; else if (toFixed &#x3D;&#x3D; 4) &#123;
-&#x2F;&#x2F;        scale &#x3D; 10000;
-&#x2F;&#x2F;    &#125;
-&#x2F;&#x2F;    if (isRounded) &#123;
-&#x2F;&#x2F;        return (floorf(input * scale + 0.5)) &#x2F; scale;
-&#x2F;&#x2F;    &#125; else &#123;
-&#x2F;&#x2F;        return (floorf(input * scale - 0.5)) &#x2F; scale;
-&#x2F;&#x2F;    &#125;
-&#x2F;&#x2F;&#125;
-@end<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>]]></content>
-      <categories>
-        <category>iOS 开发</category>
-      </categories>
-      <tags>
-        <tag>iOS</tag>
-        <tag>Objective</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>iOS企业内部应用分发</title>
     <url>/2017/01/11/iOS%E4%BC%81%E4%B8%9A%E5%86%85%E9%83%A8%E5%BA%94%E7%94%A8%E5%88%86%E5%8F%91/</url>
     <content><![CDATA[<blockquote>
@@ -6766,6 +6995,148 @@ __weak <span class="token keyword">typeof</span><span class="token punctuation">
         <tag>循环引用</tag>
         <tag>ARC</tag>
         <tag>弱引用</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>iOS 数字转 xx 万 xx 亿</title>
+    <url>/2018/09/30/iOS-%E6%95%B0%E5%AD%97%E8%BD%AC-xx-%E4%B8%87-xx-%E4%BA%BF/</url>
+    <content><![CDATA[<h2 id="App-开发显示-XX-万-xx-亿"><a href="#App-开发显示-XX-万-xx-亿" class="headerlink" title="App 开发显示 XX 万 xx 亿"></a>App 开发显示 XX 万 xx 亿</h2><p>APP开发中界面显示很多地方需要显示数字，但是如果数字过大，可能会有将数字显示成 xx 万、xx 百万、xx 亿的需求，简单封装了一下，备忘，以便日后使用。</p>
+<h3 id="这是声明文件，调用者可以决定保留几位小数，是否需要四舍五入，也可依据代码自行扩展方法。"><a href="#这是声明文件，调用者可以决定保留几位小数，是否需要四舍五入，也可依据代码自行扩展方法。" class="headerlink" title="这是声明文件，调用者可以决定保留几位小数，是否需要四舍五入，也可依据代码自行扩展方法。"></a>这是声明文件，调用者可以决定保留几位小数，是否需要四舍五入，也可依据代码自行扩展方法。</h3><span id="more"></span>
+
+
+<pre class="line-numbers language-Objective-C//" data-language="Objective-C//"><code class="language-Objective-C//">&#x2F;&#x2F;  TGCaculateNumberTool.h
+&#x2F;&#x2F;  Tungee
+&#x2F;&#x2F;
+&#x2F;&#x2F;  Created by VanJay on 2018&#x2F;8&#x2F;22.
+&#x2F;&#x2F;  Copyright © 2018年 Tungee. All rights reserved.
+&#x2F;&#x2F;
+
+#import &lt;Foundation&#x2F;Foundation.h&gt;
+
+typedef NS_ENUM(NSInteger, TGCNRoundingMode) &#123;
+    TGCNRoundingModeUpAndDown &#x3D; 0,  &#x2F;&#x2F;&#x2F;&lt; 四舍五入
+    TGCNRoundingModeOnlyUp,         &#x2F;&#x2F;&#x2F;&lt; 只入不舍
+    TGCNRoundingModeOnlyDown,       &#x2F;&#x2F;&#x2F;&lt; 只舍不入
+&#125;;
+
+@interface TGCaculateNumberTool : NSObject
+&#x2F;**
+ 返回数字描述
+
+ @param number 数字
+ @param toFixed 保留小数位数
+ @param roundingMode 是否四舍五入
+ *&#x2F;
++ (NSString *)stringFromNumber:(double)number toFixedCount:(NSInteger)toFixed roundingMode:(TGCNRoundingMode)roundingMode;
+@end<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h4 id="这是实现文件"><a href="#这是实现文件" class="headerlink" title="这是实现文件"></a>这是实现文件</h4><pre class="line-numbers language-Objective-C//" data-language="Objective-C//"><code class="language-Objective-C//">&#x2F;&#x2F;  TGCaculateNumberTool.m
+&#x2F;&#x2F;  Tungee
+&#x2F;&#x2F;
+&#x2F;&#x2F;  Created by VanJay on 2018&#x2F;8&#x2F;22.
+&#x2F;&#x2F;  Copyright © 2018年 Tungee. All rights reserved.
+&#x2F;&#x2F;
+
+#import &quot;TGCaculateNumberTool.h&quot;
+
+@implementation TGCaculateNumberTool
+
+static NSNumberFormatter *formater;
+static NSDictionary *configDict;
+
++ (void)initialize &#123;
+    if (self &#x3D;&#x3D; [TGCaculateNumberTool class]) &#123;
+        formater &#x3D; [[NSNumberFormatter alloc] init];
+        &#x2F;&#x2F; 可自行扩展
+        configDict &#x3D; @&#123;
+            @&quot;wan&quot;: @&#123;
+                @&quot;unit&quot;: @&quot;万&quot;,
+                @&quot;dividend&quot;: @(10000.0)
+            &#125;,
+            @&quot;yi&quot;: @&#123;
+                @&quot;unit&quot;: @&quot;亿&quot;,
+                @&quot;dividend&quot;: @(100000000.0)
+            &#125;,
+            @&quot;wanYi&quot;: @&#123;
+                @&quot;unit&quot;: @&quot;万亿&quot;,
+                @&quot;dividend&quot;: @(1000000000000.0)
+            &#125;
+        &#125;;
+    &#125;
+&#125;
+
++ (NSString *)stringFromNumber:(double)number toFixedCount:(NSInteger)toFixed roundingMode:(TGCNRoundingMode)roundingMode &#123;
+    NSString *output;
+
+    formater.maximumFractionDigits &#x3D; toFixed;
+
+    if (roundingMode &#x3D;&#x3D; TGCNRoundingModeUpAndDown) &#123;
+        formater.roundingMode &#x3D; NSNumberFormatterRoundHalfEven;  &#x2F;&#x2F; 四舍五入
+    &#125; else if (roundingMode &#x3D;&#x3D; TGCNRoundingModeOnlyUp) &#123;
+        formater.roundingMode &#x3D; NSNumberFormatterRoundCeiling;  &#x2F;&#x2F; 只入不舍
+    &#125; else if (roundingMode &#x3D;&#x3D; TGCNRoundingModeOnlyDown) &#123;
+        formater.roundingMode &#x3D; NSNumberFormatterRoundFloor;     &#x2F;&#x2F; 只舍不入
+    &#125; else &#123;                                                     &#x2F;&#x2F; 默认
+        formater.roundingMode &#x3D; NSNumberFormatterRoundHalfEven;  &#x2F;&#x2F; 四舍五入
+    &#125;
+
+    &#x2F;&#x2F; 如果要五入恰好传入临界值，则h对该值加1，换单位，避免出现10000万这样情况
+    if (formater.roundingMode &#x3D;&#x3D; NSNumberFormatterRoundHalfEven || formater.roundingMode &#x3D;&#x3D; NSNumberFormatterRoundCeiling) &#123;
+        if (number &#x3D;&#x3D; 9999 || number &#x3D;&#x3D; 99999999 || number &#x3D;&#x3D; 999999999999) &#123;
+            number &#x3D; number + 1;
+        &#125;
+    &#125;
+
+    if (number &lt;&#x3D; 0) &#123;
+        output &#x3D; @&quot;0&quot;;
+    &#125; else if (number &lt;&#x3D; 9999) &#123;
+        output &#x3D; [NSString stringWithFormat:@&quot;%@&quot;, [formater stringFromNumber:@(number)]];
+    &#125; else if (number &lt;&#x3D; 99999999) &#123;  &#x2F;&#x2F; 9999999
+        double value &#x3D; (double)number &#x2F; [configDict[@&quot;wan&quot;][@&quot;dividend&quot;] doubleValue];
+        output &#x3D; [NSString stringWithFormat:@&quot;%@%@&quot;, [formater stringFromNumber:@(value)], configDict[@&quot;wan&quot;][@&quot;unit&quot;]];
+    &#125; else if (number &lt;&#x3D; 999999999999) &#123;  &#x2F;&#x2F; 999999999999
+        double value &#x3D; (double)number &#x2F; [configDict[@&quot;yi&quot;][@&quot;dividend&quot;] doubleValue];
+        output &#x3D; [NSString stringWithFormat:@&quot;%@%@&quot;, [formater stringFromNumber:@(value)], configDict[@&quot;yi&quot;][@&quot;unit&quot;]];
+    &#125; else &#123;
+        double value &#x3D; (double)number &#x2F; [configDict[@&quot;wanYi&quot;][@&quot;dividend&quot;] doubleValue];
+        output &#x3D; [NSString stringWithFormat:@&quot;%@%@&quot;, [formater stringFromNumber:@(value)], configDict[@&quot;wanYi&quot;][@&quot;unit&quot;]];
+    &#125;
+    return output;
+&#125;
+
+&#x2F;**
+ 计算特定小数位数
+
+ @param input 输入数字
+ @param toFixed 保留小数位数
+ @param isRounded 是否四舍五入
+ *&#x2F;
+&#x2F;&#x2F;+ (double)roundFloat:(double)input toFixedCount:(NSInteger)toFixed rounded:(BOOL)isRounded &#123;
+&#x2F;&#x2F;
+&#x2F;&#x2F;    double scale &#x3D; 1;
+&#x2F;&#x2F;    if (toFixed &#x3D;&#x3D; 0) &#123;
+&#x2F;&#x2F;        scale &#x3D; 1;
+&#x2F;&#x2F;    &#125; else if (toFixed &#x3D;&#x3D; 1) &#123;
+&#x2F;&#x2F;        scale &#x3D; 10;
+&#x2F;&#x2F;    &#125; else if (toFixed &#x3D;&#x3D; 2) &#123;
+&#x2F;&#x2F;        scale &#x3D; 100;
+&#x2F;&#x2F;    &#125; else if (toFixed &#x3D;&#x3D; 3) &#123;
+&#x2F;&#x2F;        scale &#x3D; 1000;
+&#x2F;&#x2F;    &#125; else if (toFixed &#x3D;&#x3D; 4) &#123;
+&#x2F;&#x2F;        scale &#x3D; 10000;
+&#x2F;&#x2F;    &#125;
+&#x2F;&#x2F;    if (isRounded) &#123;
+&#x2F;&#x2F;        return (floorf(input * scale + 0.5)) &#x2F; scale;
+&#x2F;&#x2F;    &#125; else &#123;
+&#x2F;&#x2F;        return (floorf(input * scale - 0.5)) &#x2F; scale;
+&#x2F;&#x2F;    &#125;
+&#x2F;&#x2F;&#125;
+@end<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>]]></content>
+      <categories>
+        <category>iOS 开发</category>
+      </categories>
+      <tags>
+        <tag>iOS</tag>
+        <tag>Objective</tag>
       </tags>
   </entry>
   <entry>
@@ -10386,6 +10757,27 @@ iptables -A FORWARD -m state --state RELATED,ESTABLISHED -j ACCEPT<span aria-hid
       </tags>
   </entry>
   <entry>
+    <title>security 使用</title>
+    <url>/2017/02/08/security%20%E4%BD%BF%E7%94%A8/</url>
+    <content><![CDATA[<h1 id="概要"><a href="#概要" class="headerlink" title="概要"></a>概要</h1><p>这里记录Mac下<code>security </code>相关使用，想起来就补充。</p>
+<h1 id="查看可用签名"><a href="#查看可用签名" class="headerlink" title="查看可用签名"></a>查看可用签名</h1><pre class="line-numbers language-Bash" data-language="Bash"><code class="language-Bash">security find-identity -v -p codesigning<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<span id="more"></span>
+
+<h1 id="签名"><a href="#签名" class="headerlink" title="签名"></a>签名</h1><pre class="line-numbers language-Bash" data-language="Bash"><code class="language-Bash">codesign --force --verify --verbose --sign &quot;iPhone Developer: 396736694@qq.com (Z4965JH2C8)” 目标包<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<h1 id="查看描述文件信息"><a href="#查看描述文件信息" class="headerlink" title="查看描述文件信息"></a>查看描述文件信息</h1><pre class="line-numbers language-Bash" data-language="Bash"><code class="language-Bash">security cms -D -i xxx.mobileprovision<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<h1 id="查看-WIFI-密码"><a href="#查看-WIFI-密码" class="headerlink" title="查看 WIFI 密码"></a>查看 WIFI 密码</h1><pre class="line-numbers language-Bash" data-language="Bash"><code class="language-Bash">security find-generic-password -ga &quot;WIFI_name&quot; | grep &quot;password:&quot;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>]]></content>
+      <categories>
+        <category>iOS</category>
+      </categories>
+      <tags>
+        <tag>打包</tag>
+        <tag>iOS签名</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>pve下不同服务间启动依赖问题解决</title>
     <url>/2023/11/26/pve%E4%B8%8B%E4%B8%8D%E5%90%8C%E6%9C%8D%E5%8A%A1%E9%97%B4%E5%90%AF%E5%8A%A8%E4%BE%9D%E8%B5%96%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3/</url>
     <content><![CDATA[<p>在Proxmox VE (PVE) 环境中，我们经常需要管理多个虚拟机或LXC容器，这些容器中部署了各种服务。服务间的依赖关系可能导致如果启动顺序不当，服务无法正确运行。本文将探讨这一问题，并提出一个有效的解决方案。</p>
@@ -10507,90 +10899,6 @@ done<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span
         <tag>pve</tag>
         <tag>nas</tag>
         <tag>开机自启</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>security 使用</title>
-    <url>/2017/02/08/security%20%E4%BD%BF%E7%94%A8/</url>
-    <content><![CDATA[<h1 id="概要"><a href="#概要" class="headerlink" title="概要"></a>概要</h1><p>这里记录Mac下<code>security </code>相关使用，想起来就补充。</p>
-<h1 id="查看可用签名"><a href="#查看可用签名" class="headerlink" title="查看可用签名"></a>查看可用签名</h1><pre class="line-numbers language-Bash" data-language="Bash"><code class="language-Bash">security find-identity -v -p codesigning<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<span id="more"></span>
-
-<h1 id="签名"><a href="#签名" class="headerlink" title="签名"></a>签名</h1><pre class="line-numbers language-Bash" data-language="Bash"><code class="language-Bash">codesign --force --verify --verbose --sign &quot;iPhone Developer: 396736694@qq.com (Z4965JH2C8)” 目标包<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<h1 id="查看描述文件信息"><a href="#查看描述文件信息" class="headerlink" title="查看描述文件信息"></a>查看描述文件信息</h1><pre class="line-numbers language-Bash" data-language="Bash"><code class="language-Bash">security cms -D -i xxx.mobileprovision<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<h1 id="查看-WIFI-密码"><a href="#查看-WIFI-密码" class="headerlink" title="查看 WIFI 密码"></a>查看 WIFI 密码</h1><pre class="line-numbers language-Bash" data-language="Bash"><code class="language-Bash">security find-generic-password -ga &quot;WIFI_name&quot; | grep &quot;password:&quot;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>]]></content>
-      <categories>
-        <category>iOS</category>
-      </categories>
-      <tags>
-        <tag>打包</tag>
-        <tag>iOS签名</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>为 NexT 主题添加球型标签云</title>
-    <url>/2017/03/19/%E4%B8%BA-NexT-%E4%B8%BB%E9%A2%98%E6%B7%BB%E5%8A%A0%E7%90%83%E5%BD%A2%E6%A0%87%E7%AD%BE%E4%BA%91/</url>
-    <content><![CDATA[<h2 id="确定你已开启标签功能"><a href="#确定你已开启标签功能" class="headerlink" title="确定你已开启标签功能"></a>确定你已开启标签功能</h2><p>参考 <code>NexT</code> 配置文档 <a href="https://theme-next.iissnan.com/theme-settings.html#tags-page">添加标签页面</a> ，开启标签功能。</p>
-<h2 id="了解球形标签云插件"><a href="#了解球形标签云插件" class="headerlink" title="了解球形标签云插件"></a>了解球形标签云插件</h2><p>了解球形标签云 <code>javascript</code> 插件，点击<a href="http://www.goat1000.com/tagcanvas.php">这里</a></p>
-<span id="more"></span>
-
-<h2 id="下载插件"><a href="#下载插件" class="headerlink" title="下载插件"></a>下载插件</h2><p>下载 <code>js</code> 插件 <a href="http://www.goat1000.com/tagcanvas.js?2.8"><code>tagcanvas.js</code></a></p>
-<h2 id="放入对应目录"><a href="#放入对应目录" class="headerlink" title="放入对应目录"></a>放入对应目录</h2><p>将下载的 <code>tagcanvas.js </code> 放入主题目录 <code>themes/NexT/source/js/custom/tagcanvas.js</code>，<code>custom </code> 为新建文件夹。</p>
-<h2 id="新建标签云文件，引用-js"><a href="#新建标签云文件，引用-js" class="headerlink" title="新建标签云文件，引用 js"></a>新建标签云文件，引用 <code>js</code></h2><p>在 <code>themes/NexT/layout/_partials</code> 下建一个 <code>plugin</code> 文件夹，在该目录下 <code>touch</code> 一个名为 <code>tagcanvas.swig</code> 的文件，并写入如下内容：</p>
-<pre class="line-numbers language-XML" data-language="XML"><code class="language-XML">&lt;div class&#x3D;&quot;tags&quot; id&#x3D;&quot;myTags&quot;&gt;
-  &lt;canvas width&#x3D;&quot;350&quot; height&#x3D;&quot;350&quot; id&#x3D;&quot;my3DTags&quot;&gt;
-    &lt;p&gt;Anything in here will be replaced on browsers that support the canvas element&lt;&#x2F;p&gt;
-  &lt;&#x2F;canvas&gt;
-&lt;&#x2F;div&gt;
-&lt;div class&#x3D;&quot;tags&quot; id&#x3D;&quot;tags&quot;&gt;
-  &lt;ul style&#x3D;&quot;display: none&quot;&gt;
-    &#123;&#123; tagcloud(&#123;
-      min_font: 16,
-      max_font: 35,
-      amount: 999,
-      color: true,
-      start_color: &#39;red&#39;,
-      end_color: &#39;red&#39;,
-    &#125;) &#125;&#125;
-  &lt;&#x2F;ul&gt;
-&lt;&#x2F;div&gt;
-&lt;script type&#x3D;&quot;text&#x2F;javascript&quot; src&#x3D;&quot;&#x2F;js&#x2F;custom&#x2F;tagcanvas.js&quot;&gt;&lt;&#x2F;script&gt;
-&lt;script type&#x3D;&quot;text&#x2F;javascript&quot; &gt;
-  window.onload &#x3D; function() &#123;
-    try &#123;
-      TagCanvas.Start(&#39;my3DTags&#39;,&#39;tags&#39;,&#123;
-        textFont: &#39;Georgia,Optima&#39;,
-        textColour: null,
-        outlineColour: &#39;black&#39;,
-        weight: true,
-        reverse: true,
-        depth: 0.8,
-        maxSpeed: 0.05,
-        bgRadius: 1,
-        freezeDecel: true
-      &#125;);
-    &#125; catch(e) &#123;
-      &#x2F;&#x2F; something went wrong, hide the canvas container
-      document.getElementById(&#39;myTags&#39;).style.display &#x3D; &#39;none&#39;;
-    &#125;
-  &#125;;
-&lt;&#x2F;script&gt;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<h2 id="使用-tagcanvas-swig"><a href="#使用-tagcanvas-swig" class="headerlink" title="使用 tagcanvas.swig"></a>使用 <code>tagcanvas.swig</code></h2><p>在 <code>themes/NexT/layout/page.swig</code> 中作如下修改：<br><img src="/images/pages_tag.png" /></p>
-<p>替换红框中原来位置的 <code>div</code> 标签为如下：</p>
-<pre class="line-numbers language-JavaScript" data-language="JavaScript"><code class="language-JavaScript">&#123;# tagcanvas plugin 球型云标签 #&#125;
-&#123;% include &#39;_partials&#x2F;plugin&#x2F;tagcanvas.swig&#39; %&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
-]]></content>
-      <categories>
-        <category>Blog</category>
-      </categories>
-      <tags>
-        <tag>标签</tag>
-        <tag>主题</tag>
-        <tag>球形标签云</tag>
       </tags>
   </entry>
   <entry>
@@ -11424,6 +11732,69 @@ firewall-cmd <span class="token parameter variable">--permanent</span> --add-ric
       </tags>
   </entry>
   <entry>
+    <title>为 NexT 主题添加球型标签云</title>
+    <url>/2017/03/19/%E4%B8%BA-NexT-%E4%B8%BB%E9%A2%98%E6%B7%BB%E5%8A%A0%E7%90%83%E5%BD%A2%E6%A0%87%E7%AD%BE%E4%BA%91/</url>
+    <content><![CDATA[<h2 id="确定你已开启标签功能"><a href="#确定你已开启标签功能" class="headerlink" title="确定你已开启标签功能"></a>确定你已开启标签功能</h2><p>参考 <code>NexT</code> 配置文档 <a href="https://theme-next.iissnan.com/theme-settings.html#tags-page">添加标签页面</a> ，开启标签功能。</p>
+<h2 id="了解球形标签云插件"><a href="#了解球形标签云插件" class="headerlink" title="了解球形标签云插件"></a>了解球形标签云插件</h2><p>了解球形标签云 <code>javascript</code> 插件，点击<a href="http://www.goat1000.com/tagcanvas.php">这里</a></p>
+<span id="more"></span>
+
+<h2 id="下载插件"><a href="#下载插件" class="headerlink" title="下载插件"></a>下载插件</h2><p>下载 <code>js</code> 插件 <a href="http://www.goat1000.com/tagcanvas.js?2.8"><code>tagcanvas.js</code></a></p>
+<h2 id="放入对应目录"><a href="#放入对应目录" class="headerlink" title="放入对应目录"></a>放入对应目录</h2><p>将下载的 <code>tagcanvas.js </code> 放入主题目录 <code>themes/NexT/source/js/custom/tagcanvas.js</code>，<code>custom </code> 为新建文件夹。</p>
+<h2 id="新建标签云文件，引用-js"><a href="#新建标签云文件，引用-js" class="headerlink" title="新建标签云文件，引用 js"></a>新建标签云文件，引用 <code>js</code></h2><p>在 <code>themes/NexT/layout/_partials</code> 下建一个 <code>plugin</code> 文件夹，在该目录下 <code>touch</code> 一个名为 <code>tagcanvas.swig</code> 的文件，并写入如下内容：</p>
+<pre class="line-numbers language-XML" data-language="XML"><code class="language-XML">&lt;div class&#x3D;&quot;tags&quot; id&#x3D;&quot;myTags&quot;&gt;
+  &lt;canvas width&#x3D;&quot;350&quot; height&#x3D;&quot;350&quot; id&#x3D;&quot;my3DTags&quot;&gt;
+    &lt;p&gt;Anything in here will be replaced on browsers that support the canvas element&lt;&#x2F;p&gt;
+  &lt;&#x2F;canvas&gt;
+&lt;&#x2F;div&gt;
+&lt;div class&#x3D;&quot;tags&quot; id&#x3D;&quot;tags&quot;&gt;
+  &lt;ul style&#x3D;&quot;display: none&quot;&gt;
+    &#123;&#123; tagcloud(&#123;
+      min_font: 16,
+      max_font: 35,
+      amount: 999,
+      color: true,
+      start_color: &#39;red&#39;,
+      end_color: &#39;red&#39;,
+    &#125;) &#125;&#125;
+  &lt;&#x2F;ul&gt;
+&lt;&#x2F;div&gt;
+&lt;script type&#x3D;&quot;text&#x2F;javascript&quot; src&#x3D;&quot;&#x2F;js&#x2F;custom&#x2F;tagcanvas.js&quot;&gt;&lt;&#x2F;script&gt;
+&lt;script type&#x3D;&quot;text&#x2F;javascript&quot; &gt;
+  window.onload &#x3D; function() &#123;
+    try &#123;
+      TagCanvas.Start(&#39;my3DTags&#39;,&#39;tags&#39;,&#123;
+        textFont: &#39;Georgia,Optima&#39;,
+        textColour: null,
+        outlineColour: &#39;black&#39;,
+        weight: true,
+        reverse: true,
+        depth: 0.8,
+        maxSpeed: 0.05,
+        bgRadius: 1,
+        freezeDecel: true
+      &#125;);
+    &#125; catch(e) &#123;
+      &#x2F;&#x2F; something went wrong, hide the canvas container
+      document.getElementById(&#39;myTags&#39;).style.display &#x3D; &#39;none&#39;;
+    &#125;
+  &#125;;
+&lt;&#x2F;script&gt;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h2 id="使用-tagcanvas-swig"><a href="#使用-tagcanvas-swig" class="headerlink" title="使用 tagcanvas.swig"></a>使用 <code>tagcanvas.swig</code></h2><p>在 <code>themes/NexT/layout/page.swig</code> 中作如下修改：<br><img src="/images/pages_tag.png" /></p>
+<p>替换红框中原来位置的 <code>div</code> 标签为如下：</p>
+<pre class="line-numbers language-JavaScript" data-language="JavaScript"><code class="language-JavaScript">&#123;# tagcanvas plugin 球型云标签 #&#125;
+&#123;% include &#39;_partials&#x2F;plugin&#x2F;tagcanvas.swig&#39; %&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+]]></content>
+      <categories>
+        <category>Blog</category>
+      </categories>
+      <tags>
+        <tag>标签</tag>
+        <tag>主题</tag>
+        <tag>球形标签云</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>从 Gitlab 迁移到 Gitea 小记</title>
     <url>/2023/09/28/%E4%BB%8E-Gitlab-%E8%BF%81%E7%A7%BB%E5%88%B0-Gitea-%E5%B0%8F%E8%AE%B0/</url>
     <content><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在开源的世界中，选择合适的代码托管平台是每个开发者和组织都会面临的选择。近年来，GitLab和Gitea都已经成为开发者社区的热门选择。而对于个人用户来说，是否有必要从GitLab迁移到Gitea呢？这篇博客旨在对比这两者的优劣，并提供一个简单的迁移指南。</p>
@@ -12100,6 +12471,131 @@ codesign <span class="token parameter variable">-f</span> <span class="token par
         <tag>免越狱</tag>
         <tag>钉钉远程打卡</tag>
         <tag>教程</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>修复 Hexo bad interpreter 错误</title>
+    <url>/2026/05/24/%E4%BF%AE%E5%A4%8D-Hexo-bad-interpreter-%E9%94%99%E8%AF%AF/</url>
+    <content><![CDATA[<blockquote>
+<p><strong>环境</strong>：macOS + Homebrew + Node.js v24+</p>
+<p><strong>错误信息</strong>：<code>zsh: /opt/homebrew/bin/hexo: bad interpreter: /opt/homebrew/opt/node/bin/node: no such file or directory</code></p>
+</blockquote>
+<span id="more"></span>
+
+<h2 id="问题原因"><a href="#问题原因" class="headerlink" title="问题原因"></a>问题原因</h2><p>Hexo CLI 的可执行脚本（位于 <code>/opt/homebrew/bin/hexo</code>）第一行（shebang）硬编码了旧版 Homebrew Node.js 的路径：</p>
+<pre class="line-numbers language-none"><code class="language-none">#!&#x2F;opt&#x2F;homebrew&#x2F;opt&#x2F;node&#x2F;bin&#x2F;node<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>当 Node.js 通过 <code>nvm</code>、直接升级或重新安装后，这个路径不再存在，导致系统找不到解释器，命令无法执行。即使重新执行 <code>npm install hexo-cli -g</code>，若旧的二进制文件没有被覆盖，问题依然存在。</p>
+<hr>
+<h2 id="修复方案"><a href="#修复方案" class="headerlink" title="修复方案"></a>修复方案</h2><h3 id="方法一：彻底卸载重装（推荐）"><a href="#方法一：彻底卸载重装（推荐）" class="headerlink" title="方法一：彻底卸载重装（推荐）"></a>方法一：彻底卸载重装（推荐）</h3><p>这是最干净、最彻底的方案，适合大多数场景。</p>
+<pre class="line-numbers language-zsh" data-language="zsh"><code class="language-zsh"># 1. 卸载旧的 hexo-cli
+npm uninstall hexo-cli -g
+
+# 2. 删除残留的旧 shebang 文件
+rm &#x2F;opt&#x2F;homebrew&#x2F;bin&#x2F;hexo
+
+# 3. 确认当前 node 路径是否正常
+which node
+node -v
+
+# 4. 重新全局安装
+npm install hexo-cli -g
+
+# 5. 验证修复结果
+which hexo
+hexo version<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<hr>
+<h3 id="方法二：手动修复-shebang（快速）"><a href="#方法二：手动修复-shebang（快速）" class="headerlink" title="方法二：手动修复 shebang（快速）"></a>方法二：手动修复 shebang（快速）</h3><p>如果不想重装，可以直接替换脚本第一行的解释器路径，速度最快。</p>
+<pre class="line-numbers language-zsh" data-language="zsh"><code class="language-zsh"># 查看当前 shebang 行（确认问题）
+head -1 &#x2F;opt&#x2F;homebrew&#x2F;bin&#x2F;hexo
+
+# 获取当前正确的 node 路径
+NODE_PATH&#x3D;$(which node)
+echo $NODE_PATH  # 应输出类似 &#x2F;opt&#x2F;homebrew&#x2F;bin&#x2F;node
+
+# 替换 shebang（macOS 下 sed 需要 -i &#39;&#39;）
+sed -i &#39;&#39; &quot;1s|.*|#!$&#123;NODE_PATH&#125;|&quot; &#x2F;opt&#x2F;homebrew&#x2F;bin&#x2F;hexo
+
+# 验证是否修复
+hexo version<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<hr>
+<h3 id="方法三：软链接补齐旧路径"><a href="#方法三：软链接补齐旧路径" class="headerlink" title="方法三：软链接补齐旧路径"></a>方法三：软链接补齐旧路径</h3><p>让旧路径重新指向当前 node，适合不想修改任何文件的场景。</p>
+<pre class="line-numbers language-zsh" data-language="zsh"><code class="language-zsh"># 创建旧路径目录并建立软链接
+mkdir -p &#x2F;opt&#x2F;homebrew&#x2F;opt&#x2F;node&#x2F;bin
+ln -sf $(which node) &#x2F;opt&#x2F;homebrew&#x2F;opt&#x2F;node&#x2F;bin&#x2F;node
+
+# 验证
+hexo version<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<hr>
+<h2 id="方案对比"><a href="#方案对比" class="headerlink" title="方案对比"></a>方案对比</h2><table>
+<thead>
+<tr>
+<th>方法</th>
+<th>操作复杂度</th>
+<th>是否彻底</th>
+<th>适用场景</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>方法一：卸载重装</td>
+<td>低</td>
+<td>✅ 是</td>
+<td>日常推荐，最稳妥</td>
+</tr>
+<tr>
+<td>方法二：修复 shebang</td>
+<td>中</td>
+<td>✅ 是</td>
+<td>快速修复，不想重装</td>
+</tr>
+<tr>
+<td>方法三：软链接</td>
+<td>低</td>
+<td>⚠️ 临时</td>
+<td>Node 版本固定时可用</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="长期建议：避免全局路径问题"><a href="#长期建议：避免全局路径问题" class="headerlink" title="长期建议：避免全局路径问题"></a>长期建议：避免全局路径问题</h2><p>全局安装的 CLI 工具依赖特定 Node 路径，升级 Node 后容易出现上述问题。以下两种方式可彻底规避：</p>
+<p><strong>方式 A：在项目本地安装 hexo-cli</strong></p>
+<pre class="line-numbers language-zsh" data-language="zsh"><code class="language-zsh"># 在 Hexo 博客项目根目录执行
+npm install hexo-cli --save-dev
+
+# 之后所有命令改为 npx 前缀执行
+npx hexo new post &quot;AnyLink 部署指南 · 群晖 DSM 7.2.2&quot;
+npx hexo generate
+npx hexo server<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p><strong>方式 B：使用 nvm 管理 Node 版本（推荐）</strong></p>
+<p>使用 <a href="https://github.com/nvm-sh/nvm">nvm</a> 管理 Node.js，切换版本后需重新安装全局包，但路径更稳定，不会因 Homebrew 升级破坏 shebang。</p>
+<pre class="line-numbers language-zsh" data-language="zsh"><code class="language-zsh"># 安装 nvm
+curl -o- https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;nvm-sh&#x2F;nvm&#x2F;v0.39.7&#x2F;install.sh | bash
+
+# 使用 nvm 安装并切换 Node
+nvm install 20
+nvm use 20
+
+# 重新安装 hexo-cli
+npm install hexo-cli -g<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<hr>
+<h2 id="快速验证命令"><a href="#快速验证命令" class="headerlink" title="快速验证命令"></a>快速验证命令</h2><p>修复完成后，依次执行以下命令确认环境正常：</p>
+<pre class="line-numbers language-zsh" data-language="zsh"><code class="language-zsh">node -v           # 确认 Node 版本
+npm -v            # 确认 npm 版本
+which hexo        # 确认 hexo 路径
+hexo version      # 确认 hexo 正常运行
+hexo new post &quot;测试文章&quot;  # 实际创建一篇文章测试<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+]]></content>
+      <categories>
+        <category>Hexo</category>
+        <category>博客</category>
+      </categories>
+      <tags>
+        <tag>hexo</tag>
+        <tag>node</tag>
       </tags>
   </entry>
   <entry>
@@ -14045,8 +14541,8 @@ iface vmbr0 inet static
         <category>家庭网络</category>
       </categories>
       <tags>
-        <tag>PVE</tag>
         <tag>网络</tag>
+        <tag>PVE</tag>
         <tag>Proxmox</tag>
         <tag>Linux Bridge</tag>
         <tag>Homelab</tag>
@@ -14944,75 +15440,6 @@ print(translate(&#39;មិចញុមវាយលេខចូលហើយម�
       </tags>
   </entry>
   <entry>
-    <title>购买BanwagonHOST VPS自建Shadowsocks记录</title>
-    <url>/2017/07/28/%E8%B4%AD%E4%B9%B0BanwagonHOST-VPS%E8%87%AA%E5%BB%BAShadowsocks%E8%AE%B0%E5%BD%95/</url>
-    <content><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><blockquote>
-<p>不能畅游墙外没法好好生活和工作</p>
-</blockquote>
-<p>本来手里有着五六个 <code>Shadowsocks</code> 帐号，但体验都不佳，一直也没怎么用，是因为一直使用公司搭建的 <code>Cisco Anyconnect</code>，科学上网后百兆带宽可以满速使用，速度虽快，但是客户端软件默认是全局代理的，虽然可以走<code>IP route list</code>达到和<code>Shadowsocks </code>的<code>PAC</code>同样的作用，但效果慎微，而且<code>IP</code>要自己去填，所以公司<code>IT</code>直接没搞这个<code>route list</code>，因为我们大部分电脑和手机<code>APP</code>都在墙内，这就导致在使用了<code>Cisco Anyconnect</code>后大部分电脑或者手机上的<code>APP</code>网络访问困难，常开<code>VPN</code>还是需要<code>Shadowsocks </code>等可根据 <strong>PAC清单自动代理</strong> 或者 <strong>分应用代理</strong> 的一类软件。</p>
-<span id="more"></span>
-
-<h2 id="主题"><a href="#主题" class="headerlink" title="主题"></a>主题</h2><p>废话有点多，进入主题。前几日群里的前辈在群里说道自搭的<code>Shadowsocks</code>在使用了<code>Google</code>提出的<code>TCP</code>拥塞控制新算法——<code>BBR</code>之后，解决了以下两个问题：</p>
-<pre><code> 1. 在有一定丢包率的网络链路上充分利用带宽；
- 2. 降低网络链路上的 buffer 占用率，从而降低延迟。
-</code></pre>
-<p> 正好有时间，大佬说的又激发了我的兴趣，我决定自己也搭一个玩玩，也以备不时之需，经历这一天，也总结了个人认为最省事的路线，以下是步骤记录。</p>
-<h2 id="购买VPS"><a href="#购买VPS" class="headerlink" title="购买VPS"></a>购买<code>VPS</code></h2><p>在请教了群里的前辈购买何档次的<code>BanwagonHOST VPN</code>之后，购买了19.99$&#x2F;年的方案，这是购买地址：<a href="https://bandwagonhost.com/index.php">BanwagonHOST</a>，这里注意两点，第一点：购买时注意买基于<code>KVM</code>的，而不是<code>OpenVZ</code>，<code>KVM</code>是新推出的，只了解了大体不同，想知道具体差异自行<a href="https://www.google.com/">Google</a>，一般来说，买新架构就没错了；第二点：在选择<code>Location</code>时，最好选择美国洛杉矶节点<code>Los Angeles</code>，别问为什么，前人经验，至于是<code>QNET</code>还是<code>MCOM</code>，自行谷歌这二者差异，有人汇总对比了这两种方案，不同城市的<code>ping</code>值有高有低，总体来说<code>QNET</code>稍好，所以我购买的是它。</p>
-<h2 id="重装系统"><a href="#重装系统" class="headerlink" title="重装系统"></a>重装系统</h2><p>付款购买成功后，进入当前页面的<code>Services-My Services</code>菜单下，找到你新购买的<code>Product/Service</code>，进入控制面板<code>KiviVM Control Panel</code>，界面很简单，每个功能浏览一下之后开始吧，预装的貌似是<code>Cent OS 6</code>，重装成你想要的系统吧，根据提示来，很<code>easy</code>。我个人比较习惯<code>Ubuntu</code>，所以安装了面板上支持的最新版本的<code>Ubuntu 16.04 x86_64</code>，面板里有一键安装<code>Shadowsocks Server</code>和<code>ShadowsocksR Server</code>功能，但个人不推荐，没啥别的原因，因为感觉不受我控制。装好后会提示你生成了一个随机的ROOT密码，记下来。执行以下步骤：</p>
-<pre><code>1.回到你的电脑，用你自己的方式`SSH`登陆到你的`VPS`，我用的`iTerm`，输入`ssh root@your_vps_ip_address -p your_vps_port`（本地要配置好`RSA`），默认密码是前面保存的随机密码。
-2.默认ROOT密码不好记，登陆成功后输入`passwd`输入两次新的`ROOT`密码更改密码。
-3.`Ubuntu`的话更新下系统，分别执行`apt-get update`和`apt-get upgrade`（不必须但建议）
-</code></pre>
-<h2 id="安装Shadowsocks"><a href="#安装Shadowsocks" class="headerlink" title="安装Shadowsocks "></a>安装<code>Shadowsocks </code></h2><p>安装的方式有很多，我独爱个人认为最优的那种，执行以下命令：</p>
-<pre class="line-numbers language-Bash" data-language="Bash"><code class="language-Bash">wget --no-check-certificate https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;teddysun&#x2F;shadowsocks_install&#x2F;master&#x2F;shadowsocksR.sh
-chmod +x shadowsocksR.sh
-.&#x2F;shadowsocksR.sh 2&gt;&amp;1 | tee shadowsocksR.log<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
-<p>你也可以用<code>&amp;&amp;</code>连接一次性执行，按提示完成即可。</p>
-<h2 id="安装Google-bbr"><a href="#安装Google-bbr" class="headerlink" title="安装Google bbr"></a>安装<code>Google bbr</code></h2><p>一、如果你的VPS是基于KVM的，运行以下命令：</p>
-<pre class="line-numbers language-Bash" data-language="Bash"><code class="language-Bash">wget --no-check-certificate https:&#x2F;&#x2F;github.com&#x2F;teddysun&#x2F;across&#x2F;raw&#x2F;master&#x2F;bbr.sh
-chmod +x bbr.sh
-.&#x2F;bbr.sh<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
-<p>按照提示安装完成，安装完成后，检测是否成功安装：</p>
-<pre class="line-numbers language-Bash" data-language="Bash"><code class="language-Bash">sysctl net.ipv4.tcp_available_congestion_control<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-<p>输出的信息包含<code>bbr</code>就<code>Ok</code>了，一般为<code>net.ipv4.tcp_available_congestion_control = bbr cubic reno</code></p>
-<p>二、如果你不小心购买了基于<code>OpenVZ</code>的<code>VPS</code>，运行这个：</p>
-<pre class="line-numbers language-Bash" data-language="Bash"><code class="language-Bash">wget https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;kuoruan&#x2F;shell-scripts&#x2F;master&#x2F;ovz-bbr&#x2F;ovz-bbr-installer.sh
-chmod +x ovz-bbr-installer.sh
-.&#x2F;ovz-bbr-installer.sh<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
-<p>这个连提示都是中文的，按照提示安装完成即可，安装完成使用看说明，检测是否安装成功：</p>
-<pre class="line-numbers language-Bash" data-language="Bash"><code class="language-Bash">ping 10.0.0.2<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-<p>如果能通，说明 bbr 已经启动,然后检查 iptables 规则:</p>
-<pre class="line-numbers language-Bash" data-language="Bash"><code class="language-Bash">iptables -t nat -nL
-Chain PREROUTING (policy ACCEPT)
-target     prot opt source               destination
-LKL_IN     all  --  0.0.0.0&#x2F;0            0.0.0.0&#x2F;0
- 
-Chain POSTROUTING (policy ACCEPT)
-target     prot opt source               destination
- 
-Chain OUTPUT (policy ACCEPT)
-target     prot opt source               destination
- 
-Chain LKL_IN (1 references)
-target     prot opt source               destination
-DNAT       tcp  --  0.0.0.0&#x2F;0            0.0.0.0&#x2F;0            tcp dpt:8989 to:10.0.0.2<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<p>里面有相应的端口规则。</p>
-<h2 id="使用Shadowsocks"><a href="#使用Shadowsocks" class="headerlink" title="使用Shadowsocks"></a>使用<code>Shadowsocks</code></h2><p>使用对应的客户端使用的你的<code>Shadowsocks</code>吧，怎么使用自行搜索。想着就那么几个步骤，还是写了这么多。。。</p>
-<h1 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h1><p>我购买时不小心买成了<code>OpenVZ</code>的，请教了群里的一位前辈之后告诉我联系客服，我便邮件联系官方退款了，购买了新的基于<code>KVM</code>，服务态度非常好，值得点赞。供参考，希望能帮到有需要的朋友。</p>
-<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a href="https://blog.kuoruan.com/48.html">搬瓦工(Bandwagonhost)搭建Shadowsocks并优化速度</a></p>
-<p><a href="https://blog.kuoruan.com/116.html">OpenVZ 平台 Google BBR 一键安装脚本</a></p>
-]]></content>
-      <categories>
-        <category>VPN</category>
-      </categories>
-      <tags>
-        <tag>Mac使用</tag>
-        <tag>BanwagonHOST</tag>
-        <tag>Shadowsocks</tag>
-        <tag>科学上网</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>解决公司运维网络限制的两种办法</title>
     <url>/2024/04/14/%E8%A7%A3%E5%86%B3%E5%85%AC%E5%8F%B8%E8%BF%90%E7%BB%B4%E7%BD%91%E7%BB%9C%E9%99%90%E5%88%B6%E7%9A%84%E4%B8%A4%E7%A7%8D%E5%8A%9E%E6%B3%95/</url>
     <content><![CDATA[<p>在当今的企业环境中，出于安全和管理的考虑，很多公司的IT部门对内网进行了严格的限制。这些限制通常包括禁止直接从公司网络访问外部的SSH连接、封锁常用的远程桌面协议如RDP和VNC流量，以及禁用了如TeamViewer、AnyDesk、ToDesk等流行的远程控制软件。这种做法虽然能有效防止潜在的安全威胁，但同时也给需要远程访问工作资源的员工带来了不便。本文将介绍几种绕过这些限制的方法，以便在不影响公司网络安全的前提下，提高工作效率和灵活性。</p>
@@ -15182,6 +15609,75 @@ proxy_set_header X-Forwarded-Proto $scheme;<span aria-hidden="true" class="line-
       <tags>
         <tag>运维</tag>
         <tag>安全</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>购买BanwagonHOST VPS自建Shadowsocks记录</title>
+    <url>/2017/07/28/%E8%B4%AD%E4%B9%B0BanwagonHOST-VPS%E8%87%AA%E5%BB%BAShadowsocks%E8%AE%B0%E5%BD%95/</url>
+    <content><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><blockquote>
+<p>不能畅游墙外没法好好生活和工作</p>
+</blockquote>
+<p>本来手里有着五六个 <code>Shadowsocks</code> 帐号，但体验都不佳，一直也没怎么用，是因为一直使用公司搭建的 <code>Cisco Anyconnect</code>，科学上网后百兆带宽可以满速使用，速度虽快，但是客户端软件默认是全局代理的，虽然可以走<code>IP route list</code>达到和<code>Shadowsocks </code>的<code>PAC</code>同样的作用，但效果慎微，而且<code>IP</code>要自己去填，所以公司<code>IT</code>直接没搞这个<code>route list</code>，因为我们大部分电脑和手机<code>APP</code>都在墙内，这就导致在使用了<code>Cisco Anyconnect</code>后大部分电脑或者手机上的<code>APP</code>网络访问困难，常开<code>VPN</code>还是需要<code>Shadowsocks </code>等可根据 <strong>PAC清单自动代理</strong> 或者 <strong>分应用代理</strong> 的一类软件。</p>
+<span id="more"></span>
+
+<h2 id="主题"><a href="#主题" class="headerlink" title="主题"></a>主题</h2><p>废话有点多，进入主题。前几日群里的前辈在群里说道自搭的<code>Shadowsocks</code>在使用了<code>Google</code>提出的<code>TCP</code>拥塞控制新算法——<code>BBR</code>之后，解决了以下两个问题：</p>
+<pre><code> 1. 在有一定丢包率的网络链路上充分利用带宽；
+ 2. 降低网络链路上的 buffer 占用率，从而降低延迟。
+</code></pre>
+<p> 正好有时间，大佬说的又激发了我的兴趣，我决定自己也搭一个玩玩，也以备不时之需，经历这一天，也总结了个人认为最省事的路线，以下是步骤记录。</p>
+<h2 id="购买VPS"><a href="#购买VPS" class="headerlink" title="购买VPS"></a>购买<code>VPS</code></h2><p>在请教了群里的前辈购买何档次的<code>BanwagonHOST VPN</code>之后，购买了19.99$&#x2F;年的方案，这是购买地址：<a href="https://bandwagonhost.com/index.php">BanwagonHOST</a>，这里注意两点，第一点：购买时注意买基于<code>KVM</code>的，而不是<code>OpenVZ</code>，<code>KVM</code>是新推出的，只了解了大体不同，想知道具体差异自行<a href="https://www.google.com/">Google</a>，一般来说，买新架构就没错了；第二点：在选择<code>Location</code>时，最好选择美国洛杉矶节点<code>Los Angeles</code>，别问为什么，前人经验，至于是<code>QNET</code>还是<code>MCOM</code>，自行谷歌这二者差异，有人汇总对比了这两种方案，不同城市的<code>ping</code>值有高有低，总体来说<code>QNET</code>稍好，所以我购买的是它。</p>
+<h2 id="重装系统"><a href="#重装系统" class="headerlink" title="重装系统"></a>重装系统</h2><p>付款购买成功后，进入当前页面的<code>Services-My Services</code>菜单下，找到你新购买的<code>Product/Service</code>，进入控制面板<code>KiviVM Control Panel</code>，界面很简单，每个功能浏览一下之后开始吧，预装的貌似是<code>Cent OS 6</code>，重装成你想要的系统吧，根据提示来，很<code>easy</code>。我个人比较习惯<code>Ubuntu</code>，所以安装了面板上支持的最新版本的<code>Ubuntu 16.04 x86_64</code>，面板里有一键安装<code>Shadowsocks Server</code>和<code>ShadowsocksR Server</code>功能，但个人不推荐，没啥别的原因，因为感觉不受我控制。装好后会提示你生成了一个随机的ROOT密码，记下来。执行以下步骤：</p>
+<pre><code>1.回到你的电脑，用你自己的方式`SSH`登陆到你的`VPS`，我用的`iTerm`，输入`ssh root@your_vps_ip_address -p your_vps_port`（本地要配置好`RSA`），默认密码是前面保存的随机密码。
+2.默认ROOT密码不好记，登陆成功后输入`passwd`输入两次新的`ROOT`密码更改密码。
+3.`Ubuntu`的话更新下系统，分别执行`apt-get update`和`apt-get upgrade`（不必须但建议）
+</code></pre>
+<h2 id="安装Shadowsocks"><a href="#安装Shadowsocks" class="headerlink" title="安装Shadowsocks "></a>安装<code>Shadowsocks </code></h2><p>安装的方式有很多，我独爱个人认为最优的那种，执行以下命令：</p>
+<pre class="line-numbers language-Bash" data-language="Bash"><code class="language-Bash">wget --no-check-certificate https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;teddysun&#x2F;shadowsocks_install&#x2F;master&#x2F;shadowsocksR.sh
+chmod +x shadowsocksR.sh
+.&#x2F;shadowsocksR.sh 2&gt;&amp;1 | tee shadowsocksR.log<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<p>你也可以用<code>&amp;&amp;</code>连接一次性执行，按提示完成即可。</p>
+<h2 id="安装Google-bbr"><a href="#安装Google-bbr" class="headerlink" title="安装Google bbr"></a>安装<code>Google bbr</code></h2><p>一、如果你的VPS是基于KVM的，运行以下命令：</p>
+<pre class="line-numbers language-Bash" data-language="Bash"><code class="language-Bash">wget --no-check-certificate https:&#x2F;&#x2F;github.com&#x2F;teddysun&#x2F;across&#x2F;raw&#x2F;master&#x2F;bbr.sh
+chmod +x bbr.sh
+.&#x2F;bbr.sh<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<p>按照提示安装完成，安装完成后，检测是否成功安装：</p>
+<pre class="line-numbers language-Bash" data-language="Bash"><code class="language-Bash">sysctl net.ipv4.tcp_available_congestion_control<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>输出的信息包含<code>bbr</code>就<code>Ok</code>了，一般为<code>net.ipv4.tcp_available_congestion_control = bbr cubic reno</code></p>
+<p>二、如果你不小心购买了基于<code>OpenVZ</code>的<code>VPS</code>，运行这个：</p>
+<pre class="line-numbers language-Bash" data-language="Bash"><code class="language-Bash">wget https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;kuoruan&#x2F;shell-scripts&#x2F;master&#x2F;ovz-bbr&#x2F;ovz-bbr-installer.sh
+chmod +x ovz-bbr-installer.sh
+.&#x2F;ovz-bbr-installer.sh<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<p>这个连提示都是中文的，按照提示安装完成即可，安装完成使用看说明，检测是否安装成功：</p>
+<pre class="line-numbers language-Bash" data-language="Bash"><code class="language-Bash">ping 10.0.0.2<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>如果能通，说明 bbr 已经启动,然后检查 iptables 规则:</p>
+<pre class="line-numbers language-Bash" data-language="Bash"><code class="language-Bash">iptables -t nat -nL
+Chain PREROUTING (policy ACCEPT)
+target     prot opt source               destination
+LKL_IN     all  --  0.0.0.0&#x2F;0            0.0.0.0&#x2F;0
+ 
+Chain POSTROUTING (policy ACCEPT)
+target     prot opt source               destination
+ 
+Chain OUTPUT (policy ACCEPT)
+target     prot opt source               destination
+ 
+Chain LKL_IN (1 references)
+target     prot opt source               destination
+DNAT       tcp  --  0.0.0.0&#x2F;0            0.0.0.0&#x2F;0            tcp dpt:8989 to:10.0.0.2<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>里面有相应的端口规则。</p>
+<h2 id="使用Shadowsocks"><a href="#使用Shadowsocks" class="headerlink" title="使用Shadowsocks"></a>使用<code>Shadowsocks</code></h2><p>使用对应的客户端使用的你的<code>Shadowsocks</code>吧，怎么使用自行搜索。想着就那么几个步骤，还是写了这么多。。。</p>
+<h1 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h1><p>我购买时不小心买成了<code>OpenVZ</code>的，请教了群里的一位前辈之后告诉我联系客服，我便邮件联系官方退款了，购买了新的基于<code>KVM</code>，服务态度非常好，值得点赞。供参考，希望能帮到有需要的朋友。</p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a href="https://blog.kuoruan.com/48.html">搬瓦工(Bandwagonhost)搭建Shadowsocks并优化速度</a></p>
+<p><a href="https://blog.kuoruan.com/116.html">OpenVZ 平台 Google BBR 一键安装脚本</a></p>
+]]></content>
+      <categories>
+        <category>VPN</category>
+      </categories>
+      <tags>
+        <tag>Mac使用</tag>
+        <tag>BanwagonHOST</tag>
+        <tag>Shadowsocks</tag>
+        <tag>科学上网</tag>
       </tags>
   </entry>
   <entry>
