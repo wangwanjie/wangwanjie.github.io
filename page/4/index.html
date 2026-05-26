@@ -157,18 +157,18 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">57</span>
+          <span class="site-state-item-count">75</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
           <a href="/categories/">
-        <span class="site-state-item-count">27</span>
+        <span class="site-state-item-count">42</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">109</span>
+        <span class="site-state-item-count">153</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -238,7 +238,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://blog.vanjay.cn/2018/09/30/iOS-%E6%95%B0%E5%AD%97%E8%BD%AC-xx-%E4%B8%87-xx-%E4%BA%BF/">
+    <link itemprop="mainEntityOfPage" href="https://blog.vanjay.cn/2022/10/13/%E4%BD%BF%E7%94%A8%20Nginx%20%E5%B0%86%E5%A4%9A%E4%B8%AA%E6%9C%8D%E5%8A%A1%E4%BB%A3%E7%90%86%E5%88%B0%E5%90%8C%E4%B8%80%E5%9F%9F%E5%90%8D/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/head.png">
@@ -256,566 +256,26 @@
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/2018/09/30/iOS-%E6%95%B0%E5%AD%97%E8%BD%AC-xx-%E4%B8%87-xx-%E4%BA%BF/" class="post-title-link" itemprop="url">iOS 数字转 xx 万 xx 亿</a>
+          <a href="/2022/10/13/%E4%BD%BF%E7%94%A8%20Nginx%20%E5%B0%86%E5%A4%9A%E4%B8%AA%E6%9C%8D%E5%8A%A1%E4%BB%A3%E7%90%86%E5%88%B0%E5%90%8C%E4%B8%80%E5%9F%9F%E5%90%8D/" class="post-title-link" itemprop="url">nginx将多个服务代理到同一域名</a>
         </h2>
 
         <div class="post-meta-container">
           <div class="post-meta">
+  
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">发表于</span>
 
-      <time title="创建时间：2018-09-30 13:08:27" itemprop="dateCreated datePublished" datetime="2018-09-30T13:08:27+08:00">2018-09-30</time>
+      <time title="创建时间：2022-10-13 20:50:21" itemprop="dateCreated datePublished" datetime="2022-10-13T20:50:21+08:00">2022-10-13</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2023-10-24 12:52:11" itemprop="dateModified" datetime="2023-10-24T12:52:11+08:00">2023-10-24</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/iOS-%E5%BC%80%E5%8F%91/" itemprop="url" rel="index"><span itemprop="name">iOS 开发</span></a>
-        </span>
-    </span>
-
-  
-    <span class="post-meta-break"></span>
-    <span class="post-meta-item" title="本文字数">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">本文字数：</span>
-      <span>523</span>
-    </span>
-    <span class="post-meta-item" title="阅读时长">
-      <span class="post-meta-item-icon">
-        <i class="far fa-clock"></i>
-      </span>
-      <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>2 分钟</span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h2 id="App-开发显示-XX-万-xx-亿"><a href="#App-开发显示-XX-万-xx-亿" class="headerlink" title="App 开发显示 XX 万 xx 亿"></a>App 开发显示 XX 万 xx 亿</h2><p>APP开发中界面显示很多地方需要显示数字，但是如果数字过大，可能会有将数字显示成 xx 万、xx 百万、xx 亿的需求，简单封装了一下，备忘，以便日后使用。</p>
-<h3 id="这是声明文件，调用者可以决定保留几位小数，是否需要四舍五入，也可依据代码自行扩展方法。"><a href="#这是声明文件，调用者可以决定保留几位小数，是否需要四舍五入，也可依据代码自行扩展方法。" class="headerlink" title="这是声明文件，调用者可以决定保留几位小数，是否需要四舍五入，也可依据代码自行扩展方法。"></a>这是声明文件，调用者可以决定保留几位小数，是否需要四舍五入，也可依据代码自行扩展方法。</h3>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2018/09/30/iOS-%E6%95%B0%E5%AD%97%E8%BD%AC-xx-%E4%B8%87-xx-%E4%BA%BF/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://blog.vanjay.cn/2018/09/12/Ubuntu-18-04-%E6%90%AD%E5%BB%BA-Jenkins/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/head.png">
-      <meta itemprop="name" content="VanJay">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="VanJay's Blog">
-      <meta itemprop="description" content="成功不是将来才有的<br>而是决定去做的那一刻起<br>持续累积而成">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | VanJay's Blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2018/09/12/Ubuntu-18-04-%E6%90%AD%E5%BB%BA-Jenkins/" class="post-title-link" itemprop="url">Ubuntu 18.04 搭建 Jenkins</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-  
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-        
-      
-
-      <time title="创建时间：2018-09-12 16:53:54 / 修改时间：18:24:50" itemprop="dateCreated datePublished" datetime="2018-09-12T16:53:54+08:00">2018-09-12</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E5%B7%A5%E7%A8%8B%E8%87%AA%E5%8A%A8%E5%8C%96/" itemprop="url" rel="index"><span itemprop="name">工程自动化</span></a>
-        </span>
-    </span>
-
-  
-    <span class="post-meta-break"></span>
-    <span class="post-meta-item" title="本文字数">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">本文字数：</span>
-      <span>820</span>
-    </span>
-    <span class="post-meta-item" title="阅读时长">
-      <span class="post-meta-item-icon">
-        <i class="far fa-clock"></i>
-      </span>
-      <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>3 分钟</span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><blockquote>
-<p>工欲善其事，必先利其器</p>
-</blockquote>
-<p>打包是开发过程中必不可少的一步，随着项目的壮大，打包时间越来越长，如果一直手动操作，浪费时间不说，还容易出错。记录一下安装<code>Jenkins</code>的过程，以备不时之需。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2018/09/12/Ubuntu-18-04-%E6%90%AD%E5%BB%BA-Jenkins/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://blog.vanjay.cn/2018/09/10/%E6%9B%B4%E6%94%B9-React-Native-%E9%BB%98%E8%AE%A4-ios%E3%80%81android-%E9%A1%B9%E7%9B%AE%E6%96%87%E4%BB%B6%E5%A4%B9/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/head.png">
-      <meta itemprop="name" content="VanJay">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="VanJay's Blog">
-      <meta itemprop="description" content="成功不是将来才有的<br>而是决定去做的那一刻起<br>持续累积而成">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | VanJay's Blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2018/09/10/%E6%9B%B4%E6%94%B9-React-Native-%E9%BB%98%E8%AE%A4-ios%E3%80%81android-%E9%A1%B9%E7%9B%AE%E6%96%87%E4%BB%B6%E5%A4%B9/" class="post-title-link" itemprop="url">更改 React Native 默认 ios、android 项目文件夹</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-  
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-        
-      
-
-      <time title="创建时间：2018-09-10 00:23:16 / 修改时间：02:06:19" itemprop="dateCreated datePublished" datetime="2018-09-10T00:23:16+08:00">2018-09-10</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/React-Native/" itemprop="url" rel="index"><span itemprop="name">React Native</span></a>
-        </span>
-    </span>
-
-  
-    <span class="post-meta-break"></span>
-    <span class="post-meta-item" title="本文字数">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">本文字数：</span>
-      <span>1.3k</span>
-    </span>
-    <span class="post-meta-item" title="阅读时长">
-      <span class="post-meta-item-icon">
-        <i class="far fa-clock"></i>
-      </span>
-      <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>5 分钟</span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>来到新公司也有一个月了，完成 iOS 端洞客项目<code>V1.3.0-V1.4.0</code>的升级，虽然只是一个小版本的升级，但我在熟悉项目过程当中发现项目垃圾代码实在太多了，别说我了，一般的接锅人看了也难以忍受，在痛苦了几天之后我默默拉了一个新 git 分支改起来，使用 <code>clang format</code>规范化了整个项目的代码，后面结合<code>git hook</code>在<code>git commit</code>前自动<code>reformat</code>代码，这一步可以说是非常爽了。直到今天，我之前简单看了一下，<code>check out</code>到我改之前和改之后的代码，少了有5000+行代码，删除了几十个类文件，但里面还是充斥着大量的垃圾或者不合理的代码。开发完<code>1.4.0</code>，稍微看起来闲了一两天，被个喜欢行使小权利的前端小组长安装研习 <code>React Native</code>，准备接入原生项目，暂时用于替换一个改动比较频繁的详情页，之前就有自己学习过，但是都忘光了，又复习一遍，趁热记录一些小 tip。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2018/09/10/%E6%9B%B4%E6%94%B9-React-Native-%E9%BB%98%E8%AE%A4-ios%E3%80%81android-%E9%A1%B9%E7%9B%AE%E6%96%87%E4%BB%B6%E5%A4%B9/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://blog.vanjay.cn/2018/09/03/%E5%9C%A8%E5%B7%B2%E6%9C%89-OC-%E9%A1%B9%E7%9B%AE%E6%97%A0%E7%97%9B%E9%9B%86%E6%88%90-React-Native/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/head.png">
-      <meta itemprop="name" content="VanJay">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="VanJay's Blog">
-      <meta itemprop="description" content="成功不是将来才有的<br>而是决定去做的那一刻起<br>持续累积而成">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | VanJay's Blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2018/09/03/%E5%9C%A8%E5%B7%B2%E6%9C%89-OC-%E9%A1%B9%E7%9B%AE%E6%97%A0%E7%97%9B%E9%9B%86%E6%88%90-React-Native/" class="post-title-link" itemprop="url">在已有 OC 项目无痛集成 React Native</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-  
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2018-09-03 00:23:47" itemprop="dateCreated datePublished" datetime="2018-09-03T00:23:47+08:00">2018-09-03</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2018-09-04 20:46:25" itemprop="dateModified" datetime="2018-09-04T20:46:25+08:00">2018-09-04</time>
-      
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/iOS-%E5%BC%80%E5%8F%91/" itemprop="url" rel="index"><span itemprop="name">iOS 开发</span></a>
-        </span>
-    </span>
-
-  
-    <span class="post-meta-break"></span>
-    <span class="post-meta-item" title="本文字数">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">本文字数：</span>
-      <span>661</span>
-    </span>
-    <span class="post-meta-item" title="阅读时长">
-      <span class="post-meta-item-icon">
-        <i class="far fa-clock"></i>
-      </span>
-      <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>2 分钟</span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="基本要求"><a href="#基本要求" class="headerlink" title="基本要求"></a>基本要求</h1><ul>
-<li>对 <code>Cocoapods</code> 使用熟悉</li>
-<li>熟悉 Mac 基本操作</li>
-<li>解决问题的基本功</li>
-</ul>
-<h1 id="官方示例"><a href="#官方示例" class="headerlink" title="官方示例"></a>官方示例</h1><p>这是官方给出的教程，<a target="_blank" rel="noopener" href="https://reactnative.cn/docs/integration-with-existing-apps/">集成到现有原生应用</a>，按照这个集成的跑起来没啥问题，但是后期等你用了一些组件，或原生或 <code>RN</code> 的，比如自定义 <code>UIView</code> 给 <code>RN</code> 用，<code>RN</code> 里用的第三方的 <code>component</code> 调用了原生的 <code>API</code>，官方的这些默认的 <code>pod</code> 库就是缺少一些的，跑项目会出一些莫名其妙的问题，我在用了<code>react-navigation</code>后各种运行时红屏报错问题，错误提示也看不出个所以然来，折腾好久才解决问题，这里我将直接记录主要过程和注意点，以备不时之需。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2018/09/03/%E5%9C%A8%E5%B7%B2%E6%9C%89-OC-%E9%A1%B9%E7%9B%AE%E6%97%A0%E7%97%9B%E9%9B%86%E6%88%90-React-Native/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://blog.vanjay.cn/2018/06/18/iOS%E9%87%8C%E5%85%B3%E4%BA%8Eblock%E7%9A%84%E4%B8%80%E4%BA%9B%E7%90%86%E8%A7%A3/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/head.png">
-      <meta itemprop="name" content="VanJay">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="VanJay's Blog">
-      <meta itemprop="description" content="成功不是将来才有的<br>而是决定去做的那一刻起<br>持续累积而成">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | VanJay's Blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2018/06/18/iOS%E9%87%8C%E5%85%B3%E4%BA%8Eblock%E7%9A%84%E4%B8%80%E4%BA%9B%E7%90%86%E8%A7%A3/" class="post-title-link" itemprop="url">iOS里关于block的一些理解</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-  
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2018-06-18 22:21:21" itemprop="dateCreated datePublished" datetime="2018-06-18T22:21:21+08:00">2018-06-18</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2018-06-19 10:54:56" itemprop="dateModified" datetime="2018-06-19T10:54:56+08:00">2018-06-19</time>
-      
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/iOS/" itemprop="url" rel="index"><span itemprop="name">iOS</span></a>
-        </span>
-    </span>
-
-  
-    <span class="post-meta-break"></span>
-    <span class="post-meta-item" title="本文字数">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">本文字数：</span>
-      <span>2.2k</span>
-    </span>
-    <span class="post-meta-item" title="阅读时长">
-      <span class="post-meta-item-icon">
-        <i class="far fa-clock"></i>
-      </span>
-      <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>8 分钟</span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>block实际上就是Objective-C语言对于闭包的实现。<br>block配合上dispatch_queue，可以方便地实现简单的多线程编程和异步编程。<br>（闭包是一个函数（或指向函数的指针），再加上该函数执行的外部的上下文变量（有时候也称作自由变量）。）</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2018/06/18/iOS%E9%87%8C%E5%85%B3%E4%BA%8Eblock%E7%9A%84%E4%B8%80%E4%BA%9B%E7%90%86%E8%A7%A3/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://blog.vanjay.cn/2018/04/13/%E4%BD%BF%E7%94%A8Nginx%E5%9C%A8%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B8%8A%E5%BC%80%E5%90%AFWeb%E6%96%87%E4%BB%B6%E6%9C%8D%E5%8A%A1/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/head.png">
-      <meta itemprop="name" content="VanJay">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="VanJay's Blog">
-      <meta itemprop="description" content="成功不是将来才有的<br>而是决定去做的那一刻起<br>持续累积而成">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | VanJay's Blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2018/04/13/%E4%BD%BF%E7%94%A8Nginx%E5%9C%A8%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B8%8A%E5%BC%80%E5%90%AFWeb%E6%96%87%E4%BB%B6%E6%9C%8D%E5%8A%A1/" class="post-title-link" itemprop="url">Nginx配置启用Web文件服务器</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-  
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2018-04-13 22:32:40" itemprop="dateCreated datePublished" datetime="2018-04-13T22:32:40+08:00">2018-04-13</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2018-04-14 23:20:59" itemprop="dateModified" datetime="2018-04-14T23:20:59+08:00">2018-04-14</time>
+        <time title="修改时间：2022-10-14 19:30:49" itemprop="dateModified" datetime="2022-10-14T19:30:49+08:00">2022-10-14</time>
       
     </span>
     <span class="post-meta-item">
@@ -839,114 +299,7 @@
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>1.2k</span>
-    </span>
-    <span class="post-meta-item" title="阅读时长">
-      <span class="post-meta-item-icon">
-        <i class="far fa-clock"></i>
-      </span>
-      <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>4 分钟</span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>随着互联网的快速发展，有时我们需要一个能快速、稳定且安全地存取和分享文件的在线服务。可能你是一个开发者，需要分享你的代码库；也可能你是一名摄影师，想要分享你的作品；或者你只是希望能在不同设备之间方便地存取文件。无论哪种情况，一个Web文件服务都可以满足你的需求。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2018/04/13/%E4%BD%BF%E7%94%A8Nginx%E5%9C%A8%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B8%8A%E5%BC%80%E5%90%AFWeb%E6%96%87%E4%BB%B6%E6%9C%8D%E5%8A%A1/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://blog.vanjay.cn/2017/07/28/%E8%B4%AD%E4%B9%B0BanwagonHOST-VPS%E8%87%AA%E5%BB%BAShadowsocks%E8%AE%B0%E5%BD%95/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/head.png">
-      <meta itemprop="name" content="VanJay">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="VanJay's Blog">
-      <meta itemprop="description" content="成功不是将来才有的<br>而是决定去做的那一刻起<br>持续累积而成">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | VanJay's Blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2017/07/28/%E8%B4%AD%E4%B9%B0BanwagonHOST-VPS%E8%87%AA%E5%BB%BAShadowsocks%E8%AE%B0%E5%BD%95/" class="post-title-link" itemprop="url">购买BanwagonHOST VPS自建Shadowsocks记录</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2017-07-28 00:15:23" itemprop="dateCreated datePublished" datetime="2017-07-28T00:15:23+08:00">2017-07-28</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2023-10-24 12:52:11" itemprop="dateModified" datetime="2023-10-24T12:52:11+08:00">2023-10-24</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/VPN/" itemprop="url" rel="index"><span itemprop="name">VPN</span></a>
-        </span>
-    </span>
-
-  
-    <span class="post-meta-break"></span>
-    <span class="post-meta-item" title="本文字数">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">本文字数：</span>
-      <span>1.3k</span>
+      <span>1.4k</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
@@ -964,13 +317,10 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><blockquote>
-<p>不能畅游墙外没法好好生活和工作</p>
-</blockquote>
-<p>本来手里有着五六个 <code>Shadowsocks</code> 帐号，但体验都不佳，一直也没怎么用，是因为一直使用公司搭建的 <code>Cisco Anyconnect</code>，科学上网后百兆带宽可以满速使用，速度虽快，但是客户端软件默认是全局代理的，虽然可以走<code>IP route list</code>达到和<code>Shadowsocks </code>的<code>PAC</code>同样的作用，但效果慎微，而且<code>IP</code>要自己去填，所以公司<code>IT</code>直接没搞这个<code>route list</code>，因为我们大部分电脑和手机<code>APP</code>都在墙内，这就导致在使用了<code>Cisco Anyconnect</code>后大部分电脑或者手机上的<code>APP</code>网络访问困难，常开<code>VPN</code>还是需要<code>Shadowsocks </code>等可根据 <strong>PAC清单自动代理</strong> 或者 <strong>分应用代理</strong> 的一类软件。</p>
+          <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>前言<br>在现代的web开发中，我们通常会遇到一个很常见的场景，那就是需要在同一台服务器上运行多个服务。例如，你可能有一个API服务运行在3000端口，一个管理面板运行在4000端口，还有一个静态资源服务器运行在5000端口。这种情况下，一个非常实用的解决方案就是使用Nginx的反向代理功能，将这些服务都代理到同一个域名下的不同路径。</p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2017/07/28/%E8%B4%AD%E4%B9%B0BanwagonHOST-VPS%E8%87%AA%E5%BB%BAShadowsocks%E8%AE%B0%E5%BD%95/#more" rel="contents">
+              <a class="btn" href="/2022/10/13/%E4%BD%BF%E7%94%A8%20Nginx%20%E5%B0%86%E5%A4%9A%E4%B8%AA%E6%9C%8D%E5%8A%A1%E4%BB%A3%E7%90%86%E5%88%B0%E5%90%8C%E4%B8%80%E5%9F%9F%E5%90%8D/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -1001,7 +351,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://blog.vanjay.cn/2017/05/03/Wap-APP%E5%BC%80%E5%8F%91%E5%BF%83%E5%BE%97/">
+    <link itemprop="mainEntityOfPage" href="https://blog.vanjay.cn/2022/05/18/Mac-QuickLook%E9%85%8D%E7%BD%AE/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/head.png">
@@ -1019,25 +369,19 @@
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/2017/05/03/Wap-APP%E5%BC%80%E5%8F%91%E5%BF%83%E5%BE%97/" class="post-title-link" itemprop="url">Wap APP开发心得</a>
+          <a href="/2022/05/18/Mac-QuickLook%E9%85%8D%E7%BD%AE/" class="post-title-link" itemprop="url">Mac QuickLook配置</a>
         </h2>
 
         <div class="post-meta-container">
           <div class="post-meta">
+  
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">发表于</span>
 
-      <time title="创建时间：2017-05-03 16:04:57" itemprop="dateCreated datePublished" datetime="2017-05-03T16:04:57+08:00">2017-05-03</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2023-10-24 12:52:11" itemprop="dateModified" datetime="2023-10-24T12:52:11+08:00">2023-10-24</time>
+      <time title="创建时间：2022-05-18 16:15:44" itemprop="dateCreated datePublished" datetime="2022-05-18T16:15:44+08:00">2022-05-18</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -1045,7 +389,7 @@
       </span>
       <span class="post-meta-item-text">分类于</span>
         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/APP%E5%BC%80%E5%8F%91/" itemprop="url" rel="index"><span itemprop="name">APP开发</span></a>
+          <a href="/categories/Mac/" itemprop="url" rel="index"><span itemprop="name">Mac</span></a>
         </span>
     </span>
 
@@ -1056,7 +400,7 @@
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>310</span>
+      <span>408</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
@@ -1074,11 +418,10 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <p>经过了一个多月，加班加点，总算完成基本完成了这个Wap APP，可以作为 Version one 面见客户了，感受不多。</p>
-<p>MUI 结合 Hbuilder 使用 HTML5+ 开发APP整体来说还是挺顺畅的，虽然文档不完整，但是有开发经验的一眼看过去就知道怎么用了，以后做些不是大型的APP或许会成为我的首选。</p>
+          <h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>Mac 上的快速预览功能能很大程度上提高工作效率，系统默认支持一些常规的文件预览，一些第三方的文件就需要自己安装插件，但有些文件名后缀不被插件识别，但我们有时仅仅只是想文本预览，此时可以往第三方插件里添加支持，写此篇文章做个备忘。</p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2017/05/03/Wap-APP%E5%BC%80%E5%8F%91%E5%BF%83%E5%BE%97/#more" rel="contents">
+              <a class="btn" href="/2022/05/18/Mac-QuickLook%E9%85%8D%E7%BD%AE/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -1109,7 +452,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://blog.vanjay.cn/2017/04/15/MUI%20webview%E9%80%89%E9%A1%B9%E5%8D%A1%20%E9%A6%96%E6%AC%A1%E5%8F%AA%E5%8A%A0%E8%BD%BD%E9%A6%96%E9%A1%B5%EF%BC%8C%E7%82%B9%E5%87%BB%E8%A7%A6%E5%8F%91%E6%89%93%E5%BC%80%E9%A1%B5%E9%9D%A2/">
+    <link itemprop="mainEntityOfPage" href="https://blog.vanjay.cn/2021/06/14/CentOS-7-%E4%B8%8B-Docker-%E5%92%8C-Docker-Compose-%E7%9A%84%E5%AE%89%E8%A3%85%E4%B8%8E%E4%BD%BF%E7%94%A8/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/head.png">
@@ -1127,7 +470,7 @@
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/2017/04/15/MUI%20webview%E9%80%89%E9%A1%B9%E5%8D%A1%20%E9%A6%96%E6%AC%A1%E5%8F%AA%E5%8A%A0%E8%BD%BD%E9%A6%96%E9%A1%B5%EF%BC%8C%E7%82%B9%E5%87%BB%E8%A7%A6%E5%8F%91%E6%89%93%E5%BC%80%E9%A1%B5%E9%9D%A2/" class="post-title-link" itemprop="url">MUI webview选项卡 首次只加载首页，点击触发打开页面</a>
+          <a href="/2021/06/14/CentOS-7-%E4%B8%8B-Docker-%E5%92%8C-Docker-Compose-%E7%9A%84%E5%AE%89%E8%A3%85%E4%B8%8E%E4%BD%BF%E7%94%A8/" class="post-title-link" itemprop="url">CentOS 7 下 Docker 和 Docker-Compose 的安装与使用</a>
         </h2>
 
         <div class="post-meta-container">
@@ -1138,7 +481,7 @@
       </span>
       <span class="post-meta-item-text">发表于</span>
 
-      <time title="创建时间：2017-04-15 00:10:03" itemprop="dateCreated datePublished" datetime="2017-04-15T00:10:03+08:00">2017-04-15</time>
+      <time title="创建时间：2021-06-14 01:51:09" itemprop="dateCreated datePublished" datetime="2021-06-14T01:51:09+08:00">2021-06-14</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -1153,7 +496,15 @@
       </span>
       <span class="post-meta-item-text">分类于</span>
         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/JavaScript/" itemprop="url" rel="index"><span itemprop="name">JavaScript</span></a>
+          <a href="/categories/%E6%9C%8D%E5%8A%A1%E5%99%A8/" itemprop="url" rel="index"><span itemprop="name">服务器</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%9C%8D%E5%8A%A1%E5%99%A8/%E5%AE%B9%E5%99%A8%E5%8C%96/" itemprop="url" rel="index"><span itemprop="name">容器化</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%9C%8D%E5%8A%A1%E5%99%A8/%E5%AE%B9%E5%99%A8%E5%8C%96/%E8%BF%90%E7%BB%B4/" itemprop="url" rel="index"><span itemprop="name">运维</span></a>
         </span>
     </span>
 
@@ -1164,7 +515,333 @@
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>519</span>
+      <span>2.4k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>9 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h2 id="需求背景"><a href="#需求背景" class="headerlink" title="需求背景"></a>需求背景</h2><p>随着微服务架构的流行，如何高效、快速地部署和管理各种服务成为了一个问题。传统的部署方式，如手动安装配置环境、手动部署和更新应用，不仅耗费人力物力，而且容易出错，且不易复制和扩展。</p>
+<p>为了解决这个问题，Docker诞生了。Docker是一个开源的应用容器引擎，允许开发者打包他们的应用以及依赖包到一个可移植的容器中，然后发布到任何流行的Linux机器或Windows机器上，也可以实现虚拟化。容器是完全沙盒机制，相互之间不会有任何接口。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/06/14/CentOS-7-%E4%B8%8B-Docker-%E5%92%8C-Docker-Compose-%E7%9A%84%E5%AE%89%E8%A3%85%E4%B8%8E%E4%BD%BF%E7%94%A8/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://blog.vanjay.cn/2021/05/13/%E4%BA%94%E5%88%86%E9%92%9F%E6%90%AD%E5%BB%BA%E4%BD%A0%E7%9A%84%E4%B8%93%E5%B1%9Eocserv%E6%9C%8D%E5%8A%A1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/head.png">
+      <meta itemprop="name" content="VanJay">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="VanJay's Blog">
+      <meta itemprop="description" content="成功不是将来才有的<br>而是决定去做的那一刻起<br>持续累积而成">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | VanJay's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2021/05/13/%E4%BA%94%E5%88%86%E9%92%9F%E6%90%AD%E5%BB%BA%E4%BD%A0%E7%9A%84%E4%B8%93%E5%B1%9Eocserv%E6%9C%8D%E5%8A%A1/" class="post-title-link" itemprop="url">五分钟搭建你的专属ocserv服务</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+  
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2021-05-13 14:30:15" itemprop="dateCreated datePublished" datetime="2021-05-13T14:30:15+08:00">2021-05-13</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2021-06-20 19:20:59" itemprop="dateModified" datetime="2021-06-20T19:20:59+08:00">2021-06-20</time>
+      
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%9C%8D%E5%8A%A1%E5%99%A8/" itemprop="url" rel="index"><span itemprop="name">服务器</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%9C%8D%E5%8A%A1%E5%99%A8/%E8%BF%90%E7%BB%B4/" itemprop="url" rel="index"><span itemprop="name">运维</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>4.5k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>16 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>在天朝，由于互联网审查制度（通常被称为“防火长城”或“GFW”）的存在，一些国际网站和服务（如Google、Facebook、Twitter等）被屏蔽，因此，很多人需要使用VPN（虚拟专用网络）来访问这些被屏蔽的资源。VPN通过创建一个加密的连接，可以使用户的网络流量从审查制度中绕过，从而访问这些资源。作为一名程序员，经常需要翻越全世界的资料，所以，突破GFW是必备技能，但是一定要合法合规使用。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/05/13/%E4%BA%94%E5%88%86%E9%92%9F%E6%90%AD%E5%BB%BA%E4%BD%A0%E7%9A%84%E4%B8%93%E5%B1%9Eocserv%E6%9C%8D%E5%8A%A1/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://blog.vanjay.cn/2020/03/11/iOS-%E4%BD%BF%E7%94%A8-cocoapods-%E7%BB%84%E4%BB%B6%E5%8C%96%E5%BF%83%E5%BE%97%E8%AE%B0%E5%BD%95/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/head.png">
+      <meta itemprop="name" content="VanJay">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="VanJay's Blog">
+      <meta itemprop="description" content="成功不是将来才有的<br>而是决定去做的那一刻起<br>持续累积而成">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | VanJay's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2020/03/11/iOS-%E4%BD%BF%E7%94%A8-cocoapods-%E7%BB%84%E4%BB%B6%E5%8C%96%E5%BF%83%E5%BE%97%E8%AE%B0%E5%BD%95/" class="post-title-link" itemprop="url">iOS 使用 cocoapods 组件化心得记录</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+  
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2020-03-11 20:58:01" itemprop="dateCreated datePublished" datetime="2020-03-11T20:58:01+08:00">2020-03-11</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2021-03-11 20:58:01" itemprop="dateModified" datetime="2021-03-11T20:58:01+08:00">2021-03-11</time>
+      
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/iOS/" itemprop="url" rel="index"><span itemprop="name">iOS</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>2.9k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>10 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>2020年2月10日，在疫情的影响之下，公司只能远程开工，这天算是上班的第一天，上午召开了公司全体员工远程会议，宣贯了一些通知和公司计划。结论是：公司之前做的支付产品“ViPay”暂时停止步伐，转而进军其他领域，从宣贯至今，风头时而有变化，一会儿裁员一会又是做外包的，最后确切消息是要做一个超级 App，有点类似国内的支付宝和美团，所以之前我加了几百个小时班优化的客户端就这样夭折了，但是组件要抽出来做他用，还要为后期做容器接入第三方做准备，折腾了这么多天，记录一些小心得。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/03/11/iOS-%E4%BD%BF%E7%94%A8-cocoapods-%E7%BB%84%E4%BB%B6%E5%8C%96%E5%BF%83%E5%BE%97%E8%AE%B0%E5%BD%95/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://blog.vanjay.cn/2019/08/12/%E4%BC%98%E9%9B%85%E5%BE%97%E5%A4%84%E7%90%86Xcode%E9%A1%B9%E7%9B%AE%E4%B8%AD%E7%9A%84TODO%E3%80%81FIXME/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/head.png">
+      <meta itemprop="name" content="VanJay">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="VanJay's Blog">
+      <meta itemprop="description" content="成功不是将来才有的<br>而是决定去做的那一刻起<br>持续累积而成">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | VanJay's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2019/08/12/%E4%BC%98%E9%9B%85%E5%BE%97%E5%A4%84%E7%90%86Xcode%E9%A1%B9%E7%9B%AE%E4%B8%AD%E7%9A%84TODO%E3%80%81FIXME/" class="post-title-link" itemprop="url">优雅得处理Xcode项目中的TODO、FIXME</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+  
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+        
+      
+
+      <time title="创建时间：2019-08-12 21:52:55 / 修改时间：22:34:08" itemprop="dateCreated datePublished" datetime="2019-08-12T21:52:55+08:00">2019-08-12</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/iOS/" itemprop="url" rel="index"><span itemprop="name">iOS</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>553</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
@@ -1182,11 +859,10 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <p><code>MUI</code> 官方的 <code>Demo</code> 的加载 webview 选项卡的逻辑是一次创建全部的选项卡，只默认显示默认创建的页面，这个页面逻辑没必要这么复杂，扩展性也不强，修改一处多处要修改，我做了简单修改，直接修改数据源，就可以达到更改全部的效果。</p>
-<p>直接上全部代码</p>
+          <h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>在开发过程中，我们都会不时地写一些 <code>// TODO:</code> 和 &#x2F;&#x2F; <code>FIXME:</code> 注释。有时我们这样做是因为我们知道代码可以做得更好，但暂时不确定如何做，有时由于 deadline 而没有时间编写最佳解决方案，而有时我们只是想着手处理更有趣的事情，这时我们只需在代码中标识一个 <code>// TODO:</code> 以便在将来某一天再处理。</p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2017/04/15/MUI%20webview%E9%80%89%E9%A1%B9%E5%8D%A1%20%E9%A6%96%E6%AC%A1%E5%8F%AA%E5%8A%A0%E8%BD%BD%E9%A6%96%E9%A1%B5%EF%BC%8C%E7%82%B9%E5%87%BB%E8%A7%A6%E5%8F%91%E6%89%93%E5%BC%80%E9%A1%B5%E9%9D%A2/#more" rel="contents">
+              <a class="btn" href="/2019/08/12/%E4%BC%98%E9%9B%85%E5%BE%97%E5%A4%84%E7%90%86Xcode%E9%A1%B9%E7%9B%AE%E4%B8%AD%E7%9A%84TODO%E3%80%81FIXME/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -1217,7 +893,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://blog.vanjay.cn/2017/04/11/JavaScript-%E4%B8%BB%E5%8A%A8%E9%80%89%E6%8B%A9-option/">
+    <link itemprop="mainEntityOfPage" href="https://blog.vanjay.cn/2019/07/01/%E5%BD%BB%E5%BA%95%E8%A7%A3%E5%86%B3-iOS-%E5%AF%BC%E8%88%AA%E6%A0%8F%E6%A0%B7%E5%BC%8F%E6%8E%A7%E5%88%B6%E9%97%AE%E9%A2%98/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/head.png">
@@ -1235,7 +911,7 @@
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/2017/04/11/JavaScript-%E4%B8%BB%E5%8A%A8%E9%80%89%E6%8B%A9-option/" class="post-title-link" itemprop="url">JavaScript 主动选择 option</a>
+          <a href="/2019/07/01/%E5%BD%BB%E5%BA%95%E8%A7%A3%E5%86%B3-iOS-%E5%AF%BC%E8%88%AA%E6%A0%8F%E6%A0%B7%E5%BC%8F%E6%8E%A7%E5%88%B6%E9%97%AE%E9%A2%98/" class="post-title-link" itemprop="url">彻底解决 iOS 导航栏样式控制问题</a>
         </h2>
 
         <div class="post-meta-container">
@@ -1246,7 +922,7 @@
       </span>
       <span class="post-meta-item-text">发表于</span>
 
-      <time title="创建时间：2017-04-11 16:13:35" itemprop="dateCreated datePublished" datetime="2017-04-11T16:13:35+08:00">2017-04-11</time>
+      <time title="创建时间：2019-07-01 11:28:16" itemprop="dateCreated datePublished" datetime="2019-07-01T11:28:16+08:00">2019-07-01</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -1261,7 +937,7 @@
       </span>
       <span class="post-meta-item-text">分类于</span>
         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/JavaScript/" itemprop="url" rel="index"><span itemprop="name">JavaScript</span></a>
+          <a href="/categories/iOS-%E5%BC%80%E5%8F%91/" itemprop="url" rel="index"><span itemprop="name">iOS 开发</span></a>
         </span>
     </span>
 
@@ -1272,14 +948,14 @@
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>37</span>
+      <span>5.1k</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>1 分钟</span>
+      <span>19 分钟</span>
     </span>
 </div>
 
@@ -1290,18 +966,338 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <span id="more"></span>
+          <p>做 iOS 开发应该都知道，App 内导航栏样式控制一直是个问题，当 App 复杂起来后，每个界面的导航栏样式可能都不统一，包括背景颜色、是否隐藏导航栏、是否隐藏导航栏底部黑线等，如果前后两个界面样式不一致时，手势返回时（点击返回也会，只是太快不容易注意到），导航栏处就会出现明显的“断层”，极其丑陋，本文就是记录解决该问题，包含 Objective-C 和 Swift 5 的代码。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2019/07/01/%E5%BD%BB%E5%BA%95%E8%A7%A3%E5%86%B3-iOS-%E5%AF%BC%E8%88%AA%E6%A0%8F%E6%A0%B7%E5%BC%8F%E6%8E%A7%E5%88%B6%E9%97%AE%E9%A2%98/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
 
-<p>主动选择 <code>select</code> 中的 <code>option</code></p>
-<pre class="line-numbers language-JavaScript" data-language="JavaScript"><code class="language-JavaScript">&#x2F;&#x2F; 获取默认type
-var defaultType &#x3D; &#39;1&#39;;
-var typeSelect &#x3D; document.getElementById(&quot;type&quot;);
-for(var i &#x3D; 0; i &lt; typeSelect.options.length; i++) &#123;
-	if(typeSelect.options[i].value &#x3D;&#x3D;&#x3D; defaultType) &#123;
-		typeSelect.selectedIndex &#x3D; i;
-		break;
-	&#125;
-&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://blog.vanjay.cn/2019/06/29/%E6%8A%93%E5%8F%96-App-Store%E5%92%8C-Google-Play-%E5%BA%94%E7%94%A8%E8%AF%84%E8%AE%BA%E5%B9%B6%E5%86%99%E5%85%A5-Excel/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/head.png">
+      <meta itemprop="name" content="VanJay">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="VanJay's Blog">
+      <meta itemprop="description" content="成功不是将来才有的<br>而是决定去做的那一刻起<br>持续累积而成">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | VanJay's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2019/06/29/%E6%8A%93%E5%8F%96-App-Store%E5%92%8C-Google-Play-%E5%BA%94%E7%94%A8%E8%AF%84%E8%AE%BA%E5%B9%B6%E5%86%99%E5%85%A5-Excel/" class="post-title-link" itemprop="url">抓取 App Store和 Google Play 应用评论并写入 Excel</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2019-06-29 15:01:27" itemprop="dateCreated datePublished" datetime="2019-06-29T15:01:27+08:00">2019-06-29</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2023-10-24 12:52:11" itemprop="dateModified" datetime="2023-10-24T12:52:11+08:00">2023-10-24</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E7%88%AC%E8%99%AB/" itemprop="url" rel="index"><span itemprop="name">爬虫</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>2.1k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>8 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>这几天开始在利用业余时间用 Swift 5 重写公司项目，继上一次用 Swift 写项目隔了有两年了吧（中间陆续在学习），Swift 变得更加好用了，真是愈发嫌弃 OC，来新公司把所负责的 App 从规范到基础服务再到业务里外优化了一番，算是有所成果了。新项目到写得正 high，组长丢给我一个任务，产品经理需要竞品在 App Store 和 Google Play 的评论数据用于调研，简单实现了一番，趁热打铁，记录一下结果，以便日后需要。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2019/06/29/%E6%8A%93%E5%8F%96-App-Store%E5%92%8C-Google-Play-%E5%BA%94%E7%94%A8%E8%AF%84%E8%AE%BA%E5%B9%B6%E5%86%99%E5%85%A5-Excel/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://blog.vanjay.cn/2019/06/09/UITabBar-%E7%82%B9%E5%87%BB%E5%8A%A8%E7%94%BB%E4%B8%8E%E5%88%87%E6%8D%A2-VC-%E5%8A%A8%E7%94%BB%E5%AE%9E%E7%8E%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/head.png">
+      <meta itemprop="name" content="VanJay">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="VanJay's Blog">
+      <meta itemprop="description" content="成功不是将来才有的<br>而是决定去做的那一刻起<br>持续累积而成">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | VanJay's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2019/06/09/UITabBar-%E7%82%B9%E5%87%BB%E5%8A%A8%E7%94%BB%E4%B8%8E%E5%88%87%E6%8D%A2-VC-%E5%8A%A8%E7%94%BB%E5%AE%9E%E7%8E%B0/" class="post-title-link" itemprop="url">UITabBar 点击动画与切换 VC 动画实现</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2019-06-09 15:15:25" itemprop="dateCreated datePublished" datetime="2019-06-09T15:15:25+08:00">2019-06-09</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2023-10-24 12:52:11" itemprop="dateModified" datetime="2023-10-24T12:52:11+08:00">2023-10-24</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/iOS-%E5%BC%80%E5%8F%91/" itemprop="url" rel="index"><span itemprop="name">iOS 开发</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>513</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>2 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <blockquote>
+<p>假如一个 APP 能带来良好的交互体验，那么它一定是”活的”。</p>
+</blockquote>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2019/06/09/UITabBar-%E7%82%B9%E5%87%BB%E5%8A%A8%E7%94%BB%E4%B8%8E%E5%88%87%E6%8D%A2-VC-%E5%8A%A8%E7%94%BB%E5%AE%9E%E7%8E%B0/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://blog.vanjay.cn/2019/04/01/cocoapods-%E7%A7%81%E6%9C%89%E5%BA%93%E7%9A%84%E6%90%AD%E5%BB%BA%E5%92%8C%E4%BD%BF%E7%94%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/head.png">
+      <meta itemprop="name" content="VanJay">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="VanJay's Blog">
+      <meta itemprop="description" content="成功不是将来才有的<br>而是决定去做的那一刻起<br>持续累积而成">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | VanJay's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2019/04/01/cocoapods-%E7%A7%81%E6%9C%89%E5%BA%93%E7%9A%84%E6%90%AD%E5%BB%BA%E5%92%8C%E4%BD%BF%E7%94%A8/" class="post-title-link" itemprop="url">cocoapods 私有库的搭建和使用</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2019-04-01 10:17:32" itemprop="dateCreated datePublished" datetime="2019-04-01T10:17:32+08:00">2019-04-01</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2023-10-24 12:52:11" itemprop="dateModified" datetime="2023-10-24T12:52:11+08:00">2023-10-24</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/iOS/" itemprop="url" rel="index"><span itemprop="name">iOS</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>1.5k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>6 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p><code>cocoapods</code>是非常好用的一个iOS 依赖管理工具，使用它可以方便的管理和更新项目中所使用到的第三方库，以及将自己的项目中的公共组件交由它去管理，实现工程组件化。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2019/04/01/cocoapods-%E7%A7%81%E6%9C%89%E5%BA%93%E7%9A%84%E6%90%AD%E5%BB%BA%E5%92%8C%E4%BD%BF%E7%94%A8/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -1320,7 +1316,7 @@ for(var i &#x3D; 0; i &lt; typeSelect.options.length; i++) &#123;
 
 
   <nav class="pagination">
-    <a class="extend prev" rel="prev" title="上一页" aria-label="上一页" href="/page/3/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" title="下一页" aria-label="下一页" href="/page/5/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" title="上一页" aria-label="上一页" href="/page/3/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" title="下一页" aria-label="下一页" href="/page/5/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 </div>
@@ -1332,7 +1328,7 @@ for(var i &#x3D; 0; i &lt; typeSelect.options.length; i++) &#123;
 
 <div class="copyright">
   &copy; 2013 – 
-  <span itemprop="copyrightYear">2025</span>
+  <span itemprop="copyrightYear">2026</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
@@ -1343,13 +1339,13 @@ for(var i &#x3D; 0; i &lt; typeSelect.options.length; i++) &#123;
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-line"></i>
     </span>
-    <span title="站点总字数">74k</span>
+    <span title="站点总字数">108k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">4:31</span>
+    <span title="站点阅读时长">6:33</span>
   </span>
 </div>
 <div class="busuanzi-count">

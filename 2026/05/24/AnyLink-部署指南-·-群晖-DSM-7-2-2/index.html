@@ -1,0 +1,991 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic%7CRoboto+Slab:300,300italic,400,400italic,700,700italic%7CPT+Mono:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css" integrity="sha256-Vzbj7sDDS/woiFS3uNKo8eIuni59rjyNGtXfstRzStA=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"blog.vanjay.cn","root":"/","images":"/images","scheme":"Mist","darkmode":false,"version":"8.16.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":"mac"},"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="基于 Docker 容器部署 AnyLink VPN 服务，支持 Cisco AnyConnect 协议客户端接入。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="AnyLink 部署指南 · 群晖 DSM 7.2.2">
+<meta property="og:url" content="https://blog.vanjay.cn/2026/05/24/AnyLink-%E9%83%A8%E7%BD%B2%E6%8C%87%E5%8D%97-%C2%B7-%E7%BE%A4%E6%99%96-DSM-7-2-2/index.html">
+<meta property="og:site_name" content="VanJay&#39;s Blog">
+<meta property="og:description" content="基于 Docker 容器部署 AnyLink VPN 服务，支持 Cisco AnyConnect 协议客户端接入。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2026-05-24T14:56:40.000Z">
+<meta property="article:modified_time" content="2026-05-26T06:44:39.523Z">
+<meta property="article:author" content="VanJay">
+<meta property="article:tag" content="anylink">
+<meta property="article:tag" content="vpn">
+<meta property="article:tag" content="群晖">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://blog.vanjay.cn/2026/05/24/AnyLink-%E9%83%A8%E7%BD%B2%E6%8C%87%E5%8D%97-%C2%B7-%E7%BE%A4%E6%99%96-DSM-7-2-2/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://blog.vanjay.cn/2026/05/24/AnyLink-%E9%83%A8%E7%BD%B2%E6%8C%87%E5%8D%97-%C2%B7-%E7%BE%A4%E6%99%96-DSM-7-2-2/","path":"2026/05/24/AnyLink-部署指南-·-群晖-DSM-7-2-2/","title":"AnyLink 部署指南 · 群晖 DSM 7.2.2"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>AnyLink 部署指南 · 群晖 DSM 7.2.2 | VanJay's Blog</title>
+  
+
+  <script src="/js/third-party/analytics/baidu-analytics.js"></script>
+  <script async src="https://hm.baidu.com/hm.js?dcbe579f2b53b3adfd4034b7acee5785"></script>
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="VanJay's Blog" type="application/atom+xml">
+<link rel="alternate" href="/rss2.xml" title="VanJay's Blog" type="application/rss+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">VanJay's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">一个爱折腾工程师的全栈梦</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="home fa-fw"></i>首页</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-commonweal"><a href="/404.html" rel="section"><i class="heartbeat fa-fw"></i>公益 404</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="user fa-fw"></i>关于</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%8E%AF%E5%A2%83%E4%BF%A1%E6%81%AF"><span class="nav-number">1.</span> <span class="nav-text">环境信息</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%8D%E7%BD%AE%E5%87%86%E5%A4%87"><span class="nav-number">2.</span> <span class="nav-text">前置准备</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E5%90%AF%E7%94%A8-SSH"><span class="nav-number">2.1.</span> <span class="nav-text">1. 启用 SSH</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E5%AE%89%E8%A3%85-Container-Manager"><span class="nav-number">2.2.</span> <span class="nav-text">2. 安装 Container Manager</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E7%A1%AE%E8%AE%A4%E5%86%85%E6%A0%B8%E6%A8%A1%E5%9D%97"><span class="nav-number">2.3.</span> <span class="nav-text">3. 确认内核模块</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84"><span class="nav-number">3.</span> <span class="nav-text">目录结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#docker-compose-yml"><span class="nav-number">4.</span> <span class="nav-text">docker-compose.yml</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#server-toml-%E5%85%B3%E9%94%AE%E9%85%8D%E7%BD%AE"><span class="nav-number">5.</span> <span class="nav-text">server.toml 关键配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#HAProxy-%E9%85%8D%E7%BD%AE%EF%BC%88%E5%8F%AF%E9%80%89%EF%BC%89"><span class="nav-number">6.</span> <span class="nav-text">HAProxy 配置（可选）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%90%AF%E5%8A%A8%E6%9C%8D%E5%8A%A1"><span class="nav-number">7.</span> <span class="nav-text">启动服务</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BD%91%E7%BB%9C%E9%85%8D%E7%BD%AE%EF%BC%88%E5%85%B3%E9%94%AE%E6%AD%A5%E9%AA%A4%EF%BC%89"><span class="nav-number">8.</span> <span class="nav-text">网络配置（关键步骤）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%97%AE%E9%A2%98%E5%88%86%E6%9E%90"><span class="nav-number">8.1.</span> <span class="nav-text">问题分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%BF%E4%B8%BB%E6%9C%BA-iptables-%E8%A7%84%E5%88%99"><span class="nav-number">8.2.</span> <span class="nav-text">宿主机 iptables 规则</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%B9%E5%99%A8%E5%86%85-iptables-%E8%A7%84%E5%88%99%EF%BC%88%E5%85%B3%E9%94%AE%EF%BC%89"><span class="nav-number">8.3.</span> <span class="nav-text">容器内 iptables 规则（关键）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%80%E6%9C%BA%E8%87%AA%E5%90%AF%E4%BB%BB%E5%8A%A1"><span class="nav-number">9.</span> <span class="nav-text">开机自启任务</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%AA%8C%E8%AF%81"><span class="nav-number">10.</span> <span class="nav-text">验证</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A3%80%E6%9F%A5%E6%9C%8D%E5%8A%A1%E7%8A%B6%E6%80%81"><span class="nav-number">10.1.</span> <span class="nav-text">检查服务状态</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A3%80%E6%9F%A5%E8%A7%84%E5%88%99%E6%98%AF%E5%90%A6%E7%94%9F%E6%95%88"><span class="nav-number">10.2.</span> <span class="nav-text">检查规则是否生效</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BD%91%E7%BB%9C%E8%BF%9E%E9%80%9A%E6%80%A7%E6%B5%8B%E8%AF%95"><span class="nav-number">10.3.</span> <span class="nav-text">网络连通性测试</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%A2%E6%88%B7%E7%AB%AF%E8%BF%9E%E6%8E%A5"><span class="nav-number">11.</span> <span class="nav-text">客户端连接</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AE%A1%E7%90%86%E9%9D%A2%E6%9D%BF"><span class="nav-number">12.</span> <span class="nav-text">管理面板</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98"><span class="nav-number">13.</span> <span class="nav-text">常见问题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#tun-%E6%A8%A1%E5%9D%97%E6%9C%AA%E5%8A%A0%E8%BD%BD"><span class="nav-number">13.1.</span> <span class="nav-text">tun 模块未加载</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BF%9E%E6%8E%A5%E6%88%90%E5%8A%9F%E4%BD%86%E6%97%A0%E6%B3%95%E4%B8%8A%E7%BD%91"><span class="nav-number">13.2.</span> <span class="nav-text">连接成功但无法上网</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#iptables-nf-tables-%E8%AD%A6%E5%91%8A"><span class="nav-number">13.3.</span> <span class="nav-text">iptables nf_tables 警告</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#proxy-protocol-%E5%AF%BC%E8%87%B4%E8%BF%9E%E6%8E%A5%E5%A4%B1%E8%B4%A5"><span class="nav-number">13.4.</span> <span class="nav-text">proxy_protocol 导致连接失败</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%98%B2%E7%81%AB%E5%A2%99%E6%94%BE%E8%A1%8C"><span class="nav-number">14.</span> <span class="nav-text">防火墙放行</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="VanJay"
+      src="/images/head.png">
+  <p class="site-author-name" itemprop="name">VanJay</p>
+  <div class="site-description" itemprop="description">成功不是将来才有的<br>而是决定去做的那一刻起<br>持续累积而成</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">75</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">42</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">153</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/wangwanjie" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wangwanjie" rel="noopener me" target="_blank"><i class="github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/wangwanjie" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;wangwanjie" rel="noopener me" target="_blank"><i class="twitter fa-fw"></i>Twitter</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="http://www.weibo.com/2406245873/profile?topnav=1&wvr=6" title="微博 → http:&#x2F;&#x2F;www.weibo.com&#x2F;2406245873&#x2F;profile?topnav&#x3D;1&amp;wvr&#x3D;6" rel="noopener me" target="_blank"><i class="weibo fa-fw"></i>微博</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.facebook.com/wangwanjie123" title="Facebook → https:&#x2F;&#x2F;www.facebook.com&#x2F;wangwanjie123" rel="noopener me" target="_blank"><i class="facebook fa-fw"></i>Facebook</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="http://wpa.qq.com/msgrd?v=3&uin=396736694&site=qq&menu=yes" title="QQ → http:&#x2F;&#x2F;wpa.qq.com&#x2F;msgrd?v&#x3D;3&amp;uin&#x3D;396736694&amp;site&#x3D;qq&amp;menu&#x3D;yes" rel="noopener me" target="_blank"><i class="qq fa-fw"></i>QQ</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:vanjay,dev@gmail.com" title="E-Mail → mailto:vanjay,dev@gmail.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="sidebar-inner sidebar-blogroll">
+      <div class="links-of-blogroll animated">
+        <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+          链接
+        </div>
+        <ul class="links-of-blogroll-list">
+            <li class="links-of-blogroll-item">
+              <a href="https://www.vanjay.cn/" title="https:&#x2F;&#x2F;www.vanjay.cn" rel="noopener" target="_blank">VanJay</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://boxueio.com/" title="https:&#x2F;&#x2F;boxueio.com" rel="noopener" target="_blank">泊学网</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="http://www.smartisan.com/" title="http:&#x2F;&#x2F;www.smartisan.com&#x2F;" rel="noopener" target="_blank">锤子科技</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://objccn.io/" title="https:&#x2F;&#x2F;objccn.io&#x2F;" rel="noopener" target="_blank">ObjC中国</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://github.com/apple/swift-evolution" title="https:&#x2F;&#x2F;github.com&#x2F;apple&#x2F;swift-evolution" rel="noopener" target="_blank">Swift evolution</a>
+            </li>
+        </ul>
+      </div>
+    </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://blog.vanjay.cn/2026/05/24/AnyLink-%E9%83%A8%E7%BD%B2%E6%8C%87%E5%8D%97-%C2%B7-%E7%BE%A4%E6%99%96-DSM-7-2-2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/head.png">
+      <meta itemprop="name" content="VanJay">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="VanJay's Blog">
+      <meta itemprop="description" content="成功不是将来才有的<br>而是决定去做的那一刻起<br>持续累积而成">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="AnyLink 部署指南 · 群晖 DSM 7.2.2 | VanJay's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          AnyLink 部署指南 · 群晖 DSM 7.2.2
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2026-05-24 22:56:40" itemprop="dateCreated datePublished" datetime="2026-05-24T22:56:40+08:00">2026-05-24</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2026-05-26 14:44:39" itemprop="dateModified" datetime="2026-05-26T14:44:39+08:00">2026-05-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/VPN/" itemprop="url" rel="index"><span itemprop="name">VPN</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/VPN/%E8%BF%90%E7%BB%B4/" itemprop="url" rel="index"><span itemprop="name">运维</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/VPN/%E8%BF%90%E7%BB%B4/%E7%BE%A4%E6%99%96/" itemprop="url" rel="index"><span itemprop="name">群晖</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>1.5k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>5 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><blockquote>
+<p>基于 Docker 容器部署 AnyLink VPN 服务，支持 Cisco AnyConnect 协议客户端接入。</p>
+</blockquote>
+<span id="more"></span>
+
+<h2 id="环境信息"><a href="#环境信息" class="headerlink" title="环境信息"></a>环境信息</h2><table>
+<thead>
+<tr>
+<th>项目</th>
+<th>值</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>系统</td>
+<td>群晖 DSM 7.2.2</td>
+</tr>
+<tr>
+<td>机型</td>
+<td>SA6400</td>
+</tr>
+<tr>
+<td>群晖 IP</td>
+<td>192.168.18.8</td>
+</tr>
+<tr>
+<td>物理出口网卡</td>
+<td>ovs_eth4</td>
+</tr>
+<tr>
+<td>VPN 客户端网段</td>
+<td>192.168.90.0&#x2F;24</td>
+</tr>
+<tr>
+<td>VPN 网关</td>
+<td>192.168.90.1</td>
+</tr>
+<tr>
+<td>客户端 IP 范围</td>
+<td>192.168.90.100 ~ 192.168.90.200</td>
+</tr>
+<tr>
+<td>对外端口</td>
+<td>4436（TCP&#x2F;UDP）</td>
+</tr>
+<tr>
+<td>管理面板端口</td>
+<td>8809</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="前置准备"><a href="#前置准备" class="headerlink" title="前置准备"></a>前置准备</h2><h3 id="1-启用-SSH"><a href="#1-启用-SSH" class="headerlink" title="1. 启用 SSH"></a>1. 启用 SSH</h3><p>控制面板 → 终端机与 SNMP → 启用 SSH 功能</p>
+<h3 id="2-安装-Container-Manager"><a href="#2-安装-Container-Manager" class="headerlink" title="2. 安装 Container Manager"></a>2. 安装 Container Manager</h3><p>套件中心 → 搜索 <strong>Container Manager</strong> → 安装</p>
+<h3 id="3-确认内核模块"><a href="#3-确认内核模块" class="headerlink" title="3. 确认内核模块"></a>3. 确认内核模块</h3><p>SSH 登录群晖后执行：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">lsmod <span class="token operator">|</span> <span class="token function">grep</span> tun<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>如无输出则手动加载：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">sudo</span> modprobe tun<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<hr>
+<h2 id="目录结构"><a href="#目录结构" class="headerlink" title="目录结构"></a>目录结构</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">mkdir</span> <span class="token parameter variable">-p</span> /volume1/docker/anylink/<span class="token punctuation">&#123;</span>conf,log<span class="token punctuation">&#125;</span>
+<span class="token builtin class-name">cd</span> /volume1/docker/anylink<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<p>最终结构：</p>
+<pre class="line-numbers language-none"><code class="language-none">&#x2F;volume1&#x2F;docker&#x2F;anylink&#x2F;
+├── docker-compose.yml
+├── conf&#x2F;
+│   ├── server.toml
+│   ├── anylink.db
+│   ├── profile.xml
+│   ├── client_ca.pem
+│   ├── client_ca.key
+│   ├── files&#x2F;
+│   └── cert&#x2F;
+│       ├── anylink.ddns.vanjay.cn.pem
+│       └── anylink.ddns.vanjay.cn.key
+└── log&#x2F;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<hr>
+<h2 id="docker-compose-yml"><a href="#docker-compose-yml" class="headerlink" title="docker-compose.yml"></a>docker-compose.yml</h2><pre class="line-numbers language-yaml" data-language="yaml"><code class="language-yaml"><span class="token key atrule">services</span><span class="token punctuation">:</span>
+  <span class="token key atrule">anylink</span><span class="token punctuation">:</span>
+    <span class="token key atrule">image</span><span class="token punctuation">:</span> bjdgyc/anylink<span class="token punctuation">:</span>latest
+    <span class="token key atrule">container_name</span><span class="token punctuation">:</span> anylink
+    <span class="token key atrule">restart</span><span class="token punctuation">:</span> unless<span class="token punctuation">-</span>stopped
+    <span class="token key atrule">privileged</span><span class="token punctuation">:</span> <span class="token boolean important">true</span>
+    <span class="token comment"># cpus: 2</span>
+    <span class="token comment"># mem_limit: 4g</span>
+    <span class="token key atrule">ports</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> 4436<span class="token punctuation">:</span><span class="token number">443</span>
+      <span class="token punctuation">-</span> 8809<span class="token punctuation">:</span><span class="token number">8800</span>
+      <span class="token punctuation">-</span> 4436<span class="token punctuation">:</span>443/udp
+    <span class="token key atrule">environment</span><span class="token punctuation">:</span>
+      <span class="token key atrule">LINK_LOG_LEVEL</span><span class="token punctuation">:</span> info
+    <span class="token key atrule">command</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> <span class="token punctuation">-</span><span class="token punctuation">-</span>conf=/app/conf/server.toml
+    <span class="token key atrule">volumes</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> ./conf<span class="token punctuation">:</span>/app/conf
+      <span class="token punctuation">-</span> ./log<span class="token punctuation">:</span>/app/log
+    <span class="token key atrule">dns_search</span><span class="token punctuation">:</span> .<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<hr>
+<h2 id="server-toml-关键配置"><a href="#server-toml-关键配置" class="headerlink" title="server.toml 关键配置"></a>server.toml 关键配置</h2><pre class="line-numbers language-toml" data-language="toml"><code class="language-toml"><span class="token comment"># 其他配置文件,可以使用绝对路径</span>
+<span class="token comment"># 或者相对于 anylink 二进制文件的路径</span>
+
+<span class="token comment"># 数据文件</span>
+<span class="token key property">db_type</span> <span class="token punctuation">=</span> <span class="token string">"sqlite3"</span>
+<span class="token key property">db_source</span> <span class="token punctuation">=</span> <span class="token string">"./conf/anylink.db"</span>
+<span class="token comment"># 证书文件</span>
+<span class="token key property">cert_file</span> <span class="token punctuation">=</span> <span class="token string">"./conf/cert/anylink.ddns.vanjay.cn.pem"</span>
+<span class="token key property">cert_key</span> <span class="token punctuation">=</span> <span class="token string">"./conf/cert/anylink.ddns.vanjay.cn.key"</span>
+<span class="token key property">profile</span> <span class="token punctuation">=</span> <span class="token string">"./conf/profile.xml"</span>
+<span class="token key property">files_path</span> <span class="token punctuation">=</span> <span class="token string">"./conf/files"</span>
+<span class="token comment"># 日志目录,为空写入标准输出</span>
+<span class="token key property">log_path</span> <span class="token punctuation">=</span> <span class="token string">"./log"</span> <span class="token comment"># 添加日志文件路径</span>
+<span class="token key property">log_level</span> <span class="token punctuation">=</span> <span class="token string">"info"</span> <span class="token comment"># 修改日志等级为info</span>
+
+<span class="token comment"># 系统名称</span>
+<span class="token key property">issuer</span> <span class="token punctuation">=</span> <span class="token string">"VanJay's Home VPN"</span>
+<span class="token comment"># 后台管理用户</span>
+<span class="token key property">admin_user</span> <span class="token punctuation">=</span> <span class="token string">"VanJay"</span>
+<span class="token key property">admin_pass</span> <span class="token punctuation">=</span> <span class="token string">"$2a$10$Jkfxxxxxxxx"</span>
+<span class="token comment"># 留空表示不开启 otp, 开启otp后密码为  pass + 6位otp</span>
+<span class="token comment"># 生成 ./anylink tool -o</span>
+<span class="token key property">admin_otp</span> <span class="token punctuation">=</span> <span class="token string">""</span>
+<span class="token key property">jwt_secret</span> <span class="token punctuation">=</span> <span class="token string">"njKSeDiwKnypaFjepvVBUxxxxxxx"</span>
+
+<span class="token comment"># 服务监听地址</span>
+<span class="token comment"># server_addr = "443"</span>
+<span class="token comment"># 开启 DTLS, 默认关闭</span>
+<span class="token comment"># server_dtls = false</span>
+<span class="token comment"># server_dtls_addr = "443"</span>
+<span class="token comment"># 后台服务监听地址</span>
+<span class="token comment"># admin_addr = ":8800"</span>
+<span class="token comment"># 开启tcp proxy protocol协议</span>
+<span class="token key property">proxy_protocol</span> <span class="token punctuation">=</span> <span class="token boolean">true</span>
+
+<span class="token comment"># 网络模式，只演示该模式，其他模式请自行参考github</span>
+<span class="token key property">link_mode</span> <span class="token punctuation">=</span> <span class="token string">"tun"</span>
+
+<span class="token comment"># 客户端分配的ip地址池，docker 部署不需要</span>
+<span class="token comment"># ipv4_master = "eth0"</span>
+<span class="token comment"># ipv4_cidr = "192.168.100.0/24"</span>
+<span class="token comment"># pv4_gateway = "192.168.100.1"</span>
+<span class="token comment"># ipv4_start = "192.168.100.100"</span>
+<span class="token comment"># ipv4_end = "192.168.100.200"</span>
+
+<span class="token comment"># 最大客户端数量</span>
+<span class="token key property">max_client</span> <span class="token punctuation">=</span> <span class="token number">100</span>
+<span class="token comment"># 单个用户同时在线数量</span>
+<span class="token key property">max_user_client</span> <span class="token punctuation">=</span> <span class="token number">8</span>
+<span class="token comment"># IP租期(秒)</span>
+<span class="token key property">ip_lease</span> <span class="token punctuation">=</span> <span class="token number">86400</span>
+
+<span class="token comment"># 默认选择的组</span>
+<span class="token key property">default_group</span> <span class="token punctuation">=</span> <span class="token string">"vip"</span>
+
+<span class="token comment"># 客户端失效检测时间(秒) dpd > keepalive</span>
+<span class="token key property">cstp_keepalive</span> <span class="token punctuation">=</span> <span class="token number">25</span>
+<span class="token key property">cstp_dpd</span> <span class="token punctuation">=</span> <span class="token number">30</span>
+<span class="token key property">mobile_keepalive</span> <span class="token punctuation">=</span> <span class="token number">85</span>
+<span class="token key property">mobile_dpd</span> <span class="token punctuation">=</span> <span class="token number">90</span>
+
+<span class="token comment"># 设置最大传输单元</span>
+<span class="token key property">mtu</span> <span class="token punctuation">=</span> <span class="token number">1460</span>
+
+<span class="token comment"># 要发布的默认域，可以多个，空格隔开</span>
+<span class="token key property">default_domain</span> <span class="token punctuation">=</span> <span class="token string">"anylink.ddns.vanjay.cn"</span>
+
+<span class="token comment"># session过期时间，用于断线重连，0永不过期</span>
+<span class="token key property">session_timeout</span> <span class="token punctuation">=</span> <span class="token number">0</span>
+<span class="token key property">auth_timeout</span> <span class="token punctuation">=</span> <span class="token number">0</span>
+<span class="token comment"># 审计去重间隔（秒），-1代表关闭审计日志</span>
+<span class="token key property">audit_interval</span> <span class="token punctuation">=</span> <span class="token number">600</span>
+
+<span class="token key property">show_sql</span> <span class="token punctuation">=</span> <span class="token boolean">false</span>
+
+<span class="token comment"># 是否自动添加nat</span>
+<span class="token key property">iptables_nat</span> <span class="token punctuation">=</span> <span class="token boolean">true</span>
+
+<span class="token comment"># 启用压缩</span>
+<span class="token key property">compression</span> <span class="token punctuation">=</span> <span class="token boolean">false</span>
+<span class="token comment"># 低于及等于多少字节不压缩</span>
+<span class="token key property">no_compress_limit</span> <span class="token punctuation">=</span> <span class="token number">256</span>
+
+<span class="token comment"># 客户端显示详细错误信息(线上环境慎开启)</span>
+<span class="token key property">display_error</span> <span class="token punctuation">=</span> <span class="token boolean">false</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<hr>
+<h2 id="HAProxy-配置（可选）"><a href="#HAProxy-配置（可选）" class="headerlink" title="HAProxy 配置（可选）"></a>HAProxy 配置（可选）</h2><p>如果群晖上运行了 HAProxy 做前置代理，backend 配置如下：</p>
+<pre class="line-numbers language-none"><code class="language-none">backend anylink
+    mode tcp
+    option ssl-hello-chk
+    server anylink 127.0.0.1:4436 send-proxy-v2 check-send-proxy<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
+<blockquote>
+<p>使用 <code>send-proxy-v2</code> 时，<code>server.toml</code> 中必须设置 <code>proxy_protocol = true</code>，否则客户端无法连接。</p>
+</blockquote>
+<hr>
+<h2 id="启动服务"><a href="#启动服务" class="headerlink" title="启动服务"></a>启动服务</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token builtin class-name">cd</span> /volume3/MyDocker/anylink
+<span class="token function">docker</span> compose up <span class="token parameter variable">-d</span>
+
+<span class="token comment"># 查看日志</span>
+<span class="token function">docker</span> logs <span class="token parameter variable">-f</span> anylink<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<hr>
+<h2 id="网络配置（关键步骤）"><a href="#网络配置（关键步骤）" class="headerlink" title="网络配置（关键步骤）"></a>网络配置（关键步骤）</h2><p>群晖 Docker 环境下，VPN 流量需要手动处理两层 NAT：</p>
+<h3 id="问题分析"><a href="#问题分析" class="headerlink" title="问题分析"></a>问题分析</h3><pre class="line-numbers language-none"><code class="language-none">手机 → HAProxy → anylink容器(tun0) → 容器eth0 → 宿主机网桥 → ovs_eth4 → 公网<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<ul>
+<li><strong>容器内</strong>：需要 MASQUERADE，将 VPN 客户端 IP（<code>192.168.90.x</code>）转换为容器 eth0 IP</li>
+<li><strong>宿主机</strong>：需要 FORWARD 放行 + MASQUERADE，将容器 IP 转换为群晖物理 IP 出公网</li>
+</ul>
+<h3 id="宿主机-iptables-规则"><a href="#宿主机-iptables-规则" class="headerlink" title="宿主机 iptables 规则"></a>宿主机 iptables 规则</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 放行 VPN 客户端流量转发</span>
+iptables <span class="token parameter variable">-I</span> FORWARD <span class="token parameter variable">-s</span> <span class="token number">192.168</span>.90.0/24 <span class="token parameter variable">-j</span> ACCEPT
+iptables <span class="token parameter variable">-I</span> FORWARD <span class="token parameter variable">-d</span> <span class="token number">192.168</span>.90.0/24 <span class="token parameter variable">-j</span> ACCEPT
+
+<span class="token comment"># 出口 NAT（注意：出口网卡是 ovs_eth4，不是 eth0）</span>
+iptables <span class="token parameter variable">-t</span> nat <span class="token parameter variable">-A</span> POSTROUTING <span class="token parameter variable">-s</span> <span class="token number">192.168</span>.90.0/24 <span class="token parameter variable">-o</span> ovs_eth4 <span class="token parameter variable">-j</span> MASQUERADE<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="容器内-iptables-规则（关键）"><a href="#容器内-iptables-规则（关键）" class="headerlink" title="容器内 iptables 规则（关键）"></a>容器内 iptables 规则（关键）</h3><blockquote>
+<p>anylink 的 <code>iptables_nat = true</code> 在群晖环境下不会自动生效（legacy&#x2F;nftables 冲突），必须手动添加：</p>
+</blockquote>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">docker</span> <span class="token builtin class-name">exec</span> anylink iptables-legacy <span class="token parameter variable">-t</span> nat <span class="token parameter variable">-A</span> POSTROUTING <span class="token punctuation">\</span>
+  <span class="token parameter variable">-s</span> <span class="token number">192.168</span>.90.0/24 <span class="token parameter variable">-o</span> eth0 <span class="token parameter variable">-j</span> MASQUERADE<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<hr>
+<h2 id="开机自启任务"><a href="#开机自启任务" class="headerlink" title="开机自启任务"></a>开机自启任务</h2><p>群晖重启后内核模块和 iptables 规则会全部丢失，需要设置开机任务。</p>
+<p><strong>路径：</strong> 控制面板 → 任务计划 → 新增 → 触发的任务 → 用户定义的脚本</p>
+<ul>
+<li>事件：<strong>开机</strong></li>
+<li>用户：<strong>root</strong></li>
+</ul>
+<p>确定网口</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">root@SA6400 ~$ <span class="token function">ip</span> route <span class="token operator">|</span> <span class="token function">grep</span> default
+default via <span class="token number">192.168</span>.18.1 dev ovs_eth4 src <span class="token number">192.168</span>.18.8<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<p>脚本内容：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token shebang important">#!/bin/bash</span>
+
+<span class="token comment"># 加载内核模块</span>
+modprobe tun
+modprobe iptable_filter
+modprobe iptable_nat
+
+<span class="token comment"># 等待 Docker 和容器启动</span>
+<span class="token function">sleep</span> <span class="token number">30</span>
+
+<span class="token comment"># 宿主机 iptables 规则</span>
+iptables <span class="token parameter variable">-I</span> FORWARD <span class="token parameter variable">-s</span> <span class="token number">192.168</span>.90.0/24 <span class="token parameter variable">-j</span> ACCEPT
+iptables <span class="token parameter variable">-I</span> FORWARD <span class="token parameter variable">-d</span> <span class="token number">192.168</span>.90.0/24 <span class="token parameter variable">-j</span> ACCEPT
+iptables <span class="token parameter variable">-t</span> nat <span class="token parameter variable">-A</span> POSTROUTING <span class="token parameter variable">-s</span> <span class="token number">192.168</span>.90.0/24 <span class="token parameter variable">-o</span> ovs_eth4 <span class="token parameter variable">-j</span> MASQUERADE
+
+<span class="token comment"># 等容器完全就绪</span>
+<span class="token function">sleep</span> <span class="token number">10</span>
+
+<span class="token comment"># 容器内 NAT 规则（VPN 客户端流量从容器 eth0 出去）</span>
+<span class="token function">docker</span> <span class="token builtin class-name">exec</span> anylink iptables-legacy <span class="token parameter variable">-t</span> nat <span class="token parameter variable">-A</span> POSTROUTING <span class="token punctuation">\</span>
+  <span class="token parameter variable">-s</span> <span class="token number">192.168</span>.90.0/24 <span class="token parameter variable">-o</span> eth0 <span class="token parameter variable">-j</span> MASQUERADE<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<hr>
+<h2 id="验证"><a href="#验证" class="headerlink" title="验证"></a>验证</h2><h3 id="检查服务状态"><a href="#检查服务状态" class="headerlink" title="检查服务状态"></a>检查服务状态</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">docker</span> <span class="token function">ps</span> <span class="token operator">|</span> <span class="token function">grep</span> anylink
+<span class="token function">docker</span> logs anylink <span class="token parameter variable">--tail</span> <span class="token number">20</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<h3 id="检查规则是否生效"><a href="#检查规则是否生效" class="headerlink" title="检查规则是否生效"></a>检查规则是否生效</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 宿主机 NAT</span>
+iptables <span class="token parameter variable">-t</span> nat <span class="token parameter variable">-L</span> POSTROUTING <span class="token parameter variable">-n</span> <span class="token parameter variable">-v</span> <span class="token operator">|</span> <span class="token function">grep</span> <span class="token number">192.168</span>.90
+
+<span class="token comment"># 宿主机 FORWARD</span>
+iptables <span class="token parameter variable">-L</span> FORWARD <span class="token parameter variable">-n</span> <span class="token parameter variable">-v</span> <span class="token operator">|</span> <span class="token function">grep</span> <span class="token number">192.168</span>.90
+
+<span class="token comment"># 容器内 NAT（关键）</span>
+<span class="token function">docker</span> <span class="token builtin class-name">exec</span> anylink iptables-legacy <span class="token parameter variable">-t</span> nat <span class="token parameter variable">-L</span> POSTROUTING <span class="token parameter variable">-n</span> <span class="token parameter variable">-v</span> <span class="token operator">|</span> <span class="token function">grep</span> <span class="token number">192.168</span>.90<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>三条都有输出则配置正确。</p>
+<h3 id="网络连通性测试"><a href="#网络连通性测试" class="headerlink" title="网络连通性测试"></a>网络连通性测试</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 抓包确认 VPN 客户端流量</span>
+tcpdump <span class="token parameter variable">-i</span> any <span class="token parameter variable">-n</span> <span class="token function">host</span> <span class="token number">192.168</span>.90.100
+
+<span class="token comment"># 确认 NAT 出口</span>
+tcpdump <span class="token parameter variable">-i</span> ovs_eth4 <span class="token parameter variable">-n</span> src <span class="token number">192.168</span>.18.8<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<hr>
+<h2 id="客户端连接"><a href="#客户端连接" class="headerlink" title="客户端连接"></a>客户端连接</h2><table>
+<thead>
+<tr>
+<th>平台</th>
+<th>客户端</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>iOS</td>
+<td>App Store 搜索 <strong>Cisco Secure Client</strong></td>
+</tr>
+<tr>
+<td>Android</td>
+<td>Play Store 搜索 <strong>Cisco Secure Client</strong></td>
+</tr>
+<tr>
+<td>macOS</td>
+<td>App Store 搜索 <strong>Cisco Secure Client</strong></td>
+</tr>
+<tr>
+<td>Windows</td>
+<td>下载 Cisco AnyConnect 客户端</td>
+</tr>
+</tbody></table>
+<p>连接地址：<code>anylink.ddns.vanjay.cn:4436</code></p>
+<hr>
+<h2 id="管理面板"><a href="#管理面板" class="headerlink" title="管理面板"></a>管理面板</h2><pre class="line-numbers language-none"><code class="language-none">http:&#x2F;&#x2F;192.168.18.8:8809<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>可查看在线用户、连接状态、IP 分配情况。</p>
+<hr>
+<h2 id="常见问题"><a href="#常见问题" class="headerlink" title="常见问题"></a>常见问题</h2><h3 id="tun-模块未加载"><a href="#tun-模块未加载" class="headerlink" title="tun 模块未加载"></a>tun 模块未加载</h3><pre class="line-numbers language-none"><code class="language-none">[error] Linux module tun is not loaded, please run &#96;modprobe tun&#96;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>解决：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">sudo</span> modprobe tun
+<span class="token function">sudo</span> modprobe iptable_filter
+<span class="token function">sudo</span> modprobe iptable_nat<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="连接成功但无法上网"><a href="#连接成功但无法上网" class="headerlink" title="连接成功但无法上网"></a>连接成功但无法上网</h3><p>最常见原因：容器内缺少 MASQUERADE 规则。执行：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">docker</span> <span class="token builtin class-name">exec</span> anylink iptables-legacy <span class="token parameter variable">-t</span> nat <span class="token parameter variable">-A</span> POSTROUTING <span class="token punctuation">\</span>
+  <span class="token parameter variable">-s</span> <span class="token number">192.168</span>.90.0/24 <span class="token parameter variable">-o</span> eth0 <span class="token parameter variable">-j</span> MASQUERADE<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<h3 id="iptables-nf-tables-警告"><a href="#iptables-nf-tables-警告" class="headerlink" title="iptables nf_tables 警告"></a>iptables nf_tables 警告</h3><pre class="line-numbers language-none"><code class="language-none">iptables v1.8.11 (nf_tables)
+Warning: iptables-legacy tables present<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<p>这是正常现象，只要 <code>docker-compose.yml</code> 中设置了 <code>IPTABLES_LEGACY: &quot;on&quot;</code> 即可忽略。</p>
+<h3 id="proxy-protocol-导致连接失败"><a href="#proxy-protocol-导致连接失败" class="headerlink" title="proxy_protocol 导致连接失败"></a>proxy_protocol 导致连接失败</h3><ul>
+<li>有 HAProxy 前置：<code>proxy_protocol = true</code></li>
+<li>直接暴露端口：<code>proxy_protocol = false</code></li>
+</ul>
+<p>两者不能混用。</p>
+<hr>
+<h2 id="防火墙放行"><a href="#防火墙放行" class="headerlink" title="防火墙放行"></a>防火墙放行</h2><p>控制面板 → 安全性 → 防火墙 → 新增规则：</p>
+<table>
+<thead>
+<tr>
+<th>端口</th>
+<th>协议</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>4436</td>
+<td>TCP</td>
+<td>AnyConnect TLS 连接</td>
+</tr>
+<tr>
+<td>4436</td>
+<td>UDP</td>
+<td>DTLS 加速</td>
+</tr>
+<tr>
+<td>8809</td>
+<td>TCP</td>
+<td>Web 管理面板</td>
+</tr>
+</tbody></table>
+<hr>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="reward-container">
+  <div>对你有帮助？您的支持将更加鼓励我继续创作！</div>
+  <button>
+    打赏
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/images/wechatpay.png" alt="VanJay 微信">
+        <span>微信</span>
+      </div>
+      <div>
+        <img src="/images/alipay.jpg" alt="VanJay 支付宝">
+        <span>支付宝</span>
+      </div>
+
+  </div>
+</div>
+
+          <div class="followme">
+  <span>欢迎关注我的其它发布渠道</span>
+
+  <div class="social-list">
+
+      <div class="social-item">
+          <a target="_blank" class="social-link" href="/atom.xml">
+            <span class="icon">
+              <i class="fa fa-rss"></i>
+            </span>
+
+            <span class="label">RSS</span>
+          </a>
+      </div>
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/anylink/" rel="tag"># anylink</a>
+              <a href="/tags/vpn/" rel="tag"># vpn</a>
+              <a href="/tags/%E7%BE%A4%E6%99%96/" rel="tag"># 群晖</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2026/05/10/PVE-%E5%AE%89%E8%A3%85-Windows-11-Intel-SR-IOV-%E6%98%BE%E5%8D%A1%E7%9B%B4%E9%80%9A-%E2%80%94%E2%80%94-%E5%AE%9E%E6%88%98%E6%80%BB%E7%BB%93/" rel="prev" title="PVE 安装 Windows 11 + Intel SR-IOV 显卡直通 —— 实战总结">
+                  <i class="fa fa-chevron-left"></i> PVE 安装 Windows 11 + Intel SR-IOV 显卡直通 —— 实战总结
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2026/05/24/%E4%BF%AE%E5%A4%8D-Hexo-bad-interpreter-%E9%94%99%E8%AF%AF/" rel="next" title="修复 Hexo bad interpreter 错误">
+                  修复 Hexo bad interpreter 错误 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments" id="lv-container" data-id="city" data-uid="MTAyMC80MDA5MC8xNjYxNw=="></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2013 – 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">&copy VanJay</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">108k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">6:33</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/mist/" rel="noopener" target="_blank">NexT.Mist</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+  <a href="https://github.com/wangwanjie" class="github-corner" title="在 GitHub 上关注我" aria-label="在 GitHub 上关注我" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js" integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js" integrity="sha256-yt2kYMy0w8AbtF89WXb2P1rfjcP/HTHLT7097U8Y5b8=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+  <script src="/js/third-party/fancybox.js"></script>
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script src="/js/third-party/comments/livere.js"></script>
+ <!-- 页面点击小红心 -->
+
+<script type="text/javascript">
+!function(e,t,a){function r(){for(var e=0;e<n.length;e++)n[e].alpha<=0?(t.body.removeChild(n[e].el),n.splice(e,1)):(n[e].y--,n[e].scale+=.004,n[e].alpha-=.013,n[e].el.style.cssText="left:"+n[e].x+"px;top:"+n[e].y+"px;opacity:"+n[e].alpha+";transform:scale("+n[e].scale+","+n[e].scale+") rotate(45deg);background:"+n[e].color+";z-index:99999");requestAnimationFrame(r)}var n=[];e.requestAnimationFrame=e.requestAnimationFrame||e.webkitRequestAnimationFrame||e.mozRequestAnimationFrame||e.oRequestAnimationFrame||e.msRequestAnimationFrame||function(e){setTimeout(e,1e3/60)},function(e){var a=t.createElement("style");a.type="text/css";try{a.appendChild(t.createTextNode(e))}catch(t){a.styleSheet.cssText=e}t.getElementsByTagName("head")[0].appendChild(a)}(".heart{width: 10px;height: 10px;position: fixed;background: #f00;transform: rotate(45deg);-webkit-transform: rotate(45deg);-moz-transform: rotate(45deg);}.heart:after,.heart:before{content: '';width: inherit;height: inherit;background: inherit;border-radius: 50%;-webkit-border-radius: 50%;-moz-border-radius: 50%;position: fixed;}.heart:after{top: -5px;}.heart:before{left: -5px;}"),function(){var a="function"==typeof e.onclick&&e.onclick;e.onclick=function(e){a&&a(),function(e){var a=t.createElement("div");a.className="heart",n.push({el:a,x:e.clientX-5,y:e.clientY-5,scale:1,alpha:1,color:"rgb("+~~(255*Math.random())+","+~~(255*Math.random())+","+~~(255*Math.random())+")"}),t.body.appendChild(a)}(e)}}(),r()}(window,document);
+</script>
+
+
+<script type="text/javascript">
+/*页面载入完成后，修改手机上跳转 github 样式 */
+!function (e, t, a) {
+    var browser = {
+        versions: function () {
+            var u = navigator.userAgent,
+                app = navigator.appVersion;
+            return { //移动终端浏览器版本信息
+                trident: u.indexOf('Trident') > -1, //IE内核
+                presto: u.indexOf('Presto') > -1, //opera内核
+                webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
+                gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
+                mobile: !!u.match(/AppleWebKit.*Mobile.*/), // || !!u.match(/AppleWebKit/), //是否为移动终端
+                ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+                android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
+                iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者QQHD浏览器
+                iPad: u.indexOf('iPad') > -1, //是否iPad
+                webApp: u.indexOf('Safari') == -1
+                //是否web应该程序，没有头部与底部
+            };
+        }(),
+        language: (navigator.browserLanguage || navigator.language).toLowerCase()
+    }
+
+    function setDynamicBackground() {
+        $('body').css({
+            'background': 'url(https://source.unsplash.com/random/1600x900)',
+            'background-attachment': 'fixed',
+            'background-repeat': 'repeat',
+            'background-size': 'contain'
+        });
+        $('.main-inner').css({
+            'margin-top': '60px',
+            'padding': '60px 60px 0px 60px',
+            'background': '#fff',
+            'opacity': '0.8',
+            'min-height': '500px'
+        });
+        $('.page-home .main-inner').css({
+            'padding-bottom': '60px',
+        });
+        $('.header').css({
+            'background': 'transparent',
+            'color': '#fff'
+        });
+        $('.footer').css({
+            'background': 'transparent',
+            'color': '#fff'
+        });
+
+        $('.footer-inner .theme-link').css('color', '#EEE');
+    }
+    function setSquareCellBackground(isMobile) {
+        $('body').css({
+            'background-image': 'url("/images/background_cell.png")',
+            'background-position': 'center center',
+            'background-size': 'auto',
+            'background-repeat': 'repeat',
+            'background-attachment': 'fixed'
+        });
+        if (!isMobile) {
+            $('.main-inner').css({
+                'margin-top': '60px',
+                'padding': '60px 60px 0px 60px',
+                'opacity': '0.8',
+                'min-height': '500px'
+            });
+            $('.page-home .main-inner').css({
+                'padding-bottom': '60px',
+            });
+        }
+        $('.header').css({
+            'background': 'transparent',
+        });
+        $('.footer').css({
+            'background': 'transparent',
+        });
+    }
+    function setMobileBackgroun() {
+        $('.header').css({
+            'background': 'linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("https://s1.ax1x.com/2018/06/09/CbDIIO.jpg") no-repeat',
+            'background-size': 'cover',
+            'background-color': 'black',
+            'background-position': 'center',
+            'width': '100%',
+            'display': 'table'
+        })
+
+        $('.site-nav-toggle .btn-bar').css('background', '#fff');
+    }
+
+    function settingBackground () {
+        if (browser.versions.mobile) {
+            setSquareCellBackground(true);
+        } else {
+            // setDynamicBackground();
+            setSquareCellBackground(false);
+        }
+    }
+    if (browser.versions.mobile) {
+        var headerStr = '<div class="site-nav-toggle">' +
+            '    <button aria-label="切换导航栏">' +
+            '      <span class="btn-bar"></span>' +
+            '      <span class="btn-bar"></span>' +
+            '      <span class="btn-bar"></span>' +
+            '    </button>' +
+            '  </div>' +
+            '  <div class="site-meta ">' +
+            '    <div class="custom-logo-site-title">' +
+            '      <a href="/" class="brand" rel="start" style="opacity: 1;">' +
+            '        <span class="logo-line-before"><i class="" style="transform: translateX(100%);"></i></span>' +
+            '        <span class="site-title" style="opacity: 1; top: 0px;">VanJay\'s Blog</span>' +
+            '        <span class="logo-line-after"><i class="" style="transform: translateX(-100%);"></i></span>' +
+            '      </a>' +
+            '    </div>' +
+            '        <p class="site-subtitle" style="opacity: 1; top: 0px;">一个爱折腾工程师的全栈梦</p>' +
+            '  </div>';
+        $('.header .site-brand-wrapper').html(headerStr);
+    }
+    // 设置背景
+    settingBackground();
+
+}(window, document);
+</script>
+</body>
+</html>
