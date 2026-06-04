@@ -1,0 +1,1088 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic%7CRoboto+Slab:300,300italic,400,400italic,700,700italic%7CPT+Mono:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css" integrity="sha256-Vzbj7sDDS/woiFS3uNKo8eIuni59rjyNGtXfstRzStA=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"blog.vanjay.cn","root":"/","images":"/images","scheme":"Mist","darkmode":false,"version":"8.16.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":"mac"},"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="用 Authelia 给若干站点加「用户名 + 密码 + TOTP」两步验证。适配 Authelia v4.39.20。本文是按本机实际部署整理的可复用手册,在其他设备上照做即可。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Authelia 2FA 部署文档（nginx auth_request + haproxy）">
+<meta property="og:url" content="https://blog.vanjay.cn/2026/06/04/Authelia-2FA-%E9%83%A8%E7%BD%B2%E6%96%87%E6%A1%A3%EF%BC%88nginx-auth-request-haproxy%EF%BC%89/index.html">
+<meta property="og:site_name" content="VanJay&#39;s Blog">
+<meta property="og:description" content="用 Authelia 给若干站点加「用户名 + 密码 + TOTP」两步验证。适配 Authelia v4.39.20。本文是按本机实际部署整理的可复用手册,在其他设备上照做即可。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2026-06-04T11:59:41.000Z">
+<meta property="article:modified_time" content="2026-06-04T12:00:06.481Z">
+<meta property="article:author" content="VanJay">
+<meta property="article:tag" content="Objective-C、Swift、Cocos2d-js、HTML5、React Native、JavaScript、PHP、Python、Java、Flutter">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://blog.vanjay.cn/2026/06/04/Authelia-2FA-%E9%83%A8%E7%BD%B2%E6%96%87%E6%A1%A3%EF%BC%88nginx-auth-request-haproxy%EF%BC%89/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://blog.vanjay.cn/2026/06/04/Authelia-2FA-%E9%83%A8%E7%BD%B2%E6%96%87%E6%A1%A3%EF%BC%88nginx-auth-request-haproxy%EF%BC%89/","path":"2026/06/04/Authelia-2FA-部署文档（nginx-auth-request-haproxy）/","title":"Authelia 2FA 部署文档（nginx auth_request + haproxy）"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Authelia 2FA 部署文档（nginx auth_request + haproxy） | VanJay's Blog</title>
+  
+
+  <script src="/js/third-party/analytics/baidu-analytics.js"></script>
+  <script async src="https://hm.baidu.com/hm.js?dcbe579f2b53b3adfd4034b7acee5785"></script>
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="VanJay's Blog" type="application/atom+xml">
+<link rel="alternate" href="/rss2.xml" title="VanJay's Blog" type="application/rss+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">VanJay's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">一个爱折腾工程师的全栈梦</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="home fa-fw"></i>首页</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-commonweal"><a href="/404.html" rel="section"><i class="heartbeat fa-fw"></i>公益 404</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="user fa-fw"></i>关于</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E6%9E%B6%E6%9E%84%E4%B8%8E%E5%8E%9F%E7%90%86"><span class="nav-number">1.</span> <span class="nav-text">1. 架构与原理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%97%E4%BF%9D%E6%8A%A4%E7%AB%99%E7%82%B9-%E6%9C%AC%E6%9C%BA%E5%AE%9E%E4%BE%8B"><span class="nav-number">1.1.</span> <span class="nav-text">受保护站点(本机实例)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E5%89%8D%E7%BD%AE%E6%9D%A1%E4%BB%B6"><span class="nav-number">2.</span> <span class="nav-text">2. 前置条件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84"><span class="nav-number">3.</span> <span class="nav-text">3. 目录结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-Authelia-%E6%96%87%E4%BB%B6"><span class="nav-number">4.</span> <span class="nav-text">4. Authelia 文件</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#4-1-authelia-docker-compose-yml"><span class="nav-number">4.1.</span> <span class="nav-text">4.1 authelia&#x2F;docker-compose.yml</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-2-authelia-config-configuration-yml"><span class="nav-number">4.2.</span> <span class="nav-text">4.2 authelia&#x2F;config&#x2F;configuration.yml</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-3-authelia-config-users-database-yml%EF%BC%88%E6%A8%A1%E6%9D%BF%EF%BC%89"><span class="nav-number">4.3.</span> <span class="nav-text">4.3 authelia&#x2F;config&#x2F;users_database.yml（模板）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-4-authelia-gitignore"><span class="nav-number">4.4.</span> <span class="nav-text">4.4 authelia&#x2F;.gitignore</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-%E7%94%9F%E6%88%90%E5%AF%86%E9%92%A5%E4%B8%8E%E5%AF%86%E7%A0%81%E5%93%88%E5%B8%8C"><span class="nav-number">5.</span> <span class="nav-text">5. 生成密钥与密码哈希</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#5-1-%E4%B8%89%E4%B8%AA%E5%AF%86%E9%92%A5"><span class="nav-number">5.1.</span> <span class="nav-text">5.1 三个密钥</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-2-%E5%AF%86%E7%A0%81%E5%93%88%E5%B8%8C%EF%BC%88argon2id%EF%BC%89"><span class="nav-number">5.2.</span> <span class="nav-text">5.2 密码哈希（argon2id）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-nginx-%E6%96%87%E4%BB%B6"><span class="nav-number">6.</span> <span class="nav-text">6. nginx 文件</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#6-1-conf-d-authelia-maps-conf%EF%BC%88http-%E7%BA%A7-%E5%8A%A8%E6%80%81%E7%AB%AF%E5%8F%A3-%E5%8A%A8%E6%80%81%E9%97%A8%E6%88%B7%E5%9F%9F%E5%90%8D%EF%BC%89"><span class="nav-number">6.1.</span> <span class="nav-text">6.1 conf.d&#x2F;authelia-maps.conf（http 级,动态端口 + 动态门户域名）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-2-conf-d-common-authelia-location-conf"><span class="nav-number">6.2.</span> <span class="nav-text">6.2 conf.d&#x2F;common&#x2F;authelia-location.conf</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-3-conf-d-common-authelia-authrequest-conf%EF%BC%88remote-x2F-nat-%E9%80%9A%E7%94%A8%EF%BC%89"><span class="nav-number">6.3.</span> <span class="nav-text">6.3 conf.d&#x2F;common&#x2F;authelia-authrequest.conf（remote &#x2F; nat 通用）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-4-conf-d-common-authelia-proxy-conf%EF%BC%88%E5%8F%8D%E4%BB%A3%E9%97%A8%E6%88%B7%E7%94%A8%EF%BC%89"><span class="nav-number">6.4.</span> <span class="nav-text">6.4 conf.d&#x2F;common&#x2F;authelia-proxy.conf（反代门户用）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-5-%E9%97%A8%E6%88%B7-vhost"><span class="nav-number">6.5.</span> <span class="nav-text">6.5 门户 vhost</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-6-%E7%BB%99%E4%B8%80%E4%B8%AA%E7%AB%99%E7%82%B9%E5%8A%A0%E4%BF%9D%E6%8A%A4%EF%BC%88%E4%BB%A5-code-remote-%E4%B8%BA%E4%BE%8B%EF%BC%89"><span class="nav-number">6.6.</span> <span class="nav-text">6.6 给一个站点加保护（以 code.remote 为例）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-%E9%83%A8%E7%BD%B2%E6%AD%A5%E9%AA%A4%EF%BC%88%E6%8C%89%E9%A1%BA%E5%BA%8F%EF%BC%8C%E9%81%BF%E5%85%8D%E6%8A%8A%E8%87%AA%E5%B7%B1%E9%94%81%E5%9C%A8%E5%A4%96%E9%9D%A2%EF%BC%89"><span class="nav-number">7.</span> <span class="nav-text">7. 部署步骤（按顺序，避免把自己锁在外面）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8-%E5%8A%A8%E6%80%81%E7%AB%AF%E5%8F%A3%E6%98%AF%E6%80%8E%E4%B9%88%E5%AE%9E%E7%8E%B0%E7%9A%84"><span class="nav-number">8.</span> <span class="nav-text">8. 动态端口是怎么实现的</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#9-%E6%B3%A8%E5%86%8C-x2F-%E7%AE%A1%E7%90%86-TOTP"><span class="nav-number">9.</span> <span class="nav-text">9. 注册 &#x2F; 管理 TOTP</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#10-%E5%A6%82%E4%BD%95%E6%89%A9%E5%B1%95"><span class="nav-number">10.</span> <span class="nav-text">10. 如何扩展</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#10-1-%E6%96%B0%E5%A2%9E%E4%B8%80%E4%B8%AA%E8%A2%AB%E4%BF%9D%E6%8A%A4%E7%AB%99%E7%82%B9%EF%BC%88%E5%90%8C%E4%B8%80%E7%88%B6%E5%9F%9F%EF%BC%89"><span class="nav-number">10.1.</span> <span class="nav-text">10.1 新增一个被保护站点（同一父域）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#10-2-%E6%96%B0%E5%A2%9E%E4%B8%80%E6%9D%A1%E8%AE%BF%E9%97%AE%E8%B7%AF%E5%BE%84%EF%BC%88%E6%96%B0%E7%9A%84%E7%88%B6%E5%9F%9F%EF%BC%8C%E5%A6%82%E5%86%8D%E6%9D%A5%E4%B8%AA-lan-vanjay-cn%EF%BC%89"><span class="nav-number">10.2.</span> <span class="nav-text">10.2 新增一条访问路径（新的父域，如再来个 lan.vanjay.cn）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#11-%E6%8E%92%E9%94%99"><span class="nav-number">11.</span> <span class="nav-text">11. 排错</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#12-%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9-x2F-%E5%B7%B2%E7%9F%A5%E5%8F%96%E8%88%8D"><span class="nav-number">12.</span> <span class="nav-text">12. 注意事项 &#x2F; 已知取舍</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="VanJay"
+      src="/images/head.png">
+  <p class="site-author-name" itemprop="name">VanJay</p>
+  <div class="site-description" itemprop="description">成功不是将来才有的<br>而是决定去做的那一刻起<br>持续累积而成</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">76</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">42</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">153</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/wangwanjie" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wangwanjie" rel="noopener me" target="_blank"><i class="github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/wangwanjie" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;wangwanjie" rel="noopener me" target="_blank"><i class="twitter fa-fw"></i>Twitter</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="http://www.weibo.com/2406245873/profile?topnav=1&wvr=6" title="微博 → http:&#x2F;&#x2F;www.weibo.com&#x2F;2406245873&#x2F;profile?topnav&#x3D;1&amp;wvr&#x3D;6" rel="noopener me" target="_blank"><i class="weibo fa-fw"></i>微博</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.facebook.com/wangwanjie123" title="Facebook → https:&#x2F;&#x2F;www.facebook.com&#x2F;wangwanjie123" rel="noopener me" target="_blank"><i class="facebook fa-fw"></i>Facebook</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="http://wpa.qq.com/msgrd?v=3&uin=396736694&site=qq&menu=yes" title="QQ → http:&#x2F;&#x2F;wpa.qq.com&#x2F;msgrd?v&#x3D;3&amp;uin&#x3D;396736694&amp;site&#x3D;qq&amp;menu&#x3D;yes" rel="noopener me" target="_blank"><i class="qq fa-fw"></i>QQ</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:vanjay,dev@gmail.com" title="E-Mail → mailto:vanjay,dev@gmail.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="sidebar-inner sidebar-blogroll">
+      <div class="links-of-blogroll animated">
+        <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+          链接
+        </div>
+        <ul class="links-of-blogroll-list">
+            <li class="links-of-blogroll-item">
+              <a href="https://www.vanjay.cn/" title="https:&#x2F;&#x2F;www.vanjay.cn" rel="noopener" target="_blank">VanJay</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://boxueio.com/" title="https:&#x2F;&#x2F;boxueio.com" rel="noopener" target="_blank">泊学网</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="http://www.smartisan.com/" title="http:&#x2F;&#x2F;www.smartisan.com&#x2F;" rel="noopener" target="_blank">锤子科技</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://objccn.io/" title="https:&#x2F;&#x2F;objccn.io&#x2F;" rel="noopener" target="_blank">ObjC中国</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://github.com/apple/swift-evolution" title="https:&#x2F;&#x2F;github.com&#x2F;apple&#x2F;swift-evolution" rel="noopener" target="_blank">Swift evolution</a>
+            </li>
+        </ul>
+      </div>
+    </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://blog.vanjay.cn/2026/06/04/Authelia-2FA-%E9%83%A8%E7%BD%B2%E6%96%87%E6%A1%A3%EF%BC%88nginx-auth-request-haproxy%EF%BC%89/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/head.png">
+      <meta itemprop="name" content="VanJay">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="VanJay's Blog">
+      <meta itemprop="description" content="成功不是将来才有的<br>而是决定去做的那一刻起<br>持续累积而成">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Authelia 2FA 部署文档（nginx auth_request + haproxy） | VanJay's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Authelia 2FA 部署文档（nginx auth_request + haproxy）
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2026-06-04 19:59:41 / 修改时间：20:00:06" itemprop="dateCreated datePublished" datetime="2026-06-04T19:59:41+08:00">2026-06-04</time>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>2.7k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>10 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><blockquote>
+<p>用 Authelia 给若干站点加「用户名 + 密码 + TOTP」两步验证。<br>适配 <strong>Authelia v4.39.20</strong>。本文是按本机实际部署整理的可复用手册,在其他设备上照做即可。</p>
+</blockquote>
+<span id="more"></span>
+
+<h2 id="1-架构与原理"><a href="#1-架构与原理" class="headerlink" title="1. 架构与原理"></a>1. 架构与原理</h2><pre class="line-numbers language-none"><code class="language-none">浏览器 ──TLS(SNI)──&gt; haproxy(send-proxy-v2) ──proxy_protocol──&gt; nginx(host 网络)
+                                                                   │
+                                          auth_request 子请求 ─────┤
+                                                                   ▼
+                                                        Authelia(127.0.0.1:9091)<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<ul>
+<li><strong>haproxy</strong>:TCP 模式按 SNI 分发,用 <code>send-proxy-v2</code> 把真实客户端 IP 透传给 nginx;末尾 <code>default_backend nginx</code> 会兜住所有未显式列出的子域名(所以门户子域名无需单独加 haproxy 规则)。</li>
+<li><strong>nginx</strong>:<code>network_mode: host</code>,被保护站点的 <code>location</code> 里用 <code>auth_request</code> 向 Authelia 发子请求;返回 200 放行,401 则跳转到登录门户。因为前端走 <code>proxy_protocol</code>,真实客户端 IP 在 <code>$proxy_protocol_addr</code>。</li>
+<li><strong>Authelia</strong>:只监听 <code>127.0.0.1:9091</code>(不直接对外),提供登录门户和鉴权 API。</li>
+<li><strong>会话 cookie 按父域划分</strong>:<code>*.remote.vanjay.cn</code> 与 <code>*.nat.vanjay.cn</code> 是两条独立访问路径,各自一个 cookie 域 + 一个门户(<code>auth.remote</code> &#x2F; <code>auth.nat</code>),互不共享会话。同一父域下的子站点之间是 SSO(登录一次,其他子站点免登)。</li>
+<li><strong>对外端口</strong>:<code>remote</code> 固定 <code>4433</code>;<code>nat</code> 端口不固定,<strong>由 nginx 按客户端 <code>Host</code> 头动态求得</strong>(见 §8)。</li>
+</ul>
+<h3 id="受保护站点-本机实例"><a href="#受保护站点-本机实例" class="headerlink" title="受保护站点(本机实例)"></a>受保护站点(本机实例)</h3><table>
+<thead>
+<tr>
+<th>站点</th>
+<th>后端</th>
+<th>路径 &#x2F; cookie 域</th>
+<th>门户</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>code.remote.vanjay.cn</td>
+<td>192.168.18.28:8448</td>
+<td>remote.vanjay.cn</td>
+<td>auth.remote.vanjay.cn:4433</td>
+</tr>
+<tr>
+<td>ikuai.remote.vanjay.cn</td>
+<td>192.168.18.1:80</td>
+<td>remote.vanjay.cn</td>
+<td>auth.remote.vanjay.cn:4433</td>
+</tr>
+<tr>
+<td>tplink.remote.vanjay.cn</td>
+<td>192.168.18.10:80</td>
+<td>remote.vanjay.cn</td>
+<td>auth.remote.vanjay.cn:4433</td>
+</tr>
+<tr>
+<td>code.nat.vanjay.cn</td>
+<td>192.168.18.28:8448</td>
+<td>nat.vanjay.cn</td>
+<td>auth.nat.vanjay.cn:&lt;动态&gt;</td>
+</tr>
+<tr>
+<td>ikuai.nat.vanjay.cn</td>
+<td>192.168.18.1:80</td>
+<td>nat.vanjay.cn</td>
+<td>auth.nat.vanjay.cn:&lt;动态&gt;</td>
+</tr>
+<tr>
+<td>tplink.nat.vanjay.cn</td>
+<td>192.168.18.10:80</td>
+<td>nat.vanjay.cn</td>
+<td>auth.nat.vanjay.cn:&lt;动态&gt;</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="2-前置条件"><a href="#2-前置条件" class="headerlink" title="2. 前置条件"></a>2. 前置条件</h2><ul>
+<li>Docker &#x2F; Docker Compose</li>
+<li>nginx(官方 <code>nginx:latest</code> 自带 <code>ngx_http_auth_request_module</code>,无需自行编译)</li>
+<li>前端 7 层&#x2F;4 层入口(haproxy、lucky 等),能把流量带 <code>proxy_protocol</code> 转发给 nginx</li>
+<li>通配 DNS:<code>*.remote.vanjay.cn</code>、<code>*.nat.vanjay.cn</code>(含 <code>auth.remote</code>、<code>auth.nat</code>)</li>
+<li>通配&#x2F;对应证书:<code>remote.vanjay.cn</code>、<code>nat.vanjay.cn</code>(需覆盖 <code>auth.*</code> 子域)</li>
+<li>主机系统时间准确(TOTP 依赖时间,误差应 &lt; 30s)</li>
+</ul>
+<hr>
+<h2 id="3-目录结构"><a href="#3-目录结构" class="headerlink" title="3. 目录结构"></a>3. 目录结构</h2><pre class="line-numbers language-none"><code class="language-none">authelia&#x2F;
+├── docker-compose.yml
+├── .gitignore
+└── config&#x2F;
+    ├── configuration.yml          # 主配置
+    ├── users_database.yml         # 用户库(用户名 + argon2 密码哈希)
+    ├── secrets&#x2F;                   # 三个密钥文件(不要提交 git)
+    │   ├── JWT_SECRET
+    │   ├── SESSION_SECRET
+    │   └── STORAGE_ENCRYPTION_KEY
+    ├── db.sqlite3                 # 运行时生成(存 TOTP 等)
+    └── notification.txt           # 运行时生成(文件通知)
+
+nginx&#x2F;config&#x2F;conf.d&#x2F;
+├── authelia-maps.conf            # http 级:动态端口 + 动态门户域名
+├── common&#x2F;
+│   ├── authelia-location.conf    # 鉴权子请求端点(放 server 块)
+│   ├── authelia-authrequest.conf # 鉴权 + 跳转(放 location 块,remote&#x2F;nat 通用)
+│   └── authelia-proxy.conf       # 反代门户用的头
+├── ipv6&#x2F;
+│   ├── auth.remote.vanjay.cn.conf
+│   └── &#123;code,ikuai,tplink&#125;.remote.vanjay.cn.conf
+└── ipv4&#x2F;
+    ├── auth.nat.vanjay.cn.conf
+    └── &#123;code,ikuai,tplink&#125;.nat.vanjay.cn.conf<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<hr>
+<h2 id="4-Authelia-文件"><a href="#4-Authelia-文件" class="headerlink" title="4. Authelia 文件"></a>4. Authelia 文件</h2><h3 id="4-1-authelia-docker-compose-yml"><a href="#4-1-authelia-docker-compose-yml" class="headerlink" title="4.1 authelia/docker-compose.yml"></a>4.1 <code>authelia/docker-compose.yml</code></h3><pre class="line-numbers language-yaml" data-language="yaml"><code class="language-yaml"><span class="token key atrule">services</span><span class="token punctuation">:</span>
+  <span class="token key atrule">authelia</span><span class="token punctuation">:</span>
+    <span class="token key atrule">image</span><span class="token punctuation">:</span> authelia/authelia<span class="token punctuation">:</span>4.39.20
+    <span class="token key atrule">container_name</span><span class="token punctuation">:</span> authelia
+    <span class="token key atrule">volumes</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> ./config<span class="token punctuation">:</span>/config
+    <span class="token key atrule">environment</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> TZ=Asia/Shanghai
+      <span class="token comment"># 三个核心密钥通过文件注入，不写进 configuration.yml</span>
+      <span class="token punctuation">-</span> AUTHELIA_IDENTITY_VALIDATION_RESET_PASSWORD_JWT_SECRET_FILE=/config/secrets/JWT_SECRET
+      <span class="token punctuation">-</span> AUTHELIA_SESSION_SECRET_FILE=/config/secrets/SESSION_SECRET
+      <span class="token punctuation">-</span> AUTHELIA_STORAGE_ENCRYPTION_KEY_FILE=/config/secrets/STORAGE_ENCRYPTION_KEY
+    <span class="token key atrule">ports</span><span class="token punctuation">:</span>
+      <span class="token comment"># 只监听本机回环，由 host 网络的 nginx 通过 127.0.0.1:9091 访问</span>
+      <span class="token punctuation">-</span> 127.0.0.1<span class="token punctuation">:</span>9091<span class="token punctuation">:</span><span class="token number">9091</span>
+    <span class="token key atrule">restart</span><span class="token punctuation">:</span> always<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="4-2-authelia-config-configuration-yml"><a href="#4-2-authelia-config-configuration-yml" class="headerlink" title="4.2 authelia/config/configuration.yml"></a>4.2 <code>authelia/config/configuration.yml</code></h3><pre class="line-numbers language-yaml" data-language="yaml"><code class="language-yaml"><span class="token punctuation">---</span>
+<span class="token key atrule">server</span><span class="token punctuation">:</span>
+  <span class="token key atrule">address</span><span class="token punctuation">:</span> <span class="token string">'tcp://0.0.0.0:9091'</span>
+
+<span class="token key atrule">log</span><span class="token punctuation">:</span>
+  <span class="token key atrule">level</span><span class="token punctuation">:</span> <span class="token string">'info'</span>
+  <span class="token key atrule">file_path</span><span class="token punctuation">:</span> <span class="token string">'/config/authelia.log'</span>
+  <span class="token key atrule">keep_stdout</span><span class="token punctuation">:</span> <span class="token boolean important">true</span>
+
+<span class="token key atrule">theme</span><span class="token punctuation">:</span> <span class="token string">'auto'</span>
+
+<span class="token key atrule">totp</span><span class="token punctuation">:</span>
+  <span class="token key atrule">issuer</span><span class="token punctuation">:</span> <span class="token string">'remote.vanjay.cn'</span>
+  <span class="token key atrule">period</span><span class="token punctuation">:</span> <span class="token number">30</span>
+  <span class="token key atrule">skew</span><span class="token punctuation">:</span> <span class="token number">1</span>
+
+<span class="token comment"># identity_validation.reset_password.jwt_secret 由环境变量</span>
+<span class="token comment"># AUTHELIA_IDENTITY_VALIDATION_RESET_PASSWORD_JWT_SECRET_FILE 注入</span>
+
+<span class="token key atrule">authentication_backend</span><span class="token punctuation">:</span>
+  <span class="token key atrule">password_reset</span><span class="token punctuation">:</span>
+    <span class="token key atrule">disable</span><span class="token punctuation">:</span> <span class="token boolean important">false</span>
+  <span class="token key atrule">file</span><span class="token punctuation">:</span>
+    <span class="token key atrule">path</span><span class="token punctuation">:</span> <span class="token string">'/config/users_database.yml'</span>
+    <span class="token key atrule">search</span><span class="token punctuation">:</span>
+      <span class="token key atrule">case_insensitive</span><span class="token punctuation">:</span> <span class="token boolean important">true</span>      <span class="token comment"># 用户名忽略大小写</span>
+    <span class="token key atrule">password</span><span class="token punctuation">:</span>
+      <span class="token key atrule">algorithm</span><span class="token punctuation">:</span> <span class="token string">'argon2'</span>
+
+<span class="token key atrule">access_control</span><span class="token punctuation">:</span>
+  <span class="token key atrule">default_policy</span><span class="token punctuation">:</span> <span class="token string">'deny'</span>
+  <span class="token key atrule">rules</span><span class="token punctuation">:</span>
+    <span class="token punctuation">-</span> <span class="token key atrule">domain</span><span class="token punctuation">:</span>
+        <span class="token punctuation">-</span> <span class="token string">'code.remote.vanjay.cn'</span>
+        <span class="token punctuation">-</span> <span class="token string">'ikuai.remote.vanjay.cn'</span>
+        <span class="token punctuation">-</span> <span class="token string">'tplink.remote.vanjay.cn'</span>
+        <span class="token punctuation">-</span> <span class="token string">'code.nat.vanjay.cn'</span>
+        <span class="token punctuation">-</span> <span class="token string">'ikuai.nat.vanjay.cn'</span>
+        <span class="token punctuation">-</span> <span class="token string">'tplink.nat.vanjay.cn'</span>
+      <span class="token key atrule">policy</span><span class="token punctuation">:</span> <span class="token string">'two_factor'</span>
+
+<span class="token key atrule">session</span><span class="token punctuation">:</span>
+  <span class="token comment"># secret 来自环境变量 AUTHELIA_SESSION_SECRET_FILE</span>
+  <span class="token key atrule">cookies</span><span class="token punctuation">:</span>
+    <span class="token comment"># remote 路径：固定对外端口 4433</span>
+    <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> <span class="token string">'authelia_session'</span>
+      <span class="token key atrule">domain</span><span class="token punctuation">:</span> <span class="token string">'remote.vanjay.cn'</span>
+      <span class="token key atrule">authelia_url</span><span class="token punctuation">:</span> <span class="token string">'https://auth.remote.vanjay.cn:4433'</span>
+      <span class="token key atrule">default_redirection_url</span><span class="token punctuation">:</span> <span class="token string">'https://remote.vanjay.cn:4433'</span>
+      <span class="token key atrule">expiration</span><span class="token punctuation">:</span> <span class="token string">'4 hours'</span>
+      <span class="token key atrule">inactivity</span><span class="token punctuation">:</span> <span class="token string">'30 minutes'</span>
+      <span class="token key atrule">remember_me</span><span class="token punctuation">:</span> <span class="token string">'1 month'</span>
+    <span class="token comment"># nat 路径：对外端口不固定，跳转端口由 nginx 按客户端 Host 动态拼接</span>
+    <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> <span class="token string">'authelia_session'</span>
+      <span class="token key atrule">domain</span><span class="token punctuation">:</span> <span class="token string">'nat.vanjay.cn'</span>
+      <span class="token key atrule">authelia_url</span><span class="token punctuation">:</span> <span class="token string">'https://auth.nat.vanjay.cn'</span>
+      <span class="token key atrule">expiration</span><span class="token punctuation">:</span> <span class="token string">'4 hours'</span>
+      <span class="token key atrule">inactivity</span><span class="token punctuation">:</span> <span class="token string">'30 minutes'</span>
+      <span class="token key atrule">remember_me</span><span class="token punctuation">:</span> <span class="token string">'1 month'</span>
+
+<span class="token key atrule">regulation</span><span class="token punctuation">:</span>
+  <span class="token comment"># 防爆破：2 分钟内连续 3 次失败，封禁该用户 5 分钟</span>
+  <span class="token key atrule">max_retries</span><span class="token punctuation">:</span> <span class="token number">3</span>
+  <span class="token key atrule">find_time</span><span class="token punctuation">:</span> <span class="token string">'2 minutes'</span>
+  <span class="token key atrule">ban_time</span><span class="token punctuation">:</span> <span class="token string">'5 minutes'</span>
+
+<span class="token key atrule">storage</span><span class="token punctuation">:</span>
+  <span class="token comment"># encryption_key 来自环境变量 AUTHELIA_STORAGE_ENCRYPTION_KEY_FILE</span>
+  <span class="token key atrule">local</span><span class="token punctuation">:</span>
+    <span class="token key atrule">path</span><span class="token punctuation">:</span> <span class="token string">'/config/db.sqlite3'</span>
+
+<span class="token key atrule">notifier</span><span class="token punctuation">:</span>
+  <span class="token comment"># 无邮件服务器时用文件通知：2FA 注册/改密的确认链接写入此文件</span>
+  <span class="token key atrule">disable_startup_check</span><span class="token punctuation">:</span> <span class="token boolean important">false</span>
+  <span class="token key atrule">filesystem</span><span class="token punctuation">:</span>
+    <span class="token key atrule">filename</span><span class="token punctuation">:</span> <span class="token string">'/config/notification.txt'</span>
+<span class="token punctuation">...</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="4-3-authelia-config-users-database-yml（模板）"><a href="#4-3-authelia-config-users-database-yml（模板）" class="headerlink" title="4.3 authelia/config/users_database.yml（模板）"></a>4.3 <code>authelia/config/users_database.yml</code>（模板）</h3><pre class="line-numbers language-yaml" data-language="yaml"><code class="language-yaml"><span class="token punctuation">---</span>
+<span class="token key atrule">users</span><span class="token punctuation">:</span>
+  <span class="token key atrule">vanjay</span><span class="token punctuation">:</span>                       <span class="token comment"># 登录用户名(配合 case_insensitive，大小写均可)</span>
+    <span class="token key atrule">disabled</span><span class="token punctuation">:</span> <span class="token boolean important">false</span>
+    <span class="token key atrule">displayname</span><span class="token punctuation">:</span> <span class="token string">'VanJay'</span>
+    <span class="token key atrule">password</span><span class="token punctuation">:</span> <span class="token string">'&lt;在下方用命令生成的 $argon2id$... 哈希>'</span>
+    <span class="token key atrule">email</span><span class="token punctuation">:</span> <span class="token string">'you@example.com'</span>
+    <span class="token key atrule">groups</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> <span class="token string">'admins'</span>
+<span class="token punctuation">...</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="4-4-authelia-gitignore"><a href="#4-4-authelia-gitignore" class="headerlink" title="4.4 authelia/.gitignore"></a>4.4 <code>authelia/.gitignore</code></h3><pre class="line-numbers language-ignore" data-language="ignore"><code class="language-ignore"><span class="token entry string">config<span class="token punctuation">/</span>secrets<span class="token punctuation">/</span></span>
+<span class="token entry string">config<span class="token punctuation">/</span>db.sqlite3</span>
+<span class="token entry string">config<span class="token punctuation">/</span>notification.txt</span>
+<span class="token entry string">config<span class="token punctuation">/</span>authelia.log</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
+<hr>
+<h2 id="5-生成密钥与密码哈希"><a href="#5-生成密钥与密码哈希" class="headerlink" title="5. 生成密钥与密码哈希"></a>5. 生成密钥与密码哈希</h2><h3 id="5-1-三个密钥"><a href="#5-1-三个密钥" class="headerlink" title="5.1 三个密钥"></a>5.1 三个密钥</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token builtin class-name">cd</span> authelia
+<span class="token function">mkdir</span> <span class="token parameter variable">-p</span> config/secrets
+<span class="token builtin class-name">umask</span> 077
+openssl rand <span class="token parameter variable">-base64</span> <span class="token number">64</span> <span class="token operator">|</span> <span class="token function">tr</span> <span class="token parameter variable">-d</span> <span class="token string">'\n'</span> <span class="token operator">></span> config/secrets/JWT_SECRET
+openssl rand <span class="token parameter variable">-base64</span> <span class="token number">64</span> <span class="token operator">|</span> <span class="token function">tr</span> <span class="token parameter variable">-d</span> <span class="token string">'\n'</span> <span class="token operator">></span> config/secrets/SESSION_SECRET
+openssl rand <span class="token parameter variable">-base64</span> <span class="token number">64</span> <span class="token operator">|</span> <span class="token function">tr</span> <span class="token parameter variable">-d</span> <span class="token string">'\n'</span> <span class="token operator">></span> config/secrets/STORAGE_ENCRYPTION_KEY
+<span class="token function">chmod</span> <span class="token number">600</span> config/secrets/*<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<blockquote>
+<p>⚠️ <code>STORAGE_ENCRYPTION_KEY</code> 一旦用于初始化 <code>db.sqlite3</code> 就<strong>不能更改</strong>(否则已存的 TOTP 等无法解密)。迁移设备时把整个 <code>config/</code> 一起搬,或重新注册 TOTP。</p>
+</blockquote>
+<h3 id="5-2-密码哈希（argon2id）"><a href="#5-2-密码哈希（argon2id）" class="headerlink" title="5.2 密码哈希（argon2id）"></a>5.2 密码哈希（argon2id）</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">docker</span> run <span class="token parameter variable">--rm</span> authelia/authelia:4.39.20 <span class="token punctuation">\</span>
+  authelia crypto <span class="token builtin class-name">hash</span> generate argon2 <span class="token parameter variable">--password</span> <span class="token string">'你的强密码'</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<p>把输出的 <code>$argon2id$...</code> 整串填进 <code>users_database.yml</code> 的 <code>password</code>。</p>
+<hr>
+<h2 id="6-nginx-文件"><a href="#6-nginx-文件" class="headerlink" title="6. nginx 文件"></a>6. nginx 文件</h2><h3 id="6-1-conf-d-authelia-maps-conf（http-级-动态端口-动态门户域名）"><a href="#6-1-conf-d-authelia-maps-conf（http-级-动态端口-动态门户域名）" class="headerlink" title="6.1 conf.d/authelia-maps.conf（http 级,动态端口 + 动态门户域名）"></a>6.1 <code>conf.d/authelia-maps.conf</code>（http 级,动态端口 + 动态门户域名）</h3><pre class="line-numbers language-nginx" data-language="nginx"><code class="language-nginx"><span class="token comment"># 1) 从客户端 Host 头提取端口（形如 :8443），无端口则为空</span>
+<span class="token directive"><span class="token keyword">map</span> <span class="token variable">$http_host</span> <span class="token variable">$authelia_req_port</span></span> <span class="token punctuation">&#123;</span>
+    <span class="token directive"><span class="token keyword">default</span> <span class="token string">''</span></span><span class="token punctuation">;</span>
+    '~^[^:]+:(?&lt;p>[0-9]+)$' ':$p'<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token comment"># 2) 由被访问主机推导对应门户域名：</span>
+<span class="token comment">#    code.remote.vanjay.cn -> auth.remote.vanjay.cn</span>
+<span class="token comment">#    code.nat.vanjay.cn    -> auth.nat.vanjay.cn</span>
+<span class="token directive"><span class="token keyword">map</span> <span class="token variable">$host</span> <span class="token variable">$authelia_portal_host</span></span> <span class="token punctuation">&#123;</span>
+    <span class="token directive"><span class="token keyword">default</span> <span class="token string">'auth.remote.vanjay.cn'</span></span><span class="token punctuation">;</span>
+    '~^[^.]+\.(?&lt;rest>.+)$' 'auth.$rest'<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<blockquote>
+<p>该文件必须在 <strong>http 上下文</strong>被加载。本机 <code>nginx.conf</code> 里有 <code>include /etc/nginx/conf.d/*.conf;</code>,放在 <code>conf.d/</code> 顶层即可(注意不要放进含 <code>server&#123;&#125;</code> 的子目录)。</p>
+</blockquote>
+<h3 id="6-2-conf-d-common-authelia-location-conf"><a href="#6-2-conf-d-common-authelia-location-conf" class="headerlink" title="6.2 conf.d/common/authelia-location.conf"></a>6.2 <code>conf.d/common/authelia-location.conf</code></h3><pre class="line-numbers language-nginx" data-language="nginx"><code class="language-nginx"><span class="token directive"><span class="token keyword">set</span> <span class="token variable">$upstream_authelia</span> http://127.0.0.1:9091/api/authz/auth-request</span><span class="token punctuation">;</span>
+
+<span class="token directive"><span class="token keyword">location</span> /internal/authelia/authz</span> <span class="token punctuation">&#123;</span>
+    <span class="token directive"><span class="token keyword">internal</span></span><span class="token punctuation">;</span>
+    <span class="token directive"><span class="token keyword">proxy_pass</span> <span class="token variable">$upstream_authelia</span></span><span class="token punctuation">;</span>
+
+    <span class="token directive"><span class="token keyword">proxy_set_header</span> X-Original-Method <span class="token variable">$request_method</span></span><span class="token punctuation">;</span>
+    <span class="token comment"># $http_host 含客户端实际端口，remote/nat 通用</span>
+    <span class="token directive"><span class="token keyword">proxy_set_header</span> X-Original-URL <span class="token variable">$scheme</span>://<span class="token variable">$http_host</span><span class="token variable">$request_uri</span></span><span class="token punctuation">;</span>
+    <span class="token comment"># 前端走 proxy_protocol，真实客户端 IP 在 $proxy_protocol_addr</span>
+    <span class="token directive"><span class="token keyword">proxy_set_header</span> X-Forwarded-For <span class="token variable">$proxy_protocol_addr</span></span><span class="token punctuation">;</span>
+    <span class="token directive"><span class="token keyword">proxy_set_header</span> Content-Length <span class="token string">""</span></span><span class="token punctuation">;</span>
+    <span class="token directive"><span class="token keyword">proxy_set_header</span> Connection <span class="token string">""</span></span><span class="token punctuation">;</span>
+
+    <span class="token directive"><span class="token keyword">proxy_pass_request_body</span> <span class="token boolean">off</span></span><span class="token punctuation">;</span>
+    <span class="token directive"><span class="token keyword">proxy_next_upstream</span> error timeout invalid_header http_500 http_502 http_503</span><span class="token punctuation">;</span>
+    <span class="token directive"><span class="token keyword">proxy_redirect</span> http:// <span class="token variable">$scheme</span>://</span><span class="token punctuation">;</span>
+    <span class="token directive"><span class="token keyword">proxy_http_version</span> 1.1</span><span class="token punctuation">;</span>
+    <span class="token directive"><span class="token keyword">proxy_cache_bypass</span> <span class="token variable">$cookie_authelia_session</span></span><span class="token punctuation">;</span>
+    <span class="token directive"><span class="token keyword">proxy_no_cache</span> <span class="token variable">$cookie_authelia_session</span></span><span class="token punctuation">;</span>
+    <span class="token directive"><span class="token keyword">proxy_buffers</span> <span class="token number">4</span> <span class="token number">32k</span></span><span class="token punctuation">;</span>
+    <span class="token directive"><span class="token keyword">client_body_buffer_size</span> <span class="token number">128k</span></span><span class="token punctuation">;</span>
+
+    <span class="token directive"><span class="token keyword">send_timeout</span> <span class="token number">5m</span></span><span class="token punctuation">;</span>
+    <span class="token directive"><span class="token keyword">proxy_read_timeout</span> <span class="token number">240</span></span><span class="token punctuation">;</span>
+    <span class="token directive"><span class="token keyword">proxy_send_timeout</span> <span class="token number">240</span></span><span class="token punctuation">;</span>
+    <span class="token directive"><span class="token keyword">proxy_connect_timeout</span> <span class="token number">240</span></span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="6-3-conf-d-common-authelia-authrequest-conf（remote-x2F-nat-通用）"><a href="#6-3-conf-d-common-authelia-authrequest-conf（remote-x2F-nat-通用）" class="headerlink" title="6.3 conf.d/common/authelia-authrequest.conf（remote &#x2F; nat 通用）"></a>6.3 <code>conf.d/common/authelia-authrequest.conf</code>（remote &#x2F; nat 通用）</h3><pre class="line-numbers language-nginx" data-language="nginx"><code class="language-nginx"><span class="token directive"><span class="token keyword">auth_request</span> /internal/authelia/authz</span><span class="token punctuation">;</span>
+
+<span class="token directive"><span class="token keyword">auth_request_set</span> <span class="token variable">$user</span> <span class="token variable">$upstream_http_remote_user</span></span><span class="token punctuation">;</span>
+<span class="token directive"><span class="token keyword">auth_request_set</span> <span class="token variable">$groups</span> <span class="token variable">$upstream_http_remote_groups</span></span><span class="token punctuation">;</span>
+<span class="token directive"><span class="token keyword">auth_request_set</span> <span class="token variable">$name</span> <span class="token variable">$upstream_http_remote_name</span></span><span class="token punctuation">;</span>
+<span class="token directive"><span class="token keyword">auth_request_set</span> <span class="token variable">$email</span> <span class="token variable">$upstream_http_remote_email</span></span><span class="token punctuation">;</span>
+
+<span class="token directive"><span class="token keyword">proxy_set_header</span> Remote-User <span class="token variable">$user</span></span><span class="token punctuation">;</span>
+<span class="token directive"><span class="token keyword">proxy_set_header</span> Remote-Groups <span class="token variable">$groups</span></span><span class="token punctuation">;</span>
+<span class="token directive"><span class="token keyword">proxy_set_header</span> Remote-Email <span class="token variable">$email</span></span><span class="token punctuation">;</span>
+<span class="token directive"><span class="token keyword">proxy_set_header</span> Remote-Name <span class="token variable">$name</span></span><span class="token punctuation">;</span>
+
+<span class="token comment"># 回跳目标 = 客户端访问的原始 URL（$http_host 已含动态端口）</span>
+<span class="token directive"><span class="token keyword">set</span> <span class="token variable">$target_url</span> <span class="token variable">$scheme</span>://<span class="token variable">$http_host</span><span class="token variable">$request_uri</span></span><span class="token punctuation">;</span>
+<span class="token comment"># 未认证(401)跳到对应门户：auth.&lt;父域> + 客户端实际端口</span>
+<span class="token directive"><span class="token keyword">error_page</span> <span class="token number">401</span> =302 https://<span class="token variable">$authelia_portal_host</span><span class="token variable">$authelia_req_port/?rd=</span><span class="token variable">$target_url&amp;rm=</span><span class="token variable">$request_method</span></span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="6-4-conf-d-common-authelia-proxy-conf（反代门户用）"><a href="#6-4-conf-d-common-authelia-proxy-conf（反代门户用）" class="headerlink" title="6.4 conf.d/common/authelia-proxy.conf（反代门户用）"></a>6.4 <code>conf.d/common/authelia-proxy.conf</code>（反代门户用）</h3><pre class="line-numbers language-nginx" data-language="nginx"><code class="language-nginx"><span class="token directive"><span class="token keyword">proxy_set_header</span> Host <span class="token variable">$host</span></span><span class="token punctuation">;</span>
+<span class="token directive"><span class="token keyword">proxy_set_header</span> X-Original-URL <span class="token variable">$scheme</span>://<span class="token variable">$http_host</span><span class="token variable">$request_uri</span></span><span class="token punctuation">;</span>
+<span class="token directive"><span class="token keyword">proxy_set_header</span> X-Forwarded-Proto <span class="token variable">$scheme</span></span><span class="token punctuation">;</span>
+<span class="token directive"><span class="token keyword">proxy_set_header</span> X-Forwarded-Host <span class="token variable">$http_host</span></span><span class="token punctuation">;</span>
+<span class="token directive"><span class="token keyword">proxy_set_header</span> X-Forwarded-URI <span class="token variable">$request_uri</span></span><span class="token punctuation">;</span>
+<span class="token directive"><span class="token keyword">proxy_set_header</span> X-Forwarded-Ssl <span class="token boolean">on</span></span><span class="token punctuation">;</span>
+<span class="token directive"><span class="token keyword">proxy_set_header</span> X-Forwarded-For <span class="token variable">$proxy_protocol_addr</span></span><span class="token punctuation">;</span>
+<span class="token directive"><span class="token keyword">proxy_set_header</span> X-Real-IP <span class="token variable">$proxy_protocol_addr</span></span><span class="token punctuation">;</span>
+
+<span class="token directive"><span class="token keyword">client_body_buffer_size</span> <span class="token number">128k</span></span><span class="token punctuation">;</span>
+<span class="token directive"><span class="token keyword">proxy_next_upstream</span> error timeout invalid_header http_500 http_502 http_503</span><span class="token punctuation">;</span>
+<span class="token directive"><span class="token keyword">proxy_redirect</span>  http://  <span class="token variable">$scheme</span>://</span><span class="token punctuation">;</span>
+<span class="token directive"><span class="token keyword">proxy_http_version</span> 1.1</span><span class="token punctuation">;</span>
+<span class="token directive"><span class="token keyword">proxy_cache_bypass</span> <span class="token variable">$cookie_authelia_session</span></span><span class="token punctuation">;</span>
+<span class="token directive"><span class="token keyword">proxy_no_cache</span> <span class="token variable">$cookie_authelia_session</span></span><span class="token punctuation">;</span>
+<span class="token directive"><span class="token keyword">proxy_buffers</span> <span class="token number">64</span> <span class="token number">256k</span></span><span class="token punctuation">;</span>
+
+<span class="token directive"><span class="token keyword">send_timeout</span> <span class="token number">5m</span></span><span class="token punctuation">;</span>
+<span class="token directive"><span class="token keyword">proxy_read_timeout</span> <span class="token number">360</span></span><span class="token punctuation">;</span>
+<span class="token directive"><span class="token keyword">proxy_send_timeout</span> <span class="token number">360</span></span><span class="token punctuation">;</span>
+<span class="token directive"><span class="token keyword">proxy_connect_timeout</span> <span class="token number">360</span></span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="6-5-门户-vhost"><a href="#6-5-门户-vhost" class="headerlink" title="6.5 门户 vhost"></a>6.5 门户 vhost</h3><p><code>conf.d/ipv6/auth.remote.vanjay.cn.conf</code>:</p>
+<pre class="line-numbers language-nginx" data-language="nginx"><code class="language-nginx"><span class="token directive"><span class="token keyword">server</span></span> <span class="token punctuation">&#123;</span>
+    <span class="token directive"><span class="token keyword">listen</span> 127.0.0.2:8033</span><span class="token punctuation">;</span>
+    <span class="token directive"><span class="token keyword">server_name</span> auth.remote.vanjay.cn</span><span class="token punctuation">;</span>
+    <span class="token directive"><span class="token keyword">return</span> <span class="token number">301</span> https://<span class="token variable">$host</span><span class="token variable">$request_uri</span></span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+<span class="token directive"><span class="token keyword">server</span></span> <span class="token punctuation">&#123;</span>
+    <span class="token directive"><span class="token keyword">listen</span> 127.0.0.2:4435 ssl proxy_protocol</span><span class="token punctuation">;</span>
+    <span class="token directive"><span class="token keyword">server_name</span> auth.remote.vanjay.cn</span><span class="token punctuation">;</span>
+
+    <span class="token directive"><span class="token keyword">ssl_certificate</span>     /etc/nginx/ssl/sync/remote.vanjay.cn/remote.vanjay.cn.crt</span><span class="token punctuation">;</span>
+    <span class="token directive"><span class="token keyword">ssl_certificate_key</span> /etc/nginx/ssl/sync/remote.vanjay.cn/remote.vanjay.cn.key</span><span class="token punctuation">;</span>
+
+    <span class="token directive"><span class="token keyword">include</span> /etc/nginx/conf.d/common/ssl_common.conf</span><span class="token punctuation">;</span>
+    <span class="token directive"><span class="token keyword">include</span> /etc/nginx/conf.d/common/add_header_normal.conf</span><span class="token punctuation">;</span>
+    <span class="token directive"><span class="token keyword">include</span> /etc/nginx/conf.d/common/custom_error_pages.conf</span><span class="token punctuation">;</span>
+
+    <span class="token directive"><span class="token keyword">location</span> /</span> <span class="token punctuation">&#123;</span>
+        <span class="token directive"><span class="token keyword">proxy_pass</span> http://127.0.0.1:9091</span><span class="token punctuation">;</span>
+        <span class="token directive"><span class="token keyword">include</span> /etc/nginx/conf.d/common/authelia-proxy.conf</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p><code>conf.d/ipv4/auth.nat.vanjay.cn.conf</code> 同上,把 <code>server_name</code> 改 <code>auth.nat.vanjay.cn</code>、证书改 <code>nat.vanjay.cn</code>。</p>
+<h3 id="6-6-给一个站点加保护（以-code-remote-为例）"><a href="#6-6-给一个站点加保护（以-code-remote-为例）" class="headerlink" title="6.6 给一个站点加保护（以 code.remote 为例）"></a>6.6 给一个站点加保护（以 <code>code.remote</code> 为例）</h3><p>在 <code>server&#123;&#125;</code> 块里(<code>location /</code> 之前)加鉴权端点,在 <code>location /</code> 内首行加鉴权:</p>
+<pre class="line-numbers language-nginx" data-language="nginx"><code class="language-nginx"><span class="token directive"><span class="token keyword">server</span></span> <span class="token punctuation">&#123;</span>
+    <span class="token directive"><span class="token keyword">listen</span> 127.0.0.2:4435 ssl proxy_protocol</span><span class="token punctuation">;</span>
+    <span class="token directive"><span class="token keyword">server_name</span> code.remote.vanjay.cn</span><span class="token punctuation">;</span>
+    <span class="token directive"><span class="token keyword">ssl_certificate</span>     /etc/nginx/ssl/sync/remote.vanjay.cn/remote.vanjay.cn.crt</span><span class="token punctuation">;</span>
+    <span class="token directive"><span class="token keyword">ssl_certificate_key</span> /etc/nginx/ssl/sync/remote.vanjay.cn/remote.vanjay.cn.key</span><span class="token punctuation">;</span>
+
+    <span class="token directive"><span class="token keyword">include</span> /etc/nginx/conf.d/common/ssl_common.conf</span><span class="token punctuation">;</span>
+    <span class="token directive"><span class="token keyword">include</span> /etc/nginx/conf.d/common/custom_error_pages.conf</span><span class="token punctuation">;</span>
+
+    <span class="token comment"># ① 鉴权端点</span>
+    <span class="token directive"><span class="token keyword">include</span> /etc/nginx/conf.d/common/authelia-location.conf</span><span class="token punctuation">;</span>
+
+    <span class="token directive"><span class="token keyword">location</span> /</span> <span class="token punctuation">&#123;</span>
+        <span class="token comment"># ② 鉴权 + 未登录跳转</span>
+        <span class="token directive"><span class="token keyword">include</span> /etc/nginx/conf.d/common/authelia-authrequest.conf</span><span class="token punctuation">;</span>
+
+        <span class="token directive"><span class="token keyword">proxy_pass</span> http://192.168.18.28:8448</span><span class="token punctuation">;</span>
+        <span class="token directive"><span class="token keyword">include</span> /etc/nginx/conf.d/common/proxy_http.conf</span><span class="token punctuation">;</span>   <span class="token comment"># 你原有的反代头</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<hr>
+<h2 id="7-部署步骤（按顺序，避免把自己锁在外面）"><a href="#7-部署步骤（按顺序，避免把自己锁在外面）" class="headerlink" title="7. 部署步骤（按顺序，避免把自己锁在外面）"></a>7. 部署步骤（按顺序，避免把自己锁在外面）</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 1. 准备 authelia/ 下所有文件，生成密钥(§5.1)与密码哈希(§5.2)，填好 users_database.yml</span>
+
+<span class="token comment"># 2. 离线校验配置(强烈建议，配错会导致容器起不来)</span>
+<span class="token function">docker</span> run <span class="token parameter variable">--rm</span> <span class="token parameter variable">-v</span> <span class="token string">"<span class="token environment constant">$PWD</span>/authelia/config:/config"</span> <span class="token punctuation">\</span>
+  <span class="token parameter variable">-e</span> <span class="token assign-left variable">AUTHELIA_IDENTITY_VALIDATION_RESET_PASSWORD_JWT_SECRET_FILE</span><span class="token operator">=</span>/config/secrets/JWT_SECRET <span class="token punctuation">\</span>
+  <span class="token parameter variable">-e</span> <span class="token assign-left variable">AUTHELIA_SESSION_SECRET_FILE</span><span class="token operator">=</span>/config/secrets/SESSION_SECRET <span class="token punctuation">\</span>
+  <span class="token parameter variable">-e</span> <span class="token assign-left variable">AUTHELIA_STORAGE_ENCRYPTION_KEY_FILE</span><span class="token operator">=</span>/config/secrets/STORAGE_ENCRYPTION_KEY <span class="token punctuation">\</span>
+  authelia/authelia:4.39.20 authelia validate-config <span class="token parameter variable">--config</span> /config/configuration.yml
+
+<span class="token comment"># 3. 启动 Authelia，看日志确认 "Startup complete" 且无 error</span>
+<span class="token builtin class-name">cd</span> authelia <span class="token operator">&amp;&amp;</span> <span class="token function">docker</span> compose up <span class="token parameter variable">-d</span> <span class="token operator">&amp;&amp;</span> <span class="token function">docker</span> compose logs <span class="token parameter variable">-f</span> authelia
+
+<span class="token comment"># 4. 校验并重载 nginx(此步同时启用门户 + 各站点鉴权)</span>
+<span class="token function">docker</span> <span class="token builtin class-name">exec</span> nginx nginx <span class="token parameter variable">-t</span> <span class="token operator">&amp;&amp;</span> <span class="token function">docker</span> <span class="token builtin class-name">exec</span> nginx nginx <span class="token parameter variable">-s</span> reload
+
+<span class="token comment"># 5. 注册 TOTP(见 §9)，然后浏览器实测</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<hr>
+<h2 id="8-动态端口是怎么实现的"><a href="#8-动态端口是怎么实现的" class="headerlink" title="8. 动态端口是怎么实现的"></a>8. 动态端口是怎么实现的</h2><p><code>nat</code> 对外端口不固定。关键在两点:</p>
+<ol>
+<li><strong>回跳目标 <code>rd</code></strong>:用 <code>$http_host</code>(&#x3D; 客户端请求的 <code>Host</code>,自带端口),所以 <code>rd</code> 永远是用户实际访问的 <code>host:port</code>。</li>
+<li><strong>门户地址</strong>:由两个 map 拼成 —— <code>$authelia_portal_host</code>(<code>auth.&lt;父域&gt;</code>)+ <code>$authelia_req_port</code>(从 <code>Host</code> 提取的端口)。</li>
+</ol>
+<p>效果:</p>
+<table>
+<thead>
+<tr>
+<th>访问</th>
+<th>跳转到</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>code.remote.vanjay.cn:4433</code></td>
+<td><code>auth.remote.vanjay.cn:4433</code></td>
+</tr>
+<tr>
+<td><code>code.nat.vanjay.cn:8443</code></td>
+<td><code>auth.nat.vanjay.cn:8443</code></td>
+</tr>
+<tr>
+<td><code>code.nat.vanjay.cn:12345</code></td>
+<td><code>auth.nat.vanjay.cn:12345</code></td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>因此 6 个站点共用同一个 <code>authelia-authrequest.conf</code>,固定端口与动态端口都适配。</p>
+</blockquote>
+<hr>
+<h2 id="9-注册-x2F-管理-TOTP"><a href="#9-注册-x2F-管理-TOTP" class="headerlink" title="9. 注册 &#x2F; 管理 TOTP"></a>9. 注册 &#x2F; 管理 TOTP</h2><p><strong>方式 A — 命令行直接生成(推荐):</strong></p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">docker</span> <span class="token builtin class-name">exec</span> authelia authelia storage user totp generate vanjay <span class="token parameter variable">--config</span> /config/configuration.yml<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>用输出的 <code>otpauth://</code> 链接 &#x2F; 二维码加进 Authenticator(Google Authenticator、1Password、苹果密码等),再到门户网页输入 6 位码。</p>
+<p><strong>方式 B — 网页注册:</strong> 登录门户后按提示注册,确认链接在文件通知里:</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">docker</span> <span class="token builtin class-name">exec</span> authelia <span class="token function">cat</span> /config/notification.txt<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p><strong>其他常用命令:</strong></p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 删除某用户的 TOTP(重新绑定前)</span>
+<span class="token function">docker</span> <span class="token builtin class-name">exec</span> authelia authelia storage user totp delete vanjay <span class="token parameter variable">--config</span> /config/configuration.yml
+<span class="token comment"># 查看用户信息</span>
+<span class="token function">docker</span> <span class="token builtin class-name">exec</span> authelia authelia storage user info vanjay <span class="token parameter variable">--config</span> /config/configuration.yml<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
+<hr>
+<h2 id="10-如何扩展"><a href="#10-如何扩展" class="headerlink" title="10. 如何扩展"></a>10. 如何扩展</h2><h3 id="10-1-新增一个被保护站点（同一父域）"><a href="#10-1-新增一个被保护站点（同一父域）" class="headerlink" title="10.1 新增一个被保护站点（同一父域）"></a>10.1 新增一个被保护站点（同一父域）</h3><ol>
+<li>在该站点的 nginx vhost 里加 §6.6 的两处 <code>include</code>。</li>
+<li>在 <code>configuration.yml</code> 的 <code>access_control</code> 规则 <code>domain:</code> 列表里加上它。</li>
+<li><code>docker compose restart authelia</code>(改了 Authelia 配置)+ <code>docker exec nginx nginx -s reload</code>。</li>
+</ol>
+<h3 id="10-2-新增一条访问路径（新的父域，如再来个-lan-vanjay-cn）"><a href="#10-2-新增一条访问路径（新的父域，如再来个-lan-vanjay-cn）" class="headerlink" title="10.2 新增一条访问路径（新的父域，如再来个 lan.vanjay.cn）"></a>10.2 新增一条访问路径（新的父域，如再来个 <code>lan.vanjay.cn</code>）</h3><ol>
+<li><code>session.cookies</code> 增加一项:<code>domain: &#39;lan.vanjay.cn&#39;</code>、<code>authelia_url: &#39;https://auth.lan.vanjay.cn&#39;</code>。</li>
+<li><code>access_control</code> 加该父域下的站点 → <code>two_factor</code>。</li>
+<li>新建门户 vhost <code>auth.lan.vanjay.cn</code>(参考 §6.5)。</li>
+<li><code>$authelia_portal_host</code> 的 map 已通用(<code>auth.&lt;父域&gt;</code>),无需改。</li>
+<li>重启 Authelia + reload nginx。</li>
+</ol>
+<hr>
+<h2 id="11-排错"><a href="#11-排错" class="headerlink" title="11. 排错"></a>11. 排错</h2><table>
+<thead>
+<tr>
+<th>现象</th>
+<th>原因 &#x2F; 处理</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>跳转地址丢端口</td>
+<td>nginx 用了 <code>$host</code> 而非 <code>$http_host</code>;门户端口靠 <code>$authelia_req_port</code> map,确认 <code>authelia-maps.conf</code> 在 http 级被加载</td>
+</tr>
+<tr>
+<td>输用户名密码报 “user not found”</td>
+<td>用户名键大小写;已开 <code>case_insensitive</code> 时文件里的键<strong>必须小写</strong></td>
+</tr>
+<tr>
+<td>登录后 TOTP 总是错</td>
+<td>主机系统时间不准(<code>date</code> 检查);TOTP 依赖时间</td>
+</tr>
+<tr>
+<td>容器起不来</td>
+<td>先跑 §7 第 2 步 <code>validate-config</code> 看报错</td>
+</tr>
+<tr>
+<td>某站点没弹登录</td>
+<td>多半是同父域 SSO 已登录(正常);用无痕窗口或登出验证</td>
+</tr>
+<tr>
+<td>日志 NTP <code>i/o timeout</code> 警告</td>
+<td>Authelia 自带校时探测被网络挡了,不影响功能,只要主机时间准即可</td>
+</tr>
+</tbody></table>
+<p><strong>临时解除某站点保护(防锁死):</strong> 把该 vhost 里两行 <code>include .../authelia-*.conf</code> 注释掉,<code>docker exec nginx nginx -s reload</code>。</p>
+<p><strong>实时验证某域名是否受保护(无需浏览器):</strong></p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">curl</span> <span class="token parameter variable">-s</span> <span class="token parameter variable">-o</span> /dev/null <span class="token parameter variable">-w</span> <span class="token string">'%&#123;http_code&#125;\n'</span> <span class="token punctuation">\</span>
+  <span class="token parameter variable">-H</span> <span class="token string">"X-Original-URL: https://code.remote.vanjay.cn:4433/"</span> <span class="token punctuation">\</span>
+  <span class="token parameter variable">-H</span> <span class="token string">"X-Original-Method: GET"</span> <span class="token parameter variable">-H</span> <span class="token string">"X-Forwarded-For: 8.8.8.8"</span> <span class="token punctuation">\</span>
+  http://127.0.0.1:9091/api/authz/auth-request
+<span class="token comment"># 401 = 受保护(要求登录)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<hr>
+<h2 id="12-注意事项-x2F-已知取舍"><a href="#12-注意事项-x2F-已知取舍" class="headerlink" title="12. 注意事项 &#x2F; 已知取舍"></a>12. 注意事项 &#x2F; 已知取舍</h2><ul>
+<li><strong>会话存在内存</strong>(未接 Redis):重启 Authelia 会清空在线会话,需重新登录;TOTP 存在 <code>db.sqlite3</code>,不受影响。</li>
+<li><strong>旧式跳转的 <code>rd</code> 未做 URL 编码</strong>:stock nginx 无 <code>set_escape_uri</code> 模块,若<strong>首次</strong>被拦截的 URL 查询串里带 <code>&amp;</code>,登录后回跳可能被截断。首次进站通常是根路径,影响很小;如需彻底解决,换带 <code>ngx_http_set_misc_module</code> 的 nginx 镜像并改用 <code>set_escape_uri</code>。</li>
+<li><strong>密钥与 <code>db.sqlite3</code> 要一起迁移</strong>,否则 TOTP 解不开,需重新注册。</li>
+<li><strong><code>config/secrets/</code> 不要提交到 git</strong>(已在 <code>.gitignore</code>)。</li>
+<li>默认策略 <code>deny</code>:只有 <code>access_control</code> 里列出的域名才会被放行规则匹配;门户本身不走 <code>auth_request</code>。</li>
+</ul>
+<hr>
+<p><em>Authelia 版本:v4.39.20ㅤ|ㅤ参考官方文档:<a target="_blank" rel="noopener" href="https://www.authelia.com/">https://www.authelia.com/</a></em></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="reward-container">
+  <div>对你有帮助？您的支持将更加鼓励我继续创作！</div>
+  <button>
+    打赏
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/images/wechatpay.png" alt="VanJay 微信">
+        <span>微信</span>
+      </div>
+      <div>
+        <img src="/images/alipay.jpg" alt="VanJay 支付宝">
+        <span>支付宝</span>
+      </div>
+
+  </div>
+</div>
+
+          <div class="followme">
+  <span>欢迎关注我的其它发布渠道</span>
+
+  <div class="social-list">
+
+      <div class="social-item">
+          <a target="_blank" class="social-link" href="/atom.xml">
+            <span class="icon">
+              <i class="fa fa-rss"></i>
+            </span>
+
+            <span class="label">RSS</span>
+          </a>
+      </div>
+  </div>
+</div>
+
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2026/05/26/%E7%94%A8-sing-box-%E5%9C%A8%E7%BE%A4%E6%99%96-NAS-%E4%B8%8A%E6%90%AD%E5%BB%BA%E5%AE%B6%E5%BA%AD%E5%86%85%E7%BD%91%E6%8E%A5%E5%85%A5%E6%9C%8D%E5%8A%A1/" rel="prev" title="用 sing-box 在群晖 NAS 上搭建家庭内网接入服务">
+                  <i class="fa fa-chevron-left"></i> 用 sing-box 在群晖 NAS 上搭建家庭内网接入服务
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments" id="lv-container" data-id="city" data-uid="MTAyMC80MDA5MC8xNjYxNw=="></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2013 – 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">&copy VanJay</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">111k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">6:43</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/mist/" rel="noopener" target="_blank">NexT.Mist</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+  <a href="https://github.com/wangwanjie" class="github-corner" title="在 GitHub 上关注我" aria-label="在 GitHub 上关注我" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js" integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js" integrity="sha256-yt2kYMy0w8AbtF89WXb2P1rfjcP/HTHLT7097U8Y5b8=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+  <script src="/js/third-party/fancybox.js"></script>
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script src="/js/third-party/comments/livere.js"></script>
+ <!-- 页面点击小红心 -->
+
+<script type="text/javascript">
+!function(e,t,a){function r(){for(var e=0;e<n.length;e++)n[e].alpha<=0?(t.body.removeChild(n[e].el),n.splice(e,1)):(n[e].y--,n[e].scale+=.004,n[e].alpha-=.013,n[e].el.style.cssText="left:"+n[e].x+"px;top:"+n[e].y+"px;opacity:"+n[e].alpha+";transform:scale("+n[e].scale+","+n[e].scale+") rotate(45deg);background:"+n[e].color+";z-index:99999");requestAnimationFrame(r)}var n=[];e.requestAnimationFrame=e.requestAnimationFrame||e.webkitRequestAnimationFrame||e.mozRequestAnimationFrame||e.oRequestAnimationFrame||e.msRequestAnimationFrame||function(e){setTimeout(e,1e3/60)},function(e){var a=t.createElement("style");a.type="text/css";try{a.appendChild(t.createTextNode(e))}catch(t){a.styleSheet.cssText=e}t.getElementsByTagName("head")[0].appendChild(a)}(".heart{width: 10px;height: 10px;position: fixed;background: #f00;transform: rotate(45deg);-webkit-transform: rotate(45deg);-moz-transform: rotate(45deg);}.heart:after,.heart:before{content: '';width: inherit;height: inherit;background: inherit;border-radius: 50%;-webkit-border-radius: 50%;-moz-border-radius: 50%;position: fixed;}.heart:after{top: -5px;}.heart:before{left: -5px;}"),function(){var a="function"==typeof e.onclick&&e.onclick;e.onclick=function(e){a&&a(),function(e){var a=t.createElement("div");a.className="heart",n.push({el:a,x:e.clientX-5,y:e.clientY-5,scale:1,alpha:1,color:"rgb("+~~(255*Math.random())+","+~~(255*Math.random())+","+~~(255*Math.random())+")"}),t.body.appendChild(a)}(e)}}(),r()}(window,document);
+</script>
+
+
+<script type="text/javascript">
+/*页面载入完成后，修改手机上跳转 github 样式 */
+!function (e, t, a) {
+    var browser = {
+        versions: function () {
+            var u = navigator.userAgent,
+                app = navigator.appVersion;
+            return { //移动终端浏览器版本信息
+                trident: u.indexOf('Trident') > -1, //IE内核
+                presto: u.indexOf('Presto') > -1, //opera内核
+                webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
+                gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
+                mobile: !!u.match(/AppleWebKit.*Mobile.*/), // || !!u.match(/AppleWebKit/), //是否为移动终端
+                ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+                android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
+                iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者QQHD浏览器
+                iPad: u.indexOf('iPad') > -1, //是否iPad
+                webApp: u.indexOf('Safari') == -1
+                //是否web应该程序，没有头部与底部
+            };
+        }(),
+        language: (navigator.browserLanguage || navigator.language).toLowerCase()
+    }
+
+    function setDynamicBackground() {
+        $('body').css({
+            'background': 'url(https://source.unsplash.com/random/1600x900)',
+            'background-attachment': 'fixed',
+            'background-repeat': 'repeat',
+            'background-size': 'contain'
+        });
+        $('.main-inner').css({
+            'margin-top': '60px',
+            'padding': '60px 60px 0px 60px',
+            'background': '#fff',
+            'opacity': '0.8',
+            'min-height': '500px'
+        });
+        $('.page-home .main-inner').css({
+            'padding-bottom': '60px',
+        });
+        $('.header').css({
+            'background': 'transparent',
+            'color': '#fff'
+        });
+        $('.footer').css({
+            'background': 'transparent',
+            'color': '#fff'
+        });
+
+        $('.footer-inner .theme-link').css('color', '#EEE');
+    }
+    function setSquareCellBackground(isMobile) {
+        $('body').css({
+            'background-image': 'url("/images/background_cell.png")',
+            'background-position': 'center center',
+            'background-size': 'auto',
+            'background-repeat': 'repeat',
+            'background-attachment': 'fixed'
+        });
+        if (!isMobile) {
+            $('.main-inner').css({
+                'margin-top': '60px',
+                'padding': '60px 60px 0px 60px',
+                'opacity': '0.8',
+                'min-height': '500px'
+            });
+            $('.page-home .main-inner').css({
+                'padding-bottom': '60px',
+            });
+        }
+        $('.header').css({
+            'background': 'transparent',
+        });
+        $('.footer').css({
+            'background': 'transparent',
+        });
+    }
+    function setMobileBackgroun() {
+        $('.header').css({
+            'background': 'linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("https://s1.ax1x.com/2018/06/09/CbDIIO.jpg") no-repeat',
+            'background-size': 'cover',
+            'background-color': 'black',
+            'background-position': 'center',
+            'width': '100%',
+            'display': 'table'
+        })
+
+        $('.site-nav-toggle .btn-bar').css('background', '#fff');
+    }
+
+    function settingBackground () {
+        if (browser.versions.mobile) {
+            setSquareCellBackground(true);
+        } else {
+            // setDynamicBackground();
+            setSquareCellBackground(false);
+        }
+    }
+    if (browser.versions.mobile) {
+        var headerStr = '<div class="site-nav-toggle">' +
+            '    <button aria-label="切换导航栏">' +
+            '      <span class="btn-bar"></span>' +
+            '      <span class="btn-bar"></span>' +
+            '      <span class="btn-bar"></span>' +
+            '    </button>' +
+            '  </div>' +
+            '  <div class="site-meta ">' +
+            '    <div class="custom-logo-site-title">' +
+            '      <a href="/" class="brand" rel="start" style="opacity: 1;">' +
+            '        <span class="logo-line-before"><i class="" style="transform: translateX(100%);"></i></span>' +
+            '        <span class="site-title" style="opacity: 1; top: 0px;">VanJay\'s Blog</span>' +
+            '        <span class="logo-line-after"><i class="" style="transform: translateX(-100%);"></i></span>' +
+            '      </a>' +
+            '    </div>' +
+            '        <p class="site-subtitle" style="opacity: 1; top: 0px;">一个爱折腾工程师的全栈梦</p>' +
+            '  </div>';
+        $('.header .site-brand-wrapper').html(headerStr);
+    }
+    // 设置背景
+    settingBackground();
+
+}(window, document);
+</script>
+</body>
+</html>

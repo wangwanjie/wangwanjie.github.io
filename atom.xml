@@ -6,7 +6,7 @@
   <link href="https://blog.vanjay.cn/atom.xml" rel="self"/>
   
   <link href="https://blog.vanjay.cn/"/>
-  <updated>2026-05-26T06:46:52.577Z</updated>
+  <updated>2026-06-04T12:00:06.481Z</updated>
   <id>https://blog.vanjay.cn/</id>
   
   <author>
@@ -15,6 +15,23 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Authelia 2FA 部署文档（nginx auth_request + haproxy）</title>
+    <link href="https://blog.vanjay.cn/2026/06/04/Authelia-2FA-%E9%83%A8%E7%BD%B2%E6%96%87%E6%A1%A3%EF%BC%88nginx-auth-request-haproxy%EF%BC%89/"/>
+    <id>https://blog.vanjay.cn/2026/06/04/Authelia-2FA-%E9%83%A8%E7%BD%B2%E6%96%87%E6%A1%A3%EF%BC%88nginx-auth-request-haproxy%EF%BC%89/</id>
+    <published>2026-06-04T11:59:41.000Z</published>
+    <updated>2026-06-04T12:00:06.481Z</updated>
+    
+    
+    <summary type="html">&lt;blockquote&gt;
+&lt;p&gt;用 Authelia 给若干站点加「用户名 + 密码 + TOTP」两步验证。&lt;br&gt;适配 &lt;strong&gt;Authelia v4.39.20&lt;/strong&gt;。本文是按本机实际部署整理的可复用手册,在其他设备上照做即可。&lt;/p&gt;
+&lt;/blockquote&gt;</summary>
+    
+    
+    
+    
+  </entry>
   
   <entry>
     <title>用 sing-box 在群晖 NAS 上搭建家庭内网接入服务</title>
@@ -510,33 +527,6 @@
     <category term="nas" scheme="https://blog.vanjay.cn/tags/nas/"/>
     
     <category term="开机自启" scheme="https://blog.vanjay.cn/tags/%E5%BC%80%E6%9C%BA%E8%87%AA%E5%90%AF/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>iOS应用启动性能优化实战指南</title>
-    <link href="https://blog.vanjay.cn/2023/11/18/iOS%E5%BA%94%E7%94%A8%E5%90%AF%E5%8A%A8%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E5%AE%9E%E6%88%98%E6%8C%87%E5%8D%97/"/>
-    <id>https://blog.vanjay.cn/2023/11/18/iOS%E5%BA%94%E7%94%A8%E5%90%AF%E5%8A%A8%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E5%AE%9E%E6%88%98%E6%8C%87%E5%8D%97/</id>
-    <published>2023-11-18T06:25:30.000Z</published>
-    <updated>2026-04-07T09:21:05.100Z</updated>
-    
-    
-    <summary type="html">&lt;h1 id=&quot;背景&quot;&gt;&lt;a href=&quot;#背景&quot; class=&quot;headerlink&quot; title=&quot;背景&quot;&gt;&lt;/a&gt;背景&lt;/h1&gt;&lt;p&gt;应用启动性能是用户体验的重要指标，直接影响用户对应用的第一印象。据统计，启动时间每增加1秒，用户流失率可能会增加20%。本文将系统性地介绍iOS应用启动优化的各种技术手段，包括图像处理优化、加密算法优化、文本渲染优化等实用方案。&lt;/p&gt;</summary>
-    
-    
-    
-    <category term="iOS开发" scheme="https://blog.vanjay.cn/categories/iOS%E5%BC%80%E5%8F%91/"/>
-    
-    
-    <category term="iOS" scheme="https://blog.vanjay.cn/tags/iOS/"/>
-    
-    <category term="性能优化" scheme="https://blog.vanjay.cn/tags/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/"/>
-    
-    <category term="图像处理" scheme="https://blog.vanjay.cn/tags/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/"/>
-    
-    <category term="启动优化" scheme="https://blog.vanjay.cn/tags/%E5%90%AF%E5%8A%A8%E4%BC%98%E5%8C%96/"/>
-    
-    <category term="加密算法" scheme="https://blog.vanjay.cn/tags/%E5%8A%A0%E5%AF%86%E7%AE%97%E6%B3%95/"/>
     
   </entry>
   
