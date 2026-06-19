@@ -6,7 +6,7 @@
   <link href="https://blog.vanjay.cn/atom.xml" rel="self"/>
   
   <link href="https://blog.vanjay.cn/"/>
-  <updated>2026-05-24T15:07:01.688Z</updated>
+  <updated>2026-06-19T15:06:49.358Z</updated>
   <id>https://blog.vanjay.cn/</id>
   
   <author>
@@ -15,6 +15,82 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>飞牛 fnOS 自动开关机 FPK 应用制作记录</title>
+    <link href="https://blog.vanjay.cn/2026/06/19/%E9%A3%9E%E7%89%9B-fnOS-%E8%87%AA%E5%8A%A8%E5%BC%80%E5%85%B3%E6%9C%BA-FPK-%E5%BA%94%E7%94%A8%E5%88%B6%E4%BD%9C%E8%AE%B0%E5%BD%95/"/>
+    <id>https://blog.vanjay.cn/2026/06/19/%E9%A3%9E%E7%89%9B-fnOS-%E8%87%AA%E5%8A%A8%E5%BC%80%E5%85%B3%E6%9C%BA-FPK-%E5%BA%94%E7%94%A8%E5%88%B6%E4%BD%9C%E8%AE%B0%E5%BD%95/</id>
+    <published>2026-06-19T15:30:00.000Z</published>
+    <updated>2026-06-19T15:06:49.358Z</updated>
+    
+    
+    <summary type="html">&lt;h2 id=&quot;背景&quot;&gt;&lt;a href=&quot;#背景&quot; class=&quot;headerlink&quot; title=&quot;背景&quot;&gt;&lt;/a&gt;背景&lt;/h2&gt;&lt;p&gt;我的 NAS 平时并不需要 24 小时满负载运行，更多时候只是固定时间段用来同步、备份、下载和访问家庭服务。所以我一直希望它能像群晖 DSM 一样，在系统里直接配置“几点开机、几点关机”，不用每次手动操作，也不用为了一个固定任务让机器整天开着。&lt;/p&gt;
+&lt;p&gt;之前用群晖时，这个功能是系统自带的，入口清晰，交互也足够简单。但换到飞牛 fnOS 后，我在官方应用商店里没有找到类似的应用。底层其实并不复杂，Linux 可以通过 RTC wakealarm 做定时唤醒，通过 cron 或 systemd 做定时关机；问题是命令行方案虽然能用，但每次修改时间、检查状态、排查是否生效都不够方便。&lt;/p&gt;
+&lt;p&gt;于是我做了一个飞牛 FPK 应用，把命令行方案包装成一个类似群晖体验的图形界面应用：可以新增、编辑、启用、停用、删除开关机计划，并在 fnOS 桌面窗口里直接使用。&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="NAS" scheme="https://blog.vanjay.cn/categories/NAS/"/>
+    
+    <category term="运维" scheme="https://blog.vanjay.cn/categories/NAS/%E8%BF%90%E7%BB%B4/"/>
+    
+    
+    <category term="NAS" scheme="https://blog.vanjay.cn/tags/NAS/"/>
+    
+    <category term="飞牛" scheme="https://blog.vanjay.cn/tags/%E9%A3%9E%E7%89%9B/"/>
+    
+    <category term="fnOS" scheme="https://blog.vanjay.cn/tags/fnOS/"/>
+    
+    <category term="FPK" scheme="https://blog.vanjay.cn/tags/FPK/"/>
+    
+    <category term="自动开关机" scheme="https://blog.vanjay.cn/tags/%E8%87%AA%E5%8A%A8%E5%BC%80%E5%85%B3%E6%9C%BA/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Authelia 2FA 部署文档（nginx auth_request + haproxy）</title>
+    <link href="https://blog.vanjay.cn/2026/06/04/Authelia-2FA-%E9%83%A8%E7%BD%B2%E6%96%87%E6%A1%A3%EF%BC%88nginx-auth-request-haproxy%EF%BC%89/"/>
+    <id>https://blog.vanjay.cn/2026/06/04/Authelia-2FA-%E9%83%A8%E7%BD%B2%E6%96%87%E6%A1%A3%EF%BC%88nginx-auth-request-haproxy%EF%BC%89/</id>
+    <published>2026-06-04T11:59:41.000Z</published>
+    <updated>2026-06-19T15:00:38.733Z</updated>
+    
+    
+    <summary type="html">&lt;blockquote&gt;
+&lt;p&gt;用 Authelia 给若干站点加「用户名 + 密码 + TOTP」两步验证。&lt;br&gt;适配 &lt;strong&gt;Authelia v4.39.20&lt;/strong&gt;。本文是按本机实际部署整理的可复用手册,在其他设备上照做即可。&lt;/p&gt;
+&lt;/blockquote&gt;</summary>
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>用 sing-box 在群晖 NAS 上搭建家庭内网接入服务</title>
+    <link href="https://blog.vanjay.cn/2026/05/26/%E7%94%A8-sing-box-%E5%9C%A8%E7%BE%A4%E6%99%96-NAS-%E4%B8%8A%E6%90%AD%E5%BB%BA%E5%AE%B6%E5%BA%AD%E5%86%85%E7%BD%91%E6%8E%A5%E5%85%A5%E6%9C%8D%E5%8A%A1/"/>
+    <id>https://blog.vanjay.cn/2026/05/26/%E7%94%A8-sing-box-%E5%9C%A8%E7%BE%A4%E6%99%96-NAS-%E4%B8%8A%E6%90%AD%E5%BB%BA%E5%AE%B6%E5%BA%AD%E5%86%85%E7%BD%91%E6%8E%A5%E5%85%A5%E6%9C%8D%E5%8A%A1/</id>
+    <published>2026-05-26T06:45:09.000Z</published>
+    <updated>2026-05-26T14:50:31.208Z</updated>
+    
+    
+    <summary type="html">&lt;h1 id=&quot;用-sing-box-在群晖-NAS-上搭建家庭内网接入服务&quot;&gt;&lt;a href=&quot;#用-sing-box-在群晖-NAS-上搭建家庭内网接入服务&quot; class=&quot;headerlink&quot; title=&quot;用 sing-box 在群晖 NAS 上搭建家庭内网接入服务&quot;&gt;&lt;/a&gt;用 sing-box 在群晖 NAS 上搭建家庭内网接入服务&lt;/h1&gt;&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;场景&lt;/strong&gt;：没有公网 IPv4，只有公网 IPv6，通过 Lucky 做端口转发，在群晖 NAS 上用 Docker 部署 sing-box，实现在外网用 Shadowrocket &amp;#x2F; Clash Meta &amp;#x2F; Clash Verge 连回家庭内网。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;hr&gt;</summary>
+    
+    
+    
+    <category term="运维" scheme="https://blog.vanjay.cn/categories/%E8%BF%90%E7%BB%B4/"/>
+    
+    <category term="NAS" scheme="https://blog.vanjay.cn/categories/%E8%BF%90%E7%BB%B4/NAS/"/>
+    
+    
+    <category term="NAS" scheme="https://blog.vanjay.cn/tags/NAS/"/>
+    
+    <category term="sing-box" scheme="https://blog.vanjay.cn/tags/sing-box/"/>
+    
+    <category term="异地组网" scheme="https://blog.vanjay.cn/tags/%E5%BC%82%E5%9C%B0%E7%BB%84%E7%BD%91/"/>
+    
+  </entry>
   
   <entry>
     <title>修复 Hexo bad interpreter 错误</title>
@@ -455,83 +531,6 @@
     <category term="动态库" scheme="https://blog.vanjay.cn/tags/%E5%8A%A8%E6%80%81%E5%BA%93/"/>
     
     <category term="懒加载" scheme="https://blog.vanjay.cn/tags/%E6%87%92%E5%8A%A0%E8%BD%BD/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>pve下不同服务间启动依赖问题解决</title>
-    <link href="https://blog.vanjay.cn/2023/11/26/pve%E4%B8%8B%E4%B8%8D%E5%90%8C%E6%9C%8D%E5%8A%A1%E9%97%B4%E5%90%AF%E5%8A%A8%E4%BE%9D%E8%B5%96%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3/"/>
-    <id>https://blog.vanjay.cn/2023/11/26/pve%E4%B8%8B%E4%B8%8D%E5%90%8C%E6%9C%8D%E5%8A%A1%E9%97%B4%E5%90%AF%E5%8A%A8%E4%BE%9D%E8%B5%96%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3/</id>
-    <published>2023-11-26T05:11:33.000Z</published>
-    <updated>2023-11-26T05:33:01.998Z</updated>
-    
-    
-    <summary type="html">&lt;p&gt;在Proxmox VE (PVE) 环境中，我们经常需要管理多个虚拟机或LXC容器，这些容器中部署了各种服务。服务间的依赖关系可能导致如果启动顺序不当，服务无法正确运行。本文将探讨这一问题，并提出一个有效的解决方案。&lt;/p&gt;</summary>
-    
-    
-    
-    <category term="运维" scheme="https://blog.vanjay.cn/categories/%E8%BF%90%E7%BB%B4/"/>
-    
-    <category term="服务器" scheme="https://blog.vanjay.cn/categories/%E8%BF%90%E7%BB%B4/%E6%9C%8D%E5%8A%A1%E5%99%A8/"/>
-    
-    
-    <category term="docker" scheme="https://blog.vanjay.cn/tags/docker/"/>
-    
-    <category term="pve" scheme="https://blog.vanjay.cn/tags/pve/"/>
-    
-    <category term="nas" scheme="https://blog.vanjay.cn/tags/nas/"/>
-    
-    <category term="开机自启" scheme="https://blog.vanjay.cn/tags/%E5%BC%80%E6%9C%BA%E8%87%AA%E5%90%AF/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>iOS应用启动性能优化实战指南</title>
-    <link href="https://blog.vanjay.cn/2023/11/18/iOS%E5%BA%94%E7%94%A8%E5%90%AF%E5%8A%A8%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E5%AE%9E%E6%88%98%E6%8C%87%E5%8D%97/"/>
-    <id>https://blog.vanjay.cn/2023/11/18/iOS%E5%BA%94%E7%94%A8%E5%90%AF%E5%8A%A8%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E5%AE%9E%E6%88%98%E6%8C%87%E5%8D%97/</id>
-    <published>2023-11-18T06:25:30.000Z</published>
-    <updated>2025-11-25T14:53:26.076Z</updated>
-    
-    
-    <summary type="html">&lt;h1 id=&quot;背景&quot;&gt;&lt;a href=&quot;#背景&quot; class=&quot;headerlink&quot; title=&quot;背景&quot;&gt;&lt;/a&gt;背景&lt;/h1&gt;&lt;p&gt;应用启动性能是用户体验的重要指标，直接影响用户对应用的第一印象。据统计，启动时间每增加1秒，用户流失率可能会增加20%。本文将系统性地介绍iOS应用启动优化的各种技术手段，包括图像处理优化、加密算法优化、文本渲染优化等实用方案。&lt;/p&gt;</summary>
-    
-    
-    
-    <category term="iOS开发" scheme="https://blog.vanjay.cn/categories/iOS%E5%BC%80%E5%8F%91/"/>
-    
-    
-    <category term="iOS" scheme="https://blog.vanjay.cn/tags/iOS/"/>
-    
-    <category term="性能优化" scheme="https://blog.vanjay.cn/tags/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/"/>
-    
-    <category term="图像处理" scheme="https://blog.vanjay.cn/tags/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/"/>
-    
-    <category term="启动优化" scheme="https://blog.vanjay.cn/tags/%E5%90%AF%E5%8A%A8%E4%BC%98%E5%8C%96/"/>
-    
-    <category term="加密算法" scheme="https://blog.vanjay.cn/tags/%E5%8A%A0%E5%AF%86%E7%AE%97%E6%B3%95/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>docker hud 拉取镜像慢解决办法</title>
-    <link href="https://blog.vanjay.cn/2023/11/17/docker-hud-%E6%8B%89%E5%8F%96%E9%95%9C%E5%83%8F%E6%85%A2%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/"/>
-    <id>https://blog.vanjay.cn/2023/11/17/docker-hud-%E6%8B%89%E5%8F%96%E9%95%9C%E5%83%8F%E6%85%A2%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/</id>
-    <published>2023-11-17T01:14:44.000Z</published>
-    <updated>2023-11-17T01:52:14.193Z</updated>
-    
-    
-    <summary type="html">&lt;h2 id=&quot;背景&quot;&gt;&lt;a href=&quot;#背景&quot; class=&quot;headerlink&quot; title=&quot;背景&quot;&gt;&lt;/a&gt;背景&lt;/h2&gt;&lt;p&gt;在日常的Docker使用中，我们可能会遇到一个常见的问题：在特定机器上拉取Docker镜像非常缓慢，甚至无法连接到外网。这种情况通常发生在网络限制较多的环境中，如一些公司的内部网络或地理位置较偏远的区域。但幸运的是，如果我们手头有一台可以“翻墙”并访问外网的本地机器，就可以采用一种曲线救国的方法来解决这个问题。本文将介绍如何通过skopeo工具，高效地在本地机器上拉取Docker镜像，并将其迁移到目标机器上。&lt;/p&gt;</summary>
-    
-    
-    
-    <category term="运维" scheme="https://blog.vanjay.cn/categories/%E8%BF%90%E7%BB%B4/"/>
-    
-    
-    <category term="docker" scheme="https://blog.vanjay.cn/tags/docker/"/>
-    
-    <category term="运维" scheme="https://blog.vanjay.cn/tags/%E8%BF%90%E7%BB%B4/"/>
-    
-    <category term="服务器" scheme="https://blog.vanjay.cn/tags/%E6%9C%8D%E5%8A%A1%E5%99%A8/"/>
     
   </entry>
   

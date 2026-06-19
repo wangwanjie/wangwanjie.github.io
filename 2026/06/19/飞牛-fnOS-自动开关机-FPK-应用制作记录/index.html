@@ -1,0 +1,817 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic%7CRoboto+Slab:300,300italic,400,400italic,700,700italic%7CPT+Mono:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css" integrity="sha256-Vzbj7sDDS/woiFS3uNKo8eIuni59rjyNGtXfstRzStA=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"blog.vanjay.cn","root":"/","images":"/images","scheme":"Mist","darkmode":false,"version":"8.16.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":"mac"},"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="背景我的 NAS 平时并不需要 24 小时满负载运行，更多时候只是固定时间段用来同步、备份、下载和访问家庭服务。所以我一直希望它能像群晖 DSM 一样，在系统里直接配置“几点开机、几点关机”，不用每次手动操作，也不用为了一个固定任务让机器整天开着。 之前用群晖时，这个功能是系统自带的，入口清晰，交互也足够简单。但换到飞牛 fnOS 后，我在官方应用商店里没有找到类似的应用。底层其实并不复杂，Lin">
+<meta property="og:type" content="article">
+<meta property="og:title" content="飞牛 fnOS 自动开关机 FPK 应用制作记录">
+<meta property="og:url" content="https://blog.vanjay.cn/2026/06/19/%E9%A3%9E%E7%89%9B-fnOS-%E8%87%AA%E5%8A%A8%E5%BC%80%E5%85%B3%E6%9C%BA-FPK-%E5%BA%94%E7%94%A8%E5%88%B6%E4%BD%9C%E8%AE%B0%E5%BD%95/index.html">
+<meta property="og:site_name" content="VanJay&#39;s Blog">
+<meta property="og:description" content="背景我的 NAS 平时并不需要 24 小时满负载运行，更多时候只是固定时间段用来同步、备份、下载和访问家庭服务。所以我一直希望它能像群晖 DSM 一样，在系统里直接配置“几点开机、几点关机”，不用每次手动操作，也不用为了一个固定任务让机器整天开着。 之前用群晖时，这个功能是系统自带的，入口清晰，交互也足够简单。但换到飞牛 fnOS 后，我在官方应用商店里没有找到类似的应用。底层其实并不复杂，Lin">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://blog.vanjay.cn/images/fnos-autopower/main-window.png">
+<meta property="og:image" content="https://blog.vanjay.cn/images/fnos-autopower/add-plan.png">
+<meta property="og:image" content="https://blog.vanjay.cn/images/fnos-autopower/opendesign-reference.png">
+<meta property="article:published_time" content="2026-06-19T15:30:00.000Z">
+<meta property="article:modified_time" content="2026-06-19T15:06:49.358Z">
+<meta property="article:author" content="VanJay">
+<meta property="article:tag" content="NAS">
+<meta property="article:tag" content="飞牛">
+<meta property="article:tag" content="fnOS">
+<meta property="article:tag" content="FPK">
+<meta property="article:tag" content="自动开关机">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://blog.vanjay.cn/images/fnos-autopower/main-window.png">
+
+
+<link rel="canonical" href="https://blog.vanjay.cn/2026/06/19/%E9%A3%9E%E7%89%9B-fnOS-%E8%87%AA%E5%8A%A8%E5%BC%80%E5%85%B3%E6%9C%BA-FPK-%E5%BA%94%E7%94%A8%E5%88%B6%E4%BD%9C%E8%AE%B0%E5%BD%95/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://blog.vanjay.cn/2026/06/19/%E9%A3%9E%E7%89%9B-fnOS-%E8%87%AA%E5%8A%A8%E5%BC%80%E5%85%B3%E6%9C%BA-FPK-%E5%BA%94%E7%94%A8%E5%88%B6%E4%BD%9C%E8%AE%B0%E5%BD%95/","path":"2026/06/19/飞牛-fnOS-自动开关机-FPK-应用制作记录/","title":"飞牛 fnOS 自动开关机 FPK 应用制作记录"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>飞牛 fnOS 自动开关机 FPK 应用制作记录 | VanJay's Blog</title>
+  
+
+  <script src="/js/third-party/analytics/baidu-analytics.js"></script>
+  <script async src="https://hm.baidu.com/hm.js?dcbe579f2b53b3adfd4034b7acee5785"></script>
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="VanJay's Blog" type="application/atom+xml">
+<link rel="alternate" href="/rss2.xml" title="VanJay's Blog" type="application/rss+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">VanJay's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">一个爱折腾工程师的全栈梦</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="home fa-fw"></i>首页</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-commonweal"><a href="/404.html" rel="section"><i class="heartbeat fa-fw"></i>公益 404</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="user fa-fw"></i>关于</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%83%8C%E6%99%AF"><span class="nav-number">1.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%88%E9%AA%8C%E8%AF%81%E5%91%BD%E4%BB%A4%E8%A1%8C%E6%96%B9%E6%A1%88"><span class="nav-number">2.</span> <span class="nav-text">先验证命令行方案</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%8E%E5%91%BD%E4%BB%A4%E5%8F%98%E6%88%90%E5%BA%94%E7%94%A8"><span class="nav-number">3.</span> <span class="nav-text">从命令变成应用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A0%B8%E5%BF%83%E5%AE%9E%E7%8E%B0%E6%80%9D%E8%B7%AF"><span class="nav-number">4.</span> <span class="nav-text">核心实现思路</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#FPK-%E6%89%93%E5%8C%85%E8%BF%87%E7%A8%8B"><span class="nav-number">5.</span> <span class="nav-text">FPK 打包过程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B3%E9%94%AE%E6%B3%A8%E6%84%8F%E7%82%B9"><span class="nav-number">6.</span> <span class="nav-text">关键注意点</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-privilege-%E4%B8%8D%E8%A6%81%E5%88%9B%E5%BB%BA-root-%E7%94%A8%E6%88%B7"><span class="nav-number">6.1.</span> <span class="nav-text">1. privilege 不要创建 root 用户</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-fnOS-%E7%AA%97%E5%8F%A3%E6%A8%A1%E5%BC%8F%E4%B8%8D%E6%98%AF%E6%99%AE%E9%80%9A-url"><span class="nav-number">6.2.</span> <span class="nav-text">2. fnOS 窗口模式不是普通 url</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E6%A1%8C%E9%9D%A2%E5%BF%AB%E6%8D%B7%E6%96%B9%E5%BC%8F%E9%9C%80%E8%A6%81-app-x2F-ui-x2F-config"><span class="nav-number">6.3.</span> <span class="nav-text">3. 桌面快捷方式需要 app&#x2F;ui&#x2F;config</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-%E5%BC%B9%E7%AA%97%E8%A6%81%E9%80%82%E9%85%8D%E5%B0%8F%E7%AA%97%E5%8F%A3"><span class="nav-number">6.4.</span> <span class="nav-text">4. 弹窗要适配小窗口</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-%E6%B5%8B%E8%AF%95%E6%97%B6%E9%97%B4%E8%A6%81%E6%8C%89%E4%B8%9C%E5%85%AB%E5%8C%BA%E6%98%BE%E7%A4%BA"><span class="nav-number">6.5.</span> <span class="nav-text">5. 测试时间要按东八区显示</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-%E6%9C%AC%E5%9C%B0%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E4%B8%8D%E8%83%BD%E9%AA%8C%E8%AF%81%E7%9C%9F%E5%AE%9E%E5%86%99%E5%85%A5"><span class="nav-number">6.6.</span> <span class="nav-text">6. 本地开发环境不能验证真实写入</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E8%A3%85%E5%92%8C%E4%BD%BF%E7%94%A8"><span class="nav-number">7.</span> <span class="nav-text">安装和使用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">8.</span> <span class="nav-text">总结</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="VanJay"
+      src="/images/head.png">
+  <p class="site-author-name" itemprop="name">VanJay</p>
+  <div class="site-description" itemprop="description">成功不是将来才有的<br>而是决定去做的那一刻起<br>持续累积而成</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">77</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">44</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">157</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/wangwanjie" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wangwanjie" rel="noopener me" target="_blank"><i class="github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/wangwanjie" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;wangwanjie" rel="noopener me" target="_blank"><i class="twitter fa-fw"></i>Twitter</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="http://www.weibo.com/2406245873/profile?topnav=1&wvr=6" title="微博 → http:&#x2F;&#x2F;www.weibo.com&#x2F;2406245873&#x2F;profile?topnav&#x3D;1&amp;wvr&#x3D;6" rel="noopener me" target="_blank"><i class="weibo fa-fw"></i>微博</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.facebook.com/wangwanjie123" title="Facebook → https:&#x2F;&#x2F;www.facebook.com&#x2F;wangwanjie123" rel="noopener me" target="_blank"><i class="facebook fa-fw"></i>Facebook</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="http://wpa.qq.com/msgrd?v=3&uin=396736694&site=qq&menu=yes" title="QQ → http:&#x2F;&#x2F;wpa.qq.com&#x2F;msgrd?v&#x3D;3&amp;uin&#x3D;396736694&amp;site&#x3D;qq&amp;menu&#x3D;yes" rel="noopener me" target="_blank"><i class="qq fa-fw"></i>QQ</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:vanjay,dev@gmail.com" title="E-Mail → mailto:vanjay,dev@gmail.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="sidebar-inner sidebar-blogroll">
+      <div class="links-of-blogroll animated">
+        <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+          链接
+        </div>
+        <ul class="links-of-blogroll-list">
+            <li class="links-of-blogroll-item">
+              <a href="https://www.vanjay.cn/" title="https:&#x2F;&#x2F;www.vanjay.cn" rel="noopener" target="_blank">VanJay</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://boxueio.com/" title="https:&#x2F;&#x2F;boxueio.com" rel="noopener" target="_blank">泊学网</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="http://www.smartisan.com/" title="http:&#x2F;&#x2F;www.smartisan.com&#x2F;" rel="noopener" target="_blank">锤子科技</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://objccn.io/" title="https:&#x2F;&#x2F;objccn.io&#x2F;" rel="noopener" target="_blank">ObjC中国</a>
+            </li>
+            <li class="links-of-blogroll-item">
+              <a href="https://github.com/apple/swift-evolution" title="https:&#x2F;&#x2F;github.com&#x2F;apple&#x2F;swift-evolution" rel="noopener" target="_blank">Swift evolution</a>
+            </li>
+        </ul>
+      </div>
+    </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://blog.vanjay.cn/2026/06/19/%E9%A3%9E%E7%89%9B-fnOS-%E8%87%AA%E5%8A%A8%E5%BC%80%E5%85%B3%E6%9C%BA-FPK-%E5%BA%94%E7%94%A8%E5%88%B6%E4%BD%9C%E8%AE%B0%E5%BD%95/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/head.png">
+      <meta itemprop="name" content="VanJay">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="VanJay's Blog">
+      <meta itemprop="description" content="成功不是将来才有的<br>而是决定去做的那一刻起<br>持续累积而成">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="飞牛 fnOS 自动开关机 FPK 应用制作记录 | VanJay's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          飞牛 fnOS 自动开关机 FPK 应用制作记录
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2026-06-19 23:30:00 / 修改时间：23:06:49" itemprop="dateCreated datePublished" datetime="2026-06-19T23:30:00+08:00">2026-06-19</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/NAS/" itemprop="url" rel="index"><span itemprop="name">NAS</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/NAS/%E8%BF%90%E7%BB%B4/" itemprop="url" rel="index"><span itemprop="name">运维</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>2.4k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>9 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>我的 NAS 平时并不需要 24 小时满负载运行，更多时候只是固定时间段用来同步、备份、下载和访问家庭服务。所以我一直希望它能像群晖 DSM 一样，在系统里直接配置“几点开机、几点关机”，不用每次手动操作，也不用为了一个固定任务让机器整天开着。</p>
+<p>之前用群晖时，这个功能是系统自带的，入口清晰，交互也足够简单。但换到飞牛 fnOS 后，我在官方应用商店里没有找到类似的应用。底层其实并不复杂，Linux 可以通过 RTC wakealarm 做定时唤醒，通过 cron 或 systemd 做定时关机；问题是命令行方案虽然能用，但每次修改时间、检查状态、排查是否生效都不够方便。</p>
+<p>于是我做了一个飞牛 FPK 应用，把命令行方案包装成一个类似群晖体验的图形界面应用：可以新增、编辑、启用、停用、删除开关机计划，并在 fnOS 桌面窗口里直接使用。</p>
+<span id="more"></span>
+
+<p>最终效果如下：</p>
+<img src="/images/fnos-autopower/main-window.png"/>
+
+<p>新增计划弹窗：</p>
+<img src="/images/fnos-autopower/add-plan.png"/>
+
+<h2 id="先验证命令行方案"><a href="#先验证命令行方案" class="headerlink" title="先验证命令行方案"></a>先验证命令行方案</h2><p>做 GUI 之前，我先在 fnOS 上验证了最小可行方案。自动开机依赖主板 RTC 唤醒能力，核心是写入：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">/sys/class/rtc/rtc0/wakealarm<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>比如每天 15:00 开机，可以先写一个脚本：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">cat</span> <span class="token operator">></span> /usr/local/bin/set-next-wake.sh <span class="token operator">&lt;&lt;</span> <span class="token string">'EOF'
+#!/bin/bash
+# 每天 15:00 开机
+WAKE_HOUR="15:00"
+NOW=$(date +%s)
+TODAY_WAKE=$(date -d "today $WAKE_HOUR" +%s)
+
+# 如果今天的开机时间还没到，就用今天；否则用明天
+if [ "$NOW" -lt "$TODAY_WAKE" ]; then
+    NEXT=$TODAY_WAKE
+else
+    NEXT=$(date -d "tomorrow $WAKE_HOUR" +%s)
+fi
+
+echo 0 > /sys/class/rtc/rtc0/wakealarm
+echo "$NEXT" > /sys/class/rtc/rtc0/wakealarm
+logger "RTC wake set to $(date -d @$NEXT '+%Y-%m-%d %H:%M:%S')"
+EOF</span>
+<span class="token function">chmod</span> +x /usr/local/bin/set-next-wake.sh<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>然后注册一个 systemd 服务，在系统关机前刷新下一次 RTC 唤醒时间：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">cat</span> <span class="token operator">></span> /etc/systemd/system/rtc-wake.service <span class="token operator">&lt;&lt;</span> <span class="token string">'EOF'
+[Unit]
+Description=Set RTC wakeup alarm before shutdown
+DefaultDependencies=no
+Before=shutdown.target
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStop=/usr/local/bin/set-next-wake.sh
+
+[Install]
+WantedBy=multi-user.target
+EOF</span>
+
+systemctl daemon-reload
+systemctl <span class="token builtin class-name">enable</span> rtc-wake.service
+systemctl start rtc-wake.service<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>定时关机可以直接写入 root crontab，例如每天 20:00 关机：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token punctuation">(</span> <span class="token function">crontab</span> <span class="token parameter variable">-l</span> <span class="token operator"><span class="token file-descriptor important">2</span>></span>/dev/null<span class="token punctuation">;</span> <span class="token builtin class-name">echo</span> <span class="token string">"0 20 * * * /sbin/poweroff"</span> <span class="token punctuation">)</span> <span class="token operator">|</span> <span class="token function">crontab</span> -<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>检查是否生效：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">cat</span> /proc/driver/rtc <span class="token operator">|</span> <span class="token function">grep</span> <span class="token parameter variable">-E</span> <span class="token string">"alrm|alarm_IRQ"</span>
+systemctl is-enabled rtc-wake.service
+<span class="token function">crontab</span> <span class="token parameter variable">-l</span> <span class="token operator">|</span> <span class="token function">grep</span> poweroff
+<span class="token function">date</span> <span class="token parameter variable">-d</span> @<span class="token variable"><span class="token variable">$(</span><span class="token function">cat</span> /sys/class/rtc/rtc0/wakealarm<span class="token variable">)</span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>这里有一个很容易误判的点：<code>/proc/driver/rtc</code> 里看到的 <code>alrm_time</code> 可能是 UTC 时间，而不是你当前时区的显示时间。我的机器时区是 <code>Asia/Shanghai</code>，计划 15:00 开机时，<code>date -d @$(cat /sys/class/rtc/rtc0/wakealarm)</code> 显示的是 <code>Fri Jun 19 03:00:00 PM CST 2026</code>，但 <code>/proc/driver/rtc</code> 里看到的是 <code>07:00:00</code>。这不是错了，而是 UTC 和东八区的差异。</p>
+<p>命令验证通过后，才值得继续做应用化。</p>
+<h2 id="从命令变成应用"><a href="#从命令变成应用" class="headerlink" title="从命令变成应用"></a>从命令变成应用</h2><p>我希望这个应用解决三个问题：</p>
+<ul>
+<li>不用手写 shell、systemd、crontab。</li>
+<li>能像群晖一样，通过表格管理多条计划。</li>
+<li>能在 fnOS 里以正常窗口方式打开，而不是跳到一个单独网页。</li>
+</ul>
+<p>最初的界面参考了群晖的“硬件和电源 - 电源计划”交互，再用 OpenDesign 画了一版适合 fnOS 的界面稿：</p>
+<img src="/images/fnos-autopower/opendesign-reference.png"/>
+
+<p>最终应用去掉了和飞牛无关的“常规、硬盘休眠、不断电系统”等参考项，只保留“开关机计划”。交互上保留了常用的新增、编辑、删除、启用、停用、应用计划、测试开机计划。删除计划增加二次确认，避免误删。</p>
+<p>技术栈选择尽量克制：</p>
+<ul>
+<li>后端：Python 3 标准库 HTTP server</li>
+<li>前端：原生 HTML &#x2F; CSS &#x2F; JavaScript</li>
+<li>系统写入：RTC wakealarm、systemd、root crontab</li>
+<li>打包：fnOS <code>fnpack</code></li>
+</ul>
+<p>没有用 Docker，也没有引入复杂依赖。原因很直接：这个应用必须写宿主机的 <code>/sys/class/rtc/rtc0/wakealarm</code>、<code>/etc/systemd/system</code> 和 root crontab。对于这种强宿主权限的小工具，原生 FPK 比容器更合适。</p>
+<h2 id="核心实现思路"><a href="#核心实现思路" class="headerlink" title="核心实现思路"></a>核心实现思路</h2><p>应用内部把计划保存成结构化 JSON，每条计划包含：</p>
+<ul>
+<li>操作：开机或关机</li>
+<li>时间：小时和分钟</li>
+<li>日期类型：每天、工作日、周末或自定义星期</li>
+<li>状态：启用或停用</li>
+</ul>
+<p>应用计划时做两类写入。</p>
+<p>第一类是关机计划，渲染成 root crontab。为了不污染用户已有 crontab，我用了托管区标记：</p>
+<pre class="line-numbers language-text" data-language="text"><code class="language-text"># BEGIN AUTOPOWER
+...
+# END AUTOPOWER<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<p>每次应用计划时，只替换这两个标记之间的内容，保留其它 crontab 任务。</p>
+<p>第二类是开机计划。应用会计算下一次即将发生的开机时间，把 Unix timestamp 写入：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">/sys/class/rtc/rtc0/wakealarm<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>同时安装一个 systemd shutdown hook，确保系统关机前重新计算下一次唤醒时间。否则如果只在页面点击“应用计划”时写一次 RTC，机器被唤醒后不一定会自动滚动到下一天的计划。</p>
+<h2 id="FPK-打包过程"><a href="#FPK-打包过程" class="headerlink" title="FPK 打包过程"></a>FPK 打包过程</h2><p>FPK 这部分是这次最容易踩坑的地方。最开始我尝试手写包结构，安装时遇到过报错。后面改成用官方 <code>fnpack create</code> 重新生成工程，再把自己的前后端和脚本迁进去，稳定很多。</p>
+<p>最终包结构大致是：</p>
+<pre class="line-numbers language-text" data-language="text"><code class="language-text">fpk/
+├── manifest
+├── config/
+│   ├── privilege
+│   └── resource
+├── cmd/
+│   ├── main
+│   ├── install_init
+│   ├── install_callback
+│   ├── upgrade_init
+│   ├── upgrade_callback
+│   ├── uninstall_init
+│   ├── uninstall_callback
+│   ├── config_init
+│   └── config_callback
+├── app/
+│   └── AutoPower/
+└── ICON.PNG / ICON_256.PNG<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>前端页面、Python 服务和配置文件会同步到 <code>fpk/app/AutoPower</code>，再通过脚本构建：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token assign-left variable">FPK_VERSION</span><span class="token operator">=</span><span class="token number">1.0</span>.4 ./scripts/build-fpk.sh<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>产物会输出到：</p>
+<pre class="line-numbers language-text" data-language="text"><code class="language-text">dist-fpk/autopower-1.0.4.fpk<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<h2 id="关键注意点"><a href="#关键注意点" class="headerlink" title="关键注意点"></a>关键注意点</h2><h3 id="1-privilege-不要创建-root-用户"><a href="#1-privilege-不要创建-root-用户" class="headerlink" title="1. privilege 不要创建 root 用户"></a>1. privilege 不要创建 root 用户</h3><p>安装失败时，我遇到过类似“本地用户已存在”的问题。原因是 FPK 的权限配置里如果写了 <code>username/groupname: root</code>，安装器可能会尝试创建这个用户或用户组，而系统里 root 本来就存在。</p>
+<p>这个应用需要 root 权限运行，但不应该创建 root 用户。最后保留为：</p>
+<pre class="line-numbers language-json" data-language="json"><code class="language-json"><span class="token punctuation">&#123;</span>
+  <span class="token property">"defaults"</span><span class="token operator">:</span> <span class="token punctuation">&#123;</span>
+    <span class="token property">"run-as"</span><span class="token operator">:</span> <span class="token string">"root"</span>
+  <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>这样应用以 root 身份运行，才能写 RTC、systemd 和 crontab，同时不会触发用户创建冲突。</p>
+<h3 id="2-fnOS-窗口模式不是普通-url"><a href="#2-fnOS-窗口模式不是普通-url" class="headerlink" title="2. fnOS 窗口模式不是普通 url"></a>2. fnOS 窗口模式不是普通 url</h3><p>最开始应用可以打开，但它是单独跳到：</p>
+<pre class="line-numbers language-text" data-language="text"><code class="language-text">http://NAS_IP:3868/<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>这不像 fnOS 其它应用的窗口体验。后来确认入口配置里不能用普通新页面打开方式，而要配置成 iframe 窗口模式。关键配置类似：</p>
+<pre class="line-numbers language-json" data-language="json"><code class="language-json"><span class="token punctuation">&#123;</span>
+  <span class="token property">"type"</span><span class="token operator">:</span> <span class="token string">"iframe"</span><span class="token punctuation">,</span>
+  <span class="token property">"protocol"</span><span class="token operator">:</span> <span class="token string">"http"</span><span class="token punctuation">,</span>
+  <span class="token property">"port"</span><span class="token operator">:</span> <span class="token string">"3868"</span><span class="token punctuation">,</span>
+  <span class="token property">"url"</span><span class="token operator">:</span> <span class="token string">"/"</span><span class="token punctuation">,</span>
+  <span class="token property">"allUsers"</span><span class="token operator">:</span> <span class="token boolean">true</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>改完后应用才会以 fnOS 桌面窗口打开。</p>
+<h3 id="3-桌面快捷方式需要-app-x2F-ui-x2F-config"><a href="#3-桌面快捷方式需要-app-x2F-ui-x2F-config" class="headerlink" title="3. 桌面快捷方式需要 app&#x2F;ui&#x2F;config"></a>3. 桌面快捷方式需要 app&#x2F;ui&#x2F;config</h3><p>要让桌面出现应用图标，除了有图标文件，还要有桌面入口配置。关键点包括：</p>
+<pre class="line-numbers language-text" data-language="text"><code class="language-text">desktop_uidir=ui
+desktop_applaunchname=autopower.Application
+service_port=3868<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<p>如果覆盖安装后桌面入口没刷新，可以在 fnOS 上重启应用中心服务：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">systemctl restart trim_app_center.service<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<h3 id="4-弹窗要适配小窗口"><a href="#4-弹窗要适配小窗口" class="headerlink" title="4. 弹窗要适配小窗口"></a>4. 弹窗要适配小窗口</h3><p>fnOS 应用窗口可以被用户拉得比较矮。新增计划里的日期选择 popup 如果按普通网页写，很容易出现下半部分被窗口裁掉、也无法滚动的问题。</p>
+<p>最后需要给弹层做最大高度、滚动区域，并处理点击空白区域自动收起。否则在 NAS 桌面窗口里体验会明显不如系统应用。</p>
+<h3 id="5-测试时间要按东八区显示"><a href="#5-测试时间要按东八区显示" class="headerlink" title="5. 测试时间要按东八区显示"></a>5. 测试时间要按东八区显示</h3><p>底层 RTC 写入的是 timestamp，系统 RTC 信息又可能显示 UTC。如果界面上直接展示底层字段，用户会误以为计划错了 8 小时。</p>
+<p>所以界面里的“测试开机计划”和状态展示要明确按本地东八区时间显示；底部状态可以保留 RTC 原始信息，但要知道它和本地时间不是一回事。</p>
+<h3 id="6-本地开发环境不能验证真实写入"><a href="#6-本地开发环境不能验证真实写入" class="headerlink" title="6. 本地开发环境不能验证真实写入"></a>6. 本地开发环境不能验证真实写入</h3><p>这个项目可以在 macOS 上本地跑前后端：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">python3 src/autopower_server.py <span class="token punctuation">\</span>
+  <span class="token parameter variable">--host</span> <span class="token number">127.0</span>.0.1 <span class="token punctuation">\</span>
+  <span class="token parameter variable">--port</span> <span class="token number">3868</span> <span class="token punctuation">\</span>
+  --data-dir /tmp/autopower-dev <span class="token punctuation">\</span>
+  --web-dir web<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>但不要指望在 macOS 上验证“应用计划”真的写入系统，因为 macOS 没有 fnOS 的 <code>/sys/class/rtc/rtc0/wakealarm</code>、systemd 和 root crontab 环境。本地主要验证 UI、接口和计划计算逻辑；真实写入必须在 fnOS 上安装 FPK 后测。</p>
+<h2 id="安装和使用"><a href="#安装和使用" class="headerlink" title="安装和使用"></a>安装和使用</h2><p>源码和安装包放在 GitHub：</p>
+<ul>
+<li>项目地址：<a target="_blank" rel="noopener" href="https://github.com/wangwanjie/FN-AutoPower">https://github.com/wangwanjie/FN-AutoPower</a></li>
+<li>v1.0.4 下载：<a target="_blank" rel="noopener" href="https://github.com/wangwanjie/FN-AutoPower/releases/download/v1.0.4/autopower-1.0.4.fpk">https://github.com/wangwanjie/FN-AutoPower/releases/download/v1.0.4/autopower-1.0.4.fpk</a></li>
+</ul>
+<p>安装方式：</p>
+<ol>
+<li>打开飞牛应用中心。</li>
+<li>选择手动安装。</li>
+<li>上传 <code>autopower-1.0.4.fpk</code>。</li>
+<li>安装完成后，从桌面图标打开“自动开关机”。</li>
+<li>新增开机、关机计划，确认后点击“应用计划”。</li>
+</ol>
+<p>我当前的使用方式是每天 15:00 自动开机，每天 20:00 自动关机。对于只在固定时间段使用的家庭 NAS 来说，这样既保留了自动化，也减少了无意义运行时间。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>这个应用本身不复杂，真正需要注意的是 fnOS FPK 的集成细节，以及 Linux RTC 定时唤醒和时区显示之间的差异。</p>
+<p>命令行方案适合验证原理，但长期使用还是 GUI 更舒服。尤其是 NAS 这种家庭基础设施，很多功能不是“能不能用”的问题，而是“以后修改和排查是否方便”的问题。把脚本包装成一个飞牛桌面应用后，开关机计划就从一次性的命令配置，变成了可以长期维护的小工具。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="reward-container">
+  <div>对你有帮助？您的支持将更加鼓励我继续创作！</div>
+  <button>
+    打赏
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/images/wechatpay.png" alt="VanJay 微信">
+        <span>微信</span>
+      </div>
+      <div>
+        <img src="/images/alipay.jpg" alt="VanJay 支付宝">
+        <span>支付宝</span>
+      </div>
+
+  </div>
+</div>
+
+          <div class="followme">
+  <span>欢迎关注我的其它发布渠道</span>
+
+  <div class="social-list">
+
+      <div class="social-item">
+          <a target="_blank" class="social-link" href="/atom.xml">
+            <span class="icon">
+              <i class="fa fa-rss"></i>
+            </span>
+
+            <span class="label">RSS</span>
+          </a>
+      </div>
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/NAS/" rel="tag"># NAS</a>
+              <a href="/tags/%E9%A3%9E%E7%89%9B/" rel="tag"># 飞牛</a>
+              <a href="/tags/fnOS/" rel="tag"># fnOS</a>
+              <a href="/tags/FPK/" rel="tag"># FPK</a>
+              <a href="/tags/%E8%87%AA%E5%8A%A8%E5%BC%80%E5%85%B3%E6%9C%BA/" rel="tag"># 自动开关机</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2026/06/04/Authelia-2FA-%E9%83%A8%E7%BD%B2%E6%96%87%E6%A1%A3%EF%BC%88nginx-auth-request-haproxy%EF%BC%89/" rel="prev" title="Authelia 2FA 部署文档（nginx auth_request + haproxy）">
+                  <i class="fa fa-chevron-left"></i> Authelia 2FA 部署文档（nginx auth_request + haproxy）
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments" id="lv-container" data-id="city" data-uid="MTAyMC80MDA5MC8xNjYxNw=="></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2013 – 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">&copy VanJay</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">113k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">6:52</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/mist/" rel="noopener" target="_blank">NexT.Mist</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+  <a href="https://github.com/wangwanjie" class="github-corner" title="在 GitHub 上关注我" aria-label="在 GitHub 上关注我" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js" integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js" integrity="sha256-yt2kYMy0w8AbtF89WXb2P1rfjcP/HTHLT7097U8Y5b8=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+  <script src="/js/third-party/fancybox.js"></script>
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script src="/js/third-party/comments/livere.js"></script>
+ <!-- 页面点击小红心 -->
+
+<script type="text/javascript">
+!function(e,t,a){function r(){for(var e=0;e<n.length;e++)n[e].alpha<=0?(t.body.removeChild(n[e].el),n.splice(e,1)):(n[e].y--,n[e].scale+=.004,n[e].alpha-=.013,n[e].el.style.cssText="left:"+n[e].x+"px;top:"+n[e].y+"px;opacity:"+n[e].alpha+";transform:scale("+n[e].scale+","+n[e].scale+") rotate(45deg);background:"+n[e].color+";z-index:99999");requestAnimationFrame(r)}var n=[];e.requestAnimationFrame=e.requestAnimationFrame||e.webkitRequestAnimationFrame||e.mozRequestAnimationFrame||e.oRequestAnimationFrame||e.msRequestAnimationFrame||function(e){setTimeout(e,1e3/60)},function(e){var a=t.createElement("style");a.type="text/css";try{a.appendChild(t.createTextNode(e))}catch(t){a.styleSheet.cssText=e}t.getElementsByTagName("head")[0].appendChild(a)}(".heart{width: 10px;height: 10px;position: fixed;background: #f00;transform: rotate(45deg);-webkit-transform: rotate(45deg);-moz-transform: rotate(45deg);}.heart:after,.heart:before{content: '';width: inherit;height: inherit;background: inherit;border-radius: 50%;-webkit-border-radius: 50%;-moz-border-radius: 50%;position: fixed;}.heart:after{top: -5px;}.heart:before{left: -5px;}"),function(){var a="function"==typeof e.onclick&&e.onclick;e.onclick=function(e){a&&a(),function(e){var a=t.createElement("div");a.className="heart",n.push({el:a,x:e.clientX-5,y:e.clientY-5,scale:1,alpha:1,color:"rgb("+~~(255*Math.random())+","+~~(255*Math.random())+","+~~(255*Math.random())+")"}),t.body.appendChild(a)}(e)}}(),r()}(window,document);
+</script>
+
+
+<script type="text/javascript">
+/*页面载入完成后，修改手机上跳转 github 样式 */
+!function (e, t, a) {
+    var browser = {
+        versions: function () {
+            var u = navigator.userAgent,
+                app = navigator.appVersion;
+            return { //移动终端浏览器版本信息
+                trident: u.indexOf('Trident') > -1, //IE内核
+                presto: u.indexOf('Presto') > -1, //opera内核
+                webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
+                gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
+                mobile: !!u.match(/AppleWebKit.*Mobile.*/), // || !!u.match(/AppleWebKit/), //是否为移动终端
+                ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+                android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
+                iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者QQHD浏览器
+                iPad: u.indexOf('iPad') > -1, //是否iPad
+                webApp: u.indexOf('Safari') == -1
+                //是否web应该程序，没有头部与底部
+            };
+        }(),
+        language: (navigator.browserLanguage || navigator.language).toLowerCase()
+    }
+
+    function setDynamicBackground() {
+        $('body').css({
+            'background': 'url(https://source.unsplash.com/random/1600x900)',
+            'background-attachment': 'fixed',
+            'background-repeat': 'repeat',
+            'background-size': 'contain'
+        });
+        $('.main-inner').css({
+            'margin-top': '60px',
+            'padding': '60px 60px 0px 60px',
+            'background': '#fff',
+            'opacity': '0.8',
+            'min-height': '500px'
+        });
+        $('.page-home .main-inner').css({
+            'padding-bottom': '60px',
+        });
+        $('.header').css({
+            'background': 'transparent',
+            'color': '#fff'
+        });
+        $('.footer').css({
+            'background': 'transparent',
+            'color': '#fff'
+        });
+
+        $('.footer-inner .theme-link').css('color', '#EEE');
+    }
+    function setSquareCellBackground(isMobile) {
+        $('body').css({
+            'background-image': 'url("/images/background_cell.png")',
+            'background-position': 'center center',
+            'background-size': 'auto',
+            'background-repeat': 'repeat',
+            'background-attachment': 'fixed'
+        });
+        if (!isMobile) {
+            $('.main-inner').css({
+                'margin-top': '60px',
+                'padding': '60px 60px 0px 60px',
+                'opacity': '0.8',
+                'min-height': '500px'
+            });
+            $('.page-home .main-inner').css({
+                'padding-bottom': '60px',
+            });
+        }
+        $('.header').css({
+            'background': 'transparent',
+        });
+        $('.footer').css({
+            'background': 'transparent',
+        });
+    }
+    function setMobileBackgroun() {
+        $('.header').css({
+            'background': 'linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("https://s1.ax1x.com/2018/06/09/CbDIIO.jpg") no-repeat',
+            'background-size': 'cover',
+            'background-color': 'black',
+            'background-position': 'center',
+            'width': '100%',
+            'display': 'table'
+        })
+
+        $('.site-nav-toggle .btn-bar').css('background', '#fff');
+    }
+
+    function settingBackground () {
+        if (browser.versions.mobile) {
+            setSquareCellBackground(true);
+        } else {
+            // setDynamicBackground();
+            setSquareCellBackground(false);
+        }
+    }
+    if (browser.versions.mobile) {
+        var headerStr = '<div class="site-nav-toggle">' +
+            '    <button aria-label="切换导航栏">' +
+            '      <span class="btn-bar"></span>' +
+            '      <span class="btn-bar"></span>' +
+            '      <span class="btn-bar"></span>' +
+            '    </button>' +
+            '  </div>' +
+            '  <div class="site-meta ">' +
+            '    <div class="custom-logo-site-title">' +
+            '      <a href="/" class="brand" rel="start" style="opacity: 1;">' +
+            '        <span class="logo-line-before"><i class="" style="transform: translateX(100%);"></i></span>' +
+            '        <span class="site-title" style="opacity: 1; top: 0px;">VanJay\'s Blog</span>' +
+            '        <span class="logo-line-after"><i class="" style="transform: translateX(-100%);"></i></span>' +
+            '      </a>' +
+            '    </div>' +
+            '        <p class="site-subtitle" style="opacity: 1; top: 0px;">一个爱折腾工程师的全栈梦</p>' +
+            '  </div>';
+        $('.header .site-brand-wrapper').html(headerStr);
+    }
+    // 设置背景
+    settingBackground();
+
+}(window, document);
+</script>
+</body>
+</html>
