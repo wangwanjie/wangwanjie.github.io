@@ -157,18 +157,18 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">77</span>
+          <span class="site-state-item-count">78</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
           <a href="/categories/">
-        <span class="site-state-item-count">44</span>
+        <span class="site-state-item-count">45</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">157</span>
+        <span class="site-state-item-count">166</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -229,6 +229,128 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://blog.vanjay.cn/2026/08/30/Mac%E4%B8%8B%E7%BB%99%E7%A3%8A%E7%A7%91N60Pro-2G-RAM%E7%89%88-%E5%88%B7%E5%85%A5ImmortalWrt%E7%B3%BB%E7%BB%9F/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/head.png">
+      <meta itemprop="name" content="VanJay">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="VanJay's Blog">
+      <meta itemprop="description" content="成功不是将来才有的<br>而是决定去做的那一刻起<br>持续累积而成">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | VanJay's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2026/08/30/Mac%E4%B8%8B%E7%BB%99%E7%A3%8A%E7%A7%91N60Pro-2G-RAM%E7%89%88-%E5%88%B7%E5%85%A5ImmortalWrt%E7%B3%BB%E7%BB%9F/" class="post-title-link" itemprop="url">Mac下给磊科N60Pro(2G RAM版)刷入ImmortalWrt系统</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2026-08-30 10:47:54 / 修改时间：11:40:37" itemprop="dateCreated datePublished" datetime="2026-08-30T10:47:54+08:00">2026-08-30</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%AE%B6%E5%BA%AD%E7%BB%84%E7%BD%91/" itemprop="url" rel="index"><span itemprop="name">家庭组网</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%AE%B6%E5%BA%AD%E7%BB%84%E7%BD%91/%E8%B7%AF%E7%94%B1%E5%99%A8/" itemprop="url" rel="index"><span itemprop="name">路由器</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>6.1k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>22 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>最近入手了一台磊科 N60 Pro，硬件是 MT7986A、128MB NAND、2GB DDR4 的版本。原厂系统基础路由功能没有问题，但扩展能力有限，所以准备刷入 ImmortalWrt，再安装 iStore，用来按需补充插件。</p>
+<p>这次刷机是在 Mac 下完成的，没有使用 Windows，也没有拆机接串口。完整流程包括：</p>
+<ul>
+<li>确认硬件和 MTD 分区；</li>
+<li>备份全部原厂 MTD 数据；</li>
+<li>校验 ImmortalWrt 官方镜像；</li>
+<li>在 macOS 上搭建临时 TFTP 服务；</li>
+<li>替换 FIP，也就是 BL31 + U-Boot；</li>
+<li>通过 TFTP 启动 initramfs 恢复系统；</li>
+<li>使用 sysupgrade 安装正式系统；</li>
+<li>验证 2GB 内存、overlay 和网络；</li>
+<li>安装 iStore；</li>
+<li>安装并启用 Argon 主题；</li>
+<li>安装 OpenClash 和 Mihomo 核心；</li>
+<li>在没有 IPv6-PD 的二级路由环境中配置 IPv6 Relay；</li>
+<li>清理 Mac 上的临时刷机环境。</li>
+</ul>
+<p>最终结果是：ImmortalWrt 25.12.1 可以正确识别这台 2GB 版 N60 Pro 的全部内存，LuCI、WAN、NAND overlay 均正常。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2026/08/30/Mac%E4%B8%8B%E7%BB%99%E7%A3%8A%E7%A7%91N60Pro-2G-RAM%E7%89%88-%E5%88%B7%E5%85%A5ImmortalWrt%E7%B3%BB%E7%BB%9F/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1189,111 +1311,6 @@
 
 
 
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://blog.vanjay.cn/2026/03/29/VPS%E7%BA%BF%E8%B7%AF%E8%B4%A8%E9%87%8F%E6%A3%80%E6%B5%8B%E5%85%A8%E6%8C%87%E5%8D%97%EF%BC%9ANextTrace-MTR%E5%8F%8C%E5%B7%A5%E5%85%B7%E5%AE%9E%E6%88%98/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/head.png">
-      <meta itemprop="name" content="VanJay">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="VanJay's Blog">
-      <meta itemprop="description" content="成功不是将来才有的<br>而是决定去做的那一刻起<br>持续累积而成">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | VanJay's Blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2026/03/29/VPS%E7%BA%BF%E8%B7%AF%E8%B4%A8%E9%87%8F%E6%A3%80%E6%B5%8B%E5%85%A8%E6%8C%87%E5%8D%97%EF%BC%9ANextTrace-MTR%E5%8F%8C%E5%B7%A5%E5%85%B7%E5%AE%9E%E6%88%98/" class="post-title-link" itemprop="url">VPS线路质量检测全指南：NextTrace + MTR双工具实战</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-      
-
-      <time title="创建时间：2026-03-29 11:25:27 / 修改时间：11:32:36" itemprop="dateCreated datePublished" datetime="2026-03-29T11:25:27+08:00">2026-03-29</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/linux/" itemprop="url" rel="index"><span itemprop="name">linux</span></a>
-        </span>
-          ，
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/linux/vps/" itemprop="url" rel="index"><span itemprop="name">vps</span></a>
-        </span>
-    </span>
-
-  
-    <span class="post-meta-break"></span>
-    <span class="post-meta-item" title="本文字数">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">本文字数：</span>
-      <span>971</span>
-    </span>
-    <span class="post-meta-item" title="阅读时长">
-      <span class="post-meta-item-icon">
-        <i class="far fa-clock"></i>
-      </span>
-      <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>4 分钟</span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h2 id="为什么要做线路测试？"><a href="#为什么要做线路测试？" class="headerlink" title="为什么要做线路测试？"></a>为什么要做线路测试？</h2><p>网络质量决定VPS实际体验。<strong>NextTrace</strong> 看路径是否优质（有无绕路），<strong>MTR</strong> 看丢包和抖动（稳定性），<strong>双向测试</strong> 看闭环效果。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2026/03/29/VPS%E7%BA%BF%E8%B7%AF%E8%B4%A8%E9%87%8F%E6%A3%80%E6%B5%8B%E5%85%A8%E6%8C%87%E5%8D%97%EF%BC%9ANextTrace-MTR%E5%8F%8C%E5%B7%A5%E5%85%B7%E5%AE%9E%E6%88%98/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
   <nav class="pagination">
     <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" title="下一页" aria-label="下一页" href="/page/2/"><i class="fa fa-angle-right"></i></a>
   </nav>
@@ -1318,13 +1335,13 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-line"></i>
     </span>
-    <span title="站点总字数">113k</span>
+    <span title="站点总字数">119k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">6:52</span>
+    <span title="站点阅读时长">7:14</span>
   </span>
 </div>
 <div class="busuanzi-count">
