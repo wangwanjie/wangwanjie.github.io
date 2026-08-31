@@ -29,7 +29,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://blog.vanjay.cn/images/n60pro-immortalwrt/status-2g.png">
 <meta property="article:published_time" content="2026-08-30T02:47:54.000Z">
-<meta property="article:modified_time" content="2026-08-30T03:40:37.910Z">
+<meta property="article:modified_time" content="2026-08-31T16:46:04.480Z">
 <meta property="article:author" content="VanJay">
 <meta property="article:tag" content="OpenWrt">
 <meta property="article:tag" content="磊科">
@@ -156,7 +156,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%A1%AC%E4%BB%B6%E4%B8%8E%E8%BD%AF%E4%BB%B6%E7%8E%AF%E5%A2%83"><span class="nav-number">2.</span> <span class="nav-text">硬件与软件环境</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%88%E8%AF%B4%E7%BB%93%E8%AE%BA%E5%92%8C%E5%85%B3%E9%94%AE%E9%A3%8E%E9%99%A9"><span class="nav-number">3.</span> <span class="nav-text">先说结论和关键风险</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%8B%E8%BD%BD-ImmortalWrt-%E5%9B%BA%E4%BB%B6"><span class="nav-number">4.</span> <span class="nav-text">下载 ImmortalWrt 固件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A0%A1%E9%AA%8C%E4%B8%8B%E8%BD%BD%E6%96%87%E4%BB%B6"><span class="nav-number">5.</span> <span class="nav-text">校验下载文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%A1%AE%E8%AE%A4%E5%8E%9F%E5%8E%82%E7%B3%BB%E7%BB%9F%E5%92%8C%E5%88%86%E5%8C%BA%E5%B8%83%E5%B1%80"><span class="nav-number">6.</span> <span class="nav-text">确认原厂系统和分区布局</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A4%87%E4%BB%BD%E5%8E%9F%E5%8E%82%E7%B3%BB%E7%BB%9F"><span class="nav-number">7.</span> <span class="nav-text">备份原厂系统</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%94%B6%E9%9B%86%E7%B3%BB%E7%BB%9F%E4%BF%A1%E6%81%AF"><span class="nav-number">7.1.</span> <span class="nav-text">收集系统信息</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A4%87%E4%BB%BD%E5%85%A8%E9%83%A8-MTD-%E6%95%B0%E6%8D%AE"><span class="nav-number">7.2.</span> <span class="nav-text">备份全部 MTD 数据</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%89%93%E5%8C%85%E5%A4%87%E4%BB%BD"><span class="nav-number">7.3.</span> <span class="nav-text">打包备份</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%8E-Mac-%E6%8B%89%E5%9B%9E%E5%A4%87%E4%BB%BD"><span class="nav-number">7.4.</span> <span class="nav-text">从 Mac 拉回备份</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9C%A8-Mac-%E4%B8%8A%E6%A0%A1%E9%AA%8C%E5%A4%87%E4%BB%BD"><span class="nav-number">7.5.</span> <span class="nav-text">在 Mac 上校验备份</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%90%86%E8%A7%A3-TFTP-%E6%81%A2%E5%A4%8D%E6%B5%81%E7%A8%8B"><span class="nav-number">8.</span> <span class="nav-text">理解 TFTP 恢复流程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9C%A8-macOS-%E4%B8%8A%E5%87%86%E5%A4%87-TFTP"><span class="nav-number">9.</span> <span class="nav-text">在 macOS 上准备 TFTP</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%A1%AE%E8%AE%A4%E6%9C%89%E7%BA%BF%E6%8E%A5%E5%8F%A3%E5%90%8D%E7%A7%B0"><span class="nav-number">9.1.</span> <span class="nav-text">确认有线接口名称</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A4%8D%E5%88%B6%E5%B9%B6%E9%87%8D%E5%91%BD%E5%90%8D%E6%81%A2%E5%A4%8D%E9%95%9C%E5%83%8F"><span class="nav-number">9.2.</span> <span class="nav-text">复制并重命名恢复镜像</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BA-Mac-%E5%A2%9E%E5%8A%A0%E4%B8%B4%E6%97%B6%E5%9C%B0%E5%9D%80"><span class="nav-number">9.3.</span> <span class="nav-text">为 Mac 增加临时地址</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%90%AF%E5%8A%A8-macOS-%E8%87%AA%E5%B8%A6-TFTP-%E6%9C%8D%E5%8A%A1"><span class="nav-number">9.4.</span> <span class="nav-text">启动 macOS 自带 TFTP 服务</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BF%85%E9%A1%BB%E5%85%88%E5%81%9A%E6%9C%AC%E6%9C%BA-TFTP-%E6%B5%8B%E8%AF%95"><span class="nav-number">9.5.</span> <span class="nav-text">必须先做本机 TFTP 测试</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%8A%E4%BC%A0%E5%B9%B6%E5%88%B7%E5%85%A5-FIP"><span class="nav-number">10.</span> <span class="nav-text">上传并刷入 FIP</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%8A%E4%BC%A0-FIP-%E5%88%B0%E5%8E%9F%E5%8E%82%E7%B3%BB%E7%BB%9F"><span class="nav-number">10.1.</span> <span class="nav-text">上传 FIP 到原厂系统</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%86%99%E5%85%A5-FIP"><span class="nav-number">10.2.</span> <span class="nav-text">写入 FIP</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%93%A6%E9%99%A4%E5%8E%9F%E5%8E%82-ubi"><span class="nav-number">10.3.</span> <span class="nav-text">擦除原厂 ubi</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%80%9A%E8%BF%87-TFTP-%E5%90%AF%E5%8A%A8-initramfs"><span class="nav-number">11.</span> <span class="nav-text">通过 TFTP 启动 initramfs</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%AA%8C%E8%AF%81%E4%B8%B4%E6%97%B6%E7%B3%BB%E7%BB%9F%E5%92%8C-2GB-%E5%86%85%E5%AD%98"><span class="nav-number">12.</span> <span class="nav-text">验证临时系统和 2GB 内存</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E8%A3%85%E6%AD%A3%E5%BC%8F-ImmortalWrt"><span class="nav-number">13.</span> <span class="nav-text">安装正式 ImmortalWrt</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%8A%E4%BC%A0-sysupgrade-%E9%95%9C%E5%83%8F"><span class="nav-number">13.1.</span> <span class="nav-text">上传 sysupgrade 镜像</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%88%E5%81%9A%E5%85%BC%E5%AE%B9%E6%80%A7%E6%A3%80%E6%9F%A5"><span class="nav-number">13.2.</span> <span class="nav-text">先做兼容性检查</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%AD%A3%E5%BC%8F%E5%86%99%E5%85%A5"><span class="nav-number">13.3.</span> <span class="nav-text">正式写入</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%AA%8C%E8%AF%81%E6%AD%A3%E5%BC%8F%E7%B3%BB%E7%BB%9F"><span class="nav-number">14.</span> <span class="nav-text">验证正式系统</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A3%80%E6%9F%A5-WAN-%E5%92%8C-DNS"><span class="nav-number">15.</span> <span class="nav-text">检查 WAN 和 DNS</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E8%A3%85-iStore"><span class="nav-number">16.</span> <span class="nav-text">安装 iStore</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E8%A3%85-Argon-%E4%B8%BB%E9%A2%98"><span class="nav-number">17.</span> <span class="nav-text">安装 Argon 主题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E8%A3%85-OpenClash"><span class="nav-number">18.</span> <span class="nav-text">安装 OpenClash</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8-ImmortalWrt-%E5%AE%98%E6%96%B9%E8%BD%AF%E4%BB%B6%E6%BA%90%E5%AE%89%E8%A3%85"><span class="nav-number">18.1.</span> <span class="nav-text">使用 ImmortalWrt 官方软件源安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%A9-LuCI-%E5%8A%A0%E8%BD%BD%E6%96%B0%E8%8F%9C%E5%8D%95"><span class="nav-number">18.2.</span> <span class="nav-text">让 LuCI 加载新菜单</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%A6%96%E6%AC%A1%E9%85%8D%E7%BD%AE%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9"><span class="nav-number">18.3.</span> <span class="nav-text">首次配置注意事项</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%80%E5%90%AF%E5%B9%B6%E9%AA%8C%E8%AF%81-IPv6"><span class="nav-number">19.</span> <span class="nav-text">开启并验证 IPv6</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%88%E5%88%A4%E6%96%AD%E4%B8%8A%E6%B8%B8%E6%98%AF%E5%90%A6%E6%8F%90%E4%BE%9B-IPv6-PD"><span class="nav-number">19.1.</span> <span class="nav-text">先判断上游是否提供 IPv6-PD</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE-LAN-%E4%B8%BA%E4%B8%AD%E7%BB%A7%E4%B8%8B%E6%B8%B8"><span class="nav-number">19.2.</span> <span class="nav-text">配置 LAN 为中继下游</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE-WAN6-%E4%B8%BA%E4%B8%AD%E7%BB%A7%E4%B8%BB%E6%8E%A5%E5%8F%A3"><span class="nav-number">19.3.</span> <span class="nav-text">配置 WAN6 为中继主接口</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9C%A8-Mac-%E4%B8%8A%E9%AA%8C%E8%AF%81-IPv6"><span class="nav-number">19.4.</span> <span class="nav-text">在 Mac 上验证 IPv6</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B8%85%E7%90%86-Mac-%E7%9A%84%E4%B8%B4%E6%97%B6-TFTP-%E7%8E%AF%E5%A2%83"><span class="nav-number">20.</span> <span class="nav-text">清理 Mac 的临时 TFTP 环境</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98"><span class="nav-number">21.</span> <span class="nav-text">常见问题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#scp-%E6%8A%A5-sftp-server-%E4%B8%8D%E5%AD%98%E5%9C%A8"><span class="nav-number">21.1.</span> <span class="nav-text">scp 报 sftp-server 不存在</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8C%89-RESET-%E5%90%8E%E8%83%BD-Ping-%E9%80%9A%EF%BC%8C%E4%BD%86%E6%B2%A1%E6%9C%89-Web-%E6%81%A2%E5%A4%8D%E9%A1%B5"><span class="nav-number">21.2.</span> <span class="nav-text">按 RESET 后能 Ping 通，但没有 Web 恢复页</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#TFTP-%E6%9C%AC%E6%9C%BA%E6%B5%8B%E8%AF%95%E6%88%90%E5%8A%9F%EF%BC%8C%E8%B7%AF%E7%94%B1%E5%99%A8%E8%BF%98%E6%98%AF%E4%B8%8B%E8%BD%BD%E4%B8%8D%E5%88%B0"><span class="nav-number">21.3.</span> <span class="nav-text">TFTP 本机测试成功，路由器还是下载不到</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#rom-%E6%98%BE%E7%A4%BA-100"><span class="nav-number">21.4.</span> <span class="nav-text">&#x2F;rom 显示 100%</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2GB-%E7%89%88%E4%BC%9A%E4%B8%8D%E4%BC%9A%E5%8F%AA%E8%83%BD%E8%AF%86%E5%88%AB-512MB"><span class="nav-number">21.5.</span> <span class="nav-text">2GB 版会不会只能识别 512MB</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%B7%E6%9C%BA%E5%90%8E-SSH-%E6%8F%90%E7%A4%BA-Host-Key-%E6%94%B9%E5%8F%98"><span class="nav-number">21.6.</span> <span class="nav-text">刷机后 SSH 提示 Host Key 改变</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#iStore-%E5%AE%89%E8%A3%85%E5%90%8E%E8%8F%9C%E5%8D%95%E6%B2%A1%E6%9C%89%E5%87%BA%E7%8E%B0"><span class="nav-number">21.7.</span> <span class="nav-text">iStore 安装后菜单没有出现</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B3%E4%BA%8E%E6%81%A2%E5%A4%8D%E5%8E%9F%E5%8E%82"><span class="nav-number">22.</span> <span class="nav-text">关于恢复原厂</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">23.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="nav-number">24.</span> <span class="nav-text">参考资料</span></a></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%A1%AC%E4%BB%B6%E4%B8%8E%E8%BD%AF%E4%BB%B6%E7%8E%AF%E5%A2%83"><span class="nav-number">2.</span> <span class="nav-text">硬件与软件环境</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%88%E8%AF%B4%E7%BB%93%E8%AE%BA%E5%92%8C%E5%85%B3%E9%94%AE%E9%A3%8E%E9%99%A9"><span class="nav-number">3.</span> <span class="nav-text">先说结论和关键风险</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%8B%E8%BD%BD-ImmortalWrt-%E5%9B%BA%E4%BB%B6"><span class="nav-number">4.</span> <span class="nav-text">下载 ImmortalWrt 固件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A0%A1%E9%AA%8C%E4%B8%8B%E8%BD%BD%E6%96%87%E4%BB%B6"><span class="nav-number">5.</span> <span class="nav-text">校验下载文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%A1%AE%E8%AE%A4%E5%8E%9F%E5%8E%82%E7%B3%BB%E7%BB%9F%E5%92%8C%E5%88%86%E5%8C%BA%E5%B8%83%E5%B1%80"><span class="nav-number">6.</span> <span class="nav-text">确认原厂系统和分区布局</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A4%87%E4%BB%BD%E5%8E%9F%E5%8E%82%E7%B3%BB%E7%BB%9F"><span class="nav-number">7.</span> <span class="nav-text">备份原厂系统</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%94%B6%E9%9B%86%E7%B3%BB%E7%BB%9F%E4%BF%A1%E6%81%AF"><span class="nav-number">7.1.</span> <span class="nav-text">收集系统信息</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A4%87%E4%BB%BD%E5%85%A8%E9%83%A8-MTD-%E6%95%B0%E6%8D%AE"><span class="nav-number">7.2.</span> <span class="nav-text">备份全部 MTD 数据</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%89%93%E5%8C%85%E5%A4%87%E4%BB%BD"><span class="nav-number">7.3.</span> <span class="nav-text">打包备份</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%8E-Mac-%E6%8B%89%E5%9B%9E%E5%A4%87%E4%BB%BD"><span class="nav-number">7.4.</span> <span class="nav-text">从 Mac 拉回备份</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9C%A8-Mac-%E4%B8%8A%E6%A0%A1%E9%AA%8C%E5%A4%87%E4%BB%BD"><span class="nav-number">7.5.</span> <span class="nav-text">在 Mac 上校验备份</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%90%86%E8%A7%A3-TFTP-%E6%81%A2%E5%A4%8D%E6%B5%81%E7%A8%8B"><span class="nav-number">8.</span> <span class="nav-text">理解 TFTP 恢复流程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9C%A8-macOS-%E4%B8%8A%E5%87%86%E5%A4%87-TFTP"><span class="nav-number">9.</span> <span class="nav-text">在 macOS 上准备 TFTP</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%A1%AE%E8%AE%A4%E6%9C%89%E7%BA%BF%E6%8E%A5%E5%8F%A3%E5%90%8D%E7%A7%B0"><span class="nav-number">9.1.</span> <span class="nav-text">确认有线接口名称</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A4%8D%E5%88%B6%E5%B9%B6%E9%87%8D%E5%91%BD%E5%90%8D%E6%81%A2%E5%A4%8D%E9%95%9C%E5%83%8F"><span class="nav-number">9.2.</span> <span class="nav-text">复制并重命名恢复镜像</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BA-Mac-%E5%A2%9E%E5%8A%A0%E4%B8%B4%E6%97%B6%E5%9C%B0%E5%9D%80"><span class="nav-number">9.3.</span> <span class="nav-text">为 Mac 增加临时地址</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%90%AF%E5%8A%A8-macOS-%E8%87%AA%E5%B8%A6-TFTP-%E6%9C%8D%E5%8A%A1"><span class="nav-number">9.4.</span> <span class="nav-text">启动 macOS 自带 TFTP 服务</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BF%85%E9%A1%BB%E5%85%88%E5%81%9A%E6%9C%AC%E6%9C%BA-TFTP-%E6%B5%8B%E8%AF%95"><span class="nav-number">9.5.</span> <span class="nav-text">必须先做本机 TFTP 测试</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%8A%E4%BC%A0%E5%B9%B6%E5%88%B7%E5%85%A5-FIP"><span class="nav-number">10.</span> <span class="nav-text">上传并刷入 FIP</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%8A%E4%BC%A0-FIP-%E5%88%B0%E5%8E%9F%E5%8E%82%E7%B3%BB%E7%BB%9F"><span class="nav-number">10.1.</span> <span class="nav-text">上传 FIP 到原厂系统</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%86%99%E5%85%A5-FIP"><span class="nav-number">10.2.</span> <span class="nav-text">写入 FIP</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%93%A6%E9%99%A4%E5%8E%9F%E5%8E%82-ubi"><span class="nav-number">10.3.</span> <span class="nav-text">擦除原厂 ubi</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%80%9A%E8%BF%87-TFTP-%E5%90%AF%E5%8A%A8-initramfs"><span class="nav-number">11.</span> <span class="nav-text">通过 TFTP 启动 initramfs</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%AA%8C%E8%AF%81%E4%B8%B4%E6%97%B6%E7%B3%BB%E7%BB%9F%E5%92%8C-2GB-%E5%86%85%E5%AD%98"><span class="nav-number">12.</span> <span class="nav-text">验证临时系统和 2GB 内存</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E8%A3%85%E6%AD%A3%E5%BC%8F-ImmortalWrt"><span class="nav-number">13.</span> <span class="nav-text">安装正式 ImmortalWrt</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%8A%E4%BC%A0-sysupgrade-%E9%95%9C%E5%83%8F"><span class="nav-number">13.1.</span> <span class="nav-text">上传 sysupgrade 镜像</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%88%E5%81%9A%E5%85%BC%E5%AE%B9%E6%80%A7%E6%A3%80%E6%9F%A5"><span class="nav-number">13.2.</span> <span class="nav-text">先做兼容性检查</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%AD%A3%E5%BC%8F%E5%86%99%E5%85%A5"><span class="nav-number">13.3.</span> <span class="nav-text">正式写入</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%AA%8C%E8%AF%81%E6%AD%A3%E5%BC%8F%E7%B3%BB%E7%BB%9F"><span class="nav-number">14.</span> <span class="nav-text">验证正式系统</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A3%80%E6%9F%A5-WAN-%E5%92%8C-DNS"><span class="nav-number">15.</span> <span class="nav-text">检查 WAN 和 DNS</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E8%A3%85-iStore"><span class="nav-number">16.</span> <span class="nav-text">安装 iStore</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E8%A3%85-Argon-%E4%B8%BB%E9%A2%98"><span class="nav-number">17.</span> <span class="nav-text">安装 Argon 主题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E8%A3%85-OpenClash"><span class="nav-number">18.</span> <span class="nav-text">安装 OpenClash</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8-ImmortalWrt-%E5%AE%98%E6%96%B9%E8%BD%AF%E4%BB%B6%E6%BA%90%E5%AE%89%E8%A3%85"><span class="nav-number">18.1.</span> <span class="nav-text">使用 ImmortalWrt 官方软件源安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%A9-LuCI-%E5%8A%A0%E8%BD%BD%E6%96%B0%E8%8F%9C%E5%8D%95"><span class="nav-number">18.2.</span> <span class="nav-text">让 LuCI 加载新菜单</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%A6%96%E6%AC%A1%E9%85%8D%E7%BD%AE%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9"><span class="nav-number">18.3.</span> <span class="nav-text">首次配置注意事项</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%80%E5%90%AF%E5%B9%B6%E9%AA%8C%E8%AF%81-IPv6"><span class="nav-number">19.</span> <span class="nav-text">开启并验证 IPv6</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%88%E5%88%A4%E6%96%AD%E4%B8%8A%E6%B8%B8%E6%98%AF%E5%90%A6%E6%8F%90%E4%BE%9B-IPv6-PD"><span class="nav-number">19.1.</span> <span class="nav-text">先判断上游是否提供 IPv6-PD</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE-LAN-%E4%B8%BA%E4%B8%AD%E7%BB%A7%E4%B8%8B%E6%B8%B8"><span class="nav-number">19.2.</span> <span class="nav-text">配置 LAN 为中继下游</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE-WAN6-%E4%B8%BA%E4%B8%AD%E7%BB%A7%E4%B8%BB%E6%8E%A5%E5%8F%A3"><span class="nav-number">19.3.</span> <span class="nav-text">配置 WAN6 为中继主接口</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9C%A8-Mac-%E4%B8%8A%E9%AA%8C%E8%AF%81-IPv6"><span class="nav-number">19.4.</span> <span class="nav-text">在 Mac 上验证 IPv6</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B8%85%E7%90%86-Mac-%E7%9A%84%E4%B8%B4%E6%97%B6-TFTP-%E7%8E%AF%E5%A2%83"><span class="nav-number">20.</span> <span class="nav-text">清理 Mac 的临时 TFTP 环境</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98"><span class="nav-number">21.</span> <span class="nav-text">常见问题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#scp-%E6%8A%A5-sftp-server-%E4%B8%8D%E5%AD%98%E5%9C%A8"><span class="nav-number">21.1.</span> <span class="nav-text">scp 报 sftp-server 不存在</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8C%89-RESET-%E5%90%8E%E8%83%BD-Ping-%E9%80%9A%EF%BC%8C%E4%BD%86%E6%B2%A1%E6%9C%89-Web-%E6%81%A2%E5%A4%8D%E9%A1%B5"><span class="nav-number">21.2.</span> <span class="nav-text">按 RESET 后能 Ping 通，但没有 Web 恢复页</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#TFTP-%E6%9C%AC%E6%9C%BA%E6%B5%8B%E8%AF%95%E6%88%90%E5%8A%9F%EF%BC%8C%E8%B7%AF%E7%94%B1%E5%99%A8%E8%BF%98%E6%98%AF%E4%B8%8B%E8%BD%BD%E4%B8%8D%E5%88%B0"><span class="nav-number">21.3.</span> <span class="nav-text">TFTP 本机测试成功，路由器还是下载不到</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#rom-%E6%98%BE%E7%A4%BA-100"><span class="nav-number">21.4.</span> <span class="nav-text">&#x2F;rom 显示 100%</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2GB-%E7%89%88%E4%BC%9A%E4%B8%8D%E4%BC%9A%E5%8F%AA%E8%83%BD%E8%AF%86%E5%88%AB-512MB"><span class="nav-number">21.5.</span> <span class="nav-text">2GB 版会不会只能识别 512MB</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%B7%E6%9C%BA%E5%90%8E-SSH-%E6%8F%90%E7%A4%BA-Host-Key-%E6%94%B9%E5%8F%98"><span class="nav-number">21.6.</span> <span class="nav-text">刷机后 SSH 提示 Host Key 改变</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#iStore-%E5%AE%89%E8%A3%85%E5%90%8E%E8%8F%9C%E5%8D%95%E6%B2%A1%E6%9C%89%E5%87%BA%E7%8E%B0"><span class="nav-number">21.7.</span> <span class="nav-text">iStore 安装后菜单没有出现</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%81%A2%E5%A4%8D%E5%8E%9F%E5%8E%82%E7%B3%BB%E7%BB%9F"><span class="nav-number">22.</span> <span class="nav-text">恢复原厂系统</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9C%A8-Mac-%E4%B8%8A%E6%8F%90%E5%8F%96%E5%B9%B6%E6%A0%A1%E9%AA%8C%E5%8E%9F%E5%8E%82%E9%95%9C%E5%83%8F"><span class="nav-number">22.1.</span> <span class="nav-text">在 Mac 上提取并校验原厂镜像</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BF%9B%E5%85%A5-ImmortalWrt-recovery"><span class="nav-number">22.2.</span> <span class="nav-text">进入 ImmortalWrt recovery</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%8A%E4%BC%A0%E5%8E%9F%E5%8E%82%E9%95%9C%E5%83%8F"><span class="nav-number">22.3.</span> <span class="nav-text">上传原厂镜像</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%A1%AE%E8%AE%A4%E5%BD%93%E5%89%8D%E5%88%86%E5%8C%BA"><span class="nav-number">22.4.</span> <span class="nav-text">确认当前分区</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%88%E5%86%99%E5%9B%9E%E5%8E%9F%E5%8E%82-UBI"><span class="nav-number">22.5.</span> <span class="nav-text">先写回原厂 UBI</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9C%80%E5%90%8E%E5%86%99%E5%9B%9E%E5%8E%9F%E5%8E%82-FIP"><span class="nav-number">22.6.</span> <span class="nav-text">最后写回原厂 FIP</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%87%8D%E5%90%AF%E5%90%8E%E9%AA%8C%E8%AF%81"><span class="nav-number">22.7.</span> <span class="nav-text">重启后验证</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">23.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="nav-number">24.</span> <span class="nav-text">参考资料</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -281,9 +281,15 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">发表于</span>
-      
 
-      <time title="创建时间：2026-08-30 10:47:54 / 修改时间：11:40:37" itemprop="dateCreated datePublished" datetime="2026-08-30T10:47:54+08:00">2026-08-30</time>
+      <time title="创建时间：2026-08-30 10:47:54" itemprop="dateCreated datePublished" datetime="2026-08-30T10:47:54+08:00">2026-08-30</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2026-09-01 00:46:04" itemprop="dateModified" datetime="2026-09-01T00:46:04+08:00">2026-09-01</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -313,14 +319,14 @@
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>6.1k</span>
+      <span>7.1k</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>22 分钟</span>
+      <span>26 分钟</span>
     </span>
 </div>
 
@@ -1024,17 +1030,155 @@ sudo tcpdump -ni en7 &#39;udp port 69&#39;<span aria-hidden="true" class="line-n
 <span class="token function">rm</span> <span class="token parameter variable">-rf</span> /tmp/luci-modulecache
 /etc/init.d/uhttpd restart<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
 
-<h2 id="关于恢复原厂"><a href="#关于恢复原厂" class="headerlink" title="关于恢复原厂"></a>关于恢复原厂</h2><p>这次已经备份了原厂 BL2、U-Boot Env、Factory、FIP 和 UBI，但我没有在本机执行完整的原厂回刷验证，因此这里不把未经验证的恢复命令写成“一键操作”。</p>
-<p>恢复原厂的大体原则是：</p>
+<h2 id="恢复原厂系统"><a href="#恢复原厂系统" class="headerlink" title="恢复原厂系统"></a>恢复原厂系统</h2><blockquote>
+<p>以下恢复只适用于刷机前从<strong>同一台 N60 Pro</strong> 备份出的原厂镜像。恢复会覆盖现有 ImmortalWrt，请使用网线直连和稳定供电，写入过程中不要断电。</p>
+</blockquote>
+<p>本流程只恢复两个分区，并且顺序不能颠倒：</p>
+<table>
+<thead>
+<tr>
+<th>原厂备份</th>
+<th>目标分区</th>
+<th>用途</th>
+<th align="right">顺序</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>mtd5_ubi.bin</code></td>
+<td><code>ubi</code></td>
+<td>原厂系统和 UBI 数据</td>
+<td align="right">先写</td>
+</tr>
+<tr>
+<td><code>mtd4_FIP.bin</code></td>
+<td><code>fip</code></td>
+<td>原厂 BL31 + U-Boot</td>
+<td align="right">最后写</td>
+</tr>
+</tbody></table>
+<p>不要写入 <code>bl2</code>、<code>factory</code>、<code>u-boot-env</code>，也不要将整片 <code>mtd0_spi0.1.bin</code> 当成普通分区镜像写回。其中 <code>factory</code> 包含本机 MAC 和无线校准数据，绝对不能使用他人的备份。</p>
+<h3 id="在-Mac-上提取并校验原厂镜像"><a href="#在-Mac-上提取并校验原厂镜像" class="headerlink" title="在 Mac 上提取并校验原厂镜像"></a>在 Mac 上提取并校验原厂镜像</h3><p>先从原厂备份归档中只提取 FIP 和 UBI：</p>
+<pre class="line-numbers language-zsh" data-language="zsh"><code class="language-zsh">ORIG&#x3D;&quot;$HOME&#x2F;Downloads&#x2F;N60Pro-2G-Backup&#x2F;n60pro-2g-original-backup.tar.gz&quot;
+STAGE&#x3D;&quot;$HOME&#x2F;Downloads&#x2F;N60Pro-2G-Backup&#x2F;Official-Restore-Staging&quot;
+
+mkdir -p &quot;$STAGE&quot;
+
+tar -xzf &quot;$ORIG&quot; -C &quot;$STAGE&quot; \
+  n60pro-backup&#x2F;mtd4_FIP.bin \
+  n60pro-backup&#x2F;mtd5_ubi.bin
+
+FIP&#x3D;&quot;$STAGE&#x2F;n60pro-backup&#x2F;mtd4_FIP.bin&quot;
+UBI&#x3D;&quot;$STAGE&#x2F;n60pro-backup&#x2F;mtd5_ubi.bin&quot;
+
+echo &quot;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D; Mac 原厂镜像 &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&quot;
+wc -c &quot;$FIP&quot; &quot;$UBI&quot;
+shasum -a 256 &quot;$FIP&quot; &quot;$UBI&quot;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>本机备份的校验结果为：</p>
+<pre class="line-numbers language-text" data-language="text"><code class="language-text">  2097152  mtd4_FIP.bin
+120061952  mtd5_ubi.bin
+
+91d538ebdeaf659bb742ead918d81ec7fb6c71baf65bfd43e502893169732063  mtd4_FIP.bin
+3b75257e344043ca191684c60e17900ead4df8f96e8872f8b5e7b0406d107350  mtd5_ubi.bin<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>这两个 SHA-256 只对应我自己的备份，其他设备应以备份时保存的 <code>SHA256SUMS</code> 为准。</p>
+<h3 id="进入-ImmortalWrt-recovery"><a href="#进入-ImmortalWrt-recovery" class="headerlink" title="进入 ImmortalWrt recovery"></a>进入 ImmortalWrt recovery</h3><p>恢复时使用 ImmortalWrt initramfs，避免在正在使用 NAND rootfs 时覆盖系统分区。先按前文“在 macOS 上准备 TFTP”完成网卡地址、TFTP 服务和本机下载测试，然后：</p>
 <ol>
-<li>使用当前 U-Boot 通过 TFTP 启动 initramfs，避免在正在使用 NAND rootfs 时写系统分区；</li>
-<li>先恢复自己的原厂 <code>mtd5_ubi.bin</code>；</li>
-<li>再恢复自己的原厂 <code>mtd4_FIP.bin</code>；</li>
-<li>保留本机 Factory 和 BL2，不使用网上他人的备份；</li>
-<li>写入后重新校验，再断电重启；</li>
-<li>若 U-Boot、BL2 或 NAND 坏块处理出现异常，应改用串口确认启动日志，而不是连续盲刷。</li>
+<li>拔掉路由器电源；</li>
+<li>按住 <code>RESET</code> 后重新插电，继续按住约 10 秒再松开；</li>
+<li>等待路由器从 Mac 下载 initramfs，再等待约 1 至 2 分钟；</li>
+<li>确认 <code>192.168.1.1</code> 能 Ping 通后，使用 <code>ssh root@192.168.1.1</code> 登录。</li>
 </ol>
-<p>特别注意：原厂和新 U-Boot 展示的 MTD 编号不同，恢复时必须按分区名称、大小和当前 <code>/proc/mtd</code> 判断，不能只照抄 <code>mtd4</code>、<code>mtd5</code> 编号。</p>
+<blockquote>
+<p>注意：路由器的 <code>/tmp</code> 是内存文件系统。如果在正式 ImmortalWrt 中先上传镜像，重启进入 recovery 后这些文件会丢失，因此必须在 recovery 启动完成后再上传。</p>
+</blockquote>
+<h3 id="上传原厂镜像"><a href="#上传原厂镜像" class="headerlink" title="上传原厂镜像"></a>上传原厂镜像</h3><p>在 Mac 上执行：</p>
+<pre class="line-numbers language-zsh" data-language="zsh"><code class="language-zsh">FIP&#x3D;&quot;$HOME&#x2F;Downloads&#x2F;N60Pro-2G-Backup&#x2F;Official-Restore-Staging&#x2F;n60pro-backup&#x2F;mtd4_FIP.bin&quot;
+UBI&#x3D;&quot;$HOME&#x2F;Downloads&#x2F;N60Pro-2G-Backup&#x2F;Official-Restore-Staging&#x2F;n60pro-backup&#x2F;mtd5_ubi.bin&quot;
+
+echo &quot;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D; 上传到 initramfs &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&quot;
+ssh -T root@192.168.1.1 \
+  &#39;cat &gt; &#x2F;tmp&#x2F;n60pro-original-fip.bin&#39; &lt; &quot;$FIP&quot;
+
+ssh -T root@192.168.1.1 \
+  &#39;cat &gt; &#x2F;tmp&#x2F;n60pro-original-ubi.bin&#39; &lt; &quot;$UBI&quot;
+
+echo &quot;上传完成&quot;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>回到 recovery 的 SSH 中校验：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">wc</span> <span class="token parameter variable">-c</span> /tmp/n60pro-original-fip.bin /tmp/n60pro-original-ubi.bin
+sha256sum /tmp/n60pro-original-fip.bin /tmp/n60pro-original-ubi.bin<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<p>大小和 SHA-256 必须与 Mac 上的结果完全一致。任何一项不一致都不要继续。</p>
+<h3 id="确认当前分区"><a href="#确认当前分区" class="headerlink" title="确认当前分区"></a>确认当前分区</h3><p>先检查当前分区：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">cat</span> /proc/mtd<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>ImmortalWrt 25.12.1 通常显示：</p>
+<pre class="line-numbers language-text" data-language="text"><code class="language-text">dev:    size   erasesize  name
+mtd0: 00100000 00020000 "bl2"
+mtd1: 00080000 00020000 "u-boot-env"
+mtd2: 00200000 00020000 "factory"
+mtd3: 00200000 00020000 "fip"
+mtd4: 07a80000 00020000 "ubi"<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>原厂和 ImmortalWrt 展示的 MTD 编号不同。恢复时必须使用当前 <code>/proc/mtd</code> 中的<strong>分区名称</strong> <code>ubi</code> 和 <code>fip</code>，不能照抄原厂系统中的 <code>mtd4</code>、<code>mtd5</code> 编号。</p>
+<h3 id="先写回原厂-UBI"><a href="#先写回原厂-UBI" class="headerlink" title="先写回原厂 UBI"></a>先写回原厂 UBI</h3><p>再次确认文件哈希和分区名称后执行：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">sync</span>
+mtd <span class="token function">write</span> /tmp/n60pro-original-ubi.bin ubi
+<span class="token function">sync</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<p>等待命令完整返回，且没有报错。不要在这里额外执行 <code>mtd erase ubi</code>。</p>
+<blockquote>
+<p>原厂 UBI 写回后不要重启。当前 initramfs 是继续写回 FIP 的操作窗口。</p>
+</blockquote>
+<h3 id="最后写回原厂-FIP"><a href="#最后写回原厂-FIP" class="headerlink" title="最后写回原厂 FIP"></a>最后写回原厂 FIP</h3><p>先尝试写入原厂 FIP：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">mtd <span class="token function">write</span> /tmp/n60pro-original-fip.bin fip<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>此时可能会因为 <code>fip</code> 分区受写保护而出现：</p>
+<pre class="line-numbers language-text" data-language="text"><code class="language-text">Could not open mtd device: fip
+Can't open device for writing!<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<p>不要重启。直接在当前 initramfs 中安装 <code>kmod-mtd-rw</code>：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">apk update
+apk <span class="token function">add</span> kmod-mtd-rw<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<p>安装成功后加载模块：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">insmod mtd-rw <span class="token assign-left variable">i_want_a_brick</span><span class="token operator">=</span><span class="token number">1</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>如果该写法提示找不到模块文件，改用完整路径：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">insmod /lib/modules/<span class="token variable"><span class="token variable">$(</span><span class="token function">uname</span> <span class="token parameter variable">-r</span><span class="token variable">)</span></span>/mtd-rw.ko <span class="token assign-left variable">i_want_a_brick</span><span class="token operator">=</span><span class="token number">1</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>然后确认模块状态：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">lsmod <span class="token operator">|</span> <span class="token function">grep</span> <span class="token parameter variable">-E</span> <span class="token string">'mtd_rw|mtd-rw'</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>期望能看到类似：</p>
+<pre class="line-numbers language-text" data-language="text"><code class="language-text">mtd_rw 16384 0<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p><code>kmod-mtd-rw</code> 的作用是临时解除 MTD 分区的写保护；<code>i_want_a_brick=1</code> 是它明确要求的危险操作确认参数。</p>
+<p>确认模块已加载后，重新写回原厂 FIP：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">mtd <span class="token function">write</span> /tmp/n60pro-original-fip.bin fip
+<span class="token function">sync</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<p>正常输出应包含：</p>
+<pre class="line-numbers language-text" data-language="text"><code class="language-text">Unlocking fip ...
+Writing from /tmp/n60pro-original-fip.bin to fip ...<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<p>确认 UBI 和 FIP 两次写入均没有报错后，再执行：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">sync</span>
+<span class="token function">sleep</span> <span class="token number">5</span>
+<span class="token function">reboot</span> <span class="token parameter variable">-f</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="重启后验证"><a href="#重启后验证" class="headerlink" title="重启后验证"></a>重启后验证</h3><ol>
+<li>将 Mac 有线网卡从静态地址改回 DHCP 自动获取；</li>
+<li>保持 LAN 口连接，等待 3 至 5 分钟；</li>
+<li>检查 DHCP 租约、默认网关和 ARP 邻居表，确定原厂管理地址。</li>
+</ol>
+<p>macOS 可以使用：</p>
+<pre class="line-numbers language-zsh" data-language="zsh"><code class="language-zsh">ipconfig getifaddr en7
+route -n get default
+arp -a<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<p><code>en7</code> 应替换为自己的有线接口。如果无法获取 DHCP、管理页面无法访问或系统未启动，不要反复写入 <code>bl2</code>、<code>factory</code> 或整片 SPI-NAND dump；应接入 UART 串口获取完整启动日志，再判断故障发生在 BL2、FIP&#x2F;U-Boot、UBI 读取还是原厂系统启动阶段。</p>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>这次刷机最花时间的不是执行 <code>mtd write</code>，而是把恢复路径在写入前验证完整：</p>
 <ul>
 <li>固件来源和 SHA-256 正确；</li>
@@ -1154,13 +1298,13 @@ sudo tcpdump -ni en7 &#39;udp port 69&#39;<span aria-hidden="true" class="line-n
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-line"></i>
     </span>
-    <span title="站点总字数">119k</span>
+    <span title="站点总字数">120k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">7:14</span>
+    <span title="站点阅读时长">7:17</span>
   </span>
 </div>
 <div class="busuanzi-count">

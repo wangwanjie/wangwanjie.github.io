@@ -6,7 +6,7 @@
   <link href="https://blog.vanjay.cn/atom.xml" rel="self"/>
   
   <link href="https://blog.vanjay.cn/"/>
-  <updated>2026-08-30T03:40:37.910Z</updated>
+  <updated>2026-08-31T16:46:04.480Z</updated>
   <id>https://blog.vanjay.cn/</id>
   
   <author>
@@ -21,7 +21,7 @@
     <link href="https://blog.vanjay.cn/2026/08/30/Mac%E4%B8%8B%E7%BB%99%E7%A3%8A%E7%A7%91N60Pro-2G-RAM%E7%89%88-%E5%88%B7%E5%85%A5ImmortalWrt%E7%B3%BB%E7%BB%9F/"/>
     <id>https://blog.vanjay.cn/2026/08/30/Mac%E4%B8%8B%E7%BB%99%E7%A3%8A%E7%A7%91N60Pro-2G-RAM%E7%89%88-%E5%88%B7%E5%85%A5ImmortalWrt%E7%B3%BB%E7%BB%9F/</id>
     <published>2026-08-30T02:47:54.000Z</published>
-    <updated>2026-08-30T03:40:37.910Z</updated>
+    <updated>2026-08-31T16:46:04.480Z</updated>
     
     
     <summary type="html">&lt;h2 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h2&gt;&lt;p&gt;最近入手了一台磊科 N60 Pro，硬件是 MT7986A、128MB NAND、2GB DDR4 的版本。原厂系统基础路由功能没有问题，但扩展能力有限，所以准备刷入 ImmortalWrt，再安装 iStore，用来按需补充插件。&lt;/p&gt;
