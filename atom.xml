@@ -6,7 +6,7 @@
   <link href="https://blog.vanjay.cn/atom.xml" rel="self"/>
   
   <link href="https://blog.vanjay.cn/"/>
-  <updated>2026-08-31T16:46:04.480Z</updated>
+  <updated>2026-09-21T08:17:07.401Z</updated>
   <id>https://blog.vanjay.cn/</id>
   
   <author>
@@ -15,6 +15,46 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Headscale + Headplane 三端多活组网折腾实录（异地办公 + 多重安全）</title>
+    <link href="https://blog.vanjay.cn/2026/09/21/Headscale-Headplane-%E4%B8%89%E7%AB%AF%E5%A4%9A%E6%B4%BB%E7%BB%84%E7%BD%91%E6%8A%98%E8%85%BE%E5%AE%9E%E5%BD%95%EF%BC%88%E5%BC%82%E5%9C%B0%E5%8A%9E%E5%85%AC-%E5%A4%9A%E9%87%8D%E5%AE%89%E5%85%A8%EF%BC%89/"/>
+    <id>https://blog.vanjay.cn/2026/09/21/Headscale-Headplane-%E4%B8%89%E7%AB%AF%E5%A4%9A%E6%B4%BB%E7%BB%84%E7%BD%91%E6%8A%98%E8%85%BE%E5%AE%9E%E5%BD%95%EF%BC%88%E5%BC%82%E5%9C%B0%E5%8A%9E%E5%85%AC-%E5%A4%9A%E9%87%8D%E5%AE%89%E5%85%A8%EF%BC%89/</id>
+    <published>2026-09-21T07:14:41.000Z</published>
+    <updated>2026-09-21T08:17:07.401Z</updated>
+    
+    
+    <summary type="html">&lt;blockquote&gt;
+&lt;p&gt;从”家里想直连公司内网”这个朴素需求出发，一路做到 hk_main &amp;#x2F; fn-NAS &amp;#x2F; DSM 三端 Headscale 完全独立多活 + 自建 DERP + Headplane 管理面板 + Authelia 2FA 前置鉴权 + ACL autoApprovers + DB 单向同步的完整方案。&lt;/p&gt;
+&lt;p&gt;本文是笔记性质，尽量把过程中的坑、判断、命令、边界情况都记下来，方便日后翻阅。&lt;/p&gt;
+&lt;/blockquote&gt;</summary>
+    
+    
+    
+    <category term="VPN" scheme="https://blog.vanjay.cn/categories/VPN/"/>
+    
+    <category term="组网" scheme="https://blog.vanjay.cn/categories/VPN/%E7%BB%84%E7%BD%91/"/>
+    
+    <category term="运维" scheme="https://blog.vanjay.cn/categories/VPN/%E7%BB%84%E7%BD%91/%E8%BF%90%E7%BB%B4/"/>
+    
+    
+    <category term="headscale" scheme="https://blog.vanjay.cn/tags/headscale/"/>
+    
+    <category term="headplane" scheme="https://blog.vanjay.cn/tags/headplane/"/>
+    
+    <category term="tailscale" scheme="https://blog.vanjay.cn/tags/tailscale/"/>
+    
+    <category term="derp" scheme="https://blog.vanjay.cn/tags/derp/"/>
+    
+    <category term="wireguard" scheme="https://blog.vanjay.cn/tags/wireguard/"/>
+    
+    <category term="authelia" scheme="https://blog.vanjay.cn/tags/authelia/"/>
+    
+    <category term="异地办公" scheme="https://blog.vanjay.cn/tags/%E5%BC%82%E5%9C%B0%E5%8A%9E%E5%85%AC/"/>
+    
+    <category term="组网" scheme="https://blog.vanjay.cn/tags/%E7%BB%84%E7%BD%91/"/>
+    
+  </entry>
   
   <entry>
     <title>Mac下给磊科N60Pro(2G RAM版)刷入ImmortalWrt系统</title>
@@ -537,31 +577,6 @@
     <category term="HEIC" scheme="https://blog.vanjay.cn/tags/HEIC/"/>
     
     <category term="性能测试" scheme="https://blog.vanjay.cn/tags/%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>iOS应用反调试技术实践与防护</title>
-    <link href="https://blog.vanjay.cn/2024/03/15/iOS%E5%BA%94%E7%94%A8%E5%8F%8D%E8%B0%83%E8%AF%95%E6%8A%80%E6%9C%AF%E5%AE%9E%E8%B7%B5%E4%B8%8E%E9%98%B2%E6%8A%A4/"/>
-    <id>https://blog.vanjay.cn/2024/03/15/iOS%E5%BA%94%E7%94%A8%E5%8F%8D%E8%B0%83%E8%AF%95%E6%8A%80%E6%9C%AF%E5%AE%9E%E8%B7%B5%E4%B8%8E%E9%98%B2%E6%8A%A4/</id>
-    <published>2024-03-15T06:30:25.000Z</published>
-    <updated>2025-11-25T14:51:50.019Z</updated>
-    
-    
-    <summary type="html">&lt;h1 id=&quot;背景&quot;&gt;&lt;a href=&quot;#背景&quot; class=&quot;headerlink&quot; title=&quot;背景&quot;&gt;&lt;/a&gt;背景&lt;/h1&gt;&lt;p&gt;在移动应用开发中，保护应用的代码安全和业务逻辑变得越来越重要。特别是在金融、游戏、企业级应用等领域，防止恶意分析和调试是保护知识产权和用户数据的关键手段。本文将介绍一系列iOS应用反调试技术，包括调试器检测、方法混淆保护、信号处理等实用技术方案。&lt;/p&gt;</summary>
-    
-    
-    
-    <category term="iOS安全" scheme="https://blog.vanjay.cn/categories/iOS%E5%AE%89%E5%85%A8/"/>
-    
-    
-    <category term="iOS" scheme="https://blog.vanjay.cn/tags/iOS/"/>
-    
-    <category term="安全" scheme="https://blog.vanjay.cn/tags/%E5%AE%89%E5%85%A8/"/>
-    
-    <category term="反调试" scheme="https://blog.vanjay.cn/tags/%E5%8F%8D%E8%B0%83%E8%AF%95/"/>
-    
-    <category term="防护" scheme="https://blog.vanjay.cn/tags/%E9%98%B2%E6%8A%A4/"/>
     
   </entry>
   
